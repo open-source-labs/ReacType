@@ -1,0 +1,150 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>userController.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">server/controllers/userController.ts</td><td class="">70.81%</td><td class="">80%</td><td class="">209</td><td class="">148</td><td class="">61</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">// middleware functions create a new user and verify users
+import { Users } from &#x27;../models/reactypeModels&#x27;;
+import bcrypt from &#x27;bcryptjs&#x27;;
+import { newUserError, UserController } from &#x27;../interfaces&#x27;;
+
+// random password is subtituted when user uses Oauth and no new password is provided
+const randomPassword = () =&gt; {
+  function getRandomSpecialChar() {
+    const code = Math.round(Math.random() * (38 - 37) + 37);
+    return String.fromCharCode(code);
+  }
+  function getRandomDigit() {
+    const code = Math.round(Math.random() * (57 - 48) + 48);
+    return String.fromCharCode(code);
+  }
+  function getRandomLetter() {
+    const code = Math.round(Math.random() * (90 - 65) + 65);
+    return String.fromCharCode(code);
+  }
+  let password = &#x27;&#x27;;
+  for (let i = 0; i &lt; 6; i += 1) {
+    password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar();
+  }
+  return password;
+};
+
+const userController: UserController = {
+  createUser: (req, res, next) =&gt; {
+    let email, username, password;
+    // use this condition for Oauth login
+    if (res.locals.signUpType === &#x27;oauth&#x27;) {
+      email = res.locals.githubEmail;
+      username = email;
+      password = randomPassword();
+      res.locals.githubPassword = password;
+    } else {
+      ({ email, username, password } = req.body);
+    }
+
+    if (!username) {
+      return res.status(400).json(&#x27;No username input&#x27;);
+    }
+    if (!email) {
+      return res.status(400).json(&#x27;No email input&#x27;);
+    }
+    if (!password) {
+      return res.status(400).json(&#x27;No password input&#x27;);
+    }
+
+    // create user using username and password
+    Users.create(
+      { username, password, email },
+      (err: newUserError, newUser) =&gt; {
+        // handle error of creating a new user
+        if (err) {
+          if (res.locals.signUpType === &#x27;oauth&#x27;) {
+            return next();
+          }
+          if (err.keyValue?.email) {
+            return res.status(400).json(&#x27;Email Taken&#x27;);
+          }
+          if (err.keyValue?.username &amp;&amp; res.locals.signUpType === &#x27;oauth&#x27;) {
+            res.locals.githubPassword = password;
+            return next();
+          }
+          if (err.keyValue?.username) {
+            return res.status(400).json(&#x27;Username Taken&#x27;);
+          }
+          return next({
+            log: `Error in userController.createUser: ${err}`,
+            message: {
+              err: &#x27;Error in userController.createUser. Check server logs for details&#x27;
+            }
+          });
+        }
+        // if no error found when creating a new user, send back user ID in res.locals
+        res.locals.id = newUser.id;
+        // send back username to store on cookies for forking projects
+        res.locals.username = username;
+        return next();
+      }
+    );
+  },
+
+  // verifyUser - Obtain username and password from the request body, locate
+  // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
+  verifyUser: (req, res, next) =&gt; {
+    let { username, password, isFbOauth } = req.body;
+    // handle Oauth
+    if (res.locals.signUpType === &#x27;oauth&#x27;) {
+      username = res.locals.githubEmail;
+      password = res.locals.githubPassword;
+    }
+    if (!username) {
+      return res.status(400).json(&#x27;No Username Input&#x27;);
+    }
+    if (!password) {
+      return res.status(400).json(&#x27;No Password Input&#x27;);
+    }
+    Users.findOne({ username }, (err, user) =&gt; {
+      if (err) {
+        return next({
+          log: `Error in userController.verifyUser: ${err}`,
+          message: {
+            err: `Error in userController.verifyUser, check server logs for details`
+          }
+        });
+      }
+      if (user &amp;&amp; (res.locals.signUpType === &#x27;oauth&#x27; || isFbOauth)) {
+        res.locals.id = user.id;
+        return next();
+      }
+      if (user) {
+        // bcrypt compare function checks input password against hashed password
+        bcrypt.compare(password, user.password).then((isMatch) =&gt; {
+          if (isMatch) {
+            // if password matches, save user id for following middleware
+            res.locals.id = user.id;
+            res.locals.username = username;
+            return next();
+          }
+          // if hashed password is not matched saved password in db, send 400 response
+          return res.status(400).json(&#x27;Incorrect Password&#x27;);
+        });
+      } else {
+        return res.status(400).json(&#x27;Invalid Username&#x27;);
+      }
+    });
+  }
+};
+
+export default userController;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:28,&quot;character&quot;:8,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:28,&quot;character&quot;:15,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:28,&quot;character&quot;:25,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:30,&quot;character&quot;:19,&quot;text&quot;:&quot;signUpType&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:31,&quot;character&quot;:6,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:31,&quot;character&quot;:25,&quot;text&quot;:&quot;githubEmail&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:32,&quot;character&quot;:6,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:32,&quot;character&quot;:17,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:33,&quot;character&quot;:6,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:34,&quot;character&quot;:17,&quot;text&quot;:&quot;githubPassword&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:34,&quot;character&quot;:34,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:36,&quot;character&quot;:9,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:36,&quot;character&quot;:16,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:36,&quot;character&quot;:26,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:36,&quot;character&quot;:43,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:39,&quot;character&quot;:9,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:42,&quot;character&quot;:9,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:45,&quot;character&quot;:9,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:51,&quot;character&quot;:8,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:51,&quot;character&quot;:18,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:51,&quot;character&quot;:28,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:55,&quot;character&quot;:25,&quot;text&quot;:&quot;signUpType&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:61,&quot;character&quot;:51,&quot;text&quot;:&quot;signUpType&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:62,&quot;character&quot;:23,&quot;text&quot;:&quot;githubPassword&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:62,&quot;character&quot;:40,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:76,&quot;character&quot;:19,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:76,&quot;character&quot;:32,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:78,&quot;character&quot;:19,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:78,&quot;character&quot;:30,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:87,&quot;character&quot;:10,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:87,&quot;character&quot;:20,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:87,&quot;character&quot;:30,&quot;text&quot;:&quot;isFbOauth&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:87,&quot;character&quot;:48,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:89,&quot;character&quot;:19,&quot;text&quot;:&quot;signUpType&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:90,&quot;character&quot;:6,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:90,&quot;character&quot;:28,&quot;text&quot;:&quot;githubEmail&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:91,&quot;character&quot;:6,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:91,&quot;character&quot;:28,&quot;text&quot;:&quot;githubPassword&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:93,&quot;character&quot;:9,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:96,&quot;character&quot;:9,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:99,&quot;character&quot;:20,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:99,&quot;character&quot;:33,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:99,&quot;character&quot;:38,&quot;text&quot;:&quot;user&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:100,&quot;character&quot;:10,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:102,&quot;character&quot;:54,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:108,&quot;character&quot;:10,&quot;text&quot;:&quot;user&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:108,&quot;character&quot;:30,&quot;text&quot;:&quot;signUpType&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:109,&quot;character&quot;:19,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:109,&quot;character&quot;:24,&quot;text&quot;:&quot;user&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:109,&quot;character&quot;:29,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:112,&quot;character&quot;:10,&quot;text&quot;:&quot;user&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:114,&quot;character&quot;:23,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:114,&quot;character&quot;:33,&quot;text&quot;:&quot;user&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:114,&quot;character&quot;:38,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:114,&quot;character&quot;:54,&quot;text&quot;:&quot;isMatch&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:115,&quot;character&quot;:14,&quot;text&quot;:&quot;isMatch&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:117,&quot;character&quot;:23,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:117,&quot;character&quot;:28,&quot;text&quot;:&quot;user&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:117,&quot;character&quot;:33,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:118,&quot;character&quot;:23,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/userController.ts&quot;,&quot;line&quot;:118,&quot;character&quot;:34,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

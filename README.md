@@ -1,88 +1,168 @@
-<p align="center">
-  <img width="50" src="https://github.com/team-reactype/ReacType/blob/master/src/public/icons/png/256x256.png?raw=true">
+
+<!-- <p align="center">
+  <img width="100" src="https://i.imgur.com/Yn70tqI.png">
+
   <h1 align="center">ReacType </h1>
+</p> -->
+
+# ReacType
+
+
+<!-- <p align="center">
+  <img width="1000" src="https://i.imgur.com/enAcYvB.png">
+</p> -->
+
+
+<div align="left">
+
+[![StarShield][stars]][stars-url]
+[![ContributorShield][contributors]][contributors-url]
+[![ForksShield][forks]][forks-url]
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Version: 17.0.0](https://img.shields.io/badge/version-17.0.0-orange)
+
+
+</div>
+<!-- <p align="center">
+  <img width="1000" src="https://i.imgur.com/FPizsat.png">
+</p> -->
+
+
+<p align="center">
+  <img width="1000" src="https://i.imgur.com/FIX8skV.png">
 </p>
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Babel](https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
+![Electron.js](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
-In other words, **you can draw prototypes and export React / Typescript code!**
 
-**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _real-time component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
-Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.Version.1.0), [Windows](https://github.com/team-reactype/ReacType/releases/tag/Win.Version.1.0), [Linux](https://github.com/team-reactype/ReacType/releases/tag/Linux.Version.1.0).
 
-- **Mac users**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
 
-![Image of ReacType Application](https://i.imgur.com/0wV7R1P.jpg)
+<p align="center">
+  <img width="1000" src="./resources/reactype17.png">
+</p>
 
-### How to use
+**ReacType** is a rapid prototyping tool that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
 
-- Open the application to start a new project. It will open in the root App component, with its name listed in the left panel and the component represented by the white box on the canvas.
-- To add a new component, type its name in the upper left panel, in the field '**Add class component**', and press enter.
-- To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
-- To add draggable **HTML elements**, select the image icons on the lower left panel.
+Visit [reactype.dev](https://reactype.dev) to learn more about the product.
 
-![Gif of adding](https://imgur.com/sZloD8o.gif)
+Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announcements.
 
-- The bottom panel allows the user to toggle between 4 different views: a **tree diagram of the application**, a **real-time preview of the exportable code**, a form to enter component props, and a form to add HTML attributes.
+### Documentation
 
-![Gif of code preview & tree](https://imgur.com/KZb2UTO.gif)
+If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now. 
+<!-- NEED TO REPLACE THE TUTORIAL LINK -->
 
-- **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
-- **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
+## Changes with version 17.0.0
 
-![Gif of attr & props](https://imgur.com/JgCiBE9.gif)
+- **Improved Testing Coverage**: Testing coverage now sits at ~60%.
+- **Typescript Conversion**: Typescript coverage now sits at ~80%.
+- **UI Overhaul**: Upgraded the UI of the application with a more modern style and better developer experience
+- **Marketplace Feature**: Implemented a dedicated area for developers to share their projects, 
+- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
 
-- To **_delete_** a _child_ or instance from the canvas, select the desired instance and either press the _delete_ key.
-- To **_delete_** a _component_, click the 'DELETE' button of the desired component in the left panel.
-- To _start over_, select the blue 'CLEAR WORKSPACE' button in the left panel. This will **clear the entire application**.
+## File Structure courtesy of Reactype version 14.0.0
 
-### To Export Files
+Here is the main file structure:
 
-- Once finished setting up the application template, press the green 'EXPORT PROJECT' button at the bottom of the left panel and choose between two options to export your files:
-  1. Export the component files into a components folder. This option will allow a developer to add these files to an existing project.
-  1. Export a new project with TypeScript config files and the component files. This option will allow a developer to immediately begin a new project.
+<p align="center">
+  <img width="1000" src="https://i.imgur.com/RdK8QzW.jpg">
+</p>
+Please refer to the link: https://excalidraw.com/#json=JKwzVD5qx6lsfiHW1_pQ9,XJ6uDoehVu-1bsx0SMlC6w for more details.
 
-#### Authors
-
-[Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
-
-[Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
-
-[Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
-
-[Adam Singer](https://linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
-
-## To Run Your Own Version
+## Run ReacType using CLI
 
 - **Fork** and **Clone** Repository.
 - Open project directory
+- Install dependencies.
+
+```bash
+npm install
+```
+
+- To run the production build
+
+```bash
+npm run prod
+```
+
+- To run tests
+
+```bash
+npm run test
+```
+
+- To run the development build
+
+```bash
+npm run dev
+```
+
+- Note that a .env with DEV_PORT, and a NODE_ENV flag (=production or development) are needed.
+- Please note that the development build is not connected to the production server. `npm run dev` should spin up the development server from the server folder of this repo. For additional information, the readme is [here](https://github.com/open-source-labs/ReacType/blob/master/server/README.md). Alternatively, you can select "Continue as guest" on the login page of the app, which will not use any features that rely on the server (authentication and saving project data.)
+
+- To run the development build of electron app
+
+```bash
+npm run dev
+npm run electron-dev
+```
+
+## Run Exported App
+
+- Open exported project directory
 - Install dependencies
 
 ```bash
-yarn install
+npm install
 ```
 
-- Run application
+- Build the app
 
 ```bash
-yarn start
+npm run build
 ```
 
-- For development experience, in one terminal...
+
+- Start an instance
+
 
 ```bash
-yarn run dev
+npm run start
 ```
 
-- and on another terminal.
+- Open browser and navigate to localhost at specified port
 
-```bash
-yarn run electron
-```
+## Stack
+
+Typescript, React.js, Redux Toolkit, Javascript, ESM, Node.js (Express), HTML, CSS, MUI, GraphQL, Next.js, Gatsby.js, Electron, NoSQL, Webpack, TDD (Jest, React Testing Library, Playwright), OAuth 2.0, Websocket, Continuous Integration (Github Actions), Docker, AWS (ECR, Elastic Beanstalk), Ace Editor, Google Charts, React DnD
+
+## Contributions
+
+Here is the up to date [list](https://github.com/open-source-labs/ReacType/blob/master/contributors.md) of all co-developers of this product.
+Please visit our [contribution documentation](https://github.com/open-source-labs/ReacType/blob/master/contribution_documentation.md) for more information on how you can contribute to ReacType!
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/team-reactype/ReacType/blob/development/LICENSE.md) file for details.
+
+[stars]: https://img.shields.io/github/stars/open-source-labs/ReacType
+[stars-url]: https://github.com/open-source-labs/ReacType/stargazers
+[forks]: https://img.shields.io/github/forks/open-source-labs/ReacType
+[forks-url]: https://github.com/open-source-labs/ReacType/network/members
+[contributors]: https://img.shields.io/github/contributors/open-source-labs/ReacType
+[contributors-url]: https://github.com/open-source-labs/ReacType/graphs/contributors

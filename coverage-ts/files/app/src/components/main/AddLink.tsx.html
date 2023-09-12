@@ -1,0 +1,86 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>AddLink.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/components/main/AddLink.tsx</td><td class="">79.88%</td><td class="">80%</td><td class="">169</td><td class="">135</td><td class="">34</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, {  useState } from &#x27;react&#x27;;
+import FormControl from &#x27;@mui/material/FormControl&#x27;;
+import MenuItem from &#x27;@mui/material/MenuItem&#x27;;
+import Select from &#x27;@mui/material/Select&#x27;;
+import { InputLabel } from &#x27;@mui/material&#x27;;
+import {useDispatch, useSelector} from &#x27;react-redux&#x27;;
+import { updateAttributes } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+
+function AddLink({ id, onClickHandler, linkDisplayed }) {
+
+  const { state, contextParam, isThemeLight } = useSelector((store:RootState) =&gt; ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+    isThemeLight: store.styleSlice
+  }));
+  const dispatch = useDispatch();
+  //this function allows the link to be functional when it&#x27;s nested
+  function deepIterate(arr) {
+    const output = [];
+    for(let i = 0; i &lt; arr.length; i++) {
+      if(arr[i].typeId === 1000) continue;
+      output.push(arr[i]);
+      if(arr[i].children.length) {
+        output.push(...deepIterate(arr[i].children));
+      }
+    }
+    return output;
+  }
+
+  const handlePageSelect = event =&gt; {
+    const currComponent = state.components.find(element =&gt; element.id === state.canvasFocus.componentId);
+    deepIterate(currComponent.children).some(element =&gt; {
+      if(element.childId === id) {
+        const state = JSON.parse(JSON.stringify(element));
+        state.childId = id;
+        state.attributes.compLink = event.target.value;
+        dispatch(updateAttributes({attributes: state, contextParam: contextParam}))
+        return true;
+      }
+    });
+  }
+
+  const pagesItems = state.components.filter(comp =&gt; state.rootComponents.includes(comp.id));
+  const dropDown = [&lt;MenuItem style={{ color: &#x27;#000&#x27; }} disabled hidden selected&gt;Pages&lt;/MenuItem&gt;].concat(pagesItems.map(comp =&gt; &lt;MenuItem style={{ color: &#x27;#000&#x27; }} value={comp.name}&gt;{comp.name}&lt;/MenuItem&gt;));
+
+  return (
+    &lt;div style={{float: &#x27;right&#x27;}}&gt;
+      &lt;FormControl variant=&#x27;outlined&#x27; focused={true} style={ {width: &#x27;100%&#x27;} }&gt;
+      &lt;InputLabel id=&#x27;page-select-label&#x27; style={ {color: isThemeLight? &#x27;#000&#x27; : &#x27;#fff&#x27;} }&gt;Pages&lt;/InputLabel&gt;
+          &lt;Select 
+            label=&#x27;Pages&#x27;
+            onMouseDown={onClickHandler}
+            onChange={handlePageSelect}
+            id=&quot;page-select&quot;
+            value={linkDisplayed}
+            style={ isThemeLight
+                    ? {backgroundColor: &#x27;#eef0f1&#x27;, color: &#x27;#000&#x27;, border: &#x27;1px solid black&#x27;, height: &#x27;28px&#x27;, width: &#x27;200px&#x27;}
+                    : {backgroundColor: &#x27;gray&#x27;, color: &#x27;#fff&#x27;, border: &#x27;1px solid white&#x27;, height: &#x27;28px&#x27;, width: &#x27;200px&#x27;}}
+            &gt;
+            {dropDown}
+          &lt;/Select&gt;
+      &lt;/FormControl&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddLink;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:19,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:23,&quot;text&quot;:&quot;onClickHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:39,&quot;text&quot;:&quot;linkDisplayed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:23,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:23,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:27,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:9,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:16,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:18,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:9,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:16,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:25,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:35,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:42,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:27,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:45,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:9,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:17,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:29,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:14,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:48,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:8,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:14,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:24,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:8,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:14,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:25,&quot;text&quot;:&quot;compLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:36,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:42,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:49,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:35,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:47,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:12,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/AddLink.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:19,&quot;text&quot;:&quot;linkDisplayed&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

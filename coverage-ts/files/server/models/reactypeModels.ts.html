@@ -1,0 +1,123 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>reactypeModels.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">server/models/reactypeModels.ts</td><td class="">96.59%</td><td class="">80%</td><td class="">176</td><td class="">170</td><td class="">6</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">/*
+ @desc: defines Schemas for the app: sessionSchema (cookieId, created_at), userSchema
+ (username, password, email), projectSchema (name, userId, project, created_at)
+
+ @export: Users, Sessions, Projects (3 schemas)
+
+ @important: URI to database is hidden in config.js file which is not available to future
+ team. we recommend that your team will create a mongoDB database to test in
+ dev mode. the real database is deployed in heroku
+ */
+import mongoose from &#x27;mongoose&#x27;;
+import dotenv from &#x27;dotenv&#x27;;
+import bcrypt from &#x27;bcryptjs&#x27;;
+import { UserDocument } from &#x27;../interfaces&#x27;;
+dotenv.config();
+const Schema = mongoose.Schema;
+
+const isTest = process.env.NODE_ENV === &#x27;test&#x27;;
+
+const mongoURI = process.env.MONGO_DB;
+const URI =
+  process.env.NODE_ENV === &#x27;production&#x27; ? mongoURI : process.env.MONGO_DB;
+
+const SALT_WORK_FACTOR = 10;
+// connect to mongo db
+if (!isTest) {
+  mongoose
+    .connect(URI, {
+      // options for the connect method to parse the URI
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
+      useFindAndModify: false,
+      // sets the name of the DB that our collections are part of
+      dbName: &#x27;reactype&#x27;
+    })
+    .then(() =&gt; console.log(&#x27;Connected to Mongo DB.&#x27;))
+    .catch((err) =&gt; console.log(err));
+}
+
+const userSchema = new Schema({
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: false, unique: true },
+  password: { type: String, required: true }
+});
+
+// mongoose middleware that will run before the save to
+// collection happens (user gets put into database)
+
+// cannot use arrow function here as context of &#x27;this&#x27; is important
+userSchema.pre&lt;UserDocument&gt;(&#x27;save&#x27;, function cb(next) {
+  // within this context, &#x27;this&#x27; refers to the document (new user) about to be saved,
+  // in our case, it should have properties username, password, and projects array
+  bcrypt.hash(this.password, SALT_WORK_FACTOR, (err, hash) =&gt; {
+    if (err) {
+      return next({
+        log: `bcrypt password hashing error: ${err}`,
+        message: { err: &#x27;bcrypt hash error: check server logs for details.&#x27; }
+      });
+    }
+    this.password = hash;
+    return next();
+  });
+});
+
+const commentsSchema = new Schema({
+  username: { type: String, required: true },
+  text: { type: String, required: true },
+  projectId: { type: Schema.Types.ObjectId, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const sessionSchema = new Schema({
+  cookieId: { type: String, required: true, unique: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const projectSchema = new Schema(
+  {
+    name: {type: String, required: true},
+    forked: {type: String},
+    likes: { type: Number, default: 0 },
+    published: { type: Boolean, default: false },
+    project: { type: Object, required: true },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: &#x27;Users&#x27;
+    },
+    username: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: &#x27;Comments&#x27;
+      }
+    ]
+  },
+  { minimize: false }//changed to false -dw
+);
+
+export const Users = mongoose.model(&#x27;Users&#x27;, userSchema);
+export const Comments = mongoose.model(&#x27;Comments&#x27;, commentsSchema);
+export const Sessions = mongoose.model(&#x27;Sessions&#x27;, sessionSchema);
+export const Projects = mongoose.model(&#x27;Projects&#x27;, projectSchema);
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;server/models/reactypeModels.ts&quot;,&quot;line&quot;:38,&quot;character&quot;:12,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/models/reactypeModels.ts&quot;,&quot;line&quot;:38,&quot;character&quot;:32,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/models/reactypeModels.ts&quot;,&quot;line&quot;:54,&quot;character&quot;:48,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/models/reactypeModels.ts&quot;,&quot;line&quot;:54,&quot;character&quot;:53,&quot;text&quot;:&quot;hash&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/models/reactypeModels.ts&quot;,&quot;line&quot;:55,&quot;character&quot;:8,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/models/reactypeModels.ts&quot;,&quot;line&quot;:57,&quot;character&quot;:47,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

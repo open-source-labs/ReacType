@@ -1,0 +1,145 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>DragDropPanel.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/left/DragDropPanel.tsx</td><td class="">96.15%</td><td class="">80%</td><td class="">182</td><td class="">175</td><td class="">7</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+
+import Grid from &#x27;@mui/material/Grid&#x27;;
+import HTMLItem from &#x27;./HTMLItem&#x27;;
+import React from &#x27;react&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+import { deleteElement } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+
+/*
+DESCRIPTION: This is the top half of the left panel, starting from the &#x27;HTML
+  Elements&#x27; header. The boxes containing each HTML element are rendered in
+  HTMLItem, which itself is rendered by this component.
+
+Central state contains all available HTML elements (stored in the HTMLTypes property).
+  The data for HTMLTypes is stored in HTMLTypes.tsx and is added to central state in
+  initialState.tsx.
+
+Hook state:
+  -tag:
+*/
+// Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
+const DragDropPanel = (props): JSX.Element =&gt; {
+  const isDarkMode = useSelector(
+    (store: RootState) =&gt; store.darkMode.isDarkMode
+  );
+  const dispatch = useDispatch();
+  const { state, contextParam } = useSelector((store: RootState) =&gt; ({
+    state: store.appState,
+    contextParam: store.contextSlice
+  }));
+  const handleDelete = (id: number): void =&gt; {
+    dispatch(deleteElement({ id: id, contextParam: contextParam }));
+  };
+  // filter out separator so that it will not appear on the html panel
+  const htmlTypesToRender = state.HTMLTypes.filter(
+    (type) =&gt; type.name !== &#x27;separator&#x27;
+  );
+  return (
+    &lt;div className={`${!isDarkMode ? &#x27;HTMLItems&#x27; : &#x27;HTMLItemsDark&#x27;}`}&gt;
+      &lt;div id=&quot;HTMLItemsTopHalf&quot;&gt;
+        &lt;h3 style={{ color: !isDarkMode ? &#x27;#C6C6C6&#x27; : &#x27;#fff&#x27; }}&gt;
+          HTML Elements
+        &lt;/h3&gt;
+        &lt;Grid
+          container
+          spacing={{ xs: 0.5, md: 0.5 }}
+          columns={{ xs: 4, sm: 4, md: 4 }}
+          justifyContent=&quot;center&quot;
+        &gt;
+          {htmlTypesToRender.map((option) =&gt; {
+            if (
+              ![&#x27;Switch&#x27;, &#x27;LinkTo&#x27;, &#x27;LinkHref&#x27;, &#x27;Image&#x27;, &#x27;Route&#x27;].includes(
+                option.name
+              )
+            ) {
+              return (
+                &lt;Grid item xs={2} sm={2} md={2} key={option.name}&gt;
+                  &lt;HTMLItem
+                    name={option.name}
+                    key={`html-${option.name}`}
+                    id={option.id}
+                    Icon={option.icon}
+                    handleDelete={handleDelete}
+                  /&gt;
+                &lt;/Grid&gt;
+              );
+            }
+          })}
+        &lt;/Grid&gt;
+        {state.projectType === &#x27;Classic React&#x27; ? (
+          &lt;h3 style={{ color: !isDarkMode ? &#x27;#C6C6C6&#x27; : &#x27;#fff&#x27; }}&gt;
+            React Router
+          &lt;/h3&gt;
+        ) : null}
+        &lt;Grid
+          container
+          spacing={{ xs: 0.5, md: 0.5 }}
+          columns={{ xs: 4, sm: 4, md: 4 }}
+          justifyContent=&quot;center&quot;
+        &gt;
+          {htmlTypesToRender.map((option) =&gt; {
+            if (
+              (option.name === &#x27;Switch&#x27; ||
+                option.name === &#x27;LinkTo&#x27; ||
+                option.name === &#x27;Route&#x27;) &amp;&amp;
+              state.projectType === &#x27;Classic React&#x27;
+            ) {
+              return (
+                &lt;Grid item xs={2} sm={2} md={2} key={option.name}&gt;
+                  &lt;HTMLItem
+                    name={option.name}
+                    key={`html-${option.name}`}
+                    id={option.id}
+                    Icon={option.icon}
+                    handleDelete={handleDelete}
+                  /&gt;
+                &lt;/Grid&gt;
+              );
+            }
+          })}
+        &lt;/Grid&gt;
+
+        {state.projectType === &#x27;Next.js&#x27; ? (
+          &lt;h3 style={{ color: !isDarkMode ? &#x27;#C6C6C6&#x27; : &#x27;#fff&#x27; }}&gt;Next.js&lt;/h3&gt;
+        ) : null}
+        {htmlTypesToRender.map((option) =&gt; {
+          if (
+            option.framework === &#x27;nextjs&#x27; &amp;&amp;
+            state.projectType === &#x27;Next.js&#x27;
+          ) {
+            return (
+              &lt;HTMLItem
+                name={option.name}
+                key={`html-${option.name}`}
+                id={option.id}
+                Icon={option.icon}
+                handleDelete={handleDelete}
+              /&gt;
+            );
+          }
+        })}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default DragDropPanel;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:23,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:20,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:33,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:20,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:33,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:16,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:29,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

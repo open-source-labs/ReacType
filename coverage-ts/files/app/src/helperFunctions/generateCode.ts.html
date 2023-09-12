@@ -1,0 +1,559 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>generateCode.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/helperFunctions/generateCode.ts</td><td class="">73.17%</td><td class="">80%</td><td class="">876</td><td class="">641</td><td class="">235</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">
+
+import {
+  Component,
+  ChildElement,
+  HTMLType
+} from &#x27;../interfaces/Interfaces&#x27;;
+declare global {
+  interface Window {
+    api: any;
+  }
+}
+// generate code based on component hierarchy and then return the rendered code
+const generateCode = (
+  components: Component[],
+  componentId: number,
+  rootComponents: number[],
+  projectType: string,
+  HTMLTypes: HTMLType[],
+  tailwind: boolean,
+  contextParam: any
+) =&gt; {
+  const code = generateUnformattedCode(
+    components,
+    componentId,
+    rootComponents,
+    projectType,
+    HTMLTypes,
+    tailwind,
+    contextParam
+  );
+  return formatCode(code);
+};
+
+// generate code based on the component hierarchy
+const generateUnformattedCode = (
+  comps: Component[],
+  componentId: number,
+  rootComponents: number[],
+  projectType: string,
+  HTMLTypes: HTMLType[],
+  tailwind: boolean,
+  contextParam: any
+) =&gt; {
+  const components = [...comps];
+  // find the component that we&#x27;re going to generate code for
+  const currComponent = components.find((elem) =&gt; elem.id === componentId);
+  // find the unique components that we need to import into this component file
+  let imports: any = [];
+  let providers: string = &#x27;&#x27;;
+  let context: string = &#x27;&#x27;;
+  let links: boolean = false;
+  let images: boolean = false;
+  const isRoot = rootComponents.includes(componentId);
+  let importReactRouter = false;
+  // returns an array of objects which may include components, html elements, and/or route links
+  const getEnrichedChildren = (currentComponent: Component | ChildElement) =&gt; {
+    // declare an array of enriched children
+    const enrichedChildren = currentComponent.children?.map((elem: any) =&gt; {
+      //enrichedChildren is iterating through the children array
+      const child = { ...elem };
+      // check if child is a component
+      if (child.type === &#x27;Component&#x27;) {
+        // verify that the child is in the components array in state
+        const referencedComponent = components.find(
+          (elem) =&gt; elem.id === child.typeId
+        );
+        // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
+        if (!imports.includes(referencedComponent.name))
+          imports.push(referencedComponent.name);
+        child[&#x27;name&#x27;] = referencedComponent.name;
+        return child;
+      } else if (child.type === &#x27;HTML Element&#x27;) {
+        const referencedHTML = HTMLTypes.find(
+          (elem) =&gt; elem.id === child.typeId
+        );
+        child[&#x27;tag&#x27;] = referencedHTML.tag;
+        if (
+          referencedHTML.tag === &#x27;div&#x27; ||
+          referencedHTML.tag === &#x27;separator&#x27; ||
+          referencedHTML.tag === &#x27;form&#x27; ||
+          referencedHTML.tag === &#x27;ul&#x27; ||
+          referencedHTML.tag === &#x27;ol&#x27; ||
+          referencedHTML.tag === &#x27;menu&#x27; ||
+          referencedHTML.tag === &#x27;li&#x27; ||
+          referencedHTML.tag === &#x27;Link&#x27; ||
+          referencedHTML.tag === &#x27;Switch&#x27; ||
+          referencedHTML.tag === &#x27;Route&#x27; ||
+          referencedHTML.tag === &#x27;Image&#x27;
+        ) {
+          child.children = getEnrichedChildren(child);
+        }
+
+        // when we see a Switch or LinkTo, import React Router
+        if (
+          (referencedHTML.tag === &#x27;Switch&#x27; || referencedHTML.tag === &#x27;Route&#x27;) &amp;&amp;
+          projectType === &#x27;Classic React&#x27;
+        )
+          importReactRouter = true;
+        else if (referencedHTML.tag === &#x27;Link&#x27;) links = true;
+        if (referencedHTML.tag === &#x27;Image&#x27;) images = true;
+        return child;
+      } else if (child.type === &#x27;Route Link&#x27;) {
+        links = true;
+        child.name = components.find(
+          (comp: Component) =&gt; comp.id === child.typeId
+        ).name;
+        return child;
+      }
+    });
+    return enrichedChildren;
+  };
+  // Raised formatStyles so that it is declared before it is referenced. It was backwards.
+  // format styles stored in object to match React inline style format
+  const formatStyles = (styleObj: any) =&gt; {
+    if (Object.keys(styleObj).length === 0) return ``;
+    const formattedStyles = [];
+    let styleString;
+    for (let i in styleObj) {
+      if (i === &#x27;style&#x27;) {
+        styleString = i + &#x27;=&#x27; + &#x27;{&#x27; + JSON.stringify(styleObj[i]) + &#x27;}&#x27;;
+        formattedStyles.push(styleString);
+      }
+    }
+    return formattedStyles;
+  };
+  // function to dynamically add classes, ids, and styles to an element if it exists.
+  //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
+  const elementTagDetails = (childElement: object) =&gt; {
+    let customizationDetails = &#x27;&#x27;;
+    let passedInPropsString = &#x27;&#x27;;
+    if (childElement.type === &#x27;Component&#x27;) {
+      let childComponent;
+      for (let i = 0; i &lt; components.length; i++) {
+        if (childElement.name === components[i].name) {
+          childComponent = components[i];
+        }
+      }
+      childComponent.passedInProps.forEach((prop) =&gt; {
+        passedInPropsString += `${prop.key} = {${prop.key}} `;
+      });
+    }
+
+    if (childElement.childId &amp;&amp; childElement.tag !== &#x27;Route&#x27;)
+      customizationDetails += &#x27; &#x27; + `id=&quot;${+childElement.childId}&quot; ` + `${passedInPropsString}`;
+
+    if (childElement.attributes &amp;&amp; childElement.attributes.cssClasses &amp;&amp; !tailwind) {
+      customizationDetails +=
+        &#x27; &#x27; + `className=&quot;${childElement.attributes.cssClasses}&quot;`;
+    }
+    if (childElement.style &amp;&amp; Object.keys(childElement.style).length &gt; 0 &amp;&amp; tailwind === false) customizationDetails += &#x27; &#x27; + formatStyles(childElement);
+    if (childElement.style &amp;&amp; Object.keys(childElement.style).length &gt; 0 &amp;&amp; tailwind === true) {
+      let { height, alignItems, backgroundColor, display, flexDirection, width, justifyContent } = childElement.style;
+      let w, h, items, bg, d, flexDir, justCon, cssClasses;
+      if (childElement.style.alignItems) {
+        if (alignItems === &quot;center&quot;) items = &quot;items-center &quot;;
+        else if (alignItems === &quot;flex-start&quot;) items = &quot;items-start &quot;;
+        else if (alignItems === &quot;flex-end&quot;) items = &quot;items-end &quot;;
+        else if (alignItems === &quot;stretch&quot;) items = &quot;items-stretch &quot;;
+      }
+      if (childElement.style.backgroundColor) {
+        bg = `bg-[${backgroundColor}] `
+      }
+      if (childElement.style.display) {
+        if (display === &quot;flex&quot;) d = &quot;flex &quot;
+        else if (display === &quot;inline-block&quot;) d = &quot;inline-block &quot;
+        else if (display === &quot;block&quot;) d = &quot;block &quot;
+        else if (display === &quot;none&quot;) d = &quot;hidden &quot;
+      }
+      if (childElement.style.flexDirection) {
+        if (flexDirection === &quot;column&quot;) flexDir = &quot;flex-col &quot;
+      }
+      if (childElement.style.height) {
+        if (height === &quot;100%&quot;) h = &quot;h-full &quot;
+        else if (height === &quot;50%&quot;) h = &quot;h-1/2 &quot;
+        else if (height === &quot;25%&quot;) h = &quot;h-1/4 &quot;
+        else if (height === &quot;auto&quot;) h = &quot;auto &quot;
+      }
+      if (childElement.style.justifyContent) {
+        if (justifyContent === &quot;center&quot;) justCon = &quot;justify-center &quot;
+        else if (justifyContent === &quot;flex-start&quot;) justCon = &quot;justify-start &quot;
+        else if (justifyContent === &quot;space-between&quot;) justCon = &quot;justify-between &quot;
+        else if (justifyContent === &quot;space-around&quot;) justCon = &quot;justify-around &quot;
+        else if (justifyContent === &quot;flex-end&quot;) justCon = &quot;justify-end &quot;
+        else if (justifyContent === &quot;space-evenly&quot;) justCon = &quot;justify-evenly &quot;
+      }
+      if (childElement.style.width) {
+        if (width === &quot;100%&quot;) w = &quot;w-full &quot;
+        else if (width === &quot;50%&quot;) w = &quot;w-1/2 &quot;
+        else if (width === &quot;25%&quot;) w = &quot;w-1/4 &quot;
+        else if (width === &quot;auto&quot;) w = &quot;w-auto &quot;
+      }
+      if (childElement.attributes &amp;&amp; childElement.attributes.cssClasses) {
+        cssClasses = `${childElement.attributes.cssClasses} `
+      }
+      customizationDetails += &#x27; &#x27; + `className = &quot;${cssClasses ? cssClasses : &#x27;&#x27;} ${w ? w : &#x27;&#x27;}${h ? h : &#x27;&#x27;}${justCon ? justCon : &#x27;&#x27;}${flexDir ? flexDir : &#x27;&#x27;}${d ? d : &#x27;&#x27;}${bg ? bg : &#x27;&#x27;}${items ? items : &#x27;&#x27;}&quot;`;
+    }
+
+
+    if (childElement.events &amp;&amp; Object.keys(childElement.events).length &gt; 0) {
+      // SPACE BETWEEN ATTRIBUTE EXPRESSIONS
+      for (const [event, funcName] of Object.entries(childElement.events)) {
+        customizationDetails += &#x27; &#x27; + `${event}={(event) =&gt; ${funcName}()}`;
+      }
+    }
+
+    return customizationDetails;
+  };
+  // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
+  const tabSpacer = (level: number) =&gt; {
+    let tabs = &#x27;  &#x27;;
+    for (let i = 0; i &lt; level; i++) tabs += &#x27;  &#x27;;
+    return tabs;
+  };
+  // function to dynamically generate the appropriate levels for the code preview
+  const levelSpacer = (level: number, spaces: number) =&gt; {
+    if (level === 2) return `\n${tabSpacer(spaces)}`;
+    else return &#x27;&#x27;;
+  };
+  // function to dynamically generate a complete html (&amp; also other library type) elements
+  const elementGenerator = (childElement: object, level: number = 2) =&gt; {
+    let innerText = &#x27;&#x27;;
+    let activeLink = &#x27;&quot;&quot;&#x27;;
+    if (childElement.attributes &amp;&amp; childElement.attributes.compText) {
+      if (childElement.stateUsed &amp;&amp; childElement.stateUsed.compText) {
+        innerText = &#x27;{&#x27; + childElement.stateUsed.compText + &#x27;}&#x27;;
+      } else {
+        innerText = childElement.attributes.compText;
+      }
+    }
+    if (childElement.attributes &amp;&amp; childElement.attributes.compLink) {
+      if (childElement.stateUsed &amp;&amp; childElement.stateUsed.compLink) {
+        activeLink = &#x27;{&#x27; + childElement.stateUsed.compLink + &#x27;}&#x27;;
+      } else {
+        activeLink = &#x27;&quot;&#x27; + childElement.attributes.compLink + &#x27;&quot;&#x27;;
+      }
+    }
+    const nestable =
+      childElement.tag === &#x27;div&#x27; ||
+      childElement.tag === &#x27;form&#x27; ||
+      childElement.tag === &#x27;ol&#x27; ||
+      childElement.tag === &#x27;ul&#x27; ||
+      childElement.tag === &#x27;menu&#x27; ||
+      childElement.tag === &#x27;li&#x27; ||
+      childElement.tag === &#x27;Switch&#x27; ||
+      childElement.tag === &#x27;Route&#x27;;
+
+    if (childElement.tag === &#x27;img&#x27;) {
+      return `${levelSpacer(level, 5)}&lt;${childElement.tag
+        } src=${activeLink} ${elementTagDetails(childElement)}/&gt;${levelSpacer(
+          2,
+          3 + level
+        )}`;
+    } else if (childElement.tag === &#x27;a&#x27;) {
+      return `${levelSpacer(level, 5)}&lt;${childElement.tag
+        } href=${activeLink} ${elementTagDetails(childElement)}&gt;${innerText}&lt;/${childElement.tag
+        }&gt;${levelSpacer(2, 3 + level)}`;
+    } else if (childElement.tag === &#x27;input&#x27;) {
+      return `${levelSpacer(level, 5)}&lt;${childElement.tag}${elementTagDetails(
+        childElement
+      )}&gt;&lt;/${childElement.tag}&gt;${levelSpacer(2, 3 + level)}`;
+    } else if (childElement.tag === &#x27;Link&#x27; &amp;&amp; projectType === &#x27;Classic React&#x27;) {
+      return `${levelSpacer(level, 5)}&lt;Link to=${activeLink}${elementTagDetails(
+        childElement
+      )}&gt;
+        ${tabSpacer(level)}${writeNestedElements(
+        childElement.children,
+        level + 1
+      )}${innerText}
+        ${tabSpacer(level - 1)}&lt;/Link&gt;${levelSpacer(2, 3 + level)}`;
+    } else if (childElement.tag === &#x27;Link&#x27; &amp;&amp; projectType === &#x27;Next.js&#x27;) {
+      return `${levelSpacer(
+        level,
+        5
+      )}&lt;Link href=${activeLink}${elementTagDetails(childElement)}&gt;
+        ${tabSpacer(level)}&lt;a&gt;${innerText}${writeNestedElements(
+        childElement.children,
+        level + 1
+      )}&lt;/a&gt;
+        ${tabSpacer(level - 1)}&lt;/Link&gt;${levelSpacer(2, 3 + level)}`;
+    } else if (childElement.tag === &#x27;Image&#x27;) {
+      return `${levelSpacer(level, 5)}&lt;${childElement.tag
+        } src=${activeLink} ${elementTagDetails(childElement)}/&gt;`;
+    } else if (nestable) {
+      if (
+        (childElement.tag === &#x27;Route&#x27; || childElement.tag === &#x27;Switch&#x27;) &amp;&amp;
+        projectType === &#x27;Next.js&#x27;
+      ) {
+        return `${writeNestedElements(childElement.children, level)}`;
+      }
+      const routePath =
+        childElement.tag === &#x27;Route&#x27; ? &#x27; &#x27; + &#x27;exact path=&#x27; + activeLink : &#x27;&#x27;;
+      return `${levelSpacer(level, 5)}&lt;${childElement.tag}${elementTagDetails(
+        childElement
+      )}${routePath}&gt;
+        ${tabSpacer(level)}${innerText}
+        ${tabSpacer(level)}${writeNestedElements(
+        childElement.children,
+        level + 1
+      )}
+        ${tabSpacer(level - 1)}&lt;/${childElement.tag}&gt;${levelSpacer(
+        2,
+        3 + level
+      )}`;
+    } else if (childElement.tag !== &#x27;separator&#x27;) {
+      return `${levelSpacer(level, 5)}&lt;${childElement.tag}${elementTagDetails(
+        childElement
+      )}&gt;${innerText}&lt;/${childElement.tag}&gt;${levelSpacer(2, 3 + level)}`;
+    }
+  };
+  // write all code that will be under the &quot;return&quot; of the component
+  const writeNestedElements = (enrichedChildren: any, level: number = 2) =&gt; {
+    return `${enrichedChildren
+      .map((child: any) =&gt; {
+        if (child.type === &#x27;Component&#x27;) {
+          return `&lt;${child.name} ${elementTagDetails(child)}/&gt;`;
+        } else if (child.type === &#x27;HTML Element&#x27;) {
+          return elementGenerator(child, level);
+        }
+        // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
+        else if (child.type === &#x27;Route Link&#x27;) {
+          if (projectType === &#x27;Next.js&#x27;) {
+            // if route link points to index, to go endpoint / rather than /index
+            if (child.name === &#x27;index&#x27;)
+              return `&lt;div&gt;&lt;Link href=&quot;/&quot;&gt;&lt;a&gt;${child.name}&lt;/a&gt;&lt;/Link&gt;&lt;/div&gt;`;
+            else
+              return `&lt;div&gt;&lt;Link href=&quot;/${child.name}&quot;&gt;&lt;a&gt;${child.name}&lt;/a&gt;&lt;/Link&gt;&lt;/div&gt;`;
+          } else if (projectType === &#x27;Gatsby.js&#x27;) {
+            if (child.name === &#x27;index&#x27;)
+              return `&lt;div&gt;&lt;Link to=&quot;/&quot;&gt;${child.name}&lt;/Link&gt;&lt;/div&gt;`;
+            else
+              return `&lt;div&gt;&lt;Link to=&quot;/${child.name}&quot;&gt;${child.name}&lt;/Link&gt;&lt;/div&gt;`;
+          } else return `&lt;div&gt;&lt;a&gt;${child.name}&lt;/a&gt;&lt;/div&gt;`;
+        }
+      })
+      .filter((element) =&gt; !!element)
+      .join(&#x27;&#x27;)}`;
+  };
+  // function to properly incorporate the user created state that is stored in the application state
+  const writeStateProps = (stateArray: any) =&gt; {
+    let stateToRender = &#x27;&#x27;;
+    for (const element of stateArray) {
+      stateToRender += levelSpacer(2, 2) + element + &#x27;;&#x27;;
+    }
+    return stateToRender;
+  };
+  const enrichedChildren: any = getEnrichedChildren(currComponent);
+  // import statements differ between root (pages) and regular components (components)
+  const importsMapped =
+    projectType === &#x27;Next.js&#x27; || projectType === &#x27;Gatsby.js&#x27;
+      ? imports
+        .map((comp: string) =&gt; {
+          return isRoot
+            ? `import ${comp} from &#x27;../components/${comp}&#x27;`
+            : `import ${comp} from &#x27;./${comp}&#x27;`;
+        })
+        .join(&#x27;\n&#x27;)
+      : imports
+        .map((comp: string) =&gt; {
+          return `import ${comp} from &#x27;./${comp}&#x27;`;
+        })
+        .join(&#x27;\n&#x27;);
+  const createState = (stateProps) =&gt; {
+    let state = &#x27;{&#x27;;
+    stateProps.forEach((ele) =&gt; {
+      state += ele.key + &#x27;:&#x27; + JSON.stringify(ele.value) + &#x27;, &#x27;;
+    });
+    state = state.substring(0, state.length - 2) + &#x27;}&#x27;;
+    return state;
+  };
+
+  // create final component code. component code differs between classic react, next.js, gatsby.js
+  // classic react code
+  if (projectType === &#x27;Classic React&#x27;) {
+    //string to store all imports string for context
+    let contextImports = &#x27;&#x27;;
+    const { allContext } = contextParam;
+
+
+
+    for (const context of allContext) {
+      contextImports += `import ${context.name}Provider from &#x27;../contexts/${context.name}.js&#x27;\n`;
+    }
+
+    //build an object with keys representing all components, their values are arrays storing all contexts that those components are consuming
+    const componentContext = allContext.reduce((acc, curr) =&gt; {
+      for (const component of curr.components) {
+        if (acc[component] === undefined) acc[component] = [];
+        acc[component].push(curr.name);
+      }
+      return acc;
+    }, {});
+
+    //return a string with all contexts provider in component&#x27;s body
+    const createRender = () =&gt; {
+      let result = `${writeNestedElements(enrichedChildren)}`;
+      if (importReactRouter) result = `&lt;Router&gt;\n ${result}\n &lt;/Router&gt;`;
+      if (allContext.length &lt; 1) return result;
+
+      if (currComponent.name === &#x27;App&#x27;) {
+        allContext.reverse().forEach((el, i) =&gt; {
+          let tabs = `\t\t`;
+          if (i === allContext.length - 1) {
+            tabs = `\t\t\t`;
+          }
+          result = `${tabs.repeat(allContext.length - i)}&lt;${el.name
+            }Provider&gt;\n ${result}\n ${tabs.repeat(allContext.length - i)}&lt;/${el.name
+            }Provider&gt;`;
+        });
+      }
+      return result;
+    };
+
+    //decide which imports statements to use for which components
+    const createContextImport = () =&gt; {
+      if (!(currComponent.name in componentContext)) return &#x27;&#x27;;
+
+      let importStr = &#x27;&#x27;;
+      componentContext[currComponent.name].forEach((context) =&gt; {
+        importStr += `import { ${context} } from &#x27;../contexts/${context}.js&#x27;\n`;
+      });
+
+      return importStr;
+    };
+
+    //call use context hooks for components that are consuming contexts
+    //LEGACY PD:
+    const createUseContextHook = () =&gt; {
+      if (!(currComponent.name in componentContext)) return &#x27;&#x27;;
+
+      let importStr = &#x27;&#x27;;
+      componentContext[currComponent.name].forEach((context) =&gt; {
+        importStr += `  const [${context}Val] = useContext(${context})\n`;
+      });
+
+      return importStr;
+    };
+
+    const createEventHandler = (children) =&gt; {
+      let importStr = &#x27;&#x27;;
+      children.map((child) =&gt; {
+        if (child.type === &#x27;HTML Element&#x27;) {
+          if (child.events) {
+            for (const [event, funcName] of Object.entries(child.events)) {
+              importStr += `\tconst ${funcName} = () =&gt; {};\n`;
+            }
+          }
+          if (child.children.length !== 0) importStr += createEventHandler(child.children);
+        }
+      });
+
+      return importStr;
+    };
+
+    let generatedCode = &quot;import React, { useState, useEffect, useContext} from &#x27;react&#x27;;\n\n&quot;;
+    generatedCode += currComponent.name === &#x27;App&#x27; ? contextImports : &#x27;&#x27;;
+    generatedCode += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from &#x27;react-router-dom&#x27;;\n` : ``;
+    generatedCode += createContextImport() ? `${createContextImport()}\n` : &#x27;&#x27;;
+    generatedCode += importsMapped ? `${importsMapped}\n` : &#x27;&#x27;;
+    // below is the return statement of the codepreview
+    generatedCode += `const ${currComponent.name} = (props) =&gt; {\n`;
+    generatedCode += writeStateProps(currComponent.useStateCodes) ? `\t${writeStateProps(currComponent.useStateCodes)}\n` : &#x27;&#x27;;
+    generatedCode += createEventHandler(enrichedChildren) ? `${createEventHandler(enrichedChildren)}\n` : &#x27;&#x27;;
+    generatedCode += `
+  return(
+    &lt;&gt;
+      ${createRender()}
+    &lt;/&gt;
+  );`
+    generatedCode += `\n}`;
+    return generatedCode;
+  }
+  
+  else if (projectType === &#x27;Next.js&#x27;) {
+    return `
+    import React, { useState } from &#x27;react&#x27;;
+    ${importsMapped}
+    import Head from &#x27;next/head&#x27;
+    ${links ? `import Link from &#x27;next/link&#x27;` : ``}
+    ${images ? `import Image from &#x27;next/image&#x27;` : ``}
+
+    const ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+      } = (props): JSX.Element =&gt; {
+      return (
+          &lt;&gt;
+      ${isRoot
+        ? `
+            &lt;Head&gt;
+              &lt;title&gt;${currComponent.name}&lt;/title&gt;
+            &lt;/Head&gt;`
+        : ``
+      }
+      ${writeNestedElements(enrichedChildren)}
+          &lt;/&gt;
+      );
+    }
+    export default ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+      };
+    `;
+  } else {
+    // gatsby component code
+    return `
+    import React, { useState } from &#x27;react&#x27;;
+    ${importsMapped}
+    import { StaticQuery, graphql } from &#x27;gatsby&#x27;;
+    ${links ? `import { Link } from &#x27;gatsby&#x27;` : ``}
+      const ${currComponent.name} = (props: any): JSX.Element =&gt; {
+      return (
+        &lt;&gt;
+        ${isRoot
+        ? `&lt;head&gt;
+              &lt;title&gt;${currComponent.name}&lt;/title&gt;
+          &lt;/head&gt;`
+        : ``
+      }
+        &lt;div className=&quot;${currComponent.name}&quot; style={props.style}&gt;
+        ${writeNestedElements(enrichedChildren)}
+        &lt;/div&gt;
+        &lt;/&gt;
+        );
+      }
+      export default ${currComponent.name};
+    `;
+  }
+};
+// formats code with prettier linter
+const formatCode = (code: string) =&gt; {
+  if (process.env.NODE_ENV === &#x27;test&#x27;) {
+    const { format } = require(&#x27;prettier&#x27;);
+    return format(code, {
+      singleQuote: true,
+      trailingComma: &#x27;es5&#x27;,
+      bracketSpacing: true,
+      jsxBracketSameLine: true,
+      parser: &#x27;babel&#x27;
+    });
+  } else {
+    return code;
+  }
+};
+export default generateCode;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:4,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:19,&quot;character&quot;:2,&quot;text&quot;:&quot;contextParam&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:28,&quot;character&quot;:4,&quot;text&quot;:&quot;contextParam&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:41,&quot;character&quot;:2,&quot;text&quot;:&quot;contextParam&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:47,&quot;character&quot;:6,&quot;text&quot;:&quot;imports&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:57,&quot;character&quot;:61,&quot;text&quot;:&quot;elem&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:59,&quot;character&quot;:12,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:59,&quot;character&quot;:25,&quot;text&quot;:&quot;elem&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:61,&quot;character&quot;:10,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:61,&quot;character&quot;:16,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:64,&quot;character&quot;:32,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:64,&quot;character&quot;:38,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:67,&quot;character&quot;:13,&quot;text&quot;:&quot;imports&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:67,&quot;character&quot;:21,&quot;text&quot;:&quot;includes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:68,&quot;character&quot;:10,&quot;text&quot;:&quot;imports&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:68,&quot;character&quot;:18,&quot;text&quot;:&quot;push&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:69,&quot;character&quot;:8,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:70,&quot;character&quot;:15,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:71,&quot;character&quot;:17,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:71,&quot;character&quot;:23,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:73,&quot;character&quot;:32,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:73,&quot;character&quot;:38,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:75,&quot;character&quot;:8,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:89,&quot;character&quot;:10,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:89,&quot;character&quot;:16,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:100,&quot;character&quot;:15,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:101,&quot;character&quot;:17,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:101,&quot;character&quot;:23,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:103,&quot;character&quot;:8,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:103,&quot;character&quot;:14,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:104,&quot;character&quot;:43,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:104,&quot;character&quot;:49,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:106,&quot;character&quot;:15,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:113,&quot;character&quot;:24,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:116,&quot;character&quot;:8,&quot;text&quot;:&quot;styleString&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:117,&quot;character&quot;:18,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:119,&quot;character&quot;:8,&quot;text&quot;:&quot;styleString&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:119,&quot;character&quot;:53,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:120,&quot;character&quot;:29,&quot;text&quot;:&quot;styleString&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:131,&quot;character&quot;:10,&quot;text&quot;:&quot;childComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:134,&quot;character&quot;:10,&quot;text&quot;:&quot;childComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:137,&quot;character&quot;:6,&quot;text&quot;:&quot;childComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:137,&quot;character&quot;:21,&quot;text&quot;:&quot;passedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:137,&quot;character&quot;:35,&quot;text&quot;:&quot;forEach&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:137,&quot;character&quot;:44,&quot;text&quot;:&quot;prop&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:138,&quot;character&quot;:34,&quot;text&quot;:&quot;prop&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:138,&quot;character&quot;:39,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:138,&quot;character&quot;:49,&quot;text&quot;:&quot;prop&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:138,&quot;character&quot;:54,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:152,&quot;character&quot;:10,&quot;text&quot;:&quot;w&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:152,&quot;character&quot;:13,&quot;text&quot;:&quot;h&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:152,&quot;character&quot;:16,&quot;text&quot;:&quot;items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:152,&quot;character&quot;:23,&quot;text&quot;:&quot;bg&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:152,&quot;character&quot;:27,&quot;text&quot;:&quot;d&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:152,&quot;character&quot;:30,&quot;text&quot;:&quot;flexDir&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:152,&quot;character&quot;:39,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:152,&quot;character&quot;:48,&quot;text&quot;:&quot;cssClasses&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:154,&quot;character&quot;:37,&quot;text&quot;:&quot;items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:155,&quot;character&quot;:46,&quot;text&quot;:&quot;items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:156,&quot;character&quot;:44,&quot;text&quot;:&quot;items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:157,&quot;character&quot;:43,&quot;text&quot;:&quot;items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:160,&quot;character&quot;:8,&quot;text&quot;:&quot;bg&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:163,&quot;character&quot;:32,&quot;text&quot;:&quot;d&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:164,&quot;character&quot;:45,&quot;text&quot;:&quot;d&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:165,&quot;character&quot;:38,&quot;text&quot;:&quot;d&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:166,&quot;character&quot;:37,&quot;text&quot;:&quot;d&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:169,&quot;character&quot;:40,&quot;text&quot;:&quot;flexDir&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:172,&quot;character&quot;:31,&quot;text&quot;:&quot;h&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:173,&quot;character&quot;:35,&quot;text&quot;:&quot;h&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:174,&quot;character&quot;:35,&quot;text&quot;:&quot;h&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:175,&quot;character&quot;:36,&quot;text&quot;:&quot;h&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:178,&quot;character&quot;:41,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:179,&quot;character&quot;:50,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:180,&quot;character&quot;:53,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:181,&quot;character&quot;:52,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:182,&quot;character&quot;:48,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:183,&quot;character&quot;:52,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:186,&quot;character&quot;:30,&quot;text&quot;:&quot;w&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:187,&quot;character&quot;:34,&quot;text&quot;:&quot;w&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:188,&quot;character&quot;:34,&quot;text&quot;:&quot;w&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:189,&quot;character&quot;:35,&quot;text&quot;:&quot;w&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:192,&quot;character&quot;:8,&quot;text&quot;:&quot;cssClasses&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:52,&quot;text&quot;:&quot;cssClasses&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:65,&quot;text&quot;:&quot;cssClasses&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:84,&quot;text&quot;:&quot;w&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:88,&quot;text&quot;:&quot;w&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:97,&quot;text&quot;:&quot;h&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:101,&quot;text&quot;:&quot;h&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:110,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:120,&quot;text&quot;:&quot;justCon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:135,&quot;text&quot;:&quot;flexDir&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:145,&quot;text&quot;:&quot;flexDir&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:160,&quot;text&quot;:&quot;d&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:164,&quot;text&quot;:&quot;d&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:173,&quot;text&quot;:&quot;bg&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:178,&quot;text&quot;:&quot;bg&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:188,&quot;text&quot;:&quot;items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:196,&quot;text&quot;:&quot;items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:310,&quot;character&quot;:31,&quot;text&quot;:&quot;enrichedChildren&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:311,&quot;character&quot;:14,&quot;text&quot;:&quot;enrichedChildren&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:312,&quot;character&quot;:7,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:312,&quot;character&quot;:12,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:313,&quot;character&quot;:12,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:313,&quot;character&quot;:18,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:314,&quot;character&quot;:21,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:314,&quot;character&quot;:27,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:315,&quot;character&quot;:19,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:315,&quot;character&quot;:25,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:319,&quot;character&quot;:17,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:319,&quot;character&quot;:23,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:322,&quot;character&quot;:16,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:322,&quot;character&quot;:22,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:323,&quot;character&quot;:47,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:323,&quot;character&quot;:53,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:325,&quot;character&quot;:42,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:325,&quot;character&quot;:48,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:325,&quot;character&quot;:60,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:325,&quot;character&quot;:66,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:327,&quot;character&quot;:16,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:327,&quot;character&quot;:22,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:328,&quot;character&quot;:42,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:328,&quot;character&quot;:48,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:330,&quot;character&quot;:40,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:330,&quot;character&quot;:46,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:330,&quot;character&quot;:55,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:330,&quot;character&quot;:61,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:331,&quot;character&quot;:35,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:331,&quot;character&quot;:41,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:334,&quot;character&quot;:7,&quot;text&quot;:&quot;filter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:334,&quot;character&quot;:15,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:334,&quot;character&quot;:29,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:335,&quot;character&quot;:7,&quot;text&quot;:&quot;join&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:338,&quot;character&quot;:27,&quot;text&quot;:&quot;stateArray&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:340,&quot;character&quot;:15,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:341,&quot;character&quot;:43,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:340,&quot;character&quot;:26,&quot;text&quot;:&quot;stateArray&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:345,&quot;character&quot;:8,&quot;text&quot;:&quot;enrichedChildren&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:347,&quot;character&quot;:8,&quot;text&quot;:&quot;importsMapped&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:349,&quot;character&quot;:8,&quot;text&quot;:&quot;imports&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:350,&quot;character&quot;:9,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:355,&quot;character&quot;:9,&quot;text&quot;:&quot;join&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:356,&quot;character&quot;:8,&quot;text&quot;:&quot;imports&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:357,&quot;character&quot;:9,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:360,&quot;character&quot;:9,&quot;text&quot;:&quot;join&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:361,&quot;character&quot;:23,&quot;text&quot;:&quot;stateProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:363,&quot;character&quot;:4,&quot;text&quot;:&quot;stateProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:363,&quot;character&quot;:15,&quot;text&quot;:&quot;forEach&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:363,&quot;character&quot;:24,&quot;text&quot;:&quot;ele&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:364,&quot;character&quot;:15,&quot;text&quot;:&quot;ele&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:364,&quot;character&quot;:19,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:364,&quot;character&quot;:46,&quot;text&quot;:&quot;ele&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:364,&quot;character&quot;:50,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:375,&quot;character&quot;:12,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:379,&quot;character&quot;:15,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:380,&quot;character&quot;:34,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:380,&quot;character&quot;:42,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:380,&quot;character&quot;:76,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:380,&quot;character&quot;:84,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:379,&quot;character&quot;:26,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:384,&quot;character&quot;:10,&quot;text&quot;:&quot;componentContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:384,&quot;character&quot;:29,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:384,&quot;character&quot;:40,&quot;text&quot;:&quot;reduce&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:384,&quot;character&quot;:48,&quot;text&quot;:&quot;acc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:384,&quot;character&quot;:53,&quot;text&quot;:&quot;curr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:385,&quot;character&quot;:17,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:386,&quot;character&quot;:12,&quot;text&quot;:&quot;acc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:386,&quot;character&quot;:16,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:386,&quot;character&quot;:42,&quot;text&quot;:&quot;acc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:386,&quot;character&quot;:46,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:387,&quot;character&quot;:8,&quot;text&quot;:&quot;acc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:387,&quot;character&quot;:12,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:387,&quot;character&quot;:23,&quot;text&quot;:&quot;push&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:387,&quot;character&quot;:28,&quot;text&quot;:&quot;curr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:387,&quot;character&quot;:33,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:385,&quot;character&quot;:30,&quot;text&quot;:&quot;curr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:385,&quot;character&quot;:35,&quot;text&quot;:&quot;components&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:389,&quot;character&quot;:13,&quot;text&quot;:&quot;acc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:394,&quot;character&quot;:42,&quot;text&quot;:&quot;enrichedChildren&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:396,&quot;character&quot;:10,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:396,&quot;character&quot;:21,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:399,&quot;character&quot;:8,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:399,&quot;character&quot;:19,&quot;text&quot;:&quot;reverse&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:399,&quot;character&quot;:29,&quot;text&quot;:&quot;forEach&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:399,&quot;character&quot;:38,&quot;text&quot;:&quot;el&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:399,&quot;character&quot;:42,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:401,&quot;character&quot;:14,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:401,&quot;character&quot;:20,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:401,&quot;character&quot;:31,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:404,&quot;character&quot;:34,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:404,&quot;character&quot;:45,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:404,&quot;character&quot;:54,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:404,&quot;character&quot;:60,&quot;text&quot;:&quot;el&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:404,&quot;character&quot;:63,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:405,&quot;character&quot;:51,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:405,&quot;character&quot;:62,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:405,&quot;character&quot;:71,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:405,&quot;character&quot;:78,&quot;text&quot;:&quot;el&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:405,&quot;character&quot;:81,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:414,&quot;character&quot;:34,&quot;text&quot;:&quot;componentContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:417,&quot;character&quot;:6,&quot;text&quot;:&quot;componentContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:417,&quot;character&quot;:43,&quot;text&quot;:&quot;forEach&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:417,&quot;character&quot;:52,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:418,&quot;character&quot;:33,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:418,&quot;character&quot;:64,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:427,&quot;character&quot;:34,&quot;text&quot;:&quot;componentContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:430,&quot;character&quot;:6,&quot;text&quot;:&quot;componentContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:430,&quot;character&quot;:43,&quot;text&quot;:&quot;forEach&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:430,&quot;character&quot;:52,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:431,&quot;character&quot;:33,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:431,&quot;character&quot;:61,&quot;text&quot;:&quot;context&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:437,&quot;character&quot;:32,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:439,&quot;character&quot;:6,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:439,&quot;character&quot;:15,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:439,&quot;character&quot;:20,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:440,&quot;character&quot;:12,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:440,&quot;character&quot;:18,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:441,&quot;character&quot;:14,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:441,&quot;character&quot;:20,&quot;text&quot;:&quot;events&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:442,&quot;character&quot;:59,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:442,&quot;character&quot;:65,&quot;text&quot;:&quot;events&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:446,&quot;character&quot;:14,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:446,&quot;character&quot;:20,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:446,&quot;character&quot;:29,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:446,&quot;character&quot;:75,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:446,&quot;character&quot;:81,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:457,&quot;character&quot;:21,&quot;text&quot;:&quot;importsMapped&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:457,&quot;character&quot;:40,&quot;text&quot;:&quot;importsMapped&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:461,&quot;character&quot;:40,&quot;text&quot;:&quot;enrichedChildren&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:461,&quot;character&quot;:82,&quot;text&quot;:&quot;enrichedChildren&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:475,&quot;character&quot;:6,&quot;text&quot;:&quot;importsMapped&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:491,&quot;character&quot;:28,&quot;text&quot;:&quot;enrichedChildren&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:502,&quot;character&quot;:6,&quot;text&quot;:&quot;importsMapped&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:515,&quot;character&quot;:30,&quot;text&quot;:&quot;enrichedChildren&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:527,&quot;character&quot;:12,&quot;text&quot;:&quot;format&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/generateCode.ts&quot;,&quot;line&quot;:528,&quot;character&quot;:11,&quot;text&quot;:&quot;format&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

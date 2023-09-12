@@ -1,0 +1,194 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>ProjectManager.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/ProjectManager.tsx</td><td class="">94.94%</td><td class="">80%</td><td class="">158</td><td class="">150</td><td class="">8</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">//note for future developers - this may be electron specific - without signin working on the browser it is difficult to test
+import React, { useState} from &#x27;react&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import List from &#x27;@mui/material/List&#x27;;
+import ListItem from &#x27;@mui/material/ListItem&#x27;;
+import ListItemText from &#x27;@mui/material/ListItemText&#x27;;
+import { withRouter } from &#x27;react-router-dom&#x27;;
+import exportProject from &#x27;../../utils/exportProject.util&#x27;;
+import createModal from &#x27;../right/createModal&#x27;;
+import {useDispatch, useSelector} from &#x27;react-redux&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+// ProjectManager function moved to NavBar.tsx
+const ProjectManager = () =&gt; {
+  // state to keep track of whether a modal should display
+  const [modal, setModal] = useState(null);
+  const state = useSelector((store:RootState) =&gt; store.appState)
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  
+
+  // State to keep track of how the user wants their components to be exported
+  // GenOption = 0 --&gt; export only components
+  // GenOption = 1 --&gt; export an entire project w/ webpack, server, etc.
+  const genOptions: string[] = [
+    &#x27;Export components&#x27;,
+    &#x27;Export components with application files&#x27;
+  ];
+  let genOption = 0;
+
+  // Closes out the open modal
+  const closeModal = () =&gt; setModal(&#x27;&#x27;);
+
+  // Creates modal that asks if user wants to clear workspace
+  // If user clears their workspace, then their components are removed from state and the modal is closed
+  const clearWorkspace = () =&gt; {
+    // Reset state for project to initial state
+    const resetState = () =&gt; {
+      dispatch(resetState({}))
+    };
+
+    // Set modal options
+    const children = (
+      &lt;List className=&quot;export-preference&quot;&gt;
+        &lt;ListItem
+          key={&#x27;clear&#x27;}
+          button
+          onClick={resetState}
+          style={{
+            border: &#x27;1px solid #3f51b5&#x27;,
+            marginBottom: &#x27;2%&#x27;,
+            marginTop: &#x27;5%&#x27;
+          }}
+        &gt;
+          &lt;ListItemText
+            primary={&#x27;Yes, delete all project data&#x27;}
+            style={{ textAlign: &#x27;center&#x27; }}
+            onClick={closeModal}
+          /&gt;
+        &lt;/ListItem&gt;
+      &lt;/List&gt;
+    );
+
+    // create modal
+    setModal(
+      createModal({
+        closeModal,
+        children,
+        message: &#x27;Are you sure want to delete all data?&#x27;,
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
+      })
+    );
+  };
+
+  // ----------------------------------CREATE MODAL FOR EXPORT OPTIONS (moved to NavBar.tsx)-------------------------------------
+
+  const showGenerateAppModal = () =&gt; {
+    const children = (
+      &lt;List className=&quot;export-preference&quot;&gt;
+        {genOptions.map((option: string, i: number) =&gt; (
+          &lt;ListItem
+            key={i}
+            button
+            onClick={() =&gt; chooseGenOptions(i)}
+            style={{
+              border: &#x27;1px solid #3f51b5&#x27;,
+              marginBottom: &#x27;2%&#x27;,
+              marginTop: &#x27;5%&#x27;
+            }}
+          &gt;
+            &lt;ListItemText primary={option} style={{ textAlign: &#x27;center&#x27; }} /&gt;
+          &lt;/ListItem&gt;
+        ))}
+      &lt;/List&gt;
+    );
+
+    // helper function called by showGenerateAppModal
+    // this function will prompt the user to choose an app directory once they&#x27;ve chosen their export option
+    const chooseGenOptions = (genOpt: number) =&gt; {
+      // set export option: 0 --&gt; export only components, 1 --&gt; export full project
+      genOption = genOpt;
+      window.api.chooseAppDir();
+      closeModal();
+    };
+
+    // removes all listeners for the app_dir_selected event
+    // this is important because otherwise listeners will pile up and events will trigger multiple events
+    window.api.removeAllAppDirChosenListeners();
+
+    // add listener for when an app directory is chosen
+    // when a directory is chosen, the callback will export the project to the chosen folder
+    // Note: this listener is imported from the main process via preload.js
+    window.api.addAppDirChosenListener(path =&gt; {
+      exportProject(
+        path,
+        state.name
+          ? state.name
+          : &#x27;New_ReacType_Project_&#x27; + Math.ceil(Math.random() * 99).toString(),
+        genOption,
+        state.projectType,
+        state.components,
+        state.rootComponents
+      );
+    });
+
+    setModal(
+      createModal({
+        closeModal,
+        children,
+        message: &#x27;Choose export preference:&#x27;,
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
+      })
+    );
+  };
+
+
+  return (
+    &lt;div&gt; {modal} &lt;/div&gt;
+  );
+};
+
+const useStyles = makeStyles({
+
+  logoutButton: {
+    position: &#x27;absolute&#x27;,
+    bottom: &#x27;50px&#x27;,
+    right: &#x27;150px&#x27;,
+  },
+  btnGroup: {
+    display: &#x27;flex&#x27;,
+    flexDirection: &#x27;column&#x27;,
+    alignItems: &#x27;center&#x27;,
+    justifyContent: &#x27;center&#x27;,
+    width: &#x27;100%&#x27;,
+    position: &#x27;absolute&#x27;,
+    bottom: &#x27;40px&#x27;,
+    left: &#x27;0px&#x27;
+  },
+
+  button: {
+    backgroundColor: &#x27;rgba(1,212,109,0.1)&#x27;,
+    fontSize: &#x27;1em&#x27;,
+    minWidth: &#x27;300px&#x27;,
+    marginTop: &#x27;10px&#x27;,
+    marginBotton: &#x27;10px&#x27;
+  },
+});
+
+export default withRouter(ProjectManager);
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/ProjectManager.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:9,&quot;text&quot;:&quot;modal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ProjectManager.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ProjectManager.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:17,&quot;text&quot;:&quot;chooseAppDir&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ProjectManager.tsx&quot;,&quot;line&quot;:110,&quot;character&quot;:11,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ProjectManager.tsx&quot;,&quot;line&quot;:110,&quot;character&quot;:15,&quot;text&quot;:&quot;removeAllAppDirChosenListeners&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ProjectManager.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:11,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ProjectManager.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:15,&quot;text&quot;:&quot;addAppDirChosenListener&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ProjectManager.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:39,&quot;text&quot;:&quot;path&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

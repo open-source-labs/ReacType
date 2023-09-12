@@ -1,0 +1,180 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Tutorial.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/tutorial/Tutorial.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">228</td><td class="">228</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import Card from &#x27;@mui/material/Card&#x27;;
+import CardContent from &#x27;@mui/material/CardContent&#x27;;
+import CardActions from &#x27;@mui/material/CardActions&#x27;;
+import Typography from &#x27;@mui/material/Typography&#x27;;
+import Container from &#x27;@mui/material/Container&#x27;;
+import { Link, withRouter, RouteComponentProps } from &#x27;react-router-dom&#x27;;
+import Styling from &#x27;../constants/Styling&#x27;;
+import MenuBookIcon from &#x27;@mui/icons-material/MenuBook&#x27;;
+import LinkIcon from &#x27;@mui/icons-material/Link&#x27;;
+import CodeIcon from &#x27;@mui/icons-material/Code&#x27;;
+import AddToPhotosIcon from &#x27;@mui/icons-material/AddToPhotos&#x27;;
+import TvIcon from &#x27;@mui/icons-material/Tv&#x27;;
+import AccountTreeIcon from &#x27;@mui/icons-material/AccountTree&#x27;;
+import AddPhotoAlternateIcon from &#x27;@mui/icons-material/AddPhotoAlternate&#x27;;
+import StyleIcon from &#x27;@mui/icons-material/Style&#x27;;
+import ColorLensIcon from &#x27;@mui/icons-material/ColorLens&#x27;;
+import SwapVertIcon from &#x27;@mui/icons-material/SwapVert&#x27;;
+import KeyboardIcon from &#x27;@mui/icons-material/Keyboard&#x27;;
+import BrushIcon from &#x27;@mui/icons-material/Brush&#x27;;
+import CloseIcon from &#x27;@mui/icons-material/Close&#x27;;
+import Button from &#x27;@mui/material/Button&#x27;;
+
+const useStyles = makeStyles({
+  root: {
+    display: &#x27;flex&#x27;,
+    flexDirection: &#x27;column&#x27;,
+    width: 350,
+    height: 300,
+    margin: 20,
+    border: `1px solid gray`,
+    backgroundColor: Styling.tutorialGray,
+    color: &#x27;white&#x27;,
+    borderRadius: &#x27;5%&#x27;,
+    boxShadow: &#x27;10px 10px 10px gray&#x27;
+  },
+  bullet: {
+    display: &#x27;inline-block&#x27;,
+    margin: &#x27;0 2px&#x27;,
+    transform: &#x27;scale(0.8)&#x27;
+  },
+  title: {
+    color: Styling.darkBlue,
+    fontSize: 28,
+    fontWeight: 500
+  },
+  pos: {
+    marginBottom: 12,
+    margin: 20
+  },
+  icons: {
+    color: Styling.darkBlue,
+    fontSize: 125
+  },
+  pageTitle: {
+    fontSize: 100,
+    color: Styling.darkBlue,
+    boxShadow: &#x27;10px 10px 10px #00001a&#x27;,
+    border: `1px solid ${Styling.darkBlue}`,
+    padding: &#x27;20px&#x27;,
+    backgroundColor: &#x27;white&#x27;,
+    borderRadius: &#x27;10px&#x27;
+  },
+  container: {
+    display: &#x27;flex&#x27;,
+    justifyContent: &#x27;center&#x27;,
+    flexDirection: &#x27;column&#x27;,
+    alignItems: &#x27;center&#x27;,
+    backgroundColor: &#x27;lightgray&#x27;
+  },
+  wrapper: {
+    display: &#x27;flex&#x27;,
+    justifyContent: &#x27;center&#x27;,
+    flexWrap: &#x27;wrap&#x27;,
+    width: &#x27;75%&#x27;
+  },
+  cardWrapper: {
+    display: &#x27;flex&#x27;,
+    flexDirection: &#x27;column&#x27;,
+    flexBasis: &#x27;33.333333%&#x27;
+  },
+  cardActions: {
+    alignSelf: &#x27;center&#x27;,
+    justifySelf: &#x27;center&#x27;
+  }
+});
+
+const Tutorial: React.FC&lt;RouteComponentProps&gt; = () =&gt; {
+  const classes = useStyles();
+  const topics = [
+    &#x27;Pages&#x27;,
+    &#x27;Route Links&#x27;,
+    &#x27;Code Preview&#x27;,
+    &#x27;Reusable Components&#x27;,
+    &#x27;Canvas&#x27;,
+    &#x27;Component Tree&#x27;,
+    &#x27;HTML Elements&#x27;,
+    &#x27;Styling&#x27;,
+    &#x27;Customization&#x27;,
+    &#x27;States&#x27;,
+    &#x27;CSS Editor&#x27;,
+    &#x27;Keyboard Shortcuts&#x27;
+  ];
+  const icons = [
+    &lt;MenuBookIcon className={classes.icons} /&gt;,
+    &lt;LinkIcon className={classes.icons} /&gt;,
+    &lt;CodeIcon className={classes.icons} /&gt;,
+    &lt;AddToPhotosIcon className={classes.icons} /&gt;,
+    &lt;TvIcon className={classes.icons} /&gt;,
+    &lt;AccountTreeIcon className={classes.icons} /&gt;,
+    &lt;AddPhotoAlternateIcon className={classes.icons} /&gt;,
+    &lt;StyleIcon className={classes.icons} /&gt;,
+    &lt;ColorLensIcon className={classes.icons} /&gt;,
+    &lt;SwapVertIcon className={classes.icons} /&gt;,
+    &lt;BrushIcon className={classes.icons} /&gt;,
+    &lt;KeyboardIcon className={classes.icons} /&gt;
+  ];
+  const body = document.querySelector(&#x27;body&#x27;);
+  body.style.overflowY = &#x27;auto&#x27;;
+  body.style.backgroundColor = Styling.tutorialGray;
+  const cards = topics.map((topic, i) =&gt; {
+    return (
+      &lt;div key={`k${i}`} className={classes.cardWrapper}&gt;
+        &lt;Link to={`/tutorialPage/${topic}`} style={{ textDecoration: &#x27;none&#x27; }}&gt;
+          &lt;Card className={classes.root} variant=&quot;elevation&quot;&gt;
+            &lt;CardContent&gt;
+              &lt;Typography className={classes.title}&gt;{topic}&lt;/Typography&gt;
+            &lt;/CardContent&gt;
+            &lt;CardActions className={classes.cardActions}&gt;
+              {icons[i]}
+            &lt;/CardActions&gt;
+          &lt;/Card&gt;
+        &lt;/Link&gt;
+      &lt;/div&gt;
+    );
+  });
+  return (
+    &lt;&gt;
+      &lt;div&gt;
+        {/* &lt;Link to=&#x27;/&#x27; style={{textDecoration: &#x27;none&#x27;}}&gt; */}
+        &lt;Button
+          variant=&quot;contained&quot;
+          color=&quot;primary&quot;
+          style={{ minWidth: &#x27;137.69px&#x27; }}
+          className=&quot;navbarButton&quot;
+          id=&quot;ratingButton&quot;
+          onClick={window.close}
+          endIcon={&lt;CloseIcon /&gt;}
+        &gt;
+          Close
+        &lt;/Button&gt;
+        {/* &lt;/Link&gt; */}
+      &lt;/div&gt;
+      &lt;Container maxWidth=&quot;xl&quot; className={classes.container}&gt;
+        &lt;h1 className={classes.pageTitle}&gt;ReacType Tutorial&lt;/h1&gt;
+        &lt;div className={classes.wrapper}&gt;{cards}&lt;/div&gt;
+      &lt;/Container&gt;
+    &lt;/&gt;
+  );
+};
+export default withRouter(Tutorial);
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

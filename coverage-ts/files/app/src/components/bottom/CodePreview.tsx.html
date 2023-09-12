@@ -1,0 +1,137 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>CodePreview.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/bottom/CodePreview.tsx</td><td class="">88.89%</td><td class="">80%</td><td class="">135</td><td class="">120</td><td class="">15</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import &#x27;ace-builds/src-noconflict/ace&#x27;;
+import &#x27;ace-builds/src-min-noconflict/ext-searchbox&#x27;;
+import &#x27;ace-builds/src-noconflict/mode-javascript&#x27;;
+import &#x27;ace-builds/src-noconflict/theme-dracula&#x27;;
+import &#x27;ace-builds/src-noconflict/theme-terminal&#x27;;
+
+import * as esbuild from &#x27;esbuild-wasm&#x27;;
+
+import React, { useContext, useEffect, useRef, useState } from &#x27;react&#x27;;
+import {
+  codePreviewInput,
+  codePreviewSave
+} from &#x27;../../redux/reducers/slice/codePreviewSlice&#x27;;
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+
+import AceEditor from &#x27;react-ace&#x27;;
+import { Component } from &#x27;../../interfaces/Interfaces&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+import { fetchPlugin } from &#x27;../../plugins/fetch-plugin&#x27;;
+import { unpkgPathPlugin } from &#x27;../../plugins/unpkg-path-plugin&#x27;;
+import useResizeObserver from &#x27;../../tree/useResizeObserver&#x27;;
+
+const CodePreview: React.FC&lt;{
+  theme: string | null;
+  setTheme: any | null;
+}&gt; = ({ theme, setTheme }) =&gt; {
+  const ref = useRef&lt;any&gt;();
+
+  /**
+   * Starts the Web Assembly service.
+   */
+  const startService = async () =&gt; {
+    ref.current = await esbuild.initialize({
+      worker: true,
+      wasmURL: &#x27;https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm&#x27;
+    });
+  };
+  const dispatch = useDispatch();
+
+  const wrapper = useRef();
+  const dimensions = useResizeObserver(wrapper);
+  const { height } = dimensions || 0;
+  const state = useSelector((store: RootState) =&gt; store.appState);
+  const [, setDivHeight] = useState(0);
+  let currentComponent = state.components.find(
+    (elem: Component) =&gt; elem.id === state.canvasFocus.componentId
+  );
+
+  const [input, setInput] = useState(&#x27;&#x27;);
+
+  useEffect(() =&gt; {
+    startService();
+  }, []);
+
+  useEffect(() =&gt; {
+    setDivHeight(height);
+  }, [height]);
+
+  useEffect(() =&gt; {
+    setInput(currentComponent.code);
+    dispatch(codePreviewInput(currentComponent.code));
+  }, [currentComponent, state.components]);
+
+  /**
+   * Handler thats listens to changes in code editor
+   * @param {string} data - Code entered by the user
+   */
+  const handleChange = async (data) =&gt; {
+    setInput(data);
+    dispatch(codePreviewInput(data));
+    if (!ref.current) {
+      return;
+    }
+    let result = await ref.current.build({
+      entryPoints: [&#x27;index.js&#x27;],
+      bundle: true,
+      write: false,
+      incremental: true,
+      minify: true,
+      plugins: [unpkgPathPlugin(), fetchPlugin(data)],
+      define: {
+        &#x27;process.env.NODE_ENV&#x27;: &#x27;&quot;production&quot;&#x27;,
+        global: &#x27;window&#x27;
+      }
+    });
+    dispatch(codePreviewSave(result.outputFiles[0].text));
+  };
+
+  return (
+    &lt;div
+      ref={wrapper}
+      style={{
+        top: &#x27;1vw&#x27;,
+        height: &#x27;100%&#x27;,
+        maxWidth: &#x27;100%&#x27;,
+        justifyContent: &#x27;center&#x27;
+      }}
+    &gt;
+      &lt;AceEditor
+        mode=&quot;javascript&quot;
+        theme=&quot;dracula&quot;
+        width=&quot;100%&quot;
+        height=&quot;100%&quot;
+        onChange={handleChange}
+        value={input}
+        name=&quot;Code_div&quot;
+        readOnly={false}
+        fontSize={14}
+        tabSize={2}
+        wrapEnabled={true}
+        setOptions={{
+          useWorker: false
+        }}
+      /&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default CodePreview;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:2,&quot;text&quot;:&quot;setTheme&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:15,&quot;text&quot;:&quot;setTheme&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:8,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:8,&quot;text&quot;:&quot;dimensions&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:10,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:6,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:30,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:69,&quot;character&quot;:30,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:70,&quot;character&quot;:13,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:8,&quot;text&quot;:&quot;result&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:27,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:35,&quot;text&quot;:&quot;build&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:85,&quot;character&quot;:29,&quot;text&quot;:&quot;result&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:85,&quot;character&quot;:36,&quot;text&quot;:&quot;outputFiles&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/CodePreview.tsx&quot;,&quot;line&quot;:85,&quot;character&quot;:51,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

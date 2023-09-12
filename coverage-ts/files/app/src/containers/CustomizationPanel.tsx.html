@@ -1,0 +1,1091 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>CustomizationPanel.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/containers/CustomizationPanel.tsx</td><td class="">77.07%</td><td class="">80%</td><td class="">1605</td><td class="">1237</td><td class="">368</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  List,
+  ListItem,
+  ListItemText,
+  TextField
+} from &#x27;@mui/material&#x27;;
+import React, { useCallback, useEffect, useMemo, useState } from &#x27;react&#x27;;
+import {
+  changeTailwind,
+  deleteChild,
+  deleteEventAction,
+  deletePage,
+  deleteReusableComponent,
+  redo,
+  undo,
+  updateAttributes,
+  updateCss,
+  updateEvents,
+  updateStateUsed,
+  updateUseContext
+} from &#x27;../redux/reducers/slice/appStateSlice&#x27;;
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+
+import ClearIcon from &#x27;@mui/icons-material/Clear&#x27;;
+import { DataGrid } from &#x27;@mui/x-data-grid&#x27;;
+import ErrorMessages from &#x27;../constants/ErrorMessages&#x27;;
+import FormSelector from &#x27;../components/form/Selector&#x27;;
+import ProjectManager from &#x27;../components/right/ProjectManager&#x27;;
+import UseStateModal from &#x27;../components/bottom/UseStateModal&#x27;;
+import createModal from &#x27;../components/right/createModal&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+
+// Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
+// need to pass in props to use the useHistory feature of react router
+const CustomizationPanel = ({ isThemeLight }): JSX.Element =&gt; {
+  const classes = useStyles(isThemeLight);
+  const dispatch = useDispatch();
+  const { state, contextParam, style } = useSelector((store) =&gt; ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+    style: store.styleSlice
+  }));
+  const [displayMode, setDisplayMode] = useState(&#x27;&#x27;);
+  const [flexDir, setFlexDir] = useState(&#x27;&#x27;);
+  const [flexJustify, setFlexJustify] = useState(&#x27;&#x27;);
+  const [flexAlign, setFlexAlign] = useState(&#x27;&#x27;);
+  const [BGColor, setBGColor] = useState(&#x27;&#x27;);
+  const [compText, setCompText] = useState(&#x27;&#x27;);
+  const [compLink, setCompLink] = useState(&#x27;&#x27;);
+  const [cssClasses, setCssClasses] = useState(&#x27;&#x27;);
+  const [compWidth, setCompWidth] = useState(&#x27;&#x27;);
+  const [compHeight, setCompHeight] = useState(&#x27;&#x27;);
+  const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
+  const [deleteIndexError, setDeleteIndexError] = useState(false);
+  const [deleteComponentError, setDeleteComponentError] = useState(false);
+  const [modal, setModal] = useState(null);
+  const [useContextObj, setUseContextObj] = useState({});
+  const [stateUsedObj, setStateUsedObj] = useState({});
+  const [eventAll, setEventAll] = useState([&#x27;&#x27;, &#x27;&#x27;]);
+  const [eventRow, setEventRow] = useState([]);
+
+  const currFocus = getFocus().child;
+
+  useEffect(() =&gt; {
+    currFocus?.attributes?.compLink &amp;&amp;
+      setCompLink(currFocus.attributes.compLink);
+    setEventAll([&#x27;&#x27;, &#x27;&#x27;]);
+    if (currFocus) {
+      const addedEvent: [] = [];
+      for (const [event, funcName] of Object.entries(currFocus?.events)) {
+        addedEvent.push({ id: event, funcName });
+      }
+      setEventRow(addedEvent);
+    }
+  }, [state]);
+
+  //this function allows properties to persist and appear in nested divs
+  function deepIterate(arr) {
+    const output = [];
+    for (let i = 0; i &lt; arr.length; i++) {
+      if (arr[i].typeId === 1000) continue;
+      output.push(arr[i]);
+      if (arr[i].children.length) {
+        output.push(...deepIterate(arr[i].children));
+      }
+    }
+    return output;
+  }
+
+  const resetFields = () =&gt; {
+    const childrenArray = deepIterate(configTarget.children);
+    for (const element of childrenArray) {
+      if (configTarget.child &amp;&amp; element.childId === configTarget.child.id) {
+        const attributes = element.attributes;
+        const style = element.style;
+        setCompText(attributes.compText ? attributes.compText : &#x27;&#x27;);
+        setCompLink(attributes.compLink ? attributes.compLink : &#x27;&#x27;);
+        setCssClasses(attributes.cssClasses ? attributes.cssClasses : &#x27;&#x27;);
+      }
+    }
+    const style = configTarget.child
+      ? configTarget.child.style
+      : configTarget.style;
+    setDisplayMode(style.display ? style.display : &#x27;&#x27;);
+    setFlexDir(style.flexDirection ? style.flexDirection : &#x27;&#x27;);
+    setFlexJustify(style.justifyContent ? style.justifyContent : &#x27;&#x27;);
+    setFlexAlign(style.alignItems ? style.alignItems : &#x27;&#x27;);
+    setCompWidth(style.width ? style.width : &#x27;&#x27;);
+    setCompHeight(style.height ? style.height : &#x27;&#x27;);
+    setBGColor(style.backgroundColor ? style.backgroundColor : &#x27;&#x27;);
+    setEventAll([&#x27;&#x27;, &#x27;&#x27;]);
+  };
+  let configTarget;
+  // after component renders, reset the input fields with the current styles of the selected child
+  useEffect(() =&gt; {
+    resetFields();
+  }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
+  // handles all input field changes, with specific updates called based on input&#x27;s name
+  const handleChange = (e: React.ChangeEvent&lt;{ value: any }&gt;) =&gt; {
+    const inputVal = e.target.value;
+    switch (e.target.name) {
+      case &#x27;display&#x27;:
+        setDisplayMode(inputVal);
+        break;
+      case &#x27;flexdir&#x27;:
+        setFlexDir(inputVal);
+        break;
+      case &#x27;flexjust&#x27;:
+        setFlexJustify(inputVal);
+        break;
+      case &#x27;flexalign&#x27;:
+        setFlexAlign(inputVal);
+        break;
+      case &#x27;width&#x27;:
+        setCompWidth(inputVal);
+        break;
+      case &#x27;height&#x27;:
+        setCompHeight(inputVal);
+        break;
+      case &#x27;bgcolor&#x27;:
+        setBGColor(inputVal);
+        break;
+      case &#x27;compText&#x27;:
+        setCompText(inputVal);
+        break;
+      case &#x27;compLink&#x27;:
+        setCompLink(inputVal);
+        break;
+      case &#x27;cssClasses&#x27;:
+        setCssClasses(inputVal);
+        break;
+      case &#x27;event&#x27;:
+        setEventAll(
+          inputVal ? [inputVal, `handle${inputVal.slice(2)}`] : [&#x27;&#x27;, &#x27;&#x27;]
+        );
+        break;
+      case &#x27;funcName&#x27;:
+        setEventAll([eventAll[0], inputVal]);
+        break;
+      default:
+        break;
+    }
+  };
+  // returns the current component referenced in canvasFocus
+  // along with its child instance, if it exists
+  function getFocus() {
+    // find and store component&#x27;s name based on canvasFocus.componentId
+    // note: deep clone here to make sure we don&#x27;t end up altering state
+    const focusTarget = JSON.parse(
+      JSON.stringify(
+        state.components.find(
+          (comp) =&gt; comp.id === state.canvasFocus.componentId
+        )
+      )
+    );
+    delete focusTarget.child;
+    // checks if canvasFocus references a childId
+    const childInstanceId = state.canvasFocus.childId;
+    let focusChild;
+    // if so, breadth-first search through focusTarget&#x27;s descendants to find matching child
+    if (childInstanceId) {
+      focusTarget.child = {};
+      focusTarget.child.id = childInstanceId;
+      focusChild = {}; // child instance being referenced in canvasFocus
+      const searchArray = [...focusTarget.children];
+      while (searchArray.length &gt; 0) {
+        const currentChild = searchArray.shift();
+        // if a match is found, set focusChild to the matched child and break out of the loop
+        if (currentChild.childId === childInstanceId) {
+          focusChild = currentChild;
+          focusTarget.child.style = focusChild.style;
+          focusTarget.child.events = focusChild.events;
+          focusTarget.child.attributes = focusChild.attributes;
+          break;
+        }
+        if (currentChild.name !== &#x27;input&#x27; &amp;&amp; currentChild.name !== &#x27;img&#x27;)
+          currentChild.children.forEach((child) =&gt; searchArray.push(child));
+      }
+
+      // if type is Component, use child&#x27;s typeId to search through state components and find matching component&#x27;s name
+      if (focusChild.type === &#x27;Component&#x27;) {
+        focusTarget.child.type = &#x27;component&#x27;;
+        focusTarget.child.name = state.components.find(
+          (comp) =&gt; comp.id === focusChild.typeId
+        ).name;
+        // if type is HTML Element, search through HTML types to find matching element&#x27;s name
+      } else if (focusChild.type === &#x27;HTML Element&#x27;) {
+        focusTarget.child.type = &#x27;HTML element&#x27;;
+        focusTarget.child.name = state.HTMLTypes.find(
+          (elem) =&gt; elem.id === focusChild.typeId
+        ).name;
+      }
+    }
+    return focusTarget;
+  }
+  // since determining the details of the focused component/child is an expensive operation, only perform this operation if the child/component have changed
+  configTarget = useMemo(
+    () =&gt; getFocus(),
+    [state.canvasFocus.childId, state.canvasFocus.componentId]
+  );
+  const isPage = (configTarget): boolean =&gt; {
+    const { components, rootComponents } = state;
+    return components
+      .filter((component) =&gt; rootComponents.includes(component.id))
+      .some((el) =&gt; el.id === configTarget.id);
+  };
+  const isIndex = (): boolean =&gt; configTarget.id === 1;
+  const isLinkedTo = (): boolean =&gt; {
+    const { id } = configTarget;
+    const pageName = state.components[id - 1].name;
+    let isLinked = false;
+    const searchNestedChildren = (comps) =&gt; {
+      if (comps.length === 0) return;
+      comps.forEach((comp, i) =&gt; {
+        if (comp.type === &#x27;Route Link&#x27; &amp;&amp; comp.name === pageName) {
+          isLinked = true;
+        }
+        if (comp.children.length &gt; 0) searchNestedChildren(comp.children);
+      });
+    };
+    searchNestedChildren(state.components);
+    return isLinked;
+  };
+
+  const updateAttributeWithState = (
+    attributeName,
+    componentProviderId,
+    statePropsId,
+    statePropsRow,
+    stateKey = &#x27;&#x27;
+  ) =&gt; {
+    const newInput = statePropsRow.value;
+    // get the stateProps of the componentProvider
+    const currentComponent =
+      state.components[state.canvasFocus.componentId - 1];
+    let newContextObj = { ...currentComponent.useContext };
+    if (!newContextObj) {
+      newContextObj = {};
+    }
+    if (!newContextObj[componentProviderId]) {
+      newContextObj[componentProviderId] = { statesFromProvider: new Set() };
+    }
+    newContextObj[componentProviderId].statesFromProvider.add(statePropsId);
+    if (attributeName === &#x27;compText&#x27;) {
+      newContextObj[componentProviderId].compText = statePropsId;
+      setStateUsedObj({
+        ...stateUsedObj,
+        compText: stateKey,
+        compTextProviderId: componentProviderId,
+        compTextPropsId: statePropsId
+      });
+      setCompText(newInput);
+      setUseContextObj(newContextObj);
+    }
+
+    if (attributeName === &#x27;compLink&#x27;) {
+      newContextObj[componentProviderId].compLink = statePropsId;
+      setStateUsedObj({
+        ...stateUsedObj,
+        compLink: stateKey,
+        compLinkProviderId: componentProviderId,
+        compLinkPropsId: statePropsId
+      });
+      setCompLink(newInput);
+      setUseContextObj(newContextObj);
+    }
+  };
+
+  const eventColumnTabs = [
+    {
+      field: &#x27;id&#x27;,
+      headerName: &#x27;Event&#x27;,
+      width: &#x27;40%&#x27;,
+      editable: false,
+      flex: 1,
+      disableColumnMenu: true
+    },
+    {
+      field: &#x27;funcName&#x27;,
+      headerName: &#x27;Function Name&#x27;,
+      width: &#x27;50%&#x27;,
+      editable: false,
+      flex: 1,
+      disableColumnMenu: true
+    },
+    {
+      field: &#x27;delete&#x27;,
+      headerName: &#x27;Delete&#x27;,
+      width: &#x27;10%&#x27;,
+      editable: false,
+      flex: 1,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: function renderCell(params: any) {
+        return (
+          &lt;Button
+            style={{ width: `${3}px`, color: &#x27;black&#x27; }}
+            onClick={() =&gt; {
+              deleteEvent(params.id);
+            }}
+          &gt;
+            &lt;ClearIcon style={{ width: `${15}px` }} /&gt;
+          &lt;/Button&gt;
+        );
+      }
+    }
+  ];
+
+  const deleteEvent = (selectedEvent) =&gt; {
+    dispatch(
+      deleteEventAction({ event: selectedEvent, contextParam: contextParam })
+    );
+  };
+
+  const handleSave = (tailwind): Object =&gt; {
+    if (tailwind !== true) {
+      dispatch(changeTailwind(false));
+    }
+    dispatch(
+      updateStateUsed({
+        stateUsedObj: stateUsedObj,
+        contextParam: contextParam
+      })
+    );
+
+    dispatch(
+      updateUseContext({
+        useContextObj: useContextObj,
+        contextParam: contextParam
+      })
+    );
+
+    const styleObj: any = {};
+    if (displayMode !== &#x27;&#x27;) styleObj.display = displayMode;
+    if (flexDir !== &#x27;&#x27;) styleObj.flexDirection = flexDir;
+    if (flexJustify !== &#x27;&#x27;) styleObj.justifyContent = flexJustify;
+    if (flexAlign !== &#x27;&#x27;) styleObj.alignItems = flexAlign;
+    if (compWidth !== &#x27;&#x27;) styleObj.width = compWidth;
+    if (compHeight !== &#x27;&#x27;) styleObj.height = compHeight;
+    if (BGColor !== &#x27;&#x27;) styleObj.backgroundColor = BGColor;
+    dispatch(updateCss({ style: styleObj, contextParam: contextParam }));
+
+    const attributesObj: any = {};
+    if (compText !== &#x27;&#x27;) attributesObj.compText = compText;
+    if (compLink !== &#x27;&#x27;) attributesObj.compLink = compLink;
+    if (cssClasses !== &#x27;&#x27;) attributesObj.cssClasses = cssClasses;
+
+    dispatch(
+      updateAttributes({
+        attributes: attributesObj,
+        contextParam: contextParam
+      })
+    );
+
+    const eventsObj: any = {};
+    if (eventAll[0] !== &#x27;&#x27;) eventsObj[eventAll[0]] = eventAll[1];
+    dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }));
+
+    return styleObj;
+  };
+  const handleTailwind = (): Object =&gt; {
+    dispatch(changeTailwind(true));
+
+    handleSave(true);
+  };
+
+  // UNDO/REDO functionality--onClick these functions will be invoked.
+  const handleUndo = () =&gt; {
+    dispatch(undo({ contextParam }));
+    console.log(contextParam);
+  };
+  const handleRedo = () =&gt; {
+    dispatch(redo({ contextParam }));
+  };
+  // placeholder for handling deleting instance
+  const handleDelete = () =&gt; {
+    dispatch(deleteChild({ id: {}, contextParam: contextParam }));
+  };
+  const handlePageDelete = (id) =&gt; () =&gt; {
+    // TODO: return modal
+    if (isLinkedTo()) return setDeleteLinkedPageError(true);
+    isIndex() ? handleDialogError(&#x27;index&#x27;) : dispatch(deletePage({ id }));
+  };
+  const handleDialogError = (err) =&gt; {
+    if (err === &#x27;index&#x27;) setDeleteIndexError(true);
+    else setDeleteComponentError(true);
+  };
+  const handleCloseDialogError = () =&gt; {
+    setDeleteIndexError(false);
+    setDeleteComponentError(false);
+    setDeleteLinkedPageError(false);
+  };
+  // closes out the open modal
+  const closeModal = (): void =&gt; setModal(&#x27;&#x27;);
+  // creates modal that asks if user wants to clear all components
+  // if user clears their components, then their components are removed from state and the modal is closed
+  const clearComps = (): void =&gt; {
+    // Reset state for project to initial state
+    const handleDeleteReusableComponent = (): void =&gt; {
+      closeModal();
+      dispatch(deleteReusableComponent({ contextParam: contextParam }));
+    };
+    // set modal options
+    const children = (
+      &lt;List className=&quot;export-preference&quot;&gt;
+        &lt;ListItem
+          key={&#x27;delete&#x27;}
+          button
+          onClick={handleDeleteReusableComponent}
+          style={{
+            border: &#x27;1px solid #3f51b5&#x27;,
+            marginBottom: &#x27;2%&#x27;,
+            marginTop: &#x27;5%&#x27;
+          }}
+        &gt;
+          &lt;ListItemText primary={&#x27;Yes&#x27;} style={{ textAlign: &#x27;center&#x27; }} /&gt;
+        &lt;/ListItem&gt;
+        &lt;ListItem
+          key={&#x27;not delete&#x27;}
+          button
+          onClick={closeModal}
+          style={{
+            border: &#x27;1px solid #3f51b5&#x27;,
+            marginBottom: &#x27;2%&#x27;,
+            marginTop: &#x27;5%&#x27;
+          }}
+        &gt;
+          &lt;ListItemText primary={&#x27;No&#x27;} style={{ textAlign: &#x27;center&#x27; }} /&gt;
+        &lt;/ListItem&gt;
+      &lt;/List&gt;
+    );
+
+    // create modal
+    setModal(
+      createModal({
+        closeModal,
+        children,
+        message:
+          &#x27;Deleting this component will delete all instances of this component within the application. Do you still wish to proceed?&#x27;,
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
+      })
+    );
+  };
+  const keyBindedFunc = useCallback((e) =&gt; {
+    // the || is for either Mac or Windows OS
+    // Undo
+    console.log(&#x27;keydown&#x27;);
+    (e.key === &#x27;z&#x27; &amp;&amp; e.metaKey &amp;&amp; !e.shiftKey) ||
+    (e.key === &#x27;z&#x27; &amp;&amp; e.ctrlKey &amp;&amp; !e.shiftKey)
+      ? handleUndo()
+      : // Redo
+      (e.shiftKey &amp;&amp; e.metaKey &amp;&amp; e.key === &#x27;z&#x27;) ||
+        (e.shiftKey &amp;&amp; e.ctrlKey &amp;&amp; e.key === &#x27;z&#x27;)
+      ? handleRedo()
+      : // Delete HTML tag off canvas
+      e.key === &#x27;Backspace&#x27; &amp;&amp;
+        e.target.tagName !== &#x27;TEXTAREA&#x27; &amp;&amp;
+        e.target.tagName !== &#x27;INPUT&#x27;
+      ? handleDelete()
+      : // Save
+      (e.key === &#x27;s&#x27; &amp;&amp; e.ctrlKey &amp;&amp; e.shiftKey) ||
+        (e.key === &#x27;s&#x27; &amp;&amp; e.metaKey &amp;&amp; e.shiftKey)
+      ? handleSave()
+      : &#x27;&#x27;;
+  }, []);
+
+  useEffect(() =&gt; {
+    document.addEventListener(&#x27;keydown&#x27;, keyBindedFunc);
+    return () =&gt; {
+      document.removeEventListener(&#x27;keydown&#x27;, keyBindedFunc);
+    };
+  }, []);
+
+  if (state.canvasFocus.childId === null) {
+    return (
+      &lt;div className=&quot;column right&quot; id=&quot;rightContainer&quot; style={style.style}&gt;
+        &lt;ProjectManager /&gt;
+        &lt;div className=&quot;rightPanelWrapper&quot;&gt;
+          &lt;div&gt;
+            &lt;div className={classes.rootConfigHeader}&gt;
+              &lt;h4
+                className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+              &gt;
+                Parent Component:
+                &lt;br /&gt;
+                &lt;br /&gt;
+                &lt;span className={classes.rootCompName}&gt;
+                  {configTarget.name}
+                &lt;/span&gt;
+                &lt;p style={{ fontSize: &#x27;16px&#x27; }}&gt;
+                  Drag and drop an html element (or focus one) to see what
+                  happens!
+                &lt;/p&gt;
+              &lt;/h4&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;ProjectManager /&gt;
+      &lt;/div&gt;
+    );
+  }
+  return (
+    &lt;div
+      className=&quot;column right&quot;
+      id=&quot;rightContainer&quot;
+      style={style.style}
+      data-testid=&quot;customization&quot;
+    &gt;
+      &lt;ProjectManager /&gt;
+      {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
+      &lt;div className=&quot;rightPanelWrapper&quot;&gt;
+        &lt;div&gt;
+          &lt;div className={classes.configHeader}&gt;
+            &lt;h4 
+            className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+                &gt;
+              Instance of
+              {configTarget.child.type === &#x27;component&#x27;
+                ? &#x27; component&#x27;
+                : &#x27; element&#x27;}{&#x27; &#x27;}
+              &lt;br /&gt;
+              &lt;br /&gt;
+              &lt;span
+                className={
+                  isThemeLight
+                    ? `${classes.compName} ${classes.lightThemeFontColor}`
+                    : `${classes.compName} ${classes.darkThemeFontColor}`
+                }
+              &gt;
+                {configTarget.child.name}
+              &lt;/span&gt;
+            &lt;/h4&gt;
+          &lt;/div&gt;
+          &lt;section className={&#x27;customization-section&#x27;}&gt;
+            &lt;div&gt;
+              &lt;FormSelector
+                classes={classes}
+                isThemeLight={isThemeLight}
+                selectValue={displayMode}
+                handleChange={handleChange}
+                title=&quot;Display:&quot;
+                name=&quot;display&quot;
+                items={[
+                  { value: &#x27;&#x27;, text: &#x27;default&#x27; },
+                  { value: &#x27;none&#x27;, text: &#x27;none&#x27; },
+                  { value: &#x27;block&#x27;, text: &#x27;block&#x27; },
+                  { value: &#x27;inline-block&#x27;, text: &#x27;inline-block&#x27; },
+                  { value: &#x27;flex&#x27;, text: &#x27;flex&#x27; }
+                ]}
+              /&gt;
+              {displayMode === &#x27;flex&#x27; &amp;&amp; (
+                &lt;div&gt;
+                  &lt;FormSelector
+                    classes={classes}
+                    isThemeLight={isThemeLight}
+                    selectValue={flexDir}
+                    handleChange={handleChange}
+                    title=&quot;Flex direction:&quot;
+                    name=&quot;flexdir&quot;
+                    items={[
+                      { value: &#x27;&#x27;, text: &#x27;default&#x27; },
+                      { value: &#x27;row&#x27;, text: &#x27;row&#x27; },
+                      { value: &#x27;column&#x27;, text: &#x27;column&#x27; }
+                    ]}
+                  /&gt;
+                  &lt;FormSelector
+                    classes={classes}
+                    isThemeLight={isThemeLight}
+                    selectValue={flexJustify}
+                    handleChange={handleChange}
+                    title=&quot;Justify content:&quot;
+                    name=&quot;flexjust&quot;
+                    items={[
+                      { value: &#x27;&#x27;, text: &#x27;default&#x27; },
+                      { value: &#x27;flex-start&#x27;, text: &#x27;flex-start&#x27; },
+                      { value: &#x27;flex-end&#x27;, text: &#x27;flex-end&#x27; },
+                      { value: &#x27;center&#x27;, text: &#x27;center&#x27; },
+                      { value: &#x27;space-between&#x27;, text: &#x27;space-between&#x27; },
+                      { value: &#x27;space-around&#x27;, text: &#x27;space-around&#x27; },
+                      { value: &#x27;space-evenly&#x27;, text: &#x27;space-evenly&#x27; }
+                    ]}
+                  /&gt;
+                  &lt;FormSelector
+                    classes={classes}
+                    isThemeLight={isThemeLight}
+                    selectValue={flexAlign}
+                    handleChange={handleChange}
+                    title=&quot;Align items:&quot;
+                    name=&quot;flexalign&quot;
+                    items={[
+                      { value: &#x27;&#x27;, text: &#x27;default&#x27; },
+                      { value: &#x27;stretch&#x27;, text: &#x27;stretch&#x27; },
+                      { value: &#x27;flex-start&#x27;, text: &#x27;flex-start&#x27; },
+                      { value: &#x27;flex-end&#x27;, text: &#x27;flex-end&#x27; },
+                      { value: &#x27;center&#x27;, text: &#x27;center&#x27; }
+                    ]}
+                  /&gt;
+                &lt;/div&gt;
+              )}
+              &lt;FormSelector
+                classes={classes}
+                isThemeLight={isThemeLight}
+                selectValue={compWidth}
+                handleChange={handleChange}
+                title=&quot;Width:&quot;
+                name=&quot;width&quot;
+                items={[
+                  { value: &#x27;&#x27;, text: &#x27;default&#x27; },
+                  { value: &#x27;auto&#x27;, text: &#x27;auto&#x27; },
+                  { value: &#x27;100%&#x27;, text: &#x27;100%&#x27; },
+                  { value: &#x27;50%&#x27;, text: &#x27;50%&#x27; },
+                  { value: &#x27;25%&#x27;, text: &#x27;25%&#x27; }
+                ]}
+              /&gt;
+              &lt;FormSelector
+                classes={classes}
+                isThemeLight={isThemeLight}
+                selectValue={compHeight}
+                handleChange={handleChange}
+                title=&quot;Height:&quot;
+                name=&quot;height&quot;
+                items={[
+                  { value: &#x27;&#x27;, text: &#x27;default&#x27; },
+                  { value: &#x27;auto&#x27;, text: &#x27;auto&#x27; },
+                  { value: &#x27;100%&#x27;, text: &#x27;100%&#x27; },
+                  { value: &#x27;50%&#x27;, text: &#x27;50%&#x27; },
+                  { value: &#x27;25%&#x27;, text: &#x27;25%&#x27; }
+                ]}
+              /&gt;
+              &lt;div className={classes.configRow}&gt;
+                &lt;div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                &gt;
+                  &lt;h3&gt;Background color:&lt;/h3&gt;
+                &lt;/div&gt;
+                &lt;div className={classes.configValue}&gt;
+                  &lt;FormControl variant=&quot;filled&quot; className={classes.formControl}&gt;
+                    &lt;TextField
+                      variant=&quot;filled&quot;
+                      name=&quot;bgcolor&quot;
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={BGColor}
+                      onChange={handleChange}
+                      placeholder=&quot;#B6B8B7&quot;
+                    /&gt;
+                  &lt;/FormControl&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;div className={classes.configRow}&gt;
+                &lt;div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                &gt;
+                  &lt;h3&gt;Text:&lt;/h3&gt;
+                &lt;/div&gt;
+                &lt;div className={classes.configValue}&gt;
+                  &lt;FormControl variant=&quot;filled&quot; className={classes.formControl}&gt;
+                    &lt;TextField
+                      variant=&quot;filled&quot;
+                      name=&quot;compText&quot;
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={compText}
+                      onChange={handleChange}
+                      placeholder=&quot;Text&quot;
+                    /&gt;
+                  &lt;/FormControl&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;UseStateModal
+                    updateAttributeWithState={updateAttributeWithState}
+                    attributeToChange=&quot;compText&quot;
+                    childId={state.canvasFocus.childId}
+                  /&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div className={classes.configRow}&gt;
+                &lt;div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                &gt;
+                  &lt;h3&gt;Link:&lt;/h3&gt;
+                &lt;/div&gt;
+                &lt;div className={classes.configValue}&gt;
+                  &lt;FormControl variant=&quot;filled&quot; className={classes.formControl}&gt;
+                    &lt;TextField
+                      variant=&quot;filled&quot;
+                      name=&quot;compLink&quot;
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={compLink}
+                      onChange={handleChange}
+                      placeholder=&quot;Text&quot;
+                    /&gt;
+                  &lt;/FormControl&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;UseStateModal
+                    updateAttributeWithState={updateAttributeWithState}
+                    attributeToChange=&quot;compLink&quot;
+                    childId={state.canvasFocus.childId}
+                  /&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div className={classes.configRow}&gt;
+                &lt;div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                &gt;
+                  &lt;h3&gt;Css Classes:&lt;/h3&gt;
+                &lt;/div&gt;
+                &lt;div className={classes.configValue}&gt;
+                  &lt;FormControl variant=&quot;filled&quot; className={classes.formControl}&gt;
+                    &lt;TextField
+                      variant=&quot;filled&quot;
+                      name=&quot;cssClasses&quot;
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={cssClasses}
+                      onChange={handleChange}
+                      placeholder=&quot;Text&quot;
+                    /&gt;
+                  &lt;/FormControl&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;FormSelector
+                  classes={classes}
+                  isThemeLight={isThemeLight}
+                  selectValue={eventAll[0]}
+                  handleChange={handleChange}
+                  title=&quot;Event:&quot;
+                  name=&quot;event&quot;
+                  items={[
+                    { value: &#x27;&#x27;, text: &#x27;default&#x27; },
+                    { value: &#x27;onClick&#x27;, text: &#x27;onClick&#x27; },
+                    { value: &#x27;onChange&#x27;, text: &#x27;onChange&#x27; },
+                    { value: &#x27;onMouseOver&#x27;, text: &#x27;onMouseOver&#x27; },
+                    { value: &#x27;onKeyDown&#x27;, text: &#x27;onKeyDown&#x27; }
+                  ]}
+                /&gt;
+              &lt;/div&gt;
+              {eventAll[0] &amp;&amp; (
+                &lt;div className={classes.configRow}&gt;
+                  &lt;div
+                    className={
+                      isThemeLight
+                        ? `${classes.configType} ${classes.lightThemeFontColor}`
+                        : `${classes.configType} ${classes.darkThemeFontColor}`
+                    }
+                  &gt;
+                    &lt;h3&gt;Function Name:&lt;/h3&gt;
+                  &lt;/div&gt;
+                  &lt;FormControl variant=&quot;filled&quot;&gt;
+                    &lt;TextField
+                      variant=&quot;filled&quot;
+                      name=&quot;funcName&quot;
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={eventAll[1]}
+                      onChange={handleChange}
+                      placeholder=&quot;Function Name&quot;
+                    /&gt;
+                  &lt;/FormControl&gt;
+                &lt;/div&gt;
+              )}
+              {currFocus &amp;&amp; Object.keys(currFocus.events).length !== 0 &amp;&amp; (
+                &lt;div className={&#x27;event-table&#x27;}&gt;
+                  &lt;DataGrid
+                    rows={eventRow}
+                    columns={eventColumnTabs}
+                    pageSize={5}
+                  /&gt;
+                &lt;/div&gt;
+              )}
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;div className={classes.buttonRow}&gt;
+                &lt;Button
+                  variant=&quot;contained&quot;
+                  color=&quot;primary&quot;
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleSave}
+                  id=&quot;saveButton&quot;
+                &gt;
+                  SAVE
+                &lt;/Button&gt;
+              &lt;/div&gt;
+              &lt;div className={classes.buttonRow}&gt;
+                &lt;Button
+                  variant=&quot;contained&quot;
+                  color=&quot;primary&quot;
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleSave}
+                  id=&quot;saveButton&quot;
+                &gt;
+                  CSS
+                &lt;/Button&gt;
+              &lt;/div&gt;
+
+              &lt;div&gt;
+                &lt;Button
+                  variant=&quot;contained&quot;
+                  color=&quot;primary&quot;
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleTailwind}
+                  id=&quot;tailwind&quot;
+                  style={{
+                    marginTop: &#x27;20px&#x27;,
+                    position: &#x27;relative&#x27;,
+                    left: &#x27;32px&#x27;
+                  }}
+                &gt;
+                  Tailwind
+                &lt;/Button&gt;
+              &lt;/div&gt;
+              {configTarget.child ? (
+                &lt;div className={classes.buttonRow}&gt;
+                  &lt;Button
+                    variant=&quot;contained&quot;
+                    color=&quot;primary&quot;
+                    className={
+                      isThemeLight
+                        ? `${classes.button} ${classes.saveButtonLight}`
+                        : `${classes.button} ${classes.saveButtonDark}`
+                    }
+                    onClick={handleDelete}
+                  &gt;
+                    DELETE INSTANCE
+                  &lt;/Button&gt;
+                &lt;/div&gt;
+              ) : isPage(configTarget) ? (
+                &lt;div className={classes.buttonRow}&gt;
+                  &lt;Button
+                    variant=&quot;outlined&quot;
+                    color=&quot;secondary&quot;
+                    className={classes.button}
+                    onClick={handlePageDelete(configTarget.id)}
+                  &gt;
+                    DELETE PAGE
+                  &lt;/Button&gt;
+                &lt;/div&gt;
+              ) : (
+                &lt;div className={classes.buttonRow}&gt;
+                  &lt;Button
+                    variant=&quot;outlined&quot;
+                    color=&quot;secondary&quot;
+                    className={classes.button}
+                    onClick={clearComps}
+                    id=&quot;deleteComp&quot;
+                  &gt;
+                    DELETE REUSABLE COMPONENT
+                  &lt;/Button&gt;
+                &lt;/div&gt;
+              )}
+              &lt;div className={classes.buttonRow}&gt;
+                &lt;Button
+                  variant=&quot;contained&quot;
+                  color=&quot;primary&quot;
+                  className={classes.button}
+                  onClick={handleUndo}
+                &gt;
+                  &lt;i className=&quot;fas fa-undo&quot;&gt;&lt;/i&gt;
+                &lt;/Button&gt;
+                &lt;Button
+                  variant=&quot;contained&quot;
+                  color=&quot;primary&quot;
+                  className={classes.button}
+                  onClick={handleRedo}
+                &gt;
+                  &lt;i className=&quot;fas fa-redo&quot;&gt;&lt;/i&gt;
+                &lt;/Button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;Dialog
+        open={deleteIndexError || deleteLinkedPageError || deleteComponentError}
+        onClose={handleCloseDialogError}
+        aria-labelledby=&quot;alert-dialog-title&quot;
+        aria-describedby=&quot;alert-dialog-description&quot;
+      &gt;
+        &lt;DialogTitle id=&quot;alert-dialog-title&quot;&gt;
+          {deleteIndexError ? ErrorMessages.deleteIndexTitle : &#x27;&#x27;}
+          {deleteComponentError ? ErrorMessages.deleteComponentTitle : &#x27;&#x27;}
+          {deleteLinkedPageError ? ErrorMessages.deleteLinkedPageTitle : &#x27;&#x27;}
+        &lt;/DialogTitle&gt;
+        &lt;DialogContent&gt;
+          &lt;DialogContentText id=&quot;alert-dialog-description&quot;&gt;
+            {deleteIndexError ? ErrorMessages.deleteIndexMessage : &#x27;&#x27;}
+            {deleteComponentError ? ErrorMessages.deleteComponentMessage : &#x27;&#x27;}
+            {deleteLinkedPageError ? ErrorMessages.deleteLinkedPageMessage : &#x27;&#x27;}
+          &lt;/DialogContentText&gt;
+        &lt;/DialogContent&gt;
+        &lt;DialogActions&gt;
+          &lt;Button onClick={handleCloseDialogError} color=&quot;primary&quot;&gt;
+            OK
+          &lt;/Button&gt;
+        &lt;/DialogActions&gt;
+      &lt;/Dialog&gt;
+      {modal}
+    &lt;/div&gt;
+  );
+};
+const useStyles = makeStyles({
+  select: {
+    fontSize: &#x27;1em&#x27;,
+    &#x27;&gt; .MuiSelect-icon&#x27;: {
+      color: &#x27;#C6C6C6&#x27;
+    }
+  },
+  selectInput: {
+    paddingTop: &#x27;15px&#x27;,
+    paddingLeft: &#x27;15px&#x27;
+  },
+  formControl: {
+    minWidth: &#x27;125px&#x27;,
+    backgroundColor: &#x27;rgba(255,255,255,0.15)&#x27;
+  },
+  configRow: {
+    display: &#x27;flex&#x27;,
+    paddingLeft: &#x27;25px&#x27;,
+    paddingRight: &#x27;25px&#x27;,
+    marginTop: &#x27;20px&#x27;
+  },
+  configType: {
+    minWidth: &#x27;185px&#x27;,
+    fontSize: &#x27;85%&#x27;
+  },
+  configValue: {
+    marginLeft: &#x27;20px&#x27;
+  },
+  buttonRow: (isThemeLight) =&gt; ({
+    textAlign: &#x27;center&#x27;,
+    marginTop: &#x27;25px&#x27;,
+    &#x27;&amp; &gt; .MuiButton-textSecondary&#x27;: {
+      color: isThemeLight ? &#x27;#808080&#x27; : &#x27;#ECECEA&#x27;, // color for delete page
+      border: isThemeLight ? &#x27;1px solid #808080&#x27; : &#x27;1px solid #ECECEA&#x27;
+    }
+  }),
+  button: {
+    fontSize: &#x27;1rem&#x27;,
+    paddingLeft: &#x27;20px&#x27;,
+    paddingRight: &#x27;20px&#x27;
+  },
+  saveButtonLight: {
+    border: &#x27;1px solid #186BB4&#x27;,
+    backgroundColor: &#x27;rgba(0, 0, 0, 0.2)&#x27;
+  },
+  saveButtonDark: {
+    border: &#x27;1px solid #3F51B5&#x27;
+  },
+  compName: {
+    fontSize: &#x27;1rem&#x27;
+  },
+  rootCompName: {
+    fontSize: &#x27;1.75rem&#x27;
+  },
+  // &#x27;Parent Component&#x27; font size
+  configHeader: {
+    height: &#x27;70px&#x27;,
+    &#x27;&amp; &gt; h4&#x27;: {
+      fontSize: &#x27;1rem&#x27;,
+      letterSpacing: &#x27;0.5px&#x27;,
+      marginBottom: &#x27;0&#x27;,
+      marginTop: &#x27;10px&#x27;
+    }
+  },
+  rootConfigHeader: {
+    height: &#x27;70px&#x27;,
+    &#x27;&amp; &gt; h4&#x27;: {
+      fontSize: &#x27;1.75rem&#x27;,
+      letterSpacing: &#x27;0.5px&#x27;,
+      marginBottom: &#x27;0&#x27;,
+      marginTop: &#x27;30px&#x27;
+    }
+  },
+  lightThemeFontColor: {
+    color: &#x27;white&#x27;
+  },
+  darkThemeFontColor: {
+    color: &#x27;#fff&#x27;
+  }
+});
+
+export default CustomizationPanel;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:30,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:28,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:9,&quot;text&quot;:&quot;modal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:8,&quot;text&quot;:&quot;currFocus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:31,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:71,&quot;character&quot;:4,&quot;text&quot;:&quot;currFocus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:71,&quot;character&quot;:15,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:71,&quot;character&quot;:27,&quot;text&quot;:&quot;compLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:18,&quot;text&quot;:&quot;currFocus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:28,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:39,&quot;text&quot;:&quot;compLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:8,&quot;text&quot;:&quot;currFocus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:53,&quot;text&quot;:&quot;currFocus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:64,&quot;text&quot;:&quot;events&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:84,&quot;character&quot;:23,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:24,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:28,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:10,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:17,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:88,&quot;character&quot;:18,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:10,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:17,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:26,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:35,&quot;text&quot;:&quot;arr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:42,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:38,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:51,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:98,&quot;character&quot;:15,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:10,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:23,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:32,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:40,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:52,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:65,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:71,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:14,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:27,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:35,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:14,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:22,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:30,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:20,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:31,&quot;text&quot;:&quot;compText&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:42,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:53,&quot;text&quot;:&quot;compText&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:20,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:31,&quot;text&quot;:&quot;compLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:42,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:53,&quot;text&quot;:&quot;compLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:22,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:33,&quot;text&quot;:&quot;cssClasses&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:46,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:57,&quot;text&quot;:&quot;cssClasses&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:10,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:18,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:31,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:8,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:21,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:27,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:109,&quot;character&quot;:8,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:109,&quot;character&quot;:21,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:110,&quot;character&quot;:19,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:110,&quot;character&quot;:25,&quot;text&quot;:&quot;display&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:110,&quot;character&quot;:35,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:110,&quot;character&quot;:41,&quot;text&quot;:&quot;display&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:15,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:21,&quot;text&quot;:&quot;flexDirection&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:37,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:43,&quot;text&quot;:&quot;flexDirection&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:19,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:25,&quot;text&quot;:&quot;justifyContent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:42,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:48,&quot;text&quot;:&quot;justifyContent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:17,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:23,&quot;text&quot;:&quot;alignItems&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:36,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:42,&quot;text&quot;:&quot;alignItems&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:17,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:23,&quot;text&quot;:&quot;width&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:31,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:37,&quot;text&quot;:&quot;width&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:18,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:24,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:33,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:39,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:15,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:21,&quot;text&quot;:&quot;backgroundColor&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:39,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:45,&quot;text&quot;:&quot;backgroundColor&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:6,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:125,&quot;character&quot;:47,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:10,&quot;text&quot;:&quot;inputVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:30,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:160,&quot;character&quot;:10,&quot;text&quot;:&quot;inputVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:160,&quot;character&quot;:41,&quot;text&quot;:&quot;inputVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:160,&quot;character&quot;:50,&quot;text&quot;:&quot;slice&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:175,&quot;character&quot;:10,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:178,&quot;character&quot;:11,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:178,&quot;character&quot;:20,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:178,&quot;character&quot;:25,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:182,&quot;character&quot;:11,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:182,&quot;character&quot;:23,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:185,&quot;character&quot;:8,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:188,&quot;character&quot;:6,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:188,&quot;character&quot;:18,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:189,&quot;character&quot;:6,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:189,&quot;character&quot;:18,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:189,&quot;character&quot;:24,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:190,&quot;character&quot;:6,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:30,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:42,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:14,&quot;text&quot;:&quot;currentChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:195,&quot;character&quot;:12,&quot;text&quot;:&quot;currentChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:195,&quot;character&quot;:25,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:196,&quot;character&quot;:10,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:196,&quot;character&quot;:23,&quot;text&quot;:&quot;currentChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:10,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:22,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:28,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:36,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:47,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:10,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:22,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:28,&quot;text&quot;:&quot;events&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:37,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:48,&quot;text&quot;:&quot;events&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:10,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:22,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:28,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:41,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:52,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:202,&quot;character&quot;:12,&quot;text&quot;:&quot;currentChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:202,&quot;character&quot;:25,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:202,&quot;character&quot;:45,&quot;text&quot;:&quot;currentChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:202,&quot;character&quot;:58,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:203,&quot;character&quot;:10,&quot;text&quot;:&quot;currentChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:203,&quot;character&quot;:23,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:203,&quot;character&quot;:32,&quot;text&quot;:&quot;forEach&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:203,&quot;character&quot;:41,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:203,&quot;character&quot;:68,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:207,&quot;character&quot;:10,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:207,&quot;character&quot;:21,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:208,&quot;character&quot;:8,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:208,&quot;character&quot;:20,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:208,&quot;character&quot;:26,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:209,&quot;character&quot;:8,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:209,&quot;character&quot;:20,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:209,&quot;character&quot;:26,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:11,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:20,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:25,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:32,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:43,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:213,&quot;character&quot;:17,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:213,&quot;character&quot;:28,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:214,&quot;character&quot;:8,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:214,&quot;character&quot;:20,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:214,&quot;character&quot;:26,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:215,&quot;character&quot;:8,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:215,&quot;character&quot;:20,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:215,&quot;character&quot;:26,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:11,&quot;text&quot;:&quot;elem&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:20,&quot;text&quot;:&quot;elem&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:25,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:32,&quot;text&quot;:&quot;focusChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:43,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:220,&quot;character&quot;:11,&quot;text&quot;:&quot;focusTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:223,&quot;character&quot;:2,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:227,&quot;character&quot;:18,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:230,&quot;character&quot;:15,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:230,&quot;character&quot;:53,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:230,&quot;character&quot;:63,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:231,&quot;character&quot;:13,&quot;text&quot;:&quot;el&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:231,&quot;character&quot;:20,&quot;text&quot;:&quot;el&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:231,&quot;character&quot;:23,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:231,&quot;character&quot;:30,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:231,&quot;character&quot;:43,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:233,&quot;character&quot;:33,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:233,&quot;character&quot;:46,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:235,&quot;character&quot;:12,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:236,&quot;character&quot;:38,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:238,&quot;character&quot;:34,&quot;text&quot;:&quot;comps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:239,&quot;character&quot;:10,&quot;text&quot;:&quot;comps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:239,&quot;character&quot;:16,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:240,&quot;character&quot;:6,&quot;text&quot;:&quot;comps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:240,&quot;character&quot;:12,&quot;text&quot;:&quot;forEach&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:240,&quot;character&quot;:21,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:240,&quot;character&quot;:27,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:241,&quot;character&quot;:12,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:241,&quot;character&quot;:17,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:241,&quot;character&quot;:42,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:241,&quot;character&quot;:47,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:244,&quot;character&quot;:12,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:244,&quot;character&quot;:17,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:244,&quot;character&quot;:26,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:244,&quot;character&quot;:59,&quot;text&quot;:&quot;comp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:244,&quot;character&quot;:64,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:252,&quot;character&quot;:4,&quot;text&quot;:&quot;attributeName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:253,&quot;character&quot;:4,&quot;text&quot;:&quot;componentProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:254,&quot;character&quot;:4,&quot;text&quot;:&quot;statePropsId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:255,&quot;character&quot;:4,&quot;text&quot;:&quot;statePropsRow&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:258,&quot;character&quot;:10,&quot;text&quot;:&quot;newInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:258,&quot;character&quot;:21,&quot;text&quot;:&quot;statePropsRow&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:258,&quot;character&quot;:35,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:262,&quot;character&quot;:8,&quot;text&quot;:&quot;newContextObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:263,&quot;character&quot;:9,&quot;text&quot;:&quot;newContextObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:264,&quot;character&quot;:6,&quot;text&quot;:&quot;newContextObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:266,&quot;character&quot;:9,&quot;text&quot;:&quot;newContextObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:266,&quot;character&quot;:23,&quot;text&quot;:&quot;componentProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:267,&quot;character&quot;:6,&quot;text&quot;:&quot;newContextObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:267,&quot;character&quot;:20,&quot;text&quot;:&quot;componentProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:269,&quot;character&quot;:4,&quot;text&quot;:&quot;newContextObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:269,&quot;character&quot;:18,&quot;text&quot;:&quot;componentProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:269,&quot;character&quot;:39,&quot;text&quot;:&quot;statesFromProvider&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:269,&quot;character&quot;:58,&quot;text&quot;:&quot;add&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:269,&quot;character&quot;:62,&quot;text&quot;:&quot;statePropsId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:270,&quot;character&quot;:8,&quot;text&quot;:&quot;attributeName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:271,&quot;character&quot;:6,&quot;text&quot;:&quot;newContextObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:271,&quot;character&quot;:20,&quot;text&quot;:&quot;componentProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:271,&quot;character&quot;:41,&quot;text&quot;:&quot;compText&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:271,&quot;character&quot;:52,&quot;text&quot;:&quot;statePropsId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:275,&quot;character&quot;:8,&quot;text&quot;:&quot;compTextProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:275,&quot;character&quot;:28,&quot;text&quot;:&quot;componentProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:276,&quot;character&quot;:8,&quot;text&quot;:&quot;compTextPropsId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:276,&quot;character&quot;:25,&quot;text&quot;:&quot;statePropsId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:282,&quot;character&quot;:8,&quot;text&quot;:&quot;attributeName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:283,&quot;character&quot;:6,&quot;text&quot;:&quot;newContextObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:283,&quot;character&quot;:20,&quot;text&quot;:&quot;componentProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:283,&quot;character&quot;:41,&quot;text&quot;:&quot;compLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:283,&quot;character&quot;:52,&quot;text&quot;:&quot;statePropsId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:287,&quot;character&quot;:8,&quot;text&quot;:&quot;compLinkProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:287,&quot;character&quot;:28,&quot;text&quot;:&quot;componentProviderId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:288,&quot;character&quot;:8,&quot;text&quot;:&quot;compLinkPropsId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:288,&quot;character&quot;:25,&quot;text&quot;:&quot;statePropsId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:320,&quot;character&quot;:38,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:325,&quot;character&quot;:26,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:325,&quot;character&quot;:33,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:335,&quot;character&quot;:23,&quot;text&quot;:&quot;selectedEvent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:337,&quot;character&quot;:26,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:337,&quot;character&quot;:33,&quot;text&quot;:&quot;selectedEvent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:341,&quot;character&quot;:22,&quot;text&quot;:&quot;tailwind&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:342,&quot;character&quot;:8,&quot;text&quot;:&quot;tailwind&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:359,&quot;character&quot;:10,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:360,&quot;character&quot;:28,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:360,&quot;character&quot;:37,&quot;text&quot;:&quot;display&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:361,&quot;character&quot;:24,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:361,&quot;character&quot;:33,&quot;text&quot;:&quot;flexDirection&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:362,&quot;character&quot;:28,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:362,&quot;character&quot;:37,&quot;text&quot;:&quot;justifyContent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:363,&quot;character&quot;:26,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:363,&quot;character&quot;:35,&quot;text&quot;:&quot;alignItems&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:364,&quot;character&quot;:26,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:364,&quot;character&quot;:35,&quot;text&quot;:&quot;width&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:365,&quot;character&quot;:27,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:365,&quot;character&quot;:36,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:366,&quot;character&quot;:24,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:366,&quot;character&quot;:33,&quot;text&quot;:&quot;backgroundColor&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:367,&quot;character&quot;:25,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:367,&quot;character&quot;:32,&quot;text&quot;:&quot;styleObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:369,&quot;character&quot;:10,&quot;text&quot;:&quot;attributesObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:370,&quot;character&quot;:25,&quot;text&quot;:&quot;attributesObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:370,&quot;character&quot;:39,&quot;text&quot;:&quot;compText&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:371,&quot;character&quot;:25,&quot;text&quot;:&quot;attributesObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:371,&quot;character&quot;:39,&quot;text&quot;:&quot;compLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:372,&quot;character&quot;:27,&quot;text&quot;:&quot;attributesObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:372,&quot;character&quot;:41,&quot;text&quot;:&quot;cssClasses&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:376,&quot;character&quot;:8,&quot;text&quot;:&quot;attributes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:376,&quot;character&quot;:20,&quot;text&quot;:&quot;attributesObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:381,&quot;character&quot;:10,&quot;text&quot;:&quot;eventsObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:382,&quot;character&quot;:28,&quot;text&quot;:&quot;eventsObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:383,&quot;character&quot;:28,&quot;text&quot;:&quot;events&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:383,&quot;character&quot;:36,&quot;text&quot;:&quot;eventsObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:405,&quot;character&quot;:28,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:408,&quot;character&quot;:67,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:410,&quot;character&quot;:29,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:411,&quot;character&quot;:8,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:474,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:478,&quot;character&quot;:5,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:478,&quot;character&quot;:7,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:478,&quot;character&quot;:22,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:478,&quot;character&quot;:24,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:478,&quot;character&quot;:36,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:478,&quot;character&quot;:38,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:479,&quot;character&quot;:5,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:479,&quot;character&quot;:7,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:479,&quot;character&quot;:22,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:479,&quot;character&quot;:24,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:479,&quot;character&quot;:36,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:479,&quot;character&quot;:38,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:482,&quot;character&quot;:7,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:482,&quot;character&quot;:9,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:482,&quot;character&quot;:21,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:482,&quot;character&quot;:23,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:482,&quot;character&quot;:34,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:482,&quot;character&quot;:36,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:483,&quot;character&quot;:9,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:483,&quot;character&quot;:11,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:483,&quot;character&quot;:23,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:483,&quot;character&quot;:25,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:483,&quot;character&quot;:36,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:483,&quot;character&quot;:38,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:486,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:486,&quot;character&quot;:8,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:487,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:487,&quot;character&quot;:10,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:487,&quot;character&quot;:17,&quot;text&quot;:&quot;tagName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:488,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:488,&quot;character&quot;:10,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:488,&quot;character&quot;:17,&quot;text&quot;:&quot;tagName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:491,&quot;character&quot;:7,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:491,&quot;character&quot;:9,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:491,&quot;character&quot;:24,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:491,&quot;character&quot;:26,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:491,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:491,&quot;character&quot;:39,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:492,&quot;character&quot;:9,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:492,&quot;character&quot;:11,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:492,&quot;character&quot;:26,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:492,&quot;character&quot;:28,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:492,&quot;character&quot;:39,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:492,&quot;character&quot;:41,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:513,&quot;character&quot;:18,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:522,&quot;character&quot;:19,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:522,&quot;character&quot;:32,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:550,&quot;character&quot;:18,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:556,&quot;character&quot;:15,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:556,&quot;character&quot;:28,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:556,&quot;character&quot;:34,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:563,&quot;character&quot;:18,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:568,&quot;character&quot;:17,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:568,&quot;character&quot;:30,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:568,&quot;character&quot;:36,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:576,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:576,&quot;character&quot;:30,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:593,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:593,&quot;character&quot;:34,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:606,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:606,&quot;character&quot;:34,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:623,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:623,&quot;character&quot;:34,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:640,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:640,&quot;character&quot;:30,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:655,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:655,&quot;character&quot;:30,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:671,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:685,&quot;character&quot;:35,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:701,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:715,&quot;character&quot;:35,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:736,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:750,&quot;character&quot;:35,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:771,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:785,&quot;character&quot;:35,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:799,&quot;character&quot;:18,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:799,&quot;character&quot;:32,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:817,&quot;character&quot;:22,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:829,&quot;character&quot;:35,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:840,&quot;character&quot;:15,&quot;text&quot;:&quot;currFocus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:840,&quot;character&quot;:40,&quot;text&quot;:&quot;currFocus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:840,&quot;character&quot;:50,&quot;text&quot;:&quot;events&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:856,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:871,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:887,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:902,&quot;character&quot;:15,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:902,&quot;character&quot;:28,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:908,&quot;character&quot;:22,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:917,&quot;character&quot;:25,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:923,&quot;character&quot;:46,&quot;text&quot;:&quot;configTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/CustomizationPanel.tsx&quot;,&quot;line&quot;:923,&quot;character&quot;:59,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

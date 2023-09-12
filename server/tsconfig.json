@@ -1,0 +1,20 @@
+{
+  // This is an alias to @tsconfig/node16: https://github.com/tsconfig/bases
+  "extends": "ts-node/node16/tsconfig.json",
+
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": false,
+    "allowSyntheticDefaultImports": true,
+    "strictFunctionTypes": false,
+    "esModuleInterop": true,
+    "noEmitOnError": false
+  },
+  // Most ts-node options can be specified here using their programmatic names.
+  "ts-node": {
+    // It is faster to skip typechecking.
+    // Remove if you want ts-node to do typechecking.
+    "transpileOnly": true
+  }
+}

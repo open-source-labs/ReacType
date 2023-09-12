@@ -1,32 +1,20 @@
+appId: com.electron.reactype
+copyright: Copyright © 2023
+productName: ReacType
 directories:
-  output: dist
-  buildResources: build
-appId: reactype
-copyright: Copyright © 2018
+  buildResources: resources
+win:
+  target:
+    - nsis
+    - msi
 linux:
   target:
-    - AppImage
     - deb
-  maintainer: spincycle01@yahoo.com
+    - rpm
+    - snap
+    - AppImage
+  maintainer: reactype.io@gmail.com
 mac:
   category: public.app-category.developer-tools
   target: dmg
-nsis:
-  createStartMenuShortcut: true
-  createDesktopShortcut: true
-  runAfterFinish: true
-win:
-  target: nsis-web
-files:
-  - main.js
-  - build
-productName: ReacType
-dmg:
-  contents:
-    - x: 110
-      'y': 150
-    - x: 240
-      'y': 150
-      type: link
-      path: /Applications
-electronVersion: 2.0.7
+  icon: resources/icon.icns
