@@ -78,7 +78,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
     const response = await axios.get(`/cloneProject/${docId}`, {
       params: { username: window.localStorage.getItem('username') }
     }); //passing in username as a query param is query params
-    const project = response.data.project;
+    const project = response.data;
     setAlertOpen(true);
     setAnchorEl(null);
     return {
