@@ -1,13 +1,17 @@
+
 <!-- <p align="center">
   <img width="100" src="https://i.imgur.com/Yn70tqI.png">
+
   <h1 align="center">ReacType </h1>
 </p> -->
 
 # ReacType
 
+
 <!-- <p align="center">
   <img width="1000" src="https://i.imgur.com/enAcYvB.png">
 </p> -->
+
 
 <div align="left">
 
@@ -17,10 +21,12 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Version: 17.0.0](https://img.shields.io/badge/version-17.0.0-orange)
 
+
 </div>
 <!-- <p align="center">
   <img width="1000" src="https://i.imgur.com/FPizsat.png">
 </p> -->
+
 
 <p align="center">
   <img width="1000" src="https://i.imgur.com/FIX8skV.png">
@@ -131,7 +137,9 @@ npm install
 npm run build
 ```
 
+
 - Start an instance
+
 
 ```bash
 npm run start
