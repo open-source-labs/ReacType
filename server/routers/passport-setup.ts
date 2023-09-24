@@ -36,9 +36,11 @@ passport.use(
             console.log('user is: ', currentUser);
             return done(null, currentUser);
           } else {
+            const initials = profile.displayName.match(/\b\w/g).join('');
+            const nums = profile.id.slice(0, 5);
             user
               .create({
-                username: profile.displayName + '(Github)',
+                username: initials + nums + '(Github)',
                 githubId: profile.id
               })
               .then((data) => {
@@ -73,9 +75,11 @@ passport.use(
             console.log('user is: ', currentUser);
             return done(null, currentUser);
           } else {
+            const initials = profile.displayName.match(/\b\w/g).join('');
+            const nums = profile.id.slice(0, 5);
             user
               .create({
-                username: profile.displayName + '(Google)',
+                username: initials + nums + '(Google)',
                 googleId: profile.id
               })
               .then((data) => {

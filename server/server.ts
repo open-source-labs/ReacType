@@ -172,6 +172,19 @@ app.post(
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
 );
 
+//confirming whether user is logged in for index.tsx rendering
+app.get(
+  '/loggedIn',
+  sessionController.isLoggedIn,
+  (req, res) => res.status(200).json(res.locals.loggedIn)
+)
+
+app.get('/logout', (req,res) => {
+
+  req.logout();
+  res.redirect('/login');
+})
+
 // user must be logged in to get or save projects, otherwise they will be redirected to login page
 app.post(
   '/saveProject',
@@ -180,12 +193,6 @@ app.post(
   (req, res) => res.status(200).json(res.locals.savedProject)
 );
 
-//confirming whether user is logged in for index.tsx rendering
-app.get(
-  '/loggedIn',
-  sessionController.isLoggedIn,
-  (req, res) => res.status(200).json(res.locals.loggedIn)
-)
 
 app.post(
   '/getProjects',

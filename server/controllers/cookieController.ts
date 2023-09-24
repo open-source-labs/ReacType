@@ -12,6 +12,12 @@ const cookieController: CookieController = {
       //maxAge: 60 * 60 * 1000 * 24  //uncomment to set expiration of cookies, but make sure there is something in place to expire local storage info too
 
     });
+
+    res.cookie('username', res.locals.username, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     return next();
   }, 
 

@@ -26,7 +26,8 @@ const sessionController: SessionController = {
         if (!session) {
           console.log('no session')
           res.locals.loggedIn = false;
-          return res.redirect('/');
+          return next();
+          // return res.redirect('/');
         }
         res.locals.loggedIn = true;
         return next();

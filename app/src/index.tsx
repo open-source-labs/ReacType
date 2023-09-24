@@ -63,7 +63,7 @@ return (
   <Route
     {...rest}
     render={(props) => {
-     if (isLoggedIn) {
+     if (isLoggedIn === true) {
         console.log("should be app")
         // User is logged in, render the protected component
         return <Component {...props} />;
