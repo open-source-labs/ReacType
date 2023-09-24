@@ -180,6 +180,13 @@ app.post(
   (req, res) => res.status(200).json(res.locals.savedProject)
 );
 
+//confirming whether user is logged in for index.tsx rendering
+app.get(
+  '/loggedIn',
+  sessionController.isLoggedIn,
+  (req, res) => res.status(200).json(res.locals.loggedIn)
+)
+
 app.post(
   '/getProjects',
   sessionController.isLoggedIn,
@@ -277,7 +284,7 @@ app.use((err, req, res, next) => {
   };
 
   const errorObj = Object.assign({}, defaultErr, err);
-  return res.status(errorObj.status).json(errorObj.message);
+  return res.status(errorObj.status).json(errorObj);
 });
 
 // starts server on PORT

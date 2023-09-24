@@ -2,11 +2,14 @@ import express from 'express';
 const passport = require('passport');
 import config from '../../config';
 import { Request } from 'express';
+import sessionController from '../controllers/sessionController';
 
 // trying to add interface
 interface UserReq extends Request {
   user: {
     id: string;
+    username: string;
+    googleId: string;
   };
 }
 
@@ -41,9 +44,19 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google'),
+  sessionController.startSession,
   (req: UserReq, res) => {
     console.log('google authenicate function being run');
-    res.cookie('ssid', req.user.id);
+    res.cookie('ssid', req.user.id, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
+    res.cookie('username', req.user.username, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     return res.redirect(API_BASE_URL);
   }
 );

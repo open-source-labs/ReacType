@@ -10,19 +10,17 @@ if (isDev) {
 }
 
 export const getProjects = (): Promise<any> => {
-  let userId = window.localStorage.getItem('ssid');
-  const body = JSON.stringify({ userId });
   const projects = fetch(`${serverURL}/getProjects`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
     },
     // need credentials for userid pull from cookie
-    credentials: 'include',
-    body
+    credentials: 'include'
   })
     .then((res) => res.json())
     .then((data) => {
+      console.log('........................ data', data)
       return data;
     })
     .catch((err) => console.log(`Error getting project ${err}`));
@@ -39,8 +37,6 @@ export const saveProject = (
   const body = JSON.stringify({
     name,
     project: { ...newProject},
-    userId: window.localStorage.getItem('ssid'),
-    username: window.localStorage.getItem('username'),
     comments: []
   });
   const project = fetch(`${serverURL}/saveProject`, {
@@ -69,8 +65,6 @@ export const publishProject = (
     _id: workspace._id, 
     name: name,
     project: { ...newProject},
-    userId: window.localStorage.getItem('ssid'),
-    username: window.localStorage.getItem('username'),
     comments: [],
   });
 
@@ -101,7 +95,6 @@ export const unpublishProject = (
 ): Promise<Object> => {
   const body = JSON.stringify({
     _id: projectData._id,
-    userId: window.localStorage.getItem('ssid'),
   });
 
   const response = fetch(`${serverURL}/unpublishProject`, {
@@ -129,7 +122,7 @@ export const unpublishProject = (
 export const deleteProject = (project: any): Promise<Object> => {
   const body = JSON.stringify({
     _id: project._id,
-    userId: window.localStorage.getItem('ssid')
+    // userId: window.localStorage.getItem('ssid')
   });
   const deletedProject = fetch(`${serverURL}/deleteProject`, {
     method: 'DELETE',

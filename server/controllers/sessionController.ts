@@ -24,8 +24,11 @@ const sessionController: SessionController = {
         // find session from request session ID in mongodb
         const session = await Sessions.findOne({ cookieId });
         if (!session) {
+          console.log('no session')
+          res.locals.loggedIn = false;
           return res.redirect('/');
         }
+        res.locals.loggedIn = true;
         return next();
       } catch (err) {
         return next({
@@ -40,7 +43,7 @@ const sessionController: SessionController = {
   // startSession - create and save a new session into the database
   startSession: (req, res, next) => {
     // first check if user is logged in already
-    Sessions.findOne({ cookieId: res.locals.id }, (err, ses) => {
+    Sessions.findOne({ cookieId: res.locals.id || req.user.id }, (err, ses) => {
       if (err) {
         return next({
           log: `Error in sessionController.startSession find session: ${err}`,
@@ -53,11 +56,12 @@ const sessionController: SessionController = {
       }
       if (!ses) {
         Sessions.create(
-          { cookieId: res.locals.id },
+          //checking if logged in via the login form (res.locals.id) or oauth(req.user.id)
+          { cookieId: res.locals.id || req.user.id },
           (error, session: SessionCookie) => {
             if (error) {
               return next({
-                log: `Error in sessionController.startSession create session: ${err}`,
+                log: `Error in sessionController.startSession create session: ${error}`,
                 message: {
                   err: 'Error in sessionController.startSession create session, check server logs for details'
                 }

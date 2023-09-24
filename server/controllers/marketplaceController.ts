@@ -37,10 +37,12 @@ const marketplaceController: MarketplaceController = {
    * @return sends the updated entire project document to the frontend
    */
   publishProject: async (req, res, next) => {
-    const { _id, project, comments, userId, username, name } = req.body;
+    const { _id, project, comments, name } = req.body;
+    const username = req.cookies.username;
+    const userId = req.cookies.ssid;
     const createdAt = Date.now();
 
-    if (userId === req.cookies.ssid) {
+    try{
       if (mongoose.isValidObjectId(_id)) {
         const noPub = {...project}
         delete noPub.published;
@@ -67,7 +69,7 @@ const marketplaceController: MarketplaceController = {
         return next();
       }
     }
-    else {
+    catch {
 
       // we should not expect a user to be able to access another user's id, but included error handling for unexpected errors
       return next({
@@ -85,12 +87,12 @@ const marketplaceController: MarketplaceController = {
    * @return sends the updated project to the frontend
    */
   unpublishProject: (req, res, next) => {
-    // pull project name and userId from req.body
-    const { _id, userId } = req.body;
+    const { _id } = req.body;
+    const userId = req.cookies.ssid;
     //check if req.cookies.ssid matches userId
     
-    if (userId === req.cookies.ssid ) {
-      Projects.findOneAndUpdate({ _id }, {published: false}, { new: true }, (err, result) => {
+    try {
+      Projects.findOneAndUpdate({ _id, userId }, {published: false}, { new: true }, (err, result) => {
         if (err || result === null) {
           return next({
             log: `Error in marketplaceController.unpublishProject: ${err || null}`,
@@ -103,7 +105,7 @@ const marketplaceController: MarketplaceController = {
         return next();
       });
     }
-    else {
+    catch {
       // we should not expect a user to be able to access another user's id, but included error handling for unexpected errors
       return next({
         log: `Error in marketplaceController.unpublishProject`,
