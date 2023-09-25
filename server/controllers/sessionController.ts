@@ -80,107 +80,124 @@ const sessionController: SessionController = {
     });
   },
 
-  gitHubResponse: (req, res, next) => {
-    const { code } = req.query;
-    if (!code) {
-      console.log('code not found');
-      return next({
-        log: 'Undefined or no code received from github.com',
-        message: 'Undefined or no code received from github.com',
-        status: 400
-      });
-    }
-    fetch(
-      `https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_ID}&client_secret=${process.env.GITHUB_SECRET}&code=${code}`,
-      {
-        method: 'POST',
-        headers: {
-          accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          client_id: process.env.GITHUB_ID,
-          client_secret: process.env.GITHUB_SECRET,
-          code: code
-        })
-      }
-    )
-      .then((res) => res.json())
-      .then((token) => {
-        res.locals.token = token['access_token'];
-        return next();
-      })
-      .catch((err) => {
-        res.status(500).json({ message: `${err.message} in gitHubResponse` });
-      });
-  },
-
-  gitHubSendToken: (req, res, next) => {
-    const { token } = res.locals;
-    fetch(`https://api.github.com/user/public_emails`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-        Authorization: `token ${token}`
-      }
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        res.locals.githubEmail = data[0]['email'];
-        res.locals.signUpType = 'oauth';
-        console.log(
-          'github email:',
-          res.locals.githubEmail,
-          'signup type:',
-          res.locals.signUpType
-        );
-        return next();
-      })
-      .catch((err) => {
-        if (err.message === `Cannot read property 'email' of undefined`) {
-          return res
-            .status(400)
-            .json({ message: `${err.message} in gitHubSendToken` });
-        } else {
-          return res
-            .status(500)
-            .json({ message: `${err.message} in gitHubSendToken` });
-        }
-      });
-  },
-
-  // creates a session when logging in with github
-  githubSession: (req, res, next) => {
-    // req.user is passed in from passport js -> serializeuser/deserializeuser
-    const cookieId = req.user.id;
-    Sessions.findOne({ cookieId }, (err, session: SessionCookie) => {
+  endSession: (req, res, next) => {
+    //finding then deleting the session
+    Sessions.findOneAndDelete({ cookieId: req.cookies.ssid }, null, (err, deleted) => {
       if (err) {
         return next({
-          log: `Error in sessionController.githubSession find session: ${err}`,
+          log: `Error in sessionController.endSession: ${err}`,
           message: {
-            err: `Error in sessionController.githubSession find session, check server logs for details`
+            err: 'Error in sessionController.endSession, check server logs for details'
           }
         });
-      } else if (!session) {
-        Sessions.create({ cookieId }, (err, session: SessionCookie) => {
-          if (err) {
-            return next({
-              log: `Error in sessionController.githubSession create session: ${err}`,
-              message: {
-                err: `Error in sessionController.githubSession create session, check server logs for details`
-              }
-            });
-          } else {
-            res.locals.id = session.cookieId;
-            return next();
-          }
-        });
-      } else {
-        res.locals.id = session.cookieId;
-        return next();
       }
+      res.locals.deleted = deleted;
+      return next();
     });
-  }
+  },
+
+  //don't think this code is used DW17
+  // gitHubResponse: (req, res, next) => {
+  //   const { code } = req.query;
+  //   if (!code) {
+  //     console.log('code not found');
+  //     return next({
+  //       log: 'Undefined or no code received from github.com',
+  //       message: 'Undefined or no code received from github.com',
+  //       status: 400
+  //     });
+  //   }
+  //   fetch(
+  //     `https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_ID}&client_secret=${process.env.GITHUB_SECRET}&code=${code}`,
+  //     {
+  //       method: 'POST',
+  //       headers: {
+  //         accept: 'application/json',
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         client_id: process.env.GITHUB_ID,
+  //         client_secret: process.env.GITHUB_SECRET,
+  //         code: code
+  //       })
+  //     }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((token) => {
+  //       res.locals.token = token['access_token'];
+  //       return next();
+  //     })
+  //     .catch((err) => {
+  //       res.status(500).json({ message: `${err.message} in gitHubResponse` });
+  //     });
+  // },
+
+  // gitHubSendToken: (req, res, next) => {
+  //   const { token } = res.locals;
+  //   fetch(`https://api.github.com/user/public_emails`, {
+  //     method: 'GET',
+  //     headers: {
+  //       Accept: 'application/vnd.github.v3+json',
+  //       Authorization: `token ${token}`
+  //     }
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       res.locals.githubEmail = data[0]['email'];
+  //       res.locals.signUpType = 'oauth';
+  //       console.log(
+  //         'github email:',
+  //         res.locals.githubEmail,
+  //         'signup type:',
+  //         res.locals.signUpType
+  //       );
+  //       return next();
+  //     })
+  //     .catch((err) => {
+  //       if (err.message === `Cannot read property 'email' of undefined`) {
+  //         return res
+  //           .status(400)
+  //           .json({ message: `${err.message} in gitHubSendToken` });
+  //       } else {
+  //         return res
+  //           .status(500)
+  //           .json({ message: `${err.message} in gitHubSendToken` });
+  //       }
+  //     });
+  // },
+
+  // // creates a session when logging in with github
+  // githubSession: (req, res, next) => {
+  //   // req.user is passed in from passport js -> serializeuser/deserializeuser
+  //   const cookieId = req.user.id;
+  //   Sessions.findOne({ cookieId }, (err, session: SessionCookie) => {
+  //     if (err) {
+  //       return next({
+  //         log: `Error in sessionController.githubSession find session: ${err}`,
+  //         message: {
+  //           err: `Error in sessionController.githubSession find session, check server logs for details`
+  //         }
+  //       });
+  //     } else if (!session) {
+  //       Sessions.create({ cookieId }, (err, session: SessionCookie) => {
+  //         if (err) {
+  //           return next({
+  //             log: `Error in sessionController.githubSession create session: ${err}`,
+  //             message: {
+  //               err: `Error in sessionController.githubSession create session, check server logs for details`
+  //             }
+  //           });
+  //         } else {
+  //           res.locals.id = session.cookieId;
+  //           return next();
+  //         }
+  //       });
+  //     } else {
+  //       res.locals.id = session.cookieId;
+  //       return next();
+  //     }
+  //   });
+  // }
 };
 
 export default sessionController;

@@ -179,11 +179,11 @@ app.get(
   (req, res) => res.status(200).json(res.locals.loggedIn)
 )
 
-app.get('/logout', (req,res) => {
-
-  req.logout();
-  res.redirect('/login');
-})
+app.get('/logout', 
+cookieController.deleteCookies,
+sessionController.endSession,
+(req,res) => res.status(200).json(res.locals.deleted)
+)
 
 // user must be logged in to get or save projects, otherwise they will be redirected to login page
 app.post(

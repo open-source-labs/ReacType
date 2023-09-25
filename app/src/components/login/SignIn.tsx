@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     backgroundColor: '#3EC1AC'
@@ -211,8 +211,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={!isDarkMode ? SigninLight : SigninDark}>
-        <Container component="main" maxWidth="xs">
+      <ThemeProvider theme={SigninDark}>
+        <Container component="main" maxWidth="xs" >
           <CssBaseline />
           <div className={classes.paper}>
             {/* <Button
@@ -227,7 +227,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
               onClick={handleDarkModeToggle}
             >
               {isDarkMode ? `Light Mode` : `Dark Mode`}
-            </Button> */}
+            </Button>  */}
             <Avatar className={classes.avatar} sx={{ marginTop: '10vh' }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -372,19 +372,20 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
                 />
               </svg>
             </Button>
-            <Grid container>
+            <Grid container justifyContent="flex-end">
+              {/* forgot password currently not implemented
               <Grid item xs>
                 <RouteLink
-                  style={{ color: isDarkMode ? '#aaaaaa' : 'black' }}
+                  style={{ color: '#aaaaaa' }}
                   to={`/signup`}
                   className="nav_link"
                 >
                   Forgot password?
                 </RouteLink>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <RouteLink
-                  style={{ color: isDarkMode ? '#aaaaaa' : 'black' }}
+                  style={{ color: '#aaaaaa' }}
                   to={`/signup`}
                   className="nav_link"
                 >

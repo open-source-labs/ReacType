@@ -21,6 +21,14 @@ const cookieController: CookieController = {
     return next();
   }, 
 
+  deleteCookies: (req, res, next) => {
+
+    res.clearCookie('ssid');
+    res.clearCookie('username');
+    res.clearCookie('connect.sid');
+    return next();
+  }
+
 
 };
 

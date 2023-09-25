@@ -52,7 +52,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log('........................ data', data);
+
       setIsLoggedIn(data);
 
     })
@@ -63,13 +63,12 @@ return (
   <Route
     {...rest}
     render={(props) => {
-     if (isLoggedIn === true) {
-        console.log("should be app")
+     if (isLoggedIn === true || window.localStorage.getItem('ssid') === 'guest') {
         // User is logged in, render the protected component
         return <Component {...props} />;
       } else if(isLoggedIn !== null) {
-        console.log("redirect login")
         // User is not logged in, redirect to the login page
+        // Ignores the initial render which would have isLoggedIn as null
         return <Redirect to="/login" />;
       }
     }}

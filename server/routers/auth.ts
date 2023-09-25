@@ -58,7 +58,6 @@ router.get(
   passport.authenticate('google'),
   sessionController.startSession,
   (req: UserReq, res) => {
-    
     console.log('google authenicate function being run');
     res.cookie('ssid', req.user.id, {
       httpOnly: true,

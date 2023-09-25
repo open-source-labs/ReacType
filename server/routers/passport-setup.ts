@@ -26,7 +26,6 @@ passport.use(
       proxy: true
     },
     function (accessToken, refreshToken, profile, done) {
-      console.log(profile);
       user
         .findOne({
           githubId: profile.id
@@ -65,7 +64,6 @@ passport.use(
       proxy: true
     },
     function (accessToken, refreshToken, profile, done) {
-      console.log(profile);
       user
         .findOne({
           googleId: profile.id
