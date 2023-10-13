@@ -20,7 +20,6 @@ export const getProjects = (): Promise<any> => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log('........................ data', data)
       return data;
     })
     .catch((err) => console.log(`Error getting project ${err}`));
