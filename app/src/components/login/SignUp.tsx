@@ -206,11 +206,11 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={!isDarkMode ? SigninLight : SigninDark}>
+      <ThemeProvider theme={SigninDark}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
-            <Button
+            {/* <Button
               color="primary"
               style={{
                 minWidth: '113.97px',
@@ -221,7 +221,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
               onClick={handleDarkModeToggle}
             >
               {`Dark Mode: ${isDarkMode}`}
-            </Button>
+            </Button> */}
             <Avatar className={classes.avatar} sx={{ marginTop: '10vh' }}>
               <AssignmentIcon />
             </Avatar>
@@ -332,7 +332,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <RouteLink
-                    style={{ color: isDarkMode ? '#aaaaaa' : 'black' }}
+                    style={{ color: '#aaaaaa' }}
                     to={`/login`}
                     className="nav_link"
                   >

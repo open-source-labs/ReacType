@@ -10,7 +10,9 @@ const projectController: ProjectController = {
   saveProject: (req, res, next) => {
     
     // pull project name and project itself from body
-    const { name, project, userId, username, comments } = req.body;
+    const { name, project, comments } = req.body;
+    const username = req.cookies.username;
+    const userId = req.cookies.ssid;
     //deleted published from project
     const noPub = {...project};
     delete noPub.published;
@@ -43,7 +45,7 @@ const projectController: ProjectController = {
 
   // gets all of current user's projects
   getProjects: (req, res, next) => {
-    const { userId } = req.body;
+    const userId = req.cookies.ssid
     Projects.find({ userId }, (err, projects: Array<{_id: string; published: boolean; project: object }>) => {
       if (err) {
         return next({
@@ -68,7 +70,8 @@ const projectController: ProjectController = {
   // delete project from database
   deleteProject: async (req, res, next) => {
     // pull project name and userId from req.body
-    const { _id, userId } = req.body;
+    const { _id } = req.body;
+    const userId = req.cookies.ssid;
     // try {
     //   const response = await Projects.findOneAndDelete({ _id: _id, username: userId });
     //   res.locals.deleted = response;

@@ -3,6 +3,7 @@ import { Document, NativeError } from 'mongoose';
 
 export interface CookieController {
   setSSIDCookie: RequestHandler;
+  deleteCookies: RequestHandler;
 }
 
 export interface ProjectController {
@@ -31,9 +32,10 @@ export interface SessionCookie extends Document {
 export interface SessionController {
   isLoggedIn: (req: RequestId, res: Response, next: NextFunction) => void;
   startSession: (req: RequestId, res: Response, next: NextFunction) => void;
-  gitHubResponse: (req: RequestId, res: Response, next: NextFunction) => void;
-  gitHubSendToken: (req: RequestId, res: Response, next: NextFunction) => void;
-  githubSession: (req: RequestId, res: Response, next: NextFunction) => void;
+  endSession: (req: RequestId, res: Response, next: NextFunction) => void;
+  // gitHubResponse: (req: RequestId, res: Response, next: NextFunction) => void;
+  // gitHubSendToken: (req: RequestId, res: Response, next: NextFunction) => void;
+  // githubSession: (req: RequestId, res: Response, next: NextFunction) => void;
 }
 
 export interface newUserError extends NativeError {

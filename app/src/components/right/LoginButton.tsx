@@ -5,13 +5,35 @@ import config from '../../../../config.js';
 import { RootState } from '../../redux/store';
 import Cookies from 'js-cookie';
 // note that API_BASE_URL is assigned to different pages on dev mode vs prod mode
-const { API_BASE_URL, API_BASE_URL2 } = config;
+const { DEV_PORT, API_BASE_URL, API_BASE_URL2 } = config;
+const isDev = process.env.NODE_ENV === 'development';
+let serverURL = API_BASE_URL;
+
+//check if we're in dev mode
+if (isDev) {
+  serverURL = `http://localhost:${DEV_PORT}`;
+}
+
 
 export default function LoginButton() {
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    const projects = fetch(`${serverURL}/logout`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      },
+      // need credentials for userid pull from cookie
+      credentials: 'include'
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => console.log(`Error getting project ${err}`));
+  
   
     window.localStorage.clear();
 
@@ -25,8 +47,10 @@ export default function LoginButton() {
   };
 
   const handleLogin = () => {
+    window.localStorage.clear();
     window.location.href = `${API_BASE_URL2}/#/login`;
   };
+
   if (state.isLoggedIn) {
     return (
       <button onClick={handleLogout}>

@@ -51,6 +51,9 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
   const [s3ImgURL, setS3ImgURL] = React.useState<null | string>(null);
   const open = Boolean(anchorEl);
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
+  const [guest, setGuest] = React.useState<boolean>(null);
+  const state = useSelector((store: RootState) => store.appState);
+
 
   useEffect(() => {
     async function s3ImgFetch() {
@@ -69,30 +72,34 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
   }, []);
 
 
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClone = async () => {
-    // creates a copy of the project
-    const docId = proj._id;
-    const response = await axios.get(`/cloneProject/${docId}`, {
-      params: { username: window.localStorage.getItem('username') }
-    }); //passing in username as a query param is query params
-    const project = response.data.project;
-    setAlertOpen(true);
-    setAnchorEl(null);
-    return {
-      _id: project._id,
-      name: project.name,
-      published: project.published,
-      ...project.project
-    };
+    if(state.isLoggedIn){
+      // creates a copy of the project
+      const docId = proj._id;
+      const response = await axios.get(`/cloneProject/${docId}`); //passing in username as a query param is query params
+      const project = response.data;
+      setAlertOpen(true);
+      setAnchorEl(null);
+      return {
+        _id: project._id,
+        name: project.name,
+        published: project.published,
+        ...project.project
+      };
+    }
+    setGuest(true);
   };
 
   const handleCloneOpen = async () => {
-    const project = await handleClone();
-    history.push('/');
-    dispatch(openProject(project));
+    if(state.isLoggedIn){
+      const project = await handleClone();
+      history.push('/');
+      dispatch(openProject(project));
+    }
   };
 
   const handleClose = () => {
@@ -195,6 +202,20 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
             sx={{ width: '100%', color: 'white' }}
           >
             Project Cloned!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={guest}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="error"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            Please login to clone!
           </Alert>
         </Snackbar>
       </Card>

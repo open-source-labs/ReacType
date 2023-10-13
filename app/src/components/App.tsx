@@ -31,38 +31,38 @@ export const App = (): JSX.Element => {
   }, []);
 
   // following useEffect runs on first mount
-  useEffect(() => {
-    // console.log('cookies.get in App', Cookies.get())
-    // if user is a guest, see if a project exists in localforage and retrieve it
-    // v17 May not currently work yet
-    if (!state.isLoggedIn) {
-      localforage.getItem('guestProject').then((project) => {
-        // if project exists, use dispatch to set initial state to that project
-        if (project) {
-          dispatch(setInitialState(project));
-        }
-      });
-    } else {
-      // otherwise if a user is logged in, use a fetch request to load user's projects from DB
+  // useEffect(() => {
+  //   // console.log('cookies.get in App', Cookies.get())
+  //   // if user is a guest, see if a project exists in localforage and retrieve it
+  //   // v17 May not currently work yet
+  //   if (!state.isLoggedIn) {
+  //     localforage.getItem('guestProject').then((project) => {
+  //       // if project exists, use dispatch to set initial state to that project
+  //       if (project) {
+  //         dispatch(setInitialState(project));
+  //       }
+  //     });
+  //   } else {
+  //     // otherwise if a user is logged in, use a fetch request to load user's projects from DB
       
-      let userId;
-      if (Cookies.get('ssid')) {
-        userId = Cookies.get('ssid');
-      } else {
-        userId = window.localStorage.getItem('ssid');
-      }
-      //also load user's last project, which was saved in localforage on logout
-      localforage.getItem(userId).then((project) => {
-        if (project) {
-          dispatch(setInitialState(project));
-        } else {
-          console.log(
-            'No user project found in localforage, setting initial state blank'
-          );
-        }
-      });
-    }
-  }, []);
+  //     let userId;
+  //     if (Cookies.get('ssid')) {
+  //       userId = Cookies.get('ssid');
+  //     } else {
+  //       userId = window.localStorage.getItem('ssid');
+  //     }
+  //     //also load user's last project, which was saved in localforage on logout
+  //     localforage.getItem(userId).then((project) => {
+  //       if (project) {
+  //         dispatch(setInitialState(project));
+  //       } else {
+  //         console.log(
+  //           'No user project found in localforage, setting initial state blank'
+  //         );
+  //       }
+  //     });
+  //   }
+  // }, []);
   // useEffect(() => {
   //   // provide config properties to legacy projects so new edits can be auto saved
   //   // if (state.config === undefined) {
