@@ -4,6 +4,8 @@
 
 Ahsan Rao [LinkedIn](https://www.linkedin.com/in/ahsan-rao/) [Github](https://github.com/ahsan-rao)
 
+[Ahnaf Khan](https://www.linkedin.com/in/ahnaf-khan-844a70193) [Github](https://github.com/AhnafKhvn)
+
 [Alex Yu](https://www.linkedin.com/in/alexjihunyu/) [@buddhajjigae](https://github.com/buddhajjigae)
 
 [Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
@@ -62,6 +64,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Garrett Huston](https://www.linkedin.com/in/garrett-hutson/) [Github](https://github.com/GarrettHutson)
 
+[Hernan Damazo](https://www.linkedin.com/in/raul-hernan-damazo-chang-9440ab191/) [Github](https://github.com/raulclassico7)
+
 [Huy Pham](https://www.linkedin.com/in/huypham048) [@huypham048](https://github.com/huypham048)
 
 [Ian Davis](https://www.linkedin.com/in/icdavis/) [Github](https://github.com/iancdavis)
@@ -81,6 +85,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 [Kevin Park](https://www.linkedin.com/in/xkevinpark/) [@xkevinpark](https://github.com/xkevinpark)
 
 [Khuong Nguyen](https://www.linkedin.com/in/khuong-nguyen/) [@khuongdn16](https://github.com/khuongdn16)
+
+[Liam Roh](https://www.linkedin.com/in/liam-roh/) [Github](https://github.com/liamroh)
 
 [Lillian Wimberly](https://www.linkedin.com/in/lillianwimberly/) [@lillwimberly](https://github.com/lillwimberly)
 
@@ -135,6 +141,8 @@ Thomas Lukasiewicz [LinkedIn](https://www.linkedin.com/in/thomas-lukasiewicz-276
 [Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
 
 [Ulrich Neujahr](https://www.linkedin.com/in/nobrackets/) [@nobrackets](https://github.com/nobrackets)
+
+[Victor Martins](https://www.linkedin.com/in/victor-martins-542611186/) [Github](https://github.com/martins5225)
 
 [William Cheng](https://www.linkedin.com/in/william-cheng-0723/) [@williamcheng12345](https://github.com/WilliamCheng12345)
 

@@ -16,6 +16,7 @@ Changes:<br>
     - Additional logic added for edge cases in inputs for state manager (passing in non-Arrays/non-Objects as Array type and Object type).
     - Fixed issue with the bottom panel not dragging or sticking to the mouse when the mouse is over the demorender iframe
     - Cleaned up hundreds of lines of outdated code and archived multiple unused and duplicate files
+  - OAuth now linked to standalone gmail and github accounts
 - User Features:
   - UI updated with a modern style for a better developer experience
     - Added many user feedback alerts for better experience including alerts for when projects are published, cloned, deleted, HTML custom tags are created, context created, or custom component created.

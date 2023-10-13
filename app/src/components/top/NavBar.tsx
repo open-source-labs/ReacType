@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -23,6 +23,9 @@ const NavBar = () => {
   const [projectName, setProjectName] = useState(state.name || '');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
   const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState('');
+  const urlAdd = useHistory();
+  const isMarketplace = urlAdd.location.pathname === '/marketplace';
+
   const isDarkMode = useSelector(
     (state: RootState) => state.darkMode.isDarkMode
   );
@@ -156,7 +159,7 @@ const NavBar = () => {
         </div>
       </Link>
       <div style={buttonContainerStyle}>
-        {state.published ? (
+        {isMarketplace ? null : (state.published ? (
           <button style={buttonStyle} onClick={handleUnpublish}>
             Unpublish
           </button>
@@ -164,7 +167,7 @@ const NavBar = () => {
           <button style={buttonStyle} onClick={handlePublish}>
             Publish
           </button>
-        )}
+        ))}
         <NewExportButton />
         <Button
           style={moreVertButtonStyle}

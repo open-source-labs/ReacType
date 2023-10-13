@@ -10,10 +10,10 @@ import {
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import App from './components/App';
-import Cookies from 'js-cookie';
 import FBPassWord from './components/login/FBPassWord';
 import MarketplaceContainer from './containers/MarketplaceContainer';
 import ProjectDashboard from './Dashboard/ProjectContainer';
+import { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -28,18 +28,52 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const isDev = process.env.NODE_ENV === 'development';
+const { DEV_PORT, API_BASE_URL } = require('../../config.js');
+let serverURL = API_BASE_URL;
+
+//check if we're in dev mode
+if (isDev) {
+  serverURL = `http://localhost:${DEV_PORT}`;
+}
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  
+  useEffect(() => {
+
+  const projects = fetch(`${serverURL}/loggedIn`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json'
+    },
+    // need credentials for userid pull from cookie
+    credentials: 'include'
+  })
+    .then((res) => res.json())
+    .then((data) => {
+
+      setIsLoggedIn(data);
+
+    })
+    .catch((err) => console.log(`Error getting project ${err}`));
+  }, []);
+
+return (
   <Route
     {...rest}
     render={(props) => {
-      return Cookies.get('ssid') || window.localStorage.getItem('ssid') ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      );
+     if (isLoggedIn === true || window.localStorage.getItem('ssid') === 'guest') {
+        // User is logged in, render the protected component
+        return <Component {...props} />;
+      } else if(isLoggedIn !== null) {
+        // User is not logged in, redirect to the login page
+        // Ignores the initial render which would have isLoggedIn as null
+        return <Redirect to="/login" />;
+      }
     }}
   />
-);
+  )};
 
 
 ReactDOM.render(
