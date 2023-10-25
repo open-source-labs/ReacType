@@ -525,3 +525,6 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 /amplify/team-provider-info.json
+
+#TypeScript coverage report
+coverage-ts/
