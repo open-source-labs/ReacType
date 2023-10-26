@@ -15,10 +15,12 @@ const ContextDropDown = ({
 }) => {
   const { allContext } = contextStore;
 
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
-  const color = isDarkMode ? 'white' : 'black';
+  // const isDarkMode = useSelector(
+  //   (store: RootState) => store.darkMode.isDarkMode
+  // );
+  //const color = isDarkMode ? 'white' : 'black';
+  const color = 'white';
+
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setContextInput({
@@ -38,7 +40,6 @@ const ContextDropDown = ({
   };
 
   const filterOptions = (options, params) => {
-    // setBtnDisabled(true);
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
@@ -48,8 +49,6 @@ const ContextDropDown = ({
         inputValue,
         name: `Add "${inputValue}"`
       });
-
-      // setBtnDisabled(false);
     }
 
     return filtered;

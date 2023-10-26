@@ -10,7 +10,7 @@ const AddDataForm = ({ handleClickInputData, currentContext }) => {
   //const [contextInput, setContextInput] = React.useState(null);
   const defaultInputData = { inputKey: '', inputValue: '' };
   const [dataContext, setDataContext] = React.useState(defaultInputData);
-  const { isDarkMode } = useSelector((store: RootState) => store.darkMode);
+  // const { isDarkMode } = useSelector((store: RootState) => store.darkMode);
   const saveData = () => {
     setDataContext(defaultInputData);
     if (dataContext.inputKey === '' || dataContext.inputValue === '') {
@@ -19,7 +19,8 @@ const AddDataForm = ({ handleClickInputData, currentContext }) => {
     }
     handleClickInputData(currentContext, dataContext);
   };
-  const color = isDarkMode ? 'black' : 'white';
+  // const color = isDarkMode ? 'black' : 'white';
+  const color = 'white';
 
   const handleChange = (e) => {
     setDataContext((prevDataContext) => {

@@ -25,11 +25,15 @@ const AddContextForm = ({
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { state, isDarkMode } = useSelector((store: RootState) => ({
-    isDarkMode: store.darkMode.isDarkMode,
+  const {
+    state
+    // isDarkMode
+  } = useSelector((store: RootState) => ({
+    //isDarkMode: store.darkMode.isDarkMode,
     state: store.appState
   }));
-  const color = isDarkMode ? 'black' : 'white';
+  //const color = isDarkMode ? 'black' : 'white';
+  const color = 'white';
 
   //handler for submitting new context for creation
   const handleSubmit = () => {
@@ -67,7 +71,7 @@ const AddContextForm = ({
   const contexts = allContext.length ? (
     allContext.map((context, index) => {
       return (
-        <MenuItem style={{ color: '#383838'}} value={context.name} key={index}>
+        <MenuItem style={{ color: '#383838' }} value={context.name} key={index}>
           {context.name}
         </MenuItem>
       );
@@ -99,7 +103,7 @@ const AddContextForm = ({
         />
         <Snackbar
           open={open && !errorStatus}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           autoHideDuration={3000}
           onClose={handleClose}
         >
@@ -129,7 +133,7 @@ const AddContextForm = ({
           <Select
             required
             sx={{ width: 425 }}
-            style={{ border: '1px solid #0099e6', color: color}}
+            style={{ border: '1px solid #0099e6', color: color }}
             value={currentContext}
             label="Select Context"
             MenuProps={{ disablePortal: true }}

@@ -20,9 +20,9 @@ Hook state:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
+  // const isDarkMode = useSelector(
+  //   (store: RootState) => store.darkMode.isDarkMode
+  // );
   const dispatch = useDispatch();
   const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
@@ -36,11 +36,10 @@ const DragDropPanel = (props): JSX.Element => {
     (type) => type.name !== 'separator'
   );
   return (
-    <div className={`${!isDarkMode ? 'HTMLItems' : 'HTMLItemsDark'}`}>
+    <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
-        <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>
-          HTML Elements
-        </h3>
+        {/* { color: !isDarkMode ? '#C6C6C6' : '#fff' } */}
+        <h3 style={{ color: '#C6C6C6' }}>HTML Elements</h3>
         <Grid
           container
           spacing={{ xs: 0.5, md: 0.5 }}
@@ -68,9 +67,8 @@ const DragDropPanel = (props): JSX.Element => {
           })}
         </Grid>
         {state.projectType === 'Classic React' ? (
-          <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>
-            React Router
-          </h3>
+          //!isDarkMode ? '#C6C6C6' : '#fff'
+          <h3 style={{ color: '#C6C6C6' }}>React Router</h3>
         ) : null}
         <Grid
           container
@@ -101,7 +99,8 @@ const DragDropPanel = (props): JSX.Element => {
         </Grid>
 
         {state.projectType === 'Next.js' ? (
-          <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>Next.js</h3>
+          //  color: !isDarkMode ? '#C6C6C6' : '#fff'
+          <h3 style={{ color: 'C6C6C6' }}>Next.js</h3>
         ) : null}
         {htmlTypesToRender.map((option) => {
           if (

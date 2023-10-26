@@ -44,9 +44,9 @@ const HTMLItem: React.FC<{
 }> = ({ name, id, handleDelete }) => {
   const classes = useStyles();
   const [modal, setModal] = useState(null);
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
+  // const isDarkMode = useSelector(
+  //   (store: RootState) => store.darkMode.isDarkMode
+  // );
   const [{ isDragging }, drag] = useDrag({
     // is dragging is never read, but if deleted adjustment in the ref are needed line 122/128 ref={drag} to {...drag}
     item: {
@@ -126,11 +126,13 @@ const HTMLItem: React.FC<{
       {id <= 20 && (
         <div
           ref={drag}
-          style={{ borderColor: !isDarkMode ? '#C6C6C6' : '#fff' }}
+          //!isDarkMode ? '#C6C6C6' : '#fff'
+          style={{ borderColor: '#C6C6C6' }}
           className={
-            !isDarkMode
-              ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}`
-              : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
+            // !isDarkMode
+            //   ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}`
+            //   : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
+            `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
           }
           id="HTMLItem"
         >
@@ -141,11 +143,13 @@ const HTMLItem: React.FC<{
         <span id="customHTMLElement">
           <div
             ref={drag}
-            style={{ borderColor: !isDarkMode ? '#C6C6C6' : '#fff' }}
+            //!isDarkMode ? '#C6C6C6' : '#fff'
+            style={{ borderColor: '#C6C6C6' }}
             className={
-              !isDarkMode
-                ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}`
-                : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
+              // !isDarkMode
+              //   ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}`
+              //   : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
+              `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
             }
             id="HTMLItem"
           >
@@ -153,7 +157,8 @@ const HTMLItem: React.FC<{
           </div>
           <button
             id="newElement"
-            style={{ color: !isDarkMode ? '#C6C6C6' : 'white' }}
+            //!isDarkMode ? '#C6C6C6' : 'white'
+            style={{ color: '#C6C6C6' }}
             onClick={() => deleteAllInstances(id)}
           >
             X

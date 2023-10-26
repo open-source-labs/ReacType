@@ -24,8 +24,8 @@ const BottomTabs = (props): JSX.Element => {
   const { state, contextParam, style } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
-    style: store.styleSlice,
-    isDarkMode: store.darkMode.isDarkMode
+    style: store.styleSlice
+    // isDarkMode: store.darkMode.isDarkMode
   }));
   const [tab, setTab] = useState(0);
   const classes = useStyles();
@@ -49,8 +49,14 @@ const BottomTabs = (props): JSX.Element => {
   return (
     <div
       className={`${classes.root} ${classes.rootLight}`}
-      style={{ backgroundColor: '#191919' , zIndex: 1, borderTop: '2px solid grey'}}
-      onMouseOver={()=>{props.setBottomShow(true)}}
+      style={{
+        backgroundColor: '#191919',
+        zIndex: 1,
+        borderTop: '2px solid grey'
+      }}
+      onMouseOver={() => {
+        props.setBottomShow(true);
+      }}
     >
       <Box
         display="flex"
@@ -81,11 +87,6 @@ const BottomTabs = (props): JSX.Element => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="CSS Editor"
           />
-          {/* <Tab (there was no more need for this tab since we created an outside button for the codePreview)
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Code Preview"
-          /> */}
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -130,7 +131,6 @@ const BottomTabs = (props): JSX.Element => {
         {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
         {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
         {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
-        {/* {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />} */}
         {tab === 3 && <Tree data={components} />}
         {tab === 4 && <ContextManager theme={theme} setTheme={setTheme} />}
         {tab === 5 && (
@@ -170,7 +170,6 @@ const useStyles = makeStyles((theme) => ({
   tabRoot: {
     textTransform: 'initial',
     minWidth: 40,
-    // fontWeight: theme.typography.fontWeightRegular,
     margin: '0 16px',
 
     fontFamily: [
@@ -191,7 +190,6 @@ const useStyles = makeStyles((theme) => ({
     },
     '&$tabSelected': {
       color: 'white'
-      // fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
       color: 'white'

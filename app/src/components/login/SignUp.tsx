@@ -28,7 +28,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import { newUserIsCreated } from '../../helperFunctions/auth';
-import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+// import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -80,9 +80,9 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [invalidVerifyPassword, setInvalidVerifyPassword] = useState(false);
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
+  // const isDarkMode = useSelector(
+  //   (store: RootState) => store.darkMode.isDarkMode
+  // );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
@@ -200,9 +200,9 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
   };
 
   //NEW DARK MODE
-  const handleDarkModeToggle = () => {
-    dispatch(toggleDarkMode());
-  };
+  // const handleDarkModeToggle = () => {
+  //   dispatch(toggleDarkMode());
+  // };
 
   return (
     <StyledEngineProvider injectFirst>
