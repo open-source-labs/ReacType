@@ -29,16 +29,13 @@ function DirectChildHTMLNestable({
   name,
   attributes
 }: ChildElement) {
-  const {
-    state,
-    contextParam,
-    isThemeLight //isDarkMode
-  } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice,
-    isThemeLight: store.styleSlice
-    //isDarkMode: store.darkMode.isDarkMode
-  }));
+  const { state, contextParam, isThemeLight } = useSelector(
+    (store: RootState) => ({
+      state: store.appState,
+      contextParam: store.contextSlice,
+      isThemeLight: store.styleSlice
+    })
+  );
   const dispatch = useDispatch();
   const ref = useRef(null);
 

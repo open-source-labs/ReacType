@@ -20,11 +20,7 @@ const useStyles = makeStyles({
 });
 
 const ContextManager = (props): JSX.Element => {
-  const {
-    //isDarkMode,
-    style
-  } = useSelector((store: RootState) => ({
-    // isDarkMode: store.darkMode.isDarkMode,
+  const { style } = useSelector((store: RootState) => ({
     style: store.styleSlice
   }));
   const classes = useStyles();
@@ -34,8 +30,6 @@ const ContextManager = (props): JSX.Element => {
     setValue(newValue);
   };
 
-  // const background_Color = isDarkMode ? '#21262b' : 'white'
-  // const color = isDarkMode ? 'white' : 'white'
   const color = 'white';
 
   return (

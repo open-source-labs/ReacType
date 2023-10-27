@@ -12,15 +12,9 @@ const ComponentDropDown = ({
   componentInput,
   setComponentInput
 }) => {
-  const {
-    state
-    //, isDarkMode
-  } = useSelector((store: RootState) => ({
+  const { state } = useSelector((store: RootState) => ({
     state: store.appState
-    //isDarkMode: store.darkMode.isDarkMode
   }));
-  //const color = isDarkMode ? 'white' : 'black';
-  const color = 'white';
 
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {

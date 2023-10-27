@@ -29,7 +29,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
 import { sessionIsCreated } from '../../helperFunctions/auth';
-// import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 
 const { API_BASE_URL } = config;
 
@@ -76,11 +75,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  // const isDarkMode = useSelector(
-  //   (store: RootState) => store.darkMode.isDarkMode
-  // );
-
   const [invalidUserMsg, setInvalidUserMsg] = useState('');
   const [invalidPassMsg, setInvalidPassMsg] = useState('');
   const [invalidUser, setInvalidUser] = useState(false);
@@ -201,11 +195,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
   //   }
   // };
 
-  //  NEW DARK MODE
-  // const handleDarkModeToggle = () => {
-  //   dispatch(toggleDarkMode());
-  // };
-
   const classBtn =
     'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
 
@@ -215,19 +204,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
-            {/* <Button
-              color="primary"
-              style={{
-                minWidth: '113.97px',
-                top: 10,
-                right: 20,
-                position: 'absolute'
-              }}
-              endIcon={!isDarkMode ? <Brightness3Icon /> : <Brightness5Icon />}
-              onClick={handleDarkModeToggle}
-            >
-              {isDarkMode ? `Light Mode` : `Dark Mode`}
-            </Button>  */}
             <Avatar className={classes.avatar} sx={{ marginTop: '10vh' }}>
               <LockOutlinedIcon />
             </Avatar>

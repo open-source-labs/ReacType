@@ -8,9 +8,7 @@ import { useSelector } from 'react-redux';
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
-  // const isDarkMode = useSelector(
-  //   (store: RootState) => store.darkMode.isDarkMode
-  // );
+
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
@@ -21,14 +19,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
       {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
-        <h4
-          className={
-            // !isDarkMode
-            //   ? classes.lightThemeFontColor
-            //   : classes.darkThemeFontColor
-            classes.darkThemeFontColor
-          }
-        >
+        <h4 className={classes.darkThemeFontColor}>
           {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
             ? 'Pages'
             : 'Root Components'}

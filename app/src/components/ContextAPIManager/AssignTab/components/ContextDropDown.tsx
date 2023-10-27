@@ -15,12 +15,6 @@ const ContextDropDown = ({
 }) => {
   const { allContext } = contextStore;
 
-  // const isDarkMode = useSelector(
-  //   (store: RootState) => store.darkMode.isDarkMode
-  // );
-  //const color = isDarkMode ? 'white' : 'black';
-  const color = 'white';
-
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setContextInput({

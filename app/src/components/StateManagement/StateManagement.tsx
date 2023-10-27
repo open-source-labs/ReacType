@@ -21,9 +21,6 @@ const useStyles = makeStyles({
 
 const StateManager = (props): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
-  // const isDarkMode = useSelector(
-  //   (state: RootState) => state.darkMode.isDarkMode
-  // );
 
   const { components } = state;
   const classes = useStyles();
@@ -36,8 +33,6 @@ const StateManager = (props): JSX.Element => {
   // add hook here to access which component has been clicked
   // then this will re-render the dataTable
 
-  //const background_Color = isDarkMode ? '#21262b' : '#191919';
-  //const color = isDarkMode ? 'white' : 'black';
   const background_Color = '#21262b';
   const color = 'white';
 

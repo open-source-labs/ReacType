@@ -16,13 +16,9 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
 function Canvas(props): JSX.Element {
-  const {
-    state,
-    contextParam //isDarkMode
-  } = useSelector((store: RootState) => ({
+  const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
-    //isDarkMode: store.darkMode.isDarkMode
   }));
   const dispatch = useDispatch();
 
@@ -130,34 +126,22 @@ function Canvas(props): JSX.Element {
     width: '100%',
     minHeight: '100%',
     backgroundColor: isOver ? '#191919' : '#191919',
-    // border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box'
   };
 
-  // const darkCanvasStyle = {
-  //   width: '100%',
-  //   minHeight: '100%',
-  //   backgroundColor: isOver ? '#4d4d4d' : '#21262c',
-  //   border: '1px solid #FBFBF2',
-  //   borderStyle: isOver ? 'dotted' : 'solid'
-  // };
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
 
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
-  // const darkCombinedCanvasStyle = combineStyles(
-  //   darkCanvasStyle,
-  //   currentComponent.style
-  // );
+
   return (
     <div
       className={'componentContainer'}
       ref={drop}
       data-testid="drop"
-      //!isDarkMode ? canvasStyle : darkCombinedCanvasStyle
       style={canvasStyle}
       onClick={onClickHandler}
     >

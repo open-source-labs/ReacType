@@ -25,14 +25,10 @@ const AddContextForm = ({
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [open, setOpen] = useState(false);
-  const {
-    state
-    // isDarkMode
-  } = useSelector((store: RootState) => ({
-    //isDarkMode: store.darkMode.isDarkMode,
+  const { state } = useSelector((store: RootState) => ({
     state: store.appState
   }));
-  //const color = isDarkMode ? 'black' : 'white';
+
   const color = 'white';
 
   //handler for submitting new context for creation

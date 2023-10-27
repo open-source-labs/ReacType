@@ -31,9 +31,6 @@ const HTMLPanel = (props): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
-  // const isDarkMode = useSelector(
-  //   (store: RootState) => store.darkMode.isDarkMode
-  // );
   const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
   let startingID = 0;
@@ -187,24 +184,10 @@ const HTMLPanel = (props): JSX.Element => {
         <div className={classes.addComponentWrapper}>
           <div className={classes.inputWrapper}>
             <form onSubmit={handleSubmit} className="customForm">
-              <h4
-                className={
-                  // !isDarkMode
-                  //   ? classes.lightThemeFontColor
-                  //   : classes.darkThemeFontColor
-                  classes.darkThemeFontColor
-                }
-              >
-                New HTML Tag:{' '}
-              </h4>
+              <h4 className={classes.darkThemeFontColor}>New HTML Tag: </h4>
               <InputLabel
                 htmlFor="tag"
-                className={
-                  // !isDarkMode
-                  //   ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
-                  //   : `${classes.inputLabel} ${classes.darkThemeFontColor}`
-                  `${classes.inputLabel} ${classes.darkThemeFontColor}`
-                }
+                className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
               >
                 Tag:
               </InputLabel>
@@ -217,12 +200,7 @@ const HTMLPanel = (props): JSX.Element => {
                 value={tag}
                 autoComplete="off"
                 onChange={handleTagChange}
-                className={
-                  // !isDarkMode
-                  //   ? `${classes.input} ${classes.lightThemeFontColor}`
-                  //   : `${classes.input} ${classes.darkThemeFontColor}`
-                  `${classes.input} ${classes.darkThemeFontColor}`
-                }
+                className={`${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ margin: '10px' }}
                 InputProps={{
                   style: {
@@ -236,12 +214,7 @@ const HTMLPanel = (props): JSX.Element => {
                 tag.trim() === '' ||
                 checkNameDupe(tag)) && (
                 <span
-                  className={
-                    // !isDarkMode
-                    //   ? `${classes.errorMessage} ${classes.errorMessageLight}`
-                    //   : `${classes.errorMessage} ${classes.errorMessageDark}`
-                    `${classes.errorMessage} ${classes.errorMessageDark}`
-                  }
+                  className={`${classes.errorMessage} ${classes.errorMessageDark}`}
                 >
                   <em>{errorMsg}</em>
                 </span>
@@ -250,12 +223,7 @@ const HTMLPanel = (props): JSX.Element => {
               <br></br>
               <InputLabel
                 htmlFor="elementName"
-                className={
-                  // !isDarkMode
-                  //   ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
-                  //   : `${classes.inputLabel} ${classes.darkThemeFontColor}`
-                  `${classes.inputLabel} ${classes.darkThemeFontColor}`
-                }
+                className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
               >
                 Element Name:
               </InputLabel>
@@ -268,12 +236,7 @@ const HTMLPanel = (props): JSX.Element => {
                 value={name}
                 onChange={handleNameChange}
                 autoComplete="off"
-                className={
-                  // !isDarkMode
-                  //   ? `${classes.input} ${classes.lightThemeFontColor}`
-                  //   : `${classes.input} ${classes.darkThemeFontColor}`
-                  `${classes.input} ${classes.darkThemeFontColor}`
-                }
+                className={`${classes.input} ${classes.darkThemeFontColor}`}
                 style={{}}
                 InputProps={{
                   style: {
@@ -287,12 +250,7 @@ const HTMLPanel = (props): JSX.Element => {
                 name.length > 10 ||
                 checkNameDupe(name)) && (
                 <span
-                  className={
-                    // !isDarkMode
-                    //   ? `${classes.errorMessage} ${classes.errorMessageLight}`
-                    //   : `${classes.errorMessage} ${classes.errorMessageDark}`
-                    `${classes.errorMessage} ${classes.errorMessageDark}`
-                  }
+                  className={`${classes.errorMessage} ${classes.errorMessageDark}`}
                 >
                   <em>{errorMsg}</em>
                 </span>
@@ -300,12 +258,7 @@ const HTMLPanel = (props): JSX.Element => {
               <br></br>
               <Button
                 onClick={handleAlertOpen}
-                className={
-                  // !isDarkMode
-                  //   ? `${classes.addElementButton} ${classes.lightThemeFontColor}`
-                  //   : `${classes.addElementButton} ${classes.darkThemeFontColor}`
-                  `${classes.addElementButton} ${classes.darkThemeFontColor}`
-                }
+                className={`${classes.addElementButton} ${classes.darkThemeFontColor}`}
                 id="submitButton"
                 type="submit"
                 color="primary"

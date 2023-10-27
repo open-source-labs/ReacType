@@ -25,7 +25,6 @@ const BottomTabs = (props): JSX.Element => {
     state: store.appState,
     contextParam: store.contextSlice,
     style: store.styleSlice
-    // isDarkMode: store.darkMode.isDarkMode
   }));
   const [tab, setTab] = useState(0);
   const classes = useStyles();

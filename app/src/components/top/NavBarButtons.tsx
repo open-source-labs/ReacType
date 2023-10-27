@@ -29,7 +29,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { setStyle } from '../../redux/reducers/slice/styleSlice';
 import store from '../../redux/store';
-// import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 import withStyles from '@mui/styles/withStyles';
 
 const { API_BASE_URL } = config;
@@ -62,14 +61,10 @@ function initSocketConnection(roomCode) {
 
   // receiving the message from the back end
   socket.on('receive message', (event) => {
-    // console.log('message from server: ', event);
     let currentStore: any = JSON.stringify(store.getState());
     if (currentStore !== event) {
       currentStore = JSON.parse(currentStore);
       event = JSON.parse(event);
-      // if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
-      //   store.dispatch(toggleDarkMode());
-      // } else
       if (currentStore.appState !== event.appState) {
         store.dispatch(allCooperativeState(event.appState));
       } else if (
@@ -189,12 +184,7 @@ function navbarDropDown(props) {
   const [confirmRoom, setConfirmRoom] = React.useState('');
   const classes = useStyles();
 
-  const {
-    //isDarkMode,
-    state,
-    joinedRoom
-  } = useSelector((store: RootState) => ({
-    //isDarkMode: store.darkMode.isDarkMode,
+  const { state, joinedRoom } = useSelector((store: RootState) => ({
     state: store.appState,
     joinedRoom: store.roomCodeSlice.roomCode
   }));
@@ -244,14 +234,6 @@ function navbarDropDown(props) {
     );
   };
 
-  // const handleDarkModeToggle = () => {
-  //   dispatch(toggleDarkMode());
-  //   // Add your logic to update the style and theme based on darkMode
-  //   isDarkMode
-  //     ? dispatch(setStyle(null))
-  //     : dispatch(setStyle({ backgroundColor: '#21262c' }));
-  // };
-
   const handleClose = () => {
     setAnchorEl(null);
     props.setDropMenu(false);
@@ -268,30 +250,6 @@ function navbarDropDown(props) {
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
   }
-  // Part - Dark Mode
-  // const switchDark = isDarkMode ? (
-  //   <svg
-  //     xmlns="http://www.w3.org/2000/svg"
-  //     width="16"
-  //     height="16"
-  //     fill="currentColor"
-  //     className="bi bi-lightbulb"
-  //     viewBox="0 0 16 16"
-  //   >
-  //     <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1z" />
-  //   </svg>
-  // ) : (
-  //   <svg
-  //     xmlns="http://www.w3.org/2000/svg"
-  //     width="16"
-  //     height="16"
-  //     fill="currentColor"
-  //     className="bi bi-moon"
-  //     viewBox="0 0 16 16"
-  //   >
-  //     <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278zM4.858 1.311A7.269 7.269 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.316 7.316 0 0 0 5.205-2.162c-.337.042-.68.063-1.029.063-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286z" />
-  //   </svg>
-  // );
 
   let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
 
@@ -365,11 +323,6 @@ function navbarDropDown(props) {
           <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
         </svg>
       </button>
-      {/* {<ExportButton />} */}
-      {/* 
-      <button onClick={handleDarkModeToggle}>
-        {isDarkMode ? 'Light' : 'Dark'} Mode {switchDark}
-      </button> */}
       {state.isLoggedIn && (
         <button onClick={handleClick}>
           Manage Project

@@ -34,10 +34,6 @@ const NavBar = () => {
   const urlAdd = useHistory();
   const isMarketplace = urlAdd.location.pathname === '/marketplace';
 
-  // const isDarkMode = useSelector(
-  //   (state: RootState) => state.darkMode.isDarkMode
-  // );
-
   const dispatch = useDispatch();
   const menuButtonRef = useRef(null);
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
@@ -67,7 +63,6 @@ const NavBar = () => {
   const buttonStyle = {
     backgroundColor: '#333',
     border: 'none',
-    //color: isDarkMode ? 'lightgray' : 'white',
     color: 'lightgray',
     fontSize: '12px',
     padding: '8px 12px',
@@ -149,15 +144,7 @@ const NavBar = () => {
 
   return (
     <div>
-      <nav
-        className="main-navbar"
-        style={
-          // isDarkMode
-          //   ? { backgroundColor: '#013365' }
-          //   : { backgroundColor: '#151515' }
-          { backgroundColor: '#151515' }
-        }
-      >
+      <nav className="main-navbar" style={{ backgroundColor: '#151515' }}>
         <Link to="/" style={{ textDecoration: 'none' }}>
           <div className="main-logo">
             <Avatar src={logo}></Avatar>

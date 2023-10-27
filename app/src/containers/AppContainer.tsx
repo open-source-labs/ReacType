@@ -31,28 +31,15 @@ const AppContainer = () => {
   const isMarketplace = urlAdd.location.pathname === '/marketplace';
 
   // setting state for changing light vs dark themes; linked to NavBar.tsx
-  const {
-    //isDarkMode,
-    style
-  } = useSelector((store: RootState) => ({
-    //isDarkMode: store.darkMode.isDarkMode,
+  const { style } = useSelector((store: RootState) => ({
     style: store.styleSlice.style
   }));
 
-  //const [isThemeLight, setTheme] = useState(!isDarkMode);
   const [isThemeLight, setTheme] = useState(true);
   const dispatch = useDispatch();
 
-  // Set background color of left and bottom panel on the first render
-  // Without this hook, the first render is always going to be white
-  // useEffect(() => {
-  //   if (!isDarkMode) dispatch(setStyle(null));
-  //   else dispatch(setStyle({ backgroundColor: '#21262c' }));
-  // }, [isDarkMode]);
-
   return (
     <StyledEngineProvider injectFirst>
-      {/* !isDarkMode ? lightTheme : darkTheme */}
       <ThemeProvider theme={lightTheme}>
         <div>
           <NavBar setTheme={setTheme} isThemeLight={isThemeLight} />
