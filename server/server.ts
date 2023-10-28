@@ -41,7 +41,7 @@ const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
-app.use(cookieParser());//added cookie parser
+app.use(cookieParser()); //added cookie parser
 // Routes
 // const stylesRouter = require('./routers/stylesRouter');
 import stylesRouter from './routers/stylesRouter';
@@ -96,9 +96,9 @@ const io = new Server(httpServer, {
 });
 
 io.on('connection', (socket) => {
-  console.log(socket.id);
+  console.log('Socket ID: -----', socket.id);
   socket.on('custom-event', (string, redux_store, room) => {
-    console.log(room);
+    console.log('Room Code', room);
     if (room) {
       socket.to(room).emit('receive message', redux_store);
     } else {
@@ -173,17 +173,16 @@ app.post(
 );
 
 //confirming whether user is logged in for index.tsx rendering
-app.get(
-  '/loggedIn',
-  sessionController.isLoggedIn,
-  (req, res) => res.status(200).json(res.locals.loggedIn)
-)
+app.get('/loggedIn', sessionController.isLoggedIn, (req, res) =>
+  res.status(200).json(res.locals.loggedIn)
+);
 
-app.get('/logout', 
-cookieController.deleteCookies,
-sessionController.endSession,
-(req,res) => res.status(200).json(res.locals.deleted)
-)
+app.get(
+  '/logout',
+  cookieController.deleteCookies,
+  sessionController.endSession,
+  (req, res) => res.status(200).json(res.locals.deleted)
+);
 
 // user must be logged in to get or save projects, otherwise they will be redirected to login page
 app.post(
@@ -192,7 +191,6 @@ app.post(
   projectController.saveProject,
   (req, res) => res.status(200).json(res.locals.savedProject)
 );
-
 
 app.post(
   '/getProjects',
@@ -236,7 +234,7 @@ app.get(
 app.get(
   '/cloneProject/:docId',
   sessionController.isLoggedIn,
-  marketplaceController.cloneProject, 
+  marketplaceController.cloneProject,
   (req, res) => res.status(200).json(res.locals.clonedProject)
 );
 
@@ -265,7 +263,6 @@ if (isDocker) {
     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
   });
 }
-
 
 app.get('/test', (req, res) => {
   res.send('test request is working');
