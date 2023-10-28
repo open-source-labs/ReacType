@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ComponentDrag from './ComponentDrag';
 import DragDropPanel from './DragDropPanel';
-import FolderIcon from '@mui/icons-material/Folder';
-import Grid from '@mui/material/Grid';
-import SettingsIcon from '@mui/icons-material/Settings';
+
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 
 // Left-hand portion of the app, where component options are displayed

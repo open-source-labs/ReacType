@@ -44,9 +44,6 @@ const HTMLItem: React.FC<{
 }> = ({ name, id, handleDelete }) => {
   const classes = useStyles();
   const [modal, setModal] = useState(null);
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
   const [{ isDragging }, drag] = useDrag({
     // is dragging is never read, but if deleted adjustment in the ref are needed line 122/128 ref={drag} to {...drag}
     item: {
@@ -126,12 +123,8 @@ const HTMLItem: React.FC<{
       {id <= 20 && (
         <div
           ref={drag}
-          style={{ borderColor: !isDarkMode ? '#C6C6C6' : '#fff' }}
-          className={
-            !isDarkMode
-              ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}`
-              : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
-          }
+          style={{ borderColor: '#C6C6C6' }}
+          className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
           <h3>{name}</h3>
@@ -141,19 +134,15 @@ const HTMLItem: React.FC<{
         <span id="customHTMLElement">
           <div
             ref={drag}
-            style={{ borderColor: !isDarkMode ? '#C6C6C6' : '#fff' }}
-            className={
-              !isDarkMode
-                ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}`
-                : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
-            }
+            style={{ borderColor: '#C6C6C6' }}
+            className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
             id="HTMLItem"
           >
             <h3>{name}</h3>
           </div>
           <button
             id="newElement"
-            style={{ color: !isDarkMode ? '#C6C6C6' : 'white' }}
+            style={{ color: '#C6C6C6' }}
             onClick={() => deleteAllInstances(id)}
           >
             X
