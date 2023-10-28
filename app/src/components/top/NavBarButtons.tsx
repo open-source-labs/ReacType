@@ -35,88 +35,88 @@ import withStyles from '@mui/styles/withStyles';
 const { API_BASE_URL } = config;
 
 // Part  - join room and room code functionality
-let socket;
+// let socket;
 
-function initSocketConnection(roomCode) {
-  if (socket) {
-    socket.disconnect();
-  }
+// function initSocketConnection(roomCode) {
+//   if (socket) {
+//     socket.disconnect();
+//   }
 
-  socket = io(API_BASE_URL, {
-    transports: ['websocket']
-  });
+//   socket = io(API_BASE_URL, {
+//     transports: ['websocket']
+//   });
 
-  socket.on('connect', () => {
-    console.log(`You connected with id: ${socket.id}`);
-    socket.emit('join-room', roomCode); // Join the room when connected
-  });
+//   socket.on('connect', () => {
+//     console.log(`You connected with id: ${socket.id}`);
+//     socket.emit('join-room', roomCode); // Join the room when connected
+//   });
 
-  // Receiving the room state from the backend
-  socket.on('room-state-update', (stateFromServer) => {
-    const newState = JSON.parse(stateFromServer);
-    // Dispatch actions to update your Redux store with the received state
-    store.dispatch(allCooperativeState(newState.appState));
-    store.dispatch(codePreviewCooperative(newState.codePreviewCooperative));
-    store.dispatch(cooperativeStyle(newState.styleSlice));
-  });
+//   // Receiving the room state from the backend
+//   socket.on('room-state-update', (stateFromServer) => {
+//     const newState = JSON.parse(stateFromServer);
+//     // Dispatch actions to update your Redux store with the received state
+//     store.dispatch(allCooperativeState(newState.appState));
+//     store.dispatch(codePreviewCooperative(newState.codePreviewCooperative));
+//     store.dispatch(cooperativeStyle(newState.styleSlice));
+//   });
 
-  // receiving the message from the back end
-  socket.on('receive message', (event) => {
-    // console.log('message from server: ', event);
-    let currentStore: any = JSON.stringify(store.getState());
-    if (currentStore !== event) {
-      currentStore = JSON.parse(currentStore);
-      event = JSON.parse(event);
-      if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
-        store.dispatch(toggleDarkMode());
-      } else if (currentStore.appState !== event.appState) {
-        store.dispatch(allCooperativeState(event.appState));
-      } else if (
-        currentStore.codePreviewSlice !== event.codePreviewCooperative
-      ) {
-        store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
-      } else if (currentStore.styleSlice !== event.styleSlice) {
-        store.dispatch(cooperativeStyle(event.styleSlice));
-      }
-    }
-    console.log('updated user Store from another user: ', store.getState());
-  });
-}
+//   // receiving the message from the back end
+//   socket.on('receive message', (event) => {
+//     // console.log('message from server: ', event);
+//     let currentStore: any = JSON.stringify(store.getState());
+//     if (currentStore !== event) {
+//       currentStore = JSON.parse(currentStore);
+//       event = JSON.parse(event);
+//       if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
+//         store.dispatch(toggleDarkMode());
+//       } else if (currentStore.appState !== event.appState) {
+//         store.dispatch(allCooperativeState(event.appState));
+//       } else if (
+//         currentStore.codePreviewSlice !== event.codePreviewCooperative
+//       ) {
+//         store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
+//       } else if (currentStore.styleSlice !== event.styleSlice) {
+//         store.dispatch(cooperativeStyle(event.styleSlice));
+//       }
+//     }
+//     console.log('updated user Store from another user: ', store.getState());
+//   });
+// }
 
-function handleUserEnteredRoom(roomCode) {
-  initSocketConnection(roomCode);
-}
+// function handleUserEnteredRoom(roomCode) {
+//   initSocketConnection(roomCode);
+// }
 
-// console.log(store.getState());
-let previousState = store.getState();
+// // console.log(store.getState());
+// let previousState = store.getState();
 
-// sending info to backend whenever the redux store changes
-const handleStoreChange = debounce(() => {
-  const newState = store.getState();
-  const roomCode = newState.roomCodeSlice.roomCode;
+// // sending info to backend whenever the redux store changes
+// const handleStoreChange = debounce(() => {
+//   const newState = store.getState();
+//   const roomCode = newState.roomCodeSlice.roomCode;
 
-  if (roomCode !== '') {
-    // Emit the current room code
-    socket.emit('room-code', roomCode);
-  }
+//   if (roomCode !== '') {
+//     // Emit the current room code
+//     socket.emit('room-code', roomCode);
+//   }
 
-  if (newState !== previousState) {
-    // Send the current state to the server
-    socket.emit(
-      'custom-event',
-      'sent from front-end',
-      JSON.stringify(newState),
-      roomCode
-    );
-    previousState = newState;
-  }
-}, 100);
+//   if (newState !== previousState) {
+//     // Send the current state to the server
+//     socket.emit(
+//       'custom-event',
+//       'sent from front-end',
+//       JSON.stringify(newState),
+//       roomCode
+//     );
+//     previousState = newState;
+//   }
+// }, 100);
 
-store.subscribe(() => {
-  if (socket) {
-    handleStoreChange();
-  }
-});
+// store.subscribe(() => {
+//   if (socket) {
+//     handleStoreChange();
+//   }
+// });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -254,9 +254,9 @@ function navbarDropDown(props) {
     props.setDropMenu(false);
   };
 
-  React.useEffect(() => {
-    console.log('joinedRoom: ', joinedRoom);
-  }, [joinedRoom]);
+  // React.useEffect(() => {
+  //   console.log('joinedRoom: ', joinedRoom);
+  // }, [joinedRoom]);
 
   function joinRoom() {
     dispatch(changeRoom(roomCode));
