@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import ContentArea from '../components/left/ContentArea';
-import { BrowserRouter as Router } from 'react-router-dom';
 import Sidebar from '../components/left/Sidebar';
 
 function App() {

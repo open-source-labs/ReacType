@@ -14,10 +14,10 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function TreeChart({ data }) { // data is components from state - passed in from BottomTabs
-  // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState)
-  
+function TreeChart({ data }) {
+  // data is components from state - passed in from BottomTabs
+  const state = useSelector((store) => store.appState);
+
   const canvasId = state.canvasFocus.componentId;
 
   const svgRef = useRef();
@@ -33,18 +33,31 @@ function TreeChart({ data }) { // data is components from state - passed in from
   const removeSeparators = (arr: object[]) => {
     // loop over array
     for (let i = 0; i < arr.length; i++) {
-      if(arr[i] === undefined) continue;
+      if (arr[i] === undefined) continue;
       // if element is separator, remove it
       if (arr[i].name === 'separator') {
         arr.splice(i, 1);
         i -= 1;
       }
       // if element has a children array and that array has length, recursive call
-      else if ((arr[i].name === 'div' || arr[i].name === 'form' || arr[i].type === 'Component' || arr[i].name === 'Link'
-        || arr[i].name === 'Switch' || arr[i].name === 'Route' || arr[i].name === 'menu'
-        || arr[i].name === 'ul' || arr[i].name === 'ol' || arr[i].name === 'li') && arr[i].children.length) {
+      else if (
+        (arr[i].name === 'div' ||
+          arr[i].name === 'form' ||
+          arr[i].type === 'Component' ||
+          arr[i].name === 'Link' ||
+          arr[i].name === 'Switch' ||
+          arr[i].name === 'Route' ||
+          arr[i].name === 'menu' ||
+          arr[i].name === 'ul' ||
+          arr[i].name === 'ol' ||
+          arr[i].name === 'li') &&
+        arr[i].children.length
+      ) {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
-        if (arr[i].type === 'Component') arr[i] = cloneDeep(data.find(component => component.name === arr[i].name));
+        if (arr[i].type === 'Component')
+          arr[i] = cloneDeep(
+            data.find((component) => component.name === arr[i].name)
+          );
         removeSeparators(arr[i].children);
       }
     }
@@ -53,26 +66,28 @@ function TreeChart({ data }) { // data is components from state - passed in from
   };
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
-  
+
   //Miko left off
-  if(state.projectType === 'Next.js') {
-    dataDeepClone.forEach(element => {
-      element.children = sanitize(element.children).filter(element => !Array.isArray(element));
-    })
+  if (state.projectType === 'Next.js') {
+    dataDeepClone.forEach((element) => {
+      element.children = sanitize(element.children).filter(
+        (element) => !Array.isArray(element)
+      );
+    });
 
     function sanitize(children) {
       return children.map((child) => {
-        if(child.name === 'Switch' || child.name === 'Route') {
+        if (child.name === 'Switch' || child.name === 'Route') {
           return sanitize(child.children);
         } else {
           return child;
         }
       });
-    } 
+    }
   }
 
   // remove separators and update components to current versions
-  dataDeepClone.forEach(component => {
+  dataDeepClone.forEach((component) => {
     removeSeparators(component.children);
   });
   // will be called initially and on every data change
@@ -89,15 +104,15 @@ function TreeChart({ data }) { // data is components from state - passed in from
     // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display
     const linkGenerator = linkHorizontal()
-      .x(link => link.y)
-      .y(link => link.x);
+      .x((link) => link.y)
+      .y((link) => link.x);
     // insert our data into the tree layout
     treeLayout(root);
     // node - each element in the tree
     svg
       .selectAll('.node')
       .data(root.descendants())
-      .join(enter => enter.append('circle').attr('opacity', 0))
+      .join((enter) => enter.append('circle').attr('opacity', 0))
       .attr('class', 'node')
       /*
         The cx, cy attributes are associated with the circle and ellipse elements and designate the centre of each shape. The coordinates are set from the top, left hand corner of the web page.
@@ -105,8 +120,8 @@ function TreeChart({ data }) { // data is components from state - passed in from
         cy: The position of the centre of the element in the y axis measured from the top of the screen.
       */
       // translate (x, y)
-      .attr('cx', node => node.y)
-      .attr('cy', node => node.x)
+      .attr('cx', (node) => node.y)
+      .attr('cy', (node) => node.x)
       .attr('r', 4) // radius of circle
       .attr('opacity', 1)
       .style('fill', 'white')
@@ -133,17 +148,16 @@ function TreeChart({ data }) { // data is components from state - passed in from
     svg
       .selectAll('.label')
       .data(root.descendants())
-      .join(enter => enter.append('text').attr('opacity', 0))
+      .join((enter) => enter.append('text').attr('opacity', 0))
       .attr('class', 'label')
-      .attr('x', node => node.y)
-      .attr('y', node => node.x - 12)
+      .attr('x', (node) => node.y)
+      .attr('y', (node) => node.x - 12)
       .attr('text-anchor', 'middle')
       .attr('font-size', 18)
       .style('fill', textAndBorderColor)
-      .text(node => node.data.name)
+      .text((node) => node.data.name)
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
-
   }, [state.components, dimensions, previouslyRenderedData, canvasId]);
   const treeStyles = {
     height: '100%',
@@ -158,7 +172,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
     height: '90%',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#42464C',
+    backgroundColor: '#42464C'
   };
   return (
     <div ref={wrapperRef} style={wrapperStyles}>

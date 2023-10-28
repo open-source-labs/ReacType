@@ -13,7 +13,6 @@ import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
 // websocket front end starts here
 import { io } from 'socket.io-client';
 import store from '../../redux/store';
-import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 
 // for websockets
 // Part  - join room and room code functionality
@@ -23,8 +22,7 @@ const RoomsContainer = () => {
   const [roomCode, setRoomCode] = React.useState('');
   const [confirmRoom, setConfirmRoom] = React.useState('');
   const dispatch = useDispatch();
-  const { isDarkMode, state, joinedRoom } = useSelector((store: RootState) => ({
-    isDarkMode: store.darkMode.isDarkMode,
+  const { state, joinedRoom } = useSelector((store: RootState) => ({
     state: store.appState,
     joinedRoom: store.roomCodeSlice.roomCode
   }));
@@ -62,9 +60,8 @@ const RoomsContainer = () => {
       if (currentStore !== event) {
         currentStore = JSON.parse(currentStore);
         event = JSON.parse(event);
-        if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
-          store.dispatch(toggleDarkMode());
-        } else if (currentStore.appState !== event.appState) {
+
+        if (currentStore.appState !== event.appState) {
           store.dispatch(allCooperativeState(event.appState));
         } else if (
           currentStore.codePreviewSlice !== event.codePreviewCooperative
