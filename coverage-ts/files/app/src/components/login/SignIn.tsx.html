@@ -11,7 +11,7 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/login/SignIn.tsx</td><td class="">97.12%</td><td class="">80%</td><td class="">452</td><td class="">439</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useCallback, useEffect, useState } from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/login/SignIn.tsx</td><td class="">96.93%</td><td class="">80%</td><td class="">424</td><td class="">411</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useCallback, useEffect, useState } from &#x27;react&#x27;;
 import { RouteComponentProps, Link as RouteLink } from &#x27;react-router-dom&#x27;;
 import {
   SigninDark,
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) =&gt; ({
   paper: {
     display: &#x27;flex&#x27;,
     flexDirection: &#x27;column&#x27;,
-    alignItems: &#x27;center&#x27;
+    alignItems: &#x27;center&#x27;,
   },
   avatar: {
     backgroundColor: &#x27;#3EC1AC&#x27;
@@ -224,11 +224,11 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
 
   return (
     &lt;StyledEngineProvider injectFirst&gt;
-      &lt;ThemeProvider theme={!isDarkMode ? SigninLight : SigninDark}&gt;
-        &lt;Container component=&quot;main&quot; maxWidth=&quot;xs&quot;&gt;
+      &lt;ThemeProvider theme={SigninDark}&gt;
+        &lt;Container component=&quot;main&quot; maxWidth=&quot;xs&quot; &gt;
           &lt;CssBaseline /&gt;
           &lt;div className={classes.paper}&gt;
-            &lt;Button
+            {/* &lt;Button
               color=&quot;primary&quot;
               style={{
                 minWidth: &#x27;113.97px&#x27;,
@@ -240,7 +240,7 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
               onClick={handleDarkModeToggle}
             &gt;
               {isDarkMode ? `Light Mode` : `Dark Mode`}
-            &lt;/Button&gt;
+            &lt;/Button&gt;  */}
             &lt;Avatar className={classes.avatar} sx={{ marginTop: &#x27;10vh&#x27; }}&gt;
               &lt;LockOutlinedIcon /&gt;
             &lt;/Avatar&gt;
@@ -357,7 +357,7 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
               &gt;
                 &lt;path d=&quot;M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z&quot; /&gt;
               &lt;/svg&gt;
-            &lt;/Button&gt;
+            &lt;/Button&gt; 
             &lt;Button
               fullWidth
               variant=&quot;contained&quot;
@@ -385,19 +385,20 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
                 /&gt;
               &lt;/svg&gt;
             &lt;/Button&gt;
-            &lt;Grid container&gt;
+            &lt;Grid container justifyContent=&quot;flex-end&quot;&gt;
+              {/* forgot password currently not implemented
               &lt;Grid item xs&gt;
                 &lt;RouteLink
-                  style={{ color: isDarkMode ? &#x27;#aaaaaa&#x27; : &#x27;black&#x27; }}
+                  style={{ color: &#x27;#aaaaaa&#x27; }}
                   to={`/signup`}
                   className=&quot;nav_link&quot;
                 &gt;
                   Forgot password?
                 &lt;/RouteLink&gt;
-              &lt;/Grid&gt;
+              &lt;/Grid&gt; */}
               &lt;Grid item&gt;
                 &lt;RouteLink
-                  style={{ color: isDarkMode ? &#x27;#aaaaaa&#x27; : &#x27;black&#x27; }}
+                  style={{ color: &#x27;#aaaaaa&#x27; }}
                   to={`/signup`}
                   className=&quot;nav_link&quot;
                 &gt;
@@ -417,7 +418,7 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
 
 export default SignIn;
 </textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:18,&quot;text&quot;:&quot;setCookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:18,&quot;text&quot;:&quot;getCookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:29,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:12,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:46,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:56,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:151,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:151,&quot;character&quot;:10,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:152,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:152,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sat, 28 Oct 2023 14:16:19 GMT</p>
     </body>
   </html>
   

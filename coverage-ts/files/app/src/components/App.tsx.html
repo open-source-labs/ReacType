@@ -11,7 +11,7 @@
 <link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/App.tsx</td><td class="">96.63%</td><td class="">80%</td><td class="">89</td><td class="">86</td><td class="">3</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import &#x27;../public/styles/style.css&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/App.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">45</td><td class="">45</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import &#x27;../public/styles/style.css&#x27;;
 
 import React, { useEffect, useState } from &#x27;react&#x27;;
 import {
@@ -44,42 +44,38 @@ export const App = (): JSX.Element =&gt; {
   }, []);
 
   // following useEffect runs on first mount
-  useEffect(() =&gt; {
-    console.log(&#x27;state.isLoggedIn&#x27;, state.isLoggedIn)
-    // console.log(&#x27;cookies.get in App&#x27;, Cookies.get())
-    // if user is a guest, see if a project exists in localforage and retrieve it
-    // v17 May not currently work yet
-    if (!state.isLoggedIn) {
-      console.log(&#x27;not state.islogged in&#x27;)
-      localforage.getItem(&#x27;guestProject&#x27;).then((project) =&gt; {
-        // if project exists, use dispatch to set initial state to that project
-        console.log(&#x27;guestProject&#x27;, project)
-        if (project) {
-          dispatch(setInitialState(project));
-          console.log(&#x27;project&#x27;, project)
-        }
-      });
-    } else {
-      // otherwise if a user is logged in, use a fetch request to load user&#x27;s projects from DB
+  // useEffect(() =&gt; {
+  //   // console.log(&#x27;cookies.get in App&#x27;, Cookies.get())
+  //   // if user is a guest, see if a project exists in localforage and retrieve it
+  //   // v17 May not currently work yet
+  //   if (!state.isLoggedIn) {
+  //     localforage.getItem(&#x27;guestProject&#x27;).then((project) =&gt; {
+  //       // if project exists, use dispatch to set initial state to that project
+  //       if (project) {
+  //         dispatch(setInitialState(project));
+  //       }
+  //     });
+  //   } else {
+  //     // otherwise if a user is logged in, use a fetch request to load user&#x27;s projects from DB
       
-      let userId;
-      if (Cookies.get(&#x27;ssid&#x27;)) {
-        userId = Cookies.get(&#x27;ssid&#x27;);
-      } else {
-        userId = window.localStorage.getItem(&#x27;ssid&#x27;);
-      }
-      //also load user&#x27;s last project, which was saved in localforage on logout
-      localforage.getItem(userId).then((project) =&gt; {
-        if (project) {
-          dispatch(setInitialState(project));
-        } else {
-          console.log(
-            &#x27;No user project found in localforage, setting initial state blank&#x27;
-          );
-        }
-      });
-    }
-  }, []);
+  //     let userId;
+  //     if (Cookies.get(&#x27;ssid&#x27;)) {
+  //       userId = Cookies.get(&#x27;ssid&#x27;);
+  //     } else {
+  //       userId = window.localStorage.getItem(&#x27;ssid&#x27;);
+  //     }
+  //     //also load user&#x27;s last project, which was saved in localforage on logout
+  //     localforage.getItem(userId).then((project) =&gt; {
+  //       if (project) {
+  //         dispatch(setInitialState(project));
+  //       } else {
+  //         console.log(
+  //           &#x27;No user project found in localforage, setting initial state blank&#x27;
+  //         );
+  //       }
+  //     });
+  //   }
+  // }, []);
   // useEffect(() =&gt; {
   //   // provide config properties to legacy projects so new edits can be auto saved
   //   // if (state.config === undefined) {
@@ -130,8 +126,8 @@ export const App = (): JSX.Element =&gt; {
 };
 
 export default App;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:10,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:8,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:8,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sat, 28 Oct 2023 14:16:19 GMT</p>
     </body>
   </html>
   

@@ -14,9 +14,10 @@ import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
 import { io } from 'socket.io-client';
 import store from '../../redux/store';
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import debounce from '../../../../node_modules/lodash/debounce.js';
 
-// for websockets
-// Part  - join room and room code functionality
+// // for websockets
+// // Part  - join room and room code functionality
 let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
@@ -29,11 +30,12 @@ const RoomsContainer = () => {
     joinedRoom: store.roomCodeSlice.roomCode
   }));
   React.useEffect(() => {
-    console.log('joinedRoom: ', joinedRoom);
+    console.log('You Joined Room: ', joinedRoom);
   }, [joinedRoom]);
 
   function initSocketConnection(roomCode) {
     if (socket) {
+      //edge case check if socket connection existed
       socket.disconnect();
     }
 
@@ -81,10 +83,39 @@ const RoomsContainer = () => {
     initSocketConnection(roomCode);
   }
 
+  let previousState = store.getState();
+  // console.log('Store States: ', store.getState);
+  // sending info to backend whenever the redux store changes
+  const handleStoreChange = debounce(() => {
+    const newState = store.getState();
+    const roomCode = newState.roomCodeSlice.roomCode;
+
+    if (roomCode !== '') {
+      // Emit the current room code
+      socket.emit('room-code', roomCode);
+    }
+
+    if (newState !== previousState) {
+      // Send the current state to the server
+      socket.emit(
+        'custom-event',
+        'sent from front-end',
+        JSON.stringify(newState),
+        roomCode
+      );
+      previousState = newState;
+    }
+  }, 100);
+
+  store.subscribe(() => {
+    if (socket) {
+      handleStoreChange();
+    }
+  });
+
   function joinRoom() {
     dispatch(changeRoom(roomCode));
     setConfirmRoom((confirmRoom) => roomCode);
-
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
   }
@@ -100,6 +131,9 @@ const RoomsContainer = () => {
         }}
       >
         {' '}
+        <Typography variant="h6" color={'white'}>
+          Live Room: {joinedRoom}
+        </Typography>
         <TextField
           hiddenLabel
           id="filled-hidden-label-small"
@@ -133,9 +167,6 @@ const RoomsContainer = () => {
         >
           Join Room
         </Button>
-        <Typography variant="h6" color={'white'}>
-          In Room: {joinedRoom}
-        </Typography>
       </Stack>
       {/* <button onClick={() => joinRoom()}>Join Room</button> */}
     </div>

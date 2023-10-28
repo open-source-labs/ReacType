@@ -11,33 +11,122 @@
 <link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/containers/MainContainer.tsx</td><td class="">82.93%</td><td class="">80%</td><td class="">41</td><td class="">34</td><td class="">7</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/containers/MainContainer.tsx</td><td class="">84.62%</td><td class="">80%</td><td class="">182</td><td class="">154</td><td class="">28</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useRef, useEffect, useState} from &#x27;react&#x27;;
 import BottomPanel from &#x27;../components/bottom/BottomPanel&#x27;;
 import CanvasContainer from &#x27;../components/main/CanvasContainer&#x27;;
 import DemoRender from &#x27;../components/main/DemoRender&#x27;;
-import { useSelector } from &#x27;react-redux&#x27;;
+import { useSelector, useDispatch } from &#x27;react-redux&#x27;;
+import { RootState } from &#x27;../redux/store&#x27;;
+import { toggleScreenshotTrigger } from &#x27;../redux/reducers/slice/appStateSlice&#x27;;
+import html2canvas from &#x27;html2canvas&#x27;;
+import { Buffer } from &#x27;buffer&#x27;;
+import { Amplify, Storage } from &#x27;aws-amplify&#x27;;
+import awsconfig from &#x27;../../../src/custom-aws-exports&#x27;;
 
 const MainContainer = (props): JSX.Element =&gt; {
+  const [bottomShow, setBottomShow] = useState(false)
+  const dispatch = useDispatch();
+  const screenshotTrigger = useSelector((store: RootState) =&gt; store.appState.screenshotTrigger); 
+  const id: string = useSelector((store: RootState) =&gt; store.appState._id); 
   const { isDarkMode, style } = useSelector((store) =&gt; ({
     isDarkMode: store.darkMode.isDarkMode,
-    style: store.styleSlice
+    style: store.styleSlice, 
   }));
+  const containerRef: React.RefObject&lt;HTMLDivElement&gt; = useRef(null);
+
+  // useEffect hook to detect and execute changes in screenshotTrigger, taking a screenshot of the canvas when a project is published on NavBar
+  useEffect(() =&gt; { 
+    const handleScreenshot = async (): Promise&lt;Buffer | void&gt; =&gt; {
+      if (screenshotTrigger) {
+        try {
+          const canvas: HTMLCanvasElement = await html2canvas(containerRef.current);
+          const screenshotURL: string = canvas.toDataURL(&#x27;image/png&#x27;);
+          const imgBuffer: Buffer | void  = Buffer.from(screenshotURL.replace(/^data:image\/\w+;base64,/, &#x27;&#x27;), &#x27;base64&#x27;);
+          dispatch(toggleScreenshotTrigger());
+          return imgBuffer;
+        } catch (error) {
+          alert(&#x27;Error capturing screenshot: &#x27; + error);
+        }
+      }
+    }
+    handleScreenshot().then((imgBuffer: Buffer | void) =&gt; {
+      if (imgBuffer) {
+        uploadScreenshotS3(imgBuffer); 
+      }
+    });
+  }, [screenshotTrigger]);
+
+  const uploadScreenshotS3 = async (imgBuffer) =&gt; {
+    Amplify.configure(awsconfig);
+
+    async function checkStorageConnection() {
+      try {
+        // await Storage.list(&#x27;&#x27;); // This is just a test operation
+        // console.log(&#x27;Connected to AWS S3 successfully.&#x27;);
+      } catch (error) {
+        console.error(&#x27;Error connecting to AWS S3:&#x27;, error);
+      }
+    }
+
+    // Call this function to check the connection
+    checkStorageConnection();
+    try {
+      await Storage.put(id, imgBuffer, {
+        contentType: &#x27;image/png&#x27;,
+      });
+    } catch (error) {
+      alert(&#x27;Error uploading screenshot: &#x27; + error);
+    }
+  }
+
+  //Logic to close the bottompanel when clicking outside of it
+  const useOutsideClick = () =&gt; {
+    const bottomPanelRef = useRef(null);
+
+    useEffect(() =&gt; {
+      const handleClick = (event) =&gt; {        
+        if (event.type === &quot;click&quot; &amp;&amp;
+          (bottomPanelRef.current &amp;&amp;
+          !bottomPanelRef.current.contains(event.target) &amp;&amp; event.target.getAttribute(&quot;role&quot;) != &quot;menu&quot; &amp;&amp; !event.target.classList.contains(&#x27;MuiInput-input&#x27;)) || (event.type === &quot;message&quot; &amp;&amp; event.data === &#x27;iframeClicked&#x27;)) {
+          //menuButtonRef is to ensure that handleClose does not get invoked when the user clicks on the menu dropdown button
+          handleClose();
+        }
+      };
+      window.addEventListener(&#x27;click&#x27;, handleClick, true);
+      window.addEventListener(&#x27;message&#x27;, handleClick);//to capture clicks in the iframe
+
+      return () =&gt; {
+        window.removeEventListener(&#x27;click&#x27;, handleClick, true);
+        window.addEventListener(&#x27;message&#x27;, handleClick); //cleanup for memory purposes. ensures handleclick isn&#x27;t called after the component is no longer rendered
+      };
+    }, [bottomPanelRef]);
+
+    return bottomPanelRef;
+  };
+
+  const ref = useOutsideClick();
+
+  const handleClose = () =&gt; {
+    setBottomShow(false);
+  };
+
+  let showPanel = bottomShow ? &#x27;bottom-show&#x27; : &#x27;bottom-hide&#x27;;
 
   return (
-    &lt;div className=&quot;main-container&quot; style={style}&gt;
+    &lt;div className=&quot;main-container&quot; style={style} ref={containerRef}&gt;
       &lt;div className=&quot;main&quot; &gt;
         &lt;CanvasContainer isThemeLight={props.isThemeLight} /&gt;
         &lt;DemoRender /&gt;
       &lt;/div&gt;
-      &lt;div className=&quot;bottom-hide&quot; &gt;
-        &lt;BottomPanel isThemeLight={props.isThemeLight} /&gt;
+      &lt;div className={showPanel} ref = {ref}&gt;
+        &lt;BottomPanel setBottomShow = {setBottomShow} isThemeLight={props.isThemeLight} /&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   );
 };
 export default MainContainer;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:23,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:25,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:39,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:45,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:21,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:35,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:41,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:23,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:45,&quot;character&quot;:36,&quot;text&quot;:&quot;imgBuffer&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:28,&quot;text&quot;:&quot;imgBuffer&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:27,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:12,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:18,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:26,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:26,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:34,&quot;text&quot;:&quot;contains&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:43,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:49,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:60,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:66,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:73,&quot;text&quot;:&quot;getAttribute&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:108,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:114,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:121,&quot;text&quot;:&quot;classList&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:131,&quot;text&quot;:&quot;contains&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:163,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:169,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:191,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:197,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:25,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:39,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:45,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:53,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:67,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/MainContainer.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:73,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sat, 28 Oct 2023 14:16:19 GMT</p>
     </body>
   </html>
   

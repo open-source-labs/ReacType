@@ -11,7 +11,7 @@ const roomCodeSlice = createSlice({
   initialState,
   reducers: {
     changeRoom: (state, action) => {
-      state.roomCode = action.payload
+      state.roomCode = action.payload;
     }
   }
 });

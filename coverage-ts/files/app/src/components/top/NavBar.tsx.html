@@ -11,8 +11,8 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/top/NavBar.tsx</td><td class="">97.16%</td><td class="">80%</td><td class="">387</td><td class="">376</td><td class="">11</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useRef, useState } from &#x27;react&#x27;;
-import { Link } from &#x27;react-router-dom&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/top/NavBar.tsx</td><td class="">97.18%</td><td class="">80%</td><td class="">390</td><td class="">379</td><td class="">11</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useRef, useState } from &#x27;react&#x27;;
+import { Link, useHistory } from &#x27;react-router-dom&#x27;;
 import Avatar from &#x27;@mui/material/Avatar&#x27;;
 import Button from &#x27;@mui/material/Button&#x27;;
 import MoreVertIcon from &#x27;@mui/icons-material/MoreVert&#x27;;
@@ -23,7 +23,7 @@ import logo from &#x27;../../public/icons/win/logo.png&#x27;;
 import { useSelector, useDispatch } from &#x27;react-redux&#x27;;
 import { publishProject, unpublishProject } from &#x27;../../helperFunctions/projectGetSaveDel&#x27;;
 import PublishModal from &#x27;./PublishModal&#x27;;
-import { updateProjectId, updateProjectName, updateProjectPublished } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+import { updateProjectId, updateProjectName, updateProjectPublished, toggleScreenshotTrigger } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
 import { State } from &#x27;../../interfaces/Interfaces&#x27;;
 import MuiAlert, { AlertProps } from &#x27;@mui/material/Alert&#x27;;
 import Snackbar from &#x27;@mui/material/Snackbar&#x27;;
@@ -36,6 +36,9 @@ const NavBar = () =&gt; {
   const [projectName, setProjectName] = useState(state.name || &#x27;&#x27;);
   const [invalidProjectName, setInvalidProjectName] = useState(false);
   const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState(&#x27;&#x27;);
+  const urlAdd = useHistory();
+  const isMarketplace = urlAdd.location.pathname === &#x27;/marketplace&#x27;;
+
   const isDarkMode = useSelector(
     (state: RootState) =&gt; state.darkMode.isDarkMode
   );
@@ -53,7 +56,6 @@ const NavBar = () =&gt; {
   }, [state.name])//update the ProjectName after state.name changes due to loading projects
 
   const deleteAlertOpen = () =&gt; {
-    console.log(&quot;I am hit&quot;)
     setDeleteAlert(true);
   }
 
@@ -105,11 +107,11 @@ const NavBar = () =&gt; {
 
       publishProject(projectName, state)
         .then((newProject: State) =&gt; {
-          console.log(&#x27;Project published successfully&#x27;, newProject);
           setPublishModalOpen(false);
-          dispatch(updateProjectId(newProject._id))
-          dispatch(updateProjectName(newProject.name))
-          dispatch(updateProjectPublished(newProject.published))
+          dispatch(updateProjectId(newProject._id));
+          dispatch(updateProjectName(newProject.name));
+          dispatch(updateProjectPublished(newProject.published));
+          dispatch(toggleScreenshotTrigger());
           setAlertOpen(true)
         })
         .catch((error) =&gt; {
@@ -121,7 +123,6 @@ const NavBar = () =&gt; {
     const handleUnpublish = () =&gt; {
       unpublishProject(state)
         .then((unpublishedProject: State) =&gt; {
-          console.log(&#x27;Project unpublished successfully&#x27;, unpublishedProject);
           dispatch(updateProjectPublished(false)); 
           setAlertOpen2(true);
         })
@@ -171,7 +172,7 @@ const NavBar = () =&gt; {
         &lt;/div&gt;
       &lt;/Link&gt;
       &lt;div style={buttonContainerStyle}&gt;
-        {state.published ? (
+        {isMarketplace ? null : (state.published ? (
           &lt;button style={buttonStyle} onClick={handleUnpublish}&gt;
             Unpublish
           &lt;/button&gt;
@@ -179,7 +180,7 @@ const NavBar = () =&gt; {
           &lt;button style={buttonStyle} onClick={handlePublish}&gt;
             Publish
           &lt;/button&gt;
-        )}
+        ))}
         &lt;NewExportButton /&gt;
         &lt;Button
           style={moreVertButtonStyle}
@@ -286,8 +287,8 @@ const NavBar = () =&gt; {
 };
 
 export default NavBar;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:7,&quot;text&quot;:&quot;logo&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:16,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:53,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:59,&quot;text&quot;:&quot;message&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:16,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:55,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:61,&quot;text&quot;:&quot;message&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:19,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:40,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:42,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:49,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:7,&quot;text&quot;:&quot;logo&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:16,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:53,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:59,&quot;text&quot;:&quot;message&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:16,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:55,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:61,&quot;text&quot;:&quot;message&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:194,&quot;character&quot;:19,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:194,&quot;character&quot;:40,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:194,&quot;character&quot;:42,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/top/NavBar.tsx&quot;,&quot;line&quot;:194,&quot;character&quot;:49,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sat, 28 Oct 2023 14:16:19 GMT</p>
     </body>
   </html>
   

@@ -3,7 +3,7 @@ import ComponentsContainer from './ComponentsContainer';
 import ElementsContainer from './ElementsContainer';
 import React from 'react';
 import RoomsContainer from './RoomsContainer';
-import TreeContainer from './TreeContainer';
+// import TreeContainer from './TreeContainer';
 
 interface ContentAreaProps {
   activeTab: number | null;

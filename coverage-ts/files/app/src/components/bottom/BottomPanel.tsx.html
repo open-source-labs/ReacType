@@ -11,13 +11,12 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/bottom/BottomPanel.tsx</td><td class="">90.91%</td><td class="">80%</td><td class="">77</td><td class="">70</td><td class="">7</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useRef } from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/bottom/BottomPanel.tsx</td><td class="">84.48%</td><td class="">80%</td><td class="">116</td><td class="">98</td><td class="">18</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useRef } from &#x27;react&#x27;;
 import BottomTabs from &#x27;./BottomTabs&#x27;;
 
 const BottomPanel = (props): JSX.Element =&gt; {
   let y: number = 0;
   let h: number = 0;
-
   const node = useRef() as React.MutableRefObject&lt;HTMLDivElement&gt;;
 
   const mouseDownHandler = (e): void =&gt; {
@@ -26,26 +25,44 @@ const BottomPanel = (props): JSX.Element =&gt; {
     const styles = window.getComputedStyle(node.current);
     h = parseInt(styles.height, 10);
 
+    //Start listeners when the user clicks the bottom panel tab
     document.addEventListener(&#x27;mousemove&#x27;, mouseMoveHandler);
     document.addEventListener(&#x27;mouseup&#x27;, mouseUpHandler);
+    window.addEventListener(&#x27;message&#x27;, handleIframeMessage);//listens for messages from the iframe when the mouse is over it
   };
+  
+  //Interpret the messages from the iframe
+  const handleIframeMessage = (e) =&gt; {
+    if (e.data === &#x27;iframeMouseUp&#x27;) {
+      mouseUpHandler();
+    }else if(e.data.type === &#x27;iframeMouseMove&#x27;){
+      mouseMoveHandler(e.data)
+    }
+  }    
+
 
   const mouseMoveHandler = function (e: MouseEvent): void {
     // How far the mouse has been moved
+
     const dy = y - e.clientY;
 
     // Adjust the dimension of element
-    node.current.style.height = `${h + dy}px`;
+    const newVal = h + dy;
+    const styles = window.getComputedStyle(node.current);
+    const min = parseInt(styles.minHeight, 10);
+    node.current.style.height = newVal &gt; min ? `${h + dy}px` : `${min}px`;
   };
 
   const mouseUpHandler = function () {
     // Remove the handlers of `mousemove` and `mouseup`
     document.removeEventListener(&#x27;mousemove&#x27;, mouseMoveHandler);
     document.removeEventListener(&#x27;mouseup&#x27;, mouseUpHandler);
+    window.removeEventListener(&#x27;message&#x27;, handleIframeMessage);
   };
 
   useEffect(() =&gt; {
     node.current.style.height = &#x27;50vh&#x27;;
+    node.current.style.minHeight = &#x27;50vh&#x27;;
   }, []);
 
   return (
@@ -54,14 +71,14 @@ const BottomPanel = (props): JSX.Element =&gt; {
       &lt;div id=&quot;resize-drag&quot; onMouseDown={mouseDownHandler} tabIndex={0}&gt;
         ......
       &lt;/div&gt;
-      &lt;BottomTabs isThemeLight={props.isThemeLight} /&gt;
+      &lt;BottomTabs setBottomShow = {props.setBottomShow} isThemeLight={props.isThemeLight} /&gt;
     &lt;/div&gt;&lt;/&gt;
   );
 };
 
 export default BottomPanel;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:3,&quot;character&quot;:21,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:28,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:10,&quot;text&quot;:&quot;clientY&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:18,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:32,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:38,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:3,&quot;character&quot;:21,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:28,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:10,&quot;text&quot;:&quot;clientY&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:31,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:10,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:13,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:15,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:20,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:23,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:25,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:18,&quot;text&quot;:&quot;setBottomShow&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:35,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:41,&quot;text&quot;:&quot;setBottomShow&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:56,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:70,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/bottom/BottomPanel.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:76,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sat, 28 Oct 2023 14:16:19 GMT</p>
     </body>
   </html>
   

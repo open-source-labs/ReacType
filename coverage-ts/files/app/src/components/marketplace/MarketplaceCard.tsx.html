@@ -11,7 +11,7 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/marketplace/MarketplaceCard.tsx</td><td class="">92.74%</td><td class="">80%</td><td class="">234</td><td class="">217</td><td class="">17</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import {
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/marketplace/MarketplaceCard.tsx</td><td class="">94.66%</td><td class="">80%</td><td class="">281</td><td class="">266</td><td class="">15</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import {
   Avatar,
   Card,
   CardActions,
@@ -32,15 +32,16 @@ import {
   resetAllState
 } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
 import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
-
 import { MoreVert } from &#x27;@mui/icons-material&#x27;;
 import { RootState } from &#x27;../../redux/store&#x27;;
 import Snackbar from &#x27;@mui/material/Snackbar&#x27;;
 import axios from &#x27;axios&#x27;;
-import imageSrc from &#x27;../../../../resources/marketplace_images/marketplace_image.png&#x27;;
+// import imageSrc from &#x27;../../../../resources/marketplace_images/marketplace_image.png&#x27;;
 import { red } from &#x27;@mui/material/colors&#x27;;
 import { saveProject } from &#x27;../../helperFunctions/projectGetSaveDel&#x27;;
 import { useHistory } from &#x27;react-router-dom&#x27;;
+import { Amplify, Storage } from &#x27;aws-amplify&#x27;;
+import awsconfig from &#x27;../../../../src/custom-aws-exports&#x27;;
 
 interface Project {
   forked: String;
@@ -60,33 +61,58 @@ const MarketplaceCard = ({ proj }: { proj: Project }) =&gt; {
   const dispatch = useDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState&lt;null | HTMLElement&gt;(null);
+  const [s3ImgURL, setS3ImgURL] = React.useState&lt;null | string&gt;(null);
   const open = Boolean(anchorEl);
   const [alertOpen, setAlertOpen] = React.useState&lt;boolean&gt;(false);
+  const [guest, setGuest] = React.useState&lt;boolean&gt;(null);
   const state = useSelector((store: RootState) =&gt; store.appState);
+
+
+  useEffect(() =&gt; {
+    async function s3ImgFetch() {
+      Amplify.configure(awsconfig);
+      try {
+        const objId: string = proj._id.toString();
+        // the below functions are commented out as not to incur too many charges
+        const response: string = await Storage.get(objId);
+        // const response: string = await Storage.get(&#x27;test&#x27;);
+        setS3ImgURL(response);
+      } catch (error) {
+        console.error(`Error fetching image preview for ${proj._id}: `, error);
+      }
+    }
+    s3ImgFetch();
+  }, []);
+
+
+
   const handleClick = (event: React.MouseEvent&lt;HTMLElement&gt;) =&gt; {
     setAnchorEl(event.currentTarget);
   };
   const handleClone = async () =&gt; {
-    // creates a copy of the project
-    const docId = proj._id;
-    const response = await axios.get(`/cloneProject/${docId}`, {
-      params: { username: window.localStorage.getItem(&#x27;username&#x27;) }
-    }); //passing in username as a query param is query params
-    const project = response.data.project;
-    setAlertOpen(true);
-    setAnchorEl(null);
-    return {
-      _id: project._id,
-      name: project.name,
-      published: project.published,
-      ...project.project
-    };
+    if(state.isLoggedIn){
+      // creates a copy of the project
+      const docId = proj._id;
+      const response = await axios.get(`/cloneProject/${docId}`); //passing in username as a query param is query params
+      const project = response.data;
+      setAlertOpen(true);
+      setAnchorEl(null);
+      return {
+        _id: project._id,
+        name: project.name,
+        published: project.published,
+        ...project.project
+      };
+    }
+    setGuest(true);
   };
 
   const handleCloneOpen = async () =&gt; {
-    const project = await handleClone();
-    history.push(&#x27;/&#x27;);
-    dispatch(openProject(project));
+    if(state.isLoggedIn){
+      const project = await handleClone();
+      history.push(&#x27;/&#x27;);
+      dispatch(openProject(project));
+    }
   };
 
   const handleClose = () =&gt; {
@@ -120,12 +146,12 @@ const MarketplaceCard = ({ proj }: { proj: Project }) =&gt; {
           sx={{ borderRadius: &#x27;12px&#x27;, height: 200 }}
           component=&quot;img&quot;
           height=&quot;194&quot;
-          image={imageSrc}
-          alt=&quot;component buttons&quot;
+          image={s3ImgURL}
+          alt=&quot;component preview&quot;
         /&gt;
         &lt;CardHeader
           avatar={
-            &lt;Avatar sx={{ bgcolor: red[500] }} aria-label=&quot;recipe&quot;&gt;
+            &lt;Avatar sx={{ bgcolor: &#x27;#0bcaa8&#x27; }} aria-label=&quot;recipe&quot;&gt;
               {proj.username.slice(0,1).toUpperCase()}
             &lt;/Avatar&gt;
           }
@@ -191,14 +217,28 @@ const MarketplaceCard = ({ proj }: { proj: Project }) =&gt; {
             Project Cloned!
           &lt;/Alert&gt;
         &lt;/Snackbar&gt;
+        &lt;Snackbar
+          open={guest}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: &#x27;top&#x27;, horizontal: &#x27;center&#x27; }} 
+          onClose={handleAlertClose}
+        &gt;
+          &lt;Alert
+            onClose={handleAlertClose}
+            severity=&quot;error&quot;
+            sx={{ width: &#x27;100%&#x27;, color: &#x27;white&#x27; }}
+          &gt;
+            Please login to clone!
+          &lt;/Alert&gt;
+        &lt;/Snackbar&gt;
       &lt;/Card&gt;
     &lt;/&gt;
   );
 };
 
 export default MarketplaceCard;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:7,&quot;text&quot;:&quot;imageSrc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:10,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:29,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:34,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:6,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:11,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:19,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:6,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:12,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:20,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:6,&quot;text&quot;:&quot;published&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:17,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:25,&quot;text&quot;:&quot;published&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:9,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:17,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:10,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:25,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:12,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:31,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:8,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:13,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:21,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:88,&quot;character&quot;:8,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:88,&quot;character&quot;:14,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:88,&quot;character&quot;:22,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:8,&quot;text&quot;:&quot;published&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:19,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:27,&quot;text&quot;:&quot;published&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:11,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:19,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:98,&quot;character&quot;:12,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/marketplace/MarketplaceCard.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:27,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sat, 28 Oct 2023 14:16:19 GMT</p>
     </body>
   </html>
   

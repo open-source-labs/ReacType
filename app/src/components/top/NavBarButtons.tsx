@@ -35,88 +35,88 @@ import withStyles from '@mui/styles/withStyles';
 const { API_BASE_URL } = config;
 
 // Part  - join room and room code functionality
-let socket;
+// let socket;
 
-function initSocketConnection(roomCode) {
-  if (socket) {
-    socket.disconnect();
-  }
+// function initSocketConnection(roomCode) {
+//   if (socket) {
+//     socket.disconnect();
+//   }
 
-  socket = io(API_BASE_URL, {
-    transports: ['websocket']
-  });
+//   socket = io(API_BASE_URL, {
+//     transports: ['websocket']
+//   });
 
-  socket.on('connect', () => {
-    console.log(`You connected with id: ${socket.id}`);
-    socket.emit('join-room', roomCode); // Join the room when connected
-  });
+//   socket.on('connect', () => {
+//     console.log(`You connected with id: ${socket.id}`);
+//     socket.emit('join-room', roomCode); // Join the room when connected
+//   });
 
-  // Receiving the room state from the backend
-  socket.on('room-state-update', (stateFromServer) => {
-    const newState = JSON.parse(stateFromServer);
-    // Dispatch actions to update your Redux store with the received state
-    store.dispatch(allCooperativeState(newState.appState));
-    store.dispatch(codePreviewCooperative(newState.codePreviewCooperative));
-    store.dispatch(cooperativeStyle(newState.styleSlice));
-  });
+//   // Receiving the room state from the backend
+//   socket.on('room-state-update', (stateFromServer) => {
+//     const newState = JSON.parse(stateFromServer);
+//     // Dispatch actions to update your Redux store with the received state
+//     store.dispatch(allCooperativeState(newState.appState));
+//     store.dispatch(codePreviewCooperative(newState.codePreviewCooperative));
+//     store.dispatch(cooperativeStyle(newState.styleSlice));
+//   });
 
-  // receiving the message from the back end
-  socket.on('receive message', (event) => {
-    // console.log('message from server: ', event);
-    let currentStore: any = JSON.stringify(store.getState());
-    if (currentStore !== event) {
-      currentStore = JSON.parse(currentStore);
-      event = JSON.parse(event);
-      if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
-        store.dispatch(toggleDarkMode());
-      } else if (currentStore.appState !== event.appState) {
-        store.dispatch(allCooperativeState(event.appState));
-      } else if (
-        currentStore.codePreviewSlice !== event.codePreviewCooperative
-      ) {
-        store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
-      } else if (currentStore.styleSlice !== event.styleSlice) {
-        store.dispatch(cooperativeStyle(event.styleSlice));
-      }
-    }
-    console.log('updated user Store from another user: ', store.getState());
-  });
-}
+//   // receiving the message from the back end
+//   socket.on('receive message', (event) => {
+//     // console.log('message from server: ', event);
+//     let currentStore: any = JSON.stringify(store.getState());
+//     if (currentStore !== event) {
+//       currentStore = JSON.parse(currentStore);
+//       event = JSON.parse(event);
+//       if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
+//         store.dispatch(toggleDarkMode());
+//       } else if (currentStore.appState !== event.appState) {
+//         store.dispatch(allCooperativeState(event.appState));
+//       } else if (
+//         currentStore.codePreviewSlice !== event.codePreviewCooperative
+//       ) {
+//         store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
+//       } else if (currentStore.styleSlice !== event.styleSlice) {
+//         store.dispatch(cooperativeStyle(event.styleSlice));
+//       }
+//     }
+//     console.log('updated user Store from another user: ', store.getState());
+//   });
+// }
 
-function handleUserEnteredRoom(roomCode) {
-  initSocketConnection(roomCode);
-}
+// function handleUserEnteredRoom(roomCode) {
+//   initSocketConnection(roomCode);
+// }
 
 // console.log(store.getState());
-let previousState = store.getState();
+// let previousState = store.getState();
 
-// sending info to backend whenever the redux store changes
-const handleStoreChange = debounce(() => {
-  const newState = store.getState();
-  const roomCode = newState.roomCodeSlice.roomCode;
+// // sending info to backend whenever the redux store changes
+// const handleStoreChange = debounce(() => {
+//   const newState = store.getState();
+//   const roomCode = newState.roomCodeSlice.roomCode;
 
-  if (roomCode !== '') {
-    // Emit the current room code
-    socket.emit('room-code', roomCode);
-  }
+//   if (roomCode !== '') {
+//     // Emit the current room code
+//     socket.emit('room-code', roomCode);
+//   }
 
-  if (newState !== previousState) {
-    // Send the current state to the server
-    socket.emit(
-      'custom-event',
-      'sent from front-end',
-      JSON.stringify(newState),
-      roomCode
-    );
-    previousState = newState;
-  }
-}, 100);
+//   if (newState !== previousState) {
+//     // Send the current state to the server
+//     socket.emit(
+//       'custom-event',
+//       'sent from front-end',
+//       JSON.stringify(newState),
+//       roomCode
+//     );
+//     previousState = newState;
+//   }
+// }, 100);
 
-store.subscribe(() => {
-  if (socket) {
-    handleStoreChange();
-  }
-});
+// store.subscribe(() => {
+//   if (socket) {
+//     handleStoreChange();
+//   }
+// });
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -254,17 +254,17 @@ function navbarDropDown(props) {
     props.setDropMenu(false);
   };
 
-  React.useEffect(() => {
-    console.log('joinedRoom: ', joinedRoom);
-  }, [joinedRoom]);
+  // React.useEffect(() => {
+  //   console.log('joinedRoom: ', joinedRoom);
+  // }, [joinedRoom]);
 
-  function joinRoom() {
-    dispatch(changeRoom(roomCode));
-    setConfirmRoom((confirmRoom) => roomCode);
+  // function joinRoom() {
+  //   dispatch(changeRoom(roomCode));
+  //   setConfirmRoom((confirmRoom) => roomCode);
 
-    // Call handleUserEnteredRoom when joining a room
-    handleUserEnteredRoom(roomCode);
-  }
+  //   // Call handleUserEnteredRoom when joining a room
+  //   handleUserEnteredRoom(roomCode);
+  // }
   // Part - Dark Mode
   const switchDark = isDarkMode ? (
     <svg
@@ -298,16 +298,19 @@ function navbarDropDown(props) {
 
     useEffect(() => {
       const handleClick = (event) => {
-        if (event.type === "click" &&
-          (dropdownRef.current &&
-          !dropdownRef.current.contains(event.target) && !props.menuButtonRef.current.contains(event.target)) || event.type === "message" && event.data === 'iframeClicked'
+        if (
+          (event.type === 'click' &&
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target) &&
+            !props.menuButtonRef.current.contains(event.target)) ||
+          (event.type === 'message' && event.data === 'iframeClicked')
         ) {
           //menuButtonRef is to ensure that handleClose does not get invoked when the user clicks on the menu dropdown button
           handleClose();
         }
       };
       window.addEventListener('click', handleClick, true);
-      window.addEventListener('message', handleClick);//to capture clicks in the iframe
+      window.addEventListener('message', handleClick); //to capture clicks in the iframe
 
       return () => {
         window.removeEventListener('click', handleClick, true);
@@ -360,7 +363,7 @@ function navbarDropDown(props) {
         </svg>
       </button>
       {/* {<ExportButton />} */}
-{/* 
+      {/* 
       <button onClick={handleDarkModeToggle}>
         {isDarkMode ? 'Light' : 'Dark'} Mode {switchDark}
       </button> */}
@@ -390,8 +393,11 @@ function navbarDropDown(props) {
             className="bi bi-bag-check"
             viewBox="0 0 16 16"
           >
-            <path fillRule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+            <path
+              fillRule="evenodd"
+              d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"
+            />
+            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
           </svg>
         </button>
       </Link>
@@ -411,7 +417,7 @@ function navbarDropDown(props) {
           <SaveProjectButton />
         </StyledMenuItem>
         <StyledMenuItem className={classes.manageProject} onClick={handleClose}>
-          <ProjectsFolder openAlert={props.openAlert}/>
+          <ProjectsFolder openAlert={props.openAlert} />
         </StyledMenuItem>
         <StyledMenuItem className={classes.manageProject} onClick={handleClose}>
           <DeleteProjects deleteAlert={props.deleteAlert} />
