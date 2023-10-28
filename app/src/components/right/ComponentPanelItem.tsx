@@ -23,7 +23,7 @@ const ComponentPanelItem: React.FC<{
   isThemeLight: boolean;
 }> = ({ name, id, root, isFocus, isThemeLight }) => {
   const classes = useStyles();
-  const state = useSelector((store:RootState) => store.appState);
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
   // useDrag hook allows components in left panel to be drag source
   const [{ isDragging }, drag] = useDrag({
@@ -35,31 +35,24 @@ const ComponentPanelItem: React.FC<{
     },
     canDrag: !root && !isFocus, // dragging not permitted if component is root component or current component
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging(), // !! converts an object to a boolean (i.e., if falsy, becomes false => !!0 === false)
-    }),
+      isDragging: !!monitor.isDragging() // !! converts an object to a boolean (i.e., if falsy, becomes false => !!0 === false)
+    })
   });
 
   // when a component is clicked in the left panel, change canvas focus to that component
   const handleClick = () => {
     //LEGACY PD
-    dispatch(changeFocus({ componentId: id, childId: null}));
-    
+    dispatch(changeFocus({ componentId: id, childId: null }));
   };
   return (
     <Grid
       item
       ref={drag}
-      xs= {8}
+      xs={8}
       style={{
-        // display: 'grid',
         color: isThemeLight ? 'black' : 'white',
         backgroundColor: 'transparent',
-        // border: root
-        //   ? '2px dotted #186BB4'
-        //   : '2px solid #186BB4',
-        border: isThemeLight
-          ? '2px solid black'
-          : '2px solid white',
+        border: isThemeLight ? '2px solid black' : '2px solid white',
         borderRadius: '4px',
         borderColor: '#000000',
         margin: '5px 0px',
@@ -67,7 +60,7 @@ const ComponentPanelItem: React.FC<{
         width: '10rem'
       }}
     >
-      {isFocus && <div className={classes.focusMark}></div>}  
+      {isFocus && <div className={classes.focusMark}></div>}
       <div className="compPanelItem" onClick={handleClick}>
         <h3>{name}</h3>
       </div>
@@ -84,7 +77,7 @@ const useStyles = makeStyles({
     width: '12px',
     height: '12px',
     borderRadius: '25px',
-    position: 'absolute'//so it doesn't cause the containing box to jiggle when selected due to change in size
+    position: 'absolute' //so it doesn't cause the containing box to jiggle when selected due to change in size
   },
   lightTheme: {
     color: 'rgba (0, 0, 0, 0.54)'
@@ -94,4 +87,3 @@ const useStyles = makeStyles({
   }
 });
 export default ComponentPanelItem;
-

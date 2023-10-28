@@ -2,7 +2,6 @@ import { Button, InputLabel } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { BorderColor } from '@mui/icons-material';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import { addElement } from '../../redux/reducers/slice/appStateSlice';
@@ -31,10 +30,7 @@ const HTMLPanel = (props): JSX.Element => {
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
+  const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
   const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
   let startingID = 0;
@@ -162,18 +158,18 @@ const HTMLPanel = (props): JSX.Element => {
   }, []);
 
   const handleAlertOpen = () => {
-    setAlertOpen(true)
-  }
+    setAlertOpen(true);
+  };
 
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
-    ) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-      setAlertOpen(false);
+  ) => {
+    if (reason === 'clickaway') {
+      return;
     }
+    setAlertOpen(false);
+  };
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -183,151 +179,115 @@ const HTMLPanel = (props): JSX.Element => {
   });
 
   return (
-  <>
-    <div className="HTMLItemCreate">
-      <div className={classes.addComponentWrapper}>
-        <div className={classes.inputWrapper}>
-          <form onSubmit={handleSubmit} className="customForm">
-            <h4
-              className={
-                !isDarkMode
-                  ? classes.lightThemeFontColor
-                  : classes.darkThemeFontColor
-              }
-            >
-              New HTML Tag:{' '}
-            </h4>
-            <InputLabel
-              htmlFor="tag"
-              className={
-                !isDarkMode
-                  ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
-                  : `${classes.inputLabel} ${classes.darkThemeFontColor}`
-              }
-            >
-              Tag:
-            </InputLabel>
-            <TextField
-              id="tag"
-              color="primary"
-              variant="outlined"
-              type="text"
-              name="Tag"
-              value={tag}
-              autoComplete="off"
-              onChange={handleTagChange}
-              className={
-                !isDarkMode
-                  ? `${classes.input} ${classes.lightThemeFontColor}`
-                  : `${classes.input} ${classes.darkThemeFontColor}`
-              }
-              style={{ margin: '10px' }}
-              InputProps={{
-                style: {
-                  color: !isDarkMode ? 'white' : 'white'
-                }
-              }}
-            />
-
-            {(!tag.charAt(0).match(/[A-Za-z]/) ||
-              !alphanumeric(tag) ||
-              tag.trim() === '' ||
-              checkNameDupe(tag)) && (
-              <span
-                className={
-                  !isDarkMode
-                    ? `${classes.errorMessage} ${classes.errorMessageLight}`
-                    : `${classes.errorMessage} ${classes.errorMessageDark}`
-                }
+    <>
+      <div className="HTMLItemCreate">
+        <div className={classes.addComponentWrapper}>
+          <div className={classes.inputWrapper}>
+            <form onSubmit={handleSubmit} className="customForm">
+              <h4 className={classes.darkThemeFontColor}>New HTML Tag: </h4>
+              <InputLabel
+                htmlFor="tag"
+                className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
               >
-                <em>{errorMsg}</em>
-              </span>
-            )}
+                Tag:
+              </InputLabel>
+              <TextField
+                id="tag"
+                color="primary"
+                variant="outlined"
+                type="text"
+                name="Tag"
+                value={tag}
+                autoComplete="off"
+                onChange={handleTagChange}
+                className={`${classes.input} ${classes.darkThemeFontColor}`}
+                style={{ margin: '10px' }}
+                InputProps={{
+                  style: {
+                    color: 'white'
+                  }
+                }}
+              />
 
-            <br></br>
-            <InputLabel
-              htmlFor="elementName"
-              className={
-                !isDarkMode
-                  ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
-                  : `${classes.inputLabel} ${classes.darkThemeFontColor}`
-              }
-            >
-              Element Name:
-            </InputLabel>
-            <TextField
-              id="elementName"
-              color="primary"
-              variant="outlined"
-              type="text"
-              name="Tag Name"
-              value={name}
-              onChange={handleNameChange}
-              autoComplete="off"
-              className={
-                !isDarkMode
-                  ? `${classes.input} ${classes.lightThemeFontColor}`
-                  : `${classes.input} ${classes.darkThemeFontColor}`
-              }
-              style={{}}
-              InputProps={{
-                style: {
-                  color: !isDarkMode ? 'white' : 'white'
-                }
-              }}
-            />
-            {(!name.charAt(0).match(/[A-Za-z]/) ||
-              !alphanumeric(name) ||
-              name.trim() === '' ||
-              name.length > 10 ||
-              checkNameDupe(name)) && (
-              <span
-                className={
-                  !isDarkMode
-                    ? `${classes.errorMessage} ${classes.errorMessageLight}`
-                    : `${classes.errorMessage} ${classes.errorMessageDark}`
-                }
+              {(!tag.charAt(0).match(/[A-Za-z]/) ||
+                !alphanumeric(tag) ||
+                tag.trim() === '' ||
+                checkNameDupe(tag)) && (
+                <span
+                  className={`${classes.errorMessage} ${classes.errorMessageDark}`}
+                >
+                  <em>{errorMsg}</em>
+                </span>
+              )}
+
+              <br></br>
+              <InputLabel
+                htmlFor="elementName"
+                className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
               >
-                <em>{errorMsg}</em>
-              </span>
-            )}
-            <br></br>
-            <Button
-              onClick={handleAlertOpen}
-              className={
-                !isDarkMode
-                  ? `${classes.addElementButton} ${classes.lightThemeFontColor}`
-                  : `${classes.addElementButton} ${classes.darkThemeFontColor}`
-              }
-              id="submitButton"
-              type="submit"
-              color="primary"
-              variant="contained"
-              value="Add Element"
-            >
-              Add Element
-            </Button>
-          </form>
+                Element Name:
+              </InputLabel>
+              <TextField
+                id="elementName"
+                color="primary"
+                variant="outlined"
+                type="text"
+                name="Tag Name"
+                value={name}
+                onChange={handleNameChange}
+                autoComplete="off"
+                className={`${classes.input} ${classes.darkThemeFontColor}`}
+                style={{}}
+                InputProps={{
+                  style: {
+                    color: 'white'
+                  }
+                }}
+              />
+              {(!name.charAt(0).match(/[A-Za-z]/) ||
+                !alphanumeric(name) ||
+                name.trim() === '' ||
+                name.length > 10 ||
+                checkNameDupe(name)) && (
+                <span
+                  className={`${classes.errorMessage} ${classes.errorMessageDark}`}
+                >
+                  <em>{errorMsg}</em>
+                </span>
+              )}
+              <br></br>
+              <Button
+                onClick={handleAlertOpen}
+                className={`${classes.addElementButton} ${classes.darkThemeFontColor}`}
+                id="submitButton"
+                type="submit"
+                color="primary"
+                variant="contained"
+                value="Add Element"
+              >
+                Add Element
+              </Button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-    <>
-    <Snackbar
-      open={alertOpen}
-      autoHideDuration={3000}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-      onClose={handleAlertClose}
-    >
-      <Alert
-        onClose={handleAlertClose}
-        severity="success"
-        sx={{ width: '100%', color: 'white' }}
-      >
-        HTML Tag Created!
-      </Alert>
-    </Snackbar>
+      <>
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            HTML Tag Created!
+          </Alert>
+        </Snackbar>
+      </>
     </>
- </>
   );
 };
 

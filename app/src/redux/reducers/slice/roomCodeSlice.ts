@@ -5,7 +5,7 @@ const initialState = {
   roomCode: ''
 };
 
-// Creates new slice with the name darkMode, initial state, and reducer function which toggles dark mode state between true and false
+// Creates new slice with the name , initial state, and reducer function
 const roomCodeSlice = createSlice({
   name: 'roomCode',
   initialState,

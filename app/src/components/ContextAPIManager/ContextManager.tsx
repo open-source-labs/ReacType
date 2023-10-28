@@ -1,4 +1,4 @@
- import React, { useContext } from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -9,31 +9,28 @@ import TabPanel from '@mui/lab/TabPanel';
 import CreateContainer from './CreateTab/CreateContainer';
 import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-
 
 const useStyles = makeStyles({
   contextContainer: {
     backgroundColor: '#191919',
-    height: 'fit-content',
+    height: 'fit-content'
   }
 });
 
 const ContextManager = (props): JSX.Element => {
-  const { isDarkMode, style } = useSelector((store:RootState) => ({
-    isDarkMode: store.darkMode.isDarkMode,
+  const { style } = useSelector((store: RootState) => ({
     style: store.styleSlice
   }));
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
-  
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
-  const background_Color = isDarkMode ? '#21262b' : 'white'
-  const color = isDarkMode ? 'white' : 'white'
+  const color = 'white';
 
   return (
     <React.Fragment>
@@ -41,7 +38,11 @@ const ContextManager = (props): JSX.Element => {
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChange} centered={true} sx={{color:color}}>
+              <TabList
+                onChange={handleChange}
+                centered={true}
+                sx={{ color: color }}
+              >
                 <Tab style={{ color: color }} label="Create/Edit" value="1" />
                 <Tab style={{ color: color }} label="Assign" value="2" />
                 <Tab style={{ color: color }} label="Display" value="3" />

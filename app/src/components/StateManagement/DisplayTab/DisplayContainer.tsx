@@ -5,14 +5,15 @@ import { Typography } from '@mui/material';
 import DataTable from './DataTable';
 import Tree from './Tree';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store'
+import { RootState } from '../../../redux/store';
 
-function DisplayContainer({ data, props }) { // "data" is referring to components from state - passed in from StateManagement
+function DisplayContainer({ data, props }) {
+  // "data" is referring to components from state - passed in from StateManagement
   // grabbing intialized state from App using UseContext
   const [currComponentState, setCurrComponentState] = useState([]);
   const [parentProps, setParentProps] = useState([]);
-  const state = useSelector((store:RootState) => store.appState)
-  
+  const state = useSelector((store: RootState) => store.appState);
+
   let root = '';
 
   // check the canvasFocus
@@ -33,7 +34,12 @@ function DisplayContainer({ data, props }) { // "data" is referring to component
 
   return (
     <div style={{ display: 'flex' }}>
-      <Tree data={data} setCurrComponentState={setCurrComponentState} setParentProps={setParentProps} setClickedComp={setClickedComp} />
+      <Tree
+        data={data}
+        setCurrComponentState={setCurrComponentState}
+        setParentProps={setParentProps}
+        setClickedComp={setClickedComp}
+      />
       <Divider orientation="vertical" variant="middle" flexItem />
       <Grid item>
         <Typography
@@ -50,17 +56,19 @@ function DisplayContainer({ data, props }) { // "data" is referring to component
           gutterBottom
           align="center"
         >
-          Total State for
-          {' '}
-          {clickedComp}
+          Total State for {clickedComp}
         </Typography>
-        <DataTable currComponentState={currComponentState} setCurrComponentState={setCurrComponentState} parentProps={parentProps} setParentProps={setParentProps} props={props} clickedComp={clickedComp} data={data} />
+        <DataTable
+          currComponentState={currComponentState}
+          setCurrComponentState={setCurrComponentState}
+          parentProps={parentProps}
+          setParentProps={setParentProps}
+          props={props}
+          clickedComp={clickedComp}
+          data={data}
+        />
       </Grid>
     </div>
   );
 }
 export default DisplayContainer;
-
-//deleted these from returned Tree props:
-//currComponentState={currComponentState}
-//parentProps={parentProps}
