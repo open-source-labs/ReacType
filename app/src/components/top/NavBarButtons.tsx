@@ -87,7 +87,7 @@ const { API_BASE_URL } = config;
 // }
 
 // console.log(store.getState());
-let previousState = store.getState();
+// let previousState = store.getState();
 
 // // sending info to backend whenever the redux store changes
 // const handleStoreChange = debounce(() => {
@@ -247,13 +247,13 @@ function navbarDropDown(props) {
   //   console.log('joinedRoom: ', joinedRoom);
   // }, [joinedRoom]);
 
-  function joinRoom() {
-    dispatch(changeRoom(roomCode));
-    setConfirmRoom((confirmRoom) => roomCode);
+  // function joinRoom() {
+  //   dispatch(changeRoom(roomCode));
+  //   setConfirmRoom((confirmRoom) => roomCode);
 
-    // Call handleUserEnteredRoom when joining a room
-    handleUserEnteredRoom(roomCode);
-  }
+  //   // Call handleUserEnteredRoom when joining a room
+  //   handleUserEnteredRoom(roomCode);
+  // }
 
   let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
 
