@@ -8,47 +8,51 @@ import NewExportButton from './NewExportButton';
 import { RootState } from '../../redux/store';
 import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { publishProject, unpublishProject } from '../../helperFunctions/projectGetSaveDel';
+import {
+  publishProject,
+  unpublishProject
+} from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
-import { updateProjectId, updateProjectName, updateProjectPublished, toggleScreenshotTrigger } from '../../redux/reducers/slice/appStateSlice';
+import {
+  updateProjectId,
+  updateProjectName,
+  updateProjectPublished,
+  toggleScreenshotTrigger
+} from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
-
 const NavBar = () => {
   const [dropMenu, setDropMenu] = useState(false);
   const state = useSelector((store: RootState) => store.appState);
-  const [publishModalOpen, setPublishModalOpen] = useState(false); 
+  const [publishModalOpen, setPublishModalOpen] = useState(false);
   const [projectName, setProjectName] = useState(state.name || '');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
-  const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState('');
+  const [invalidProjectNameMessage, setInvalidProjectNameMessage] =
+    useState('');
   const urlAdd = useHistory();
   const isMarketplace = urlAdd.location.pathname === '/marketplace';
 
-  const isDarkMode = useSelector(
-    (state: RootState) => state.darkMode.isDarkMode
-  );
-
   const dispatch = useDispatch();
   const menuButtonRef = useRef(null);
-  const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
-  const [alertOpen2, setAlertOpen2] = React.useState<boolean>(false)
-  const [deleteAlert, setDeleteAlert] = React.useState<boolean>(false)
-  const [openAlert, setOpenAlert] = React.useState<boolean>(false)
-  const [loginAlert, setLoginAlert] = React.useState<boolean>(false)
+  const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
+  const [alertOpen2, setAlertOpen2] = React.useState<boolean>(false);
+  const [deleteAlert, setDeleteAlert] = React.useState<boolean>(false);
+  const [openAlert, setOpenAlert] = React.useState<boolean>(false);
+  const [loginAlert, setLoginAlert] = React.useState<boolean>(false);
 
-  useEffect(()=>{
-    setProjectName(state.name)
-  }, [state.name])//update the ProjectName after state.name changes due to loading projects
+  useEffect(() => {
+    setProjectName(state.name);
+  }, [state.name]); //update the ProjectName after state.name changes due to loading projects
 
   const deleteAlertOpen = () => {
     setDeleteAlert(true);
-  }
+  };
 
   const openProjectAlert = () => {
-    setOpenAlert(true)
-  }
+    setOpenAlert(true);
+  };
 
   const buttonContainerStyle = {
     display: 'flex',
@@ -59,7 +63,7 @@ const NavBar = () => {
   const buttonStyle = {
     backgroundColor: '#333',
     border: 'none',
-    color: isDarkMode ? 'lightgray' : 'white',
+    color: 'lightgray',
     fontSize: '12px',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -88,10 +92,9 @@ const NavBar = () => {
       setInvalidProjectName(true);
       setPublishModalOpen(true);
       return;
-    } else if(state.isLoggedIn === false) {
+    } else if (state.isLoggedIn === false) {
       setLoginAlert(true);
     } else {
-
       publishProject(projectName, state)
         .then((newProject: State) => {
           setPublishModalOpen(false);
@@ -99,109 +102,102 @@ const NavBar = () => {
           dispatch(updateProjectName(newProject.name));
           dispatch(updateProjectPublished(newProject.published));
           dispatch(toggleScreenshotTrigger());
-          setAlertOpen(true)
+          setAlertOpen(true);
         })
         .catch((error) => {
           console.error('Error publishing project:', error.message);
-        });     
+        });
     }
   };
 
-    const handleUnpublish = () => {
-      unpublishProject(state)
-        .then((unpublishedProject: State) => {
-          dispatch(updateProjectPublished(false)); 
-          setAlertOpen2(true);
-        })
-        .catch((error) => {
-          console.error('Error unpublishing project:', error.message);
-        });
-    };
+  const handleUnpublish = () => {
+    unpublishProject(state)
+      .then((unpublishedProject: State) => {
+        dispatch(updateProjectPublished(false));
+        setAlertOpen2(true);
+      })
+      .catch((error) => {
+        console.error('Error unpublishing project:', error.message);
+      });
+  };
 
-    const handleAlertClose = (
-      event: React.SyntheticEvent | Event,
-      reason?: string
-      ) => {
-        if (reason === 'clickaway') {
-          return;
-        }
-        setAlertOpen(false);  
-        setAlertOpen2(false);
-        setDeleteAlert(false);
-        setOpenAlert(false);
-        setLoginAlert(false);
-      }
-  
-    const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-      props,
-      ref
-    ) {
-      return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
+  const handleAlertClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setAlertOpen(false);
+    setAlertOpen2(false);
+    setDeleteAlert(false);
+    setOpenAlert(false);
+    setLoginAlert(false);
+  };
 
-  
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   return (
     <div>
-    <nav
-      className="main-navbar"
-      style={
-        isDarkMode
-          ? { backgroundColor: '#013365' }
-          : { backgroundColor: '#151515' }
-      }
-    >
-      <Link to="/" style={{ textDecoration: 'none' }}>
-        <div className="main-logo">
-          <Avatar src={logo}></Avatar>
-          <h1 style={isDarkMode ? { color: 'white' } : { color: 'white' }}>
-            ReacType
-          </h1>
+      <nav className="main-navbar" style={{ backgroundColor: '#151515' }}>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <div className="main-logo">
+            <Avatar src={logo}></Avatar>
+            <h1 style={{ color: 'white' }}>ReacType</h1>
+          </div>
+        </Link>
+        <div style={buttonContainerStyle}>
+          {isMarketplace ? null : state.published ? (
+            <button style={buttonStyle} onClick={handleUnpublish}>
+              Unpublish
+            </button>
+          ) : (
+            <button style={buttonStyle} onClick={handlePublish}>
+              Publish
+            </button>
+          )}
+          <NewExportButton />
+          <Button
+            style={moreVertButtonStyle}
+            variant="contained"
+            color="primary"
+            onClick={() => setDropMenu(!dropMenu)}
+            ref={menuButtonRef}
+          >
+            <MoreVertIcon
+              style={{ color: 'white' }}
+              data-testid="more-vert-button"
+            />
+          </Button>
+          <NavBarButtons
+            dropMenu={dropMenu}
+            setDropMenu={setDropMenu}
+            menuButtonRef={menuButtonRef}
+            style={{ color: 'white' }}
+            deleteAlert={deleteAlertOpen}
+            openAlert={openProjectAlert}
+          />
         </div>
-      </Link>
-      <div style={buttonContainerStyle}>
-        {isMarketplace ? null : (state.published ? (
-          <button style={buttonStyle} onClick={handleUnpublish}>
-            Unpublish
-          </button>
-        ) : (
-          <button style={buttonStyle} onClick={handlePublish}>
-            Publish
-          </button>
-        ))}
-        <NewExportButton />
-        <Button
-          style={moreVertButtonStyle}
-          variant="contained"
-          color="primary"
-          onClick={() => setDropMenu(!dropMenu)}
-          ref={menuButtonRef}
-        >
-          <MoreVertIcon style={{ color: 'white' }} data-testid="more-vert-button" />
-        </Button>
-        <NavBarButtons
-          dropMenu={dropMenu}
-          setDropMenu={setDropMenu}
-          menuButtonRef={menuButtonRef}
-          style={{ color: 'white' }}
-          deleteAlert={deleteAlertOpen}
-          openAlert={openProjectAlert}
+        <PublishModal
+          open={publishModalOpen}
+          onClose={() => setPublishModalOpen(false)}
+          onSave={handlePublish}
+          projectName={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+          invalidProjectName={invalidProjectName}
+          invalidProjectNameMessage={invalidProjectNameMessage}
         />
-      </div>
-      <PublishModal
-        open={publishModalOpen}
-        onClose={() => setPublishModalOpen(false)}
-        onSave={handlePublish}
-        projectName={projectName}
-        onChange={(e) => setProjectName(e.target.value)}
-        invalidProjectName={invalidProjectName}
-        invalidProjectNameMessage={invalidProjectNameMessage}
-      />
-    </nav>
-    <div>
+      </nav>
+      <div>
         <Snackbar
           open={alertOpen}
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
           <Alert
@@ -215,7 +211,7 @@ const NavBar = () => {
         <Snackbar
           open={alertOpen2}
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
           <Alert
@@ -229,7 +225,7 @@ const NavBar = () => {
         <Snackbar
           open={deleteAlert}
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
           <Alert
@@ -237,13 +233,13 @@ const NavBar = () => {
             severity="success"
             sx={{ width: '100%', color: 'white' }}
           >
-             Project Deleted!
+            Project Deleted!
           </Alert>
         </Snackbar>
         <Snackbar
           open={openAlert}
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
           <Alert
@@ -257,7 +253,7 @@ const NavBar = () => {
         <Snackbar
           open={loginAlert}
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
           <Alert
@@ -268,7 +264,7 @@ const NavBar = () => {
             Login to Publish!
           </Alert>
         </Snackbar>
-    </div>
+      </div>
     </div>
   );
 };

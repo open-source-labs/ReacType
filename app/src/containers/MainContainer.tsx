@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import BottomPanel from '../components/bottom/BottomPanel';
 import CanvasContainer from '../components/main/CanvasContainer';
 import DemoRender from '../components/main/DemoRender';
@@ -11,34 +11,40 @@ import { Amplify, Storage } from 'aws-amplify';
 import awsconfig from '../../../src/custom-aws-exports';
 
 const MainContainer = (props): JSX.Element => {
-  const [bottomShow, setBottomShow] = useState(false)
+  const [bottomShow, setBottomShow] = useState(false);
   const dispatch = useDispatch();
-  const screenshotTrigger = useSelector((store: RootState) => store.appState.screenshotTrigger); 
-  const id: string = useSelector((store: RootState) => store.appState._id); 
-  const { isDarkMode, style } = useSelector((store) => ({
-    isDarkMode: store.darkMode.isDarkMode,
-    style: store.styleSlice, 
+  const screenshotTrigger = useSelector(
+    (store: RootState) => store.appState.screenshotTrigger
+  );
+  const id: string = useSelector((store: RootState) => store.appState._id);
+  const { style } = useSelector((store) => ({
+    style: store.styleSlice
   }));
   const containerRef: React.RefObject<HTMLDivElement> = useRef(null);
 
   // useEffect hook to detect and execute changes in screenshotTrigger, taking a screenshot of the canvas when a project is published on NavBar
-  useEffect(() => { 
+  useEffect(() => {
     const handleScreenshot = async (): Promise<Buffer | void> => {
       if (screenshotTrigger) {
         try {
-          const canvas: HTMLCanvasElement = await html2canvas(containerRef.current);
+          const canvas: HTMLCanvasElement = await html2canvas(
+            containerRef.current
+          );
           const screenshotURL: string = canvas.toDataURL('image/png');
-          const imgBuffer: Buffer | void  = Buffer.from(screenshotURL.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+          const imgBuffer: Buffer | void = Buffer.from(
+            screenshotURL.replace(/^data:image\/\w+;base64,/, ''),
+            'base64'
+          );
           dispatch(toggleScreenshotTrigger());
           return imgBuffer;
         } catch (error) {
           alert('Error capturing screenshot: ' + error);
         }
       }
-    }
+    };
     handleScreenshot().then((imgBuffer: Buffer | void) => {
       if (imgBuffer) {
-        uploadScreenshotS3(imgBuffer); 
+        uploadScreenshotS3(imgBuffer);
       }
     });
   }, [screenshotTrigger]);
@@ -59,28 +65,33 @@ const MainContainer = (props): JSX.Element => {
     checkStorageConnection();
     try {
       await Storage.put(id, imgBuffer, {
-        contentType: 'image/png',
+        contentType: 'image/png'
       });
     } catch (error) {
       alert('Error uploading screenshot: ' + error);
     }
-  }
+  };
 
   //Logic to close the bottompanel when clicking outside of it
   const useOutsideClick = () => {
     const bottomPanelRef = useRef(null);
 
     useEffect(() => {
-      const handleClick = (event) => {        
-        if (event.type === "click" &&
-          (bottomPanelRef.current &&
-          !bottomPanelRef.current.contains(event.target) && event.target.getAttribute("role") != "menu" && !event.target.classList.contains('MuiInput-input')) || (event.type === "message" && event.data === 'iframeClicked')) {
+      const handleClick = (event) => {
+        if (
+          (event.type === 'click' &&
+            bottomPanelRef.current &&
+            !bottomPanelRef.current.contains(event.target) &&
+            event.target.getAttribute('role') != 'menu' &&
+            !event.target.classList.contains('MuiInput-input')) ||
+          (event.type === 'message' && event.data === 'iframeClicked')
+        ) {
           //menuButtonRef is to ensure that handleClose does not get invoked when the user clicks on the menu dropdown button
           handleClose();
         }
       };
       window.addEventListener('click', handleClick, true);
-      window.addEventListener('message', handleClick);//to capture clicks in the iframe
+      window.addEventListener('message', handleClick); //to capture clicks in the iframe
 
       return () => {
         window.removeEventListener('click', handleClick, true);
@@ -101,12 +112,15 @@ const MainContainer = (props): JSX.Element => {
 
   return (
     <div className="main-container" style={style} ref={containerRef}>
-      <div className="main" >
+      <div className="main">
         <CanvasContainer isThemeLight={props.isThemeLight} />
         <DemoRender />
       </div>
-      <div className={showPanel} ref = {ref}>
-        <BottomPanel setBottomShow = {setBottomShow} isThemeLight={props.isThemeLight} />
+      <div className={showPanel} ref={ref}>
+        <BottomPanel
+          setBottomShow={setBottomShow}
+          isThemeLight={props.isThemeLight}
+        />
       </div>
     </div>
   );

@@ -43,64 +43,52 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
   // convert value to correct type based on user input
   const typeConversion = (value: string, type: string) => {
     switch (type) {
-      case 'string':
-        {
-          setInputTypeError('');
-          return String(value);
-        }
-      case 'number':
-        {
-          setInputTypeError('');
-          return Number(value);
-        }
-      case 'boolean':
-        {
-          setInputTypeError('');
-          return value === 'true';
-        }
+      case 'string': {
+        setInputTypeError('');
+        return String(value);
+      }
+      case 'number': {
+        setInputTypeError('');
+        return Number(value);
+      }
+      case 'boolean': {
+        setInputTypeError('');
+        return value === 'true';
+      }
       case 'array':
-        try{
+        try {
           let retVal = JSON.parse(value);
-          if(Array.isArray(retVal)){
+          if (Array.isArray(retVal)) {
             setInputTypeError('');
-            return retVal
-          }else{
-
+            return retVal;
+          } else {
             throw new Error('Input was not an array!');
-
           }
-        }
-        catch{
-
-          setInputTypeError(type)
+        } catch {
+          setInputTypeError(type);
           return null;
         }
-      case 'object':{
-        try{
+      case 'object': {
+        try {
           let retVal = JSON.parse(value);
- 
-          if(typeof retVal === 'object' && !Array.isArray(retVal)){
+
+          if (typeof retVal === 'object' && !Array.isArray(retVal)) {
             setInputTypeError('');
-            return retVal
-          }else{
+            return retVal;
+          } else {
             throw new Error('Input was not an object (excluding Arrays)!');
           }
-        }
-        catch{
-
-          setInputTypeError(type)
+        } catch {
+          setInputTypeError(type);
           return null;
         }
       }
-      default:
-        {
-          setInputTypeError('');
-          return value;
-        }
+      default: {
+        setInputTypeError('');
+        return value;
+      }
     }
   };
-
- 
 
   // clears the input key, value, and type on Form
   const clearForm = () => {
@@ -109,12 +97,9 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     setInputType('');
   };
 
- 
-  useEffect(()=>{
-
+  useEffect(() => {
     setNewVal(typeConversion(inputValue, inputType));
-
-  }, [inputType, inputValue] ) 
+  }, [inputType, inputValue]);
 
   // submit new stateProps entries to state context
   const submitNewState = (e) => {
@@ -143,14 +128,13 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
           setErrorStatus(true);
           setErrorMsg('Key name already in use.');
           return;
-        }
-        else{
+        } else {
           setErrorStatus(false);
           setErrorMsg('');
         }
       }
     }
-    setPropNum((prev) => prev + 1);    
+    setPropNum((prev) => prev + 1);
     const newState = {
       // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
       id: `${currentComponent.name}-${inputKey}`,
@@ -158,7 +142,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       value: newVal,
       type: inputType
     };
-    
+
     const setNewState = {
       // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
       id: `${currentComponent.name}-set${inputKey
@@ -168,7 +152,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       value: '',
       type: 'func'
     };
-    if(!inputTypeError){
+    if (!inputTypeError) {
       dispatch(
         addState({
           newState: newState,
@@ -179,7 +163,6 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       setRows1([...rows1, newState]);
       setErrorStatus(false);
       clearForm();
-
     }
   };
 
@@ -276,12 +259,9 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                 ? `${classes.formControl} ${classes.lightThemeFontColor}`
                 : `${classes.formControl} ${classes.darkThemeFontColor}`
             }
-            error={inputTypeError != '' || errorStatus }
+            error={inputTypeError != '' || errorStatus}
           >
-            <InputLabel
-              id="select-required-label"
-              style={{color: 'white'}}
-            >
+            <InputLabel id="select-required-label" style={{ color: 'white' }}>
               Type
             </InputLabel>
             <Select
@@ -296,31 +276,14 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
               value={inputType === 'func' ? '' : inputType}
               onChange={(event) => setInputType(event.target.value)}
               MenuProps={{ disablePortal: true }}
-              style={
-                {
-                  backgroundColor: 'gray',
-                  color: '#fff',
-                  border: '1px solid white',
-                  height: '28px',
-                  width: '200px'
-                }
-              }
-            >{/*originally in style: 
-            isThemeLight
-                  ? {
-                      backgroundColor: '#eef0f1',
-                      color: '#000',
-                      border: '1px solid black',
-                      height: '28px',
-                      width: '200px'
-                    }
-                  : {
-                      backgroundColor: 'gray',
-                      color: '#fff',
-                      border: '1px solid white',
-                      height: '28px',
-                      width: '200px'
-                    }*/} 
+              style={{
+                backgroundColor: 'gray',
+                color: '#fff',
+                border: '1px solid white',
+                height: '28px',
+                width: '200px'
+              }}
+            >
               <MenuItem value="" style={{ color: 'black' }}>
                 <em>Types</em>
               </MenuItem>
@@ -381,10 +344,11 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                   : classes.darkThemeFontColor
               }
             >
-              {
-               inputTypeError === 'object' ? 'JSON object form: {"key": value}' : 
-               inputTypeError === 'array' ? 'Array form: [value]' : 'Required'
-              }
+              {inputTypeError === 'object'
+                ? 'JSON object form: {"key": value}'
+                : inputTypeError === 'array'
+                ? 'Array form: [value]'
+                : 'Required'}
             </FormHelperText>
           </FormControl>
           <br />
@@ -405,7 +369,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
         </FormControl>
       </div>
       <br />
-      <div style={{ display: 'flex'}}>
+      <div style={{ display: 'flex' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h4
             className={
@@ -578,8 +542,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: 'center',
     margin: '-20px 0px 5px 150px',
     border: ' 1px solid #186BB4',
-    transition: '0.3s',
-    // borderRadius: "25px",
+    transition: '0.3s'
   },
   rootToggle: {
     color: '#696969',

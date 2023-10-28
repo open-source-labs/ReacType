@@ -8,9 +8,7 @@ import { useSelector } from 'react-redux';
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
+
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
@@ -21,13 +19,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
       {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
-        <h4
-          className={
-            !isDarkMode
-              ? classes.lightThemeFontColor
-              : classes.darkThemeFontColor
-          }
-        >
+        <h4 className={classes.darkThemeFontColor}>
           {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
             ? 'Pages'
             : 'Root Components'}
@@ -37,7 +29,6 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
           direction="row"
           justifyContent="center"
           alignItems="center"
-          
         >
           {state.components
             .filter((comp) => state.rootComponents.includes(comp.id))
@@ -54,37 +45,6 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
               );
             })}
         </Grid>
-        {/* Display all reusable components */}
-        {/* <h4
-          className={
-            !isDarkMode
-              ? classes.lightThemeFontColor
-              : classes.darkThemeFontColor
-          }
-        >
-          Reusable Components
-        </h4>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {state.components
-            .filter((comp) => !state.rootComponents.includes(comp.id))
-            .map((comp) => {
-              return (
-                <ComponentPanelItem
-                  isFocus={isFocus(comp.id)}
-                  key={`comp-${comp.id}`}
-                  name={comp.name}
-                  id={comp.id}
-                  root={false}
-                  isThemeLight={isThemeLight}
-                />
-              );
-            })}
-        </Grid> */}
       </div>
     </div>
   );
@@ -99,7 +59,7 @@ const useStyles = makeStyles({
     overflow: 'auto'
   },
   panelWrapperList: {
-    minHeight: '120px',
+    minHeight: '120px'
   },
   lightThemeFontColor: {
     color: '#fff'
