@@ -16,8 +16,8 @@ import store from '../../redux/store';
 //pasted from navbarbuttons
 import debounce from '../../../../node_modules/lodash/debounce.js';
 
-// for websockets
-// Part  - join room and room code functionality
+// // for websockets
+// // Part  - join room and room code functionality
 let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
@@ -29,11 +29,12 @@ const RoomsContainer = () => {
     joinedRoom: store.roomCodeSlice.roomCode
   }));
   React.useEffect(() => {
-    console.log('joinedRoom: ', joinedRoom);
+    console.log('You Joined Room: ', joinedRoom);
   }, [joinedRoom]);
 
   function initSocketConnection(roomCode) {
     if (socket) {
+      //edge case check if socket connection existed
       socket.disconnect();
     }
 
@@ -79,9 +80,9 @@ const RoomsContainer = () => {
   function handleUserEnteredRoom(roomCode) {
     initSocketConnection(roomCode);
   }
-  //line 83-113 was pasted in from NavBarButtons
-  let previousState = store.getState();
 
+  let previousState = store.getState();
+  // console.log('Store States: ', store.getState);
   // sending info to backend whenever the redux store changes
   const handleStoreChange = debounce(() => {
     const newState = store.getState();
@@ -113,7 +114,6 @@ const RoomsContainer = () => {
   function joinRoom() {
     dispatch(changeRoom(roomCode));
     setConfirmRoom((confirmRoom) => roomCode);
-
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
   }
@@ -129,6 +129,9 @@ const RoomsContainer = () => {
         }}
       >
         {' '}
+        <Typography variant="h6" color={'white'}>
+          Live Room: {joinedRoom}
+        </Typography>
         <TextField
           hiddenLabel
           id="filled-hidden-label-small"
@@ -162,9 +165,6 @@ const RoomsContainer = () => {
         >
           Join Room
         </Button>
-        <Typography variant="h6" color={'white'}>
-          In Room: {joinedRoom}
-        </Typography>
       </Stack>
       {/* <button onClick={() => joinRoom()}>Join Room</button> */}
     </div>
