@@ -95,6 +95,7 @@ const io = new Server(httpServer, {
   }
 });
 
+
 io.on('connection', (socket) => {
   console.log('Socket ID: -----', socket.id);
   socket.on('custom-event', (string, redux_store, room) => {
@@ -171,7 +172,7 @@ app.post(
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
 );
-
+let getusername ='';
 //confirming whether user is logged in for index.tsx rendering
 app.get('/loggedIn', sessionController.isLoggedIn, (req, res) =>
   res.status(200).json(res.locals.loggedIn)
