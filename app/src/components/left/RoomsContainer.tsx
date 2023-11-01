@@ -114,10 +114,10 @@ const RoomsContainer = () => {
   });
 
   function joinRoom() {
-    dispatch(changeRoom(roomCode));
-    setConfirmRoom((confirmRoom) => roomCode);
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
+    dispatch(changeRoom(roomCode));
+    setConfirmRoom((confirmRoom) => roomCode);
     setUserJoined(true); //setting joined room to true for rendering leave room button
   }
 

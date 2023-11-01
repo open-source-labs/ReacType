@@ -120,8 +120,9 @@ io.on('connection', (socket) => {
 
 app.get('/', userController.getUsername, (req, res) =>{
   const username = req.body.username
-  console.log(username)
-  usersInRoom.push(username)
+  console.log('username: ', username)
+  usersInRoom.push({username: username})
+  console.log(usersInRoom)
   return res.status(200).json({username: username})
 });
 /*
