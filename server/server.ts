@@ -95,14 +95,20 @@ const io = new Server(httpServer, {
   }
 });
 
+const usersInRoom = [];
+
 io.on('connection', (socket) => {
+
   console.log('Socket ID: -----', socket.id);
-  socket.on('custom-event', (string, redux_store, room) => {
-    console.log('Room Code', room);
+  socket.on('set-username', (username) => {
+  console.log('username set:', username)
+  });
+  socket.on('custom-event', ( string, redux_store, room, username) => {
+    console.log('Room Code: ', room );
     if (room) {
-      socket.to(room).emit('receive message', redux_store);
+      socket.to(room).emit('receive message', redux_store, 'username: ', username);
     } else {
-      socket.broadcast.emit('receive message', redux_store);
+      socket.broadcast.emit('receive message', redux_store, 'username: ', username);
     }
   });
   socket.on('room-code', (roomCode) => {
@@ -111,6 +117,13 @@ io.on('connection', (socket) => {
   });
 });
 
+
+app.get('/', userController.getUsername, (req, res) =>{
+  const username = req.body.username
+  console.log(username)
+  usersInRoom.push(username)
+  return res.status(200).json({username: username})
+});
 /*
 GraphQl Router
 */
@@ -170,7 +183,7 @@ app.post(
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
-);
+  );
 
 //confirming whether user is logged in for index.tsx rendering
 app.get('/loggedIn', sessionController.isLoggedIn, (req, res) =>
