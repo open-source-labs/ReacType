@@ -171,7 +171,6 @@ app.post(
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
 );
-
 //confirming whether user is logged in for index.tsx rendering
 app.get('/loggedIn', sessionController.isLoggedIn, (req, res) =>
   res.status(200).json(res.locals.loggedIn)
