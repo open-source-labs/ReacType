@@ -2,7 +2,7 @@ import { Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '@mui/material/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
@@ -21,8 +21,10 @@ import debounce from '../../../../node_modules/lodash/debounce.js';
 let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
-  const [roomCode, setRoomCode] = React.useState('');
-  const [confirmRoom, setConfirmRoom] = React.useState('');
+  const [roomCode, setRoomCode] = useState('');
+  const [confirmRoom, setConfirmRoom] = useState('');
+  const [userJoined, setUserJoined] = useState(false); //setting up state for joinning a room
+  const [emptyInput, setEmptyInput] = useState(false);
   const dispatch = useDispatch();
   const { state, joinedRoom } = useSelector((store: RootState) => ({
     state: store.appState,
@@ -115,10 +117,19 @@ const RoomsContainer = () => {
     setConfirmRoom((confirmRoom) => roomCode);
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
+    setUserJoined(true); //setting joined room to true for rendering leave room button
   }
+
+  function leaveRoom() {
+    if (socket) socket.disconnect(); //disconnecting socket
+    dispatch(changeRoom(''));
+    setRoomCode('');
+    setUserJoined(false); //setting joined to false so join button appear
+  }
+
   return (
     <div>
-      <Stack
+      <Stack //stack styling for container
         spacing={2}
         sx={{
           paddingTop: '20px',
@@ -128,44 +139,57 @@ const RoomsContainer = () => {
         }}
       >
         {' '}
+        {/* live room display */}
         <Typography variant="h6" color={'white'}>
           Live Room: {joinedRoom}
         </Typography>
-        <TextField
-          hiddenLabel
-          id="filled-hidden-label-small"
-          variant="filled"
-          size="small"
-          onChange={(e) => setRoomCode(e.target.value)}
-        />
-        {/* <input
-        type="text"
-        style={{
-          margin: '3px 5%',
-          borderRadius: '5px',
-          padding: '3px',
-          width: '90%'
-        }}
-        placeholder="Room Code"
-        onChange={(e) => setRoomCode(e.target.value)}
-      ></input> */}
-        <Button
-          variant="contained"
-          onClick={() => joinRoom()}
-          sx={{
-            backgroundColor: '#ffffff',
-            color: '#000000',
-            '&:hover': {
-              backgroundColor: '#C6C6C6',
-              borderColor: '#0062cc',
-              boxShadow: 'none'
-            }
-          }}
-        >
-          Join Room
-        </Button>
+        {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
+        {userJoined ? (
+          <Button
+            variant="contained"
+            onClick={() => leaveRoom()}
+            sx={{
+              backgroundColor: '#ffffff',
+              color: '#000000',
+              '&:hover': {
+                backgroundColor: '#C6C6C6',
+                borderColor: '#0062cc'
+              }
+            }}
+          >
+            {' '}
+            Leave Room{' '}
+          </Button>
+        ) : (
+          <>
+            <TextField
+              hiddenLabel={true}
+              id="filled-hidden-label-small"
+              variant="filled"
+              size="small"
+              value={roomCode}
+              placeholder="Input Room Number"
+              onChange={(e) => setRoomCode(e.target.value)}
+            />
+            <Button
+              variant="contained"
+              disabled={roomCode.trim() === ''}
+              onClick={() => joinRoom()}
+              sx={{
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                '&:hover': {
+                  backgroundColor: '#C6C6C6',
+                  borderColor: '#0062cc'
+                }
+              }}
+            >
+              {' '}
+              Join Room{' '}
+            </Button>
+          </>
+        )}
       </Stack>
-      {/* <button onClick={() => joinRoom()}>Join Room</button> */}
     </div>
   );
 };
