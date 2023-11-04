@@ -58,7 +58,6 @@ const RoomsContainer = () => {
 
     // receiving the message from the back end
     socket.on('receive message', (event) => {
-      // console.log('message from server: ', event);
       let currentStore: any = JSON.stringify(store.getState());
       if (currentStore !== event) {
         currentStore = JSON.parse(currentStore);

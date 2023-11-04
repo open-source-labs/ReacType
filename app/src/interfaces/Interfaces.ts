@@ -9,7 +9,7 @@ export interface State {
   components: Component[];
   rootComponents: number[];
   projectType: string;
-  config?: {};
+  config?: { saveTimer: boolean; saveFlag: boolean };
   separator?: ChildElement;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
