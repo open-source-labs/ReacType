@@ -46,6 +46,7 @@ export interface newUserError extends NativeError {
 }
 
 export interface UserController {
+  getUser: RequestHandler;
   createUser: RequestHandler;
   verifyUser: RequestHandler;
 }
