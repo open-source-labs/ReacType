@@ -25,14 +25,15 @@ const randomPassword = () => {
 };
 
 const userController: UserController = {
-  getUsername: async (req, res, next) => {
+  getUser: async (req, res, next) => {
     try {
       const { username } = req.body;
       const user = await Users.findOne({ username });
+      res.locals.user = user;
       return next();
     } catch (err) {
       return next({
-        log: 'error cuaght in getUsername middleware',
+        log: 'error caught in getUsername middleware',
         status: 400,
         message: { err: 'cannot get username' }
       });

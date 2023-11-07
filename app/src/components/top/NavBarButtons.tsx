@@ -184,13 +184,13 @@ function navbarDropDown(props) {
 
   const [modal, setModal] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [roomCode, setRoomCode] = React.useState('');
-  const [confirmRoom, setConfirmRoom] = React.useState('');
+  // const [roomCode, setRoomCode] = React.useState('');
+  // const [confirmRoom, setConfirmRoom] = React.useState('');
   const classes = useStyles();
 
-  const { state, joinedRoom } = useSelector((store: RootState) => ({
+  const { state } = useSelector((store: RootState) => ({
     state: store.appState,
-    joinedRoom: store.roomCodeSlice.roomCode
+    // joinedRoom: store.roomCodeSlice.roomCode
   }));
   const closeModal = () => setModal('');
   const handleClick = (event) => {
