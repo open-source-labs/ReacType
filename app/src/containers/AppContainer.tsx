@@ -5,7 +5,6 @@ import {
   ThemeProvider
 } from '@mui/material/styles';
 import { theme1, theme2 } from '../public/styles/theme';
-// Imports for redux toolkit usage
 import { useDispatch, useSelector } from 'react-redux';
 
 import LeftContainer from './LeftContainer';
@@ -18,7 +17,6 @@ import { RootState } from '../redux/store';
 import { setStyle } from '../redux/reducers/slice/styleSlice';
 import { useHistory } from 'react-router-dom';
 declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
 

@@ -5,7 +5,6 @@ import {
   setInitialState,
   toggleLoggedIn
 } from '../redux/reducers/slice/appStateSlice';
-//redux toolkit addition
 import { useDispatch, useSelector } from 'react-redux';
 
 import AppContainer from '../containers/AppContainer';
@@ -20,15 +19,15 @@ import { saveProject } from '../helperFunctions/projectGetSaveDel';
 export const App = (): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
 
-  const [toggleAttempt, setToggleAttempt] = useState(false);
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   useEffect(() => {
     if (window.localStorage.getItem('ssid') !== 'guest') {
       dispatch(toggleLoggedIn(true));
     }
-    //setToggleAttempt(!toggleAttempt);
   }, []);
+
+  // FOR LOCAL FORAGE: still trying to get this to work
 
   // // following useEffect runs on first mount
   // useEffect(() => {

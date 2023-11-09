@@ -5,7 +5,6 @@ import {
   addChild,
   changeFocus,
   snapShotAction
-  // toggleCodePreview
 } from '../../redux/reducers/slice/appStateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
