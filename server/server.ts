@@ -87,7 +87,6 @@ app.use('/auth', authRoutes);
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   transports: ['websocket'],
@@ -103,9 +102,11 @@ io.on('connection', (socket) => {
     console.log(string);
     if (room) {
       //sending to sender client, only if they are in room
+      console.log('emiting to room receive message event to front end');
       socket.to(room).emit('receive message', redux_store);
     } else {
       //send to all connected clients except the one that sent the message
+      console.log('emiting broadcast receive message event to front end');
       socket.broadcast.emit('receive message', redux_store);
     }
   });
@@ -113,17 +114,17 @@ io.on('connection', (socket) => {
     //working
     socket.join(roomCode);
   });
-  socket.on('user', (userName) => {
+  socket.on('userJoined', (userName) => {
     //working
     userList.set(socket.id, userName);
-    io.emit('updateUserList', userList);
+    io.emit('updateUserList', userList); //work on this
   });
   socket.on('disconnect', () => {
     const userName = userList.get(socket.id);
     console.log('User list before remove user', userList);
     userList.delete(socket.id); //remove the user from the obj
     console.log('User list after remove user', userList);
-    io.emit('disconnected', userName);
+    io.emit('updateUserList', userList); //check this
   });
 });
 

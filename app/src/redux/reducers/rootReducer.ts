@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   contextSlice: contextReducer,
   appState: appStateReducer,
   styleSlice: styleReducer,
-  roomCodeSlice: roomCodeReducer
+  roomCodeSlice: roomCodeReducer,
 });
 
 export default rootReducer;

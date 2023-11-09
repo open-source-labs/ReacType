@@ -23,16 +23,16 @@ const { API_BASE_URL } = config;
 const RoomsContainer = () => {
   const [roomCode, setRoomCode] = useState('');
   const [userName, setUserName] = useState('');
-  const [userList, setUserList] = useState(new Map());
-  // const [confirmRoom, setConfirmRoom] = useState('');
   const [userJoined, setUserJoined] = useState(false); //setting up state for joinning a room
-  const [emptyInput, setEmptyInput] = useState(false);
 
   const dispatch = useDispatch();
-  const { state, joinedRoom } = useSelector((store: RootState) => ({
-    state: store.appState,
-    joinedRoom: store.roomCodeSlice.roomCode
-  }));
+  const { state, joinedRoom } = useSelector (
+    (store: RootState) => ({
+      state: store.appState,
+      joinedRoom: store.roomCodeSlice.roomCode,
+    })
+  );
+
   React.useEffect(() => {
     console.log('You Joined Room: ', joinedRoom);
   }, [joinedRoom]);
@@ -52,24 +52,19 @@ const RoomsContainer = () => {
       socket.emit('join-room', roomCode); // Join the room when connected
       //passing current client nickname to server
       console.log(`Your Nickname Is: ${userName}`);
-      socket.emit('user', userName);
+      socket.emit('userJoined', userName);
     });
-
-    // // Receiving the room state from the backend
-    // socket.on('room-state-update', (stateFromServer) => {
-    //   const newState = JSON.parse(stateFromServer);
-    //   // Dispatch actions to update your Redux store with the received state
-    //   store.dispatch(allCooperativeState(newState.appState));
-    //   store.dispatch(codePreviewCooperative(newState.codePreviewCooperative));
-    //   store.dispatch(cooperativeStyle(newState.styleSlice));
-    // });
+      
 
     // receiving the message from the back end
     socket.on('receive message', (event) => {
       let currentStore: any = JSON.stringify(store.getState());
+      console.log('event ', event);
       if (currentStore !== event) {
         currentStore = JSON.parse(currentStore);
         event = JSON.parse(event);
+        console.log('current store', currentStore);
+        console.log('event ', event);
         if (currentStore.appState !== event.appState) {
           store.dispatch(allCooperativeState(event.appState));
         } else if (
@@ -110,6 +105,7 @@ const RoomsContainer = () => {
       );
       previousState = newState;
     }
+  
   }, 100);
 
   store.subscribe(() => {
