@@ -87,6 +87,7 @@ app.use('/auth', authRoutes);
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
+
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   transports: ['websocket'],
@@ -94,23 +95,36 @@ const io = new Server(httpServer, {
     origin: ['http://localhost:5656', 'http://localhost:8080', API_BASE_URL]
   }
 });
-
-const usersInRoom = [];
-
+//creating map for user list
+const userList = new Map();
 io.on('connection', (socket) => {
 
   console.log('Socket ID: -----', socket.id);
-  socket.on('custom-event', ( string, redux_store, room) => {
-    console.log('Room Code back end: ', room );
+  socket.on('custom-event', (string, redux_store, room) => {
+    console.log(string);
     if (room) {
-      socket.to(room).emit('receive message', redux_store );
+      //sending to sender client, only if they are in room
+      socket.to(room).emit('receive message', redux_store);
     } else {
-      socket.broadcast.emit('receive message', redux_store );
+      //send to all connected clients except the one that sent the message
+      socket.broadcast.emit('receive message', redux_store);
     }
   });
   socket.on('room-code', (roomCode) => {
-    console.log('joined room: ', roomCode);
+    //working
     socket.join(roomCode);
+  });
+  socket.on('user', (userName) => {
+    //working
+    userList.set(socket.id, userName);
+    io.emit('updateUserList', userList);
+  });
+  socket.on('disconnect', () => {
+    const userName = userList.get(socket.id);
+    console.log('User list before remove user', userList);
+    userList.delete(socket.id); //remove the user from the obj
+    console.log('User list after remove user', userList);
+    io.emit('disconnected', userName);
   });
 });
 
@@ -178,6 +192,7 @@ app.post(
 app.post(
   '/login',
   userController.verifyUser,
+  userController.getUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
