@@ -87,7 +87,6 @@ app.use('/auth', authRoutes);
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   transports: ['websocket'],
@@ -125,15 +124,6 @@ io.on('connection', (socket) => {
     console.log('User list after remove user', userList);
     io.emit('disconnected', userName);
   });
-});
-
-const usersInRoom = [];
-app.get('/', userController.getUsername, (req, res) => {
-  const username = req.body.username;
-  console.log('username: ', username);
-  usersInRoom.push({ username: username });
-  console.log(usersInRoom);
-  return res.status(200).json({ username: username });
 });
 
 /*

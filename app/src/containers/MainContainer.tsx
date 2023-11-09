@@ -17,7 +17,7 @@ const MainContainer = (props): JSX.Element => {
     (store: RootState) => store.appState.screenshotTrigger
   );
   const id: string = useSelector((store: RootState) => store.appState._id);
-  const { style } = useSelector((store) => ({
+  const { style } = useSelector((store: RootState) => ({
     style: store.styleSlice
   }));
   const containerRef: React.RefObject<HTMLDivElement> = useRef(null);
