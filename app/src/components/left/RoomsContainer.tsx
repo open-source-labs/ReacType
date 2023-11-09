@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
-import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
+import { setRoomCode, setUserName, setUserJoined, setUserList } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import config from '../../../../config';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
@@ -21,21 +21,18 @@ import debounce from '../../../../node_modules/lodash/debounce.js';
 let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
-  const [roomCode, setRoomCode] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userList, setUserList] = useState(new Map());
-  // const [confirmRoom, setConfirmRoom] = useState('');
-  const [userJoined, setUserJoined] = useState(false); //setting up state for joinning a room
-  const [emptyInput, setEmptyInput] = useState(false);
-
+ 
   const dispatch = useDispatch();
-  const { state, joinedRoom } = useSelector((store: RootState) => ({
+  const { state, roomCode, userName, userList, userJoined } = useSelector((store: RootState) => ({
     state: store.appState,
-    joinedRoom: store.roomCodeSlice.roomCode
+    roomCode: store.roomSlice.roomCode,
+    userName: store.roomSlice.userName,
+    userList: store.roomSlice.userList,
+    userJoined: store.roomSlice.userJoined,
   }));
   React.useEffect(() => {
-    console.log('You Joined Room: ', joinedRoom);
-  }, [joinedRoom]);
+    console.log('You Joined Room---front end:', roomCode);
+  }, [roomCode]);
 
   function initSocketConnection(roomCode) {
     if (socket) {
@@ -88,23 +85,20 @@ const RoomsContainer = () => {
   }
 
   let previousState = store.getState();
-  // console.log('Store States: ', store.getState);
   // sending info to backend whenever the redux store changes
-  //working!
   const handleStoreChange = debounce(() => {
     const newState = store.getState();
-    const roomCode = newState.roomCodeSlice.roomCode;
+    const roomCode = newState.roomSlice.roomCode;
 
-    if (roomCode !== '') {
-      //why emitting room code every 100 milisecond
-      // Emit the current room code
-      socket.emit('room-code', roomCode);
-    }
+    //why emitting room code every 100 milisecond?
+    // if (roomCode !== '') {
+    //   // Emit the current room code
+    //   socket.emit('room-code', roomCode);
+    // }
     if (newState !== previousState) {
       // Send the current state to the server
       socket.emit(
         'custom-event',
-        'sent from front-end',
         JSON.stringify(newState),
         roomCode
       );
@@ -121,17 +115,15 @@ const RoomsContainer = () => {
   function joinRoom() {
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
-    dispatch(changeRoom(roomCode));
-    // setConfirmRoom((confirmRoom) => roomCode);
-    setUserJoined(true); //setting joined room to true for rendering leave room button
+    dispatch(setRoomCode(roomCode));
+    dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
   }
 
   function leaveRoom() {
     if (socket) socket.disconnect(); //disconnecting socket
-    dispatch(changeRoom(''));
-    setRoomCode('');
-    setUserName('');
-    setUserJoined(false); //setting joined to false so join button appear
+    dispatch(setRoomCode(''));
+    dispatch(setUserName(''));
+    dispatch(setUserJoined(false)); //setting joined to false so join button appear
   }
 
   //checking if both text field have any input (not including spaces)
@@ -159,7 +151,7 @@ const RoomsContainer = () => {
         {' '}
         {/* live room display */}
         <Typography variant="h6" color={'white'}>
-          Live Room: {joinedRoom}
+          Live Room: {roomCode}
         </Typography>
         {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
         {userJoined ? (
@@ -187,7 +179,7 @@ const RoomsContainer = () => {
               size="small"
               value={userName}
               placeholder="Input nickname"
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={(e) => dispatch(setUserName(e.target.value))}
             />
             <TextField
               hiddenLabel={true}
@@ -196,7 +188,7 @@ const RoomsContainer = () => {
               size="small"
               value={roomCode}
               placeholder="Input Room Number"
-              onChange={(e) => setRoomCode(e.target.value)}
+              onChange={(e) => dispatch(setRoomCode(e.target.value))}
             />
 
             <Button

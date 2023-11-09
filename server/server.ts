@@ -98,9 +98,9 @@ const io = new Server(httpServer, {
 //creating map for user list
 const userList = new Map();
 io.on('connection', (socket) => {
+
   console.log('Socket ID: -----', socket.id);
-  socket.on('custom-event', (string, redux_store, room) => {
-    console.log(string);
+  socket.on('custom-event', (redux_store, room) => {
     if (room) {
       //sending to sender client, only if they are in room
       socket.to(room).emit('receive message', redux_store);
@@ -127,6 +127,13 @@ io.on('connection', (socket) => {
   });
 });
 
+// app.get('/', userController.getUsername, (req, res) =>{
+//   const username = req.body.username
+//   console.log('username: ', username)
+//   usersInRoom.push({username: username})
+//   console.log(usersInRoom)
+//   return res.status(200).json({username: username})
+// });
 /*
 GraphQl Router
 */
