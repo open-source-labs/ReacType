@@ -47,7 +47,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
       deleteProject(selectedProject);
       // localforage.removeItem(window.localStorage.getItem('ssid'));
       dispatch(setInitialState(initialState))
-      // handleAlertOpen()
       deleteAlert()
       onClose()
   };

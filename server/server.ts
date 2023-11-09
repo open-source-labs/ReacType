@@ -95,11 +95,10 @@ const io = new Server(httpServer, {
   }
 });
 //creating map for user list
-const userList = new Map();
+const userList = {};
 io.on('connection', (socket) => {
   console.log('Socket ID: -----', socket.id);
-  socket.on('custom-event', (string, redux_store, room) => {
-    console.log(string);
+  socket.on('custom-event', (redux_store, room) => {
     if (room) {
       //sending to sender client, only if they are in room
       console.log('emiting to room receive message event to front end');
@@ -116,18 +115,25 @@ io.on('connection', (socket) => {
   });
   socket.on('userJoined', (userName) => {
     //working
-    userList.set(socket.id, userName);
+    userList[socket.id] = userName;
     io.emit('updateUserList', userList); //work on this
   });
   socket.on('disconnect', () => {
-    const userName = userList.get(socket.id);
+    const userName = userList[socket.id];
     console.log('User list before remove user', userList);
-    userList.delete(socket.id); //remove the user from the obj
+    delete userList[socket.id]; //remove the user from the obj
     console.log('User list after remove user', userList);
     io.emit('updateUserList', userList); //check this
   });
 });
 
+// app.get('/', userController.getUsername, (req, res) =>{
+//   const username = req.body.username
+//   console.log('username: ', username)
+//   usersInRoom.push({username: username})
+//   console.log(usersInRoom)
+//   return res.status(200).json({username: username})
+// });
 /*
 GraphQl Router
 */

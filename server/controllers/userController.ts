@@ -141,6 +141,8 @@ const userController: UserController = {
       }
     });
   }
-};
+
+
+ };
 
 export default userController;

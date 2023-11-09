@@ -3,7 +3,6 @@
 const cssRefresher = () => {
   const oldStylesheet = document.getElementById('stylesheet');
   if (oldStylesheet !== null) oldStylesheet.remove();
-  // const rando = Math.random() * 100000;
   const newStylesheet = document.createElement('LINK');
   newStylesheet.setAttribute('rel', 'stylesheet');
   newStylesheet.setAttribute('type', 'text/css');
