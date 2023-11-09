@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   roomCode: '',
   userName: '',
-  userList: new Map(),
+  userList: [],
   userJoined: false
 };
 
