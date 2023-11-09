@@ -31,7 +31,7 @@ const RoomsContainer = () => {
     joinedRoom: store.roomCodeSlice.roomCode
   }));
   React.useEffect(() => {
-    console.log('You Joined Room: ', joinedRoom);
+    console.log('You Joined Room---front end:', joinedRoom);
   }, [joinedRoom]);
 
   function initSocketConnection(roomCode) {

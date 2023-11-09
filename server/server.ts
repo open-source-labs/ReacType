@@ -100,15 +100,12 @@ const usersInRoom = [];
 io.on('connection', (socket) => {
 
   console.log('Socket ID: -----', socket.id);
-  socket.on('set-username', (username) => {
-  console.log('username set:', username)
-  });
-  socket.on('custom-event', ( string, redux_store, room, username) => {
-    console.log('Room Code: ', room );
+  socket.on('custom-event', ( string, redux_store, room) => {
+    console.log('Room Code back end: ', room );
     if (room) {
-      socket.to(room).emit('receive message', redux_store, 'username: ', username);
+      socket.to(room).emit('receive message', redux_store );
     } else {
-      socket.broadcast.emit('receive message', redux_store, 'username: ', username);
+      socket.broadcast.emit('receive message', redux_store );
     }
   });
   socket.on('room-code', (roomCode) => {
