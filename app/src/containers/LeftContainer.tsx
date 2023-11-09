@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import ContentArea from '../components/left/ContentArea';
 import Sidebar from '../components/left/Sidebar';
 
