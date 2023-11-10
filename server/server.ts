@@ -96,34 +96,40 @@ const io = new Server(httpServer, {
 });
 //creating map for user list
 const userList = {};
-io.on('connection', (socket) => {
-  console.log('Socket ID: -----', socket.id);
-  socket.on('custom-event', (redux_store, room) => {
+io.on('connection', (client) => {
+  client.on('custom-event', (redux_store, room) => {
     if (room) {
       //sending to sender client, only if they are in room
-      console.log('emiting to room receive message event to front end');
-      socket.to(room).emit('receive message', redux_store);
+      client.to(room).emit('receive message', redux_store);
     } else {
       //send to all connected clients except the one that sent the message
-      console.log('emiting broadcast receive message event to front end');
-      socket.broadcast.emit('receive message', redux_store);
+      client.broadcast.emit('receive message', redux_store);
     }
   });
-  socket.on('room-code', (roomCode) => {
+
+  client.on('join-room', (roomCode) => {
     //working
-    socket.join(roomCode);
+    client.join(roomCode);
   });
-  socket.on('userJoined', (userName) => {
+
+  client.on('userJoined', (userName, roomCode) => {
     //working
-    userList[socket.id] = userName;
-    io.emit('updateUserList', userList); //work on this
+    userList[client.id] = userName;
+    io.in(roomCode).emit('updateUserList', userList); //send the message to all clients in room
+    console.log('User list when user Joined', userList);
   });
-  socket.on('disconnect', () => {
-    const userName = userList[socket.id];
-    console.log('User list before remove user', userList);
-    delete userList[socket.id]; //remove the user from the obj
-    console.log('User list after remove user', userList);
-    io.emit('updateUserList', userList); //check this
+
+  client.on('updateUserDisconnect', (roomCode) => { //leave room function
+    delete userList[client.id]; //remove the user from the obj
+    console.log('User list after User Left', userList);
+    io.in(roomCode).emit('updateUserList', userList); //send the message to all client but the sender.
+  });
+
+  client.on('disconnect', () => { //connection drop function
+    // const userName = userList[client.id];
+    delete userList[client.id]; //remove the user from the obj
+    console.log('User list after User Left', userList);
+    io.emit('updateUserList', userList); //send the message to all client but the sender.
   });
 });
 
