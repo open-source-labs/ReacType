@@ -94,8 +94,8 @@ const io = new Server(httpServer, {
     origin: ['http://localhost:5656', 'http://localhost:8080', API_BASE_URL]
   }
 });
-//creating map for user list
-const userList = {};
+
+const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
 io.on('connection', (client) => {
   client.on('custom-event', (redux_store, room) => {
     if (room) {
@@ -112,34 +112,33 @@ io.on('connection', (client) => {
     client.join(roomCode);
   });
 
-  client.on('userJoined', (userName, roomCode) => {
-    //working
-    userList[client.id] = userName;
-    io.in(roomCode).emit('updateUserList', userList); //send the message to all clients in room
-    console.log('User list when user Joined', userList);
+  //when user Joined a room
+  client.on('joining', (userName, roomCode) => {
+    if (!roomLists[roomCode]) roomLists[roomCode] = {}; //if no room exist, create new room in server
+    roomLists[roomCode][client.id] = userName; // add user into the room with id: userName
+    io.in(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room
+    console.log('full room lists', roomLists);
+    console.log(
+      `User list of room ${roomCode}: `,
+      roomLists[roomCode]
+    );
   });
 
-  client.on('updateUserDisconnect', (roomCode) => { //leave room function
-    delete userList[client.id]; //remove the user from the obj
-    console.log('User list after User Left', userList);
-    io.in(roomCode).emit('updateUserList', userList); //send the message to all client but the sender.
-  });
-
-  client.on('disconnect', () => { //connection drop function
-    // const userName = userList[client.id];
-    delete userList[client.id]; //remove the user from the obj
-    console.log('User list after User Left', userList);
-    io.emit('updateUserList', userList); //send the message to all client but the sender.
+  client.on('disconnecting', () => {
+    // the client.rooms Set contains at least the socket ID
+    const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
+    delete roomLists[roomCode][client.id];
+    //if room empty, delete room from room list
+    if (!Object.keys(roomLists[roomCode]).length) {
+      delete roomLists[roomCode];
+    } else {
+      //else emit updated user list
+      console.log('User list after User Left', roomLists[roomCode]);
+      io.to(roomCode).emit('updateUserList', roomLists[roomCode]);
+    }
   });
 });
 
-// app.get('/', userController.getUsername, (req, res) =>{
-//   const username = req.body.username
-//   console.log('username: ', username)
-//   usersInRoom.push({username: username})
-//   console.log(usersInRoom)
-//   return res.status(200).json({username: username})
-// });
 /*
 GraphQl Router
 */
