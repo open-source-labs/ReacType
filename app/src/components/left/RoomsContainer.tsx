@@ -55,7 +55,7 @@ const RoomsContainer = () => {
       socket.emit('join-room', roomCode); // Join the room when connected
       console.log(`Your Nickname Is: ${userName}`);
       //passing current client nickname to server
-      socket.emit('userJoined', userName, roomCode);
+      socket.emit('joining', userName, roomCode);
       //listening to back end for updating user list
       socket.on('updateUserList', (newUserList) => {
         dispatch(setUserList(Object.values(newUserList)));
@@ -114,7 +114,6 @@ const RoomsContainer = () => {
 
   function leaveRoom() {
     if (socket) {
-      socket.emit('updateUserDisconnect', roomCode);
       socket.disconnect();
     } //disconnecting socket functionality
     dispatch(setRoomCode(''));
@@ -125,13 +124,9 @@ const RoomsContainer = () => {
 
   //checking if both text field have any input (not including spaces)
   function checkInputField(...inputs: any) {
-    let userName: String = inputs[0].trim();
-    let roomCode: String = inputs[1].trim();
-    if (userName.length !== 0 && roomCode.length !== 0) {
-      return false;
-    } else {
-      return true;
-    }
+    let userName: string = inputs[0].trim();
+    let roomCode: string = inputs[1].trim();
+    return userName.length === 0 || roomCode.length === 0;
   }
 
   return (
