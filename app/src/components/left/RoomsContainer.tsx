@@ -39,7 +39,7 @@ const RoomsContainer = () => {
     })
   );
   React.useEffect(() => {
-    console.log('You Joined Room---front end:', roomCode);
+    console.log('You Joined Room---:', roomCode);
   }, [roomCode]);
 
   function initSocketConnection(roomCode) {
@@ -51,18 +51,16 @@ const RoomsContainer = () => {
 
     socket.on('connect', () => {
       console.log(`You Connected With Id: ${socket.id}`);
-      // ????
-      //socket.emit('join-room', roomCode); // Join the room when connected
       console.log(`Your Nickname Is: ${userName}`);
-      //passing current client nickname to server
-      // ???
+      //passing current client nickname and room code to server
       socket.emit('joining', userName, roomCode);
-      //listening to back end for updating user list
     });
 
+    //listening to back end for updating user list
     socket.on('updateUserList', (newUserList) => {
       console.log('received user list from back:', newUserList);
       dispatch(setUserList(Object.values(newUserList)));
+      console.log('object values new user list', Object.values(newUserList));
       console.log('client user list updated:', userList);
     });
 
@@ -96,22 +94,22 @@ const RoomsContainer = () => {
 
   let previousState = store.getState();
   // sending info to backend whenever the redux store changes
-  // const handleStoreChange = debounce(() => {
-  //   const newState = store.getState();
-  //   const roomCode = newState.roomSlice.roomCode;
+  const handleStoreChange = debounce(() => {
+    const newState = store.getState();
+    const roomCode = newState.roomSlice.roomCode;
 
-  //   if (newState !== previousState) {
-  //     // Send the current state to the server
-  //     console.log('front emitting new state')
-  //     socket.emit('new state from front', JSON.stringify(newState), roomCode);
-  //     previousState = newState;
-  //   }
-  // }, 100);
+    if (newState !== previousState) {
+      // Send the current state to the server
+      console.log('front emitting new state');
+      socket.emit('new state from front', JSON.stringify(newState), roomCode);
+      previousState = newState;
+    }
+  }, 10000);
 
   store.subscribe(() => {
     if (socket) {
       console.log('handling store change');
-      //handleStoreChange();
+      handleStoreChange();
     }
   });
 
