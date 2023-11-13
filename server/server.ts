@@ -119,15 +119,30 @@ io.on('connection', (client) => {
   //when user Joined a room
   client.on('joining', (userName, roomCode) => {
     client.join(roomCode);
-    if (!roomLists[roomCode]) roomLists[roomCode] = {}; //if no room exist, create new room in server
+    if (!roomLists[roomCode]) {
+      roomLists[roomCode] = {};
+    } //if no room exist, create new room in server
     roomLists[roomCode][client.id] = userName; // add user into the room with id: userName
-    io.in(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room
+    console.log('back emitting new user list');
+    client.in(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room
     console.log('full room lists', roomLists);
     console.log(`${userName} joined room ${roomCode}`);
     console.log(
       `back sent User list of room ${roomCode}: `,
       roomLists[roomCode]
     );
+
+    if (roomLists[roomCode]) {
+      //if room exists, get state from host
+      console.log('back requesting state from host');
+      client.in(roomCode).emit('requesting state from host', roomCode);
+      // client.on('state from host', (state) => {
+      //   client.to(client.id).emit('state from host', state);
+      // });
+      client.on('state from host', (roomCode) => {
+        console.log('Receiving roomcode from front end host', roomCode);
+      });
+    }
   });
 
   client.on('disconnecting', () => {

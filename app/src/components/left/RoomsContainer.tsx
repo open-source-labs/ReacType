@@ -57,6 +57,18 @@ const RoomsContainer = () => {
       socket.emit('joining', userName, roomCode);
     });
 
+    // if host, send state to server
+    socket.on('requesting state from host', (roomCode) => {
+      // if (userName === userList[0]) {
+      //   console.log('host is sending state');
+      //   const newState = store.getState();
+      //   socket.emit('state from host', JSON.stringify(newState), roomCode);
+      // }
+
+      console.log('receiving room code from new user------', roomCode);
+      socket.emit('state from host', roomCode);
+    });
+
     //listening to back end for updating user list
     socket.on('updateUserList', (newUserList) => {
       console.log('received user list from back:', newUserList);
