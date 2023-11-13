@@ -1285,6 +1285,11 @@ const appStateSlice = createSlice({
     toggleScreenshotTrigger: (state) => {
       state.screenshotTrigger = !state.screenshotTrigger;
     }
+
+    // ,configToggle: (state) => {
+    //   state.config.saveFlag = !state.config.saveFlag;
+    //   state.config.saveTimer = !state.config.saveTimer;
+    // }
   }
 });
 

@@ -17,7 +17,7 @@ import { saveProject } from '../helperFunctions/projectGetSaveDel';
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
-  const state = useSelector((store: RootState) => store.appState);
+  // const state = useSelector((store: RootState) => store.appState);
 
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
