@@ -98,51 +98,39 @@ const io = new Server(httpServer, {
 const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
 io.on('connection', (client) => {
   client.on('new state from front', (redux_store, room) => {
-    //console.log('back receiving new state');
     if (room) {
       //sending to sender client, only if they are in room
-      console.log('back emitting new state to room');
       client.to(room).emit('new state from back', redux_store);
     }
-    // } else {
-    //   //send to all connected clients except the one that sent the message
-    //   console.log('back emitting new state broadcast');
-    //   client.broadcast.emit('new state from back', redux_store);
-    // }
   });
-
-  // client.on('join-room', (roomCode) => {
-  //   //working
-  //   client.join(roomCode);
-  // });
 
   //when user Joined a room
   client.on('joining', (userName, roomCode) => {
-    client.join(roomCode);
-    if (!roomLists[roomCode]) {
+    client.join(roomCode); //client joining a room
+    //if room exists, get state from host
+    if (roomLists[roomCode]) {
+      let hostID = Object.keys(roomLists[roomCode])[0];
+      console.log('back requesting state from host');
+      console.log('host username:', roomLists[roomCode][hostID]);
+      io.to(roomLists[roomCode][hostID]).emit('requesting state from host');
+      client.on('state from host', (state) => {
+        io.to(client.id).emit('new state from back', state);
+      });
+      //if no room exist, create new room in server
+    } else if (!roomLists[roomCode]) {
       roomLists[roomCode] = {};
-    } //if no room exist, create new room in server
+    }
     roomLists[roomCode][client.id] = userName; // add user into the room with id: userName
     console.log('back emitting new user list');
-    client.in(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room
+    io.to(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room
+
+    //console.log for room status
     console.log('full room lists', roomLists);
     console.log(`${userName} joined room ${roomCode}`);
     console.log(
       `back sent User list of room ${roomCode}: `,
       roomLists[roomCode]
     );
-
-    if (roomLists[roomCode]) {
-      //if room exists, get state from host
-      console.log('back requesting state from host');
-      client.in(roomCode).emit('requesting state from host', roomCode);
-      // client.on('state from host', (state) => {
-      //   client.to(client.id).emit('state from host', state);
-      // });
-      client.on('state from host', (roomCode) => {
-        console.log('Receiving roomcode from front end host', roomCode);
-      });
-    }
   });
 
   client.on('disconnecting', () => {

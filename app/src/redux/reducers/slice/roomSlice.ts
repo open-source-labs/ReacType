@@ -5,6 +5,7 @@ const initialState = {
   roomCode: '',
   userName: '',
   userList: [],
+  // userIsHost: false,
   userJoined: false
 };
 
@@ -22,13 +23,22 @@ const roomSlice = createSlice({
     setUserList: (state, action) => {
       state.userList = action.payload;
     },
+    // setUserIsHost: (state, action) => {
+    //   state.userIsHost = action.payload;
+    // },
     setUserJoined: (state, action) => {
       state.userJoined = action.payload;
-    },
+    }
   }
 });
 
 // Exports the action creator function to be used with useDispatch
-export const { setRoomCode, setUserName, setUserList, setUserJoined } = roomSlice.actions;
+export const {
+  setRoomCode,
+  setUserName,
+  setUserList,
+  // setUserIsHost,
+  setUserJoined
+} = roomSlice.actions;
 // Exports so we can combine in rootReducer
 export default roomSlice.reducer;

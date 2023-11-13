@@ -35,13 +35,27 @@ const RoomsContainer = () => {
       roomCode: store.roomSlice.roomCode,
       userName: store.roomSlice.userName,
       userList: store.roomSlice.userList,
+      //userIsHost: store.roomSlice.userIsHost,
       userJoined: store.roomSlice.userJoined
     })
   );
+  // const [userIsHost, setUserIsHost] = useState(false);
 
   React.useEffect(() => {
     console.log('You Joined Room---:', roomCode);
   }, [roomCode]);
+
+  // React.useEffect(() => {
+  //   console.log('userName :', userName);
+  //   if (userName === userList[0]) {
+  //     console.log('setting isHost to true');
+  //     setUserIsHost(true);
+  //   } else {
+  //     setUserIsHost(false);
+  //   }
+  //   console.log('User list updated:', userList);
+  //   console.log('userList[0]-------', userList[0]);
+  // }, [userList]);
 
   function initSocketConnection(roomCode) {
     if (socket) socket.disconnect(); //edge case check if socket connection existed
@@ -57,31 +71,21 @@ const RoomsContainer = () => {
       socket.emit('joining', userName, roomCode);
     });
 
-    // if host, send state to server
-    socket.on('requesting state from host', (roomCode) => {
-      // if (userName === userList[0]) {
-      //   console.log('host is sending state');
-      //   const newState = store.getState();
-      //   socket.emit('state from host', JSON.stringify(newState), roomCode);
-      // }
-
-      console.log('receiving room code from new user------', roomCode);
-      socket.emit('state from host', roomCode);
-    });
-
     //listening to back end for updating user list
-    socket.on('updateUserList', (newUserList) => {
-      console.log('received user list from back:', newUserList);
+    socket.on('updateUserList', (newUserList: object) => {
       dispatch(setUserList(Object.values(newUserList)));
-      console.log('object values new user list', Object.values(newUserList));
-      console.log('client user list updated:', userList);
     });
-
+    //send state from host to room when new user joins
+    socket.on('requesting state from host', () => {
+      console.log('front received request for host state');
+      console.log(`${userName} is host`);
+      console.log('host is sending state');
+      const newState = store.getState();
+      socket.emit('state from host', JSON.stringify(newState));
+    });
     // receiving the message from the back end
     socket.on('new state from back', (event) => {
-      console.log('front receiving new state');
       let currentStore: any = JSON.stringify(store.getState());
-      // console.log('event ', event);
       if (currentStore !== event) {
         currentStore = JSON.parse(currentStore);
         event = JSON.parse(event);
@@ -89,19 +93,16 @@ const RoomsContainer = () => {
           JSON.stringify(currentStore.appState) !==
           JSON.stringify(event.appState)
         ) {
-          console.log('updating app state');
           store.dispatch(allCooperativeState(event.appState));
         } else if (
           JSON.stringify(currentStore.codePreviewSlice) !==
           JSON.stringify(event.codePreviewCooperative)
         ) {
-          console.log('updating code preview');
           store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
         } else if (
           JSON.stringify(currentStore.styleSlice) !==
           JSON.stringify(event.styleSlice)
         ) {
-          console.log('updating style');
           store.dispatch(cooperativeStyle(event.styleSlice));
         }
       }
@@ -120,7 +121,6 @@ const RoomsContainer = () => {
 
     if (JSON.stringify(newState) !== JSON.stringify(previousState)) {
       // Send the current state to the server
-      console.log('front emitting new state');
       socket.emit('new state from front', JSON.stringify(newState), roomCode);
       previousState = newState;
     }
@@ -128,7 +128,6 @@ const RoomsContainer = () => {
 
   store.subscribe(() => {
     if (socket) {
-      //console.log('handling store change');
       handleStoreChange();
     }
   });
@@ -193,8 +192,7 @@ const RoomsContainer = () => {
             <Typography
               variant="body1"
               sx={{
-                color: 'white', // Text color for the count
-                borderRadius: 4 // Optional: Add rounded corners
+                color: 'white' // Text color for the count
               }}
             >
               Users: {userList.length}
