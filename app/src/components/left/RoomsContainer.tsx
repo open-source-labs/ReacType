@@ -30,9 +30,8 @@ let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
   const dispatch = useDispatch();
-  const { state, roomCode, userName, userList, userJoined } = useSelector(
+  const { roomCode, userName, userList, userJoined } = useSelector(
     (store: RootState) => ({
-      state: store.appState,
       roomCode: store.roomSlice.roomCode,
       userName: store.roomSlice.userName,
       userList: store.roomSlice.userList,
@@ -52,30 +51,39 @@ const RoomsContainer = () => {
 
     socket.on('connect', () => {
       console.log(`You Connected With Id: ${socket.id}`);
-      socket.emit('join-room', roomCode); // Join the room when connected
+      // ????
+      //socket.emit('join-room', roomCode); // Join the room when connected
       console.log(`Your Nickname Is: ${userName}`);
       //passing current client nickname to server
+      // ???
       socket.emit('joining', userName, roomCode);
       //listening to back end for updating user list
-      socket.on('updateUserList', (newUserList) => {
-        dispatch(setUserList(Object.values(newUserList)));
-      });
+    });
+
+    socket.on('updateUserList', (newUserList) => {
+      console.log('received user list from back:', newUserList);
+      dispatch(setUserList(Object.values(newUserList)));
+      console.log('client user list updated:', userList);
     });
 
     // receiving the message from the back end
-    socket.on('receive message', (event) => {
+    socket.on('new state from back', (event) => {
+      console.log('front receiving new state');
       let currentStore: any = JSON.stringify(store.getState());
       // console.log('event ', event);
       if (currentStore !== event) {
         currentStore = JSON.parse(currentStore);
         event = JSON.parse(event);
         if (currentStore.appState !== event.appState) {
+          console.log('updating app state');
           store.dispatch(allCooperativeState(event.appState));
         } else if (
           currentStore.codePreviewSlice !== event.codePreviewCooperative
         ) {
+          console.log('updating code preview');
           store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
         } else if (currentStore.styleSlice !== event.styleSlice) {
+          console.log('updating style');
           store.dispatch(cooperativeStyle(event.styleSlice));
         }
       }
@@ -88,20 +96,22 @@ const RoomsContainer = () => {
 
   let previousState = store.getState();
   // sending info to backend whenever the redux store changes
-  const handleStoreChange = debounce(() => {
-    const newState = store.getState();
-    const roomCode = newState.roomSlice.roomCode;
+  // const handleStoreChange = debounce(() => {
+  //   const newState = store.getState();
+  //   const roomCode = newState.roomSlice.roomCode;
 
-    if (newState !== previousState) {
-      // Send the current state to the server
-      socket.emit('custom-event', JSON.stringify(newState), roomCode);
-      previousState = newState;
-    }
-  }, 100);
+  //   if (newState !== previousState) {
+  //     // Send the current state to the server
+  //     console.log('front emitting new state')
+  //     socket.emit('new state from front', JSON.stringify(newState), roomCode);
+  //     previousState = newState;
+  //   }
+  // }, 100);
 
   store.subscribe(() => {
     if (socket) {
-      handleStoreChange();
+      console.log('handling store change');
+      //handleStoreChange();
     }
   });
 
@@ -208,7 +218,7 @@ const RoomsContainer = () => {
               variant="filled"
               size="small"
               value={userName}
-              placeholder="Input nickname"
+              placeholder="Input Nickname"
               onChange={(e) => dispatch(setUserName(e.target.value))}
             />
             <TextField

@@ -97,29 +97,33 @@ const io = new Server(httpServer, {
 
 const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
 io.on('connection', (client) => {
-  client.on('custom-event', (redux_store, room) => {
+  client.on('new state from front', (redux_store, room) => {
     if (room) {
       //sending to sender client, only if they are in room
-      client.to(room).emit('receive message', redux_store);
+      console.log('back emitting new state');
+      client.to(room).emit('new state from back', redux_store);
     } else {
       //send to all connected clients except the one that sent the message
-      client.broadcast.emit('receive message', redux_store);
+      console.log('back emitting new state');
+      client.broadcast.emit('new state from back', redux_store);
     }
   });
 
-  client.on('join-room', (roomCode) => {
-    //working
-    client.join(roomCode);
-  });
+  // client.on('join-room', (roomCode) => {
+  //   //working
+  //   client.join(roomCode);
+  // });
 
   //when user Joined a room
   client.on('joining', (userName, roomCode) => {
+    client.join(roomCode);
     if (!roomLists[roomCode]) roomLists[roomCode] = {}; //if no room exist, create new room in server
     roomLists[roomCode][client.id] = userName; // add user into the room with id: userName
     io.in(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room
     console.log('full room lists', roomLists);
+    console.log(`${userName} joined room ${roomCode}`);
     console.log(
-      `User list of room ${roomCode}: `,
+      `back sent User list of room ${roomCode}: `,
       roomLists[roomCode]
     );
   });
@@ -128,12 +132,16 @@ io.on('connection', (client) => {
     // the client.rooms Set contains at least the socket ID
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
     delete roomLists[roomCode][client.id];
+    console.log('back deleting user from list');
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
-      console.log('User list after User Left', roomLists[roomCode]);
+      console.log(
+        'back emitting User list after User Left',
+        roomLists[roomCode]
+      );
       io.to(roomCode).emit('updateUserList', roomLists[roomCode]);
     }
   });
