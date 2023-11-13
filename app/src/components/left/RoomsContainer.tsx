@@ -30,9 +30,8 @@ let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
   const dispatch = useDispatch();
-  const { state, roomCode, userName, userList, userJoined } = useSelector(
+  const { roomCode, userName, userList, userJoined } = useSelector(
     (store: RootState) => ({
-      state: store.appState,
       roomCode: store.roomSlice.roomCode,
       userName: store.roomSlice.userName,
       userList: store.roomSlice.userList,
@@ -106,7 +105,7 @@ const RoomsContainer = () => {
   });
 
   function joinRoom() {
-    if (userList.length !== 0) setUserList([]); //edge case check if userList not empty.
+    if (userList.length !== 0) dispatch(setUserList([])); //edge case check if userList not empty.
     handleUserEnteredRoom(roomCode); // Call handleUserEnteredRoom when joining a room
     dispatch(setRoomCode(roomCode));
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
