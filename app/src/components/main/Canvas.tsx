@@ -121,7 +121,7 @@ function Canvas(props: {}): JSX.Element {
   });
 
   // Styling for Canvas
-  const defaultCanvasStyle = {
+  const defaultCanvasStyle: React.CSSProperties = {
     width: '100%',
     minHeight: '100%',
     backgroundColor: isOver ? '#191919' : '#191919',
@@ -134,7 +134,10 @@ function Canvas(props: {}): JSX.Element {
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
 
-  const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
+  const canvasStyle: React.CSSProperties = combineStyles(
+    defaultCanvasStyle,
+    currentComponent.style
+  );
 
   return (
     <div

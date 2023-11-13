@@ -23,6 +23,7 @@ import { io } from 'socket.io-client';
 import store from '../../redux/store';
 //pasted from navbarbuttons
 import debounce from '../../../../node_modules/lodash/debounce.js';
+import { deepEqual } from 'assert';
 
 // // for websockets
 // // Part  - join room and room code functionality
@@ -92,8 +93,9 @@ const RoomsContainer = () => {
     const newState = store.getState();
     const roomCode = newState.roomSlice.roomCode;
 
-    if (newState !== previousState) {
+    if (JSON.stringify(newState) !== JSON.stringify(previousState)) {
       // Send the current state to the server
+      console.log('emit state unequal');
       socket.emit('custom-event', JSON.stringify(newState), roomCode);
       previousState = newState;
     }
@@ -106,7 +108,7 @@ const RoomsContainer = () => {
   });
 
   function joinRoom() {
-    if (userList.length !== 0) setUserList([]); //edge case check if userList not empty.
+    if (userList.length !== 0) dispatch(setUserList([])); //edge case check if userList not empty.
     handleUserEnteredRoom(roomCode); // Call handleUserEnteredRoom when joining a room
     dispatch(setRoomCode(roomCode));
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
