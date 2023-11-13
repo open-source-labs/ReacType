@@ -38,6 +38,7 @@ const RoomsContainer = () => {
       userJoined: store.roomSlice.userJoined
     })
   );
+
   React.useEffect(() => {
     console.log('You Joined Room---:', roomCode);
   }, [roomCode]);
@@ -72,15 +73,22 @@ const RoomsContainer = () => {
       if (currentStore !== event) {
         currentStore = JSON.parse(currentStore);
         event = JSON.parse(event);
-        if (currentStore.appState !== event.appState) {
+        if (
+          JSON.stringify(currentStore.appState) !==
+          JSON.stringify(event.appState)
+        ) {
           console.log('updating app state');
           store.dispatch(allCooperativeState(event.appState));
         } else if (
-          currentStore.codePreviewSlice !== event.codePreviewCooperative
+          JSON.stringify(currentStore.codePreviewSlice) !==
+          JSON.stringify(event.codePreviewCooperative)
         ) {
           console.log('updating code preview');
           store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
-        } else if (currentStore.styleSlice !== event.styleSlice) {
+        } else if (
+          JSON.stringify(currentStore.styleSlice) !==
+          JSON.stringify(event.styleSlice)
+        ) {
           console.log('updating style');
           store.dispatch(cooperativeStyle(event.styleSlice));
         }
@@ -98,23 +106,23 @@ const RoomsContainer = () => {
     const newState = store.getState();
     const roomCode = newState.roomSlice.roomCode;
 
-    if (newState !== previousState) {
+    if (JSON.stringify(newState) !== JSON.stringify(previousState)) {
       // Send the current state to the server
       console.log('front emitting new state');
       socket.emit('new state from front', JSON.stringify(newState), roomCode);
       previousState = newState;
     }
-  }, 10000);
+  }, 100);
 
   store.subscribe(() => {
     if (socket) {
-      console.log('handling store change');
+      //console.log('handling store change');
       handleStoreChange();
     }
   });
 
   function joinRoom() {
-    if (userList.length !== 0) setUserList([]); //edge case check if userList not empty.
+    if (userList.length !== 0) dispatch(setUserList([])); //edge case check if userList not empty.
     handleUserEnteredRoom(roomCode); // Call handleUserEnteredRoom when joining a room
     dispatch(setRoomCode(roomCode));
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
@@ -131,12 +139,11 @@ const RoomsContainer = () => {
   }
 
   //checking if both text field have any input (not including spaces)
-  function checkInputField(...inputs: any) {
+  function checkInputField(...inputs) {
     let userName: string = inputs[0].trim();
     let roomCode: string = inputs[1].trim();
     return userName.length === 0 || roomCode.length === 0;
   }
-
   return (
     <div>
       <Stack //stack styling for container

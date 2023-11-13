@@ -98,16 +98,17 @@ const io = new Server(httpServer, {
 const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
 io.on('connection', (client) => {
   client.on('new state from front', (redux_store, room) => {
-    console.log('back receiving new state');
+    //console.log('back receiving new state');
     if (room) {
       //sending to sender client, only if they are in room
       console.log('back emitting new state to room');
       client.to(room).emit('new state from back', redux_store);
-    } else {
-      //send to all connected clients except the one that sent the message
-      console.log('back emitting new state broadcast');
-      client.broadcast.emit('new state from back', redux_store);
     }
+    // } else {
+    //   //send to all connected clients except the one that sent the message
+    //   console.log('back emitting new state broadcast');
+    //   client.broadcast.emit('new state from back', redux_store);
+    // }
   });
 
   // client.on('join-room', (roomCode) => {
