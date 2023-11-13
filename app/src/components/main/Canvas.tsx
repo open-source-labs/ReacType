@@ -14,7 +14,7 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
-function Canvas(props): JSX.Element {
+function Canvas(props: {}): JSX.Element {
   const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
@@ -35,7 +35,7 @@ function Canvas(props): JSX.Element {
     dispatch(changeFocus({ componentId, childId }));
   };
   // onClickHandler is responsible for changing the focused component and child component
-  function onClickHandler(event) {
+  function onClickHandler(event: React.MouseEvent) {
     event.stopPropagation();
     changeFocusFunction(state.canvasFocus.componentId, null);
   }
