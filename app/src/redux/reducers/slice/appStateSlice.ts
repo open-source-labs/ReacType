@@ -17,7 +17,7 @@ export const initialState: State = {
   forked: false,
   published: false,
   isLoggedIn: false,
-  // config: { saveFlag: true, saveTimer: false },
+  //config: { saveFlag: true, saveTimer: false },
   components: [
     {
       id: 1,
@@ -42,8 +42,8 @@ export const initialState: State = {
   nextTopSeparatorId: 1000,
   HTMLTypes: HTMLTypes, // left as is for now
   tailwind: false,
-  stylesheet: '', 
-  codePreview: false, 
+  stylesheet: '',
+  codePreview: false,
   screenshotTrigger: false
 };
 
@@ -778,7 +778,7 @@ const appStateSlice = createSlice({
       state._id = projectId;
     },
     updateProjectPublished: (state, action) => {
-      const projectPublished = action.payload; 
+      const projectPublished = action.payload;
       state.published = projectPublished;
     },
     deleteElement: (state, action) => {
@@ -1285,6 +1285,11 @@ const appStateSlice = createSlice({
     toggleScreenshotTrigger: (state) => {
       state.screenshotTrigger = !state.screenshotTrigger;
     }
+
+    // ,configToggle: (state) => {
+    //   state.config.saveFlag = !state.config.saveFlag;
+    //   state.config.saveTimer = !state.config.saveTimer;
+    // }
   }
 });
 
@@ -1326,8 +1331,8 @@ export const {
   //configToggle,
   snapShotAction,
   allCooperativeState,
-  updateStylesheet, 
-  toggleCodePreview, 
+  updateStylesheet,
+  toggleCodePreview,
   toggleScreenshotTrigger
 } = appStateSlice.actions;
 

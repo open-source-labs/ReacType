@@ -9,7 +9,7 @@ export interface State {
   components: Component[];
   rootComponents: number[];
   projectType: string;
-  config?: {};
+  config?: { saveTimer: boolean; saveFlag: boolean };
   separator?: ChildElement;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
@@ -28,13 +28,24 @@ export interface ChildElement {
   typeId: number;
   name: string;
   childId: number;
-  style: object;
+  style: ChildStyle;
   attributes: Attributes;
   events: object;
   children?: ChildElement[];
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   stateUsed?: StateUsed;
   passedInProps: StateProp[];
+  tag?: string;
+}
+
+export interface ChildStyle {
+  height?: string;
+  alignItems?: string;
+  backgroundColor?: string;
+  display?: string;
+  flexDirection?: string;
+  width?: string;
+  justifyContent?: string;
 }
 
 export interface Component {
@@ -131,6 +142,7 @@ export interface StateUsed {
 export interface Attributes {
   compText?: string;
   compLink?: string;
+  cssClasses?: string;
 }
 
 // interface PublishResponse {

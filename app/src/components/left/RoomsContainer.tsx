@@ -30,53 +30,74 @@ let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
   const dispatch = useDispatch();
-  const { state, roomCode, userName, userList, userJoined } = useSelector(
+  const { roomCode, userName, userList, userJoined } = useSelector(
     (store: RootState) => ({
-      state: store.appState,
       roomCode: store.roomSlice.roomCode,
       userName: store.roomSlice.userName,
       userList: store.roomSlice.userList,
       userJoined: store.roomSlice.userJoined
     })
   );
-  React.useEffect(() => {
-    console.log('You Joined Room---front end:', roomCode);
-  }, [roomCode]);
 
-  function initSocketConnection(roomCode) {
+  function initSocketConnection(roomCode: string) {
     if (socket) socket.disconnect(); //edge case check if socket connection existed
 
     socket = io(API_BASE_URL, {
+      //establishing client and server connection
       transports: ['websocket']
     });
 
+    //connecting user to server
     socket.on('connect', () => {
-      console.log(`You Connected With Id: ${socket.id}`);
-      socket.emit('join-room', roomCode); // Join the room when connected
-      console.log(`Your Nickname Is: ${userName}`);
-      //passing current client nickname to server
       socket.emit('joining', userName, roomCode);
-      //listening to back end for updating user list
-      socket.on('updateUserList', (newUserList) => {
-        dispatch(setUserList(Object.values(newUserList)));
-      });
+      console.log(`${userName} Joined room ${roomCode}`);
+    });
+
+    //send state from host to room when new user joins
+    socket.on('requesting state from host', (callback) => {
+      //getting state request from user from back end
+      const newState = store.getState();
+      callback(newState); //pull new state from host and send it to back end
+    });
+
+    socket.on('server emitting state from host', (state, callback) => {
+      //getting state from host once joined a room
+      //dispatching new state to change user current state
+      store.dispatch(allCooperativeState(state.appState));
+      store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
+      store.dispatch(cooperativeStyle(state.styleSlice));
+      callback({ status: 'confirmed' });
+    });
+
+    //listening to back end for updating user list
+    socket.on('updateUserList', (newUserList: object) => {
+      dispatch(setUserList(Object.values(newUserList)));
     });
 
     // receiving the message from the back end
-    socket.on('receive message', (event) => {
-      let currentStore: any = JSON.stringify(store.getState());
-      // console.log('event ', event);
-      if (currentStore !== event) {
-        currentStore = JSON.parse(currentStore);
-        event = JSON.parse(event);
-        if (currentStore.appState !== event.appState) {
-          store.dispatch(allCooperativeState(event.appState));
+    socket.on('new state from back', (event) => {
+      const currentStore = JSON.parse(JSON.stringify(store.getState()));
+      const parsedEvent = JSON.parse(event);
+
+      const areStatesEqual = (stateA, stateB) =>
+        JSON.stringify(stateA) === JSON.stringify(stateB);
+
+      if (!areStatesEqual(currentStore, parsedEvent)) {
+        if (!areStatesEqual(currentStore.appState, parsedEvent.appState)) {
+          store.dispatch(allCooperativeState(parsedEvent.appState));
         } else if (
-          currentStore.codePreviewSlice !== event.codePreviewCooperative
+          !areStatesEqual(
+            currentStore.codePreviewSlice,
+            parsedEvent.codePreviewCooperative
+          )
         ) {
-          store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
-        } else if (currentStore.styleSlice !== event.styleSlice) {
-          store.dispatch(cooperativeStyle(event.styleSlice));
+          store.dispatch(
+            codePreviewCooperative(parsedEvent.codePreviewCooperative)
+          );
+        } else if (
+          !areStatesEqual(currentStore.styleSlice, parsedEvent.styleSlice)
+        ) {
+          store.dispatch(cooperativeStyle(parsedEvent.styleSlice));
         }
       }
     });
@@ -88,25 +109,28 @@ const RoomsContainer = () => {
 
   let previousState = store.getState();
   // sending info to backend whenever the redux store changes
+  //handling state changes and send to server
   const handleStoreChange = debounce(() => {
     const newState = store.getState();
     const roomCode = newState.roomSlice.roomCode;
 
-    if (newState !== previousState) {
+    if (JSON.stringify(newState) !== JSON.stringify(previousState)) {
       // Send the current state to the server
-      socket.emit('custom-event', JSON.stringify(newState), roomCode);
+      socket.emit('new state from front', JSON.stringify(newState), roomCode);
       previousState = newState;
     }
   }, 100);
 
+  //listening to changes from store from user, invoke handle store change.
   store.subscribe(() => {
     if (socket) {
       handleStoreChange();
     }
   });
 
+  //joining room function
   function joinRoom() {
-    if (userList.length !== 0) setUserList([]); //edge case check if userList not empty.
+    if (userList.length !== 0) dispatch(setUserList([])); //edge case check if userList not empty.
     handleUserEnteredRoom(roomCode); // Call handleUserEnteredRoom when joining a room
     dispatch(setRoomCode(roomCode));
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
@@ -114,16 +138,17 @@ const RoomsContainer = () => {
 
   function leaveRoom() {
     if (socket) {
-      socket.disconnect();
-    } //disconnecting socket functionality
+      socket.disconnect(); //disconnecting socket from server
+    }
+    //reset all state values
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
     dispatch(setUserJoined(false)); //setting joined to false so join button appear
   }
 
-  //checking if both text field have any input (not including spaces)
-  function checkInputField(...inputs: any) {
+  //checking empty input field (not including spaces)
+  function checkInputField(...inputs) {
     let userName: string = inputs[0].trim();
     let roomCode: string = inputs[1].trim();
     return userName.length === 0 || roomCode.length === 0;
@@ -166,8 +191,7 @@ const RoomsContainer = () => {
             <Typography
               variant="body1"
               sx={{
-                color: 'white', // Text color for the count
-                borderRadius: 4 // Optional: Add rounded corners
+                color: 'white' // Text color for the count
               }}
             >
               Users: {userList.length}
@@ -201,14 +225,13 @@ const RoomsContainer = () => {
         ) : (
           //after joinning room
           <>
-            <></>
             <TextField
               hiddenLabel={true}
               id="filled-hidden-label-small"
               variant="filled"
               size="small"
               value={userName}
-              placeholder="Input nickname"
+              placeholder="Input Nickname"
               onChange={(e) => dispatch(setUserName(e.target.value))}
             />
             <TextField
