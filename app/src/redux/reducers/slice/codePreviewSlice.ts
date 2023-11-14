@@ -11,19 +11,19 @@ const codePreviewSlice = createSlice({
   name: 'codePreview',
   initialState,
   reducers: {
-    codePreviewSave: (state,action) => {
-      state.code = action.payload
+    codePreviewSave: (state, action) => {
+      state.code = action.payload;
     },
     codePreviewInput: (state, action) => {
-      state.input = action.payload
+      state.input = action.payload;
     },
     codePreviewCooperative: (state, action) => {
-      return Object.assign({}, state, action.payload)
-    },
+      return Object.assign({}, state, action.payload);
+    }
   }
-})
+});
 
-
-export const { codePreviewSave, codePreviewInput, codePreviewCooperative } = codePreviewSlice.actions;
+export const { codePreviewSave, codePreviewInput, codePreviewCooperative } =
+  codePreviewSlice.actions;
 
 export default codePreviewSlice.reducer;
