@@ -39,20 +39,16 @@ const RoomsContainer = () => {
     })
   );
 
-  React.useEffect(() => {
-    console.log('You Joined Room---:', roomCode);
-  }, [roomCode]);
-
   function initSocketConnection(roomCode: string) {
     if (socket) socket.disconnect(); //edge case check if socket connection existed
 
     socket = io(API_BASE_URL, {
-      //establishing client and server
+      //establishing client and server connection
       transports: ['websocket']
     });
 
+    //connecting user to server
     socket.on('connect', () => {
-      //connecting user to server
       socket.emit('joining', userName, roomCode);
       console.log(`${userName} Joined room ${roomCode}`);
     });
@@ -64,7 +60,7 @@ const RoomsContainer = () => {
       callback(newState); //pull new state from host and send it to back end
     });
 
-    socket.on('back emitting state from host', (state, callback) => {
+    socket.on('server emitting state from host', (state, callback) => {
       //getting state from host once joined a room
       //dispatching new state to change user current state
       store.dispatch(allCooperativeState(state.appState));
@@ -80,25 +76,28 @@ const RoomsContainer = () => {
 
     // receiving the message from the back end
     socket.on('new state from back', (event) => {
-      let currentStore: any = JSON.stringify(store.getState());
-      if (currentStore !== event) {
-        currentStore = JSON.parse(currentStore);
-        event = JSON.parse(event);
-        if (
-          JSON.stringify(currentStore.appState) !==
-          JSON.stringify(event.appState)
-        ) {
-          store.dispatch(allCooperativeState(event.appState));
+      const currentStore = JSON.parse(JSON.stringify(store.getState()));
+      const parsedEvent = JSON.parse(event);
+
+      const areStatesEqual = (stateA, stateB) =>
+        JSON.stringify(stateA) === JSON.stringify(stateB);
+
+      if (!areStatesEqual(currentStore, parsedEvent)) {
+        if (!areStatesEqual(currentStore.appState, parsedEvent.appState)) {
+          store.dispatch(allCooperativeState(parsedEvent.appState));
         } else if (
-          JSON.stringify(currentStore.codePreviewSlice) !==
-          JSON.stringify(event.codePreviewCooperative)
+          !areStatesEqual(
+            currentStore.codePreviewSlice,
+            parsedEvent.codePreviewCooperative
+          )
         ) {
-          store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
+          store.dispatch(
+            codePreviewCooperative(parsedEvent.codePreviewCooperative)
+          );
         } else if (
-          JSON.stringify(currentStore.styleSlice) !==
-          JSON.stringify(event.styleSlice)
+          !areStatesEqual(currentStore.styleSlice, parsedEvent.styleSlice)
         ) {
-          store.dispatch(cooperativeStyle(event.styleSlice));
+          store.dispatch(cooperativeStyle(parsedEvent.styleSlice));
         }
       }
     });
@@ -122,7 +121,7 @@ const RoomsContainer = () => {
     }
   }, 100);
 
-  //listening to changes from users in room, invoke handle store change
+  //listening to changes from store from user, invoke handle store change.
   store.subscribe(() => {
     if (socket) {
       handleStoreChange();
@@ -139,20 +138,22 @@ const RoomsContainer = () => {
 
   function leaveRoom() {
     if (socket) {
-      socket.disconnect();
-    } //disconnecting socket functionality
+      socket.disconnect(); //disconnecting socket from server
+    }
+    //reset all state values
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
     dispatch(setUserJoined(false)); //setting joined to false so join button appear
   }
 
-  //checking if both text field have any input (not including spaces)
+  //checking empty input field (not including spaces)
   function checkInputField(...inputs) {
     let userName: string = inputs[0].trim();
     let roomCode: string = inputs[1].trim();
     return userName.length === 0 || roomCode.length === 0;
   }
+
   return (
     <div>
       <Stack //stack styling for container
@@ -224,7 +225,6 @@ const RoomsContainer = () => {
         ) : (
           //after joinning room
           <>
-            <></>
             <TextField
               hiddenLabel={true}
               id="filled-hidden-label-small"

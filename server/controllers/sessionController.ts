@@ -26,7 +26,6 @@ const sessionController: SessionController = {
       if (!session) {
         res.locals.loggedIn = false;
         return next();
-        // return res.redirect('/');
       }
       res.locals.loggedIn = true;
       return next();

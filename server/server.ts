@@ -119,16 +119,17 @@ io.on('connection', (client) => {
       let newClientResponse = await io //send the requested host state to the new client
         .timeout(5000)
         .to(newClientID)
-        .emitWithAck('back emitting state from host', hostState[0]); //sending state to the new client
+        .emitWithAck('server emitting state from host', hostState[0]); //sending state to the new client
 
+      //client response is confirmed
       if (newClientResponse[0].status === 'confirmed') {
         client.join(roomCode); //client joining a room
         io.to(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room but the sender
       }
     } catch (error) {
-      //if joining event is having an error
+      //if joining event is having an error and time out
       console.log(
-        'the client did not acknowledge the event in the given delay:',
+        'Request Timeout: Client failed to request state from host.',
         error
       );
     }
