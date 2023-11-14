@@ -35,59 +35,49 @@ const RoomsContainer = () => {
       roomCode: store.roomSlice.roomCode,
       userName: store.roomSlice.userName,
       userList: store.roomSlice.userList,
-      //userIsHost: store.roomSlice.userIsHost,
       userJoined: store.roomSlice.userJoined
     })
   );
-  // const [userIsHost, setUserIsHost] = useState(false);
 
   React.useEffect(() => {
     console.log('You Joined Room---:', roomCode);
   }, [roomCode]);
 
-  // React.useEffect(() => {
-  //   console.log('userName :', userName);
-  //   if (userName === userList[0]) {
-  //     console.log('setting isHost to true');
-  //     setUserIsHost(true);
-  //   } else {
-  //     setUserIsHost(false);
-  //   }
-  //   console.log('User list updated:', userList);
-  //   console.log('userList[0]-------', userList[0]);
-  // }, [userList]);
-
   function initSocketConnection(roomCode: string) {
     if (socket) socket.disconnect(); //edge case check if socket connection existed
 
     socket = io(API_BASE_URL, {
+      //establishing client and server
       transports: ['websocket']
     });
 
     socket.on('connect', () => {
-      console.log(`You Connected With Id: ${socket.id}`);
-      console.log(`Your Nickname Is: ${userName}`);
-      //passing current client nickname and room code to server
+      //connecting user to server
       socket.emit('joining', userName, roomCode);
-      socket.on('back emitting state from host', (state) => {
-        store.dispatch(allCooperativeState(state.appState));
-        store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
-        store.dispatch(cooperativeStyle(state.styleSlice));
-      });
+      console.log(`${userName} Joined room ${roomCode}`);
+    });
+
+    //send state from host to room when new user joins
+    socket.on('requesting state from host', (callback) => {
+      //getting state request from user from back end
+      const newState = store.getState();
+      callback(newState); //pull new state from host and send it to back end
+    });
+
+    socket.on('back emitting state from host', (state, callback) => {
+      //getting state from host once joined a room
+      //dispatching new state to change user current state
+      store.dispatch(allCooperativeState(state.appState));
+      store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
+      store.dispatch(cooperativeStyle(state.styleSlice));
+      callback({ status: 'confirmed' });
     });
 
     //listening to back end for updating user list
     socket.on('updateUserList', (newUserList: object) => {
       dispatch(setUserList(Object.values(newUserList)));
     });
-    //send state from host to room when new user joins
-    socket.on('requesting state from host', () => {
-      console.log('front received request for host state');
-      console.log(`${userName} is host`);
-      console.log('host is sending state');
-      const newState = store.getState();
-      socket.emit('state from host', JSON.stringify(newState));
-    });
+
     // receiving the message from the back end
     socket.on('new state from back', (event) => {
       let currentStore: any = JSON.stringify(store.getState());
@@ -120,6 +110,7 @@ const RoomsContainer = () => {
 
   let previousState = store.getState();
   // sending info to backend whenever the redux store changes
+  //handling state changes and send to server
   const handleStoreChange = debounce(() => {
     const newState = store.getState();
     const roomCode = newState.roomSlice.roomCode;
@@ -131,12 +122,14 @@ const RoomsContainer = () => {
     }
   }, 100);
 
+  //listening to changes from users in room, invoke handle store change
   store.subscribe(() => {
     if (socket) {
       handleStoreChange();
     }
   });
 
+  //joining room function
   function joinRoom() {
     if (userList.length !== 0) dispatch(setUserList([])); //edge case check if userList not empty.
     handleUserEnteredRoom(roomCode); // Call handleUserEnteredRoom when joining a room

@@ -11,36 +11,34 @@ const sessionController: SessionController = {
     //   // Skip authentication checks in test environment
     //   return next();
     // } else {
-      try {
-        let cookieId;
-        if (req.cookies) {
-          // if the request cookies exist then it assigns it to cookieId
-          cookieId = req.cookies.ssid;
-        } else {
-          // else it creates a new cookieId for the user based on the userId
-          cookieId = req.body.userId;
-        }
-
-        // find session from request session ID in mongodb
-        const session = await Sessions.findOne({ cookieId });
-        if (!session) {
-          console.log('no session')
-          res.locals.loggedIn = false;
-          return next();
-          // return res.redirect('/');
-        }
-        res.locals.loggedIn = true;
-        return next();
-      } catch (err) {
-        return next({
-          log: `Error in sessionController.isLoggedIn: ${err}`,
-          message: {
-            err: 'Error in sessionController.isLoggedIn, check server logs for details'
-          }
-        });
+    try {
+      let cookieId;
+      if (req.cookies) {
+        // if the request cookies exist then it assigns it to cookieId
+        cookieId = req.cookies.ssid;
+      } else {
+        // else it creates a new cookieId for the user based on the userId
+        cookieId = req.body.userId;
       }
-    
-},
+
+      // find session from request session ID in mongodb
+      const session = await Sessions.findOne({ cookieId });
+      if (!session) {
+        res.locals.loggedIn = false;
+        return next();
+        // return res.redirect('/');
+      }
+      res.locals.loggedIn = true;
+      return next();
+    } catch (err) {
+      return next({
+        log: `Error in sessionController.isLoggedIn: ${err}`,
+        message: {
+          err: 'Error in sessionController.isLoggedIn, check server logs for details'
+        }
+      });
+    }
+  },
   // startSession - create and save a new session into the database
   startSession: (req, res, next) => {
     // first check if user is logged in already
@@ -82,19 +80,23 @@ const sessionController: SessionController = {
 
   endSession: (req, res, next) => {
     //finding then deleting the session
-    Sessions.findOneAndDelete({ cookieId: req.cookies.ssid }, null, (err, deleted) => {
-      if (err) {
-        return next({
-          log: `Error in sessionController.endSession: ${err}`,
-          message: {
-            err: 'Error in sessionController.endSession, check server logs for details'
-          }
-        });
+    Sessions.findOneAndDelete(
+      { cookieId: req.cookies.ssid },
+      null,
+      (err, deleted) => {
+        if (err) {
+          return next({
+            log: `Error in sessionController.endSession: ${err}`,
+            message: {
+              err: 'Error in sessionController.endSession, check server logs for details'
+            }
+          });
+        }
+        res.locals.deleted = deleted;
+        return next();
       }
-      res.locals.deleted = deleted;
-      return next();
-    });
-  },
+    );
+  }
 
   //don't think this code is used DW17
   // gitHubResponse: (req, res, next) => {

@@ -97,58 +97,61 @@ const io = new Server(httpServer, {
 
 const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
 io.on('connection', (client) => {
-  client.on('new state from front', (redux_store, room) => {
+  //when user Joined a room
+  client.on('joining', async (userName: string, roomCode: string) => {
+    //adding async
+    try {
+      //if no room exists, add room to list
+      if (!roomLists[roomCode]) {
+        roomLists[roomCode] = {};
+      }
+      roomLists[roomCode][client.id] = userName; // add user into the room with id: userName
+      let userList = Object.keys(roomLists[roomCode]);
+      let hostID = userList[0];
+      let newClientID = userList[userList.length - 1];
+
+      //await request state to host
+      let hostState = await io //once the request is sent back save to host state
+        .timeout(5000)
+        .to(hostID)
+        .emitWithAck('requesting state from host'); //sending request
+
+      let newClientResponse = await io //send the requested host state to the new client
+        .timeout(5000)
+        .to(newClientID)
+        .emitWithAck('back emitting state from host', hostState[0]); //sending state to the new client
+
+      if (newClientResponse[0].status === 'confirmed') {
+        client.join(roomCode); //client joining a room
+        io.to(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room but the sender
+      }
+    } catch (error) {
+      //if joining event is having an error
+      console.log(
+        'the client did not acknowledge the event in the given delay:',
+        error
+      );
+    }
+  });
+
+  //updating state after joining
+  client.on('new state from front', (redux_store, room: string) => {
     if (room) {
       //sending to sender client, only if they are in room
       client.to(room).emit('new state from back', redux_store);
     }
   });
 
-  //when user Joined a room
-  client.on('joining', (userName: string, roomCode: string) => {
-    //if room exists, get state from host
-    if (roomLists[roomCode]) {
-      let hostID = Object.keys(roomLists[roomCode])[0];
-      console.log('back requesting state from host');
-      console.log('host username:', roomLists[roomCode][hostID]);
-      io.to(roomLists[roomCode][hostID]).emit('requesting state from host');
-      client.on('state from host', (state) => {
-        io.to(client.id).emit('back emitting state from host', state);
-      });
-      //if no room exist, create new room in server
-    } else if (!roomLists[roomCode]) {
-      roomLists[roomCode] = {};
-    }
-    roomLists[roomCode][client.id] = userName; // add user into the room with id: userName
-
-    client.join(roomCode); //client joining a room
-
-    console.log('back emitting new user list');
-    io.to(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room
-
-    //console.log for room status
-    console.log('full room lists', roomLists);
-    console.log(`${userName} joined room ${roomCode}`);
-    console.log(
-      `back sent User list of room ${roomCode}: `,
-      roomLists[roomCode]
-    );
-  });
-
+  //disconnecting functionality
   client.on('disconnecting', () => {
     // the client.rooms Set contains at least the socket ID
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
     delete roomLists[roomCode][client.id];
-    console.log('back deleting user from list');
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
-      console.log(
-        'back emitting User list after User Left',
-        roomLists[roomCode]
-      );
       io.to(roomCode).emit('updateUserList', roomLists[roomCode]);
     }
   });
