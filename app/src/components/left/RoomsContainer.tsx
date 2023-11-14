@@ -57,7 +57,7 @@ const RoomsContainer = () => {
   //   console.log('userList[0]-------', userList[0]);
   // }, [userList]);
 
-  function initSocketConnection(roomCode) {
+  function initSocketConnection(roomCode: string) {
     if (socket) socket.disconnect(); //edge case check if socket connection existed
 
     socket = io(API_BASE_URL, {
@@ -69,6 +69,11 @@ const RoomsContainer = () => {
       console.log(`Your Nickname Is: ${userName}`);
       //passing current client nickname and room code to server
       socket.emit('joining', userName, roomCode);
+      socket.on('back emitting state from host', (state) => {
+        store.dispatch(allCooperativeState(state.appState));
+        store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
+        store.dispatch(cooperativeStyle(state.styleSlice));
+      });
     });
 
     //listening to back end for updating user list

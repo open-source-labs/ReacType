@@ -105,8 +105,7 @@ io.on('connection', (client) => {
   });
 
   //when user Joined a room
-  client.on('joining', (userName, roomCode) => {
-    client.join(roomCode); //client joining a room
+  client.on('joining', (userName: string, roomCode: string) => {
     //if room exists, get state from host
     if (roomLists[roomCode]) {
       let hostID = Object.keys(roomLists[roomCode])[0];
@@ -114,13 +113,16 @@ io.on('connection', (client) => {
       console.log('host username:', roomLists[roomCode][hostID]);
       io.to(roomLists[roomCode][hostID]).emit('requesting state from host');
       client.on('state from host', (state) => {
-        io.to(client.id).emit('new state from back', state);
+        io.to(client.id).emit('back emitting state from host', state);
       });
       //if no room exist, create new room in server
     } else if (!roomLists[roomCode]) {
       roomLists[roomCode] = {};
     }
     roomLists[roomCode][client.id] = userName; // add user into the room with id: userName
+
+    client.join(roomCode); //client joining a room
+
     console.log('back emitting new user list');
     io.to(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room
 
