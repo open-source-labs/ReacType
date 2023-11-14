@@ -94,6 +94,7 @@ const io = new Server(httpServer, {
     origin: ['http://localhost:5656', 'http://localhost:8080', API_BASE_URL]
   }
 });
+
 //creating map for user list
 const userList = {};
 io.on('connection', (client) => {
@@ -101,9 +102,6 @@ io.on('connection', (client) => {
     if (room) {
       //sending to sender client, only if they are in room
       client.to(room).emit('receive message', redux_store);
-    } else {
-      //send to all connected clients except the one that sent the message
-      client.broadcast.emit('receive message', redux_store);
     }
   });
 
