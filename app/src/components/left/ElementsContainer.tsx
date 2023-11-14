@@ -6,12 +6,13 @@ import ComponentDrag from './ComponentDrag';
 import DragDropPanel from './DragDropPanel';
 
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 // Left-hand portion of the app, where component options are displayed
 const ElementsContainer = (props): JSX.Element => {
   const [selectedTab, setSelectedTab] = React.useState('files');
 
-  const { contextParam, style } = useSelector((store) => ({
+  const { contextParam, style } = useSelector((store: RootState) => ({
     contextParam: store.contextSlice,
     style: store.styleSlice
   }));

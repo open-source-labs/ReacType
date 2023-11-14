@@ -2,33 +2,33 @@ import React from 'react';
 import SimpleModal from './SimpleModal';
 
 type Props = {
-  closeModal: any;
-  primBtnAction: any;
-  secBtnAction: any;
   open: boolean;
-  children: any;
   message: string;
   primBtnLabel: any;
   secBtnLabel: any;
+  primBtnAction: any;
+  secBtnAction: any;
+  children: any;
+  closeModal: any;
 };
 
 const createModal = ({
+  open = true,
   message,
-  closeModal,
   primBtnLabel,
+  secBtnLabel = null,
   primBtnAction,
   secBtnAction = null,
-  secBtnLabel = null,
   children = null,
-  open = true
+  closeModal
 }: Props) => (
   <SimpleModal
     open={open}
     message={message}
-    secBtnLabel={secBtnLabel}
     primBtnLabel={primBtnLabel}
-    secBtnAction={secBtnAction}
+    secBtnLabel={secBtnLabel}
     primBtnAction={primBtnAction}
+    secBtnAction={secBtnAction}
     closeModal={closeModal}
   >
     {children}

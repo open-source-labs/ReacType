@@ -9,7 +9,7 @@ import { RootState } from '../../redux/store';
 import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {

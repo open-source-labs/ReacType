@@ -25,9 +25,9 @@ const AddContextForm = ({
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { state } = useSelector((store: RootState) => ({
-    state: store.appState
-  }));
+  // const { state } = useSelector((store: RootState) => ({
+  //   state: store.appState
+  // }));
 
   const color = 'white';
 
