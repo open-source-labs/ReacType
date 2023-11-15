@@ -3,6 +3,35 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 18.0.0 Changes**
+
+Changes:<br>
+
+- Developer Improvements:
+  - Typescript converting and now sits at ~90%
+  - Dev Bug Fixes:
+    - Additional logic added for edge cases for Websocket-related components.
+    - Fixed TS coverage bug GitHub only shows that the project is in HTML instead of TypeScript.
+    - Changed RoomSlice for improved state management for RoomContainer.
+    - Added more typescript interfaces for type-checking throughout the application.
+    - Cleaned up hundreds of lines of outdated code and removed multiple unused and duplicate files.
+- User Features:
+  - Collaboration Room:
+    - Fixed backend web socket connections with the clients, and established a full duplex connection between multiple clients and server.
+    - Refactor and add more edge cases to Roomcontainer for Websocket connections.
+Recommendations for Future Enhancements:<br>
+
+- Add a comment section and description section for each published project
+- Consider maybe a way for users to pull individual components from one project into another
+- Use localforage or other methods to store unsaved projects either on logout or accidental closure of browser, so that when the user opens the browser again it is still there.
+- Continue expanding testing coverage. Improve testing by adding additional unit tests, expanding end-to-end testing, and introducing integration testing.
+- Continue quality Typescript conversion. Continue to fix type errors within component files.
+- Modularize appStateSlice file. Further modularization is needed for readability and maintainability.
+- Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Resolve electron app functionality to coincide with web app functionality.
+- Take a look at the join room functionality using web sockets in order to allow users to collaborate on the same project at the same time.
+- For the state manager option in the data table there is a MuiData-menu that is not visible when clicking it and after the filter option is clicked it creates a white space in the bottom of the page.
+- Continue code cleanup. Continue cleanup of outdated and unused code and files
+
 **Version 17.0.0 Changes**
 
 Changes:<br>
