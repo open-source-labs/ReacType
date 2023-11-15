@@ -5,8 +5,7 @@ import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 function DeleteButton({ id, name }: DeleteButtons) {
-  const { state, contextParam } = useSelector((store:RootState) => ({
-    state: store.appState,
+  const { contextParam } = useSelector((store:RootState) => ({
     contextParam: store.contextSlice,
   }));
 
