@@ -11,7 +11,6 @@ Changes:<br>
   - Typescript conversion continued and now sits at ~90%
   - Dev Bug Fixes:
     - Deleted ts-coverage files and added folder to git.ignore so TS conversion status is properly reflected on the GitHub repository.
-    - Fixed persistent WebSocket issue that was causing users to not be able to join rooms properly.
     - Cleaned up outdated code and removed multiple unused and duplicate files, particularly those related to the now-obsolete Dark Mode functionality and some other lingering code from the v.17 migration.
   - Modularity:
     - Migrated large portions of RoomContainer functionality into smaller components to improve the reusability of code.
@@ -34,8 +33,10 @@ Recommendations for Future Enhancements:<br>
 - Chat functionality so users in the same room can discuss their projects.
 - List of active rooms so users can simply pick one to join.  Will likely be paired with a password feature for security, so only users with the proper credentials can join a particular room.
 - True real-time rendering so users can see components as they're being dragged onto the canvas, rather than only when they're placed.
+- Optimize performance of room state updates 
 - v.17 recommendations regarding the Marketplace are still undeveloped.
-- Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Resolve electron app functionality to coincide with web app functionality.  Persistent Redux error that causes page to rerender more often than necessary.  
+- Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Persistent Redux error that causes page to rerender more often than necessary.
+- Resolve electron app functionality to coincide with web app functionality.  
 - For the state manager option in the data table there is a MuiData-menu that is not visible when clicking it and after the filter option is clicked it creates a white space in the bottom of the page.
 - Expand testing coverage.  Continue fixing old tests which rely on outdated dependencies, and implementing new tests.
 - Continue modularizing code.  Many large, unwieldy files that should be broken up into more modular components still exist.
