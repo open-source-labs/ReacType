@@ -35,7 +35,10 @@ Recommendations for Future Enhancements:<br>
 - v.17 recommendations regarding the Marketplace are still undeveloped.
 - Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Resolve electron app functionality to coincide with web app functionality.  Persistent Redux error that causes page to rerender more often than necessary.  
 - For the state manager option in the data table there is a MuiData-menu that is not visible when clicking it and after the filter option is clicked it creates a white space in the bottom of the page.
-- Continue code cleanup. Continue cleanup of outdated and unused code and files.  Continue modularizing code
+- Expand testing coverage.  Continue fixing old tests which rely on outdated dependencies, and implementing new tests.
+- Continue modularizing code.  Many large, unwieldy files that should be broken up into more modular components still exist.
+- Continue Typescript conversion.  Consider toggling noImplicitAny to find all 'any' cases that can be addressed.
+- Continue cleanup of outdated and unused code and files.  
 
 
 **Version 17.0.0 Changes**
