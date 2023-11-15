@@ -8,29 +8,35 @@
 Changes:<br>
 
 - Developer Improvements:
-  - Typescript converting and now sits at ~90%
+  - Typescript conversion continued and now sits at ~90%
+    - Added more interfaces for improved type coverage.
   - Dev Bug Fixes:
-    - Additional logic added for edge cases for Websocket-related components.
-    - Fixed TS coverage bug GitHub only shows that the project is in HTML instead of TypeScript.
-    - Changed RoomSlice for improved state management for RoomContainer.
-    - Added more typescript interfaces for type-checking throughout the application.
-    - Cleaned up hundreds of lines of outdated code and removed multiple unused and duplicate files.
+    - Deleted ts-coverage files and added folder to git.ignore so TS conversion status is properly reflected on the Github repository.
+    - Fixed persistent WebSocket issue that was causing users to not be able to join rooms properly, allowing full duplex connections between multiple clients and the server.
+    - Cleaned up outdated code and removed multiple unused and duplicate files, particularly those related to the now-obsolete Dark Mode functionality and some other lingering code from the v.17 migration.
+  - Modularity:
+    - Migrated large portions of RoomContainer functionality into smaller components to improve usability of code.
 - User Features:
   - Collaboration Room:
-    - Fixed backend web socket connections with the clients, and established a full duplex connection between multiple clients and server.
-    - Refactor and add more edge cases to Roomcontainer for Websocket connections.
+    - Implemented room functionality where multiple users can see and interact with the same canvas state in real-time.
+    - Dynamically handles host of the room according to age, where the oldest connected client is the one serving the room's state.
+    - Fixed backend web socket connections with the clients, allowing full duplex connections between multiple clients and server.
+  - User List:
+    - List that displays all connected users in a particular room.
+    - Dynamically updates when users join or leave a room.
+  - Join/Nickname Button:
+    - Allows users to specify which room to join, and what name to display upon joining the room.
+      
 Recommendations for Future Enhancements:<br>
 
-- Add a comment section and description section for each published project
-- Consider maybe a way for users to pull individual components from one project into another
-- Use localforage or other methods to store unsaved projects either on logout or accidental closure of browser, so that when the user opens the browser again it is still there.
-- Continue expanding testing coverage. Improve testing by adding additional unit tests, expanding end-to-end testing, and introducing integration testing.
-- Continue quality Typescript conversion. Continue to fix type errors within component files.
-- Modularize appStateSlice file. Further modularization is needed for readability and maintainability.
-- Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Resolve electron app functionality to coincide with web app functionality.
-- Take a look at the join room functionality using web sockets in order to allow users to collaborate on the same project at the same time.
+- Chat functionality so users in the same room can discuss their projects.
+- List of active rooms so users can simply pick one to join.  Will likely be paired with a password feature for security, so only users with the proper credentials can join a particular room.
+- True real-time rendering so users can see components as they're being dragged onto the canvas, rather than only when they're placed.
+- v.17 recommendations regarding the Marketplace are still undeveloped.
+- Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Resolve electron app functionality to coincide with web app functionality.  Persistent Redux error that causes page to rerender more often than necessary.  
 - For the state manager option in the data table there is a MuiData-menu that is not visible when clicking it and after the filter option is clicked it creates a white space in the bottom of the page.
-- Continue code cleanup. Continue cleanup of outdated and unused code and files
+- Continue code cleanup. Continue cleanup of outdated and unused code and files.  Continue modularizing code
+
 
 **Version 17.0.0 Changes**
 
