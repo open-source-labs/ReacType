@@ -24,10 +24,10 @@ Changes:<br>
   - User List:
     - List that displays all connected users in a particular room.
     - Dynamically updates when users join or leave a room.
-    - Updates new host in the room to the next oldest user.
+    - Automatically updates new host in the room to the next oldest user.
   - Join/Nickname Button:
     - Allows users to specify which room to join, and what name to display upon joining the room.
-    - Added logic for button only allowed users to join when both fields are inputted.
+    - Button only shows when user is not connected to room, requires both fields to be filled out.
       
 Recommendations for Future Enhancements:<br>
 
