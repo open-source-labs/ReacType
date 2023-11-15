@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {
-  DataGrid,
-  GridEditRowsModel
-} from '@mui/x-data-grid';
+import { DataGrid, GridEditRowsModel } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteState } from '../../../../redux/reducers/slice/appStateSlice';
-import { RootState } from '../../../../redux/store'
-
-// updates state mgmt boxes and data grid 
-const TableStateProps = props => {
-  const { state, contextParam } = useSelector((store:RootState) => ({
+import { RootState } from '../../../../redux/store';
+import { ColumnTab } from '../../../../interfaces/Interfaces';
+// updates state mgmt boxes and data grid
+const TableStateProps = (props) => {
+  const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
-    contextParam: store.contextSlice,
+    contextParam: store.contextSlice
   }));
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -23,9 +20,9 @@ const TableStateProps = props => {
   const [gridColumns, setGridColumns] = useState([]);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  
-  // formatting for data grid columns 
-  const columnTabs = [
+
+  // formatting for data grid columns
+  const columnTabs: ColumnTab[] = [
     {
       field: 'id',
       headerName: 'ID',
@@ -43,10 +40,10 @@ const TableStateProps = props => {
       headerName: 'Initial Value',
       width: 100,
       editable: true,
-      valueGetter: (param) => { //to display the actual object or array instead of [object Object], leave undefined if it is setter function
-        if(param.row.type === 'func')
-          return;
-        return JSON.stringify(param.row.value)
+      valueGetter: (param) => {
+        //to display the actual object or array instead of [object Object], leave undefined if it is setter function
+        if (param.row.type === 'func') return;
+        return JSON.stringify(param.row.value);
       }
     },
     {
@@ -63,7 +60,7 @@ const TableStateProps = props => {
       renderCell: function renderCell(params: any) {
         return (
           <Button
-            style={{ width: `${3}px`, color: 'black'}}
+            style={{ width: `${3}px`, color: 'black' }}
             onClick={() => {
               handleDeleteState(params.id);
             }}
@@ -76,12 +73,18 @@ const TableStateProps = props => {
   ];
 
   const handleDeleteState = (selectedId) => {
-      const currentId = state.canvasFocus.componentId;
-      const currentComponent = state.components[currentId - 1];
-      const filtered = currentComponent.stateProps.filter(
-        element => element.id !== selectedId
-      );
-      dispatch(deleteState({stateProps: filtered, rowId: selectedId, contextParam: contextParam}))
+    const currentId = state.canvasFocus.componentId;
+    const currentComponent = state.components[currentId - 1];
+    const filtered = currentComponent.stateProps.filter(
+      (element) => element.id !== selectedId
+    );
+    dispatch(
+      deleteState({
+        stateProps: filtered,
+        rowId: selectedId,
+        contextParam: contextParam
+      })
+    );
   };
 
   useEffect(() => {
@@ -89,19 +92,20 @@ const TableStateProps = props => {
   }, [props.isThemeLight]);
 
   const { selectHandler }: StatePropsPanelProps = props;
-  
+
   useEffect(() => {
     if (props.canDeleteState) {
       setGridColumns(columnTabs);
     } else {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
-
   }, [state.canvasFocus.componentId]);
 
   // rows to show are either from current component or from a given provider
   let rows = [];
-  currentComponent.stateProps?.forEach((prop) =>{ rows.push(prop)}); 
+  currentComponent.stateProps?.forEach((prop) => {
+    rows.push(prop);
+  });
 
   return (
     <div className={'state-prop-grid'}>
@@ -122,10 +126,10 @@ const TableStateProps = props => {
 const useStyles = makeStyles({
   themeLight: {
     color: 'white',
-    '& button:hover':{
+    '& button:hover': {
       backgroundColor: 'LightGray'
     },
-    '& button':{
+    '& button': {
       color: 'white'
     }
   },
