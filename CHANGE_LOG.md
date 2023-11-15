@@ -9,23 +9,25 @@ Changes:<br>
 
 - Developer Improvements:
   - Typescript conversion continued and now sits at ~90%
-    - Added more interfaces for improved type coverage.
   - Dev Bug Fixes:
-    - Deleted ts-coverage files and added folder to git.ignore so TS conversion status is properly reflected on the Github repository.
+    - Deleted ts-coverage files and added folder to git.ignore so TS conversion status is properly reflected on the GitHub repository.
     - Fixed persistent WebSocket issue that was causing users to not be able to join rooms properly.
     - Cleaned up outdated code and removed multiple unused and duplicate files, particularly those related to the now-obsolete Dark Mode functionality and some other lingering code from the v.17 migration.
   - Modularity:
-    - Migrated large portions of RoomContainer functionality into smaller components to improve usability of code.
+    - Migrated large portions of RoomContainer functionality into smaller components to improve the reusability of code.
+    - Created more interface types for reusability to multiple parts of the applications.
 - User Features:
   - Collaboration Room:
-    - Implemented room functionality where multiple users can see and interact with the same canvas state in real-time.
-    - Dynamically handles host of the room according to age, where the oldest connected client is the one serving the room's state.
-    - Fixed backend web socket connections with the clients, allowing full duplex connections between multiple clients and server.
+    - Implemented room functionality where multiple users can see and interact with the same canvas state in real time.
+    - Dynamically handles the host logic of the collab room, where the oldest connected client is the one serving the room's state.
+    - Fixed backend web socket connections with the clients, allowing full duplex connections between multiple clients and servers.
   - User List:
     - List that displays all connected users in a particular room.
     - Dynamically updates when users join or leave a room.
+    - Updates new host in the room to the next oldest user.
   - Join/Nickname Button:
     - Allows users to specify which room to join, and what name to display upon joining the room.
+    - Added logic for button only allowed users to join when both fields are inputted.
       
 Recommendations for Future Enhancements:<br>
 
@@ -38,7 +40,7 @@ Recommendations for Future Enhancements:<br>
 - Expand testing coverage.  Continue fixing old tests which rely on outdated dependencies, and implementing new tests.
 - Continue modularizing code.  Many large, unwieldy files that should be broken up into more modular components still exist.
 - Continue Typescript conversion.  Consider toggling noImplicitAny to find all 'any' cases that can be addressed.
-- Continue cleanup of outdated and unused code and files.  
+- Continue cleanup of outdated and unused code and files.
 
 
 **Version 17.0.0 Changes**
