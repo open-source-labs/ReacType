@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Props from './createModal';
 
 const styles = (theme: any): any => ({
   paper: {
@@ -28,7 +29,7 @@ const styles = (theme: any): any => ({
   }
 });
 
-const SimpleModal = (props: any) => {
+const SimpleModal = (props) => {
   const {
     classes,
     open,
@@ -67,7 +68,8 @@ const SimpleModal = (props: any) => {
               fontSize: '17px',
               fontWeight: 'bold'
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" id="modal-title">
