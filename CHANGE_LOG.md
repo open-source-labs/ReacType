@@ -12,7 +12,7 @@ Changes:<br>
     - Added more interfaces for improved type coverage.
   - Dev Bug Fixes:
     - Deleted ts-coverage files and added folder to git.ignore so TS conversion status is properly reflected on the Github repository.
-    - Fixed persistent WebSocket issue that was causing users to not be able to join rooms properly, allowing full duplex connections between multiple clients and the server.
+    - Fixed persistent WebSocket issue that was causing users to not be able to join rooms properly.
     - Cleaned up outdated code and removed multiple unused and duplicate files, particularly those related to the now-obsolete Dark Mode functionality and some other lingering code from the v.17 migration.
   - Modularity:
     - Migrated large portions of RoomContainer functionality into smaller components to improve usability of code.
