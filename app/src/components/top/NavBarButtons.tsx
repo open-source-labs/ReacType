@@ -94,7 +94,7 @@ function navbarDropDown(props) {
   const classes = useStyles();
 
   const { state } = useSelector((store: RootState) => ({
-    state: store.appState,
+    state: store.appState
   }));
   const closeModal = () => setModal('');
   const handleClick = (event) => {

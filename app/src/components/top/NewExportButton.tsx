@@ -7,7 +7,7 @@ import zipFiles from '../../helperFunctions/zipFiles'; // Import your zipFiles f
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-export default function NewExportButton() {
+export default function NewExportButton(): React.JSX.Element {
   const [modal, setModal] = useState(null);
   const state = useSelector((store: RootState) => store.appState);
 
@@ -23,7 +23,7 @@ export default function NewExportButton() {
     padding: '8px 12px',
     cursor: 'pointer',
     marginRight: '10px',
-    borderRadius: '4px',
+    borderRadius: '4px'
   };
 
   const showGenerateAppModal = () => {
@@ -37,7 +37,7 @@ export default function NewExportButton() {
             style={{
               border: '1px solid #3f51b5',
               marginBottom: '2%',
-              marginTop: '5%',
+              marginTop: '5%'
             }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
@@ -60,12 +60,12 @@ export default function NewExportButton() {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true,
+        open: true
       })
     );
   };
 
-  const exportKeyBind = useCallback((e) => {
+  const exportKeyBind = useCallback((e: KeyboardEvent) => {
     if ((e.key === 'e' && e.metaKey) || (e.key === 'e' && e.ctrlKey)) {
       showGenerateAppModal();
     }
