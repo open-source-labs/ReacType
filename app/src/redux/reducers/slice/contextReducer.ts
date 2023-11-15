@@ -35,14 +35,14 @@ interface ContextState {
 // -------------------------//
 
 const initialState: ContextState = {
-  allContext: [],
+  allContext: []
 };
 
 const contextReducerSlice = createSlice({
   name: 'context',
   initialState,
   reducers: {
-    addContext: (state, action:PayloadAction<AddContextPayload>) => {
+    addContext: (state, action: PayloadAction<AddContextPayload>) => {
       let newName = action.payload.name.trim();
       newName = newName.charAt(0).toUpperCase() + newName.slice(1);
       const newContext = {
@@ -52,7 +52,10 @@ const contextReducerSlice = createSlice({
       };
       state.allContext = [...state.allContext, newContext];
     },
-    addContextValues: (state, action: PayloadAction<AddContextValuesPayload>) => {
+    addContextValues: (
+      state,
+      action: PayloadAction<AddContextValuesPayload>
+    ) => {
       const newAllContext = [...state.allContext];
 
       for (let i = 0; i < newAllContext.length; i += 1) {
@@ -70,7 +73,10 @@ const contextReducerSlice = createSlice({
       const remains = tempState.filter((el) => el.name !== action.payload.name);
       state.allContext = remains;
     },
-    addComponentToContext: (state, action: PayloadAction<AddComponentToContextPayload>) => {
+    addComponentToContext: (
+      state,
+      action: PayloadAction<AddComponentToContextPayload>
+    ) => {
       const newTempState = [...state.allContext];
       for (let i = 0; i < newTempState.length; i += 1) {
         if (newTempState[i].name === action.payload.context.name) {
@@ -79,7 +85,7 @@ const contextReducerSlice = createSlice({
       }
       state.allContext = newTempState;
     },
-    getAllContext: (state,action) => {
+    getAllContext: (state, action) => {
       state = state;
     },
     allContextCooperative: (state, action) => {

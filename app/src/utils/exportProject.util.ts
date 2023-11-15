@@ -8,10 +8,10 @@ const exportProject = (
   path: string,
   appName: string,
   genOption: number,
-  tests: boolean,
   projectType: string,
   components: any,
-  rootComponents: number[]
+  rootComponents: number[],
+  tests?: boolean
 ) => {
   // Create fully functional classic react application
   if (genOption === 1 && projectType === 'Classic React') {
