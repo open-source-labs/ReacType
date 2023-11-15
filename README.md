@@ -69,10 +69,10 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 
 ## Changes with Version 18.0.0
 
-- **Implemented a new improved Collaboration feature**: Allow developers to work on the projects together in real-time.
-- **Developed a User List**: Built and designed a new real-time updates user list on collaboration.
-- **Typescript Conversion**: Typescript is now increased to ~90%.
-- **Maintained and improved existing Codebase**: Clean up and refactor redundant codes in the existing code base improving App performance.
+- **Collaboration Rooms**: Implemented rooms which allow developers to colloborate together on a project.
+- **User List**: Designed and built a user list which updates in real time as clients join and exit.
+- **Typescript Conversion**: Typescript coverage is now increased to ~90%.
+- **Cleanup**: Removed unused code, fixed bugs, and refactored existing code to improve performance, 
 - **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
 
 ## File Structure of Reactype Version 18.0.0
