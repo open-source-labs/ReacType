@@ -30,6 +30,7 @@ let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
   const dispatch = useDispatch();
+  //roomCode/userName for emiting to socket io, userList for displaying user List receiving from back end, userJoined fo conditional rendering between join and leave room.
   const { roomCode, userName, userList, userJoined } = useSelector(
     (store: RootState) => ({
       roomCode: store.roomSlice.roomCode,
@@ -41,9 +42,8 @@ const RoomsContainer = () => {
 
   function initSocketConnection(roomCode: string) {
     if (socket) socket.disconnect(); //edge case check if socket connection existed
-
+    //establishing client and server connection
     socket = io(API_BASE_URL, {
-      //establishing client and server connection
       transports: ['websocket']
     });
 
@@ -77,27 +77,28 @@ const RoomsContainer = () => {
     // receiving the message from the back end
     socket.on('new state from back', (event) => {
       const currentStore = JSON.parse(JSON.stringify(store.getState()));
-      const parsedEvent = JSON.parse(event);
+      const newState = JSON.parse(event);
 
       const areStatesEqual = (stateA, stateB) =>
         JSON.stringify(stateA) === JSON.stringify(stateB);
 
-      if (!areStatesEqual(currentStore, parsedEvent)) {
-        if (!areStatesEqual(currentStore.appState, parsedEvent.appState)) {
-          store.dispatch(allCooperativeState(parsedEvent.appState));
+      //checking if current state are equal to the state being sent from server
+      if (!areStatesEqual(currentStore, newState)) {
+        if (!areStatesEqual(currentStore.appState, newState.appState)) {
+          store.dispatch(allCooperativeState(newState.appState));
         } else if (
           !areStatesEqual(
             currentStore.codePreviewSlice,
-            parsedEvent.codePreviewCooperative
+            newState.codePreviewCooperative
           )
         ) {
           store.dispatch(
-            codePreviewCooperative(parsedEvent.codePreviewCooperative)
+            codePreviewCooperative(newState.codePreviewCooperative)
           );
         } else if (
-          !areStatesEqual(currentStore.styleSlice, parsedEvent.styleSlice)
+          !areStatesEqual(currentStore.styleSlice, newState.styleSlice)
         ) {
-          store.dispatch(cooperativeStyle(parsedEvent.styleSlice));
+          store.dispatch(cooperativeStyle(newState.styleSlice));
         }
       }
     });
@@ -144,7 +145,7 @@ const RoomsContainer = () => {
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
-    dispatch(setUserJoined(false)); //setting joined to false so join button appear
+    dispatch(setUserJoined(false)); //setting joined to false so join room UI appear
   }
 
   //checking empty input field (not including spaces)
@@ -196,6 +197,7 @@ const RoomsContainer = () => {
             >
               Users: {userList.length}
             </Typography>
+            {/* User count inside the box */}
             <Box
               sx={{
                 width: '100%',
@@ -206,17 +208,34 @@ const RoomsContainer = () => {
                 borderRadius: '5%',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center', // Center vertically
                 alignItems: 'center',
                 overflow: 'auto',
                 color: 'white'
               }}
             >
               {/* User count inside the box */}
-              <List sx={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+              <List
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: 0
+                }}
+              >
                 {userList.map((user, index) => (
-                  <ListItem key={index} sx={{ color: 'white' }}>
-                    <ListItemText primary={user} />
+                  <ListItem
+                    key={index}
+                    sx={{
+                      color: 'white',
+                      textAlign: 'center',
+                      width: '100%'
+                    }}
+                  >
+                    <ListItemText
+                      primary={`${index + 1}. ${
+                        index === 0 ? `${user} (host)` : user
+                      }`}
+                    />
                   </ListItem>
                 ))}
               </List>
@@ -256,11 +275,24 @@ const RoomsContainer = () => {
                 }
               }}
             >
-              {' '}
-              Join Room{' '}
+              Join Room
             </Button>
+            {/* Note about Collab room feature */}
           </>
         )}
+        <Typography
+          variant="body2"
+          color="white" // Use a color that signifies a warning or important information
+          sx={{
+            marginTop: '10px',
+            textAlign: 'center',
+            fontStyle: 'italic',
+            fontSize: 'smaller'
+          }}
+        >
+          Note: For the best experience, limit Collab room occupancy to 3
+          people. Exceeding this limit may lead to app performance issues.
+        </Typography>
       </Stack>
     </div>
   );

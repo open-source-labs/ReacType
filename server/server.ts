@@ -105,21 +105,21 @@ io.on('connection', (client) => {
       if (!roomLists[roomCode]) {
         roomLists[roomCode] = {};
       }
-      roomLists[roomCode][client.id] = userName; // add user into the room with id: userName
-      let userList = Object.keys(roomLists[roomCode]);
-      let hostID = userList[0];
-      let newClientID = userList[userList.length - 1];
+      roomLists[roomCode][client.id] = userName; // adding user into the room list with id: userName on server side
+      const userList = Object.keys(roomLists[roomCode]);
+      const hostID = userList[0];
+      const newClientID = userList[userList.length - 1];
 
       //await request state to host
-      let hostState = await io //once the request is sent back save to host state
+      const hostState = await io //once the request is sent back save to host state
         .timeout(5000)
         .to(hostID)
         .emitWithAck('requesting state from host'); //sending request
 
-      let newClientResponse = await io //send the requested host state to the new client
+      const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
         .timeout(5000)
         .to(newClientID)
-        .emitWithAck('server emitting state from host', hostState[0]); //sending state to the new client
+        .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
 
       //client response is confirmed
       if (newClientResponse[0].status === 'confirmed') {

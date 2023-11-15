@@ -71,7 +71,7 @@ export const createPackage = (path, appName, test) => {
   });
 };
 //createTSConfig (empty)
-export const createTsConfig = (path, appName) => {
+export const createTsConfig = (path:string, appName:string) => {
   const filePath:string = `${path}/${appName}/tsconfig.json`;
   //running 'gatsby dev' will autopopulate this with default values
   const data:string = `{
@@ -99,7 +99,7 @@ export const createTsConfig = (path, appName) => {
 };
 
 //createDefaultCSS
-export const createDefaultCSS = (path, appName, components) => {
+export const createDefaultCSS = (path:string, appName:string, components) => {
   const filePath = `${path}/${appName}/global.css`;
   let data = `
   #__gatsby div {
@@ -111,6 +111,7 @@ export const createDefaultCSS = (path, appName, components) => {
     font-family: Helvetica, Arial;
   }
   `;
+  console.log(components);
   components.forEach(comp => {
     data += compToCSS(comp);
   })
