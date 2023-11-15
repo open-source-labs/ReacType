@@ -9,54 +9,45 @@ import { Button } from '@mui/material';
 // The CanvasContainer sets the boundaries on the width/height of the canvas
 function CanvasContainer(props): JSX.Element {
   const [theme, setTheme] = useState('solarized_light'); // theme for ACE editor, taken from BottomTabs
-  const { state } = useSelector(
-    (store: RootState) => ({
-      state: store.appState,
-    })
-  );
+  const { state } = useSelector((store: RootState) => ({
+    state: store.appState
+  }));
   const dispatch = useDispatch();
 
   // onClickCodePreview swaps the rendered component from the canvas to the code preview editor
   const onClickCodePreview = () => {
     dispatch(toggleCodePreview());
-  }
+  };
 
-  const canvasContainerStyle = {
+  const canvasContainerStyle: React.CSSProperties = {
     width: '100%',
     backgroundColor: 'lightgrey',
     border: '2px solid grey',
     borderBottom: 'none',
-    overflow: 'auto',    
+    overflow: 'auto'
   };
 
-  const codePreviewStyle = {
+  const codePreviewStyle: React.CSSProperties = {
     position: 'fixed',
     width: 'max-content',
     height: 'max-content',
-    bottom: '100px', 
-    right: '51vw', 
+    bottom: '100px',
+    right: '51vw',
     textAlign: 'center',
-    color: '#ffffff', 
+    color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
     border: '2px solid #186BB4'
- 
-    
-    
   } as const;
 
   return (
     <div style={canvasContainerStyle}>
-      {state.codePreview && <CodePreview theme={theme} setTheme={setTheme}/>}
-      {!state.codePreview && <Canvas isThemeLight={props.isThemeLight}/>}
-     
-      <Button
-        style={codePreviewStyle}
-        onClick={onClickCodePreview}
-      >
+      {state.codePreview && <CodePreview theme={theme} setTheme={setTheme} />}
+      {!state.codePreview && <Canvas isThemeLight={props.isThemeLight} />}
+
+      <Button style={codePreviewStyle} onClick={onClickCodePreview}>
         Code Preview
       </Button>
-     
     </div>
   );
 }

@@ -13,8 +13,8 @@ import { RootState } from '../redux/store';
 // direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
-  const state = useSelector((store: RootState) => store.appState)
-  
+  const state = useSelector((store: RootState) => store.appState);
+
   return children.map((child: ChildElement, i: number) => {
     const { type, style, childId, children, attributes, name } = child;
     let { typeId } = child;
