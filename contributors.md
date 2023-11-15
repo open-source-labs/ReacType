@@ -64,7 +64,7 @@
 
 [Garrett Huston](https://www.linkedin.com/in/garrett-hutson/) [Github](https://github.com/GarrettHutson)
 
-[Hadrian Chan](https://www.linkedin.com/in/hadrian-chan-445a8622a) [Github](https://github.com/HadriChan)
+[Hadrian Chan](https://www.linkedin.com/in/hadrian-chan-445a8622a) [@hadrianchan](https://github.com/HadriChan)
 
 [Hernan Damazo](https://www.linkedin.com/in/raul-hernan-damazo-chang-9440ab191/) [Github](https://github.com/raulclassico7)
 
@@ -106,7 +106,7 @@
 
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
-[Nam Ha](https://www.linkedin.com/in/namos2502) [Github](https://github.com/namos2502)
+[Nam Ha](https://www.linkedin.com/in/namos2502) [@namos2502](https://github.com/namos2502)
 
 [Natalie Vick](https://www.linkedin.com/in/vicknatalie/) [@natattackvick](https://github.com/natattackvick)
 
@@ -116,7 +116,7 @@
 
 [Rachel Kucharski](https://www.linkedin.com/in/rachelkucharski/) [@rachelk585](https://github.com/rachelk585)
 
-[Rick McGrath](https://www.linkedin.com/in/rick-mcgrath-b1617126b) [Github](https://github.com/r-mcgrath)
+[Rick McGrath](https://www.linkedin.com/in/rick-mcgrath-b1617126b) [@r-mcgrath](https://github.com/r-mcgrath)
 
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
@@ -130,7 +130,7 @@
 
 [Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
 
-[Sonya Hu](https://www.linkedin.com/in/sonyahu25) [Github](https://github.com/sonyahu15)
+[Sonya Hu](https://www.linkedin.com/in/sonyahu25) [@sonyahu15](https://github.com/sonyahu15)
 
 [Sophia Bui](https://linkedin.com/in/sophiabui) [@sophia-bui](https://github.com/sophia-bui)
 
