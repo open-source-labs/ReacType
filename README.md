@@ -67,7 +67,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 
 <!-- NEED TO REPLACE THE TUTORIAL LINK -->
 
-## Changes with version 18.0.0
+## Changes with Version 18.0.0
 
 - **Implemented a new improved Collaboration feature**: Allow developers to work on the projects together in real-time.
 - **Developed a User List**: Built and designed a new real-time updates user list on collaboration.
@@ -75,7 +75,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 - **Maintained and improved existing Codebase**: Clean up and refactor redundant codes in the existing code base improving App performance.
 - **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
 
-## File Structure of Reactype version 18.0.0
+## File Structure of Reactype Version 18.0.0
 
 Here is the main file structure:
 
