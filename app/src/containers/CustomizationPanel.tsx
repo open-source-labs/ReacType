@@ -36,6 +36,7 @@ import ProjectManager from '../components/right/ProjectManager';
 import UseStateModal from '../components/bottom/UseStateModal';
 import createModal from '../components/right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
+import { ColumnTab } from '../interfaces/Interfaces';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
@@ -73,7 +74,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       setCompLink(currFocus.attributes.compLink);
     setEventAll(['', '']);
     if (currFocus) {
-      const addedEvent: [] = [];
+      const addedEvent: { id: string; funcName: any }[] = [];
       for (const [event, funcName] of Object.entries(currFocus?.events)) {
         addedEvent.push({ id: event, funcName });
       }
@@ -250,7 +251,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   };
 
   const updateAttributeWithState = (
-    attributeName,
+    attributeName: string,
     componentProviderId,
     statePropsId,
     statePropsRow,
@@ -293,7 +294,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     }
   };
 
-  const eventColumnTabs = [
+  const eventColumnTabs: ColumnTab[] = [
     {
       field: 'id',
       headerName: 'Event',
@@ -339,10 +340,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     );
   };
 
-  const handleSave = (tailwind): Object => {
-    if (tailwind !== true) {
-      dispatch(changeTailwind(false));
-    }
+  const handleSave = (): Object => {
+    dispatch(changeTailwind(false));
     dispatch(
       updateStateUsed({
         stateUsedObj: stateUsedObj,
@@ -385,10 +384,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
     return styleObj;
   };
-  const handleTailwind = (): Object => {
+  const handleTailwind = (): void => {
     dispatch(changeTailwind(true));
-
-    handleSave(true);
+    handleSave();
   };
 
   // UNDO/REDO functionality--onClick these functions will be invoked.
@@ -544,13 +542,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
-            <h4 
-            className={
-                  isThemeLight
-                    ? classes.lightThemeFontColor
-                    : classes.darkThemeFontColor
-                }
-                >
+            <h4
+              className={
+                isThemeLight
+                  ? classes.lightThemeFontColor
+                  : classes.darkThemeFontColor
+              }
+            >
               Instance of
               {configTarget.child.type === 'component'
                 ? ' component'

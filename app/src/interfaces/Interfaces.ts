@@ -167,3 +167,16 @@ export interface Arrow {
     angle: number
   ) => HTMLDivElement;
 }
+
+export interface ColumnTab { //table state props
+  field: string;
+  headerName: string;
+  width: string | number;
+  editable: boolean;
+  align?:string;
+  valueGetter?: (param: any) => string | undefined;
+  renderCell?: (params: any) => React.ReactNode;
+  flex?: string | number;
+  sortable?: boolean;
+  disableColumnMenu?: boolean;
+}

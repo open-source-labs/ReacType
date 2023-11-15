@@ -1,3 +1,5 @@
+import { Component } from '../interfaces/Interfaces';
+
 const initFolders = (path: string, appName: string) => {
   let dir = path;
   dir = `${dir}/${appName}`;
@@ -59,7 +61,7 @@ const createJestPreprocessFile = (path: string, appName: string) => {
 async function createComponentTests(
   path: string,
   appName: string,
-  components: Component[]
+  components: Component[],
 ) {
   const filePath: string = `${path}/${appName}/__tests__/test.tsx`;
   let data: string = `
