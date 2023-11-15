@@ -28,6 +28,7 @@ const ComponentsContainer = () => {
                     name={comp.name}
                     id={comp.id}
                     root={false}
+                    isThemeLight={false}
                   />
                 );
               })}

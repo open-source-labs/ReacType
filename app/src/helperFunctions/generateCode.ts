@@ -1,4 +1,10 @@
-import { Component, ChildElement, HTMLType } from '../interfaces/Interfaces';
+import {
+  Component,
+  ChildElement,
+  HTMLType,
+  ChildStyle,
+  StateProp
+} from '../interfaces/Interfaces';
 declare global {
   interface Window {
     api: any;
@@ -52,7 +58,7 @@ const generateUnformattedCode = (
     // declare an array of enriched children
     const enrichedChildren = currentComponent.children?.map((elem: any) => {
       //enrichedChildren is iterating through the children array
-      const child = { ...elem };
+      const child: ChildElement = { ...elem };
       // check if child is a component
       if (child.type === 'Component') {
         // verify that the child is in the components array in state
@@ -106,10 +112,10 @@ const generateUnformattedCode = (
   };
   // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
-  const formatStyles = (styleObj: any) => {
+  const formatStyles = (styleObj: ChildStyle) => {
     if (Object.keys(styleObj).length === 0) return ``;
-    const formattedStyles = [];
-    let styleString;
+    const formattedStyles: String[] = [];
+    let styleString: String;
     for (let i in styleObj) {
       if (i === 'style') {
         styleString = i + '=' + '{' + JSON.stringify(styleObj[i]) + '}';
@@ -124,7 +130,7 @@ const generateUnformattedCode = (
     let customizationDetails = '';
     let passedInPropsString = '';
     if (childElement.type === 'Component') {
-      let childComponent;
+      let childComponent: Component;
       for (let i = 0; i < components.length; i++) {
         if (childElement.name === components[i].name) {
           childComponent = components[i];
@@ -152,7 +158,7 @@ const generateUnformattedCode = (
       Object.keys(childElement.style).length > 0 &&
       tailwind === false
     )
-      customizationDetails += ' ' + formatStyles(childElement);
+      customizationDetails += ' ' + formatStyles(childElement.style);
     if (
       childElement.style &&
       Object.keys(childElement.style).length > 0 &&
@@ -167,7 +173,7 @@ const generateUnformattedCode = (
         width,
         justifyContent
       } = childElement.style;
-      let w, h, items, bg, d, flexDir, justCon, cssClasses;
+      let w:String, h:String, items:String, bg:String, d:String, flexDir:String, justCon:String, cssClasses:String;
       if (childElement.style.alignItems) {
         if (alignItems === 'center') items = 'items-center ';
         else if (alignItems === 'flex-start') items = 'items-start ';
@@ -337,7 +343,7 @@ const generateUnformattedCode = (
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
     return `${enrichedChildren
-      .map((child: any) => {
+      .map((child: ChildElement) => {
         if (child.type === 'Component') {
           return `<${child.name} ${elementTagDetails(child)}/>`;
         } else if (child.type === 'HTML Element') {
@@ -363,14 +369,14 @@ const generateUnformattedCode = (
       .join('')}`;
   };
   // function to properly incorporate the user created state that is stored in the application state
-  const writeStateProps = (stateArray: any) => {
-    let stateToRender = '';
+  const writeStateProps = (stateArray: String[]) => {
+    let stateToRender:String = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2, 2) + element + ';';
     }
     return stateToRender;
   };
-  const enrichedChildren: any = getEnrichedChildren(currComponent);
+  const enrichedChildren: ChildElement[] = getEnrichedChildren(currComponent);
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
@@ -386,7 +392,7 @@ const generateUnformattedCode = (
             return `import ${comp} from './${comp}'`;
           })
           .join('\n');
-  const createState = (stateProps) => {
+  const createState = (stateProps:StateProp[]) => {
     let state = '{';
     stateProps.forEach((ele) => {
       state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
@@ -462,7 +468,7 @@ const generateUnformattedCode = (
       return importStr;
     };
 
-    const createEventHandler = (children) => {
+    const createEventHandler = (children:ChildElement[]) => {
       let importStr = '';
       children.map((child) => {
         if (child.type === 'HTML Element') {

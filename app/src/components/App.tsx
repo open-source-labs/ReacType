@@ -16,7 +16,7 @@ import localforage from 'localforage';
 import { saveProject } from '../helperFunctions/projectGetSaveDel';
 
 // Intermediary component to wrap main App component with higher order provider components
-export const App = (): JSX.Element => {
+export const App: React.FC = (): JSX.Element => {
   // const state = useSelector((store: RootState) => store.appState);
 
   const dispatch = useDispatch();

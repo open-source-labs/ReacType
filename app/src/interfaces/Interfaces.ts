@@ -71,7 +71,6 @@ export interface StateProp {
   value: any;
   type: unknown;
 }
-
 export interface Action {
   type: string;
   payload: any;

@@ -23,7 +23,7 @@ declare module '@mui/styles/defaultTheme' {
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
-const AppContainer = () => {
+const AppContainer: React.FC = () => {
   //useHistory hook to grab the url, if it is /marketplace then selectively render MarketplaceContainer
   const urlAdd = useHistory();
   const isMarketplace = urlAdd.location.pathname === '/marketplace';

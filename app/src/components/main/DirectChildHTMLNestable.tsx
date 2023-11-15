@@ -28,7 +28,7 @@ function DirectChildHTMLNestable({
   children,
   name,
   attributes
-}: ChildElement) {
+}: ChildElement): JSX.Element {
   const { state, contextParam, isThemeLight } = useSelector(
     (store: RootState) => ({
       state: store.appState,

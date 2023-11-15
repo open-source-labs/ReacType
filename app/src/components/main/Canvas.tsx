@@ -14,7 +14,7 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
-function Canvas(props): JSX.Element {
+function Canvas(props: {}): JSX.Element {
   const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
@@ -35,7 +35,7 @@ function Canvas(props): JSX.Element {
     dispatch(changeFocus({ componentId, childId }));
   };
   // onClickHandler is responsible for changing the focused component and child component
-  function onClickHandler(event) {
+  function onClickHandler(event: React.MouseEvent) {
     event.stopPropagation();
     changeFocusFunction(state.canvasFocus.componentId, null);
   }
@@ -121,7 +121,7 @@ function Canvas(props): JSX.Element {
   });
 
   // Styling for Canvas
-  const defaultCanvasStyle = {
+  const defaultCanvasStyle: React.CSSProperties = {
     width: '100%',
     minHeight: '100%',
     backgroundColor: isOver ? '#191919' : '#191919',
@@ -134,7 +134,10 @@ function Canvas(props): JSX.Element {
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
 
-  const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
+  const canvasStyle: React.CSSProperties = combineStyles(
+    defaultCanvasStyle,
+    currentComponent.style
+  );
 
   return (
     <div
