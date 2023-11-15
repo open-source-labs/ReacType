@@ -73,7 +73,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 - **User List**: Designed and built a user list which updates in real time as clients join and exit.
 - **Typescript Conversion**: Typescript coverage is now increased to ~90%.
 - **Cleanup**: Removed unused code, fixed bugs, and refactored existing code to improve performance, 
-- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
+- **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
 
 ## File Structure of Reactype Version 18.0.0
 
