@@ -75,7 +75,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 - **Cleanup**: Removed unused code, fixed bugs, and refactored existing code to improve performance, 
 - **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
 
-## File Structure of Reactype Version 18.0.0
+## File Structure of ReacType Version 18.0.0
 
 Here is the main file structure:
 
