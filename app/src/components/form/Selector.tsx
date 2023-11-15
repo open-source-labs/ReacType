@@ -3,6 +3,24 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
+type Props = {
+  items: [],
+  classes: {
+    configRow: any,
+    configType: any,
+    lightThemeFontColor: {color: String},
+    formControl: any,
+    select: any,
+    selectInput: any,
+    darkThemeFontColor: {color: String},
+  },
+  isThemeLight: Boolean,
+  title: String,
+  selectValue: any,
+  handleChange: any,
+  name: String,
+}
+
 const FormSelector = (props): JSX.Element => {
   const items = [];
   let key = 1;

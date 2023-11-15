@@ -1,77 +1,104 @@
 import { Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
-import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
+import {
+  setRoomCode,
+  setUserName,
+  setUserJoined,
+  setUserList
+} from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import config from '../../../../config';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
 // websocket front end starts here
 import { io } from 'socket.io-client';
 import store from '../../redux/store';
-import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+//pasted from navbarbuttons
+import debounce from '../../../../node_modules/lodash/debounce.js';
 
-// for websockets
-// Part  - join room and room code functionality
+// // for websockets
+// // Part  - join room and room code functionality
 let socket;
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
-  const [roomCode, setRoomCode] = React.useState('');
-  const [confirmRoom, setConfirmRoom] = React.useState('');
   const dispatch = useDispatch();
-  const { isDarkMode, state, joinedRoom } = useSelector((store: RootState) => ({
-    isDarkMode: store.darkMode.isDarkMode,
-    state: store.appState,
-    joinedRoom: store.roomCodeSlice.roomCode
-  }));
-  React.useEffect(() => {
-    console.log('joinedRoom: ', joinedRoom);
-  }, [joinedRoom]);
+  //roomCode/userName for emiting to socket io, userList for displaying user List receiving from back end, userJoined fo conditional rendering between join and leave room.
+  const { roomCode, userName, userList, userJoined } = useSelector(
+    (store: RootState) => ({
+      roomCode: store.roomSlice.roomCode,
+      userName: store.roomSlice.userName,
+      userList: store.roomSlice.userList,
+      userJoined: store.roomSlice.userJoined
+    })
+  );
 
-  function initSocketConnection(roomCode) {
-    if (socket) {
-      socket.disconnect();
-    }
-
+  function initSocketConnection(roomCode: string) {
+    if (socket) socket.disconnect(); //edge case check if socket connection existed
+    //establishing client and server connection
     socket = io(API_BASE_URL, {
       transports: ['websocket']
     });
 
+    //connecting user to server
     socket.on('connect', () => {
-      console.log(`You connected with id: ${socket.id}`);
-      socket.emit('join-room', roomCode); // Join the room when connected
+      socket.emit('joining', userName, roomCode);
+      console.log(`${userName} Joined room ${roomCode}`);
     });
 
-    // Receiving the room state from the backend
-    socket.on('room-state-update', (stateFromServer) => {
-      const newState = JSON.parse(stateFromServer);
-      // Dispatch actions to update your Redux store with the received state
-      store.dispatch(allCooperativeState(newState.appState));
-      store.dispatch(codePreviewCooperative(newState.codePreviewCooperative));
-      store.dispatch(cooperativeStyle(newState.styleSlice));
+    //send state from host to room when new user joins
+    socket.on('requesting state from host', (callback) => {
+      //getting state request from user from back end
+      const newState = store.getState();
+      callback(newState); //pull new state from host and send it to back end
+    });
+
+    socket.on('server emitting state from host', (state, callback) => {
+      //getting state from host once joined a room
+      //dispatching new state to change user current state
+      store.dispatch(allCooperativeState(state.appState));
+      store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
+      store.dispatch(cooperativeStyle(state.styleSlice));
+      callback({ status: 'confirmed' });
+    });
+
+    //listening to back end for updating user list
+    socket.on('updateUserList', (newUserList: object) => {
+      dispatch(setUserList(Object.values(newUserList)));
     });
 
     // receiving the message from the back end
-    socket.on('receive message', (event) => {
-      // console.log('message from server: ', event);
-      let currentStore: any = JSON.stringify(store.getState());
-      if (currentStore !== event) {
-        currentStore = JSON.parse(currentStore);
-        event = JSON.parse(event);
-        if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
-          store.dispatch(toggleDarkMode());
-        } else if (currentStore.appState !== event.appState) {
-          store.dispatch(allCooperativeState(event.appState));
+    socket.on('new state from back', (event) => {
+      const currentStore = JSON.parse(JSON.stringify(store.getState()));
+      const newState = JSON.parse(event);
+
+      const areStatesEqual = (stateA, stateB) =>
+        JSON.stringify(stateA) === JSON.stringify(stateB);
+
+      //checking if current state are equal to the state being sent from server
+      if (!areStatesEqual(currentStore, newState)) {
+        if (!areStatesEqual(currentStore.appState, newState.appState)) {
+          store.dispatch(allCooperativeState(newState.appState));
         } else if (
-          currentStore.codePreviewSlice !== event.codePreviewCooperative
+          !areStatesEqual(
+            currentStore.codePreviewSlice,
+            newState.codePreviewCooperative
+          )
         ) {
-          store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
-        } else if (currentStore.styleSlice !== event.styleSlice) {
-          store.dispatch(cooperativeStyle(event.styleSlice));
+          store.dispatch(
+            codePreviewCooperative(newState.codePreviewCooperative)
+          );
+        } else if (
+          !areStatesEqual(currentStore.styleSlice, newState.styleSlice)
+        ) {
+          store.dispatch(cooperativeStyle(newState.styleSlice));
         }
       }
     });
@@ -81,16 +108,56 @@ const RoomsContainer = () => {
     initSocketConnection(roomCode);
   }
 
-  function joinRoom() {
-    dispatch(changeRoom(roomCode));
-    setConfirmRoom((confirmRoom) => roomCode);
+  let previousState = store.getState();
+  // sending info to backend whenever the redux store changes
+  //handling state changes and send to server
+  const handleStoreChange = debounce(() => {
+    const newState = store.getState();
+    const roomCode = newState.roomSlice.roomCode;
 
-    // Call handleUserEnteredRoom when joining a room
-    handleUserEnteredRoom(roomCode);
+    if (JSON.stringify(newState) !== JSON.stringify(previousState)) {
+      // Send the current state to the server
+      socket.emit('new state from front', JSON.stringify(newState), roomCode);
+      previousState = newState;
+    }
+  }, 100);
+
+  //listening to changes from store from user, invoke handle store change.
+  store.subscribe(() => {
+    if (socket) {
+      handleStoreChange();
+    }
+  });
+
+  //joining room function
+  function joinRoom() {
+    if (userList.length !== 0) dispatch(setUserList([])); //edge case check if userList not empty.
+    handleUserEnteredRoom(roomCode); // Call handleUserEnteredRoom when joining a room
+    dispatch(setRoomCode(roomCode));
+    dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
   }
+
+  function leaveRoom() {
+    if (socket) {
+      socket.disconnect(); //disconnecting socket from server
+    }
+    //reset all state values
+    dispatch(setRoomCode(''));
+    dispatch(setUserName(''));
+    dispatch(setUserList([]));
+    dispatch(setUserJoined(false)); //setting joined to false so join room UI appear
+  }
+
+  //checking empty input field (not including spaces)
+  function checkInputField(...inputs) {
+    let userName: string = inputs[0].trim();
+    let roomCode: string = inputs[1].trim();
+    return userName.length === 0 || roomCode.length === 0;
+  }
+
   return (
     <div>
-      <Stack
+      <Stack //stack styling for container
         spacing={2}
         sx={{
           paddingTop: '20px',
@@ -100,44 +167,133 @@ const RoomsContainer = () => {
         }}
       >
         {' '}
-        <TextField
-          hiddenLabel
-          id="filled-hidden-label-small"
-          variant="filled"
-          size="small"
-          onChange={(e) => setRoomCode(e.target.value)}
-        />
-        {/* <input
-        type="text"
-        style={{
-          margin: '3px 5%',
-          borderRadius: '5px',
-          padding: '3px',
-          width: '90%'
-        }}
-        placeholder="Room Code"
-        onChange={(e) => setRoomCode(e.target.value)}
-      ></input> */}
-        <Button
-          variant="contained"
-          onClick={() => joinRoom()}
+        {/* live room display */}
+        <Typography variant="h5" color={'white'}>
+          Live Room: {roomCode}
+        </Typography>
+        {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
+        {userJoined ? (
+          <>
+            <Button
+              variant="contained"
+              onClick={() => leaveRoom()}
+              sx={{
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                '&:hover': {
+                  backgroundColor: '#C6C6C6',
+                  borderColor: '#0062cc'
+                }
+              }}
+            >
+              {' '}
+              Leave Room{' '}
+            </Button>
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'white' // Text color for the count
+              }}
+            >
+              Users: {userList.length}
+            </Typography>
+            {/* User count inside the box */}
+            <Box
+              sx={{
+                width: '100%',
+                height: 300,
+                maxWidth: 200,
+                bgcolor: '#333333',
+                border: '3px solid white',
+                borderRadius: '5%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                overflow: 'auto',
+                color: 'white'
+              }}
+            >
+              {/* User count inside the box */}
+              <List
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: 0
+                }}
+              >
+                {userList.map((user, index) => (
+                  <ListItem
+                    key={index}
+                    sx={{
+                      color: 'white',
+                      textAlign: 'center',
+                      width: '100%'
+                    }}
+                  >
+                    <ListItemText
+                      primary={`${index + 1}. ${
+                        index === 0 ? `${user} (host)` : user
+                      }`}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </>
+        ) : (
+          //after joinning room
+          <>
+            <TextField
+              hiddenLabel={true}
+              id="filled-hidden-label-small"
+              variant="filled"
+              size="small"
+              value={userName}
+              placeholder="Input Nickname"
+              onChange={(e) => dispatch(setUserName(e.target.value))}
+            />
+            <TextField
+              hiddenLabel={true}
+              id="filled-hidden-label-small"
+              variant="filled"
+              size="small"
+              value={roomCode}
+              placeholder="Input Room Number"
+              onChange={(e) => dispatch(setRoomCode(e.target.value))}
+            />
+            <Button
+              variant="contained"
+              disabled={checkInputField(userName, roomCode)}
+              onClick={() => joinRoom()}
+              sx={{
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                '&:hover': {
+                  backgroundColor: '#C6C6C6',
+                  borderColor: '#0062cc'
+                }
+              }}
+            >
+              Join Room
+            </Button>
+            {/* Note about Collab room feature */}
+          </>
+        )}
+        <Typography
+          variant="body2"
+          color="white" // Use a color that signifies a warning or important information
           sx={{
-            backgroundColor: '#ffffff',
-            color: '#000000',
-            '&:hover': {
-              backgroundColor: '#C6C6C6',
-              borderColor: '#0062cc',
-              boxShadow: 'none'
-            }
+            marginTop: '10px',
+            textAlign: 'center',
+            fontStyle: 'italic',
+            fontSize: 'smaller'
           }}
         >
-          Join Room
-        </Button>
-        <Typography variant="h6" color={'white'}>
-          In Room: {joinedRoom}
+          Note: For the best experience, limit Collab room occupancy to 3
+          people. Exceeding this limit may lead to app performance issues.
         </Typography>
       </Stack>
-      {/* <button onClick={() => joinRoom()}>Join Room</button> */}
     </div>
   );
 };

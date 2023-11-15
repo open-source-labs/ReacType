@@ -17,7 +17,7 @@ export const initialState: State = {
   forked: false,
   published: false,
   isLoggedIn: false,
-  // config: { saveFlag: true, saveTimer: false },
+  //config: { saveFlag: true, saveTimer: false },
   components: [
     {
       id: 1,
@@ -42,8 +42,8 @@ export const initialState: State = {
   nextTopSeparatorId: 1000,
   HTMLTypes: HTMLTypes, // left as is for now
   tailwind: false,
-  stylesheet: '', 
-  codePreview: false, 
+  stylesheet: '',
+  codePreview: false,
   screenshotTrigger: false
 };
 
@@ -128,7 +128,7 @@ const updateAllIds = (comp: Component[] | ChildElement[]) => {
   // put components' names and ids into an obj
   const obj = { spr: 1000, others: 1 };
   // for each of the components, if it has children, iterate through that children array
-  comp.forEach((el) => {
+  comp.forEach((el:Component | ChildElement) => {
     if (el.children.length > 0) {
       for (let i = 0; i < el.children.length; i++) {
         // update each child's childId
@@ -180,7 +180,7 @@ const deleteById = (id: number, name: string, state: State): Component[] => {
   const checkChildren = (child: Component[] | ChildElement[]) => {
     // for each of the components in the passed in components array, if the child
     // component has a children array, iterate through the array of children
-    child.forEach((el) => {
+    child.forEach((el:Component | ChildElement) => {
       if (el.children.length) {
         const arr: ChildElement[] = [];
         for (let i = 0; i < el.children.length; i++) {
@@ -206,7 +206,7 @@ const deleteById = (id: number, name: string, state: State): Component[] => {
   return updateIds(filteredArr);
 };
 
-const updateUseStateCodes = (currentComponent) => {
+const updateUseStateCodes = (currentComponent: Component | ChildElement) => {
   // array of snippets of state prop codes
   const localStateCode: string[] = []; // avoid never by assigning it to string
   currentComponent.stateProps
@@ -359,7 +359,7 @@ const appStateSlice = createSlice({
       // if the newChild Element is an input or img type, delete the children key/value pair
       // if (newChild.name === 'input' && newChild.name === 'img')
       //   delete newChild.children;
-      let directParent;
+      let directParent: HTMLElement | any;
       if (childId === null) {
         if (parentComponent) {
           parentComponent.children.push(topSeparator);
@@ -417,7 +417,7 @@ const appStateSlice = createSlice({
       state.tailwind = action.payload;
     },
     changeFocus: (state, action) => {
-      const { componentId, childId } = action.payload;
+      const { componentId, childId} = action.payload;
       if (childId < 1000) {
         // makes separators not selectable
         state.canvasFocus = { ...state.canvasFocus, componentId, childId };
@@ -778,7 +778,7 @@ const appStateSlice = createSlice({
       state._id = projectId;
     },
     updateProjectPublished: (state, action) => {
-      const projectPublished = action.payload; 
+      const projectPublished = action.payload;
       state.published = projectPublished;
     },
     deleteElement: (state, action) => {
@@ -894,7 +894,7 @@ const appStateSlice = createSlice({
           state.components[focusIndex].past.length - 1
         ];
       // the last element of the past array gets popped off
-      const poppedEl = state.components[focusIndex].past.pop();
+      const poppedEl: Component = state.components[focusIndex].past.pop();
       // the last element of the past array gets popped off and pushed into the future array
       state.components[focusIndex].future.push(poppedEl);
       //generate code for the Code Preview
@@ -922,7 +922,7 @@ const appStateSlice = createSlice({
           state.components[focusIndex].future.length - 1
         ];
       //the last element of the future array gets pushed into the past
-      const poppedEl = state.components[focusIndex].future.pop();
+      const poppedEl: Component = state.components[focusIndex].future.pop();
       //the last element of the future array gets popped out
       state.components[focusIndex].past.push(poppedEl);
       // generate code for the Code Preview
@@ -978,7 +978,7 @@ const appStateSlice = createSlice({
       }
 
       //find the parent for deleting instances of where the parent is passing props to children
-      let parent;
+      let parent: Component;
       for (let i = 0; i < components.length; i++) {
         let currComponent = components[i];
         for (let j = 0; j < currComponent.children.length; j++) {
@@ -1034,7 +1034,7 @@ const appStateSlice = createSlice({
       );
 
       //find the parent of the component that we are deleting from
-      let parent;
+      let parent: Component;
       for (let i = 0; i < components.length; i++) {
         let currComponent = components[i];
         for (let j = 0; j < currComponent.children.length; j++) {
@@ -1046,8 +1046,8 @@ const appStateSlice = createSlice({
       }
 
       //deletes all instances of passedInProps from the children arrays of the current Component
-      const deletePassedInPropsChildren = (currComponent) => {
-        const innerFunc = (currChild) => {
+      const deletePassedInPropsChildren = (currComponent:Component) => {
+        const innerFunc = (currChild:Component|ChildElement) => {
           // when there are no children, return up a level
           if (
             currChild.children.filter((el) => el.type === 'Component')
@@ -1080,7 +1080,7 @@ const appStateSlice = createSlice({
         );
       };
       //delete from the components passedInProps array
-      const deletePassedInProps = (myComponent) => {
+      const deletePassedInProps = (myComponent:Component) => {
         if (
           myComponent.children.filter((el) => el.type === 'Component')
             .length === 0
@@ -1285,6 +1285,11 @@ const appStateSlice = createSlice({
     toggleScreenshotTrigger: (state) => {
       state.screenshotTrigger = !state.screenshotTrigger;
     }
+
+    // ,configToggle: (state) => {
+    //   state.config.saveFlag = !state.config.saveFlag;
+    //   state.config.saveTimer = !state.config.saveTimer;
+    // }
   }
 });
 
@@ -1326,8 +1331,8 @@ export const {
   //configToggle,
   snapShotAction,
   allCooperativeState,
-  updateStylesheet, 
-  toggleCodePreview, 
+  updateStylesheet,
+  toggleCodePreview,
   toggleScreenshotTrigger
 } = appStateSlice.actions;
 

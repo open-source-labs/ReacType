@@ -1,17 +1,19 @@
-import React, {  useRef } from 'react';
-import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
+import React, { useRef } from 'react';
+import { ChildElement, HTMLType, DragItem } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import validateNewParent from '../../helperFunctions/changePositionValidation'
-import componentNest from '../../helperFunctions/componentNestValidation'
+import validateNewParent from '../../helperFunctions/changePositionValidation';
+import componentNest from '../../helperFunctions/componentNestValidation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { changeFocus, changePosition, addChild } from '../../redux/reducers/slice/appStateSlice';
-
-
+import {
+  changeFocus,
+  changePosition,
+  addChild
+} from '../../redux/reducers/slice/appStateSlice';
 
 function DirectChildHTMLNestable({
   childId,
@@ -19,10 +21,10 @@ function DirectChildHTMLNestable({
   typeId,
   style,
   children
-}: ChildElement) {
-  const { state, contextParam } = useSelector((store:RootState) => ({
+}: ChildElement): JSX.Element {
+  const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
-    contextParam: store.contextSlice,
+    contextParam: store.contextSlice
   }));
   const dispatch = useDispatch();
   const ref = useRef(null);
@@ -55,7 +57,7 @@ function DirectChildHTMLNestable({
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,
     // triggered on drop
-    drop: (item: any, monitor: DropTargetMonitor) => {
+    drop: (item: DragItem, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
       if (didDrop) {
         return;
@@ -63,20 +65,35 @@ function DirectChildHTMLNestable({
       // updates state with new instance
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        if ((item.instanceType === 'Component' && componentNest(state.components[item.instanceTypeId - 1].children, childId)) || item.instanceType !== 'Component') {
-        dispatch(addChild( {
-          type: item.instanceType,
-          typeId: item.instanceTypeId,
-          childId: childId,
-          contextParam: contextParam
-        }))
+        if (
+          (item.instanceType === 'Component' &&
+            componentNest(
+              state.components[item.instanceTypeId - 1].children,
+              childId
+            )) ||
+          item.instanceType !== 'Component'
+        ) {
+          dispatch(
+            addChild({
+              type: item.instanceType,
+              typeId: item.instanceTypeId,
+              childId: childId,
+              contextParam: contextParam
+            })
+          );
         }
       }
       // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
       else {
         // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
-          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam}))
+          dispatch(
+            changePosition({
+              currentChildId: item.childId,
+              newParentChildId: childId,
+              contextParam: contextParam
+            })
+          );
         }
       }
     },
@@ -89,8 +106,7 @@ function DirectChildHTMLNestable({
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
-    dispatch(changeFocus({ componentId, childId}));
-
+    dispatch(changeFocus({ componentId, childId }));
   };
 
   // onClickHandler is responsible for changing the focused component and child component
@@ -104,10 +120,12 @@ function DirectChildHTMLNestable({
   const defaultNestableStyle = { ...globalDefaultStyle };
   const separatorStyle = {
     padding: '2px 10px',
-    margin: '1px 10px',
+    margin: '1px 10px'
   };
 
-  defaultNestableStyle['backgroundColor'] = isOver ? '#cee2f5' : 'rgba(0, 0, 255, 0.0)';
+  defaultNestableStyle['backgroundColor'] = isOver
+    ? '#cee2f5'
+    : 'rgba(0, 0, 255, 0.0)';
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),

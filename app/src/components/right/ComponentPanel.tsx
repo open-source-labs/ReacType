@@ -24,7 +24,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const [compName, setCompName] = useState('');
   const [isRoot, setIsRoot] = useState(false);
-  const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
+  const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
 
   // function to create error message for component name input
   const triggerError = (type: String) => {
@@ -99,7 +99,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
     } else {
       createOption(compName);
       setErrorStatus(false);
-      setAlertOpen(true)
+      setAlertOpen(true);
       return;
     }
     triggerError(error);
@@ -122,12 +122,12 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
-    ) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-      setAlertOpen(false);
+  ) => {
+    if (reason === 'clickaway') {
+      return;
     }
+    setAlertOpen(false);
+  };
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -138,125 +138,125 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   return (
     <>
-    <div className={`${classes.panelWrapper}`}>
-      {/* Add a new component*/}
-      <div className={classes.addComponentWrapper}>
-        <h4
-          className={
-            isThemeLight
-              ? `${classes.newComponent} ${classes.lightThemeFontColor}`
-              : `${classes.newComponent} ${classes.darkThemeFontColor}`
-          }
-        >
-          New Component
-        </h4>
-        {/* input for new component */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '20px',
-            marginBottom: '20px',
-            alignItems: 'baseline'
-          }}
-        >
-          <div style={{ alignSelf: 'center' }}>
-            <InputLabel
-              htmlFor="newcomponentid"
-              className={
-                isThemeLight
-                  ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
-                  : `${classes.inputLabel} ${classes.darkThemeFontColor}`
-              }
-            >
-              Name:
-            </InputLabel>
-            <div className={classes.inputWrapper}>
-              <TextField
-                // label='New Component Name'
-                id="newcomponentid"
-                color="primary"
-                variant="outlined"
+      <div className={`${classes.panelWrapper}`}>
+        {/* Add a new component*/}
+        <div className={classes.addComponentWrapper}>
+          <h4
+            className={
+              isThemeLight
+                ? `${classes.newComponent} ${classes.lightThemeFontColor}`
+                : `${classes.newComponent} ${classes.darkThemeFontColor}`
+            }
+          >
+            New Component
+          </h4>
+          {/* input for new component */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '20px',
+              marginBottom: '20px',
+              alignItems: 'baseline'
+            }}
+          >
+            <div style={{ alignSelf: 'center' }}>
+              <InputLabel
+                htmlFor="newcomponentid"
                 className={
                   isThemeLight
-                    ? `${classes.inputField} ${classes.lightThemeFontColor}`
-                    : `${classes.inputField} ${classes.darkThemeFontColor}`
+                    ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
+                    : `${classes.inputLabel} ${classes.darkThemeFontColor}`
                 }
-                // inputprops and helpertext must be lowercase
-                // inputProps={{ className: classes.input }}
-                value={compName}
-                // Doesn't accept boolean value needs to be a string
-                error={errorStatus}
-                // Updated
-                helperText={errorStatus ? errorMsg : ''}
-                onChange={handleNameInput}
-                style={{}}
-                InputProps={{
-                  style: {
-                    color: isThemeLight ? 'white' : 'white'
+              >
+                Name:
+              </InputLabel>
+              <div className={classes.inputWrapper}>
+                <TextField
+                  // label='New Component Name'
+                  id="newcomponentid"
+                  color="primary"
+                  variant="outlined"
+                  className={
+                    isThemeLight
+                      ? `${classes.inputField} ${classes.lightThemeFontColor}`
+                      : `${classes.inputField} ${classes.darkThemeFontColor}`
                   }
-                }}
+                  // inputprops and helpertext must be lowercase
+                  // inputProps={{ className: classes.input }}
+                  value={compName}
+                  // Doesn't accept boolean value needs to be a string
+                  error={errorStatus}
+                  // Updated
+                  helperText={errorStatus ? errorMsg : ''}
+                  onChange={handleNameInput}
+                  style={{}}
+                  InputProps={{
+                    style: {
+                      color: isThemeLight ? 'white' : 'white'
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div
+              className={classes.btnGroup}
+              id="checkboxContainer"
+              style={{ marginBottom: '30px' }}
+            >
+              <FormControlLabel
+                value="top"
+                control={
+                  <Checkbox
+                    className={
+                      isThemeLight
+                        ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
+                        : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
+                    }
+                    color="primary"
+                    checked={isRoot}
+                    onChange={() => setIsRoot(!isRoot)}
+                  />
+                }
+                label={
+                  state.projectType === 'Next.js' ||
+                  state.projectType === 'Gatsby.js'
+                    ? 'Page'
+                    : 'Root'
+                } // name varies depending on mode
+                className={
+                  isThemeLight
+                    ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
+                    : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
+                }
+                labelPlacement="top"
               />
             </div>
           </div>
-
-          <div
-            className={classes.btnGroup}
-            id="checkboxContainer"
-            style={{ marginBottom: '30px' }}
-          >
-            <FormControlLabel
-              value="top"
-              control={
-                <Checkbox
-                  className={
-                    isThemeLight
-                      ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
-                      : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
-                  }
-                  color="primary"
-                  checked={isRoot}
-                  onChange={() => setIsRoot(!isRoot)}
-                />
-              }
-              label={
-                state.projectType === 'Next.js' ||
-                state.projectType === 'Gatsby.js'
-                  ? 'Page'
-                  : 'Root'
-              } // name varies depending on mode
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <br />
+            <Button
               className={
                 isThemeLight
-                  ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
-                  : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
+                  ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
+                  : `${classes.addComponentButton} ${classes.darkThemeFontColor}`
               }
-              labelPlacement="top"
-            />
+              color="primary"
+              variant="contained"
+              id="addComponentButton"
+              onClick={handleNameSubmit}
+            >
+              Create
+            </Button>
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <br />
-          <Button
-            className={
-              isThemeLight
-                ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
-                : `${classes.addComponentButton} ${classes.darkThemeFontColor}`
-            }
-            color="primary"
-            variant="contained"
-            id="addComponentButton"
-            onClick={handleNameSubmit}
-          >
-            Create
-          </Button>
-        </div>
       </div>
-    </div>
-    <>
+      <>
         <Snackbar
           open={alertOpen}
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
           <Alert
@@ -267,8 +267,8 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
             Component Created!
           </Alert>
         </Snackbar>
+      </>
     </>
-  </>
   );
 };
 
@@ -281,8 +281,6 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
-    // width: '140px',
-    // height: '30px',
     borderColor: 'grey',
     border: '2px solid grey'
   },

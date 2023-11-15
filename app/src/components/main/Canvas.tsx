@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {
   addChild,
   changeFocus,
-  snapShotAction,
-  // toggleCodePreview
+  snapShotAction
 } from '../../redux/reducers/slice/appStateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,14 +14,11 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
-function Canvas(props): JSX.Element {
-  const { state, contextParam, isDarkMode } = useSelector(
-    (store: RootState) => ({
-      state: store.appState,
-      contextParam: store.contextSlice,
-      isDarkMode: store.darkMode.isDarkMode
-    })
-  );
+function Canvas(props: {}): JSX.Element {
+  const { state, contextParam } = useSelector((store: RootState) => ({
+    state: store.appState,
+    contextParam: store.contextSlice
+  }));
   const dispatch = useDispatch();
 
   Arrow.deleteLines();
@@ -39,7 +35,7 @@ function Canvas(props): JSX.Element {
     dispatch(changeFocus({ componentId, childId }));
   };
   // onClickHandler is responsible for changing the focused component and child component
-  function onClickHandler(event) {
+  function onClickHandler(event: React.MouseEvent) {
     event.stopPropagation();
     changeFocusFunction(state.canvasFocus.componentId, null);
   }
@@ -125,38 +121,30 @@ function Canvas(props): JSX.Element {
   });
 
   // Styling for Canvas
-  const defaultCanvasStyle = {
+  const defaultCanvasStyle: React.CSSProperties = {
     width: '100%',
     minHeight: '100%',
     backgroundColor: isOver ? '#191919' : '#191919',
-    // border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box'
   };
 
-  const darkCanvasStyle = {
-    width: '100%',
-    minHeight: '100%',
-    backgroundColor: isOver ? '#4d4d4d' : '#21262c',
-    border: '1px solid #FBFBF2',
-    borderStyle: isOver ? 'dotted' : 'solid'
-  };
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
 
-  const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
-  const darkCombinedCanvasStyle = combineStyles(
-    darkCanvasStyle,
+  const canvasStyle: React.CSSProperties = combineStyles(
+    defaultCanvasStyle,
     currentComponent.style
   );
+
   return (
     <div
       className={'componentContainer'}
       ref={drop}
       data-testid="drop"
-      style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle}
+      style={canvasStyle}
       onClick={onClickHandler}
     >
       {renderChildren(currentComponent.children)}

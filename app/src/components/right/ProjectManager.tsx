@@ -9,15 +9,14 @@ import exportProject from '../../utils/exportProject.util';
 import createModal from '../right/createModal';
 import {useDispatch, useSelector} from 'react-redux';
 import { RootState } from '../../redux/store';
+import { resetState } from '../../redux/reducers/slice/appStateSlice';
 // ProjectManager function moved to NavBar.tsx
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
   const state = useSelector((store:RootState) => store.appState)
   const dispatch = useDispatch();
-  const classes = useStyles();
   
-
   // State to keep track of how the user wants their components to be exported
   // GenOption = 0 --> export only components
   // GenOption = 1 --> export an entire project w/ webpack, server, etc.
@@ -25,7 +24,7 @@ const ProjectManager = () => {
     'Export components',
     'Export components with application files'
   ];
-  let genOption = 0;
+  let genOption:number = 0;
 
   // Closes out the open modal
   const closeModal = () => setModal('');
@@ -34,8 +33,8 @@ const ProjectManager = () => {
   // If user clears their workspace, then their components are removed from state and the modal is closed
   const clearWorkspace = () => {
     // Reset state for project to initial state
-    const resetState = () => {
-      dispatch(resetState({}))
+    const resetStates = () => {
+      dispatch(resetState({}));
     };
 
     // Set modal options
@@ -44,7 +43,7 @@ const ProjectManager = () => {
         <ListItem
           key={'clear'}
           button
-          onClick={resetState}
+          onClick={resetStates}
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
@@ -122,7 +121,7 @@ const ProjectManager = () => {
         genOption,
         state.projectType,
         state.components,
-        state.rootComponents
+        state.rootComponents,
       );
     });
 

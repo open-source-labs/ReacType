@@ -8,8 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
-function RouteLink({ childId, type, typeId, style }: ChildElement) {
-  const state = useSelector((store:RootState) => store.appState);
+function RouteLink({
+  childId,
+  type,
+  typeId,
+  style
+}: ChildElement): JSX.Element {
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
 
   // find the name of the Component corresponding with this link
@@ -32,8 +37,7 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
     })
   });
   const changeFocusFunction = (componentId: number, childId: number | null) => {
-    dispatch(changeFocus({ componentId, childId}));
-
+    dispatch(changeFocus({ componentId, childId }));
   };
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandlerFocus(event) {

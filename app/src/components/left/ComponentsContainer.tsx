@@ -8,9 +8,7 @@ import { useSelector } from 'react-redux';
 const ComponentsContainer = () => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
+
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
@@ -18,20 +16,8 @@ const ComponentsContainer = () => {
     <div>
       <div className={classes.panelWrapper}>
         <div className={classes.panelWrapperList}>
-          <h4
-            className={
-              !isDarkMode
-                ? classes.lightThemeFontColor
-                : classes.darkThemeFontColor
-            }
-          >
-            Reusable Components
-          </h4>
-          <Grid
-            container
-            direction="column"
-            alignContent={"center"}
-          >
+          <h4 className={classes.darkThemeFontColor}>Reusable Components</h4>
+          <Grid container direction="column" alignContent={'center'}>
             {state.components
               .filter((comp) => !state.rootComponents.includes(comp.id))
               .map((comp) => {
@@ -42,6 +28,7 @@ const ComponentsContainer = () => {
                     name={comp.name}
                     id={comp.id}
                     root={false}
+                    isThemeLight={false}
                   />
                 );
               })}
@@ -61,7 +48,7 @@ const useStyles = makeStyles({
     overflow: 'auto'
   },
   panelWrapperList: {
-    minHeight: '120px',
+    minHeight: '120px'
   },
   lightThemeFontColor: {
     color: '#fff'

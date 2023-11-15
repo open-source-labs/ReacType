@@ -3,14 +3,14 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../redux/store';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../../../../redux/store';
 
 const AddDataForm = ({ handleClickInputData, currentContext }) => {
   //const [contextInput, setContextInput] = React.useState(null);
   const defaultInputData = { inputKey: '', inputValue: '' };
   const [dataContext, setDataContext] = React.useState(defaultInputData);
-  const { isDarkMode } = useSelector((store: RootState) => store.darkMode);
+
   const saveData = () => {
     setDataContext(defaultInputData);
     if (dataContext.inputKey === '' || dataContext.inputValue === '') {
@@ -19,7 +19,7 @@ const AddDataForm = ({ handleClickInputData, currentContext }) => {
     }
     handleClickInputData(currentContext, dataContext);
   };
-  const color = isDarkMode ? 'black' : 'white';
+  const color = 'white';
 
   const handleChange = (e) => {
     setDataContext((prevDataContext) => {

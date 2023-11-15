@@ -498,6 +498,7 @@ server/RootCA.srl
 
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
+
 /test-results/
 /playwright-report/
 /playwright/.cache/

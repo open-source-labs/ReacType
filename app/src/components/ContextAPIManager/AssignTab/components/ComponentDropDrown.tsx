@@ -12,11 +12,10 @@ const ComponentDropDown = ({
   componentInput,
   setComponentInput
 }) => {
-  const { state, isDarkMode } = useSelector((store: RootState) => ({
-    state: store.appState,
-    isDarkMode: store.darkMode.isDarkMode
+  const { state } = useSelector((store: RootState) => ({
+    state: store.appState
   }));
-  const color = isDarkMode ? 'white' : 'black';
+
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setComponentInput({
@@ -36,7 +35,6 @@ const ComponentDropDown = ({
   };
 
   const filterOptions = (options, params) => {
-    // setBtnDisabled(true);
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
@@ -46,8 +44,6 @@ const ComponentDropDown = ({
         inputValue,
         name: `Add "${inputValue}"`
       });
-
-      // setBtnDisabled(false);
     }
 
     return filtered;
@@ -67,7 +63,7 @@ const ComponentDropDown = ({
   };
 
   const renderOption = (props, option) => (
-    <li style={{ color: 'black', backgroundColor: 'none'}} {...props}>
+    <li style={{ color: 'black', backgroundColor: 'none' }} {...props}>
       {option.name}
     </li>
   );
