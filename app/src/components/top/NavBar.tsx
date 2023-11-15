@@ -23,7 +23,7 @@ import { State } from '../../interfaces/Interfaces';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
   const [dropMenu, setDropMenu] = useState(false);
   const state = useSelector((store: RootState) => store.appState);
   const [publishModalOpen, setPublishModalOpen] = useState(false);

@@ -23,7 +23,6 @@ import { io } from 'socket.io-client';
 import store from '../../redux/store';
 //pasted from navbarbuttons
 import debounce from '../../../../node_modules/lodash/debounce.js';
-import { deepEqual } from 'assert';
 
 // // for websockets
 // // Part  - join room and room code functionality
