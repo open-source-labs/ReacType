@@ -135,7 +135,6 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "d3": "^7.6.1",
-    "deep-equal": "^2.2.3",
     "dotenv": "^16.0.1",
     "electron-debug": "^3.2.0",
     "electron-devtools-installer": "^3.2.0",
