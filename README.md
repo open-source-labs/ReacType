@@ -7,11 +7,16 @@
 
 # ReacType
 
-
+<!-- PAST LOGOS -->
 <!-- <p align="center">
   <img width="1000" src="https://i.imgur.com/enAcYvB.png">
 </p> -->
-
+<!-- <p align="center">
+  <img width="1000" src="https://i.imgur.com/FPizsat.png">
+</p> -->
+<!-- <p align="center">
+  <img width="1000" src="https://i.imgur.com/FIX8skV.png">
+</p> -->
 
 <div align="left">
 
@@ -21,15 +26,16 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Version: 18.0.0](https://img.shields.io/badge/version-18.0.0-orange)
 
-
 </div>
+
+<!-- STATIC VER: -->
 <!-- <p align="center">
-  <img width="1000" src="https://i.imgur.com/FPizsat.png">
+  <img width="1000" src="https://imgur.com/UnpLa6V">
 </p> -->
 
-
+<!-- ANIMATED VER: -->
 <p align="center">
-  <img width="1000" src="https://i.imgur.com/FIX8skV.png">
+  <img width="1000" src="https://imgur.com/n9ZwKC5">
 </p>
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
@@ -47,10 +53,6 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-
-
-
-
 
 <p align="center">
   <img width="1000" src="./resources/reactype17.png">
