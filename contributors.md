@@ -2,7 +2,7 @@
 
 [Adam Vanek](https://www.linkedin.com/in/atvanek/) [@atvanek](https://github.com/atvanek)
 
-Ahsan Rao [LinkedIn](https://www.linkedin.com/in/ahsan-rao/) [Github](https://github.com/ahsan-rao)
+[Ahsan Rao] [LinkedIn](https://www.linkedin.com/in/ahsan-rao/) [Github](https://github.com/ahsan-rao)
 
 [Ahnaf Khan](https://www.linkedin.com/in/ahnaf-khan-844a70193) [Github](https://github.com/AhnafKhvn)
 
@@ -18,7 +18,7 @@ Ahsan Rao [LinkedIn](https://www.linkedin.com/in/ahsan-rao/) [Github](https://gi
 
 [Anthony Torrero](https://www.linkedin.com/in/anthony-torrero-4b8798159/) [@Anthonytorrero](https://github.com/Anthonytorrero)
 
-Ben Cauffman [LinkedIn](https://www.linkedin.com/in/benjamin-cauffman/) [Github](https://github.com/BenCauffman)
+[Ben Cauffman] [LinkedIn](https://www.linkedin.com/in/benjamin-cauffman/) [Github](https://github.com/BenCauffman)
 
 [Bianca Picasso](https://www.linkedin.com/in/bianca-picasso) [@BiancaPicasso](https://github.com/BiancaPicasso)
 
@@ -30,7 +30,7 @@ Ben Cauffman [LinkedIn](https://www.linkedin.com/in/benjamin-cauffman/) [Github]
 
 [Calvin Cao](http://www.linkedin.com/in/calvincao9/) [@calvincao](https://github.com/calvincao)
 
-Carly Jackson [LinkedIn](https://www.linkedin.com/in/carly-jackson-ab9010231/) [Github](https://github.com/carlyjackson)
+[Carly Jackson] [LinkedIn](https://www.linkedin.com/in/carly-jackson-ab9010231/) [Github](https://github.com/carlyjackson)
 
 [Charles Finocchiaro](https://www.linkedin.com/in/charles-finocchiaro-62440040/) [@null267](https://github.com/null267)
 
@@ -44,7 +44,7 @@ Carly Jackson [LinkedIn](https://www.linkedin.com/in/carly-jackson-ab9010231/) [
 
 [Danial Reilley](https://linkedin.com/in/daniel-reilley) [@dreille](https://github.com/dreille)
 
-Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://github.com/dnngau)
+[Darin Ngau] [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://github.com/dnngau)
 
 [Daryl Foster](https://www.linkedin.com/in/darylfosterma/) [@MadinventorZero](https://github.com/MadinventorZero)
 
@@ -63,6 +63,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
 [Garrett Huston](https://www.linkedin.com/in/garrett-hutson/) [Github](https://github.com/GarrettHutson)
+
+[Hadrian Chan](https://www.linkedin.com/in/hadrian-chan-445a8622a) [@hadrianchan](https://github.com/HadriChan)
 
 [Hernan Damazo](https://www.linkedin.com/in/raul-hernan-damazo-chang-9440ab191/) [Github](https://github.com/raulclassico7)
 
@@ -104,6 +106,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
+[Nam Ha](https://www.linkedin.com/in/namos2502) [@namos2502](https://github.com/namos2502)
+
 [Natalie Vick](https://www.linkedin.com/in/vicknatalie/) [@natattackvick](https://github.com/natattackvick)
 
 [Nel Malikova](https://www.linkedin.com/in/gmalikova/) [@gmal1](https://github.com/gmal1)
@@ -111,6 +115,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 [Philip Hua](https://www.linkedin.com/in/philip-minh-hua) [@pmhua](https://github.com/pmhua)
 
 [Rachel Kucharski](https://www.linkedin.com/in/rachelkucharski/) [@rachelk585](https://github.com/rachelk585)
+
+[Rick McGrath](https://www.linkedin.com/in/rick-mcgrath-b1617126b) [@r-mcgrath](https://github.com/r-mcgrath)
 
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
@@ -124,6 +130,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
 
+[Sonya Hu](https://www.linkedin.com/in/sonyahu25) [@sonyahu15](https://github.com/sonyahu15)
+
 [Sophia Bui](https://linkedin.com/in/sophiabui) [@sophia-bui](https://github.com/sophia-bui)
 
 [Sophia Huttner](https://www.linkedin.com/in/sophia-huttner-68315975/) [@sophjean](https://github.com/sophjean)
@@ -132,7 +140,7 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Stormi Hashimoto](https://www.linkedin.com/in/stormikph/) [@stormikph](https://github.com/stormikph)
 
-Thomas Lukasiewicz [LinkedIn](https://www.linkedin.com/in/thomas-lukasiewicz-27676273/) [Github](https://github.com/tlukasiewicz89)
+[Thomas Lukasiewicz] [LinkedIn](https://www.linkedin.com/in/thomas-lukasiewicz-27676273/) [Github](https://github.com/tlukasiewicz89)
 
 [Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
 
@@ -155,3 +163,4 @@ Thomas Lukasiewicz [LinkedIn](https://www.linkedin.com/in/thomas-lukasiewicz-276
 [Yohan Jeon](https://www.linkedin.com/in/yohan-jeon1) [Github](https://github.com/Yoheze)
 
 [Yuanji Huang](https://www.linkedin.com/in/yuanjihuang/) [@kr1spybacon](https://github.com/kr1spybacon)
+

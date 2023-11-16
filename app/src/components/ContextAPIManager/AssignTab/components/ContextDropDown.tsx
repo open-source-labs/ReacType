@@ -2,8 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../redux/store';
+
 
 const filter = createFilterOptions();
 
@@ -15,10 +14,6 @@ const ContextDropDown = ({
 }) => {
   const { allContext } = contextStore;
 
-  const isDarkMode = useSelector(
-    (store: RootState) => store.darkMode.isDarkMode
-  );
-  const color = isDarkMode ? 'white' : 'black';
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setContextInput({
@@ -38,7 +33,6 @@ const ContextDropDown = ({
   };
 
   const filterOptions = (options, params) => {
-    // setBtnDisabled(true);
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
@@ -48,8 +42,6 @@ const ContextDropDown = ({
         inputValue,
         name: `Add "${inputValue}"`
       });
-
-      // setBtnDisabled(false);
     }
 
     return filtered;

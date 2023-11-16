@@ -5,7 +5,6 @@ import {
   setInitialState,
   toggleLoggedIn
 } from '../redux/reducers/slice/appStateSlice';
-//redux toolkit addition
 import { useDispatch, useSelector } from 'react-redux';
 
 import AppContainer from '../containers/AppContainer';
@@ -17,34 +16,34 @@ import localforage from 'localforage';
 import { saveProject } from '../helperFunctions/projectGetSaveDel';
 
 // Intermediary component to wrap main App component with higher order provider components
-export const App = (): JSX.Element => {
-  const state = useSelector((store: RootState) => store.appState);
-  
-  const [toggleAttempt, setToggleAttempt] = useState(false);
+export const App: React.FC = (): JSX.Element => {
+  // const state = useSelector((store: RootState) => store.appState);
+
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   useEffect(() => {
     if (window.localStorage.getItem('ssid') !== 'guest') {
       dispatch(toggleLoggedIn(true));
     }
-    //setToggleAttempt(!toggleAttempt);
   }, []);
 
-  // following useEffect runs on first mount
+  // FOR LOCAL FORAGE: still trying to get this to work
+
+  // // following useEffect runs on first mount
   // useEffect(() => {
-  //   // console.log('cookies.get in App', Cookies.get())
+  //   console.log('cookies.get in App', Cookies.get());
   //   // if user is a guest, see if a project exists in localforage and retrieve it
-  //   // v17 May not currently work yet
+  //   // v17: May not currently work yet
   //   if (!state.isLoggedIn) {
   //     localforage.getItem('guestProject').then((project) => {
   //       // if project exists, use dispatch to set initial state to that project
+  //       console.log('local forage get project', project);
   //       if (project) {
   //         dispatch(setInitialState(project));
   //       }
   //     });
   //   } else {
   //     // otherwise if a user is logged in, use a fetch request to load user's projects from DB
-      
   //     let userId;
   //     if (Cookies.get('ssid')) {
   //       userId = Cookies.get('ssid');
@@ -63,16 +62,18 @@ export const App = (): JSX.Element => {
   //     });
   //   }
   // }, []);
+
+  // // New project save configuration to optimize server load and minimize Ajax requests
   // useEffect(() => {
   //   // provide config properties to legacy projects so new edits can be auto saved
-  //   // if (state.config === undefined) {
-  //   //   state.config = { saveFlag: true, saveTimer: false };
-  //   // }
-  //   // New project save configuration to optimize server load and minimize Ajax requests
+  //   if (state.config === undefined) {
+  //     state.config = { saveFlag: true, saveTimer: false };
+  //   }
+
   //   if (state.config.saveFlag) {
-  //     // state.config.saveFlag = false;
-  //     // state.config.saveTimer = true;
-  //     // dispatch(configToggle())
+  //     state.config.saveFlag = false;
+  //     state.config.saveTimer = true;
+  //     //dispatch(configToggle());
 
   //     let userId;
   //     if (Cookies.get('ssid')) {
@@ -80,7 +81,7 @@ export const App = (): JSX.Element => {
   //     } else {
   //       userId = window.localStorage.getItem('ssid');
   //     }
-  //     // if (state.isLoggedIn === false) {
+
   //     if (!state.isLoggedIn) {
   //       localforage.setItem('guestProject', state);
   //     } else if (state.name !== '') {
@@ -95,19 +96,16 @@ export const App = (): JSX.Element => {
   //     }, 15000);
   //   }
   // }, [state]);
-  // uncomment below to log state
 
   return (
     <div className="app">
-      
-        <header
-          style={{ height: '40px', width: '100%', backgroundColor: 'white' }}
-        >
-          ReacType
-        </header>
+      <header
+        style={{ height: '40px', width: '100%', backgroundColor: 'white' }}
+      >
+        ReacType
+      </header>
 
-        <AppContainer />
-     
+      <AppContainer />
     </div>
   );
 };

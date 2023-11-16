@@ -41,7 +41,7 @@ const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
-app.use(cookieParser());//added cookie parser
+app.use(cookieParser()); //added cookie parser
 // Routes
 // const stylesRouter = require('./routers/stylesRouter');
 import stylesRouter from './routers/stylesRouter';
@@ -95,19 +95,66 @@ const io = new Server(httpServer, {
   }
 });
 
-io.on('connection', (socket) => {
-  console.log(socket.id);
-  socket.on('custom-event', (string, redux_store, room) => {
-    console.log(room);
-    if (room) {
-      socket.to(room).emit('receive message', redux_store);
-    } else {
-      socket.broadcast.emit('receive message', redux_store);
+const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
+io.on('connection', (client) => {
+  //when user Joined a room
+  client.on('joining', async (userName: string, roomCode: string) => {
+    //adding async
+    try {
+      //if no room exists, add room to list
+      if (!roomLists[roomCode]) {
+        roomLists[roomCode] = {};
+      }
+      roomLists[roomCode][client.id] = userName; // adding user into the room list with id: userName on server side
+      const userList = Object.keys(roomLists[roomCode]);
+      const hostID = userList[0];
+      const newClientID = userList[userList.length - 1];
+
+      //await request state to host
+      const hostState = await io //once the request is sent back save to host state
+        .timeout(5000)
+        .to(hostID)
+        .emitWithAck('requesting state from host'); //sending request
+
+      const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
+        .timeout(5000)
+        .to(newClientID)
+        .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
+
+      //client response is confirmed
+      if (newClientResponse[0].status === 'confirmed') {
+        client.join(roomCode); //client joining a room
+        io.to(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room but the sender
+      }
+    } catch (error) {
+      //if joining event is having an error and time out
+      console.log(
+        'Request Timeout: Client failed to request state from host.',
+        error
+      );
     }
   });
-  socket.on('room-code', (roomCode) => {
-    console.log('joined room: ', roomCode);
-    socket.join(roomCode);
+
+  //updating state after joining
+  client.on('new state from front', (redux_store, room: string) => {
+    if (room) {
+      //sending to sender client, only if they are in room
+      client.to(room).emit('new state from back', redux_store);
+    }
+  });
+
+  //disconnecting functionality
+  client.on('disconnecting', () => {
+    // the client.rooms Set contains at least the socket ID
+    const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
+    delete roomLists[roomCode][client.id];
+    //if room empty, delete room from room list
+    if (!Object.keys(roomLists[roomCode]).length) {
+      delete roomLists[roomCode];
+    } else {
+      //else emit updated user list
+      io.to(roomCode).emit('updateUserList', roomLists[roomCode]);
+    }
   });
 });
 
@@ -167,23 +214,22 @@ app.post(
 app.post(
   '/login',
   userController.verifyUser,
+  userController.getUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
 );
-
 //confirming whether user is logged in for index.tsx rendering
-app.get(
-  '/loggedIn',
-  sessionController.isLoggedIn,
-  (req, res) => res.status(200).json(res.locals.loggedIn)
-)
+app.get('/loggedIn', sessionController.isLoggedIn, (req, res) =>
+  res.status(200).json(res.locals.loggedIn)
+);
 
-app.get('/logout', 
-cookieController.deleteCookies,
-sessionController.endSession,
-(req,res) => res.status(200).json(res.locals.deleted)
-)
+app.get(
+  '/logout',
+  cookieController.deleteCookies,
+  sessionController.endSession,
+  (req, res) => res.status(200).json(res.locals.deleted)
+);
 
 // user must be logged in to get or save projects, otherwise they will be redirected to login page
 app.post(
@@ -192,7 +238,6 @@ app.post(
   projectController.saveProject,
   (req, res) => res.status(200).json(res.locals.savedProject)
 );
-
 
 app.post(
   '/getProjects',
@@ -236,7 +281,7 @@ app.get(
 app.get(
   '/cloneProject/:docId',
   sessionController.isLoggedIn,
-  marketplaceController.cloneProject, 
+  marketplaceController.cloneProject,
   (req, res) => res.status(200).json(res.locals.clonedProject)
 );
 
@@ -265,7 +310,6 @@ if (isDocker) {
     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
   });
 }
-
 
 app.get('/test', (req, res) => {
   res.send('test request is working');

@@ -25,6 +25,20 @@ const randomPassword = () => {
 };
 
 const userController: UserController = {
+  getUser: async (req, res, next) => {
+    try {
+      const { username } = req.body;
+      const user = await Users.findOne({ username });
+      res.locals.user = user;
+      return next();
+    } catch (err) {
+      return next({
+        log: 'error caught in getUsername middleware',
+        status: 400,
+        message: { err: 'cannot get username' }
+      });
+    }
+  },
   createUser: (req, res, next) => {
     let email, username, password;
     // use this condition for Oauth login
@@ -127,6 +141,8 @@ const userController: UserController = {
       }
     });
   }
-};
+
+
+ };
 
 export default userController;

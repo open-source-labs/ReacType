@@ -28,7 +28,7 @@ const styles = (theme: any): any => ({
   }
 });
 
-const SimpleModal = (props: any) => {
+const SimpleModal = (props) => {
   const {
     classes,
     open,
@@ -67,7 +67,8 @@ const SimpleModal = (props: any) => {
               fontSize: '17px',
               fontWeight: 'bold'
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" id="modal-title">

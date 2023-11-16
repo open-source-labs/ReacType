@@ -19,7 +19,7 @@
 [![ContributorShield][contributors]][contributors-url]
 [![ForksShield][forks]][forks-url]
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version: 17.0.0](https://img.shields.io/badge/version-17.0.0-orange)
+![Version: 18.0.0](https://img.shields.io/badge/version-18.0.0-orange)
 
 
 </div>
@@ -67,15 +67,15 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 
 <!-- NEED TO REPLACE THE TUTORIAL LINK -->
 
-## Changes with version 17.0.0
+## Changes with Version 18.0.0
 
-- **Improved Testing Coverage**: Testing coverage now sits at ~60%.
-- **Typescript Conversion**: Typescript coverage now sits at ~80%.
-- **UI Overhaul**: Upgraded the UI of the application with a more modern style and better developer experience
-- **Marketplace Feature**: Implemented a dedicated area for developers to share their projects, 
-- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
+- **Collaboration Rooms**: Implemented rooms which allow developers to colloborate together on a project.
+- **User List**: Designed and built a user list which updates in real time as clients join and exit.
+- **Typescript Conversion**: Typescript coverage is now increased to ~90%.
+- **Cleanup**: Removed unused code, fixed bugs, and refactored existing code to improve performance, 
+- **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
 
-## File Structure of Reactype version 17.0.0
+## File Structure of ReacType Version 18.0.0
 
 Here is the main file structure:
 
@@ -89,7 +89,7 @@ Please refer to the Excalidraw provided by ReacType Version 14.0 for more detail
 ## Run ReacType using CLI
 
 - **Fork** and **Clone** Repository.
-- Open project directory
+- Open project directory.
 - Install dependencies.
 
 ```bash
@@ -151,7 +151,7 @@ npm run start
 
 ## Stack
 
-Typescript, React.js, Redux Toolkit, Javascript, ESM, Node.js (Express), HTML, CSS, MUI, GraphQL, Next.js, Gatsby.js, Electron, NoSQL, Webpack, TDD (Jest, React Testing Library, Playwright), OAuth 2.0, Websocket, Continuous Integration (Github Actions), Docker, AWS (ECR, Elastic Beanstalk), Ace Editor, Google Charts, React DnD
+Typescript, React.js, Redux Toolkit, Javascript, ESM, Node.js (Express), HTML, CSS, MUI, GraphQL, Next.js, Gatsby.js, Electron, NoSQL, Webpack, TDD (Jest, React Testing Library, Playwright), OAuth 2.0, Websocket, SocketIO, Continuous Integration (Github Actions), Docker, AWS (ECR, Elastic Beanstalk), Ace Editor, Google Charts, React DnD
 
 ## Contributions
 

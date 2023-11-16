@@ -13,8 +13,12 @@ import AddLink from './AddLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-import { changeFocus, changePosition, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
-
+import {
+  changeFocus,
+  changePosition,
+  addChild,
+  snapShotAction
+} from '../../redux/reducers/slice/appStateSlice';
 
 function DirectChildHTMLNestable({
   childId,
@@ -24,14 +28,14 @@ function DirectChildHTMLNestable({
   children,
   name,
   attributes
-}: ChildElement) {
-
-  const { state, contextParam, isThemeLight, isDarkMode } = useSelector((store:RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice,
-    isThemeLight: store.styleSlice,
-    isDarkMode: store.darkMode.isDarkMode
-  }));
+}: ChildElement): JSX.Element {
+  const { state, contextParam, isThemeLight } = useSelector(
+    (store: RootState) => ({
+      state: store.appState,
+      contextParam: store.contextSlice,
+      isThemeLight: store.styleSlice
+    })
+  );
   const dispatch = useDispatch();
   const ref = useRef(null);
 
@@ -41,7 +45,12 @@ function DirectChildHTMLNestable({
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
     //pushes the last user action on the canvas into the past array of Component
-    dispatch(snapShotAction({ focusIndex: focusIndex, deepCopiedState: deepCopiedState }))
+    dispatch(
+      snapShotAction({
+        focusIndex: focusIndex,
+        deepCopiedState: deepCopiedState
+      })
+    );
   };
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -91,19 +100,27 @@ function DirectChildHTMLNestable({
             )) ||
           item.instanceType !== 'Component'
         ) {
-          dispatch(addChild({
-            type: item.instanceType,
-            typeId: item.instanceTypeId,
-            childId: childId,
-            contextParam: contextParam
-          }))
+          dispatch(
+            addChild({
+              type: item.instanceType,
+              typeId: item.instanceTypeId,
+              childId: childId,
+              contextParam: contextParam
+            })
+          );
         }
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
         // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
-          dispatch(changePosition({ currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam }))
+          dispatch(
+            changePosition({
+              currentChildId: item.childId,
+              newParentChildId: childId,
+              contextParam: contextParam
+            })
+          );
         }
       }
     },
@@ -117,7 +134,6 @@ function DirectChildHTMLNestable({
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
     dispatch(changeFocus({ componentId, childId }));
-
   };
 
   // onClickHandler is responsible for changing the focused component and child component
@@ -138,7 +154,9 @@ function DirectChildHTMLNestable({
 
   // interactive style to change color when nested element is hovered over
   if (isOver) defaultNestableStyle['rgba(24, 107, 180, 0.2)'];
-  defaultNestableStyle['backgroundColor'] = isOver ? 'rgba(24, 107, 180, 0.2)' : defaultNestableStyle['backgroundColor'];
+  defaultNestableStyle['backgroundColor'] = isOver
+    ? 'rgba(24, 107, 180, 0.2)'
+    : defaultNestableStyle['backgroundColor'];
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
@@ -171,9 +189,9 @@ function DirectChildHTMLNestable({
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color: 'white' }}>{HTMLType.placeHolderShort}
-        </strong>
-        <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
+        <strong style={{ color: 'white' }}>{HTMLType.placeHolderShort}</strong>
+        <strong style={{ color: '#0099E6' }}>
+          {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>
         {routeButton}
         <DeleteButton id={childId} name={name} />

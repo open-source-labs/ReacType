@@ -1,8 +1,9 @@
-
 import {
   Component,
   ChildElement,
-  HTMLType
+  HTMLType,
+  ChildStyle,
+  StateProp
 } from '../interfaces/Interfaces';
 declare global {
   interface Window {
@@ -57,7 +58,7 @@ const generateUnformattedCode = (
     // declare an array of enriched children
     const enrichedChildren = currentComponent.children?.map((elem: any) => {
       //enrichedChildren is iterating through the children array
-      const child = { ...elem };
+      const child: ChildElement = { ...elem };
       // check if child is a component
       if (child.type === 'Component') {
         // verify that the child is in the components array in state
@@ -111,10 +112,10 @@ const generateUnformattedCode = (
   };
   // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
-  const formatStyles = (styleObj: any) => {
+  const formatStyles = (styleObj: ChildStyle) => {
     if (Object.keys(styleObj).length === 0) return ``;
-    const formattedStyles = [];
-    let styleString;
+    const formattedStyles: String[] = [];
+    let styleString: String;
     for (let i in styleObj) {
       if (i === 'style') {
         styleString = i + '=' + '{' + JSON.stringify(styleObj[i]) + '}';
@@ -125,11 +126,11 @@ const generateUnformattedCode = (
   };
   // function to dynamically add classes, ids, and styles to an element if it exists.
   //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
-  const elementTagDetails = (childElement: object) => {
+  const elementTagDetails = (childElement: ChildElement) => {
     let customizationDetails = '';
     let passedInPropsString = '';
     if (childElement.type === 'Component') {
-      let childComponent;
+      let childComponent: Component;
       for (let i = 0; i < components.length; i++) {
         if (childElement.name === components[i].name) {
           childComponent = components[i];
@@ -141,60 +142,88 @@ const generateUnformattedCode = (
     }
 
     if (childElement.childId && childElement.tag !== 'Route')
-      customizationDetails += ' ' + `id="${+childElement.childId}" ` + `${passedInPropsString}`;
+      customizationDetails +=
+        ' ' + `id="${+childElement.childId}" ` + `${passedInPropsString}`;
 
-    if (childElement.attributes && childElement.attributes.cssClasses && !tailwind) {
+    if (
+      childElement.attributes &&
+      childElement.attributes.cssClasses &&
+      !tailwind
+    ) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
     }
-    if (childElement.style && Object.keys(childElement.style).length > 0 && tailwind === false) customizationDetails += ' ' + formatStyles(childElement);
-    if (childElement.style && Object.keys(childElement.style).length > 0 && tailwind === true) {
-      let { height, alignItems, backgroundColor, display, flexDirection, width, justifyContent } = childElement.style;
-      let w, h, items, bg, d, flexDir, justCon, cssClasses;
+    if (
+      childElement.style &&
+      Object.keys(childElement.style).length > 0 &&
+      tailwind === false
+    )
+      customizationDetails += ' ' + formatStyles(childElement.style);
+    if (
+      childElement.style &&
+      Object.keys(childElement.style).length > 0 &&
+      tailwind === true
+    ) {
+      let {
+        height,
+        alignItems,
+        backgroundColor,
+        display,
+        flexDirection,
+        width,
+        justifyContent
+      } = childElement.style;
+      let w:String, h:String, items:String, bg:String, d:String, flexDir:String, justCon:String, cssClasses:String;
       if (childElement.style.alignItems) {
-        if (alignItems === "center") items = "items-center ";
-        else if (alignItems === "flex-start") items = "items-start ";
-        else if (alignItems === "flex-end") items = "items-end ";
-        else if (alignItems === "stretch") items = "items-stretch ";
+        if (alignItems === 'center') items = 'items-center ';
+        else if (alignItems === 'flex-start') items = 'items-start ';
+        else if (alignItems === 'flex-end') items = 'items-end ';
+        else if (alignItems === 'stretch') items = 'items-stretch ';
       }
       if (childElement.style.backgroundColor) {
-        bg = `bg-[${backgroundColor}] `
+        bg = `bg-[${backgroundColor}] `;
       }
       if (childElement.style.display) {
-        if (display === "flex") d = "flex "
-        else if (display === "inline-block") d = "inline-block "
-        else if (display === "block") d = "block "
-        else if (display === "none") d = "hidden "
+        if (display === 'flex') d = 'flex ';
+        else if (display === 'inline-block') d = 'inline-block ';
+        else if (display === 'block') d = 'block ';
+        else if (display === 'none') d = 'hidden ';
       }
       if (childElement.style.flexDirection) {
-        if (flexDirection === "column") flexDir = "flex-col "
+        if (flexDirection === 'column') flexDir = 'flex-col ';
       }
       if (childElement.style.height) {
-        if (height === "100%") h = "h-full "
-        else if (height === "50%") h = "h-1/2 "
-        else if (height === "25%") h = "h-1/4 "
-        else if (height === "auto") h = "auto "
+        if (height === '100%') h = 'h-full ';
+        else if (height === '50%') h = 'h-1/2 ';
+        else if (height === '25%') h = 'h-1/4 ';
+        else if (height === 'auto') h = 'auto ';
       }
       if (childElement.style.justifyContent) {
-        if (justifyContent === "center") justCon = "justify-center "
-        else if (justifyContent === "flex-start") justCon = "justify-start "
-        else if (justifyContent === "space-between") justCon = "justify-between "
-        else if (justifyContent === "space-around") justCon = "justify-around "
-        else if (justifyContent === "flex-end") justCon = "justify-end "
-        else if (justifyContent === "space-evenly") justCon = "justify-evenly "
+        if (justifyContent === 'center') justCon = 'justify-center ';
+        else if (justifyContent === 'flex-start') justCon = 'justify-start ';
+        else if (justifyContent === 'space-between')
+          justCon = 'justify-between ';
+        else if (justifyContent === 'space-around') justCon = 'justify-around ';
+        else if (justifyContent === 'flex-end') justCon = 'justify-end ';
+        else if (justifyContent === 'space-evenly') justCon = 'justify-evenly ';
       }
       if (childElement.style.width) {
-        if (width === "100%") w = "w-full "
-        else if (width === "50%") w = "w-1/2 "
-        else if (width === "25%") w = "w-1/4 "
-        else if (width === "auto") w = "w-auto "
+        if (width === '100%') w = 'w-full ';
+        else if (width === '50%') w = 'w-1/2 ';
+        else if (width === '25%') w = 'w-1/4 ';
+        else if (width === 'auto') w = 'w-auto ';
       }
       if (childElement.attributes && childElement.attributes.cssClasses) {
-        cssClasses = `${childElement.attributes.cssClasses} `
+        cssClasses = `${childElement.attributes.cssClasses} `;
       }
-      customizationDetails += ' ' + `className = "${cssClasses ? cssClasses : ''} ${w ? w : ''}${h ? h : ''}${justCon ? justCon : ''}${flexDir ? flexDir : ''}${d ? d : ''}${bg ? bg : ''}${items ? items : ''}"`;
+      customizationDetails +=
+        ' ' +
+        `className = "${cssClasses ? cssClasses : ''} ${w ? w : ''}${
+          h ? h : ''
+        }${justCon ? justCon : ''}${flexDir ? flexDir : ''}${d ? d : ''}${
+          bg ? bg : ''
+        }${items ? items : ''}"`;
     }
-
 
     if (childElement.events && Object.keys(childElement.events).length > 0) {
       // SPACE BETWEEN ATTRIBUTE EXPRESSIONS
@@ -217,7 +246,7 @@ const generateUnformattedCode = (
     else return '';
   };
   // function to dynamically generate a complete html (& also other library type) elements
-  const elementGenerator = (childElement: object, level: number = 2) => {
+  const elementGenerator = (childElement: ChildElement, level: number = 2) => {
     let innerText = '';
     let activeLink = '""';
     if (childElement.attributes && childElement.attributes.compText) {
@@ -245,15 +274,18 @@ const generateUnformattedCode = (
       childElement.tag === 'Route';
 
     if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${childElement.tag
-        } src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(
-          2,
-          3 + level
-        )}`;
+      return `${levelSpacer(level, 5)}<${
+        childElement.tag
+      } src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(
+        2,
+        3 + level
+      )}`;
     } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${childElement.tag
-        } href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${childElement.tag
-        }>${levelSpacer(2, 3 + level)}`;
+      return `${levelSpacer(level, 5)}<${
+        childElement.tag
+      } href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${
+        childElement.tag
+      }>${levelSpacer(2, 3 + level)}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
         childElement
@@ -278,8 +310,9 @@ const generateUnformattedCode = (
       )}</a>
         ${tabSpacer(level - 1)}</Link>${levelSpacer(2, 3 + level)}`;
     } else if (childElement.tag === 'Image') {
-      return `${levelSpacer(level, 5)}<${childElement.tag
-        } src=${activeLink} ${elementTagDetails(childElement)}/>`;
+      return `${levelSpacer(level, 5)}<${
+        childElement.tag
+      } src=${activeLink} ${elementTagDetails(childElement)}/>`;
     } else if (nestable) {
       if (
         (childElement.tag === 'Route' || childElement.tag === 'Switch') &&
@@ -310,7 +343,7 @@ const generateUnformattedCode = (
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
     return `${enrichedChildren
-      .map((child: any) => {
+      .map((child: ChildElement) => {
         if (child.type === 'Component') {
           return `<${child.name} ${elementTagDetails(child)}/>`;
         } else if (child.type === 'HTML Element') {
@@ -336,30 +369,30 @@ const generateUnformattedCode = (
       .join('')}`;
   };
   // function to properly incorporate the user created state that is stored in the application state
-  const writeStateProps = (stateArray: any) => {
-    let stateToRender = '';
+  const writeStateProps = (stateArray: String[]) => {
+    let stateToRender:String = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2, 2) + element + ';';
     }
     return stateToRender;
   };
-  const enrichedChildren: any = getEnrichedChildren(currComponent);
+  const enrichedChildren: ChildElement[] = getEnrichedChildren(currComponent);
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
       ? imports
-        .map((comp: string) => {
-          return isRoot
-            ? `import ${comp} from '../components/${comp}'`
-            : `import ${comp} from './${comp}'`;
-        })
-        .join('\n')
+          .map((comp: string) => {
+            return isRoot
+              ? `import ${comp} from '../components/${comp}'`
+              : `import ${comp} from './${comp}'`;
+          })
+          .join('\n')
       : imports
-        .map((comp: string) => {
-          return `import ${comp} from './${comp}'`;
-        })
-        .join('\n');
-  const createState = (stateProps) => {
+          .map((comp: string) => {
+            return `import ${comp} from './${comp}'`;
+          })
+          .join('\n');
+  const createState = (stateProps:StateProp[]) => {
     let state = '{';
     stateProps.forEach((ele) => {
       state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
@@ -374,8 +407,6 @@ const generateUnformattedCode = (
     //string to store all imports string for context
     let contextImports = '';
     const { allContext } = contextParam;
-
-
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
@@ -402,9 +433,11 @@ const generateUnformattedCode = (
           if (i === allContext.length - 1) {
             tabs = `\t\t\t`;
           }
-          result = `${tabs.repeat(allContext.length - i)}<${el.name
-            }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${el.name
-            }Provider>`;
+          result = `${tabs.repeat(allContext.length - i)}<${
+            el.name
+          }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
+            el.name
+          }Provider>`;
         });
       }
       return result;
@@ -435,7 +468,7 @@ const generateUnformattedCode = (
       return importStr;
     };
 
-    const createEventHandler = (children) => {
+    const createEventHandler = (children:ChildElement[]) => {
       let importStr = '';
       children.map((child) => {
         if (child.type === 'HTML Element') {
@@ -444,33 +477,39 @@ const generateUnformattedCode = (
               importStr += `\tconst ${funcName} = () => {};\n`;
             }
           }
-          if (child.children.length !== 0) importStr += createEventHandler(child.children);
+          if (child.children.length !== 0)
+            importStr += createEventHandler(child.children);
         }
       });
 
       return importStr;
     };
 
-    let generatedCode = "import React, { useState, useEffect, useContext} from 'react';\n\n";
+    let generatedCode =
+      "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'App' ? contextImports : '';
-    generatedCode += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n` : ``;
+    generatedCode += importReactRouter
+      ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n`
+      : ``;
     generatedCode += createContextImport() ? `${createContextImport()}\n` : '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
     // below is the return statement of the codepreview
     generatedCode += `const ${currComponent.name} = (props) => {\n`;
-    generatedCode += writeStateProps(currComponent.useStateCodes) ? `\t${writeStateProps(currComponent.useStateCodes)}\n` : '';
-    generatedCode += createEventHandler(enrichedChildren) ? `${createEventHandler(enrichedChildren)}\n` : '';
+    generatedCode += writeStateProps(currComponent.useStateCodes)
+      ? `\t${writeStateProps(currComponent.useStateCodes)}\n`
+      : '';
+    generatedCode += createEventHandler(enrichedChildren)
+      ? `${createEventHandler(enrichedChildren)}\n`
+      : '';
     generatedCode += `
   return(
     <>
       ${createRender()}
     </>
-  );`
+  );`;
     generatedCode += `\n}`;
     return generatedCode;
-  }
-  
-  else if (projectType === 'Next.js') {
+  } else if (projectType === 'Next.js') {
     return `
     import React, { useState } from 'react';
     ${importsMapped}
@@ -478,23 +517,26 @@ const generateUnformattedCode = (
     ${links ? `import Link from 'next/link'` : ``}
     ${images ? `import Image from 'next/image'` : ``}
 
-    const ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
-      } = (props): JSX.Element => {
+    const ${
+      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+    } = (props): JSX.Element => {
       return (
           <>
-      ${isRoot
-        ? `
+      ${
+        isRoot
+          ? `
             <Head>
               <title>${currComponent.name}</title>
             </Head>`
-        : ``
+          : ``
       }
       ${writeNestedElements(enrichedChildren)}
           </>
       );
     }
-    export default ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
-      };
+    export default ${
+      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+    };
     `;
   } else {
     // gatsby component code
@@ -506,12 +548,13 @@ const generateUnformattedCode = (
       const ${currComponent.name} = (props: any): JSX.Element => {
       return (
         <>
-        ${isRoot
-        ? `<head>
+        ${
+          isRoot
+            ? `<head>
               <title>${currComponent.name}</title>
           </head>`
-        : ``
-      }
+            : ``
+        }
         <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
