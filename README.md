@@ -28,15 +28,10 @@
 
 </div>
 
-<!-- STATIC VER: -->
-<!-- <p align="center">
-  <img width="1000" src="https://imgur.com/UnpLa6V">
-</p> -->
+ <p align="center">
+  <img width="1000" src="https://i.imgur.com/aukJrBC.png">
+</p> 
 
-<!-- ANIMATED VER: -->
-<p align="center">
-  <img width="1000" src="https://imgur.com/n9ZwKC5">
-</p>
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
