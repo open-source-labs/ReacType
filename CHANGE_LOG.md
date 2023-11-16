@@ -20,13 +20,14 @@ Changes:<br>
     - Implemented room functionality where multiple users can see and interact with the same canvas state in real time.
     - Dynamically handles the host logic of the collab room, where the oldest connected client is the one serving the room's state.
     - Fixed backend web socket connections with the clients, allowing full duplex connections between multiple clients and servers.
+    - Note: The collaboration room is in beta
   - User List:
     - List that displays all connected users in a particular room.
     - Dynamically updates when users join or leave a room.
-    - Automatically updates new host in the room to the next oldest user.
+    - Automatically updates the new host in the room to the next oldest user.
   - Join/Nickname Button:
     - Allows users to specify which room to join, and what name to display upon joining the room.
-    - Button only shows when user is not connected to room, requires both fields to be filled out.
+    - The button only shows when the user is not connected to the room, requiring both fields to be filled out.
       
 Recommendations for Future Enhancements:<br>
 
@@ -35,14 +36,15 @@ Recommendations for Future Enhancements:<br>
 - True real-time rendering so users can see components as they're being dragged onto the canvas, rather than only when they're placed.
 - Optimize performance of room state updates 
 - v.17 recommendations regarding the Marketplace are still undeveloped.
-- Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Persistent Redux error that causes page to rerender more often than necessary.
+- Solve residual bugs. Undo & Redo buttons on the customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Persistent Redux error that causes page to rerender more often than necessary.
 - Resolve electron app functionality to coincide with web app functionality.  
 - For the state manager option in the data table there is a MuiData-menu that is not visible when clicking it and after the filter option is clicked it creates a white space in the bottom of the page.
 - Expand testing coverage.  Continue fixing old tests which rely on outdated dependencies, and implementing new tests.
 - Continue modularizing code.  Many large, unwieldy files that should be broken up into more modular components still exist.
 - Continue Typescript conversion.  Consider toggling noImplicitAny to find all 'any' cases that can be addressed.
 - Continue cleanup of outdated and unused code and files.
-
+- Collaboration feature still needs to be improved for scalability with AWS servers and clients for better experiences. The feature currently is limited to access with only 1 AWS cloud server.
+- Future teams could look into data structures for scaling on the server side of the app to improve data transmitting and multiple server functionality.
 
 **Version 17.0.0 Changes**
 
@@ -50,18 +52,18 @@ Changes:<br>
 
 - Developer Improvements:
   - Testing Coverage:
-    - Version 17 added testing for the added marketplace related components
+    - Version 17 added testing for the added marketplace-related components
     - Testing coverage sits at ~60%
   - Typescript continued and now sits at ~80%
   - Dev Bug Fixes:
     - Additional logic added for edge cases in inputs for state manager (passing in non-Arrays/non-Objects as Array type and Object type).
-    - Fixed issue with the bottom panel not dragging or sticking to the mouse when the mouse is over the demorender iframe
+    - Fixed issue with the bottom panel not dragging or sticking to the mouse when the mouse is over the demo render iframe
     - Cleaned up hundreds of lines of outdated code and archived multiple unused and duplicate files
-  - OAuth now linked to standalone gmail and github accounts
+  - OAuth now linked to standalone Gmail and GitHub accounts
 - User Features:
   - UI updated with a modern style for a better developer experience
-    - Added many user feedback alerts for better experience including alerts for when projects are published, cloned, deleted, HTML custom tags are created, context created, or custom component created.
-    - Built a specific buttons menu that individually display the HTML elements, reusable components created, and join room option.
+    - Added many user feedback alerts for a better experience including alerts for when projects are published, cloned, deleted, HTML custom tags are created, context created, or custom components created.
+    - Built a specific buttons menu that individually displays the HTML elements, reusable components created, and join room option.
     - Redesigned the state manager panel option to be readable and functional. 
     - Drop down menu now closes only when the user clicks outside of the menu
   - Marketplace:
@@ -78,7 +80,7 @@ Recommendations for Future Enhancements:<br>
 
 - Add a comment section and description section for each published project
 - Consider maybe a way for users to pull individual components from one project into another
-- Use localforage or other methods to store unsaved projects either on logout or accidental closure of browser, so that when the user opens the browser again it is still there.
+- Use localforage or other methods to store unsaved projects either on logout or accidental closure of the browser, so that when the user opens the browser again it is still there.
 - Continue expanding testing coverage. Improve testing by adding additional unit tests, expanding end-to-end testing, and introducing integration testing.
 - Continue quality Typescript conversion. Continue to fix type errors within component files.
 - Modularize appStateSlice file. Further modularization is needed for readability and maintainability.
