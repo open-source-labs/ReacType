@@ -29,7 +29,7 @@
 </div>
 
  <p align="center">
-  <img width="1000" src="https://i.imgur.com/aukJrBC.png">
+  <img width="1000" src="https://i.imgur.com/6alI8ub.png">
 </p> 
 
 
