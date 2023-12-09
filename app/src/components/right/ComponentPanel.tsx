@@ -12,10 +12,14 @@ import Snackbar from '@mui/material/Snackbar';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  // const { state, contextParam } = useSelector((store: RootState) => ({
+  //   state: store.appState,
+  //   contextParam: store.contextSlice
+  // }));
+
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+
   const dispatch = useDispatch();
 
   //state hooks for inputted component name, component id and array of components

@@ -9,9 +9,7 @@ import { Button } from '@mui/material';
 // The CanvasContainer sets the boundaries on the width/height of the canvas
 function CanvasContainer(props): JSX.Element {
   const [theme, setTheme] = useState('solarized_light'); // theme for ACE editor, taken from BottomTabs
-  const { state } = useSelector((store: RootState) => ({
-    state: store.appState
-  }));
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
 
   // onClickCodePreview swaps the rendered component from the canvas to the code preview editor

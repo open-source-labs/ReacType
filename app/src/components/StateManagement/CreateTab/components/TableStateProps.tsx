@@ -10,10 +10,9 @@ import { RootState } from '../../../../redux/store';
 import { ColumnTab } from '../../../../interfaces/Interfaces';
 // updates state mgmt boxes and data grid
 const TableStateProps = (props) => {
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});

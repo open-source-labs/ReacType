@@ -93,9 +93,11 @@ function navbarDropDown(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
-  const { state } = useSelector((store: RootState) => ({
-    state: store.appState
-  }));
+  // const { state } = useSelector((store: RootState) => ({
+  //   state: store.appState
+  // }));
+  const state = useSelector((store: RootState) => store.appState);
+
   const closeModal = () => setModal('');
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

@@ -1,0 +1,21 @@
+"filename", "language", "TypeScript", "CSS", "JSON with Comments", "Markdown", "comment", "blank", "total"
+"/Users/rose/Desktop/immersive/ReacType/server/README.md", "Markdown", 0, 0, 0, 16, 0, 7, 23
+"/Users/rose/Desktop/immersive/ReacType/server/assets/renderDemo.css", "CSS", 0, 169, 0, 0, 0, 10, 179
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/cookieController.ts", "TypeScript", 23, 0, 0, 0, 3, 10, 36
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/marketplaceController.ts", "TypeScript", 113, 0, 0, 0, 29, 11, 153
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/projectController.ts", "TypeScript", 68, 0, 0, 0, 28, 7, 103
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/sessionController.ts", "TypeScript", 82, 0, 0, 0, 115, 8, 205
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/userController.ts", "TypeScript", 127, 0, 0, 0, 13, 9, 149
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/userStylesController.ts", "TypeScript", 18, 0, 0, 0, 1, 3, 22
+"/Users/rose/Desktop/immersive/ReacType/server/graphQL/resolvers/mutation.ts", "TypeScript", 143, 0, 0, 0, 13, 22, 178
+"/Users/rose/Desktop/immersive/ReacType/server/graphQL/resolvers/query.ts", "TypeScript", 57, 0, 0, 0, 10, 8, 75
+"/Users/rose/Desktop/immersive/ReacType/server/graphQL/schema/typeDefs.ts", "TypeScript", 31, 0, 0, 0, 8, 8, 47
+"/Users/rose/Desktop/immersive/ReacType/server/interfaces.ts", "TypeScript", 47, 0, 0, 0, 3, 10, 60
+"/Users/rose/Desktop/immersive/ReacType/server/models/Oauth-model.ts", "TypeScript", 13, 0, 0, 0, 0, 6, 19
+"/Users/rose/Desktop/immersive/ReacType/server/models/reactypeModels.ts", "TypeScript", 76, 0, 0, 0, 19, 11, 106
+"/Users/rose/Desktop/immersive/ReacType/server/routers/auth.ts", "TypeScript", 66, 0, 0, 0, 1, 13, 80
+"/Users/rose/Desktop/immersive/ReacType/server/routers/passport-setup.ts", "TypeScript", 90, 0, 0, 0, 0, 7, 97
+"/Users/rose/Desktop/immersive/ReacType/server/routers/stylesRouter.ts", "TypeScript", 7, 0, 0, 0, 1, 2, 10
+"/Users/rose/Desktop/immersive/ReacType/server/server.ts", "TypeScript", 201, 0, 0, 0, 93, 56, 350
+"/Users/rose/Desktop/immersive/ReacType/server/tsconfig.json", "JSON with Comments", 0, 0, 15, 0, 4, 2, 21
+"Total", "-", 1162, 169, 15, 16, 341, 210, 1913

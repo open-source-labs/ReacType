@@ -18,10 +18,9 @@ import TablePassedInProps from './TablePassedInProps';
 import { RootState } from '../../../../redux/store';
 
 const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const [inputKey, setInputKey] = useState('');

@@ -17,9 +17,10 @@ const MainContainer = (props): JSX.Element => {
     (store: RootState) => store.appState.screenshotTrigger
   );
   const id: string = useSelector((store: RootState) => store.appState._id);
-  const { style } = useSelector((store: RootState) => ({
-    style: store.styleSlice
-  }));
+  // const { style } = useSelector((store: RootState) => ({
+  //   style: store.styleSlice
+  // }));
+  const style = useSelector((store: RootState) => store.styleSlice);
   const containerRef: React.RefObject<HTMLDivElement> = useRef(null);
 
   // useEffect hook to detect and execute changes in screenshotTrigger, taking a screenshot of the canvas when a project is published on NavBar

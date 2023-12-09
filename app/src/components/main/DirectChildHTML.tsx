@@ -10,10 +10,7 @@ import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
-  const {state, isThemeLight }= useSelector((store:RootState) =>({
-    state: store.appState,
-    isThemeLight: store.styleSlice
-  } ));
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -37,14 +34,13 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
-    dispatch(changeFocus({ componentId, childId}));
-
+    dispatch(changeFocus({ componentId, childId }));
   };
 
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    changeFocusFunction(state.canvasFocus.componentId, childId)
+    changeFocusFunction(state.canvasFocus.componentId, childId);
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
@@ -61,8 +57,6 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
     interactiveStyle
   );
 
-
-
   return (
     <div
       onClick={onClickHandler}
@@ -71,9 +65,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color:'white'}}>
-          {HTMLType.placeHolderShort}
-        </strong>
+        <strong style={{ color: 'white' }}>{HTMLType.placeHolderShort}</strong>
         <DeleteButton
           id={childId}
           name={name[0].toLowerCase() + name.slice(1)}
