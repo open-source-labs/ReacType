@@ -306,11 +306,11 @@ const useStyles = makeStyles({
     width: '100%'
   },
   rootCheckBox: {
-    borderColor: '#186BB4',
+    borderColor: '#46C0A5',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    borderColor: '#186BB4'
+    borderColor: '#46C0A5'
   },
   newComponent: {
     color: '#C6C6C6',

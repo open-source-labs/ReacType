@@ -5,10 +5,10 @@ export const theme1 = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#003366' // navy blue
+      main: '#1e8370' // navy blue
     },
     secondary: {
-      main: '#0099e6' // light blue
+      main: '#46C0A5' // light blue
     },
     background: {
       paper: '#ffffff'
@@ -20,10 +20,10 @@ export const theme2 = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#003366'
+      main: '#1e8370'
     },
     secondary: {
-      main: '#0099e6'
+      main: '#46C0A5'
     },
     background: {
       paper: '#ffffff'
