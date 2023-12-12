@@ -5,7 +5,7 @@ import {
   setInitialState,
   toggleLoggedIn
 } from '../redux/reducers/slice/appStateSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import AppContainer from '../containers/AppContainer';
 import Cookies from 'js-cookie';
@@ -99,12 +99,6 @@ export const App: React.FC = (): JSX.Element => {
 
   return (
     <div className="app">
-      <header
-        style={{ height: '40px', width: '100%', backgroundColor: 'white' }}
-      >
-        ReacType
-      </header>
-
       <AppContainer />
     </div>
   );

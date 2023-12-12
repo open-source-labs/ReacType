@@ -19,7 +19,7 @@ function CanvasContainer(props): JSX.Element {
 
   const canvasContainerStyle: React.CSSProperties = {
     width: '100%',
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'rgba(25, 25, 25)',
     border: '2px solid grey',
     borderBottom: 'none',
     overflow: 'auto'
@@ -35,7 +35,7 @@ function CanvasContainer(props): JSX.Element {
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #186BB4'
+    border: '2px solid #46C0A5'
   } as const;
 
   return (
