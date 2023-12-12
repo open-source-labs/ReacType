@@ -52,7 +52,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '4px solid #186BB4'
+        ? '4px solid #46C0A5'
         : '1px solid grey'
   };
 
