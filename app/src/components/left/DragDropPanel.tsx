@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-
 import Grid from '@mui/material/Grid';
 import HTMLItem from './HTMLItem';
 import React from 'react';
@@ -21,10 +20,9 @@ Hook state:
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
   const dispatch = useDispatch();
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+
   const handleDelete = (id: number): void => {
     dispatch(deleteElement({ id: id, contextParam: contextParam }));
   };
