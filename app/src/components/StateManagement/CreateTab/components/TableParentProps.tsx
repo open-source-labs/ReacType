@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  DataGrid,
-  GridEditRowsModel
-} from '@mui/x-data-grid';
+import { DataGrid, GridEditRowsModel } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import makeStyles from '@mui/styles/makeStyles';
 import AddIcon from '@mui/icons-material/Add';
 import { addPassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
-import { RootState } from '../../../../redux/store'
+import { RootState } from '../../../../redux/store';
 
-const TableParentProps = props => {
-  const { state, contextParam } = useSelector((store:RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice,
-  }));
+const TableParentProps = (props) => {
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const currentId = state.canvasFocus.componentId;
@@ -57,14 +53,13 @@ const TableParentProps = props => {
       renderCell: function renderCell(params: any) {
         return (
           <Button
-            style={{ width: `${3}px`, color: 'white'}}
+            style={{ width: `${3}px`, color: 'white' }}
             onClick={() => {
               addProps(params.row, params.id - 1);
             }}
           >
             <AddIcon style={{ width: `${15}px` }} />
           </Button>
-          
         );
       }
     }
@@ -73,40 +68,45 @@ const TableParentProps = props => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    dispatch(addPassedInProps({ passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent, contextParam: contextParam}))
+    dispatch(
+      addPassedInProps({
+        passedInProps: parentComponentProps,
+        rowId: rowId,
+        parentComponent: parentComponent,
+        contextParam: contextParam
+      })
+    );
   };
 
   useEffect(() => {
     setGridColumns(columnTabs);
   }, [props.isThemeLight]);
 
-  // determine whether or not to include delete column in data grid 
+  // determine whether or not to include delete column in data grid
   useEffect(() => {
     if (props.canDeleteState) {
       setGridColumns(columnTabs);
     } else {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
-    
   }, [state.canvasFocus.componentId]);
-  
-  
+
   let rows;
-  
+
   // check if current component is a root component-- if yes, it shouldn't have any parent props
-  if (currentComponent.name === 'App' || currentComponent.name === 'index') {rows = []}
-  else { 
+  if (currentComponent.name === 'App' || currentComponent.name === 'index') {
+    rows = [];
+  } else {
     if (parentProps) {
       rows = parentProps;
       if (parentPassedInProps) {
-        rows = [...rows, ...parentPassedInProps]
+        rows = [...rows, ...parentPassedInProps];
       }
+    }
   }
-  }
-
 
   return (
-    <div className={'state-prop-grid'}> 
+    <div className={'state-prop-grid'}>
       <DataGrid
         rows={rows}
         columns={gridColumns}
@@ -123,10 +123,10 @@ const TableParentProps = props => {
 const useStyles = makeStyles({
   themeLight: {
     color: 'white',
-    '& button:hover':{
+    '& button:hover': {
       backgroundColor: 'LightGray'
     },
-    '& button':{
+    '& button': {
       color: 'white'
     },
     '& .MuiTablePagination-root': {

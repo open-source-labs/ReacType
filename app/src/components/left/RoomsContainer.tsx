@@ -31,13 +31,11 @@ const { API_BASE_URL } = config;
 const RoomsContainer = () => {
   const dispatch = useDispatch();
   //roomCode/userName for emiting to socket io, userList for displaying user List receiving from back end, userJoined fo conditional rendering between join and leave room.
-  const { roomCode, userName, userList, userJoined } = useSelector(
-    (store: RootState) => ({
-      roomCode: store.roomSlice.roomCode,
-      userName: store.roomSlice.userName,
-      userList: store.roomSlice.userList,
-      userJoined: store.roomSlice.userJoined
-    })
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  const userName = useSelector((store: RootState) => store.roomSlice.userName);
+  const userList = useSelector((store: RootState) => store.roomSlice.userList);
+  const userJoined = useSelector(
+    (store: RootState) => store.roomSlice.userJoined
   );
 
   function initSocketConnection(roomCode: string) {
@@ -109,6 +107,7 @@ const RoomsContainer = () => {
   }
 
   let previousState = store.getState();
+  console.log('previousState:', previousState);
   // sending info to backend whenever the redux store changes
   //handling state changes and send to server
   const handleStoreChange = debounce(() => {

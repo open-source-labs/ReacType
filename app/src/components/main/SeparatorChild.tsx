@@ -22,10 +22,9 @@ function DirectChildHTMLNestable({
   style,
   children
 }: ChildElement): JSX.Element {
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+
   const dispatch = useDispatch();
   const ref = useRef(null);
 

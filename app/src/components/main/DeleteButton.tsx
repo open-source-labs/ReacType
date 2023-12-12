@@ -5,15 +5,12 @@ import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 function DeleteButton({ id, name }: DeleteButtons) {
-  const { contextParam } = useSelector((store:RootState) => ({
-    contextParam: store.contextSlice,
-  }));
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
 
   const dispatch = useDispatch();
 
   const deleteHTMLtype = (id: number) => {
-  
-    dispatch(deleteChild({ id:id, contextParam:contextParam }));
+    dispatch(deleteChild({ id: id, contextParam: contextParam }));
   };
 
   return (
