@@ -29,9 +29,7 @@ const AppContainer: React.FC = () => {
   const isMarketplace = urlAdd.location.pathname === '/marketplace';
 
   // setting state for changing light vs dark themes; linked to NavBar.tsx
-  const { style } = useSelector((store: RootState) => ({
-    style: store.styleSlice.style
-  }));
+  const style = useSelector((store: RootState) => store.styleSlice.style);
 
   const [isThemeLight, setTheme] = useState(true);
   const dispatch = useDispatch();
