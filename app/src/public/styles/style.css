@@ -22,7 +22,7 @@ body {
   padding: 0;
   font-family: 'Roboto', 'Raleway', sans-serif;
   font-size: 0.9 em;
-  font-weight: 400;
+  font-weight: normal;
   overflow: hidden;
   height: 100vh;
   width: 100vw;
@@ -241,18 +241,20 @@ span.material-symbols-outlined {
 
 #HTMLItemsGrid {
   display: flex;
-
   /* margin-left: 35px; */
 }
 
 #HTMLItem {
   transition: 0.3s;
-  border: 1px solid #8F8F8F;
+  border: 1px solid #d2f5eb;
+  color: #f2fbf8;
+  padding: 10%;
+  border-radius: 5px;
 }
 
 #HTMLItem:hover {
-  background-color: #383838;
-  color: white;
+  background-color: #333333;
+  color: #257c74;
 }
 
 #submitButton {
@@ -260,7 +262,7 @@ span.material-symbols-outlined {
 }
 
 #submitButton:hover {
-  background-color: #297ac2;
+  background-color: #29a38a;
   color: white;
   border: none;
   cursor: pointer;
@@ -392,7 +394,7 @@ h1 {
 }
 
 #export-modal:hover {
-  background-color: #303f9f;
+  background-color: #29a38a;
   cursor: pointer;
 }
 
@@ -451,12 +453,12 @@ RIGHT COLUMN
 }
 
 #addComponentButton {
-  border: 2px solid #186BB4;
+  border: 2px solid #46C0A5;
   border-radius: 4px;
 }
 
 #addComponentButton:hover {
-  background-color: #297ac2;
+  background-color: #29a38a;
   color: white;
   border: none;
   cursor: pointer;
@@ -541,7 +543,6 @@ BOTTOM PANEL
 
 
 #resize-drag {
-
   cursor: row-resize;
   height: 25px;
   width: 75px;
@@ -555,12 +556,11 @@ BOTTOM PANEL
   color: silver;
   user-select: none;
   z-index: 1;
-
 }
 
 .bottom-panel {
   transition: width 250ms ease-in-out;
-  background-color: #003366;
+  background-color: #1e8370;
   width: 100%;
   height: 100%;
   display: flex;
@@ -637,9 +637,9 @@ NAVBAR
   margin-left: 2vw;
 }
 
-.main-logo h1 {
+/* .main-logo h1 {
   color: #013365;
-}
+} */
 
 .main-navbar svg {
   width: 30px;
@@ -733,6 +733,8 @@ CANVAS WINDOW
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'Roboto', 'Raleway', sans-serif;
+  height: 100%;
 }
 
 /* Material-UI */
@@ -752,7 +754,7 @@ div.rst__rowContents {
 .rst__rowContentsDragDisabled {
   background-color: #333333;
   background-color: rgba(37, 37, 38, 0.4);
-}
+} 
 
 .rst__moveHandle,
 .rst__loadingHandle {
@@ -811,7 +813,7 @@ a.nav_link:hover {
 .useState-btn {
   color: rgb(241, 240, 240);
   background-color: rgba(0, 0, 0, 0.54);
-  border: 1px solid #186bb4;
+  border: 1px solid #46C0A5;
   border-radius: 3px;
   box-shadow: '2px 2px 2px #1a1a1a';
   font-family: Arial, Helvetica, sans-serif;
@@ -830,12 +832,12 @@ a.nav_link:hover {
 
 .useState-header {
   font-size: 35px;
-  background-color: #003366;
+  background-color: #1e8370;
   color: rgb(241, 240, 240);
   width: 600px;
   border: 3px;
   border-style: solid;
-  border-color: black;
+  border-color: #1e8370;
   font-family: 'Open Sans', sans-serif;
   border-radius: 15px 15px 0px 0px;
 }

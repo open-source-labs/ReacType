@@ -483,11 +483,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '100%'
   },
   rootCheckBox: {
-    borderColor: '#186BB4',
+    borderColor: '#46C0A5',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    borderColor: '#186BB4'
+    borderColor: '#46C0A5'
   },
   panelWrapper: {
     width: '100%',
@@ -511,8 +511,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     textAlign: 'center',
     width: '500px',
-    backgroundColor: '#186BB4',
-    border: '5px solid #186BB4'
+    backgroundColor: '#46C0A5',
+    border: '5px solid #46C0A5'
   },
   panelSubheader: {
     textAlign: 'center',
@@ -540,7 +540,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: '90%',
     textAlign: 'center',
     margin: '-20px 0px 5px 150px',
-    border: ' 1px solid #186BB4',
+    border: ' 1px solid #46C0A5',
     transition: '0.3s'
   },
   rootToggle: {
