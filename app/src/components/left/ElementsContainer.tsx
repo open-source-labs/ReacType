@@ -1,4 +1,4 @@
-import { Box, Drawer, List, ListItem, ListItemIcon } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,12 +10,8 @@ import { RootState } from '../../redux/store';
 
 // Left-hand portion of the app, where component options are displayed
 const ElementsContainer = (props): JSX.Element => {
-  const [selectedTab, setSelectedTab] = React.useState('files');
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
 
-  const { contextParam, style } = useSelector((store: RootState) => ({
-    contextParam: store.contextSlice,
-    style: store.styleSlice
-  }));
   const dispatch = useDispatch();
 
   const handleDelete = () => {

@@ -1,0 +1,226 @@
+Date : 2023-12-11 11:31:34
+Directory : /Users/rose/Desktop/immersive/ReacType/app
+Total : 151 files,  17049 codes, 1573 comments, 1387 blanks, all 20009 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| TypeScript JSX |         97 |     11,398 |        773 |        880 |     13,051 |
+| TypeScript     |         42 |      4,371 |        309 |        288 |      4,968 |
+| CSS            |          2 |        741 |         59 |        159 |        959 |
+| JavaScript     |          8 |        501 |        432 |         58 |        991 |
+| HTML           |          2 |         38 |          0 |          2 |         40 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                    | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                       |        151 |     17,049 |      1,573 |      1,387 |     20,009 |
+| .electron                                                                                                               |          8 |        501 |        432 |         58 |        991 |
+| .electron (Files)                                                                                                       |          5 |        454 |        425 |         43 |        922 |
+| .electron/preloadFunctions                                                                                              |          3 |         47 |          7 |         15 |         69 |
+| src                                                                                                                     |        143 |     16,548 |      1,141 |      1,329 |     19,018 |
+| src (Files)                                                                                                             |          1 |         82 |          5 |         13 |        100 |
+| src/Dashboard                                                                                                           |          5 |        657 |         49 |         44 |        750 |
+| src/components                                                                                                          |         72 |      8,232 |        640 |        719 |      9,591 |
+| src/components (Files)                                                                                                  |          1 |         33 |         67 |         14 |        114 |
+| src/components/ContextAPIManager                                                                                        |         11 |        897 |         34 |         85 |      1,016 |
+| src/components/ContextAPIManager (Files)                                                                                |          1 |         60 |          0 |          8 |         68 |
+| src/components/ContextAPIManager/AssignTab                                                                              |          5 |        405 |         17 |         39 |        461 |
+| src/components/ContextAPIManager/AssignTab (Files)                                                                      |          1 |        114 |          5 |          9 |        128 |
+| src/components/ContextAPIManager/AssignTab/components                                                                   |          4 |        291 |         12 |         30 |        333 |
+| src/components/ContextAPIManager/CreateTab                                                                              |          4 |        387 |         15 |         32 |        434 |
+| src/components/ContextAPIManager/CreateTab (Files)                                                                      |          1 |        126 |          4 |         11 |        141 |
+| src/components/ContextAPIManager/CreateTab/components                                                                   |          3 |        261 |         11 |         21 |        293 |
+| src/components/ContextAPIManager/DisplayTab                                                                             |          1 |         45 |          2 |          6 |         53 |
+| src/components/StateManagement                                                                                          |         10 |      1,388 |         73 |        105 |      1,566 |
+| src/components/StateManagement (Files)                                                                                  |          1 |         59 |          2 |          9 |         70 |
+| src/components/StateManagement/CreateTab                                                                                |          5 |        996 |         28 |         57 |      1,081 |
+| src/components/StateManagement/CreateTab (Files)                                                                        |          1 |         11 |          0 |          4 |         15 |
+| src/components/StateManagement/CreateTab/components                                                                     |          4 |        985 |         28 |         53 |      1,066 |
+| src/components/StateManagement/DisplayTab                                                                               |          4 |        333 |         43 |         39 |        415 |
+| src/components/bottom                                                                                                   |          6 |        495 |         23 |         52 |        570 |
+| src/components/form                                                                                                     |          1 |         53 |          0 |          4 |         57 |
+| src/components/left                                                                                                     |          9 |      1,121 |         71 |         90 |      1,282 |
+| src/components/login                                                                                                    |          3 |        832 |         40 |         51 |        923 |
+| src/components/main                                                                                                     |         13 |      1,138 |         94 |        123 |      1,355 |
+| src/components/marketplace                                                                                              |          3 |        274 |         18 |         34 |        326 |
+| src/components/right                                                                                                    |         11 |      1,362 |        206 |        112 |      1,680 |
+| src/components/top                                                                                                      |          4 |        639 |         14 |         49 |        702 |
+| src/constants                                                                                                           |          3 |         21 |          0 |          3 |         24 |
+| src/containers                                                                                                          |          5 |      1,271 |         38 |         66 |      1,375 |
+| src/helperFunctions                                                                                                     |         12 |      1,062 |         88 |         65 |      1,215 |
+| src/interfaces                                                                                                          |          3 |        176 |          5 |         16 |        197 |
+| src/plugins                                                                                                             |          2 |         83 |          3 |          4 |         90 |
+| src/public                                                                                                              |          5 |        776 |         60 |        152 |        988 |
+| src/public (Files)                                                                                                      |          2 |         38 |          0 |          2 |         40 |
+| src/public/styles                                                                                                       |          3 |        738 |         60 |        150 |        948 |
+| src/redux                                                                                                               |          8 |      1,573 |        178 |        103 |      1,854 |
+| src/redux (Files)                                                                                                       |          2 |        263 |         17 |         11 |        291 |
+| src/redux/reducers                                                                                                      |          6 |      1,310 |        161 |         92 |      1,563 |
+| src/redux/reducers (Files)                                                                                              |          1 |         14 |          2 |          4 |         20 |
+| src/redux/reducers/slice                                                                                                |          5 |      1,296 |        159 |         88 |      1,543 |
+| src/tree                                                                                                                |          2 |        165 |         30 |         13 |        208 |
+| src/tutorial                                                                                                            |         14 |      1,027 |          2 |         48 |      1,077 |
+| src/utils                                                                                                               |         11 |      1,423 |         43 |         83 |      1,549 |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                                                | language       | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Users/rose/Desktop/immersive/ReacType/app/.electron/main.js                                                            | JavaScript     |        136 |        356 |         22 |        514 |
+| /Users/rose/Desktop/immersive/ReacType/app/.electron/menu.js                                                            | JavaScript     |        230 |         29 |          8 |        267 |
+| /Users/rose/Desktop/immersive/ReacType/app/.electron/preload.js                                                         | JavaScript     |         30 |         22 |          3 |         55 |
+| /Users/rose/Desktop/immersive/ReacType/app/.electron/preloadFunctions/chooseAppDir.js                                   | JavaScript     |         17 |          4 |          5 |         26 |
+| /Users/rose/Desktop/immersive/ReacType/app/.electron/preloadFunctions/cookies.js                                        | JavaScript     |         19 |          0 |          7 |         26 |
+| /Users/rose/Desktop/immersive/ReacType/app/.electron/preloadFunctions/format.js                                         | JavaScript     |         11 |          3 |          3 |         17 |
+| /Users/rose/Desktop/immersive/ReacType/app/.electron/protocol.js                                                        | JavaScript     |         50 |         17 |          9 |         76 |
+| /Users/rose/Desktop/immersive/ReacType/app/.electron/render.js                                                          | JavaScript     |          8 |          1 |          1 |         10 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/NavbarDash.tsx                                                 | TypeScript JSX |        167 |          8 |          2 |        177 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/Project.tsx                                                    | TypeScript JSX |        208 |         15 |          7 |        230 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/ProjectContainer.tsx                                           | TypeScript JSX |        155 |         24 |         12 |        191 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/gqlStrings.ts                                                  | TypeScript     |         51 |          2 |          6 |         59 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/styles.css                                                     | CSS            |         76 |          0 |         17 |         93 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/App.tsx                                                       | TypeScript JSX |         33 |         67 |         14 |        114 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/AssignContainer.tsx               | TypeScript JSX |        114 |          5 |          9 |        128 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/components/ComponentDropDrown.tsx | TypeScript JSX |         90 |          5 |         10 |        105 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/components/ComponentTable.tsx     | TypeScript JSX |         48 |          1 |          3 |         52 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/components/ContextDropDown.tsx    | TypeScript JSX |         87 |          5 |         11 |        103 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/components/ContextTable.tsx       | TypeScript JSX |         66 |          1 |          6 |         73 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/ContextManager.tsx                          | TypeScript JSX |         60 |          0 |          8 |         68 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx               | TypeScript JSX |        126 |          4 |         11 |        141 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx     | TypeScript JSX |        138 |          7 |         11 |        156 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/CreateTab/components/AddDataForm.tsx        | TypeScript JSX |         59 |          3 |          6 |         68 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx          | TypeScript JSX |         64 |          1 |          4 |         69 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx             | TypeScript JSX |         45 |          2 |          6 |         53 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/CreateContainer.tsx                 | TypeScript JSX |         11 |          0 |          4 |         15 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx      | TypeScript JSX |        582 |         12 |         21 |        615 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx     | TypeScript JSX |        136 |          5 |         13 |        154 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx   | TypeScript JSX |        127 |          7 |          9 |        143 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/components/TableStateProps.tsx      | TypeScript JSX |        140 |          4 |         10 |        154 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/DisplayTab/DataTable.tsx                      | TypeScript JSX |         99 |          4 |          8 |        111 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/DisplayTab/DisplayContainer.tsx               | TypeScript JSX |         63 |          6 |          6 |         75 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/DisplayTab/Tree.tsx                           | TypeScript JSX |        152 |         31 |         22 |        205 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/DisplayTab/useResizeObserver.ts               | TypeScript     |         19 |          2 |          3 |         24 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/StateManagement.tsx                           | TypeScript JSX |         59 |          2 |          9 |         70 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/BottomPanel.tsx                                        | TypeScript JSX |         48 |          5 |         14 |         67 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/BottomTabs.tsx                                         | TypeScript JSX |        207 |          5 |          8 |        220 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/CodePreview.tsx                                        | TypeScript JSX |         99 |          7 |         14 |        120 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/CreationPanel.tsx                                      | TypeScript JSX |         15 |          2 |          3 |         20 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/StylesEditor.tsx                                       | TypeScript JSX |         67 |          3 |          9 |         79 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/UseStateModal.tsx                                      | TypeScript JSX |         59 |          1 |          4 |         64 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/form/Selector.tsx                                             | TypeScript JSX |         53 |          0 |          4 |         57 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/ComponentDrag.tsx                                        | TypeScript JSX |         64 |          4 |          5 |         73 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/ComponentsContainer.tsx                                  | TypeScript JSX |         57 |          0 |          5 |         62 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/ContentArea.tsx                                          | TypeScript JSX |         40 |          0 |          5 |         45 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/DragDropPanel.tsx                                        | TypeScript JSX |        102 |         14 |          5 |        121 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/ElementsContainer.tsx                                    | TypeScript JSX |         51 |          1 |          8 |         60 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/HTMLItem.tsx                                             | TypeScript JSX |        142 |          8 |          8 |        158 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/HTMLPanel.tsx                                            | TypeScript JSX |        328 |         17 |         27 |        372 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/RoomsContainer.tsx                                       | TypeScript JSX |        256 |         27 |         19 |        302 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/left/Sidebar.tsx                                              | TypeScript JSX |         81 |          0 |          8 |         89 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/login/FBPassWord.tsx                                          | TypeScript JSX |        190 |          2 |         14 |        206 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/login/SignIn.tsx                                              | TypeScript JSX |        326 |         36 |         21 |        383 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/login/SignUp.tsx                                              | TypeScript JSX |        316 |          2 |         16 |        334 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/AddLink.tsx                                              | TypeScript JSX |         98 |          1 |          6 |        105 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/AddRoute.tsx                                             | TypeScript JSX |         27 |          0 |          4 |         31 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/Arrow.tsx                                                | TypeScript JSX |         82 |          0 |          6 |         88 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/Canvas.tsx                                               | TypeScript JSX |        122 |         22 |         12 |        156 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/CanvasContainer.tsx                                      | TypeScript JSX |         46 |          2 |          8 |         56 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/DeleteButton.tsx                                         | TypeScript JSX |         29 |          0 |          7 |         36 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/DemoRender.tsx                                           | TypeScript JSX |        201 |         14 |         21 |        236 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/DirectChildComponent.tsx                                 | TypeScript JSX |         66 |          8 |          8 |         82 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/DirectChildHTML.tsx                                      | TypeScript JSX |         68 |          7 |         12 |         87 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/DirectChildHTMLNestable.tsx                              | TypeScript JSX |        170 |         18 |         17 |        205 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/IndirectChild.tsx                                        | TypeScript JSX |         46 |          2 |          4 |         52 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/RouteLink.tsx                                            | TypeScript JSX |         65 |          7 |          5 |         77 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/main/SeparatorChild.tsx                                       | TypeScript JSX |        118 |         13 |         13 |        144 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/marketplace/MarketplaceCard.tsx                               | TypeScript JSX |        209 |          4 |         14 |        227 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/marketplace/MarketplaceCardContainer.tsx                      | TypeScript JSX |         24 |          0 |          4 |         28 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/marketplace/Searchbar.tsx                                     | TypeScript JSX |         41 |         14 |         16 |         71 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/ComponentPanel.tsx                                      | TypeScript JSX |        322 |         19 |         17 |        358 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/ComponentPanelItem.tsx                                  | TypeScript JSX |         76 |         12 |          2 |         90 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/ComponentPanelRoutingItem.tsx                           | TypeScript JSX |         98 |         27 |         10 |        135 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/DeleteProjects.tsx                                      | TypeScript JSX |        170 |          5 |         11 |        186 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/ExportButton.tsx                                        | TypeScript JSX |         83 |        109 |         21 |        213 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/LoginButton.tsx                                         | TypeScript JSX |         87 |          3 |         12 |        102 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/OpenProjects.tsx                                        | TypeScript JSX |        155 |          5 |          5 |        165 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/ProjectManager.tsx                                      | TypeScript JSX |        137 |         21 |         18 |        176 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/SaveProjectButton.tsx                                   | TypeScript JSX |         97 |          5 |          7 |        109 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/SimpleModal.tsx                                         | TypeScript JSX |        102 |          0 |          5 |        107 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/right/createModal.tsx                                         | TypeScript JSX |         35 |          0 |          4 |         39 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/top/NavBar.tsx                                                | TypeScript JSX |        258 |          0 |         15 |        273 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/top/NavBarButtons.tsx                                         | TypeScript JSX |        250 |         14 |         20 |        284 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/top/NewExportButton.tsx                                       | TypeScript JSX |         79 |          0 |         11 |         90 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/components/top/PublishModal.tsx                                          | TypeScript JSX |         52 |          0 |          3 |         55 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/constants/ErrorMessages.ts                                               | TypeScript     |         10 |          0 |          1 |         11 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/constants/ItemTypes.ts                                                   | TypeScript     |          5 |          0 |          1 |          6 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/constants/Styling.ts                                                     | TypeScript     |          6 |          0 |          1 |          7 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/containers/AppContainer.tsx                                              | TypeScript JSX |         49 |          3 |          8 |         60 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/containers/CustomizationPanel.tsx                                        | TypeScript JSX |      1,016 |         29 |         25 |      1,070 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/containers/LeftContainer.tsx                                             | TypeScript JSX |         21 |          0 |          5 |         26 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/containers/MainContainer.tsx                                             | TypeScript JSX |        109 |          6 |         14 |        129 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/containers/MarketplaceContainer.tsx                                      | TypeScript JSX |         76 |          0 |         14 |         90 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/auth.ts                                                  | TypeScript     |         67 |          5 |          5 |         77 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/changePositionValidation.ts                              | TypeScript     |         40 |          4 |          3 |         47 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/cloneDeep.ts                                             | TypeScript     |         28 |          1 |          1 |         30 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/combineStyles.ts                                         | TypeScript     |         12 |          3 |          1 |         16 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/componentNestValidation.ts                               | TypeScript     |         11 |          3 |          2 |         16 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/cssRefresh.tsx                                           | TypeScript JSX |         14 |          2 |          3 |         19 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/generateCode.ts                                          | TypeScript     |        526 |         35 |         23 |        584 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/manageSeparators.ts                                      | TypeScript     |         82 |         11 |          5 |         98 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/projectGetSaveDel.ts                                     | TypeScript     |        124 |          3 |         14 |        141 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/randomPassword.ts                                        | TypeScript     |         20 |          0 |          2 |         22 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/renderChildren.tsx                                       | TypeScript JSX |        115 |         13 |          3 |        131 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/zipFiles.ts                                              | TypeScript     |         23 |          8 |          3 |         34 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/index.tsx                                                                | TypeScript JSX |         82 |          5 |         13 |        100 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/interfaces/Interfaces.ts                                                 | TypeScript     |        164 |          5 |         13 |        182 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/interfaces/declarations.d.ts                                             | TypeScript     |          5 |          0 |          1 |          6 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/interfaces/global.ts                                                     | TypeScript     |          7 |          0 |          2 |          9 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/plugins/fetch-plugin.ts                                                  | TypeScript     |         59 |          0 |          4 |         63 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/plugins/unpkg-path-plugin.ts                                             | TypeScript     |         24 |          3 |          0 |         27 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/public/index-prod.ejs                                                    | HTML           |         15 |          0 |          1 |         16 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/public/index.ejs                                                         | HTML           |         23 |          0 |          1 |         24 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/public/styles/globalDefaultStyles.ts                                     | TypeScript     |         16 |          0 |          3 |         19 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/public/styles/style.css                                                  | CSS            |        665 |         59 |        142 |        866 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/public/styles/theme.ts                                                   | TypeScript     |         57 |          1 |          5 |         63 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/redux/HTMLTypes.ts                                                       | TypeScript     |        243 |          4 |          3 |        250 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/rootReducer.ts                                            | TypeScript     |         14 |          2 |          4 |         20 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/appStateSlice.ts                                    | TypeScript     |      1,132 |        146 |         63 |      1,341 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/codePreviewSlice.ts                                 | TypeScript     |         23 |          1 |          6 |         30 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/contextReducer.ts                                   | TypeScript     |         90 |          6 |         10 |        106 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/roomSlice.ts                                        | TypeScript     |         28 |          5 |          3 |         36 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/styleSlice.ts                                       | TypeScript     |         23 |          1 |          6 |         30 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/redux/store.ts                                                           | TypeScript     |         20 |         13 |          8 |         41 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tree/TreeChart.tsx                                                       | TypeScript JSX |        146 |         28 |         10 |        184 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tree/useResizeObserver.ts                                                | TypeScript     |         19 |          2 |          3 |         24 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/CSSEditor.tsx                                                   | TypeScript JSX |         37 |          0 |          3 |         40 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Canvas.tsx                                                      | TypeScript JSX |         42 |          0 |          3 |         45 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/CodePreview.tsx                                                 | TypeScript JSX |         23 |          0 |          4 |         27 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/ComponentTree.tsx                                               | TypeScript JSX |         43 |          0 |          3 |         46 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Customization.tsx                                               | TypeScript JSX |        170 |          0 |          3 |        173 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/HtmlElements.tsx                                                | TypeScript JSX |         43 |          0 |          4 |         47 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/KeyboardShortcuts.tsx                                           | TypeScript JSX |         36 |          0 |          3 |         39 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Pages.tsx                                                       | TypeScript JSX |         50 |          0 |          4 |         54 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/ReusableComponents.tsx                                          | TypeScript JSX |         36 |          0 |          4 |         40 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/RouteLinks.tsx                                                  | TypeScript JSX |         42 |          0 |          3 |         45 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/States.tsx                                                      | TypeScript JSX |         85 |          0 |          3 |         88 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Styling.tsx                                                     | TypeScript JSX |         43 |          0 |          2 |         45 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Tutorial.tsx                                                    | TypeScript JSX |        158 |          2 |          3 |        163 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/tutorial/TutorialPage.tsx                                                | TypeScript JSX |        219 |          0 |          6 |        225 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createApplication.util.ts                                          | TypeScript     |        378 |         10 |          7 |        395 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createFiles.util.ts                                                | TypeScript     |         39 |          3 |          2 |         44 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createGatsbyApp.util.ts                                            | TypeScript     |        178 |          5 |          7 |        190 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createGatsbyFiles.util.ts                                          | TypeScript     |         36 |          5 |          1 |         42 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createNextApp.util.ts                                              | TypeScript     |        197 |          6 |          4 |        207 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createNextFiles.util.ts                                            | TypeScript     |         36 |          4 |          6 |         46 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createNonce.ts                                                     | TypeScript     |          4 |          5 |          4 |         13 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createTestSuite.util.ts                                            | TypeScript     |        190 |          3 |         12 |        205 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createTestSuiteClassic.util.ts                                     | TypeScript     |        124 |          0 |         18 |        142 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/createTestSuiteNext.util.ts                                        | TypeScript     |        210 |          0 |         18 |        228 |
+| /Users/rose/Desktop/immersive/ReacType/app/src/utils/exportProject.util.ts                                              | TypeScript     |         31 |          2 |          4 |         37 |
+| Total                                                                                                                   |                |     17,049 |      1,573 |      1,387 |     20,009 |
++-------------------------------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

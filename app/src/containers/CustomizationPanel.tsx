@@ -37,17 +37,17 @@ import UseStateModal from '../components/bottom/UseStateModal';
 import createModal from '../components/right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { ColumnTab } from '../interfaces/Interfaces';
+import { RootState } from '../redux/store';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const dispatch = useDispatch();
-  const { state, contextParam, style } = useSelector((store) => ({
-    state: store.appState,
-    contextParam: store.contextSlice,
-    style: store.styleSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const style = useSelector((store: RootState) => store.styleSlice);
+
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
