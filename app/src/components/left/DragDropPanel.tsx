@@ -33,7 +33,7 @@ const DragDropPanel = (props): JSX.Element => {
   return (
     <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
-        <h3 style={{ color: '#C6C6C6' }}>HTML Elements</h3>
+        <h3 style={{ color: '#ffffff' }}> &lt; HTML Elements &gt; </h3>
         <Grid
           container
           spacing={{ xs: 0.5, md: 0.5 }}

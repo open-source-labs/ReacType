@@ -13,6 +13,7 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
+import { gridFilterableColumnDefinitionsSelector } from '@mui/x-data-grid';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
@@ -115,7 +116,7 @@ function Canvas(props: {}): JSX.Element {
       }
     },
     collect: (monitor) => ({
-      isOver: !!monitor.isOver()
+      isOver: !!monitor.isOver(),
     })
   });
 
@@ -124,7 +125,7 @@ function Canvas(props: {}): JSX.Element {
     width: '100%',
     minHeight: '100%',
     backgroundColor: isOver ? '#191919' : '#191919',
-    borderStyle: isOver ? 'dotted' : 'solid',
+    // borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box'
   };

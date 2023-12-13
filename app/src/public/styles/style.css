@@ -26,7 +26,7 @@ body {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
-  background-color: #191919
+  background-color: #191919;
 }
 
 h4 {
@@ -189,7 +189,7 @@ span.material-symbols-outlined {
 .HTMLItems::-webkit-scrollbar-thumb {
   transition: .3s ease all;
   border-color: transparent;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1c695ccc;
   z-index: 40;
 }
 
@@ -253,7 +253,7 @@ span.material-symbols-outlined {
 }
 
 #HTMLItem:hover {
-  background-color: #333333;
+  background-color: #424242bd;
   color: #257c74;
 }
 
@@ -481,14 +481,13 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-      
+  border-color: #46C0A5;    
 }
 
 .compPanelItem h3 {
   font-size: 1em;
   letter-spacing: 0.75px;
   padding: 5px 10px;
-  
 }
 
 .compPanelItem:hover {
