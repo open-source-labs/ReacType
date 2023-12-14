@@ -143,6 +143,20 @@ io.on('connection', (client) => {
     }
   });
 
+  //updating mouse movement after joining.
+
+  client.on('mouse connection', (data) => {
+    io.emit('mouseCursor', { line: data.line, id: client.id });
+  });
+
+  //connecting and emitting the mousetracker
+  // client.on('connection', (socket) => {
+  //   socket.emit('news', { hello: 'world' });
+  //   socket.on('other event', (data) => {
+  //     console.log(data);
+  //   });
+  // });
+
   //disconnecting functionality
   client.on('disconnecting', () => {
     // the client.rooms Set contains at least the socket ID

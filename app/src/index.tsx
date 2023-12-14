@@ -39,42 +39,42 @@ if (isDev) {
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  
+
   useEffect(() => {
-
-  const projects = fetch(`${serverURL}/loggedIn`, {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json'
-    },
-    // need credentials for userid pull from cookie
-    credentials: 'include'
-  })
-    .then((res) => res.json())
-    .then((data) => {
-
-      setIsLoggedIn(data);
-
+    const projects = fetch(`${serverURL}/loggedIn`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      },
+      // need credentials for userid pull from cookie
+      credentials: 'include'
     })
-    .catch((err) => console.log(`Error getting project ${err}`));
+      .then((res) => res.json())
+      .then((data) => {
+        setIsLoggedIn(data);
+      })
+      .catch((err) => console.log(`Error getting project ${err}`));
   }, []);
 
-return (
-  <Route
-    {...rest}
-    render={(props) => {
-     if (isLoggedIn === true || window.localStorage.getItem('ssid') === 'guest') {
-        // User is logged in, render the protected component
-        return <Component {...props} />;
-      } else if(isLoggedIn !== null) {
-        // User is not logged in, redirect to the login page
-        // Ignores the initial render which would have isLoggedIn as null
-        return <Redirect to="/login" />;
-      }
-    }}
-  />
-  )};
-
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        if (
+          isLoggedIn === true ||
+          window.localStorage.getItem('ssid') === 'guest'
+        ) {
+          // User is logged in, render the protected component
+          return <Component {...props} />;
+        } else if (isLoggedIn !== null) {
+          // User is not logged in, redirect to the login page
+          // Ignores the initial render which would have isLoggedIn as null
+          return <Redirect to="/login" />;
+        }
+      }}
+    />
+  );
+};
 
 ReactDOM.render(
   <ApolloProvider client={client}>

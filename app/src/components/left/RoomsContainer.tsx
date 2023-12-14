@@ -27,6 +27,20 @@ import debounce from '../../../../node_modules/lodash/debounce.js';
 // // for websockets
 // // Part  - join room and room code functionality
 let socket;
+
+//function to create HTML elements and update the position of the cursorr.
+function getCursor(id) {
+  let elementId = 'cursor-' + id;
+  let element = document.getElementById(elementId);
+  if (element == null) {
+    element = document.createElement('div');
+    element.id = elementId;
+    element.className = 'cursor';
+    document.appendChild(element);
+  }
+  return element;
+}
+
 const { API_BASE_URL } = config;
 const RoomsContainer = () => {
   const dispatch = useDispatch();
@@ -70,6 +84,13 @@ const RoomsContainer = () => {
     //listening to back end for updating user list
     socket.on('updateUserList', (newUserList: object) => {
       dispatch(setUserList(Object.values(newUserList)));
+    });
+
+    //listening to back end for mouse cursor movement
+    socket.on('draw_cursor', (data) => {
+      let el = getCursor(data.id);
+      el.style.x = data.line[0].x;
+      el.style.y = data.line[0].y;
     });
 
     // receiving the message from the back end
