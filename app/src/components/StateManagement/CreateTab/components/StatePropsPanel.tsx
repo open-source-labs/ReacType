@@ -520,7 +520,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   input: {},
   newComponent: {
-    color: '#155084',
+    color: '#1b544b',
     fontSize: '95%',
     marginBottom: '20px'
   },

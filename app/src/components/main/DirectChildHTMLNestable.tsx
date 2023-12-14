@@ -149,9 +149,9 @@ function DirectChildHTMLNestable({
   };
 
   // interactive style to change color when nested element is hovered over
-  if (isOver) defaultNestableStyle['rgba(24, 107, 180, 0.2)'];
+  if (isOver) defaultNestableStyle['#1b544b'];
   defaultNestableStyle['backgroundColor'] = isOver
-    ? 'rgba(24, 107, 180, 0.2)'
+    ? '#1b544b'
     : defaultNestableStyle['backgroundColor'];
 
   const combinedStyle = combineStyles(
@@ -185,7 +185,7 @@ function DirectChildHTMLNestable({
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color: 'white' }}>{HTMLType.placeHolderShort}</strong>
+        <strong style={{ color: '#f2fbf8' }}>{HTMLType.placeHolderShort}</strong>
         <strong style={{ color: '#29a38a' }}>
           {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>
