@@ -1031,7 +1031,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {
-    border: '1px solid #3F51B5'
+    border: '1px solid #1b544b'
   },
   compName: {
     fontSize: '1rem'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ComponentType, ReactElement, useState } from 'react';
 
 import Grid from '@mui/material/Grid';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -10,6 +10,8 @@ import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
 // import { useSelector } from 'react-redux';
+import { IconProps } from '@mui/material';
+import CodeIcon from '@mui/icons-material/Code';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -41,7 +43,7 @@ const HTMLItem: React.FC<{
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, handleDelete }) => {
+}> = ({ name, id, Icon, handleDelete }) => {
   const classes = useStyles();
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
@@ -51,6 +53,7 @@ const HTMLItem: React.FC<{
       newInstance: true,
       instanceType: 'HTML Element',
       name,
+      Icon,
       instanceTypeId: id
     },
     collect: (monitor: any) => ({
@@ -127,7 +130,10 @@ const HTMLItem: React.FC<{
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
-          <h3>{name}</h3>
+          <a>
+            <Icon fontSize="small" align-items="center" />
+            {name}
+          </a>
         </div>
       )}
       {id > 20 && (
@@ -138,7 +144,10 @@ const HTMLItem: React.FC<{
             className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
             id="HTMLItem"
           >
-            <h3>{name}</h3>
+            <h3>
+              <CodeIcon fontSize="small" align-items="center" />
+              {name}
+              </h3>
           </div>
           <button
             id="newElement"
