@@ -87,6 +87,7 @@ app.use('/auth', authRoutes);
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
+//creating an HTTP server and setting up socket.io
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   transports: ['websocket'],
@@ -96,6 +97,7 @@ const io = new Server(httpServer, {
 });
 
 const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
+//server listening to new connections
 io.on('connection', (client) => {
   //when user Joined a room
   client.on('joining', async (userName: string, roomCode: string) => {
@@ -105,17 +107,21 @@ io.on('connection', (client) => {
       if (!roomLists[roomCode]) {
         roomLists[roomCode] = {};
       }
+      //roomLists = { 1: {1223: 'Rose', 2257: 'Jack'}, 3: {3345: 'Dan'} }
       roomLists[roomCode][client.id] = userName; // adding user into the room list with id: userName on server side
       const userList = Object.keys(roomLists[roomCode]);
       const hostID = userList[0];
       const newClientID = userList[userList.length - 1];
 
-      //await request state to host
+      //server ask host for the current state
       const hostState = await io //once the request is sent back save to host state
         .timeout(5000)
         .to(hostID)
         .emitWithAck('requesting state from host'); //sending request
 
+      console.log('hostState:', hostState);
+
+      //share host's state with the latest user
       const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
         .timeout(5000)
         .to(newClientID)
@@ -135,10 +141,10 @@ io.on('connection', (client) => {
     }
   });
 
-  //updating state after joining
+  //server monitors incoming data from users for any new state changes
   client.on('new state from front', (redux_store, room: string) => {
     if (room) {
-      //sending to sender client, only if they are in room
+      //server send the state from the user to everyone in the room
       client.to(room).emit('new state from back', redux_store);
     }
   });
