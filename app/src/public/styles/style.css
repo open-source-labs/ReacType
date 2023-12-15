@@ -152,7 +152,7 @@ span.material-symbols-outlined {
 .column.left::-webkit-scrollbar-thumb {
   transition: .3s ease all;
   border-color: transparent;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1e83714b;
   z-index: 40;
 }
 
@@ -175,23 +175,23 @@ span.material-symbols-outlined {
   flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
-  width: 90%;
+  width: 100%;
   flex-grow: 1;
-  /* border: 3px solid #C6C6C6; */
+  border: 1px solid #C6C6C6;
   /* border-radius: 10px; */
 }
 
-.HTMLItems::-webkit-scrollbar {
+/* .HTMLItems::-webkit-scrollbar {
   width: .5rem;
   height: .5rem;
-}
+} */
 
-.HTMLItems::-webkit-scrollbar-thumb {
+/* .HTMLItems::-webkit-scrollbar-thumb { //not accessing due to cascade, refer to HTMLItemTopHalf
   transition: .3s ease all;
   border-color: transparent;
   background-color: #1c695ccc;
   z-index: 40;
-}
+} */
 
 .HTMLItemsDark {
   display: flex;
@@ -205,31 +205,31 @@ span.material-symbols-outlined {
 #HTMLItemsTopHalf {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-right: 20px;
   justify-content: top;
-  height: 52vh;
+  height: 60vh;
   text-align: center;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 #HTMLItemsTopHalf::-webkit-scrollbar {
-  width: .5rem;
+  width: .8rem;
   height: .5rem;
 }
 
 #HTMLItemsTopHalf::-webkit-scrollbar-thumb {
   transition: .3s ease all;
   border-color: transparent;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1e83714b;
+  border-radius: 8px;
   z-index: 40;
 }
 
 #CompBottomHalf {
   flex-grow: 1;
+  text-align: center;
+  overflow-x: hidden;
   overflow-y: auto;
-  margin-bottom: 50%;
 }
 
 .HTMLElements {
@@ -237,6 +237,10 @@ span.material-symbols-outlined {
   flex-direction: column;
   align-items: flex-start;
   flex-wrap: wrap;
+}
+
+#HTMLgrid {
+  margin: 5px;
 }
 
 #HTMLItemsGrid {
@@ -253,8 +257,8 @@ span.material-symbols-outlined {
 }
 
 #HTMLItem:hover {
-  background-color: #424242bd;
-  color: #257c74;
+  background-color: #474545a8;
+  color: #a5ead6;
 }
 
 #submitButton {
@@ -481,7 +485,7 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-  border-color: #46C0A5;    
+  border-color: #46C0A5; 
 }
 
 .compPanelItem h3 {

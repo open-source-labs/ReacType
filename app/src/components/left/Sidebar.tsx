@@ -53,30 +53,33 @@ const Sidebar: React.FC<SidebarProps> = ({
         gap: '50px',
         width: 67,
         background: '#151515',
-        height: '100vh'
+        height: '100vh',
       }}
     >
       <Tab sx={{position: 'absolute', visibility: "hidden"}} value={null}/>
       <Tab
         sx={{
-          color: activeTab === 0 ? '#C6C6C6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#C6C6C6' }
+          color: activeTab === 0 ? '#a5ead6' : '#4A4A4A',
+          '&.Mui-selected': { color: '#a5ead6' },
+          '&:hover': { color: '#d2f5eb' }
         }}
         icon={<AddBoxIcon sx={{ fontSize: '36px' }} />}
         value={0}
       />
       <Tab
         sx={{
-          color: activeTab === 1 ? '#C6C6C6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#C6C6C6' }
+          color: activeTab === 1 ? '#a5ead6' : '#4A4A4A',
+          '&.Mui-selected': { color: '#a5ead6' },
+          '&:hover': { color: '#d2f5eb' }
         }}
         icon={<IoMdCube style={{ fontSize: '33px' }} />}
         value={1}
       />
       <Tab
         sx={{
-          color: activeTab === 2 ? '#C6C6C6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#C6C6C6' }
+          color: activeTab === 2 ? '#a5ead6' : '#4A4A4A',
+          '&.Mui-selected': { color: '#a5ead6' },
+          '&:hover': { color: '#d2f5eb' }
         }}
         icon={<PeopleIcon sx={{ fontSize: '36px' }} />}
         value={2}
