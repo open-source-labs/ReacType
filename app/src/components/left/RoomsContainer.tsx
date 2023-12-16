@@ -58,7 +58,7 @@ const RoomsContainer = () => {
       //run everytime when a client connects to server
       socket.on('connect', () => {
         socket.emit('joining', userName, roomCode);
-        console.log(`${userName} Joined room ${roomCode} from RoomsConatiner`);
+        console.log(`${userName} Joined room ${roomCode} from RoomsContainer`);
       });
 
       //If you are the host: send current state to server when a new user joins
@@ -169,10 +169,10 @@ const RoomsContainer = () => {
               variant="contained"
               onClick={() => leaveRoom()}
               sx={{
-                backgroundColor: '#ffffff',
-                color: '#000000',
+                backgroundColor: '#f2fbf8',
+                color: '#092a26',
                 '&:hover': {
-                  backgroundColor: '#C6C6C6',
+                  backgroundColor: '#a5ead6',
                   borderColor: '#0062cc'
                 }
               }}
@@ -195,7 +195,7 @@ const RoomsContainer = () => {
                 height: 300,
                 maxWidth: 200,
                 bgcolor: '#333333',
-                border: '3px solid white',
+                border: '3px solid #f2fbf8',
                 borderRadius: '5%',
                 display: 'flex',
                 flexDirection: 'column',
@@ -217,7 +217,7 @@ const RoomsContainer = () => {
                   <ListItem
                     key={index}
                     sx={{
-                      color: 'white',
+                      color: '#f2fbf8',
                       textAlign: 'center',
                       width: '100%'
                     }}
@@ -258,10 +258,10 @@ const RoomsContainer = () => {
               disabled={checkInputField(userName, roomCode)}
               onClick={() => joinRoom()}
               sx={{
-                backgroundColor: '#ffffff',
-                color: '#000000',
+                backgroundColor: '#f2fbf8',
+                color: '#092a26',
                 '&:hover': {
-                  backgroundColor: '#C6C6C6',
+                  backgroundColor: '#a5ead6',
                   borderColor: '#0062cc'
                 }
               }}
