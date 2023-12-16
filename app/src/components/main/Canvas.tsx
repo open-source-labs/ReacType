@@ -22,7 +22,8 @@ function Canvas(props: {}): JSX.Element {
   const dispatch = useDispatch();
 
   Arrow.deleteLines();
-  // find the current component to render on the canvas
+
+  // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
@@ -34,6 +35,7 @@ function Canvas(props: {}): JSX.Element {
   ) => {
     dispatch(changeFocus({ componentId, childId }));
   };
+
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event: React.MouseEvent) {
     event.stopPropagation();
@@ -116,7 +118,7 @@ function Canvas(props: {}): JSX.Element {
       }
     },
     collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+      isOver: !!monitor.isOver()
     })
   });
 
@@ -131,7 +133,7 @@ function Canvas(props: {}): JSX.Element {
   };
 
   // Combine the default styles of the canvas with the custom styles set by the user for that component
-  // The render children function renders all direct children of a given component
+  // The renderChildren function renders all direct children of a given component
   // Direct children are draggable/clickable
 
   const canvasStyle: React.CSSProperties = combineStyles(

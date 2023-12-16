@@ -8,7 +8,7 @@ import DragDropPanel from './DragDropPanel';
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
-// Left-hand portion of the app, where component options are displayed
+// Left-hand portion of the app, where predefined component options are displayed
 const ElementsContainer = (props): JSX.Element => {
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
@@ -17,6 +17,7 @@ const ElementsContainer = (props): JSX.Element => {
   const handleDelete = () => {
     dispatch(deleteChild({ id: {}, contextParam: contextParam }));
   };
+
   const keyBindedFunc = useCallback((e) => {
     if (
       e.key === 'Backspace' &&
@@ -25,6 +26,7 @@ const ElementsContainer = (props): JSX.Element => {
     )
       handleDelete();
   }, []);
+
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
     return () => {

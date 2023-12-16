@@ -20,6 +20,7 @@ Hook state:
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
   const dispatch = useDispatch();
+
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
@@ -34,6 +35,7 @@ const DragDropPanel = (props): JSX.Element => {
     <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
         <h3 style={{ color: '#ffffff' }}> &lt; HTML Elements &gt; </h3>
+
         <Grid
           container
           spacing={{ xs: 0.5, md: 0.5 }}
@@ -60,6 +62,7 @@ const DragDropPanel = (props): JSX.Element => {
             }
           })}
         </Grid>
+
         {state.projectType === 'Classic React' ? (
           <h3 style={{ color: '#C6C6C6' }}>React Router</h3>
         ) : null}

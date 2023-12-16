@@ -128,7 +128,7 @@ const updateAllIds = (comp: Component[] | ChildElement[]) => {
   // put components' names and ids into an obj
   const obj = { spr: 1000, others: 1 };
   // for each of the components, if it has children, iterate through that children array
-  comp.forEach((el:Component | ChildElement) => {
+  comp.forEach((el: Component | ChildElement) => {
     if (el.children.length > 0) {
       for (let i = 0; i < el.children.length; i++) {
         // update each child's childId
@@ -180,7 +180,7 @@ const deleteById = (id: number, name: string, state: State): Component[] => {
   const checkChildren = (child: Component[] | ChildElement[]) => {
     // for each of the components in the passed in components array, if the child
     // component has a children array, iterate through the array of children
-    child.forEach((el:Component | ChildElement) => {
+    child.forEach((el: Component | ChildElement) => {
       if (el.children.length) {
         const arr: ChildElement[] = [];
         for (let i = 0; i < el.children.length; i++) {
@@ -417,9 +417,10 @@ const appStateSlice = createSlice({
       state.tailwind = action.payload;
     },
     changeFocus: (state, action) => {
-      const { componentId, childId} = action.payload;
+      const { componentId, childId } = action.payload;
+      // makes separators not selectable
       if (childId < 1000) {
-        // makes separators not selectable
+        //update componentId and childId in the state
         state.canvasFocus = { ...state.canvasFocus, componentId, childId };
         //makes it so the code preview will update when clicking on a new component
         state.components = state.components.map((element) => {
@@ -1046,8 +1047,8 @@ const appStateSlice = createSlice({
       }
 
       //deletes all instances of passedInProps from the children arrays of the current Component
-      const deletePassedInPropsChildren = (currComponent:Component) => {
-        const innerFunc = (currChild:Component|ChildElement) => {
+      const deletePassedInPropsChildren = (currComponent: Component) => {
+        const innerFunc = (currChild: Component | ChildElement) => {
           // when there are no children, return up a level
           if (
             currChild.children.filter((el) => el.type === 'Component')
@@ -1080,7 +1081,7 @@ const appStateSlice = createSlice({
         );
       };
       //delete from the components passedInProps array
-      const deletePassedInProps = (myComponent:Component) => {
+      const deletePassedInProps = (myComponent: Component) => {
         if (
           myComponent.children.filter((el) => el.type === 'Component')
             .length === 0

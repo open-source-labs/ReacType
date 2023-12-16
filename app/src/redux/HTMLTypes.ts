@@ -5,9 +5,7 @@ import HeaderIcon from '@mui/icons-material/TextFormat';
 import ButtonIcon from '@mui/icons-material/EditAttributes';
 import LinkIcon from '@mui/icons-material/Link';
 import ListIcon from '@mui/icons-material/List';
-import {
-  HTMLType
-} from '../interfaces/Interfaces';
+import { HTMLType } from '../interfaces/Interfaces';
 
 //properties for all HTML components
 
@@ -21,7 +19,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     // icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   // do not move this separator element out of index 1 in this array
   // in componentReducer.ts, separator is referenced as 'initialState.HTMLTypes[1]'
@@ -34,7 +32,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: '',
     framework: '',
-    nestable: true,
+    nestable: true
   },
   {
     id: 1,
@@ -45,7 +43,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ImageIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 2,
@@ -56,7 +54,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: FormIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   {
     id: 4,
@@ -67,7 +65,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ButtonIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 6,
@@ -78,7 +76,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: LinkIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 8,
@@ -89,7 +87,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ParagraphIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 9,
@@ -100,7 +98,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 10,
@@ -111,7 +109,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 5,
@@ -122,7 +120,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 12,
@@ -133,7 +131,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 13,
@@ -144,7 +142,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false,
+    nestable: false
   },
   {
     id: 14,
@@ -155,7 +153,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   {
     id: 15,
@@ -166,7 +164,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   {
     id: 16,
@@ -177,7 +175,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   {
     id: 3,
@@ -188,7 +186,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   {
     id: 17,
@@ -199,7 +197,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   {
     id: -1,
@@ -210,7 +208,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: LinkIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   {
     id: 18,
@@ -221,7 +219,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true,
+    nestable: true
   },
   {
     id: 19,
@@ -232,7 +230,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'nextjs',
-    nestable: true,
+    nestable: true
   },
   {
     id: 20,
@@ -243,7 +241,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'nextjs',
-    nestable: false,
-  },
+    nestable: false
+  }
 ];
 export default HTMLTypes;
