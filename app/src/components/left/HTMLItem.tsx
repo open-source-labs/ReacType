@@ -41,9 +41,10 @@ const HTMLItem: React.FC<{
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, handleDelete }) => {
+}> = ({ name, id, Icon, handleDelete }) => {
   const classes = useStyles();
   const [modal, setModal] = useState(null);
+
   const [{ isDragging }, drag] = useDrag({
     // is dragging is never read, but if deleted adjustment in the ref are needed line 122/128 ref={drag} to {...drag}
     item: {
@@ -120,6 +121,7 @@ const HTMLItem: React.FC<{
   return (
     // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
+      {/* predefined elements */}
       {id <= 20 && (
         <div
           ref={drag}
@@ -127,9 +129,13 @@ const HTMLItem: React.FC<{
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
+          {/* render element's name on canvas */}
+          {Icon}
           <h3>{name}</h3>
         </div>
       )}
+
+      {/* Custom Elements */}
       {id > 20 && (
         <span id="customHTMLElement">
           <div

@@ -285,15 +285,21 @@ const appStateSlice = createSlice({
         typeId,
         childId
       }: { type: string; typeId: number; childId: any } = action.payload;
+
+      // determine the parent component id
       if (action.payload.copyId) {
         parentComponentId = action.payload.copyId;
       } else {
         parentComponentId = state.canvasFocus.componentId;
       }
 
+      // make a copy of the components from state
       const components = [...state.components];
 
+      // find the parent component
       const parentComponent = findComponent(components, parentComponentId);
+
+      // if type is 'Component', loop through components to find componentName and componentChildren
       let componentName: string = '';
       let componentChildren: ChildElement[] = [];
       if (type === 'Component') {
@@ -314,6 +320,7 @@ const appStateSlice = createSlice({
         }
       }
 
+      // create a new name based on the type of element
       let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
           name = type === 'Component' ? componentName : el.tag;
@@ -329,6 +336,7 @@ const appStateSlice = createSlice({
           }
         });
       }
+
       const newChild: ChildElement = {
         type,
         typeId,
@@ -341,6 +349,7 @@ const appStateSlice = createSlice({
         stateProps: [], //legacy pd: added stateprops and passedinprops
         passedInProps: []
       };
+
       // added missing properties
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -366,7 +375,7 @@ const appStateSlice = createSlice({
           parentComponent.children.push(newChild);
         }
       }
-      // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+      // if there is a childId (childId here references the direct parent of the new child) find that child and add new child to its children array
       else {
         if (parentComponent) {
           directParent = findChild(parentComponent, childId);
@@ -379,23 +388,28 @@ const appStateSlice = createSlice({
           }
         }
       }
+      // update canvasFocus to the new child
       const canvasFocus = {
         ...state.canvasFocus,
         componentId: state.canvasFocus.componentId,
         childId: newChild.childId
       };
+
       const nextChildId = state.nextChildId + 1;
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
       let addChildArray = components[canvasFocus.componentId - 1].children;
-      addChildArray = manageSeparators.mergeSeparator(addChildArray, 1); // merge separator needs interface and type
+      // merge separator needs interface and type
+      addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
       if (directParent && directParent.name === 'separator')
         nextTopSeparatorId = manageSeparators.handleSeparators(
           // handle separator needs interface and type
           addChildArray,
           'add'
         );
+
       components[canvasFocus.componentId - 1].children = addChildArray;
 
+      // generate code
       if (parentComponent) {
         parentComponent.code = generateCode(
           components,
@@ -407,11 +421,14 @@ const appStateSlice = createSlice({
           action.payload.contextParam
         );
       }
+
+      // update the state with the new values
       state.components = components;
       state.nextChildId = nextChildId;
       state.canvasFocus = canvasFocus;
       state.nextTopSeparatorId = nextTopSeparatorId;
     },
+
     changeTailwind: (state, action) => {
       // return { ...state, tailwind: action.payload }
       state.tailwind = action.payload;

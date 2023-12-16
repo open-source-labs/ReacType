@@ -19,15 +19,14 @@ function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
-  const dispatch = useDispatch();
-
-  Arrow.deleteLines();
-
   // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
 
+  Arrow.deleteLines();
+
+  const dispatch = useDispatch();
   // changes focus of the canvas to a new component / child
   const changeFocusFunction = (
     componentId?: number,

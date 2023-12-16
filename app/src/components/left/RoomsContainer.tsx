@@ -64,7 +64,7 @@ const RoomsContainer = () => {
       store.dispatch(allCooperativeState(state.appState));
       store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
       store.dispatch(cooperativeStyle(state.styleSlice));
-      callback({ status: 'confirmed' });
+      callback({ status: 'confirmed' }); 
     });
 
     // update user list when there's a change: new join or leave the room

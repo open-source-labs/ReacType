@@ -94,6 +94,7 @@ const DragDropPanel = (props): JSX.Element => {
           })}
         </Grid>
 
+        {/* Next.js */}
         {state.projectType === 'Next.js' ? (
           <h3 style={{ color: 'C6C6C6' }}>Next.js</h3>
         ) : null}
