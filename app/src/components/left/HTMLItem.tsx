@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ComponentType, ReactElement, useState } from 'react';
 
 import Grid from '@mui/material/Grid';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -10,23 +10,22 @@ import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
 // import { useSelector } from 'react-redux';
+import { IconProps } from '@mui/material';
+import CodeIcon from '@mui/icons-material/Code';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: '#8F8F8F',
-    height: '35px',
-    width: '90px',
-    fontSize: '80%',
+    height: 'auto',
+    width: 'auto',
+    fontSize: 'medium',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     textAlign: 'center',
-    margin: '7px auto',
-    marginLeft: '30px',
     cursor: 'grab',
-    '& > h3': {
-      display: 'inline-block'
-    }
+    // '& > h3': {
+    //   display: 'inline-block'
+    // }
   },
   lightThemeFontColor: {
     color: '#8F8F8F'
@@ -41,7 +40,8 @@ const HTMLItem: React.FC<{
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, handleDelete }) => {
+}> = ({ name, id, Icon, handleDelete }) => {
+  console.log("Icon: ", Icon);
   const classes = useStyles();
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
@@ -51,6 +51,7 @@ const HTMLItem: React.FC<{
       newInstance: true,
       instanceType: 'HTML Element',
       name,
+      Icon,
       instanceTypeId: id
     },
     collect: (monitor: any) => ({
@@ -119,15 +120,16 @@ const HTMLItem: React.FC<{
   // updated the id's to reflect the new element types input and label
   return (
     // HTML Elements
-    <Grid item xs={5} key={`html-g${name}`}>
+    <Grid item xs={5} key={`html-g${name}`} id="HTMLgrid">
       {id <= 20 && (
         <div
           ref={drag}
-          style={{ borderColor: '#C6C6C6' }}
+          style={{ borderColor: '#C6C6C6', }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
-          <h3>{name}</h3>
+            {/* <Icon fontSize="small" align-items="center" /> */}
+            {name}
         </div>
       )}
       {id > 20 && (
@@ -138,7 +140,9 @@ const HTMLItem: React.FC<{
             className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
             id="HTMLItem"
           >
-            <h3>{name}</h3>
+            <h3>
+              {name}
+            </h3>
           </div>
           <button
             id="newElement"

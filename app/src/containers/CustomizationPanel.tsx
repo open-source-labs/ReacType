@@ -432,7 +432,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           button
           onClick={handleDeleteReusableComponent}
           style={{
-            border: '1px solid #3f51b5',
+            border: '1px solid #1b544b',
             marginBottom: '2%',
             marginTop: '5%'
           }}
@@ -444,7 +444,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           button
           onClick={closeModal}
           style={{
-            border: '1px solid #3f51b5',
+            border: '1px solid #1b544b',
             marginBottom: '2%',
             marginTop: '5%'
           }}
@@ -1031,7 +1031,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {
-    border: '1px solid #3F51B5'
+    border: '1px solid #1b544b'
   },
   compName: {
     fontSize: '1rem'

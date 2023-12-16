@@ -65,23 +65,23 @@ const RoomsContainer = () => {
       console.log(`${userName} Joined room ${roomCode}`);
     });
 
-    //send state from host to room when new user joins
+    //If you are the host: send current state to server when a new user joins
     socket.on('requesting state from host', (callback) => {
-      //getting state request from user from back end
-      const newState = store.getState();
-      callback(newState); //pull new state from host and send it to back end
+      const newState = store.getState(); //pull the current state
+      callback(newState); //send it to backend server
     });
 
+    //If you are the new user: receive the state from the host
     socket.on('server emitting state from host', (state, callback) => {
-      //getting state from host once joined a room
       //dispatching new state to change user current state
+      console.log('state recieved by new joiner:', state);
       store.dispatch(allCooperativeState(state.appState));
       store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
       store.dispatch(cooperativeStyle(state.styleSlice));
       callback({ status: 'confirmed' });
     });
 
-    //listening to back end for updating user list
+    // update user list when there's a change: new join or leave the room
     socket.on('updateUserList', (newUserList: object) => {
       dispatch(setUserList(Object.values(newUserList)));
     });
@@ -93,7 +93,7 @@ const RoomsContainer = () => {
       el.style.y = data.line[0].y;
     });
 
-    // receiving the message from the back end
+    // receive the new state from the server and dispatch action creators to update state
     socket.on('new state from back', (event) => {
       const currentStore = JSON.parse(JSON.stringify(store.getState()));
       const newState = JSON.parse(event);
@@ -128,21 +128,35 @@ const RoomsContainer = () => {
   }
 
   let previousState = store.getState();
-  console.log('previousState:', previousState);
   // sending info to backend whenever the redux store changes
   //handling state changes and send to server
+
+  const findStateDiff = (prevState, newState) => {
+    const changes = {};
+    for (let key in newState) {
+      if (JSON.stringify(newState[key]) !== JSON.stringify(prevState[key])) {
+        changes[key] = newState[key];
+      }
+    }
+    return changes;
+  };
+
   const handleStoreChange = debounce(() => {
     const newState = store.getState();
     const roomCode = newState.roomSlice.roomCode;
+    const changes = findStateDiff(previousState, newState);
 
-    if (JSON.stringify(newState) !== JSON.stringify(previousState)) {
+    if (Object.keys(changes).length > 0) {
       // Send the current state to the server
-      socket.emit('new state from front', JSON.stringify(newState), roomCode);
+      console.log('newState:', newState);
+      console.log('changes:', changes);
+      socket.emit('new state from front', JSON.stringify(changes), roomCode);
+      //re-assgin previousState to be the newState
       previousState = newState;
     }
   }, 100);
 
-  //listening to changes from store from user, invoke handle store change.
+  //listening to changes from store by users, whenever the store's state changes, invoke handleStoreChange function
   store.subscribe(() => {
     if (socket) {
       handleStoreChange();

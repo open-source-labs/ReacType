@@ -33,11 +33,11 @@ const DragDropPanel = (props): JSX.Element => {
   return (
     <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
-        <h3 style={{ color: '#C6C6C6' }}>HTML Elements</h3>
+        <h3 style={{ color: '#ffffff' }}> HTML Elements </h3>
         <Grid
           container
-          spacing={{ xs: 0.5, md: 0.5 }}
-          columns={{ xs: 4, sm: 4, md: 4 }}
+          // spacing={{ xs: 0.5, md: 0.5 }}
+          // columns={{ xs: 4, sm: 4, md: 4 }}
           justifyContent="center"
         >
           {htmlTypesToRender.map((option) => {
@@ -47,7 +47,6 @@ const DragDropPanel = (props): JSX.Element => {
               )
             ) {
               return (
-                <Grid item xs={2} sm={2} md={2} key={option.name}>
                   <HTMLItem
                     name={option.name}
                     key={`html-${option.name}`}
@@ -55,18 +54,17 @@ const DragDropPanel = (props): JSX.Element => {
                     Icon={option.icon}
                     handleDelete={handleDelete}
                   />
-                </Grid>
               );
             }
           })}
         </Grid>
         {state.projectType === 'Classic React' ? (
-          <h3 style={{ color: '#C6C6C6' }}>React Router</h3>
+          <h3 style={{ color: '#ffffff' }}>React Router</h3>
         ) : null}
         <Grid
           container
-          spacing={{ xs: 0.5, md: 0.5 }}
-          columns={{ xs: 4, sm: 4, md: 4 }}
+          // spacing={{ xs: 0.5, md: 0.5 }}
+          // columns={{ xs: 4, sm: 4, md: 4 }}
           justifyContent="center"
         >
           {htmlTypesToRender.map((option) => {
@@ -77,7 +75,6 @@ const DragDropPanel = (props): JSX.Element => {
               state.projectType === 'Classic React'
             ) {
               return (
-                <Grid item xs={2} sm={2} md={2} key={option.name}>
                   <HTMLItem
                     name={option.name}
                     key={`html-${option.name}`}
@@ -85,7 +82,6 @@ const DragDropPanel = (props): JSX.Element => {
                     Icon={option.icon}
                     handleDelete={handleDelete}
                   />
-                </Grid>
               );
             }
           })}

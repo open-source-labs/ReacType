@@ -52,6 +52,7 @@ export interface Component {
   id: number;
   name: string;
   style: {};
+  icon?: any;
   attributes?: object;
   events: object;
   code: string;
@@ -91,9 +92,10 @@ export interface HTMLType {
   tag: string;
   name: string;
   style: any;
-  placeHolderShort: string | JSX.Element;
+  placeHolderShort: string | React.JSX.Element;
   placeHolderLong: string;
   // ? == optional type part of icon, cant comment out icon and it works
+  Icon?: any;
   icon?: any;
   framework: string;
   nestable: boolean;
