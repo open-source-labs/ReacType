@@ -99,6 +99,7 @@ const io = new Server(httpServer, {
 const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
 //server listening to new connections
 io.on('connection', (client) => {
+  console.log('A user connected with socket ID:', client.id);
   //when user Joined a room
   client.on('joining', async (userName: string, roomCode: string) => {
     //adding async
@@ -107,19 +108,19 @@ io.on('connection', (client) => {
       if (!roomLists[roomCode]) {
         roomLists[roomCode] = {};
       }
-      //roomLists = { 1: {1223: 'Rose', 2257: 'Jack'}, 3: {3345: 'Dan'} }
+      //roomLists = { happyRoom: { bHhFDmzPGam: 'Rose', mqri45c94E3: 'Jack' }, someRoom: { o5VeWAAAD: 'Dan'} }
       roomLists[roomCode][client.id] = userName; // adding user into the room list with id: userName on server side
-      const userList = Object.keys(roomLists[roomCode]);
+      const userList = Object.keys(roomLists[roomCode]); //[ bHhFDmzPGam, mqri45c94E3 ] order is not perserved?
       const hostID = userList[0];
       const newClientID = userList[userList.length - 1];
+      console.log('hostID:', hostID);
+      console.log('newClientID:', newClientID);
 
       //server ask host for the current state
       const hostState = await io //once the request is sent back save to host state
         .timeout(5000)
         .to(hostID)
         .emitWithAck('requesting state from host'); //sending request
-
-      // console.log('hostState:', hostState);
 
       //share host's state with the latest user
       const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
@@ -130,7 +131,12 @@ io.on('connection', (client) => {
       //client response is confirmed
       if (newClientResponse[0].status === 'confirmed') {
         client.join(roomCode); //client joining a room
-        io.to(roomCode).emit('updateUserList', roomLists[roomCode]); //send the message to all clients in room but the sender
+        console.log('a user joined the room');
+        //send the message to all clients in room but the sender
+        io.to(roomCode).emit(
+          'updateUserList',
+          Object.values(roomLists[roomCode])
+        );
       }
     } catch (error) {
       //if joining event is having an error and time out
@@ -140,15 +146,6 @@ io.on('connection', (client) => {
       );
     }
   });
-
-  // //server monitors incoming data from users for any new state changes
-  // client.on('new state from front', (redux_store, room: string) => {
-  //   // console.log('new state from front:', JSON.parse(redux_store));
-  //   if (room) {
-  //     //server send the state from the user to everyone in the room
-  //     client.to(room).emit('new state from back', redux_store);
-  //   }
-  // });
 
   //updating mouse movement after joining.
 
@@ -179,12 +176,11 @@ io.on('connection', (client) => {
   });
 
   //--------------------------------
-  client.on('addChildAction', (childData: string, room: string) => {
-    // console.log('addChildAction:', JSON.parse(childData));
-    if (room) {
+  client.on('addChildAction', (roomCode: string, childData: object) => {
+    // console.log('child data received on server:', childData);
+    if (roomCode) {
       //server send the data to everyone in the room
-      console.log('child data received in server');
-      client.to(room).emit('child data from back', childData);
+      client.to(roomCode).emit('child data from server', childData);
     }
   });
 });
