@@ -8,6 +8,8 @@ import {
 } from '../../redux/reducers/slice/appStateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
+import MouseMovement from './MouseMovement';
+
 import Arrow from './Arrow';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { RootState } from '../../redux/store';
@@ -116,7 +118,7 @@ function Canvas(props: {}): JSX.Element {
       }
     },
     collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+      isOver: !!monitor.isOver()
     })
   });
 
@@ -140,14 +142,17 @@ function Canvas(props: {}): JSX.Element {
   );
 
   return (
-    <div
-      className={'componentContainer'}
-      ref={drop}
-      data-testid="drop"
-      style={canvasStyle}
-      onClick={onClickHandler}
-    >
-      {renderChildren(currentComponent.children)}
+    <div className={'mouseTracking'}>
+      <MouseMovement />
+      <div
+        className={'componentContainer'}
+        ref={drop}
+        data-testid="drop"
+        style={canvasStyle}
+        onClick={onClickHandler}
+      >
+        {renderChildren(currentComponent.children)}
+      </div>
     </div>
   );
 }
