@@ -169,15 +169,25 @@ export interface Arrow {
   ) => HTMLDivElement;
 }
 
-export interface ColumnTab { //table state props
+export interface ColumnTab {
+  //table state props
   field: string;
   headerName: string;
   width: string | number;
   editable: boolean;
-  align?:string;
+  align?: string;
   valueGetter?: (param: any) => string | undefined;
   renderCell?: (params: any) => React.ReactNode;
   flex?: string | number;
   sortable?: boolean;
   disableColumnMenu?: boolean;
+}
+
+// Exports for Mouse tracking
+
+export interface MouseProps {}
+export interface MouseState {
+  //canvas mouseTracking props.
+  clientX: number;
+  clientY: number;
 }
