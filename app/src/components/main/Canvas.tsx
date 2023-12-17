@@ -240,11 +240,7 @@ function Canvas(props: {}): JSX.Element {
             position: 'absolute',
             left: remoteCursor.x + 'px',
             top: remoteCursor.y - 68 + 'px',
-            //style
-            // width: '15px',
-            // height: '15px',
-            // borderRadius: '50%',
-            // backgroundColor: '#a5ead6',
+            //cursor style
             fontSize: '40px',
             color: '#46c0a5'
           }}
