@@ -159,27 +159,15 @@ const RoomsContainer = () => {
       >
         {' '}
         {/* live room display */}
-        <Typography variant="h5" color={'white'}>
+        <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
+        </Typography>
+        <Typography variant="h6" color={'#70d8be'}>
+          Nickname: {userName}
         </Typography>
         {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
         {userJoined ? (
           <>
-            <Button
-              variant="contained"
-              onClick={() => leaveRoom()}
-              sx={{
-                backgroundColor: '#f2fbf8',
-                color: '#092a26',
-                '&:hover': {
-                  backgroundColor: '#a5ead6',
-                  borderColor: '#0062cc'
-                }
-              }}
-            >
-              {' '}
-              Leave Room{' '}
-            </Button>
             <Typography
               variant="body1"
               sx={{
@@ -231,6 +219,21 @@ const RoomsContainer = () => {
                 ))}
               </List>
             </Box>
+            <Button
+              variant="contained"
+              onClick={() => leaveRoom()}
+              sx={{
+                backgroundColor: '#f2fbf8',
+                color: '#092a26',
+                '&:hover': {
+                  backgroundColor: '#a5ead6',
+                  borderColor: '#0062cc'
+                }
+              }}
+            >
+              {' '}
+              Leave Room{' '}
+            </Button>
           </>
         ) : (
           //after joinning room
