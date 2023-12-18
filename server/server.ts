@@ -119,7 +119,7 @@ io.on('connection', (client) => {
         .to(hostID)
         .emitWithAck('requesting state from host'); //sending request
 
-      console.log('hostState:', hostState);
+      // console.log('hostState:', hostState);
 
       //share host's state with the latest user
       const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
@@ -141,13 +141,14 @@ io.on('connection', (client) => {
     }
   });
 
-  //server monitors incoming data from users for any new state changes
-  client.on('new state from front', (redux_store, room: string) => {
-    if (room) {
-      //server send the state from the user to everyone in the room
-      client.to(room).emit('new state from back', redux_store);
-    }
-  });
+  // //server monitors incoming data from users for any new state changes
+  // client.on('new state from front', (redux_store, room: string) => {
+  //   // console.log('new state from front:', JSON.parse(redux_store));
+  //   if (room) {
+  //     //server send the state from the user to everyone in the room
+  //     client.to(room).emit('new state from back', redux_store);
+  //   }
+  // });
 
   //disconnecting functionality
   client.on('disconnecting', () => {
@@ -162,7 +163,19 @@ io.on('connection', (client) => {
       io.to(roomCode).emit('updateUserList', roomLists[roomCode]);
     }
   });
+
+  //--------------------------------
+  client.on('addChildAction', (childData: string, room: string) => {
+    // console.log('addChildAction:', JSON.parse(childData));
+    if (room) {
+      //server send the data to everyone in the room
+      console.log('child data received in server');
+      client.to(room).emit('child data from back', childData);
+    }
+  });
 });
+
+//--------------------------------
 
 /*
 GraphQl Router

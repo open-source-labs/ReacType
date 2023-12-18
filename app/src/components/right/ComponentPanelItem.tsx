@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 /*
-DESCRIPTION: This component is each box beneath the 'root components' and
+DESCRIPTION: This component is each box beneath the 'HTML Elements' and
   'reusable components' (in classic React mode) headings. Drag-and-drop
   functionality works only for reusable components.
 
@@ -25,6 +25,7 @@ const ComponentPanelItem: React.FC<{
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
+
   // useDrag hook allows components in left panel to be drag source
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -44,6 +45,7 @@ const ComponentPanelItem: React.FC<{
     //LEGACY PD
     dispatch(changeFocus({ componentId: id, childId: null }));
   };
+
   return (
     <Grid
       item
@@ -62,11 +64,13 @@ const ComponentPanelItem: React.FC<{
     >
       {isFocus && <div className={classes.focusMark}></div>}
       <div className="compPanelItem" onClick={handleClick}>
+        {/* render element's name on the left panel*/}
         <h3>{name}</h3>
       </div>
     </Grid>
   );
 };
+
 const useStyles = makeStyles({
   activeFocus: {
     backgroundColor: 'rgba (0, 0, 0, 0.54)', //this doesnt do anything....

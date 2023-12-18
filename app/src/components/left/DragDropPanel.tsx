@@ -20,6 +20,7 @@ Hook state:
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
   const dispatch = useDispatch();
+
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
@@ -47,17 +48,18 @@ const DragDropPanel = (props): JSX.Element => {
               )
             ) {
               return (
-                  <HTMLItem
-                    name={option.name}
-                    key={`html-${option.name}`}
-                    id={option.id}
-                    Icon={option.icon}
-                    handleDelete={handleDelete}
-                  />
+                <HTMLItem
+                  name={option.name}
+                  key={`html-${option.name}`}
+                  id={option.id}
+                  Icon={option.icon}
+                  handleDelete={handleDelete}
+                />
               );
             }
           })}
         </Grid>
+
         {state.projectType === 'Classic React' ? (
           <h3 style={{ color: '#ffffff' }}>React Router</h3>
         ) : null}
@@ -75,18 +77,19 @@ const DragDropPanel = (props): JSX.Element => {
               state.projectType === 'Classic React'
             ) {
               return (
-                  <HTMLItem
-                    name={option.name}
-                    key={`html-${option.name}`}
-                    id={option.id}
-                    Icon={option.icon}
-                    handleDelete={handleDelete}
-                  />
+                <HTMLItem
+                  name={option.name}
+                  key={`html-${option.name}`}
+                  id={option.id}
+                  Icon={option.icon}
+                  handleDelete={handleDelete}
+                />
               );
             }
           })}
         </Grid>
 
+        {/* Next.js */}
         {state.projectType === 'Next.js' ? (
           <h3 style={{ color: 'C6C6C6' }}>Next.js</h3>
         ) : null}

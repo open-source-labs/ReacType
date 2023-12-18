@@ -9,13 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
-function DirectChildComponent({
-  childId,
-  type,
-  typeId,
-  name
-}: ChildElement) {
-  const state = useSelector((store:RootState) => store.appState);
+function DirectChildComponent({ childId, type, typeId, name }: ChildElement) {
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
 
   // find the top-level component corresponding to this instance of the component
@@ -38,7 +33,7 @@ function DirectChildComponent({
     })
   });
   const changeFocusFunction = (componentId: number, childId: number | null) => {
-    dispatch(changeFocus({ componentId, childId}));
+    dispatch(changeFocus({ componentId, childId }));
   };
 
   // onClickHandler is responsible for changing the focused component and child component
@@ -63,17 +58,13 @@ function DirectChildComponent({
   );
   // Renders name and not children of subcomponents to clean up Canvas view when dragging components
   // into the main canvas.  To render html elements on canvas, import and invoke renderChildren
-  return  (
-    <div
-      onClick={onClickHandler}
-      style={combinedStyle}
-      ref={drag}
-    >
-        <span>
-          <strong style={{ color: 'white' }}>{name}</strong>
-          <DeleteButton id={childId} name={name} />  
-        </span>
-
+  return (
+    <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
+      <span>
+        {/* render name and delete button X */}
+        <strong style={{ color: 'white' }}>{name}</strong>
+        <DeleteButton id={childId} name={name} />
+      </span>
     </div>
   );
 }
