@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     textAlign: 'center',
-    cursor: 'grab',
+    cursor: 'grab'
     // '& > h3': {
     //   display: 'inline-block'
     // }
@@ -41,9 +41,10 @@ const HTMLItem: React.FC<{
   Icon: any;
   handleDelete: (id: number) => void;
 }> = ({ name, id, Icon, handleDelete }) => {
-  console.log("Icon: ", Icon);
+  // console.log('Icon: ', Icon);
   const classes = useStyles();
   const [modal, setModal] = useState(null);
+
   const [{ isDragging }, drag] = useDrag({
     // is dragging is never read, but if deleted adjustment in the ref are needed line 122/128 ref={drag} to {...drag}
     item: {
@@ -124,14 +125,16 @@ const HTMLItem: React.FC<{
       {id <= 20 && (
         <div
           ref={drag}
-          style={{ borderColor: '#C6C6C6', }}
+          style={{ borderColor: '#C6C6C6' }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
-            {/* <Icon fontSize="small" align-items="center" /> */}
-            {name}
+          {/* <Icon fontSize="small" align-items="center" /> */}
+          {name}
         </div>
       )}
+
+      {/* Custom Elements */}
       {id > 20 && (
         <span id="customHTMLElement">
           <div
@@ -140,9 +143,7 @@ const HTMLItem: React.FC<{
             className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
             id="HTMLItem"
           >
-            <h3>
-              {name}
-            </h3>
+            <h3>{name}</h3>
           </div>
           <button
             id="newElement"
