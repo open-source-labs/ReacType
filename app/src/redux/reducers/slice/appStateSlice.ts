@@ -278,6 +278,7 @@ const appStateSlice = createSlice({
 
       state.nextComponentId = nextComponentId;
     },
+
     addChild: (state, action) => {
       let parentComponentId: number;
       const {
@@ -1288,7 +1289,9 @@ const appStateSlice = createSlice({
       );
     },
     allCooperativeState: (state, action) => {
-      return Object.assign({}, state, action.payload);
+      // return Object.assign({}, state, action.payload);
+      // it is safe to directly assign the properties from 'action.payload' to the state in Redux Toolkit
+      Object.assign(state, action.payload);
     },
     updateStylesheet: (state, action) => {
       state.stylesheet = action.payload;

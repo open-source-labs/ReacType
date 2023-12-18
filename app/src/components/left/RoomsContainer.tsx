@@ -5,10 +5,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
-import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
+import {
+  allCooperativeState,
+  addChild
+} from '../../redux/reducers/slice/appStateSlice';
 import {
   setRoomCode,
   setUserName,
@@ -28,6 +31,7 @@ import debounce from '../../../../node_modules/lodash/debounce.js';
 // // Part  - join room and room code functionality
 let socket;
 const { API_BASE_URL } = config;
+
 const RoomsContainer = () => {
   const dispatch = useDispatch();
   //roomCode/userName for emiting to socket io, userList for displaying user List receiving from back end, userJoined fo conditional rendering between join and leave room.
@@ -60,11 +64,11 @@ const RoomsContainer = () => {
     //If you are the new user: receive the state from the host
     socket.on('server emitting state from host', (state, callback) => {
       //dispatching new state to change user current state
-      console.log('state recieved by new joiner:', state);
+      console.log('state recieved by new join:', state);
       store.dispatch(allCooperativeState(state.appState));
       store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
       store.dispatch(cooperativeStyle(state.styleSlice));
-      callback({ status: 'confirmed' }); 
+      callback({ status: 'confirmed' });
     });
 
     // update user list when there's a change: new join or leave the room
@@ -72,75 +76,86 @@ const RoomsContainer = () => {
       dispatch(setUserList(Object.values(newUserList)));
     });
 
-    // receive the new state from the server and dispatch action creators to update state
-    socket.on('new state from back', (event) => {
-      const currentStore = JSON.parse(JSON.stringify(store.getState()));
-      const newState = JSON.parse(event);
+    // // receive the new state from the server and dispatch action creators to update state
+    // socket.on('new state from back', (event) => {
+    //   const currentStore = JSON.parse(JSON.stringify(store.getState()));
+    //   const newState = JSON.parse(event);
 
-      const areStatesEqual = (stateA, stateB) =>
-        JSON.stringify(stateA) === JSON.stringify(stateB);
+    //   const areStatesEqual = (stateA, stateB) =>
+    //     JSON.stringify(stateA) === JSON.stringify(stateB);
 
-      //checking if current state are equal to the state being sent from server
-      if (!areStatesEqual(currentStore, newState)) {
-        if (!areStatesEqual(currentStore.appState, newState.appState)) {
-          store.dispatch(allCooperativeState(newState.appState));
-        } else if (
-          !areStatesEqual(
-            currentStore.codePreviewSlice,
-            newState.codePreviewCooperative
-          )
-        ) {
-          store.dispatch(
-            codePreviewCooperative(newState.codePreviewCooperative)
-          );
-        } else if (
-          !areStatesEqual(currentStore.styleSlice, newState.styleSlice)
-        ) {
-          store.dispatch(cooperativeStyle(newState.styleSlice));
-        }
-      }
-    });
+    //   //checking if current state are equal to the state being sent from server
+    //   if (!areStatesEqual(currentStore, newState)) {
+    //     if (!areStatesEqual(currentStore.appState, newState.appState)) {
+    //       store.dispatch(allCooperativeState(newState.appState));
+    //     } else if (
+    //       !areStatesEqual(
+    //         currentStore.codePreviewSlice,
+    //         newState.codePreviewCooperative
+    //       )
+    //     ) {
+    //       store.dispatch(
+    //         codePreviewCooperative(newState.codePreviewCooperative)
+    //       );
+    //     } else if (
+    //       !areStatesEqual(currentStore.styleSlice, newState.styleSlice)
+    //     ) {
+    //       store.dispatch(cooperativeStyle(newState.styleSlice));
+    //     }
+    //   }
+    // });
   }
+
+  // let previousState = store.getState();
+  // // sending info to backend whenever the redux store changes
+  // //handling state changes and send to server
+
+  // const findStateDiff = (prevState, newState) => {
+  //   const changes = {};
+  //   for (let key in newState) {
+  //     if (JSON.stringify(newState[key]) !== JSON.stringify(prevState[key])) {
+  //       changes[key] = newState[key];
+  //     }
+  //   }
+  //   return changes;
+  // };
+
+  // const handleStoreChange = debounce(() => {
+  //   const newState = store.getState();
+  //   const roomCode = newState.roomSlice.roomCode;
+  //   const changes = findStateDiff(previousState, newState);
+
+  //   if (Object.keys(changes).length > 0) {
+  //     // Send the current state to the server
+  //     console.log('newState:', newState);
+  //     console.log('changes:', changes);
+  //     socket.emit('new state from front', JSON.stringify(changes), roomCode);
+  //     //re-assgin previousState to be the newState
+  //     previousState = newState;
+  //   }
+  // }, 100);
+
+  // //listening to changes from store by users, whenever the store's state changes, invoke handleStoreChange function
+  // store.subscribe(() => {
+  //   if (socket) {
+  //     handleStoreChange();
+  //   }
+  // });
 
   function handleUserEnteredRoom(roomCode) {
     initSocketConnection(roomCode);
   }
 
-  let previousState = store.getState();
-  // sending info to backend whenever the redux store changes
-  //handling state changes and send to server
+  //-----------------------
 
-  const findStateDiff = (prevState, newState) => {
-    const changes = {};
-    for (let key in newState) {
-      if (JSON.stringify(newState[key]) !== JSON.stringify(prevState[key])) {
-        changes[key] = newState[key];
-      }
-    }
-    return changes;
-  };
+  if (socket) {
+    socket.on('child data from back', (childData: string) => {
+      console.log('child data received by users', JSON.parse(childData));
+      store.dispatch(addChild(JSON.parse(childData)));
+    });
+  }
 
-  const handleStoreChange = debounce(() => {
-    const newState = store.getState();
-    const roomCode = newState.roomSlice.roomCode;
-    const changes = findStateDiff(previousState, newState);
-
-    if (Object.keys(changes).length > 0) {
-      // Send the current state to the server
-      console.log('newState:', newState);
-      console.log('changes:', changes);
-      socket.emit('new state from front', JSON.stringify(changes), roomCode);
-      //re-assgin previousState to be the newState
-      previousState = newState;
-    }
-  }, 100);
-
-  //listening to changes from store by users, whenever the store's state changes, invoke handleStoreChange function
-  store.subscribe(() => {
-    if (socket) {
-      handleStoreChange();
-    }
-  });
+  //-----------------------
 
   //joining room function
   function joinRoom() {

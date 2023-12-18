@@ -28,7 +28,7 @@ function DirectChildHTMLNestable({
   children,
   name,
   attributes
-}: ChildElement): JSX.Element {
+}: ChildElement): React.JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 

@@ -13,16 +13,21 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import { gridFilterableColumnDefinitionsSelector } from '@mui/x-data-grid';
+import socket from '../../helperFunctions/socket';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  // console.log('roomCode:', roomCode);
+
   // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
+  // console.log(' state.components:', state.components);
+  // console.log('canvasFocus.componentId: ', state.canvasFocus.componentId);
 
   Arrow.deleteLines();
 
@@ -68,6 +73,7 @@ function Canvas(props: {}): JSX.Element {
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance && item.instanceType !== 'Component') {
         dispatch(
+          //update state
           addChild({
             type: item.instanceType,
             typeId: item.instanceTypeId,
@@ -75,6 +81,27 @@ function Canvas(props: {}): JSX.Element {
             contextParam: contextParam
           })
         );
+
+        // //emit the socket event
+        if (roomCode) {
+          socket.emit(
+            'addChildAction',
+            JSON.stringify({
+              type: item.instanceType,
+              typeId: item.instanceTypeId,
+              childId: null,
+              contextParam: contextParam
+            }),
+            roomCode
+          );
+
+          console.log('payload:', {
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: null,
+            contextParam: contextParam
+          });
+        }
       } else if (item.newInstance && item.instanceType === 'Component') {
         let hasDiffParent = false;
         const components = state.components;
@@ -125,7 +152,7 @@ function Canvas(props: {}): JSX.Element {
   const defaultCanvasStyle: React.CSSProperties = {
     width: '100%',
     minHeight: '100%',
-    backgroundColor: isOver ? '#191919' : '#191919',
+    backgroundColor: isOver ? '#242323' : '#191919',
     // borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box'

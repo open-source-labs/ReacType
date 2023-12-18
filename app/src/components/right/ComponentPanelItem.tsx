@@ -52,11 +52,11 @@ const ComponentPanelItem: React.FC<{
       ref={drag}
       xs={8}
       style={{
-        color: isThemeLight ? 'black' : 'white',
+        color: 'white',
         backgroundColor: 'transparent',
-        border: isThemeLight ? '2px solid black' : '2px solid white',
+        border: '2px solid',
         borderRadius: '4px',
-        borderColor: '#000000',
+        borderColor: '#d2f5eb',
         margin: '5px 0px',
         wordBreak: 'break-all',
         width: '10rem'
@@ -73,13 +73,13 @@ const ComponentPanelItem: React.FC<{
 
 const useStyles = makeStyles({
   activeFocus: {
-    backgroundColor: 'rgba(1,212,109,0.3)'
+    backgroundColor: 'rgba (0, 0, 0, 0.54)', //this doesnt do anything....
   },
   focusMark: {
-    backgroundColor: 'red',
+    backgroundColor: '#29A38A',
     justifySelf: 'left',
-    width: '12px',
-    height: '12px',
+    width: '14px',
+    height: '14px',
     borderRadius: '25px',
     position: 'absolute' //so it doesn't cause the containing box to jiggle when selected due to change in size
   },
@@ -87,7 +87,7 @@ const useStyles = makeStyles({
     color: 'rgba (0, 0, 0, 0.54)'
   },
   darkTheme: {
-    color: '#fff'
+    color: '#ffffff'
   }
 });
 export default ComponentPanelItem;

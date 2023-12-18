@@ -1,10 +1,21 @@
 import ImageIcon from '@mui/icons-material/Image';
-import ParagraphIcon from '@mui/icons-material/LocalParking';
+import NotesOutlinedIcon from '@mui/icons-material/NotesOutlined';
 import FormIcon from '@mui/icons-material/Description';
 import HeaderIcon from '@mui/icons-material/TextFormat';
+import CodeIcon from '@mui/icons-material/Code';
 import ButtonIcon from '@mui/icons-material/EditAttributes';
+import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
 import LinkIcon from '@mui/icons-material/Link';
-import ListIcon from '@mui/icons-material/List';
+import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
+import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
+import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
+import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
+import DatasetLinkedOutlinedIcon from '@mui/icons-material/DatasetLinkedOutlined';
+import ShortTextOutlinedIcon from '@mui/icons-material/ShortTextOutlined';
+import MoreOutlinedIcon from '@mui/icons-material/MoreOutlined';
+
 import { HTMLType } from '../interfaces/Interfaces';
 
 //properties for all HTML components
@@ -17,7 +28,7 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'div',
     placeHolderLong: '',
-    // icon: HeaderIcon,
+    icon: CodeIcon,
     framework: 'reactClassic',
     nestable: true
   },
@@ -30,45 +41,12 @@ const HTMLTypes: HTMLType[] = [
     style: { border: 'none' },
     placeHolderShort: '',
     placeHolderLong: '',
-    icon: '',
+    icon: null,
     framework: '',
     nestable: true
   },
   {
     id: 1,
-    tag: 'img',
-    name: 'Img',
-    style: {},
-    placeHolderShort: 'image',
-    placeHolderLong: '',
-    icon: ImageIcon,
-    framework: 'reactClassic',
-    nestable: false
-  },
-  {
-    id: 2,
-    tag: 'form',
-    name: 'Form',
-    style: {},
-    placeHolderShort: 'form',
-    placeHolderLong: '',
-    icon: FormIcon,
-    framework: 'reactClassic',
-    nestable: true
-  },
-  {
-    id: 4,
-    tag: 'button',
-    name: 'Button',
-    style: {},
-    placeHolderShort: 'button',
-    placeHolderLong: '',
-    icon: ButtonIcon,
-    framework: 'reactClassic',
-    nestable: false
-  },
-  {
-    id: 6,
     tag: 'a',
     name: 'Link',
     style: {},
@@ -79,18 +57,7 @@ const HTMLTypes: HTMLType[] = [
     nestable: false
   },
   {
-    id: 8,
-    tag: 'p',
-    name: 'Paragraph',
-    style: {},
-    placeHolderShort: 'paragraph',
-    placeHolderLong: '',
-    icon: ParagraphIcon,
-    framework: 'reactClassic',
-    nestable: false
-  },
-  {
-    id: 9,
+    id: 2,
     tag: 'h1',
     name: 'Header 1',
     style: {},
@@ -101,7 +68,7 @@ const HTMLTypes: HTMLType[] = [
     nestable: false
   },
   {
-    id: 10,
+    id: 4,
     tag: 'h2',
     name: 'Header 2',
     style: {},
@@ -112,24 +79,69 @@ const HTMLTypes: HTMLType[] = [
     nestable: false
   },
   {
-    id: 5,
+    id: 6,
     tag: 'span',
     name: 'Span',
     style: {},
     placeHolderShort: 'span',
     placeHolderLong: '',
-    icon: HeaderIcon,
+    icon: ShortTextOutlinedIcon,
     framework: 'reactClassic',
     nestable: false
   },
   {
-    id: 12,
+    id: 8,
+    tag: 'p',
+    name: 'Paragraph',
+    style: {},
+    placeHolderShort: 'paragraph',
+    placeHolderLong: '',
+    icon: NotesOutlinedIcon,
+    framework: 'reactClassic',
+    nestable: false
+  },
+  {
+    id: 9,
+    tag: 'form',
+    name: 'Form',
+    style: {},
+    placeHolderShort: 'form',
+    placeHolderLong: '',
+    icon: FormIcon,
+    framework: 'reactClassic',
+    nestable: true
+  },
+  {
+    id: 10,
     tag: 'input',
     name: 'Input',
     style: {},
     placeHolderShort: 'input',
     placeHolderLong: '',
-    icon: HeaderIcon,
+    icon: EditOutlinedIcon,
+    framework: 'reactClassic',
+    nestable: false
+  },
+  {
+    id: 5,
+    tag: 'button',
+    name: 'Button',
+    style: {},
+    placeHolderShort: 'button',
+    placeHolderLong: '',
+    icon: ButtonIcon,
+    framework: 'reactClassic',
+    nestable: false
+  },
+
+  {
+    id: 12,
+    tag: 'img',
+    name: 'Img',
+    style: {},
+    placeHolderShort: 'image',
+    placeHolderLong: '',
+    icon: ImageIcon,
     framework: 'reactClassic',
     nestable: false
   },
@@ -140,40 +152,40 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'label',
     placeHolderLong: '',
-    icon: HeaderIcon,
+    icon: MoreOutlinedIcon,
     framework: 'reactClassic',
     nestable: false
   },
   {
     id: 14,
-    tag: 'ol',
-    name: 'Ordered List',
-    style: {},
-    placeHolderShort: 'ordered list',
-    placeHolderLong: '',
-    icon: ListIcon,
-    framework: 'reactClassic',
-    nestable: true
-  },
-  {
-    id: 15,
-    tag: 'ul',
-    name: 'Unordered List',
-    style: {},
-    placeHolderShort: 'unordered list',
-    placeHolderLong: '',
-    icon: ListIcon,
-    framework: 'reactClassic',
-    nestable: true
-  },
-  {
-    id: 16,
     tag: 'menu',
     name: 'Menu',
     style: {},
     placeHolderShort: 'menu',
     placeHolderLong: '',
-    icon: ListIcon,
+    icon: FeaturedPlayListOutlinedIcon,
+    framework: 'reactClassic',
+    nestable: true
+  },
+  {
+    id: 15,
+    tag: 'ol',
+    name: 'Ordered List',
+    style: {},
+    placeHolderShort: 'ordered list',
+    placeHolderLong: '',
+    icon: FormatListNumberedOutlinedIcon,
+    framework: 'reactClassic',
+    nestable: true
+  },
+  {
+    id: 16,
+    tag: 'ul',
+    name: 'Unordered List',
+    style: {},
+    placeHolderShort: 'unordered list',
+    placeHolderLong: '',
+    icon: FormatListBulletedOutlinedIcon,
     framework: 'reactClassic',
     nestable: true
   },
@@ -184,7 +196,7 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'list item',
     placeHolderLong: '',
-    icon: ListIcon,
+    icon: ListAltOutlinedIcon,
     framework: 'reactClassic',
     nestable: true
   },
@@ -195,7 +207,7 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'Switch',
     placeHolderLong: '',
-    icon: ListIcon,
+    icon: ToggleOffOutlinedIcon,
     framework: 'reactClassic',
     nestable: true
   },
@@ -206,7 +218,7 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'Route',
     placeHolderLong: '',
-    icon: LinkIcon,
+    icon: RouteOutlinedIcon,
     framework: 'reactClassic',
     nestable: true
   },
@@ -217,7 +229,7 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'LinkTo',
     placeHolderLong: '',
-    icon: ListIcon,
+    icon: DatasetLinkedOutlinedIcon,
     framework: 'reactClassic',
     nestable: true
   },
@@ -228,7 +240,7 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'LinkHref',
     placeHolderLong: '',
-    icon: ListIcon,
+    icon: LinkIcon,
     framework: 'nextjs',
     nestable: true
   },
@@ -239,7 +251,7 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'Image',
     placeHolderLong: '',
-    icon: ListIcon,
+    icon: ImageIcon,
     framework: 'nextjs',
     nestable: false
   }
