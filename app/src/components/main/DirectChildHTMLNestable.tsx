@@ -12,6 +12,7 @@ import AddRoute from './AddRoute';
 import AddLink from './AddLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { emitEvent } from '../../helperFunctions/socket';
 
 import {
   changeFocus,
@@ -33,6 +34,8 @@ function DirectChildHTMLNestable({
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
   const dispatch = useDispatch();
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const ref = useRef(null);
 
   // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
@@ -104,6 +107,18 @@ function DirectChildHTMLNestable({
               contextParam: contextParam
             })
           );
+          if (roomCode) {
+            emitEvent('addChildAction', roomCode, {
+              type: item.instanceType,
+              typeId: item.instanceTypeId,
+              childId: childId,
+              contextParam: contextParam
+            });
+
+            console.log(
+              'emit addChildAction event is triggered in DirectChildHTMLNestable'
+            );
+          }
         }
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
@@ -117,6 +132,17 @@ function DirectChildHTMLNestable({
               contextParam: contextParam
             })
           );
+          if (roomCode) {
+            emitEvent('changePositionAction', roomCode, {
+              currentChildId: item.childId,
+              newParentChildId: childId,
+              contextParam: contextParam
+            });
+
+            console.log(
+              'emit changePosition event is triggered in DirectChildHTMLNestable'
+            );
+          }
         }
       }
     },
@@ -130,6 +156,13 @@ function DirectChildHTMLNestable({
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
     dispatch(changeFocus({ componentId, childId }));
+    if (roomCode) {
+      emitEvent('changeFocusAction', roomCode, {
+        componentId: componentId,
+        childId: childId
+      });
+      console.log('emit focus event from DirectChildHTMLNestable');
+    }
   };
 
   // onClickHandler is responsible for changing the focused component and child component
@@ -185,7 +218,9 @@ function DirectChildHTMLNestable({
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color: '#f2fbf8' }}>{HTMLType.placeHolderShort}</strong>
+        <strong style={{ color: '#f2fbf8' }}>
+          {HTMLType.placeHolderShort}
+        </strong>
         <strong style={{ color: '#29a38a' }}>
           {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>

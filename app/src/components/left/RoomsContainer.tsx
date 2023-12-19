@@ -10,7 +10,10 @@ import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import {
   allCooperativeState,
-  addChild
+  addChild,
+  changeFocus,
+  deleteChild,
+  changePosition
 } from '../../redux/reducers/slice/appStateSlice';
 import {
   setRoomCode,
@@ -91,6 +94,7 @@ const RoomsContainer = () => {
 
       // update user list when there's a change: new join or leave the room
       socket.on('updateUserList', (newUserList) => {
+        console.log('user list received from server');
         dispatch(setUserList(newUserList));
       });
 
@@ -98,6 +102,27 @@ const RoomsContainer = () => {
         console.log('child data received by users', childData);
         store.dispatch(addChild(childData));
       });
+
+      socket.on('focus data from server', (focusData: object) => {
+        console.log('focus data received from server', focusData);
+        store.dispatch(changeFocus(focusData));
+      });
+
+      socket.on('delete data from server', (deleteData: object) => {
+        console.log('delete data received from server', deleteData);
+        store.dispatch(deleteChild(deleteData));
+      });
+
+      socket.on(
+        'item position data from server',
+        (itemPositionData: object) => {
+          console.log(
+            'item position data received from server',
+            itemPositionData
+          );
+          store.dispatch(changePosition(itemPositionData));
+        }
+      );
     }
   }
 
