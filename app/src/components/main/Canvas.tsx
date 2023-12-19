@@ -39,6 +39,14 @@ function Canvas(props: {}): JSX.Element {
     childId?: number | null
   ) => {
     dispatch(changeFocus({ componentId, childId }));
+    //if room exists, send focus dispatcht to all users
+    if (roomCode) {
+      emitEvent('changeFocusAction', roomCode, {
+        componentId: componentId,
+        childId: childId
+      });
+    }
+    console.log('emit changeFocusAction event is triggered in canvas');
   };
 
   // onClickHandler is responsible for changing the focused component and child component
@@ -98,7 +106,7 @@ function Canvas(props: {}): JSX.Element {
         let hasDiffParent = false;
         const components = state.components;
         let newChildName = '';
-        // loop over componenets array
+        // loop over components array
         for (let i = 0; i < components.length; i++) {
           const comp = components[i];
           //loop over each componenets child
@@ -133,6 +141,16 @@ function Canvas(props: {}): JSX.Element {
             contextParam: contextParam
           })
         );
+        if (roomCode) {
+          emitEvent('addChildAction', roomCode, {
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: null,
+            contextParam: contextParam
+          });
+
+          console.log('emit addChildAction event is triggered in canvas');
+        }
       }
     },
     collect: (monitor) => ({
