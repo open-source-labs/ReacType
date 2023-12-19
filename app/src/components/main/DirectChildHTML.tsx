@@ -8,9 +8,13 @@ import DeleteButton from './DeleteButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { emitEvent } from '../../helperFunctions/socket';
 
 function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   const state = useSelector((store: RootState) => store.appState);
+
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const dispatch = useDispatch();
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -35,6 +39,13 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
     dispatch(changeFocus({ componentId, childId }));
+    if (roomCode) {
+      emitEvent('changeFocusAction', roomCode, {
+        componentId: componentId,
+        childId: childId
+      });
+      console.log('emit focus event from DirectChildHTML');
+    }
   };
 
   // onClickHandler is responsible for changing the focused component and child component
