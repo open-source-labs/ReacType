@@ -13,7 +13,7 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import socket from '../../helperFunctions/socket';
+import { emitEvent } from '../../helperFunctions/socket';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
@@ -21,6 +21,7 @@ function Canvas(props: {}): JSX.Element {
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   // console.log('roomCode:', roomCode);
+  // console.log('canavs is rendered');
 
   // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(
@@ -82,25 +83,16 @@ function Canvas(props: {}): JSX.Element {
           })
         );
 
-        // //emit the socket event
+        //emit the socket event
         if (roomCode) {
-          socket.emit(
-            'addChildAction',
-            JSON.stringify({
-              type: item.instanceType,
-              typeId: item.instanceTypeId,
-              childId: null,
-              contextParam: contextParam
-            }),
-            roomCode
-          );
-
-          console.log('payload:', {
+          emitEvent('addChildAction', roomCode, {
             type: item.instanceType,
             typeId: item.instanceTypeId,
             childId: null,
             contextParam: contextParam
           });
+
+          console.log('emit addChildAction event is triggered in canvas');
         }
       } else if (item.newInstance && item.instanceType === 'Component') {
         let hasDiffParent = false;

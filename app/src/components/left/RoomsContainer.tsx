@@ -5,7 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import {
@@ -19,18 +19,17 @@ import {
   setUserList
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
-import config from '../../../../config';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
 // websocket front end starts here
-import { io } from 'socket.io-client';
 import store from '../../redux/store';
 //pasted from navbarbuttons
-import debounce from '../../../../node_modules/lodash/debounce.js';
+import {
+  initializeSocket,
+  getSocket,
+  disconnectSocket
+} from '../../helperFunctions/socket';
 
-// // for websockets
-// // Part  - join room and room code functionality
-let socket;
-const { API_BASE_URL } = config;
+//Websocket
 
 const RoomsContainer = () => {
   const dispatch = useDispatch();
@@ -43,131 +42,70 @@ const RoomsContainer = () => {
   );
 
   function initSocketConnection(roomCode: string) {
-    if (socket) socket.disconnect(); //edge case check if socket connection existed
-    //establishing client and server connection
-    socket = io(API_BASE_URL, {
-      transports: ['websocket']
-    });
-
-    //connecting user to server
-    socket.on('connect', () => {
-      socket.emit('joining', userName, roomCode);
-      console.log(`${userName} Joined room ${roomCode}`);
-    });
-
-    //If you are the host: send current state to server when a new user joins
-    socket.on('requesting state from host', (callback) => {
-      const newState = store.getState(); //pull the current state
-      callback(newState); //send it to backend server
-    });
-
-    //If you are the new user: receive the state from the host
-    socket.on('server emitting state from host', (state, callback) => {
-      //dispatching new state to change user current state
-      console.log('state recieved by new join:', state);
-      store.dispatch(allCooperativeState(state.appState));
-      store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
-      store.dispatch(cooperativeStyle(state.styleSlice));
-      callback({ status: 'confirmed' });
-    });
-
-    // update user list when there's a change: new join or leave the room
-    socket.on('updateUserList', (newUserList: object) => {
-      dispatch(setUserList(Object.values(newUserList)));
-    });
-
-    // // receive the new state from the server and dispatch action creators to update state
-    // socket.on('new state from back', (event) => {
-    //   const currentStore = JSON.parse(JSON.stringify(store.getState()));
-    //   const newState = JSON.parse(event);
-
-    //   const areStatesEqual = (stateA, stateB) =>
-    //     JSON.stringify(stateA) === JSON.stringify(stateB);
-
-    //   //checking if current state are equal to the state being sent from server
-    //   if (!areStatesEqual(currentStore, newState)) {
-    //     if (!areStatesEqual(currentStore.appState, newState.appState)) {
-    //       store.dispatch(allCooperativeState(newState.appState));
-    //     } else if (
-    //       !areStatesEqual(
-    //         currentStore.codePreviewSlice,
-    //         newState.codePreviewCooperative
-    //       )
-    //     ) {
-    //       store.dispatch(
-    //         codePreviewCooperative(newState.codePreviewCooperative)
-    //       );
-    //     } else if (
-    //       !areStatesEqual(currentStore.styleSlice, newState.styleSlice)
-    //     ) {
-    //       store.dispatch(cooperativeStyle(newState.styleSlice));
-    //     }
-    //   }
+    // if (socket) socket.disconnect(); //edge case: disconnect previous socket connection
+    // // establishing client and server connection
+    // socket = io(API_BASE_URL, {
+    //   transports: ['websocket']
     // });
+
+    initializeSocket();
+    const socket = getSocket();
+    // only create a new connection if not already connected
+    if (socket) {
+      //run everytime when a client connects to server
+      socket.on('connect', () => {
+        socket.emit('joining', userName, roomCode);
+        console.log(`${userName} Joined room ${roomCode} from RoomsConatiner`);
+      });
+
+      //If you are the host: send current state to server when a new user joins
+      socket.on('requesting state from host', (callback) => {
+        const newState = store.getState(); //pull the current state
+        callback(newState); //send it to backend server
+      });
+
+      //If you are the new user: receive the state from the host
+      socket.on('server emitting state from host', (state, callback) => {
+        //dispatching new state to change user current state
+        console.log('state recieved by new join:', state);
+        store.dispatch(allCooperativeState(state.appState));
+        store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
+        store.dispatch(cooperativeStyle(state.styleSlice));
+        callback({ status: 'confirmed' });
+      });
+
+      // update user list when there's a change: new join or leave the room
+      socket.on('updateUserList', (newUserList) => {
+        dispatch(setUserList(newUserList));
+      });
+
+      socket.on('child data from server', (childData: object) => {
+        console.log('child data received by users', childData);
+        store.dispatch(addChild(childData));
+      });
+    }
   }
-
-  // let previousState = store.getState();
-  // // sending info to backend whenever the redux store changes
-  // //handling state changes and send to server
-
-  // const findStateDiff = (prevState, newState) => {
-  //   const changes = {};
-  //   for (let key in newState) {
-  //     if (JSON.stringify(newState[key]) !== JSON.stringify(prevState[key])) {
-  //       changes[key] = newState[key];
-  //     }
-  //   }
-  //   return changes;
-  // };
-
-  // const handleStoreChange = debounce(() => {
-  //   const newState = store.getState();
-  //   const roomCode = newState.roomSlice.roomCode;
-  //   const changes = findStateDiff(previousState, newState);
-
-  //   if (Object.keys(changes).length > 0) {
-  //     // Send the current state to the server
-  //     console.log('newState:', newState);
-  //     console.log('changes:', changes);
-  //     socket.emit('new state from front', JSON.stringify(changes), roomCode);
-  //     //re-assgin previousState to be the newState
-  //     previousState = newState;
-  //   }
-  // }, 100);
-
-  // //listening to changes from store by users, whenever the store's state changes, invoke handleStoreChange function
-  // store.subscribe(() => {
-  //   if (socket) {
-  //     handleStoreChange();
-  //   }
-  // });
 
   function handleUserEnteredRoom(roomCode) {
     initSocketConnection(roomCode);
   }
 
-  //-----------------------
-
-  if (socket) {
-    socket.on('child data from back', (childData: string) => {
-      console.log('child data received by users', JSON.parse(childData));
-      store.dispatch(addChild(JSON.parse(childData)));
-    });
-  }
-
-  //-----------------------
-
   //joining room function
   function joinRoom() {
-    if (userList.length !== 0) dispatch(setUserList([])); //edge case check if userList not empty.
-    handleUserEnteredRoom(roomCode); // Call handleUserEnteredRoom when joining a room
-    dispatch(setRoomCode(roomCode));
+    //edge case: if userList is not empty, reset it to empty array
+    if (userList.length !== 0) dispatch(setUserList([]));
+    handleUserEnteredRoom(roomCode);
+
+    dispatch(setRoomCode(roomCode)); //?
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
   }
 
   function leaveRoom() {
+    let socket = getSocket();
     if (socket) {
       socket.disconnect(); //disconnecting socket from server
+      socket = null;
+      console.log('user leaves the room');
     }
     //reset all state values
     dispatch(setRoomCode(''));
