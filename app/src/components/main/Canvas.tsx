@@ -200,8 +200,6 @@ function Canvas(props: {}): JSX.Element {
       onMouseMove={handleMouseMove}
     >
       {renderChildren(currentComponent.children)}
-      <p style={{ color: 'red' }}>Mouse X: {mousePosition.x}</p>
-      <p style={{ color: 'red' }}>Mouse Y: {mousePosition.y}</p>
     </div>
   );
 }
