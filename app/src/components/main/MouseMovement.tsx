@@ -30,8 +30,11 @@ class MouseMovement extends Component<MouseProps, MouseState> {
     return [
       <div
         style={AppStyle}
+        style={AppStyle}
         onMouseMove={({ clientX, clientY }) => this.setclient(clientX, clientY)}
       ></div>,
+      <p style={textStyle}>clientX: {clientX} </p>,
+      <p style={textStyle}>clientY: {clientY} </p>
       <p style={textStyle}>clientX: {clientX} </p>,
       <p style={textStyle}>clientY: {clientY} </p>
     ];

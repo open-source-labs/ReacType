@@ -8,9 +8,12 @@ import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { emitEvent } from '../../helperFunctions/socket';
 
 function DirectChildComponent({ childId, type, typeId, name }: ChildElement) {
   const state = useSelector((store: RootState) => store.appState);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const dispatch = useDispatch();
 
   // find the top-level component corresponding to this instance of the component
@@ -34,6 +37,13 @@ function DirectChildComponent({ childId, type, typeId, name }: ChildElement) {
   });
   const changeFocusFunction = (componentId: number, childId: number | null) => {
     dispatch(changeFocus({ componentId, childId }));
+    if (roomCode) {
+      emitEvent('changeFocusAction', roomCode, {
+        componentId: componentId,
+        childId: childId
+      });
+      console.log('emit focus event from DirectChildComponent');
+    }
   };
 
   // onClickHandler is responsible for changing the focused component and child component

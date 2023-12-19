@@ -183,6 +183,27 @@ io.on('connection', (client) => {
       client.to(roomCode).emit('child data from server', childData);
     }
   });
+
+  client.on('changeFocusAction', (roomCode: string, focusData: object) => {
+    //console.log('focus data received on server:', focusData);
+    if (roomCode) {
+      //server send the focus data to everyone in room
+      client.to(roomCode).emit('focus data from server', focusData);
+    }
+  });
+
+  client.on('deleteChildAction', (roomCode: string, deleteData: object) => {
+    client.to(roomCode).emit('delete data from server', deleteData);
+  });
+
+  client.on(
+    'changePositionAction',
+    (roomCode: string, itemPositionData: object) => {
+      client
+        .to(roomCode)
+        .emit('item position data from server', itemPositionData);
+    }
+  );
 });
 
 //--------------------------------
