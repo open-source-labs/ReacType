@@ -7,8 +7,7 @@ import {
   snapShotAction
 } from '../../redux/reducers/slice/appStateSlice';
 import { useDispatch, useSelector } from 'react-redux';
-
-import MouseMovement from './MouseMovement';
+import { debounce, throttle } from 'lodash';
 
 import Arrow from './Arrow';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -20,10 +19,22 @@ import { emitEvent } from '../../helperFunctions/socket';
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
-
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-  // console.log('roomCode:', roomCode);
-  // console.log('canavs is rendered');
+
+  //-----------------mouse tracking---------------
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // const handleMouseMove = (e) => {
+  //   setMousePosition({ x: e.clientX, y: e.clientY });
+  // };
+  const debounceSetPosition = debounce((newX, newY) => {
+    setMousePosition({ x: newX, y: newY });
+  }, 400);
+
+  const handleMouseMove = (e) => {
+    debounceSetPosition(e.clientX, e.clientY);
+  };
+  //----------------
 
   // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(
@@ -162,17 +173,17 @@ function Canvas(props: {}): JSX.Element {
   );
 
   return (
-    <div className={'mouseTracking'}>
-      <MouseMovement />
-      <div
-        className={'componentContainer'}
-        ref={drop}
-        data-testid="drop"
-        style={canvasStyle}
-        onClick={onClickHandler}
-      >
-        {renderChildren(currentComponent.children)}
-      </div>
+    <div
+      className={'componentContainer'}
+      ref={drop}
+      data-testid="drop"
+      style={canvasStyle}
+      onClick={onClickHandler}
+      onMouseMove={handleMouseMove}
+    >
+      {renderChildren(currentComponent.children)}
+      <p style={{ color: 'red' }}>Mouse X: {mousePosition.x}</p>
+      <p style={{ color: 'red' }}>Mouse Y: {mousePosition.y}</p>
     </div>
   );
 }
