@@ -90,48 +90,39 @@ const RoomsContainer = () => {
       dispatch(setUserList(Object.values(newUserList)));
     });
 
-<<<<<<< HEAD
-    //listening to back end for mouse cursor movement
-    socket.on('draw_cursor', (data) => {
-      let el = getCursor(data.id);
-      el.style.x = data.line[0].x;
-      el.style.y = data.line[0].y;
-    });
-
     // receive the new state from the server and dispatch action creators to update state
     socket.on('new state from back', (event) => {
       const currentStore = JSON.parse(JSON.stringify(store.getState()));
       const newState = JSON.parse(event);
-=======
-    // // receive the new state from the server and dispatch action creators to update state
-    // socket.on('new state from back', (event) => {
-    //   const currentStore = JSON.parse(JSON.stringify(store.getState()));
-    //   const newState = JSON.parse(event);
->>>>>>> f75a32fd05ffcb4b1478f429bafd51c8e2aa1f1f
 
-    //   const areStatesEqual = (stateA, stateB) =>
-    //     JSON.stringify(stateA) === JSON.stringify(stateB);
+      // // receive the new state from the server and dispatch action creators to update state
+      // socket.on('new state from back', (event) => {
+      //   const currentStore = JSON.parse(JSON.stringify(store.getState()));
+      //   const newState = JSON.parse(event);
 
-    //   //checking if current state are equal to the state being sent from server
-    //   if (!areStatesEqual(currentStore, newState)) {
-    //     if (!areStatesEqual(currentStore.appState, newState.appState)) {
-    //       store.dispatch(allCooperativeState(newState.appState));
-    //     } else if (
-    //       !areStatesEqual(
-    //         currentStore.codePreviewSlice,
-    //         newState.codePreviewCooperative
-    //       )
-    //     ) {
-    //       store.dispatch(
-    //         codePreviewCooperative(newState.codePreviewCooperative)
-    //       );
-    //     } else if (
-    //       !areStatesEqual(currentStore.styleSlice, newState.styleSlice)
-    //     ) {
-    //       store.dispatch(cooperativeStyle(newState.styleSlice));
-    //     }
-    //   }
-    // });
+      //   const areStatesEqual = (stateA, stateB) =>
+      //     JSON.stringify(stateA) === JSON.stringify(stateB);
+
+      //   //checking if current state are equal to the state being sent from server
+      //   if (!areStatesEqual(currentStore, newState)) {
+      //     if (!areStatesEqual(currentStore.appState, newState.appState)) {
+      //       store.dispatch(allCooperativeState(newState.appState));
+      //     } else if (
+      //       !areStatesEqual(
+      //         currentStore.codePreviewSlice,
+      //         newState.codePreviewCooperative
+      //       )
+      //     ) {
+      //       store.dispatch(
+      //         codePreviewCooperative(newState.codePreviewCooperative)
+      //       );
+      //     } else if (
+      //       !areStatesEqual(currentStore.styleSlice, newState.styleSlice)
+      //     ) {
+      //       store.dispatch(cooperativeStyle(newState.styleSlice));
+      //     }
+      //   }
+    });
   }
 
   // let previousState = store.getState();
