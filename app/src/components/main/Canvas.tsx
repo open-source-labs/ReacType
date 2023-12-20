@@ -14,26 +14,56 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import { emitEvent } from '../../helperFunctions/socket';
+import { emitEvent, getSocket } from '../../helperFunctions/socket';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  const userName = useSelector((store: RootState) => store.roomSlice.userName);
+  //-------mouse tracking-------
 
-  //-----------------mouse tracking---------------
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [remoteCursor, setRemoteCursor] = useState({
+    x: 0,
+    y: 0,
+    remoteUserName: '',
+    isVisible: false
+  });
 
-  // const handleMouseMove = (e) => {
-  //   setMousePosition({ x: e.clientX, y: e.clientY });
-  // };
   const debounceSetPosition = debounce((newX, newY) => {
-    setMousePosition({ x: newX, y: newY });
-  }, 400);
+    //emit socket event every 500ms when cursor moves
+    // {{userName: x, y} {userName: x, y}}
+    emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
+  }, 500);
 
   const handleMouseMove = (e) => {
     debounceSetPosition(e.clientX, e.clientY);
   };
+
+  //listen to socket event
+  const socket = getSocket();
+  if (socket) {
+    socket.on('remote cursor data from server', (remoteData) => {
+      //update user name
+      if (remoteCursor.remoteUserName === '')
+        setRemoteCursor((prevState) => ({
+          ...prevState,
+          remoteUserName: remoteData.userName
+        }));
+      //update isVisible
+      if (remoteCursor.isVisible === false)
+        setRemoteCursor((prevState) => ({
+          ...prevState,
+          isVisible: true
+        }));
+      //update coords
+      setRemoteCursor((prevState) => ({
+        ...prevState,
+        x: remoteData.x,
+        y: remoteData.y
+      }));
+    });
+  }
   //----------------
 
   // find the current component based on the canvasFocus component ID in the state
@@ -200,6 +230,26 @@ function Canvas(props: {}): JSX.Element {
       onMouseMove={handleMouseMove}
     >
       {renderChildren(currentComponent.children)}
+
+      {remoteCursor.isVisible && (
+        <div
+          className="remote-cursor"
+          style={{
+            position: 'absolute',
+            left: remoteCursor.x + 'px',
+            top: remoteCursor.y - 68 + 'px',
+            //style
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            backgroundColor: 'blue',
+            color: 'red'
+          }}
+        >
+          {' '}
+          {remoteCursor.remoteUserName}
+        </div>
+      )}
     </div>
   );
 }
