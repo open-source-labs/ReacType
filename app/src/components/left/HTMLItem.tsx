@@ -129,7 +129,7 @@ const HTMLItem: React.FC<{
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
-          <Icon fontSize="small" align-items="center" />
+          {/* <Icon fontSize="small" align-items="center" /> */}
           {name}
         </div>
       )}

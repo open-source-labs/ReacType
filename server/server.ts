@@ -204,6 +204,10 @@ io.on('connection', (client) => {
         .emit('item position data from server', itemPositionData);
     }
   );
+
+  client.on('cursorData', (roomCode: string, remoteData: object) => {
+    client.to(roomCode).emit('remote cursor data from server', remoteData);
+  });
 });
 
 //--------------------------------
