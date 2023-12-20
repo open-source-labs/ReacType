@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0');
-@import url("https: //fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap");
+@import url('https: //fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 
 html {
   box-sizing: border-box;
@@ -143,14 +143,13 @@ span.material-symbols-outlined {
   border: solid gray 1px;
 }
 
-
 .column.left::-webkit-scrollbar {
-  width: .5rem;
-  height: .5rem;
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
 .column.left::-webkit-scrollbar-thumb {
-  transition: .3s ease all;
+  transition: 0.3s ease all;
   border-color: transparent;
   background-color: #1e83714b;
   z-index: 40;
@@ -177,7 +176,7 @@ span.material-symbols-outlined {
   flex-wrap: wrap;
   width: 100%;
   flex-grow: 1;
-  border: 1px solid #C6C6C6;
+  border: 1px solid #c6c6c6;
   /* border-radius: 10px; */
 }
 
@@ -202,7 +201,7 @@ span.material-symbols-outlined {
   border: 3px solid white;
 }
 
-#HTMLItemsTopHalf {
+#Half {
   display: flex;
   flex-direction: column;
   justify-content: top;
@@ -213,12 +212,12 @@ span.material-symbols-outlined {
 }
 
 #HTMLItemsTopHalf::-webkit-scrollbar {
-  width: .8rem;
-  height: .5rem;
+  width: 0.8rem;
+  height: 0.5rem;
 }
 
 #HTMLItemsTopHalf::-webkit-scrollbar-thumb {
-  transition: .3s ease all;
+  transition: 0.3s ease all;
   border-color: transparent;
   background-color: #1e83714b;
   border-radius: 8px;
@@ -390,11 +389,11 @@ h1 {
 }
 
 .export-preference div span {
-  transition: .5s
+  transition: 0.5s;
 }
 
 #export-modal {
-  transition: .5s
+  transition: 0.5s;
 }
 
 #export-modal:hover {
@@ -403,7 +402,7 @@ h1 {
 }
 
 #export-modal:hover span {
-  color: white
+  color: white;
 }
 
 .info {
@@ -457,7 +456,7 @@ RIGHT COLUMN
 }
 
 #addComponentButton {
-  border: 2px solid #46C0A5;
+  border: 2px solid #46c0a5;
   border-radius: 4px;
 }
 
@@ -485,7 +484,7 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-  border-color: #46C0A5; 
+  border-color: #46c0a5;
 }
 
 .compPanelItem h3 {
@@ -533,17 +532,15 @@ BOTTOM PANEL
   background-color: #191919;
 }
 
-.MuiDataGrid-menuList, .MuiDataGrid-columnsPanel, .MuiDataGrid-filterForm {
-
-  background-color: #333333
+.MuiDataGrid-menuList,
+.MuiDataGrid-columnsPanel,
+.MuiDataGrid-filterForm {
+  background-color: #333333;
 }
-.MuiDataGrid-panelHeader, .MuiDataGrid-panelFooter {
-
-  background-color: #252525
-
+.MuiDataGrid-panelHeader,
+.MuiDataGrid-panelFooter {
+  background-color: #252525;
 }
-
-
 
 #resize-drag {
   cursor: row-resize;
@@ -568,7 +565,6 @@ BOTTOM PANEL
   height: 100%;
   display: flex;
   flex-direction: column;
-
 }
 
 .htmlattr {
@@ -652,7 +648,6 @@ NAVBAR
   cursor: pointer;
 }
 
-
 .navDropDown {
   position: absolute;
   border: 1px solid #555;
@@ -685,12 +680,12 @@ NAVBAR
 
 .navDropDown p {
   margin: 3px 5%;
-  color: whitesmoke
+  color: whitesmoke;
 }
 
 .navDropDown button:hover {
   cursor: pointer;
-  background-color: #555
+  background-color: #555;
 }
 
 .navDropDown button svg {
@@ -709,8 +704,6 @@ NAVBAR
   width: 16%;
 }
 
-
-
 /*
 /////////////////////////////////////////////////
 CANVAS WINDOW
@@ -724,7 +717,8 @@ CANVAS WINDOW
   border: none;
   font-size: 15px;
   color: white;
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
 
 .delete-button-empty:hover {
@@ -757,7 +751,7 @@ div.rst__rowContents {
 .rst__rowContentsDragDisabled {
   background-color: #333333;
   background-color: rgba(37, 37, 38, 0.4);
-} 
+}
 
 .rst__moveHandle,
 .rst__loadingHandle {
@@ -816,7 +810,7 @@ a.nav_link:hover {
 .useState-btn {
   color: rgb(241, 240, 240);
   background-color: rgba(0, 0, 0, 0.54);
-  border: 1px solid #46C0A5;
+  border: 1px solid #46c0a5;
   border-radius: 3px;
   box-shadow: '2px 2px 2px #1a1a1a';
   font-family: Arial, Helvetica, sans-serif;
