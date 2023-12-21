@@ -1,21 +1,3 @@
-// import ImageIcon from '@mui/icons-material/Image';
-// import NotesOutlinedIcon from '@mui/icons-material/NotesOutlined';
-// import FormIcon from '@mui/icons-material/Description';
-// import HeaderIcon from '@mui/icons-material/TextFormat';
-// import CodeIcon from '@mui/icons-material/Code';
-// import ButtonIcon from '@mui/icons-material/EditAttributes';
-// import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
-// import LinkIcon from '@mui/icons-material/Link';
-// import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
-// import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-// import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
-// import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
-// import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
-// import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
-// import DatasetLinkedOutlinedIcon from '@mui/icons-material/DatasetLinkedOutlined';
-// import ShortTextOutlinedIcon from '@mui/icons-material/ShortTextOutlined';
-// import MoreOutlinedIcon from '@mui/icons-material/MoreOutlined';
-
 import { HTMLType } from '../interfaces/Interfaces';
 
 //properties for all HTML components
