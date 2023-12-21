@@ -40,7 +40,7 @@ function Canvas(props: {}): JSX.Element {
   };
 
   const socket = getSocket();
-  if (socket) {
+  if (socket && false) {
     socket.on('remote cursor data from server', (remoteData) => {
       setRemoteCursors((prevState) => {
         //check if received cursor data is from an existing user in the room
