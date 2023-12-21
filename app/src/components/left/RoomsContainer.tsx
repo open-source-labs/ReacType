@@ -73,7 +73,7 @@ const RoomsContainer = () => {
       //run everytime when a client connects to server
       socket.on('connect', () => {
         socket.emit('joining', userName, roomCode);
-        console.log(`${userName} Joined room ${roomCode} from RoomsConatiner`);
+        console.log(`${userName} Joined room ${roomCode} from RoomsContainer`);
       });
 
       //If you are the host: send current state to server when a new user joins
@@ -175,27 +175,15 @@ const RoomsContainer = () => {
       >
         {' '}
         {/* live room display */}
-        <Typography variant="h5" color={'white'}>
+        <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
+        </Typography>
+        <Typography variant="h6" color={'#70d8be'}>
+          Nickname: {userName}
         </Typography>
         {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
         {userJoined ? (
           <>
-            <Button
-              variant="contained"
-              onClick={() => leaveRoom()}
-              sx={{
-                backgroundColor: '#ffffff',
-                color: '#000000',
-                '&:hover': {
-                  backgroundColor: '#C6C6C6',
-                  borderColor: '#0062cc'
-                }
-              }}
-            >
-              {' '}
-              Leave Room{' '}
-            </Button>
             <Typography
               variant="body1"
               sx={{
@@ -211,7 +199,7 @@ const RoomsContainer = () => {
                 height: 300,
                 maxWidth: 200,
                 bgcolor: '#333333',
-                border: '3px solid white',
+                border: '3px solid #f2fbf8',
                 borderRadius: '5%',
                 display: 'flex',
                 flexDirection: 'column',
@@ -233,7 +221,7 @@ const RoomsContainer = () => {
                   <ListItem
                     key={index}
                     sx={{
-                      color: 'white',
+                      color: '#f2fbf8',
                       textAlign: 'center',
                       width: '100%'
                     }}
@@ -247,6 +235,21 @@ const RoomsContainer = () => {
                 ))}
               </List>
             </Box>
+            <Button
+              variant="contained"
+              onClick={() => leaveRoom()}
+              sx={{
+                backgroundColor: '#f2fbf8',
+                color: '#092a26',
+                '&:hover': {
+                  backgroundColor: '#a5ead6',
+                  borderColor: '#0062cc'
+                }
+              }}
+            >
+              {' '}
+              Leave Room{' '}
+            </Button>
           </>
         ) : (
           //after joinning room
@@ -274,10 +277,10 @@ const RoomsContainer = () => {
               disabled={checkInputField(userName, roomCode)}
               onClick={() => joinRoom()}
               sx={{
-                backgroundColor: '#ffffff',
-                color: '#000000',
+                backgroundColor: '#f2fbf8',
+                color: '#092a26',
                 '&:hover': {
-                  backgroundColor: '#C6C6C6',
+                  backgroundColor: '#a5ead6',
                   borderColor: '#0062cc'
                 }
               }}
