@@ -9,9 +9,9 @@ import { RootState } from '../../redux/store';
 import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
-// import { useSelector } from 'react-redux';
 import { IconProps } from '@mui/material';
 import CodeIcon from '@mui/icons-material/Code';
+import * as Icons from '@mui/icons-material';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -23,9 +23,6 @@ const useStyles = makeStyles({
     justifyContent: 'space-evenly',
     textAlign: 'center',
     cursor: 'grab'
-    // '& > h3': {
-    //   display: 'inline-block'
-    // }
   },
   lightThemeFontColor: {
     color: '#8F8F8F'
@@ -38,11 +35,14 @@ const useStyles = makeStyles({
 const HTMLItem: React.FC<{
   name: string;
   id: number;
-  Icon: any;
+  icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, Icon, handleDelete }) => {
-  // console.log('Icon: ', Icon);
+}> = ({ name, id, icon, handleDelete }) => {
+  //load mui icons base on string parameter
+  const IconComponent = Icons[icon];
+
   const classes = useStyles();
+
   const [modal, setModal] = useState(null);
 
   const [{ isDragging }, drag] = useDrag({
@@ -52,7 +52,7 @@ const HTMLItem: React.FC<{
       newInstance: true,
       instanceType: 'HTML Element',
       name,
-      Icon,
+      icon,
       instanceTypeId: id
     },
     collect: (monitor: any) => ({
@@ -130,6 +130,9 @@ const HTMLItem: React.FC<{
           id="HTMLItem"
         >
           {/* <Icon fontSize="small" align-items="center" /> */}
+          {typeof IconComponent !== 'undefined' && (
+            <IconComponent fontSize="small" align-items="center" />
+          )}
           {name}
         </div>
       )}
