@@ -21,8 +21,12 @@ function Canvas(props: {}): JSX.Element {
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
-  //-------mouse tracking-------
+  const userList = useSelector((store: RootState) => store.roomSlice.userList);
 
+  //-------mouse tracking-------
+  console.log('canvas is rendered');
+
+  //remote cursor data
   const [remoteCursor, setRemoteCursor] = useState({
     x: 0,
     y: 0,
@@ -32,39 +36,36 @@ function Canvas(props: {}): JSX.Element {
 
   const debounceSetPosition = debounce((newX, newY) => {
     //emit socket event every 500ms when cursor moves
-    // {{userName: x, y} {userName: x, y}}
-    emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
-  }, 500);
+    if (userList.length > 1)
+      emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
+  }, 100);
 
   const handleMouseMove = (e) => {
     debounceSetPosition(e.clientX, e.clientY);
   };
 
-  //listen to socket event
   const socket = getSocket();
   if (socket) {
+    // console.log('setting up socket listener');
     socket.on('remote cursor data from server', (remoteData) => {
-      //update user name
-      if (remoteCursor.remoteUserName === '')
-        setRemoteCursor((prevState) => ({
-          ...prevState,
-          remoteUserName: remoteData.userName
-        }));
-      //update isVisible
-      if (remoteCursor.isVisible === false)
-        setRemoteCursor((prevState) => ({
-          ...prevState,
-          isVisible: true
-        }));
-      //update coords
-      setRemoteCursor((prevState) => ({
-        ...prevState,
-        x: remoteData.x,
-        y: remoteData.y
-      }));
+      setRemoteCursor((prevState) => {
+        // check if the received data is different from the current state
+        if (prevState.x !== remoteData.x || prevState.y !== remoteData.y) {
+          return {
+            ...prevState,
+            x: remoteData.x,
+            y: remoteData.y,
+            remoteUserName: remoteData.userName,
+            isVisible: true
+          };
+        }
+        // if data is the same, return the previous state to prevent re-render
+        return prevState;
+      });
     });
   }
-  //----------------
+
+  //--------------------------------
 
   // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(

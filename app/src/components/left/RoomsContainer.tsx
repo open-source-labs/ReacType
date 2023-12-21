@@ -96,6 +96,7 @@ const RoomsContainer = () => {
       socket.on('updateUserList', (newUserList) => {
         console.log('user list received from server');
         dispatch(setUserList(newUserList));
+        console.log('userList:', userList);
       });
 
       socket.on('child data from server', (childData: object) => {
