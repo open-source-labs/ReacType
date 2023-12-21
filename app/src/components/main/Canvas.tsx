@@ -222,22 +222,7 @@ function Canvas(props: {}): JSX.Element {
     currentComponent.style
   );
 
-  // const userColors = ['#FC00BD', '#D0FC00', '#00DBFC', '#FD98B8', '#FCAA00', '#9267FF']
-  // // const colorMaker = () => {
-  // //   let i = Math.floor(Math.random() * userColors.length);
-  // //   let color = userColors[i];
-  // //   userColors.splice(i, 1)
-  // //   return color
-  // // }
-  // const colorSelect = (index = 0) => {
-  //   let color = userColors[index];
-  //   index++
-  //   return color
-  // }
-  // let setColor = colorSelect()
-  //or set as object and add key value pair of that username or id, for/of the object to pull the correct color
-
-
+  const userColors = ['#FC00BD', '#D0FC00', '#00DBFC', '#FD98B8', '#FCAA00', '#9267FF'];
 
   return (
     <div
@@ -259,7 +244,7 @@ function Canvas(props: {}): JSX.Element {
             top: remoteCursor.y - 68 + 'px',
             //cursor style
             fontSize: '2em',
-            color: '#FC00BD'
+            color: userColors[userList.indexOf(remoteCursor.remoteUserName)]
           }}
         >
           {<GiBoba />}

@@ -162,6 +162,8 @@ const RoomsContainer = () => {
     return userName.length === 0 || roomCode.length === 0;
   }
 
+  const userColors = ['#FC00BD', '#D0FC00', '#00DBFC', '#FD98B8', '#FCAA00', '#9267FF'];
+
   return (
     <div>
       <Stack //stack styling for container
@@ -178,7 +180,7 @@ const RoomsContainer = () => {
         <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
         </Typography>
-        <Typography variant="h6" color={'#70d8be'}>
+        <Typography variant="h6" color={userColors[userList.indexOf(userName)]}>
           Nickname: {userName}
         </Typography>
         {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
@@ -221,9 +223,9 @@ const RoomsContainer = () => {
                   <ListItem
                     key={index}
                     sx={{
-                      color: '#f2fbf8',
                       textAlign: 'center',
-                      width: '100%'
+                      width: '100%',
+                      color: '#f2fbf8'
                     }}
                   >
                     <ListItemText
