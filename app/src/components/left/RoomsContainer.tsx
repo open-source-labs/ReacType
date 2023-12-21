@@ -232,6 +232,7 @@ const RoomsContainer = () => {
                       primary={`${index + 1}. ${
                         index === 0 ? `${user} (host)` : user
                       }`}
+                      style={{color: userColors[userList.indexOf(user)]}}
                     />
                   </ListItem>
                 ))}
