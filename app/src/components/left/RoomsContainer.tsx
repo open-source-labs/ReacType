@@ -5,7 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import {
@@ -32,7 +32,22 @@ import {
   disconnectSocket
 } from '../../helperFunctions/socket';
 
-//Websocket
+// // for websockets
+// // Part  - join room and room code functionality
+let socket;
+
+//function to create HTML elements and update the position of the cursorr.
+// function getCursor(id) {
+//   let elementId = 'cursor-' + id;
+//   let element = document.getElementById(elementId);
+//   if (element == null) {
+//     element = document.createElement('div');
+//     element.id = elementId;
+//     element.className = 'cursor';
+//     document.appendChild(element);
+//   }
+//   return element;
+// }
 
 const RoomsContainer = () => {
   const dispatch = useDispatch();
@@ -81,6 +96,7 @@ const RoomsContainer = () => {
       socket.on('updateUserList', (newUserList) => {
         console.log('user list received from server');
         dispatch(setUserList(newUserList));
+        console.log('userList:', userList);
       });
 
       socket.on('child data from server', (childData: object) => {
