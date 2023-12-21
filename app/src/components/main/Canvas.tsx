@@ -15,6 +15,7 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
+import { GiBoba } from "react-icons/gi";
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
@@ -239,15 +240,12 @@ function Canvas(props: {}): JSX.Element {
             position: 'absolute',
             left: remoteCursor.x + 'px',
             top: remoteCursor.y - 68 + 'px',
-            //style
-            width: '10px',
-            height: '10px',
-            borderRadius: '50%',
-            backgroundColor: '#a5ead6',
+            //cursor style
+            fontSize: '40px',
             color: '#46c0a5'
           }}
         >
-          {' '}
+          {<GiBoba />}
           {remoteCursor.remoteUserName}
         </div>
       )}
