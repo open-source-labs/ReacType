@@ -243,8 +243,8 @@ function Canvas(props: {}): JSX.Element {
             width: '10px',
             height: '10px',
             borderRadius: '50%',
-            backgroundColor: 'blue',
-            color: 'red'
+            backgroundColor: '#a5ead6',
+            color: '#46c0a5'
           }}
         >
           {' '}
