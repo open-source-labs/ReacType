@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "18.0.0 by Sonya Hu, Hadrian Chan, Nam Ha, Rick McGrath",
+  "version": "19.0.0 by Rose Jiang, Laura Forden, Lauren Leer, Sean Kil",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/.electron/main.js",
