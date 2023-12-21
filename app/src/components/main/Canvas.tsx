@@ -15,7 +15,7 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
-import { GiBoba } from "react-icons/gi";
+import { GiBoba } from 'react-icons/gi';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
@@ -24,22 +24,16 @@ function Canvas(props: {}): JSX.Element {
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const userList = useSelector((store: RootState) => store.roomSlice.userList);
 
-  //-------mouse tracking-------
+  //-------cursors tracking-------
   console.log('canvas is rendered');
 
-  //remote cursor data
-  const [remoteCursor, setRemoteCursor] = useState({
-    x: 0,
-    y: 0,
-    remoteUserName: '',
-    isVisible: false
-  });
+  const [remoteCursors, setRemoteCursors] = useState([]);
 
   const debounceSetPosition = debounce((newX, newY) => {
     //emit socket event every 500ms when cursor moves
     if (userList.length > 1)
       emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
-  }, 100);
+  }, 300);
 
   const handleMouseMove = (e) => {
     debounceSetPosition(e.clientX, e.clientY);
@@ -47,21 +41,45 @@ function Canvas(props: {}): JSX.Element {
 
   const socket = getSocket();
   if (socket) {
-    // console.log('setting up socket listener');
     socket.on('remote cursor data from server', (remoteData) => {
-      setRemoteCursor((prevState) => {
-        // check if the received data is different from the current state
-        if (prevState.x !== remoteData.x || prevState.y !== remoteData.y) {
-          return {
+      setRemoteCursors((prevState) => {
+        //check if received cursor data is from an existing user in the room
+        const cursorIdx = prevState.findIndex(
+          (cursor) => cursor.remoteUserName === remoteData.userName
+        );
+
+        //[{x,y,remoteUserName, isVisible}, {...}, {...}]
+        //existing user
+        if (cursorIdx >= 0) {
+          //check if cursor position has changed
+          if (
+            prevState[cursorIdx].x !== remoteData.x ||
+            prevState[cursorIdx].y !== remoteData.y
+          ) {
+            //update existing user's cursor position
+            const updatedCursors = [...prevState];
+            updatedCursors[cursorIdx] = {
+              ...prevState[cursorIdx],
+              x: remoteData.x,
+              y: remoteData.y
+            };
+            return updatedCursors;
+          } else {
+            //return previous state if no change
+            return prevState;
+          }
+        } else {
+          //new user: add new user's cursor
+          return [
             ...prevState,
-            x: remoteData.x,
-            y: remoteData.y,
-            remoteUserName: remoteData.userName,
-            isVisible: true
-          };
+            {
+              x: remoteData.x,
+              y: remoteData.y,
+              remoteUserName: remoteData.userName,
+              isVisible: true
+            }
+          ];
         }
-        // if data is the same, return the previous state to prevent re-render
-        return prevState;
       });
     });
   }
@@ -233,21 +251,25 @@ function Canvas(props: {}): JSX.Element {
     >
       {renderChildren(currentComponent.children)}
 
-      {remoteCursor.isVisible && (
-        <div
-          className="remote-cursor"
-          style={{
-            position: 'absolute',
-            left: remoteCursor.x + 'px',
-            top: remoteCursor.y - 68 + 'px',
-            //cursor style
-            fontSize: '40px',
-            color: '#46c0a5'
-          }}
-        >
-          {<GiBoba />}
-          {remoteCursor.remoteUserName}
-        </div>
+      {remoteCursors.map(
+        (cursor, idx) =>
+          cursor.isVisible && (
+            <div
+              key={idx}
+              className="remote-cursor"
+              style={{
+                position: 'absolute',
+                left: cursor.x + 'px',
+                top: cursor.y - 68 + 'px',
+                //cursor style
+                fontSize: '40px',
+                color: '#46c0a5'
+              }}
+            >
+              {<GiBoba />}
+              {cursor.remoteUserName}
+            </div>
+          )
       )}
     </div>
   );
