@@ -95,7 +95,7 @@ export interface HTMLType {
   placeHolderShort: string | React.JSX.Element;
   placeHolderLong: string;
   // ? == optional type part of icon, cant comment out icon and it works
-  Icon?: any;
+  // Icon?: any;
   icon?: any;
   framework: string;
   nestable: boolean;

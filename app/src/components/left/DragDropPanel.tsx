@@ -52,7 +52,7 @@ const DragDropPanel = (props): JSX.Element => {
                   name={option.name}
                   key={`html-${option.name}`}
                   id={option.id}
-                  Icon={option.icon}
+                  icon={option.icon}
                   handleDelete={handleDelete}
                 />
               );
@@ -81,7 +81,7 @@ const DragDropPanel = (props): JSX.Element => {
                   name={option.name}
                   key={`html-${option.name}`}
                   id={option.id}
-                  Icon={option.icon}
+                  icon={option.icon}
                   handleDelete={handleDelete}
                 />
               );
@@ -103,7 +103,7 @@ const DragDropPanel = (props): JSX.Element => {
                 name={option.name}
                 key={`html-${option.name}`}
                 id={option.id}
-                Icon={option.icon}
+                icon={option.icon}
                 handleDelete={handleDelete}
               />
             );
