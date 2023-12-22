@@ -163,15 +163,24 @@ io.on('connection', (client) => {
 
   //disconnecting functionality
   client.on('disconnecting', () => {
-    // the client.rooms Set contains at least the socket ID
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
+    const userList = Object.keys(roomLists[roomCode]); //[ bHhFDmzPGam, mqri45c94E3 ] order is not perserved?
+    const hostID = userList[0];
+    // the client.rooms Set contains at least the socket ID
+    console.log(`${client.id} will be leaving the room`);
+    console.log(client.id === hostID);
+    console.log(roomLists[roomCode]);
     delete roomLists[roomCode][client.id];
+    console.log(roomLists[roomCode]);
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
-      io.to(roomCode).emit('updateUserList', roomLists[roomCode]);
+      io.to(roomCode).emit(
+        'updateUserList',
+        Object.values(roomLists[roomCode])
+      );
     }
   });
 
