@@ -240,6 +240,8 @@ function Canvas(props: {}): JSX.Element {
     currentComponent.style
   );
 
+  const userColors = ['#FC00BD', '#D0FC00', '#00DBFC', '#FD98B8', '#FCAA00', '#9267FF'];
+
   return (
     <div
       className={'componentContainer'}
@@ -262,8 +264,8 @@ function Canvas(props: {}): JSX.Element {
                 left: cursor.x + 'px',
                 top: cursor.y - 68 + 'px',
                 //cursor style
-                fontSize: '40px',
-                color: '#46c0a5'
+                fontSize: '2em',
+                color: userColors[userList.indexOf(cursor.remoteUserName)]
               }}
             >
               {<GiBoba />}
