@@ -162,7 +162,20 @@ const RoomsContainer = () => {
     return userName.length === 0 || roomCode.length === 0;
   }
 
-  const userColors = ['#FC00BD', '#D0FC00', '#00DBFC', '#FD98B8', '#FCAA00', '#9267FF'];
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && e.target.id === 'filled-hidden-label-small') {
+      e.preventDefault();
+      joinRoom();
+    }
+  };
+  const userColors = [
+    '#FC00BD',
+    '#D0FC00',
+    '#00DBFC',
+    '#FD98B8',
+    '#FCAA00',
+    '#9267FF'
+  ];
 
   return (
     <div>
@@ -232,7 +245,7 @@ const RoomsContainer = () => {
                       primary={`${index + 1}. ${
                         index === 0 ? `${user} (host)` : user
                       }`}
-                      style={{color: userColors[userList.indexOf(user)]}}
+                      style={{ color: userColors[userList.indexOf(user)] }}
                     />
                   </ListItem>
                 ))}
@@ -274,6 +287,8 @@ const RoomsContainer = () => {
               value={roomCode}
               placeholder="Input Room Number"
               onChange={(e) => dispatch(setRoomCode(e.target.value))}
+              className="enterRoomInput"
+              onKeyDown={handleKeyDown}
             />
             <Button
               variant="contained"

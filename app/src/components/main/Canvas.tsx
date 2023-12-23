@@ -240,7 +240,14 @@ function Canvas(props: {}): JSX.Element {
     currentComponent.style
   );
 
-  const userColors = ['#FC00BD', '#D0FC00', '#00DBFC', '#FD98B8', '#FCAA00', '#9267FF'];
+  const userColors = [
+    '#FC00BD',
+    '#D0FC00',
+    '#00DBFC',
+    '#FD98B8',
+    '#FCAA00',
+    '#9267FF'
+  ];
 
   return (
     <div
