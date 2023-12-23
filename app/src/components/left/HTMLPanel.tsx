@@ -144,7 +144,11 @@ const HTMLPanel = (props): JSX.Element => {
   };
 
   const handleCreateElement = useCallback((e) => {
-    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+    if (
+      e.key === 'Enter' &&
+      e.target.tagName !== 'TEXTAREA' &&
+      e.target.id !== 'filled-hidden-label-small'
+    ) {
       e.preventDefault();
       document.getElementById('submitButton').click();
     }
