@@ -40,7 +40,7 @@ function Canvas(props: {}): JSX.Element {
   };
 
   const socket = getSocket();
-  if (socket && false) {
+  if (socket) {
     socket.on('remote cursor data from server', (remoteData) => {
       setRemoteCursors((prevState) => {
         //check if received cursor data is from an existing user in the room
@@ -240,7 +240,14 @@ function Canvas(props: {}): JSX.Element {
     currentComponent.style
   );
 
-  const userColors = ['#FC00BD', '#D0FC00', '#00DBFC', '#FD98B8', '#FCAA00', '#9267FF'];
+  const userColors = [
+    '#FC00BD',
+    '#D0FC00',
+    '#00DBFC',
+    '#FD98B8',
+    '#FCAA00',
+    '#9267FF'
+  ];
 
   return (
     <div
