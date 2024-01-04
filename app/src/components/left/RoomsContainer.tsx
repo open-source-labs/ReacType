@@ -162,7 +162,21 @@ const RoomsContainer = () => {
     return userName.length === 0 || roomCode.length === 0;
   }
 
-  // Turning off the cursor live tracking on canvas with the press of a button. 
+  // Turning off the cursor live tracking on canvas with the press of a button.
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && e.target.id === 'filled-hidden-label-small') {
+      e.preventDefault();
+      joinRoom();
+    }
+  };
+  const userColors = [
+    '#FC00BD',
+    '#D0FC00',
+    '#00DBFC',
+    '#FD98B8',
+    '#FCAA00',
+    '#9267FF'
+  ];
 
   return (
     <div>
@@ -180,7 +194,7 @@ const RoomsContainer = () => {
         <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
         </Typography>
-        <Typography variant="h6" color={'#70d8be'}>
+        <Typography variant="h6" color={userColors[userList.indexOf(userName)]}>
           Nickname: {userName}
         </Typography>
         {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
@@ -223,15 +237,16 @@ const RoomsContainer = () => {
                   <ListItem
                     key={index}
                     sx={{
-                      color: '#f2fbf8',
                       textAlign: 'center',
-                      width: '100%'
+                      width: '100%',
+                      color: '#f2fbf8'
                     }}
                   >
                     <ListItemText
                       primary={`${index + 1}. ${
                         index === 0 ? `${user} (host)` : user
                       }`}
+                      style={{ color: userColors[userList.indexOf(user)] }}
                     />
                   </ListItem>
                 ))}
@@ -252,7 +267,6 @@ const RoomsContainer = () => {
               {' '}
               Leave Room{' '}
             </Button>
-
           </>
         ) : (
           //after joinning room
@@ -274,6 +288,8 @@ const RoomsContainer = () => {
               value={roomCode}
               placeholder="Input Room Number"
               onChange={(e) => dispatch(setRoomCode(e.target.value))}
+              className="enterRoomInput"
+              onKeyDown={handleKeyDown}
             />
             <Button
               variant="contained"
