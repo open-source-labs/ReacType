@@ -15,7 +15,7 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
-import { GiBoba } from "react-icons/gi";
+import { GiBoba } from 'react-icons/gi';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
@@ -26,6 +26,10 @@ function Canvas(props: {}): JSX.Element {
 
   //-------mouse tracking-------
   console.log('canvas is rendered');
+
+  //toggle switch
+  // const [toggleSwitch, setToggleSwitch] = useState(false);
+  // console.log(toggleSwitch);
 
   //remote cursor data
   const [remoteCursor, setRemoteCursor] = useState({
@@ -47,23 +51,44 @@ function Canvas(props: {}): JSX.Element {
 
   const socket = getSocket();
   if (socket) {
-    // console.log('setting up socket listener');
-    socket.on('remote cursor data from server', (remoteData) => {
-      setRemoteCursor((prevState) => {
-        // check if the received data is different from the current state
-        if (prevState.x !== remoteData.x || prevState.y !== remoteData.y) {
-          return {
-            ...prevState,
-            x: remoteData.x,
-            y: remoteData.y,
-            remoteUserName: remoteData.userName,
-            isVisible: true
-          };
-        }
-        // if data is the same, return the previous state to prevent re-render
-        return prevState;
+    //Condition if toggle is true, then allow for tracking, else, turn off tracking.
+    if (toggleSwitch === true) {
+      // console.log('setting up socket listener');
+      socket.on('remote cursor data from server', (remoteData) => {
+        setRemoteCursor((prevState) => {
+          // check if the received data is different from the current state
+          if (prevState.x !== remoteData.x || prevState.y !== remoteData.y) {
+            return {
+              ...prevState,
+              x: remoteData.x,
+              y: remoteData.y,
+              remoteUserName: remoteData.userName,
+              isVisible: true
+            };
+          }
+          // if data is the same, return the previous state to prevent re-render
+          return prevState;
+        });
       });
-    });
+    } else {
+      console.log('Live tracking turned off!');
+      // socket.off('remove cursor data from server', (remoteData) => {
+      //   setRemoteCursor((prevState) => {
+      //     // check if the received data is different from the current state
+      //     if (prevState.x !== remoteData.x || prevState.y !== remoteData.y) {
+      //       return {
+      //         ...prevState,
+      //         x: remoteData.x,
+      //         y: remoteData.y,
+      //         remoteUserName: remoteData.userName,
+      //         isVisible: true
+      //       };
+      //     }
+      //     // if data is the same, return the previous state to prevent re-render
+      //     return prevState;
+      //   });
+      // });
+    }
   }
 
   //--------------------------------
@@ -249,6 +274,22 @@ function Canvas(props: {}): JSX.Element {
           {remoteCursor.remoteUserName}
         </div>
       )}
+      <label
+        className="switch"
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          width: '60px',
+          height: '34px'
+        }}
+      >
+        <button
+          className="btn-toggle"
+          // onClick={() => setToggleSwitch((toggleSwitch) => !toggleSwitch)}
+        >
+          On/Off
+        </button>
+      </label>
     </div>
   );
 }

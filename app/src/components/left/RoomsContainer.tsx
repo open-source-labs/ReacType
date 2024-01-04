@@ -162,6 +162,8 @@ const RoomsContainer = () => {
     return userName.length === 0 || roomCode.length === 0;
   }
 
+  // Turning off the cursor live tracking on canvas with the press of a button. 
+
   return (
     <div>
       <Stack //stack styling for container
@@ -250,6 +252,7 @@ const RoomsContainer = () => {
               {' '}
               Leave Room{' '}
             </Button>
+
           </>
         ) : (
           //after joinning room
