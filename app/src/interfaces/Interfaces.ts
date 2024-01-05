@@ -191,3 +191,12 @@ export interface MouseState {
   clientX: number;
   clientY: number;
 }
+
+export interface BottomPanelObj {
+  stateUsedObj: object;
+  contextParam: object;
+  useContextObj: object;
+  attributes: object;
+  style: object;
+  events: object;
+}
