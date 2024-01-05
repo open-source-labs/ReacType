@@ -28,9 +28,10 @@ function Canvas(props: {}): JSX.Element {
   console.log('canvas is rendered');
 
   const [remoteCursors, setRemoteCursors] = useState([]);
+  const [toggleSwitch, setToggleSwitch] = useState(true);
 
   const debounceSetPosition = debounce((newX, newY) => {
-    //emit socket event every 500ms when cursor moves
+    //emit socket event every 300ms when cursor moves
     if (userList.length > 1)
       emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
   }, 300);
@@ -39,52 +40,99 @@ function Canvas(props: {}): JSX.Element {
     debounceSetPosition(e.clientX, e.clientY);
   };
 
-  const socket = getSocket();
-  if (socket) {
-    socket.on('remote cursor data from server', (remoteData) => {
-      setRemoteCursors((prevState) => {
-        //check if received cursor data is from an existing user in the room
-        const cursorIdx = prevState.findIndex(
-          (cursor) => cursor.remoteUserName === remoteData.userName
-        );
-
-        //[{x,y,remoteUserName, isVisible}, {...}, {...}]
-        //existing user
-        if (cursorIdx >= 0) {
-          //check if cursor position has changed
-          if (
-            prevState[cursorIdx].x !== remoteData.x ||
-            prevState[cursorIdx].y !== remoteData.y
-          ) {
-            //update existing user's cursor position
-            const updatedCursors = [...prevState];
-            updatedCursors[cursorIdx] = {
-              ...prevState[cursorIdx],
-              x: remoteData.x,
-              y: remoteData.y
-            };
-            return updatedCursors;
-          } else {
-            //return previous state if no change
-            return prevState;
-          }
+  const handleCursorDataFromServer = (remoteData) => {
+    setRemoteCursors((prevState) => {
+      //check if received cursor data is from an existing user in the room
+      const cursorIdx = prevState.findIndex(
+        (cursor) => cursor.remoteUserName === remoteData.userName
+      );
+      //[{x,y,remoteUserName, isVisible}, {...}, {...}]
+      //existing user
+      if (cursorIdx >= 0) {
+        //check if cursor position has changed
+        if (
+          prevState[cursorIdx].x !== remoteData.x ||
+          prevState[cursorIdx].y !== remoteData.y
+        ) {
+          //update existing user's cursor position
+          const updatedCursors = [...prevState];
+          updatedCursors[cursorIdx] = {
+            ...prevState[cursorIdx],
+            x: remoteData.x,
+            y: remoteData.y
+          };
+          return updatedCursors;
         } else {
-          //new user: add new user's cursor
-          return [
-            ...prevState,
-            {
-              x: remoteData.x,
-              y: remoteData.y,
-              remoteUserName: remoteData.userName,
-              isVisible: true
-            }
-          ];
+          //return previous state if no change
+          return prevState;
         }
-      });
+      } else {
+        //new user: add new user's cursor
+        return [
+          ...prevState,
+          {
+            x: remoteData.x,
+            y: remoteData.y,
+            remoteUserName: remoteData.userName,
+            isVisible: true
+          }
+        ];
+      }
     });
-  }
+  };
+  const handleToggleSwitch = () => {
+    setToggleSwitch(!toggleSwitch);
+    //checks the state before it's updated so need to check the opposite condition
+    if (toggleSwitch) {
+      //turn off
+      socket.off('remote cursor data from server');
+      //make remote cursor invisible
+      setRemoteCursors((prevState) => {
+        const newState = prevState.map((cursor) => ({
+          ...cursor,
+          isVisible: false
+        }));
+        return newState;
+      });
+    } else {
+      //turn on
+      socket.on('remote cursor data from server', (remoteData) =>
+        handleCursorDataFromServer(remoteData)
+      );
+      //make remote cursor visible
+      setRemoteCursors((prevState) =>
+        prevState.map((cursor) => ({
+          ...cursor,
+          isVisible: true
+        }))
+      );
+    }
+  };
 
-  //--------------------------------
+  console.log('Toggle Switch:', toggleSwitch);
+
+  const socket = getSocket();
+  //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
+  useEffect(() => {
+    console.log(
+      'socket inside useEffect:',
+      socket ? 'connected' : 'not connected'
+    );
+
+    if (socket) {
+      console.log('------setting up socket.on event listener-------');
+      socket.on('remote cursor data from server', (remoteData) =>
+        handleCursorDataFromServer(remoteData)
+      );
+    }
+
+    return () => {
+      console.log('clean up cursor event listener after canvas unmount');
+      if (socket) socket.off('remote cursor data from server');
+    };
+  }, [socket]);
+
+  //-----------------
 
   // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(
@@ -280,6 +328,20 @@ function Canvas(props: {}): JSX.Element {
             </div>
           )
       )}
+
+      <label
+        className="switch"
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          width: '60px',
+          height: '34px'
+        }}
+      >
+        <button className="btn-toggle" onClick={handleToggleSwitch}>
+          On/Off
+        </button>
+      </label>
     </div>
   );
 }
