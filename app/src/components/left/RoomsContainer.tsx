@@ -15,6 +15,7 @@ import {
   changeFocus,
   deleteChild,
   changePosition,
+  resetState,
   updateStateUsed,
   updateUseContext,
   updateCss,
@@ -100,9 +101,9 @@ const RoomsContainer = () => {
 
       // update user list when there's a change: new join or leave the room
       socket.on('updateUserList', (newUserList) => {
-        console.log('user list received from server');
+        //console.log('user list received from server');
         dispatch(setUserList(newUserList));
-        console.log('userList:', userList);
+        // console.log('userList:', userList);
       });
 
       socket.on('child data from server', (childData: object) => {
@@ -152,7 +153,6 @@ const RoomsContainer = () => {
     //edge case: if userList is not empty, reset it to empty array
     if (userList.length !== 0) dispatch(setUserList([]));
     handleUserEnteredRoom(roomCode);
-
     dispatch(setRoomCode(roomCode)); //?
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
   }
@@ -161,6 +161,7 @@ const RoomsContainer = () => {
     let socket = getSocket();
     if (socket) {
       socket.disconnect(); //disconnecting socket from server
+      console.log(socket);
       socket = null;
       console.log('user leaves the room');
     }
@@ -169,6 +170,7 @@ const RoomsContainer = () => {
     dispatch(setUserName(''));
     dispatch(setUserList([]));
     dispatch(setUserJoined(false)); //setting joined to false so join room UI appear
+    dispatch(resetState(''));
   }
 
   //checking empty input field (not including spaces)
@@ -178,7 +180,20 @@ const RoomsContainer = () => {
     return userName.length === 0 || roomCode.length === 0;
   }
 
-  const userColors = ['#FC00BD', '#D0FC00', '#00DBFC', '#FD98B8', '#FCAA00', '#9267FF'];
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && e.target.id === 'filled-hidden-label-small') {
+      e.preventDefault();
+      joinRoom();
+    }
+  };
+  const userColors = [
+    '#FC00BD',
+    '#D0FC00',
+    '#00DBFC',
+    '#FD98B8',
+    '#FCAA00',
+    '#9267FF'
+  ];
 
   return (
     <div>
@@ -248,7 +263,7 @@ const RoomsContainer = () => {
                       primary={`${index + 1}. ${
                         index === 0 ? `${user} (host)` : user
                       }`}
-                      style={{color: userColors[userList.indexOf(user)]}}
+                      style={{ color: userColors[userList.indexOf(user)] }}
                     />
                   </ListItem>
                 ))}
@@ -290,6 +305,8 @@ const RoomsContainer = () => {
               value={roomCode}
               placeholder="Input Room Number"
               onChange={(e) => dispatch(setRoomCode(e.target.value))}
+              className="enterRoomInput"
+              onKeyDown={handleKeyDown}
             />
             <Button
               variant="contained"
