@@ -267,6 +267,7 @@ const RoomsContainer = () => {
               {' '}
               Leave Room{' '}
             </Button>
+
           </>
         ) : (
           //after joinning room

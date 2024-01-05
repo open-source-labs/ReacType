@@ -304,7 +304,7 @@ function Canvas(props: {}): JSX.Element {
       >
         <button
           className="btn-toggle"
-          // onClick={() => setToggleSwitch((toggleSwitch) => !toggleSwitch)}
+          onClick={() => setToggleSwitch((toggleSwitch) => !toggleSwitch)}
         >
           On/Off
         </button>
