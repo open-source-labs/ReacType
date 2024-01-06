@@ -153,6 +153,7 @@ span.material-symbols-outlined {
   transition: .3s ease all;
   border-color: transparent;
   background-color: #1e83714b;
+  border-radius: 8px;
   z-index: 40;
 }
 
@@ -304,10 +305,10 @@ span.material-symbols-outlined {
   border: none;
   background: none;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-start;
-  justify-self: flex-end;
-  align-self: flex-start;
+  /* justify-self: flex-end; */
+  /* align-self: flex-start; */
   width: 0.5em;
 }
 
@@ -430,8 +431,6 @@ RIGHT COLUMN
 // RIGHT NOW, I'M NOT SURE WHAT RIGHT COL IS REFERING TO
 */
 #rightContainer {
-  overflow-y: auto;
-  overflow-x: hidden;
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -533,6 +532,19 @@ BOTTOM PANEL
   background-color: #191919;
 }
 
+.tab-content::-webkit-scrollbar {
+  width: .8rem;
+  height: .5rem;
+  }
+  
+.tab-content::-webkit-scrollbar-thumb {
+  transition: .3s ease all;
+  border-color: transparent;
+  background-color: #1e83714b;
+  border-radius: 8px;
+  z-index: 40;
+}
+
 .MuiDataGrid-menuList, .MuiDataGrid-columnsPanel, .MuiDataGrid-filterForm {
 
   background-color: #333333
@@ -568,7 +580,6 @@ BOTTOM PANEL
   height: 100%;
   display: flex;
   flex-direction: column;
-
 }
 
 .htmlattr {
