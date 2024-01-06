@@ -16,10 +16,11 @@ import config from '../../../config';
 let socket = null;
 
 export const initializeSocket = () => {
-  if (socket) socket.disconnect();
+  if (socket) socket.connect();
   if (!socket) {
     socket = io(config.API_BASE_URL, { transports: ['websocket'] });
     console.log('A user connected');
+    console.log('socket:', socket);
   }
 };
 
