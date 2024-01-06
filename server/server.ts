@@ -153,14 +153,6 @@ io.on('connection', (client) => {
     io.emit('mouseCursor', { line: data.line, id: client.id });
   });
 
-  //connecting and emitting the mousetracker
-  // client.on('connection', (socket) => {
-  //   socket.emit('news', { hello: 'world' });
-  //   socket.on('other event', (data) => {
-  //     console.log(data);
-  //   });
-  // });
-
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting

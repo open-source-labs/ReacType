@@ -150,7 +150,7 @@ function Canvas(props: {}): JSX.Element {
     childId?: number | null
   ) => {
     dispatch(changeFocus({ componentId, childId }));
-    //if room exists, send focus dispatcht to all users
+    //if room exists, send focus dispatch to all users
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
