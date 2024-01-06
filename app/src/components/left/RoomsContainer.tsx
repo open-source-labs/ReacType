@@ -95,9 +95,9 @@ const RoomsContainer = () => {
 
       // update user list when there's a change: new join or leave the room
       socket.on('updateUserList', (newUserList) => {
-        console.log('user list received from server');
+        //console.log('user list received from server');
         dispatch(setUserList(newUserList));
-        console.log('userList:', userList);
+        // console.log('userList:', userList);
       });
 
       socket.on('child data from server', (childData: object) => {
