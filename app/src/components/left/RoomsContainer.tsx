@@ -13,7 +13,8 @@ import {
   addChild,
   changeFocus,
   deleteChild,
-  changePosition
+  changePosition,
+  resetState
 } from '../../redux/reducers/slice/appStateSlice';
 import {
   setRoomCode,
@@ -136,7 +137,6 @@ const RoomsContainer = () => {
     //edge case: if userList is not empty, reset it to empty array
     if (userList.length !== 0) dispatch(setUserList([]));
     handleUserEnteredRoom(roomCode);
-
     dispatch(setRoomCode(roomCode)); //?
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
   }
@@ -145,6 +145,7 @@ const RoomsContainer = () => {
     let socket = getSocket();
     if (socket) {
       socket.disconnect(); //disconnecting socket from server
+      console.log(socket);
       socket = null;
       console.log('user leaves the room');
     }
@@ -153,6 +154,7 @@ const RoomsContainer = () => {
     dispatch(setUserName(''));
     dispatch(setUserList([]));
     dispatch(setUserJoined(false)); //setting joined to false so join room UI appear
+    dispatch(resetState(''));
   }
 
   //checking empty input field (not including spaces)
