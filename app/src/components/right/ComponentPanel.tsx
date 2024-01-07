@@ -8,6 +8,7 @@ import { addComponent } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { emitEvent } from '../../helperFunctions/socket';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {
@@ -19,6 +20,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
   const dispatch = useDispatch();
 
@@ -73,6 +75,15 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
         contextParam: contextParam
       })
     );
+
+    if (roomCode) {
+      emitEvent('Action', roomCode, {
+        componentName: formattedName,
+        root: isRoot,
+        contextParam: contextParam
+      });
+    }
+
     // reset root toggle back to default position
     setIsRoot(false);
     // reset name field

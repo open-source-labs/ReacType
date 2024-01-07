@@ -176,7 +176,7 @@ io.on('connection', (client) => {
     }
   });
 
-  //--------------------------------
+  //-------Socket events for state synchronization in collab room------------------
   client.on('addChildAction', (roomCode: string, childData: object) => {
     // console.log('child data received on server:', childData);
     if (roomCode) {
@@ -199,7 +199,7 @@ io.on('connection', (client) => {
 
   client.on('updateChildAction', (roomCode: string, updateData: object) => {
     client.to(roomCode).emit('update data from server', updateData);
-    console.log('client received update from server!')
+    console.log('client received update from server!');
   });
 
   client.on(
