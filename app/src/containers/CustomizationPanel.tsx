@@ -580,6 +580,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 ? ' component'
                 : ' element'}{' '}
                 : {configTarget.child.name}
+              <br />
+                {configTarget.child.name}
             </h4>
           </div>
           <section className={'customization-section'}>
