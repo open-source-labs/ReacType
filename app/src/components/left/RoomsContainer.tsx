@@ -38,6 +38,7 @@ import {
   getSocket,
   disconnectSocket
 } from '../../helperFunctions/socket';
+import Canvas from '../components/main/Canvas';
 
 // // for websockets
 // // Part  - join room and room code functionality
@@ -180,6 +181,7 @@ const RoomsContainer = () => {
     return userName.length === 0 || roomCode.length === 0;
   }
 
+  // Turning off the cursor live tracking on canvas with the press of a button.
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && e.target.id === 'filled-hidden-label-small') {
       e.preventDefault();
