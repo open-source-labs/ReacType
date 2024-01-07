@@ -8,13 +8,21 @@ import Button from '@mui/material/Button';
 import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
+import { BottomPanelObj } from '../../interfaces/Interfaces';
 import {
   allCooperativeState,
   addChild,
   changeFocus,
   deleteChild,
   changePosition,
-  resetState
+  resetState,
+  updateStateUsed,
+  updateUseContext,
+  updateCss,
+  updateAttributes,
+  updateEvents,
+  addComponent,
+  addElement
 } from '../../redux/reducers/slice/appStateSlice';
 import {
   setRoomCode,
@@ -115,6 +123,41 @@ const RoomsContainer = () => {
         store.dispatch(deleteChild(deleteData));
       });
 
+      //write out emitters for reach function inside of CusomizationPanel HandleSave//no need to pull the function into RoomsContainer
+      socket.on('update data from server', (updateData: BottomPanelObj) => {
+        console.log('update data received from server', updateData);
+        store.dispatch(
+          updateStateUsed({
+            stateUsedObj: updateData.stateUsedObj,
+            contextParam: updateData.contextParam
+          })
+        );
+        store.dispatch(
+          updateUseContext({
+            useContextObj: updateData.useContextObj,
+            contextParam: updateData.contextParam
+          })
+        );
+        store.dispatch(
+          updateCss({
+            style: updateData.style,
+            contextParam: updateData.contextParam
+          })
+        );
+        store.dispatch(
+          updateAttributes({
+            attributes: updateData.attributes,
+            contextParam: updateData.contextParam
+          })
+        );
+        store.dispatch(
+          updateEvents({
+            events: updateData.events,
+            contextParam: updateData.contextParam
+          })
+        );
+      });
+
       socket.on(
         'item position data from server',
         (itemPositionData: object) => {
@@ -125,6 +168,14 @@ const RoomsContainer = () => {
           store.dispatch(changePosition(itemPositionData));
         }
       );
+
+      socket.on('new component data from server', (newComponent: object) => {
+        store.dispatch(addComponent(newComponent));
+      });
+
+      socket.on('new element data from server', (newElement: object) => {
+        store.dispatch(addElement(newElement));
+      });
     }
   }
 

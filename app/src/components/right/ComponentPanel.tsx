@@ -77,7 +77,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
     );
 
     if (roomCode) {
-      emitEvent('Action', roomCode, {
+      emitEvent('addComponentAction', roomCode, {
         componentName: formattedName,
         root: isRoot,
         contextParam: contextParam

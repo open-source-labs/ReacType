@@ -211,6 +211,19 @@ io.on('connection', (client) => {
     }
   );
 
+  client.on('addComponentAction', (roomCode: string, newComponent: object) => {
+    if (roomCode) {
+      client.to(roomCode).emit('new component data from server', newComponent);
+    }
+  });
+
+  client.on('addElementAction', (roomCode: string, newElement: object) => {
+    if (roomCode) {
+      client.to(roomCode).emit('new element data from server', newElement);
+    }
+  });
+
+  //remote cursor
   client.on('cursorData', (roomCode: string, remoteData: object) => {
     client.to(roomCode).emit('remote cursor data from server', remoteData);
   });
