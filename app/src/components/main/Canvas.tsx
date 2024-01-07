@@ -16,6 +16,7 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
 import { GiBoba } from 'react-icons/gi';
+import { Console } from 'console';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
@@ -33,6 +34,13 @@ function Canvas(props: {}): JSX.Element {
 
   //toggle switch
   const [toggleSwitch, setToggleSwitch] = useState(true);
+
+  // toggle text
+  const [toggleText, setToggleText] = useState('off');
+
+  const toggleButton = () => {
+    setToggleText(toggleText === 'on' ? 'off' : 'on');
+  };
 
   const debounceSetPosition = debounce((newX, newY) => {
     //emit socket event every 300ms when cursor moves
@@ -114,6 +122,12 @@ function Canvas(props: {}): JSX.Element {
   };
 
   console.log('Toggle Switch:', toggleSwitch);
+
+  //Function to handle the click events
+  const multipleClicks = () => {
+    handleToggleSwitch();
+    toggleButton();
+  };
 
   const socket = getSocket();
   //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
@@ -332,18 +346,26 @@ function Canvas(props: {}): JSX.Element {
             </div>
           )
       )}
-      <label
-        className="switch"
-        style={{
-          position: 'relative',
-          display: 'inline-block',
-          width: '60px',
-          height: '34px'
-        }}
-      >
-        <button className="btn-toggle" onClick={handleToggleSwitch}>
-          On/Off
-        </button>
+      <label className="switch">
+        {userList.length > 1 && (
+          <button
+            className="btn-toggle"
+            onClick={multipleClicks}
+            style={{
+              position: 'fixed',
+              width: 'max-content',
+              height: 'max-content',
+              bottom: '100px',
+              left: '51vw',
+              textAlign: 'center',
+              color: '#ffffff',
+              backgroundColor: '#151515',
+              zIndex: 0
+            }}
+          >
+            {toggleText === 'on' ? 'Turn Off' : 'Turn On'}
+          </button>
+        )}
       </label>
     </div>
   );

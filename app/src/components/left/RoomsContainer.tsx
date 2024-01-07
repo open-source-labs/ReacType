@@ -31,6 +31,7 @@ import {
   getSocket,
   disconnectSocket
 } from '../../helperFunctions/socket';
+import Canvas from '../components/main/Canvas';
 
 // // for websockets
 // // Part  - join room and room code functionality
@@ -267,7 +268,6 @@ const RoomsContainer = () => {
               {' '}
               Leave Room{' '}
             </Button>
-
           </>
         ) : (
           //after joinning room
