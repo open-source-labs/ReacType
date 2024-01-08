@@ -16,15 +16,14 @@ import config from '../../../config';
 let socket = null;
 
 export const initializeSocket = () => {
-  if (socket) socket.connect();
-  if (!socket) {
-    socket = io(config.API_BASE_URL, {
-      transports: ['websocket'],
-      forceNew: true
-    });
-    console.log('A user connected');
-    console.log('socket:', socket);
-  }
+  socket = io(config.API_BASE_URL, {
+    transports: ['websocket'],
+    // will force new socket connection if re-joining to prevent double emits
+    forceNew: true
+  });
+  console.log('A user connected');
+  console.log('socket:', socket);
+  // }
 };
 
 export const getSocket = () => {
