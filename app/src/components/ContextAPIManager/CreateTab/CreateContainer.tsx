@@ -12,9 +12,12 @@ import {
 } from '../../../redux/reducers/slice/contextReducer';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
+import { emitEvent } from '../../../../src/helperFunctions/socket';
 
 const CreateContainer = () => {
   const state = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const [contextInput, setContextInput] = React.useState('');
   const [currentContext, setCurrentContext] = React.useState('');
   const [errorMsg, setErrorMsg] = React.useState('');
@@ -49,6 +52,11 @@ const CreateContainer = () => {
     }
 
     dispatch(addContext({ name: contextInput }));
+
+    if (roomCode) {
+      emitEvent('addContextAction', roomCode, { name: contextInput });
+    }
+
     setContextInput('');
   };
 
@@ -73,11 +81,24 @@ const CreateContainer = () => {
   //update data store when user add new key-value pair to context
   const handleClickInputData = (name, { inputKey, inputValue }) => {
     dispatch(addContextValues({ name, inputKey, inputValue }));
+
+    if (roomCode) {
+      emitEvent('addContextValuesAction', roomCode, {
+        name,
+        inputKey,
+        inputValue
+      });
+    }
   };
 
   //update data store when user deletes context
   const handleDeleteContextClick = () => {
     dispatch(deleteContext({ name: currentContext }));
+
+    if (roomCode) {
+      emitEvent('deleteContextAction', roomCode, { name: currentContext });
+    }
+
     setContextInput('');
     setCurrentContext('');
   };

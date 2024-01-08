@@ -7,10 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deletePassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../../redux/store';
 import { ColumnTab } from '../../../../interfaces/Interfaces';
+import { emitEvent } from '../../../../helperFunctions/socket';
 
 const TablePassedInProps = (props) => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -75,6 +77,13 @@ const TablePassedInProps = (props) => {
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
     dispatch(deletePassedInProps({ rowId: rowId, contextParam: contextParam }));
+
+    if (roomCode) {
+      emitEvent('deletePassedInPropsAction', roomCode, {
+        rowId: rowId,
+        contextParam: contextParam
+      });
+    }
   };
 
   useEffect(() => {

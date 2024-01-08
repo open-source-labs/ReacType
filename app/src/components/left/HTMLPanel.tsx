@@ -8,6 +8,7 @@ import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { emitEvent } from '../../helperFunctions/socket';
 
 /*
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
@@ -32,6 +33,8 @@ const HTMLPanel = (props): JSX.Element => {
   const [errorStatus, setErrorStatus] = useState(false);
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
   const state = useSelector((store: RootState) => store.appState);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const dispatch = useDispatch();
   let startingID = 0;
   state.HTMLTypes.forEach((element) => {
@@ -106,6 +109,11 @@ const HTMLPanel = (props): JSX.Element => {
     };
 
     dispatch(addElement(newElement));
+
+    if (roomCode) {
+      emitEvent('addElementAction', roomCode, newElement);
+    }
+
     setCurrentID(currentID + 1);
     setTag('');
     setName('');

@@ -6,10 +6,12 @@ import makeStyles from '@mui/styles/makeStyles';
 import AddIcon from '@mui/icons-material/Add';
 import { addPassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../../redux/store';
+import { emitEvent } from '../../../../helperFunctions/socket';
 
 const TableParentProps = (props) => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -76,6 +78,15 @@ const TableParentProps = (props) => {
         contextParam: contextParam
       })
     );
+
+    if (roomCode) {
+      emitEvent('addPassedInPropsAction', roomCode, {
+        passedInProps: parentComponentProps,
+        rowId: rowId,
+        parentComponent: parentComponent,
+        contextParam: contextParam
+      });
+    }
   };
 
   useEffect(() => {
