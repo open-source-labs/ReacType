@@ -123,7 +123,7 @@ function Canvas(props: {}): JSX.Element {
 
   console.log('Toggle Switch:', toggleSwitch);
 
-  //Function to handle the click events
+  //Function to handle the click events.
   const multipleClicks = () => {
     handleToggleSwitch();
     toggleButton();
@@ -360,10 +360,13 @@ function Canvas(props: {}): JSX.Element {
               textAlign: 'center',
               color: '#ffffff',
               backgroundColor: '#151515',
-              zIndex: 0
+              zIndex: 0,
+              padding: '5px',
+              borderColor: '#46C0A5',
+              borderRadius: '5px'
             }}
           >
-            {toggleText === 'on' ? 'Turn On' : 'Turn Off'}
+            {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
           </button>
         )}
       </label>
