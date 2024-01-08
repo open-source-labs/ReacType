@@ -20,7 +20,8 @@ import {
   updateUseContext,
   updateCss,
   updateAttributes,
-  updateEvents
+  updateEvents,
+  updateStylesheet
 } from '../../redux/reducers/slice/appStateSlice';
 import {
   setRoomCode,
@@ -122,7 +123,6 @@ const RoomsContainer = () => {
         store.dispatch(deleteChild(deleteData));
       });
 
-      //write out emitters for reach function inside of CusomizationPanel HandleSave//no need to pull the function into RoomsContainer
       socket.on('update data from server', (updateData: BottomPanelObj) => {
         console.log('update data received from server', updateData);
         store.dispatch(updateStateUsed({stateUsedObj: updateData.stateUsedObj, contextParam: updateData.contextParam}));
@@ -132,6 +132,11 @@ const RoomsContainer = () => {
         store.dispatch(updateEvents({events: updateData.events, contextParam: updateData.contextParam}));
       }); 
 
+      socket.on('update css data from server', (cssData: object) => {
+        console.log('CSS data received from server', cssData);
+        store.dispatch(updateStylesheet(cssData));
+      });
+    
       socket.on(
         'item position data from server',
         (itemPositionData: object) => {

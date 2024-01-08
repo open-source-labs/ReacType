@@ -207,7 +207,11 @@ io.on('connection', (client) => {
 
   client.on('updateChildAction', (roomCode: string, updateData: object) => {
     client.to(roomCode).emit('update data from server', updateData);
-    console.log('client received update from server!')
+  });
+
+  client.on('updateCSSAction', (roomCode: string, cssData: object) => {
+    client.to(roomCode).emit('update css data from server', cssData);
+    console.log('client received css update from server!')
   });
 
   client.on(
