@@ -153,14 +153,6 @@ io.on('connection', (client) => {
     io.emit('mouseCursor', { line: data.line, id: client.id });
   });
 
-  //connecting and emitting the mousetracker
-  // client.on('connection', (socket) => {
-  //   socket.emit('news', { hello: 'world' });
-  //   socket.on('other event', (data) => {
-  //     console.log(data);
-  //   });
-  // });
-
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
@@ -184,7 +176,7 @@ io.on('connection', (client) => {
     }
   });
 
-  //--------------------------------
+  //-------Socket events for state synchronization in collab room------------------
   client.on('addChildAction', (roomCode: string, childData: object) => {
     // console.log('child data received on server:', childData);
     if (roomCode) {
@@ -206,6 +198,11 @@ io.on('connection', (client) => {
     client.to(roomCode).emit('delete data from server', deleteData);
   });
 
+  client.on('updateChildAction', (roomCode: string, updateData: object) => {
+    client.to(roomCode).emit('update data from server', updateData);
+    console.log('client received update from server!');
+  });
+
   client.on(
     'changePositionAction',
     (roomCode: string, itemPositionData: object) => {
@@ -215,6 +212,95 @@ io.on('connection', (client) => {
     }
   );
 
+  client.on('addComponentAction', (roomCode: string, newComponent: object) => {
+    if (roomCode) {
+      client.to(roomCode).emit('new component data from server', newComponent);
+    }
+  });
+
+  client.on('addElementAction', (roomCode: string, newElement: object) => {
+    if (roomCode) {
+      client.to(roomCode).emit('new element data from server', newElement);
+    }
+  });
+
+  client.on('addStateAction', (roomCode: string, componentState: object) => {
+    if (roomCode) {
+      client
+        .to(roomCode)
+        .emit('new component state data from server', componentState);
+    }
+  });
+
+  client.on(
+    'deleteStateAction',
+    (roomCode: string, componentStateDelete: object) => {
+      if (roomCode) {
+        client
+          .to(roomCode)
+          .emit(
+            'delete component state data from server',
+            componentStateDelete
+          );
+      }
+    }
+  );
+
+  client.on(
+    'addPassedInPropsAction',
+    (roomCode: string, passedInProps: object) => {
+      if (roomCode) {
+        client
+          .to(roomCode)
+          .emit('new PassedInProps data from server', passedInProps);
+      }
+    }
+  );
+
+  client.on(
+    'deletePassedInPropsAction',
+    (roomCode: string, passedInPropsDelete: object) => {
+      if (roomCode) {
+        client
+          .to(roomCode)
+          .emit('PassedInProps delete data from server', passedInPropsDelete);
+      }
+    }
+  );
+
+  client.on('addContextAction', (roomCode: string, context: object) => {
+    if (roomCode) {
+      client.to(roomCode).emit('new context from server', context);
+    }
+  });
+
+  client.on(
+    'addContextValuesAction',
+    (roomCode: string, contextVal: object) => {
+      if (roomCode) {
+        client.to(roomCode).emit('new context value from server', contextVal);
+      }
+    }
+  );
+
+  client.on(
+    'deleteContextAction',
+    (roomCode: string, contextDelete: object) => {
+      if (roomCode) {
+        client
+          .to(roomCode)
+          .emit('delete context data from server', contextDelete);
+      }
+    }
+  );
+
+  client.on('assignContextActions', (roomCode: string, data: object) => {
+    if (roomCode) {
+      client.to(roomCode).emit('assign context data from server', data);
+    }
+  });
+
+  //remote cursor
   client.on('cursorData', (roomCode: string, remoteData: object) => {
     client.to(roomCode).emit('remote cursor data from server', remoteData);
   });

@@ -129,7 +129,6 @@ const HTMLItem: React.FC<{
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
-          {/* <Icon fontSize="small" align-items="center" /> */}
           {typeof IconComponent !== 'undefined' && (
             <IconComponent fontSize="small" align-items="center" />
           )}
@@ -139,23 +138,23 @@ const HTMLItem: React.FC<{
 
       {/* Custom Elements */}
       {id > 20 && (
-        <span id="customHTMLElement">
-          <div
-            ref={drag}
-            style={{ borderColor: '#C6C6C6' }}
-            className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
-            id="HTMLItem"
-          >
-            <h3>{name}</h3>
-          </div>
-          <button
+        <div
+          ref={drag}
+          style={{ borderColor: '#C6C6C6' }}
+          className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
+          id="HTMLItem"
+        >
+          {typeof CodeIcon !== 'undefined' && (
+          <CodeIcon fontSize="small" align-items="center" />)}
+          {name}
+            <button
             id="newElement"
             style={{ color: '#C6C6C6' }}
             onClick={() => deleteAllInstances(id)}
-          >
-            X
-          </button>
-        </span>
+            >
+              X
+            </button>
+        </div>
       )}
       {modal}
     </Grid>

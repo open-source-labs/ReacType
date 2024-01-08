@@ -38,6 +38,8 @@ import createModal from '../components/right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { ColumnTab } from '../interfaces/Interfaces';
 import { RootState } from '../redux/store';
+import { emitEvent } from '../helperFunctions/socket';
+import { Number } from 'mongoose';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
@@ -46,6 +48,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const dispatch = useDispatch();
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const style = useSelector((store: RootState) => store.styleSlice);
 
   const [displayMode, setDisplayMode] = useState('');
@@ -370,7 +373,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
-
     dispatch(
       updateAttributes({
         attributes: attributesObj,
@@ -382,12 +384,31 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
     dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }));
 
+    if (roomCode) {
+      emitEvent('updateChildAction', roomCode, {
+        stateUsedObj: stateUsedObj,
+        contextParam: contextParam,
+        useContextObj: useContextObj,
+        attributes: attributesObj,
+        style: styleObj,
+        events: eventsObj
+      });
+      console.log(
+        'emit updateChildAction event is triggered in CustomizationPanel.tsx'
+      );
+    }
+
     return styleObj;
   };
   const handleTailwind = (): void => {
     dispatch(changeTailwind(true));
     handleSave();
   };
+
+  // const clickToUpdate = () => {
+  //   handleSave();
+  //   saveEmitter();
+  // }
 
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
@@ -399,7 +420,17 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   // placeholder for handling deleting instance
   const handleDelete = () => {
     dispatch(deleteChild({ id: {}, contextParam: contextParam }));
+    if (roomCode) {
+      emitEvent('deleteChildAction', roomCode, {
+        id: {},
+        contextParam: contextParam
+      });
+      console.log(
+        'emit deleteChildAction event is triggered in CustomizationPanel.tsx'
+      );
+    }
   };
+
   const handlePageDelete = (id) => () => {
     // TODO: return modal
     if (isLinkedTo()) return setDeleteLinkedPageError(true);

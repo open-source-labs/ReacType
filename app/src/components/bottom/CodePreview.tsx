@@ -4,8 +4,6 @@ import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/theme-terminal';
 
-import * as esbuild from 'esbuild-wasm';
-
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   codePreviewInput,
@@ -19,6 +17,7 @@ import { RootState } from '../../redux/store';
 import { fetchPlugin } from '../../plugins/fetch-plugin';
 import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
 import useResizeObserver from '../../tree/useResizeObserver';
+import { initializeEsbuild } from '../../helperFunctions/esbuildService';
 
 const CodePreview: React.FC<{
   theme: string | null;
@@ -26,15 +25,6 @@ const CodePreview: React.FC<{
 }> = ({ theme, setTheme }) => {
   const ref = useRef<any>();
 
-  /**
-   * Starts the Web Assembly service.
-   */
-  const startService = async () => {
-    ref.current = await esbuild.initialize({
-      worker: true,
-      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
-    });
-  };
   const dispatch = useDispatch();
 
   const wrapper = useRef();
@@ -49,7 +39,8 @@ const CodePreview: React.FC<{
   const [input, setInput] = useState('');
 
   useEffect(() => {
-    startService();
+    //Starts the Web Assembly service
+    initializeEsbuild();
   }, []);
 
   useEffect(() => {
@@ -60,6 +51,13 @@ const CodePreview: React.FC<{
     setInput(currentComponent.code);
     dispatch(codePreviewInput(currentComponent.code));
   }, [currentComponent, state.components]);
+
+  useEffect(() => {
+    console.log('CodePreview Mounted');
+    return () => {
+      console.log('CodePreview Unmounted');
+    };
+  }, []);
 
   /**
    * Handler thats listens to changes in code editor

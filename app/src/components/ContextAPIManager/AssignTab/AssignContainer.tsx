@@ -11,6 +11,7 @@ import { addComponentToContext } from '../../../redux/reducers/slice/contextRedu
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../redux/store';
+import { emitEvent } from '../../../../src/helperFunctions/socket';
 
 const AssignContainer = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const AssignContainer = () => {
     state: store.appState,
     contextParam: store.contextSlice
   }));
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
   //sets table data if it exists
   const renderTable = (targetContext) => {
@@ -52,6 +54,7 @@ const AssignContainer = () => {
       componentInput === null
     )
       return;
+
     dispatch(
       addComponentToContext({
         context: contextInput,
@@ -60,6 +63,16 @@ const AssignContainer = () => {
     );
     //trigger generateCode(), update code preview tab
     dispatch(deleteElement({ id: 'FAKE_ID', contextParam: contextParam }));
+
+    if (roomCode) {
+      emitEvent('assignContextActions', roomCode, {
+        context: contextInput,
+        component: componentInput,
+        id: 'FAKE_ID',
+        contextParam: contextParam
+      });
+    }
+
     renderComponentTable(componentInput);
   };
 
