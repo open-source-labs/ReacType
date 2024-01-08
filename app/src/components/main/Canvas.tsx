@@ -363,7 +363,7 @@ function Canvas(props: {}): JSX.Element {
               zIndex: 0
             }}
           >
-            {toggleText === 'on' ? 'Turn Off' : 'Turn On'}
+            {toggleText === 'on' ? 'Turn On' : 'Turn Off'}
           </button>
         )}
       </label>
