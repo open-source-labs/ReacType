@@ -16,7 +16,6 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
 import { GiBoba } from 'react-icons/gi';
-import { Console } from 'console';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
@@ -28,19 +27,8 @@ function Canvas(props: {}): JSX.Element {
   //-------cursors tracking-------
   console.log('canvas is rendered');
 
-  //remote cursor data
-
   const [remoteCursors, setRemoteCursors] = useState([]);
-
-  //toggle switch
   const [toggleSwitch, setToggleSwitch] = useState(true);
-
-  // toggle text
-  const [toggleText, setToggleText] = useState('off');
-
-  const toggleButton = () => {
-    setToggleText(toggleText === 'on' ? 'off' : 'on');
-  };
 
   const debounceSetPosition = debounce((newX, newY) => {
     //emit socket event every 300ms when cursor moves
@@ -93,6 +81,19 @@ function Canvas(props: {}): JSX.Element {
     });
   };
 
+  console.log('userList:', userList);
+  //[{x,y,remoteUserName, isVisible}, {...}, {...}]
+  console.log('remoteCursors:', remoteCursors);
+
+  const handleCursorDeleteFromServer = () => {
+    setRemoteCursors((prevRemoteCursors) =>
+      prevRemoteCursors.map((cursor) => ({
+        ...cursor,
+        isVisible: userList.includes(cursor.remoteUserName)
+      }))
+    );
+  };
+
   const handleToggleSwitch = () => {
     setToggleSwitch(!toggleSwitch);
     //checks the state before it's updated so need to check the opposite condition
@@ -124,15 +125,8 @@ function Canvas(props: {}): JSX.Element {
 
   console.log('Toggle Switch:', toggleSwitch);
 
-  //Function to handle the click events.
-  const multipleClicks = () => {
-    handleToggleSwitch();
-    toggleButton();
-  };
-
   const socket = getSocket();
-  /* wrap the socket event listener in useEffect with dependency array as [socket], so the effect will run only when: 
-   1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect) */
+  //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
   useEffect(() => {
     console.log(
       'socket inside useEffect:',
@@ -152,6 +146,11 @@ function Canvas(props: {}): JSX.Element {
     };
   }, [socket]);
 
+  useEffect(() => {
+    handleCursorDeleteFromServer();
+    console.log('handle delete has been called');
+  }, [userList]);
+
   //-----------------
 
   // find the current component based on the canvasFocus component ID in the state
@@ -170,7 +169,7 @@ function Canvas(props: {}): JSX.Element {
     childId?: number | null
   ) => {
     dispatch(changeFocus({ componentId, childId }));
-    //if room exists, send focus dispatch to all users
+    //if room exists, send focus dispatcht to all users
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
@@ -350,29 +349,19 @@ function Canvas(props: {}): JSX.Element {
             </div>
           )
       )}
-      <label className="switch">
-        {userList.length > 1 && (
-          <button
-            className="btn-toggle"
-            onClick={multipleClicks}
-            style={{
-              position: 'fixed',
-              width: 'max-content',
-              height: 'max-content',
-              bottom: '100px',
-              left: '51vw',
-              textAlign: 'center',
-              color: '#ffffff',
-              backgroundColor: '#151515',
-              zIndex: 0,
-              padding: '5px',
-              borderColor: '#46C0A5',
-              borderRadius: '5px'
-            }}
-          >
-            {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
-          </button>
-        )}
+
+      <label
+        className="switch"
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          width: '60px',
+          height: '34px'
+        }}
+      >
+        <button className="btn-toggle" onClick={handleToggleSwitch}>
+          On/Off
+        </button>
       </label>
     </div>
   );

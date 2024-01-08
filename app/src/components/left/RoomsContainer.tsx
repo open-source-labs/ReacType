@@ -48,6 +48,7 @@ import store from '../../redux/store';
 import {
   initializeSocket,
   getSocket,
+  emitEvent,
   disconnectSocket
 } from '../../helperFunctions/socket';
 import {
