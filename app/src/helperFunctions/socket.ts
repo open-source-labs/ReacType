@@ -18,7 +18,10 @@ let socket = null;
 export const initializeSocket = () => {
   if (socket) socket.connect();
   if (!socket) {
-    socket = io(config.API_BASE_URL, { transports: ['websocket'] });
+    socket = io(config.API_BASE_URL, {
+      transports: ['websocket'],
+      forceNew: true
+    });
     console.log('A user connected');
     console.log('socket:', socket);
   }
