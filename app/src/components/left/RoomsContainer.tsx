@@ -448,8 +448,7 @@ const RoomsContainer = () => {
             fontSize: 'smaller'
           }}
         >
-          Note: For the best experience, limit Collab room occupancy to 3
-          people. Exceeding this limit may lead to app performance issues.
+          Note: Max Occupancy: 6 Users
         </Typography>
       </Stack>
     </div>
