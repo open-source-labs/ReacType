@@ -317,7 +317,6 @@ const useStyles = makeStyles({
   },
   addComponentWrapper: {
     width: '100%',
-    margin: '5px 0px 0px 0px'
   },
   input: {
     borderRadius: '5px',
