@@ -57,6 +57,7 @@ import {
   DeleteContextPayload,
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
+import Canvas from '../../components/main/Canvas';
 
 // // for websockets
 // // Part  - join room and room code functionality
@@ -183,7 +184,7 @@ const RoomsContainer = () => {
         // console.log('CSS data received from server', cssData);
         store.dispatch(updateStylesheet(cssData));
       });
-      
+
       socket.on(
         'item position data from server',
         (itemPositionData: object) => {
