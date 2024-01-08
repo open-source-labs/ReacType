@@ -8,12 +8,19 @@ import Button from '@mui/material/Button';
 import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
+import { BottomPanelObj } from '../../interfaces/Interfaces';
 import {
   allCooperativeState,
   addChild,
   changeFocus,
   deleteChild,
-  changePosition
+  changePosition,
+  resetState,
+  updateStateUsed,
+  updateUseContext,
+  updateCss,
+  updateAttributes,
+  updateEvents
 } from '../../redux/reducers/slice/appStateSlice';
 import {
   setRoomCode,
@@ -115,6 +122,16 @@ const RoomsContainer = () => {
         store.dispatch(deleteChild(deleteData));
       });
 
+      //write out emitters for reach function inside of CusomizationPanel HandleSave//no need to pull the function into RoomsContainer
+      socket.on('update data from server', (updateData: BottomPanelObj) => {
+        console.log('update data received from server', updateData);
+        store.dispatch(updateStateUsed({stateUsedObj: updateData.stateUsedObj, contextParam: updateData.contextParam}));
+        store.dispatch(updateUseContext({useContextObj: updateData.useContextObj, contextParam: updateData.contextParam}));
+        store.dispatch(updateCss({style: updateData.style, contextParam: updateData.contextParam}));
+        store.dispatch(updateAttributes({attributes: updateData.attributes, contextParam: updateData.contextParam}));
+        store.dispatch(updateEvents({events: updateData.events, contextParam: updateData.contextParam}));
+      }); 
+
       socket.on(
         'item position data from server',
         (itemPositionData: object) => {
@@ -137,7 +154,6 @@ const RoomsContainer = () => {
     //edge case: if userList is not empty, reset it to empty array
     if (userList.length !== 0) dispatch(setUserList([]));
     handleUserEnteredRoom(roomCode);
-
     dispatch(setRoomCode(roomCode)); //?
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
   }
@@ -146,6 +162,7 @@ const RoomsContainer = () => {
     let socket = getSocket();
     if (socket) {
       socket.disconnect(); //disconnecting socket from server
+      console.log(socket);
       socket = null;
       console.log('user leaves the room');
     }
@@ -154,6 +171,7 @@ const RoomsContainer = () => {
     dispatch(setUserName(''));
     dispatch(setUserList([]));
     dispatch(setUserJoined(false)); //setting joined to false so join room UI appear
+    dispatch(resetState(''));
   }
 
   //checking empty input field (not including spaces)

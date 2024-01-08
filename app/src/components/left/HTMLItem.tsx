@@ -129,7 +129,6 @@ const HTMLItem: React.FC<{
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
-          {/* <Icon fontSize="small" align-items="center" /> */}
           {typeof IconComponent !== 'undefined' && (
             <IconComponent fontSize="small" align-items="center" />
           )}
@@ -146,7 +145,7 @@ const HTMLItem: React.FC<{
             className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
             id="HTMLItem"
           >
-            <h3>{name}</h3>
+            <div>{name}</div>
           </div>
           <button
             id="newElement"
