@@ -379,7 +379,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         contextParam: contextParam
       })
     );
-    
+
     const eventsObj: any = {};
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
     dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }));
@@ -393,11 +393,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         style: styleObj,
         events: eventsObj
       });
-      console.log('emit updateChildAction event is triggered in CustomizationPanel.tsx');
+      console.log(
+        'emit updateChildAction event is triggered in CustomizationPanel.tsx'
+      );
     }
 
     return styleObj;
-    
   };
   const handleTailwind = (): void => {
     dispatch(changeTailwind(true));
@@ -424,10 +425,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         id: {},
         contextParam: contextParam
       });
-      console.log('emit deleteChildAction event is triggered in CustomizationPanel.tsx');
+      console.log(
+        'emit deleteChildAction event is triggered in CustomizationPanel.tsx'
+      );
     }
   };
-  
+
   const handlePageDelete = (id) => () => {
     // TODO: return modal
     if (isLinkedTo()) return setDeleteLinkedPageError(true);
@@ -532,24 +535,26 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         <ProjectManager />
         <div className="rightPanelWrapper">
           <div>
+            <div className={classes.rootConfigHeader}>
               <h4
-              className={
-                isThemeLight
-                  ? classes.lightThemeFontColor
-                  : classes.darkThemeFontColor
-              }
-            >
-              Parent Component:
-              <br />
-              <br />
-              <span className={classes.rootCompName}>
-                {configTarget.name}
-              </span>
-              <p style={{ fontSize: '16px' }}>
-                Drag and drop an html element (or focus one) to see what
-                happens!
-              </p>
-            </h4>
+                className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+              >
+                Parent Component:
+                <br />
+                <br />
+                <span className={classes.rootCompName}>
+                  {configTarget.name}
+                </span>
+                <p style={{ fontSize: '16px' }}>
+                  Drag and drop an html element (or focus one) to see what
+                  happens!
+                </p>
+              </h4>
+            </div>
           </div>
         </div>
         <ProjectManager />
@@ -579,9 +584,17 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               {configTarget.child.type === 'component'
                 ? ' component'
                 : ' element'}{' '}
-                : {configTarget.child.name}
               <br />
+              <br />
+              <span
+                className={
+                  isThemeLight
+                    ? `${classes.compName} ${classes.lightThemeFontColor}`
+                    : `${classes.compName} ${classes.darkThemeFontColor}`
+                }
+              >
                 {configTarget.child.name}
+              </span>
             </h4>
           </div>
           <section className={'customization-section'}>
@@ -867,18 +880,18 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSave}
                   className={
                     isThemeLight
                       ? `${classes.button} ${classes.saveButtonLight}`
                       : `${classes.button} ${classes.saveButtonDark}`
                   }
+                  onClick={handleSave}
                   id="saveButton"
                 >
                   SAVE
                 </Button>
               </div>
-              {/* <div className={classes.buttonRow}>
+              <div className={classes.buttonRow}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -892,9 +905,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 >
                   CSS
                 </Button>
-              </div> */}
+              </div>
 
-              {/* <div>
+              <div>
                 <Button
                   variant="contained"
                   color="primary"
@@ -913,7 +926,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 >
                   Tailwind
                 </Button>
-              </div> */}
+              </div>
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button
@@ -1025,7 +1038,7 @@ const useStyles = makeStyles({
     marginTop: '20px'
   },
   configType: {
-    minWidth: '100px',
+    minWidth: '185px',
     fontSize: '85%'
   },
   configValue: {

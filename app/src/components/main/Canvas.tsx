@@ -92,6 +92,7 @@ function Canvas(props: {}): JSX.Element {
       }
     });
   };
+
   const handleToggleSwitch = () => {
     setToggleSwitch(!toggleSwitch);
     //checks the state before it's updated so need to check the opposite condition
@@ -130,7 +131,8 @@ function Canvas(props: {}): JSX.Element {
   };
 
   const socket = getSocket();
-  //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
+  /* wrap the socket event listener in useEffect with dependency array as [socket], so the effect will run only when: 
+   1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect) */
   useEffect(() => {
     console.log(
       'socket inside useEffect:',
@@ -168,7 +170,7 @@ function Canvas(props: {}): JSX.Element {
     childId?: number | null
   ) => {
     dispatch(changeFocus({ componentId, childId }));
-    //if room exists, send focus dispatcht to all users
+    //if room exists, send focus dispatch to all users
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,

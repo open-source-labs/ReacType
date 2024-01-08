@@ -6,6 +6,7 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { emitEvent } from '../../helperFunctions/socket';
 /*
 DESCRIPTION: This component is each box beneath the 'HTML Elements' and
   'reusable components' (in classic React mode) headings. Drag-and-drop
@@ -24,6 +25,7 @@ const ComponentPanelItem: React.FC<{
 }> = ({ name, id, root, isFocus, isThemeLight }) => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const dispatch = useDispatch();
 
   // useDrag hook allows components in left panel to be drag source
@@ -44,6 +46,13 @@ const ComponentPanelItem: React.FC<{
   const handleClick = () => {
     //LEGACY PD
     dispatch(changeFocus({ componentId: id, childId: null }));
+
+    if (roomCode) {
+      emitEvent('changeFocusAction', roomCode, {
+        componentId: id,
+        childId: null
+      });
+    }
   };
 
   return (
@@ -73,7 +82,7 @@ const ComponentPanelItem: React.FC<{
 
 const useStyles = makeStyles({
   activeFocus: {
-    backgroundColor: 'rgba (0, 0, 0, 0.54)', //this doesnt do anything....
+    backgroundColor: 'rgba (0, 0, 0, 0.54)' //this doesnt do anything....
   },
   focusMark: {
     backgroundColor: '#29A38A',

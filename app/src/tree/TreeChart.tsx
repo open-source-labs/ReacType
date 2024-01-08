@@ -2,8 +2,6 @@ import React, { useRef, useEffect, useContext, Children } from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
-import StateContext from '../context/context';
-import { element } from 'prop-types';
 import { useSelector } from 'react-redux';
 
 function usePrevious(value) {

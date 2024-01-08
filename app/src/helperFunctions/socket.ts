@@ -1,18 +1,6 @@
 import { io } from 'socket.io-client';
 import config from '../../../config';
 
-//DON'T connect client in this file, instead export a function that creates a new socket connection
-// const { API_BASE_URL } = config;
-// let socket;
-// //disconnect previous socket connection
-// if (socket) socket.disconnect();
-// // Initialize the socket connection
-
-// socket = io(API_BASE_URL, {
-//   transports: ['websocket']
-// });
-// export default socket;
-
 let socket = null;
 
 export const initializeSocket = () => {
@@ -24,6 +12,7 @@ export const initializeSocket = () => {
   }
 };
 
+// export socket to ensure a single socket instance across the entire app
 export const getSocket = () => {
   return socket;
 };
