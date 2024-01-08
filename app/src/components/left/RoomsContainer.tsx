@@ -22,7 +22,11 @@ import {
   updateAttributes,
   updateEvents,
   addComponent,
-  addElement
+  addElement,
+  addState,
+  deleteState,
+  addPassedInProps,
+  deletePassedInProps
 } from '../../redux/reducers/slice/appStateSlice';
 import {
   setRoomCode,
@@ -176,6 +180,36 @@ const RoomsContainer = () => {
       socket.on('new element data from server', (newElement: object) => {
         store.dispatch(addElement(newElement));
       });
+
+      socket.on(
+        'new component state data from server',
+        (componentState: object) => {
+          store.dispatch(addState(componentState));
+        }
+      );
+
+      socket.on(
+        'delete component state data from server',
+        (componentStateDelete: object) => {
+          store.dispatch(deleteState(componentStateDelete));
+        }
+      );
+
+      socket.on(
+        'new PassedInProps data from server',
+        (passedInProps: object) => {
+          store.dispatch(addPassedInProps(passedInProps));
+        }
+      );
+
+      socket.on(
+        'new PassedInProps delete data from server',
+        (passedInProps: object) => {
+          store.dispatch(deletePassedInProps(passedInProps));
+        }
+      );
+
+      //
     }
   }
 

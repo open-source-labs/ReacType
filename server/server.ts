@@ -223,6 +223,53 @@ io.on('connection', (client) => {
     }
   });
 
+  client.on('addStateAction', (roomCode: string, componentState: object) => {
+    if (roomCode) {
+      client
+        .to(roomCode)
+        .emit('new component state data from server', componentState);
+    }
+  });
+
+  client.on(
+    'deleteStateAction',
+    (roomCode: string, componentStateDelete: object) => {
+      if (roomCode) {
+        client
+          .to(roomCode)
+          .emit(
+            'delete component state data from server',
+            componentStateDelete
+          );
+      }
+    }
+  );
+
+  client.on(
+    'addPassedInPropsAction',
+    (roomCode: string, passedInProps: object) => {
+      if (roomCode) {
+        client
+          .to(roomCode)
+          .emit('new PassedInProps data from server', passedInProps);
+      }
+    }
+  );
+
+  client.on(
+    'deletePassedInPropsAction',
+    (roomCode: string, passedInPropsDelete: object) => {
+      if (roomCode) {
+        client
+          .to(roomCode)
+          .emit(
+            'new PassedInProps delete data from server',
+            passedInPropsDelete
+          );
+      }
+    }
+  );
+
   //remote cursor
   client.on('cursorData', (roomCode: string, remoteData: object) => {
     client.to(roomCode).emit('remote cursor data from server', remoteData);

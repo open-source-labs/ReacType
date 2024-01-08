@@ -16,10 +16,12 @@ import TableStateProps from './TableStateProps';
 import TableParentProps from './TableParentProps';
 import TablePassedInProps from './TablePassedInProps';
 import { RootState } from '../../../../redux/store';
+import { emitEvent } from '../../../../helperFunctions/socket';
 
 const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -159,6 +161,15 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
           contextParam: contextParam
         })
       );
+
+      if (roomCode) {
+        emitEvent('addStateAction', roomCode, {
+          newState: newState,
+          setNewState: setNewState,
+          contextParam: contextParam
+        });
+      }
+
       setRows1([...rows1, newState]);
       setErrorStatus(false);
       clearForm();
