@@ -56,7 +56,6 @@ import {
   DeleteContextPayload,
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
-import Canvas from '../components/main/Canvas';
 
 // // for websockets
 // // Part  - join room and room code functionality
@@ -126,7 +125,8 @@ const RoomsContainer = () => {
       });
 
       socket.on('child data from server', (childData: object) => {
-        console.log('child data received by users', childData);
+        console.log(`child data received by socket ${socket.id}`, childData);
+        console.log(socket);
         store.dispatch(addChild(childData));
       });
 

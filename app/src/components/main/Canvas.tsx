@@ -231,7 +231,9 @@ function Canvas(props: {}): JSX.Element {
             contextParam: contextParam
           });
 
-          console.log('emit addChildAction event is triggered in canvas');
+          console.log(
+            `emit addChildAction event is triggered in canvas from ${socket.id}`
+          );
         }
       } else if (item.newInstance && item.instanceType === 'Component') {
         let hasDiffParent = false;
