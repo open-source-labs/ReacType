@@ -65,13 +65,12 @@ const AssignContainer = () => {
     dispatch(deleteElement({ id: 'FAKE_ID', contextParam: contextParam }));
 
     if (roomCode) {
-      emitEvent('assignContextActions', roomCode, [
-        {
-          context: contextInput,
-          component: componentInput
-        },
-        { id: 'FAKE_ID', contextParam: contextParam }
-      ]);
+      emitEvent('assignContextActions', roomCode, {
+        context: contextInput,
+        component: componentInput,
+        id: 'FAKE_ID',
+        contextParam: contextParam
+      });
     }
 
     renderComponentTable(componentInput);

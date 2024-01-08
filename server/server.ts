@@ -293,7 +293,7 @@ io.on('connection', (client) => {
     }
   );
 
-  client.on('assignContextActions', (roomCode: string, data: []) => {
+  client.on('assignContextActions', (roomCode: string, data: object) => {
     if (roomCode) {
       client.to(roomCode).emit('assign context data from server', data);
     }

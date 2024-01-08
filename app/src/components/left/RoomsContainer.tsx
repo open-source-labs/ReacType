@@ -241,8 +241,15 @@ const RoomsContainer = () => {
       );
 
       socket.on('assign context data from server', (data) => {
-        store.dispatch(addComponentToContext(data[0]));
-        store.dispatch(deleteElement(data[1]));
+        store.dispatch(
+          addComponentToContext({
+            context: data.context,
+            component: data.component
+          })
+        );
+        store.dispatch(
+          deleteElement({ id: 'FAKE_ID', contextParam: data.contextParam })
+        );
       });
     }
   }
