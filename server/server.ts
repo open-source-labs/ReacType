@@ -190,6 +190,7 @@ io.on('connection', (client) => {
     if (roomCode) {
       //server send the data to everyone in the room
       client.to(roomCode).emit('child data from server', childData);
+      console.log(`client id: ${client.id} sending from server ${childData}`);
     }
   });
 
