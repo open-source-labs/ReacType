@@ -262,13 +262,42 @@ io.on('connection', (client) => {
       if (roomCode) {
         client
           .to(roomCode)
-          .emit(
-            'new PassedInProps delete data from server',
-            passedInPropsDelete
-          );
+          .emit('PassedInProps delete data from server', passedInPropsDelete);
       }
     }
   );
+
+  client.on('addContextAction', (roomCode: string, context: object) => {
+    if (roomCode) {
+      client.to(roomCode).emit('new context from server', context);
+    }
+  });
+
+  client.on(
+    'addContextValuesAction',
+    (roomCode: string, contextVal: object) => {
+      if (roomCode) {
+        client.to(roomCode).emit('new context value from server', contextVal);
+      }
+    }
+  );
+
+  client.on(
+    'deleteContextAction',
+    (roomCode: string, contextDelete: object) => {
+      if (roomCode) {
+        client
+          .to(roomCode)
+          .emit('delete context data from server', contextDelete);
+      }
+    }
+  );
+
+  client.on('assignContextActions', (roomCode: string, data: []) => {
+    if (roomCode) {
+      client.to(roomCode).emit('assign context data from server', data);
+    }
+  });
 
   //remote cursor
   client.on('cursorData', (roomCode: string, remoteData: object) => {

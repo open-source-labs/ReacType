@@ -26,8 +26,14 @@ import {
   addState,
   deleteState,
   addPassedInProps,
-  deletePassedInProps
+  deletePassedInProps,
+  deleteElement
 } from '../../redux/reducers/slice/appStateSlice';
+import {
+  addContext,
+  deleteContext,
+  addContextValues
+} from '../../redux/reducers/slice/contextReducer';
 import {
   setRoomCode,
   setUserName,
@@ -44,6 +50,12 @@ import {
   getSocket,
   disconnectSocket
 } from '../../helperFunctions/socket';
+import {
+  AddContextPayload,
+  AddContextValuesPayload,
+  DeleteContextPayload,
+  addComponentToContext
+} from '../../../src/redux/reducers/slice/contextReducer';
 
 // // for websockets
 // // Part  - join room and room code functionality
@@ -203,13 +215,34 @@ const RoomsContainer = () => {
       );
 
       socket.on(
-        'new PassedInProps delete data from server',
+        'PassedInProps delete data from server',
         (passedInProps: object) => {
           store.dispatch(deletePassedInProps(passedInProps));
         }
       );
 
-      //
+      socket.on('new context from server', (context: AddContextPayload) => {
+        store.dispatch(addContext(context));
+      });
+
+      socket.on(
+        'new context value from server',
+        (contextVal: AddContextValuesPayload) => {
+          store.dispatch(addContextValues(contextVal));
+        }
+      );
+
+      socket.on(
+        'delete context data from server',
+        (context: DeleteContextPayload) => {
+          store.dispatch(deleteContext(context));
+        }
+      );
+
+      socket.on('assign context data from server', (data) => {
+        store.dispatch(addComponentToContext(data[0]));
+        store.dispatch(deleteElement(data[1]));
+      });
     }
   }
 
