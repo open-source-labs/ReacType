@@ -14,6 +14,7 @@ import {
   addChild,
   changeFocus,
   deleteChild,
+  deleteElement,
   changePosition,
   resetState,
   updateStateUsed,
@@ -39,7 +40,6 @@ import {
   getSocket,
   disconnectSocket
 } from '../../helperFunctions/socket';
-import Canvas from '../components/main/Canvas';
 
 // // for websockets
 // // Part  - join room and room code functionality
@@ -109,22 +109,27 @@ const RoomsContainer = () => {
       });
 
       socket.on('child data from server', (childData: object) => {
-        console.log('child data received by users', childData);
+        // console.log('child data received by users', childData);
         store.dispatch(addChild(childData));
       });
 
       socket.on('focus data from server', (focusData: object) => {
-        console.log('focus data received from server', focusData);
+        // console.log('focus data received from server', focusData);
         store.dispatch(changeFocus(focusData));
       });
 
       socket.on('delete data from server', (deleteData: object) => {
-        console.log('delete data received from server', deleteData);
+        // console.log('delete data received from server', deleteData);
         store.dispatch(deleteChild(deleteData));
       });
 
+      socket.on('delete element data from server', (deleteElementData: object) => {
+        // console.log('delete element data received from server', deleteElementData);
+        store.dispatch(deleteElement(deleteElementData));
+      });
+
       socket.on('update data from server', (updateData: BottomPanelObj) => {
-        console.log('update data received from server', updateData);
+        // console.log('update data received from server', updateData);
         store.dispatch(updateStateUsed({stateUsedObj: updateData.stateUsedObj, contextParam: updateData.contextParam}));
         store.dispatch(updateUseContext({useContextObj: updateData.useContextObj, contextParam: updateData.contextParam}));
         store.dispatch(updateCss({style: updateData.style, contextParam: updateData.contextParam}));
@@ -133,7 +138,7 @@ const RoomsContainer = () => {
       }); 
 
       socket.on('update css data from server', (cssData: object) => {
-        console.log('CSS data received from server', cssData);
+        // console.log('CSS data received from server', cssData);
         store.dispatch(updateStylesheet(cssData));
       });
     

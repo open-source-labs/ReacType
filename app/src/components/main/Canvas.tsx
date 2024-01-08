@@ -15,7 +15,7 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
-import { GiBoba } from 'react-icons/gi';
+import { FaMousePointer } from 'react-icons/fa';
 import { Console } from 'console';
 
 function Canvas(props: {}): JSX.Element {
@@ -175,7 +175,7 @@ function Canvas(props: {}): JSX.Element {
         childId: childId
       });
     }
-    console.log('emit changeFocusAction event is triggered in canvas');
+    // console.log('emit changeFocusAction event is triggered in canvas');
   };
 
   // onClickHandler is responsible for changing the focused component and child component
@@ -341,7 +341,7 @@ function Canvas(props: {}): JSX.Element {
                 color: userColors[userList.indexOf(cursor.remoteUserName)]
               }}
             >
-              {<GiBoba />}
+              {<FaMousePointer />}
               {cursor.remoteUserName}
             </div>
           )

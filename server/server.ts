@@ -205,6 +205,10 @@ io.on('connection', (client) => {
     client.to(roomCode).emit('delete data from server', deleteData);
   });
 
+  client.on('deleteElementAction', (roomCode: string, deleteElementData: object) => {
+    client.to(roomCode).emit('delete element data from server', deleteElementData);
+  });
+
   client.on('updateChildAction', (roomCode: string, updateData: object) => {
     client.to(roomCode).emit('update data from server', updateData);
   });

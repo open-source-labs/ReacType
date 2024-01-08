@@ -7,15 +7,23 @@ import DragDropPanel from './DragDropPanel';
 
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { emitEvent } from '../../helperFunctions/socket';
 
 // Left-hand portion of the app, where predefined component options are displayed
 const ElementsContainer = (props): JSX.Element => {
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
   const dispatch = useDispatch();
 
   const handleDelete = () => {
     dispatch(deleteChild({ id: {}, contextParam: contextParam }));
+    // if (roomCode) {
+    //   emitEvent('deleteChildAction', roomCode, {
+    //     id,
+    //     contextParam
+    //   });
+    // }
   };
 
   const keyBindedFunc = useCallback((e) => {
