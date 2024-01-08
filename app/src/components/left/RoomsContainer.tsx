@@ -50,17 +50,12 @@ import {
   getSocket,
   disconnectSocket
 } from '../../helperFunctions/socket';
-<<<<<<< HEAD
-import cursor from '../main/Canvas';
-=======
 import {
   AddContextPayload,
   AddContextValuesPayload,
   DeleteContextPayload,
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
-import Canvas from '../components/main/Canvas';
->>>>>>> dev
 
 // // for websockets
 // // Part  - join room and room code functionality
