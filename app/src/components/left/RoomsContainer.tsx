@@ -59,23 +59,6 @@ import {
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
 
-// // for websockets
-// // Part  - join room and room code functionality
-let socket;
-
-//function to create HTML elements and update the position of the cursorr.
-// function getCursor(id) {
-//   let elementId = 'cursor-' + id;
-//   let element = document.getElementById(elementId);
-//   if (element == null) {
-//     element = document.createElement('div');
-//     element.id = elementId;
-//     element.className = 'cursor';
-//     document.appendChild(element);
-//   }
-//   return element;
-// }
-
 const RoomsContainer = () => {
   const dispatch = useDispatch();
   //roomCode/userName for emiting to socket io, userList for displaying user List receiving from back end, userJoined fo conditional rendering between join and leave room.
@@ -86,21 +69,18 @@ const RoomsContainer = () => {
     (store: RootState) => store.roomSlice.userJoined
   );
 
+  // for websockets - initialize socket connection passing in roomCode
   function initSocketConnection(roomCode: string) {
-    // if (socket) socket.disconnect(); //edge case: disconnect previous socket connection
-    // // establishing client and server connection
-    // socket = io(API_BASE_URL, {
-    //   transports: ['websocket']
-    // });
-
+    // helper function to create socket connection
     initializeSocket();
+    // assign socket to result of helper function to return socket created
     const socket = getSocket();
-    // only create a new connection if not already connected
+    // if socket was created correctly and exists
     if (socket) {
       //run everytime when a client connects to server
       socket.on('connect', () => {
         socket.emit('joining', userName, roomCode);
-        console.log(`${userName} Joined room ${roomCode} from RoomsContainer`);
+        // console.log(`${userName} Joined room ${roomCode} from RoomsContainer`);
       });
 
       //If you are the host: send current state to server when a new user joins
@@ -112,7 +92,7 @@ const RoomsContainer = () => {
       //If you are the new user: receive the state from the host
       socket.on('server emitting state from host', (state, callback) => {
         //dispatching new state to change user current state
-        console.log('state recieved by new join:', state);
+        // console.log('state received by new join:', state);
         store.dispatch(allCooperativeState(state.appState));
         store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
         store.dispatch(cooperativeStyle(state.styleSlice));
@@ -123,24 +103,27 @@ const RoomsContainer = () => {
       socket.on('updateUserList', (newUserList) => {
         //console.log('user list received from server');
         dispatch(setUserList(newUserList));
-        // console.log('userList:', userList);
       });
 
+      // dispatch add child to local state when element has been added by another user
       socket.on('child data from server', (childData: object) => {
         // console.log('child data received by users', childData);
         store.dispatch(addChild(childData));
       });
 
+      // dispatch changeFocus to local state when another user has changed focus by selecting element on canvas
       socket.on('focus data from server', (focusData: object) => {
         // console.log('focus data received from server', focusData);
         store.dispatch(changeFocus(focusData));
       });
 
+      // dispatch deleteChild to local state when another user has deleted an element
       socket.on('delete data from server', (deleteData: object) => {
         // console.log('delete data received from server', deleteData);
         store.dispatch(deleteChild(deleteData));
       });
 
+      // dispatch delete element to local state when another user has deleted an element
       socket.on(
         'delete element data from server',
         (deleteElementData: object) => {
@@ -149,6 +132,7 @@ const RoomsContainer = () => {
         }
       );
 
+      // dispatch all updates to local state when another user has saved from Bottom Panel
       socket.on('update data from server', (updateData: BottomPanelObj) => {
         // console.log('update data received from server', updateData);
         store.dispatch(
@@ -183,30 +167,35 @@ const RoomsContainer = () => {
         );
       });
 
+      // dispatch update style in local state when CSS panel is updated on their side
       socket.on('update css data from server', (cssData: object) => {
         // console.log('CSS data received from server', cssData);
         store.dispatch(updateStylesheet(cssData));
       });
 
+      // dispatch new item position in local state when item position is changed by another user
       socket.on(
         'item position data from server',
         (itemPositionData: object) => {
-          console.log(
-            'item position data received from server',
-            itemPositionData
-          );
+          // console.log(
+          //   'item position data received from server',
+          //   itemPositionData
+          // );
           store.dispatch(changePosition(itemPositionData));
         }
       );
 
+      // dispatch addComponent to local state when new component is created by another user
       socket.on('new component data from server', (newComponent: object) => {
         store.dispatch(addComponent(newComponent));
       });
 
+      // dispatch addElement to local state when new element is created by another user
       socket.on('new element data from server', (newElement: object) => {
         store.dispatch(addElement(newElement));
       });
 
+      // dispatch addState to local state when component state has been changed by another user
       socket.on(
         'new component state data from server',
         (componentState: object) => {
@@ -214,6 +203,7 @@ const RoomsContainer = () => {
         }
       );
 
+      // dispatch deleteState to local state when component state has been deleted by another user
       socket.on(
         'delete component state data from server',
         (componentStateDelete: object) => {
@@ -221,6 +211,7 @@ const RoomsContainer = () => {
         }
       );
 
+      // dispatch addPassedInProps to local state when p.I.P have been added by another user
       socket.on(
         'new PassedInProps data from server',
         (passedInProps: object) => {
@@ -228,6 +219,7 @@ const RoomsContainer = () => {
         }
       );
 
+      // dispatch deletePassedInProps to local state when p.I.P have been deleted by another user
       socket.on(
         'PassedInProps delete data from server',
         (passedInProps: object) => {
@@ -235,10 +227,12 @@ const RoomsContainer = () => {
         }
       );
 
+      // dispatch addContext to local state when context has been changed by another user
       socket.on('new context from server', (context: AddContextPayload) => {
         store.dispatch(addContext(context));
       });
 
+      // dispatch addContextValues to local state when context values are added by another user
       socket.on(
         'new context value from server',
         (contextVal: AddContextValuesPayload) => {
@@ -246,6 +240,7 @@ const RoomsContainer = () => {
         }
       );
 
+      // dispatch deleteContext to local state when context is deleted by another user
       socket.on(
         'delete context data from server',
         (context: DeleteContextPayload) => {
@@ -253,6 +248,7 @@ const RoomsContainer = () => {
         }
       );
 
+      // dispatch addComponentToContext to local state when context is assigned to component by another user
       socket.on('assign context data from server', (data) => {
         store.dispatch(
           addComponentToContext({
@@ -267,6 +263,7 @@ const RoomsContainer = () => {
     }
   }
 
+  // invoked when join room in invoked passing in room code to init socket for that room
   function handleUserEnteredRoom(roomCode) {
     initSocketConnection(roomCode);
   }
@@ -276,17 +273,16 @@ const RoomsContainer = () => {
     //edge case: if userList is not empty, reset it to empty array
     if (userList.length !== 0) dispatch(setUserList([]));
     handleUserEnteredRoom(roomCode);
-    dispatch(setRoomCode(roomCode)); //?
+    dispatch(setRoomCode(roomCode)); // setting state to roomCode input
     dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
   }
 
+  // leave room function
   function leaveRoom() {
-    let socket = getSocket();
+    let socket = getSocket(); // assigning socket var to get socket helper func
     if (socket) {
       socket.disconnect(); //disconnecting socket from server
-      console.log(socket);
-      socket = null;
-      console.log('user leaves the room');
+      // console.log('user leaves the room');
     }
     //reset all state values
     dispatch(setRoomCode(''));
@@ -303,13 +299,15 @@ const RoomsContainer = () => {
     return userName.length === 0 || roomCode.length === 0;
   }
 
-  // Turning off the cursor live tracking on canvas with the press of a button.
+  // handle keydown enter to join room rather than click if room code has been entered
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && e.target.id === 'filled-hidden-label-small') {
       e.preventDefault();
       joinRoom();
     }
   };
+
+  // color array for live cursor tracking - if more than six users join, cursor defaults to black currently
   const userColors = [
     '#FC00BD',
     '#D0FC00',
@@ -460,7 +458,7 @@ const RoomsContainer = () => {
             fontSize: 'smaller'
           }}
         >
-          Note: Max Occupancy: 6 Users
+          For optimal collaboration experience, limit to 6 users per room
         </Typography>
       </Stack>
     </div>

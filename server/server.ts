@@ -99,7 +99,7 @@ const io = new Server(httpServer, {
 const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
 //server listening to new connections
 io.on('connection', (client) => {
-  console.log('A user connected with socket ID:', client.id);
+  // console.log('A user connected with socket ID:', client.id);
   //when user Joined a room
   client.on('joining', async (userName: string, roomCode: string) => {
     //adding async
@@ -108,34 +108,31 @@ io.on('connection', (client) => {
       if (!roomLists[roomCode]) {
         roomLists[roomCode] = {};
       }
-      //roomLists = { happyRoom: { bHhFDmzPGam: 'Rose', mqri45c94E3: 'Jack' }, someRoom: { o5VeWAAAD: 'Dan'} }
       roomLists[roomCode][client.id] = userName; // adding user into the room list with id: userName on server side
-      const userList = Object.keys(roomLists[roomCode]); //[ bHhFDmzPGam, mqri45c94E3 ] order is not perserved?
-      const hostID = userList[0];
-      const newClientID = userList[userList.length - 1];
-      console.log('hostID:', hostID);
-      console.log('newClientID:', newClientID);
+      const userList = Object.keys(roomLists[roomCode]); //userList for roomCode
+      const hostID = userList[0]; // host is always assigned to user at index zero
+      const newClientID = userList[userList.length - 1]; // new client id is always the last index in userList
 
       //server ask host for the current state
       const hostState = await io //once the request is sent back save to host state
         .timeout(5000)
-        .to(hostID)
+        .to(hostID) // sends only to host
         .emitWithAck('requesting state from host'); //sending request
 
       //share host's state with the latest user
       const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
         .timeout(5000)
-        .to(newClientID)
+        .to(newClientID) // sends only to new client
         .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
 
       //client response is confirmed
       if (newClientResponse[0].status === 'confirmed') {
         client.join(roomCode); //client joining a room
-        console.log('a user joined the room');
+        // console.log('a user joined the room');
         //send the message to all clients in room but the sender
         io.to(roomCode).emit(
           'updateUserList',
-          Object.values(roomLists[roomCode])
+          Object.values(roomLists[roomCode]) // send updated userList to all users in room
         );
       }
     } catch (error) {
@@ -156,14 +153,7 @@ io.on('connection', (client) => {
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
-    const userList = Object.keys(roomLists[roomCode]); //[ bHhFDmzPGam, mqri45c94E3 ] order is not perserved?
-    const hostID = userList[0];
-    // the client.rooms Set contains at least the socket ID
-    console.log(`${client.id} will be leaving the room`);
-    console.log(client.id === hostID);
-    console.log(roomLists[roomCode]);
     delete roomLists[roomCode][client.id];
-    console.log(roomLists[roomCode]);
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
       delete roomLists[roomCode];
@@ -182,12 +172,11 @@ io.on('connection', (client) => {
     if (roomCode) {
       //server send the data to everyone in the room
       client.to(roomCode).emit('child data from server', childData);
-      console.log(`client id: ${client.id} sending from server ${childData}`);
     }
   });
 
   client.on('changeFocusAction', (roomCode: string, focusData: object) => {
-    //console.log('focus data received on server:', focusData);
+    //console.log('focus data received on server', focusData);
     if (roomCode) {
       //server send the focus data to everyone in room
       client.to(roomCode).emit('focus data from server', focusData);
@@ -195,50 +184,68 @@ io.on('connection', (client) => {
   });
 
   client.on('deleteChildAction', (roomCode: string, deleteData: object) => {
-    client.to(roomCode).emit('delete data from server', deleteData);
+    //console.log('delete data received on server', deleteData);
+    if (roomCode) {
+      // server send delete data to everyone in room
+      client.to(roomCode).emit('delete data from server', deleteData);
+    }
   });
 
   client.on(
     'deleteElementAction',
     (roomCode: string, deleteElementData: object) => {
-      client
-        .to(roomCode)
-        .emit('delete element data from server', deleteElementData);
+      if (roomCode) {
+        // server send delete element data to everyone in room
+        client
+          .to(roomCode)
+          .emit('delete element data from server', deleteElementData);
+      }
     }
   );
 
   client.on('updateChildAction', (roomCode: string, updateData: object) => {
-    client.to(roomCode).emit('update data from server', updateData);
+    if (roomCode) {
+      // server send update data to everyone in room
+      client.to(roomCode).emit('update data from server', updateData);
+    }
   });
 
   client.on('updateCSSAction', (roomCode: string, cssData: object) => {
-    client.to(roomCode).emit('update css data from server', cssData);
-    console.log('client received css update from server!');
+    if (roomCode) {
+      // server send updated css to everyone in room
+      client.to(roomCode).emit('update css data from server', cssData);
+    }
   });
 
   client.on(
     'changePositionAction',
     (roomCode: string, itemPositionData: object) => {
-      client
-        .to(roomCode)
-        .emit('item position data from server', itemPositionData);
+      if (roomCode) {
+        // server send item position to everyone in room
+        client
+          .to(roomCode)
+          .emit('item position data from server', itemPositionData);
+      }
     }
   );
 
   client.on('addComponentAction', (roomCode: string, newComponent: object) => {
     if (roomCode) {
+      // server send new component to everyone in room
       client.to(roomCode).emit('new component data from server', newComponent);
     }
   });
 
   client.on('addElementAction', (roomCode: string, newElement: object) => {
     if (roomCode) {
+      // server send new element to everyone in room
       client.to(roomCode).emit('new element data from server', newElement);
     }
   });
 
   client.on('addStateAction', (roomCode: string, componentState: object) => {
     if (roomCode) {
+      // server send new component state to everyone in room
       client
         .to(roomCode)
         .emit('new component state data from server', componentState);
@@ -249,6 +256,7 @@ io.on('connection', (client) => {
     'deleteStateAction',
     (roomCode: string, componentStateDelete: object) => {
       if (roomCode) {
+        // server send delete component data to everyone in room
         client
           .to(roomCode)
           .emit(
@@ -263,6 +271,7 @@ io.on('connection', (client) => {
     'addPassedInPropsAction',
     (roomCode: string, passedInProps: object) => {
       if (roomCode) {
+        // server send new p.I.P. to everyone in room
         client
           .to(roomCode)
           .emit('new PassedInProps data from server', passedInProps);
@@ -274,6 +283,7 @@ io.on('connection', (client) => {
     'deletePassedInPropsAction',
     (roomCode: string, passedInPropsDelete: object) => {
       if (roomCode) {
+        // server send delete p.I.P data to everyone in room
         client
           .to(roomCode)
           .emit('PassedInProps delete data from server', passedInPropsDelete);
@@ -283,6 +293,7 @@ io.on('connection', (client) => {
 
   client.on('addContextAction', (roomCode: string, context: object) => {
     if (roomCode) {
+      // server send new context to everyone in room
       client.to(roomCode).emit('new context from server', context);
     }
   });
@@ -291,6 +302,7 @@ io.on('connection', (client) => {
     'addContextValuesAction',
     (roomCode: string, contextVal: object) => {
       if (roomCode) {
+        // server send new context value to everyone in room
         client.to(roomCode).emit('new context value from server', contextVal);
       }
     }
@@ -300,6 +312,7 @@ io.on('connection', (client) => {
     'deleteContextAction',
     (roomCode: string, contextDelete: object) => {
       if (roomCode) {
+        // server send delete context data to everyone in room
         client
           .to(roomCode)
           .emit('delete context data from server', contextDelete);
@@ -309,12 +322,14 @@ io.on('connection', (client) => {
 
   client.on('assignContextActions', (roomCode: string, data: object) => {
     if (roomCode) {
+      // server send assign context data to everyone in room
       client.to(roomCode).emit('assign context data from server', data);
     }
   });
 
   //remote cursor
   client.on('cursorData', (roomCode: string, remoteData: object) => {
+    // server send updated cursor data to everyone in room
     client.to(roomCode).emit('remote cursor data from server', remoteData);
   });
 });
