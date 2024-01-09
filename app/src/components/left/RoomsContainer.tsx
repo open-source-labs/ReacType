@@ -27,7 +27,8 @@ import {
   deleteState,
   addPassedInProps,
   deletePassedInProps,
-  deleteElement
+  deleteElement,
+  updateStylesheet
 } from '../../redux/reducers/slice/appStateSlice';
 import {
   addContext,
@@ -126,24 +127,30 @@ const RoomsContainer = () => {
       });
 
       socket.on('child data from server', (childData: object) => {
-        console.log(`child data received by socket ${socket.id}`, childData);
-        console.log(socket);
+        // console.log('child data received by users', childData);
         store.dispatch(addChild(childData));
       });
 
       socket.on('focus data from server', (focusData: object) => {
-        console.log('focus data received from server', focusData);
+        // console.log('focus data received from server', focusData);
         store.dispatch(changeFocus(focusData));
       });
 
       socket.on('delete data from server', (deleteData: object) => {
-        console.log('delete data received from server', deleteData);
+        // console.log('delete data received from server', deleteData);
         store.dispatch(deleteChild(deleteData));
       });
 
-      //write out emitters for reach function inside of CusomizationPanel HandleSave//no need to pull the function into RoomsContainer
+      socket.on(
+        'delete element data from server',
+        (deleteElementData: object) => {
+          // console.log('delete element data received from server', deleteElementData);
+          store.dispatch(deleteElement(deleteElementData));
+        }
+      );
+
       socket.on('update data from server', (updateData: BottomPanelObj) => {
-        console.log('update data received from server', updateData);
+        // console.log('update data received from server', updateData);
         store.dispatch(
           updateStateUsed({
             stateUsedObj: updateData.stateUsedObj,
@@ -174,6 +181,11 @@ const RoomsContainer = () => {
             contextParam: updateData.contextParam
           })
         );
+      });
+
+      socket.on('update css data from server', (cssData: object) => {
+        // console.log('CSS data received from server', cssData);
+        store.dispatch(updateStylesheet(cssData));
       });
 
       socket.on(

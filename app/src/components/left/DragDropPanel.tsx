@@ -4,6 +4,7 @@ import HTMLItem from './HTMLItem';
 import React from 'react';
 import { RootState } from '../../redux/store';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
+import { emitEvent } from '../../helperFunctions/socket';
 
 /*
 DESCRIPTION: This is the top half of the left panel, starting from the 'HTML
@@ -23,10 +24,18 @@ const DragDropPanel = (props): JSX.Element => {
 
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
   const handleDelete = (id: number): void => {
     dispatch(deleteElement({ id: id, contextParam: contextParam }));
+    if (roomCode) {
+      emitEvent('deleteElementAction', roomCode, {
+        id,
+        contextParam
+      });
+    }
   };
+
   // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(
     (type) => type.name !== 'separator'

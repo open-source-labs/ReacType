@@ -1,19 +1,19 @@
 // contextBridge is what allows context to be translated between the main process and the render process
-const { contextBridge } = require('electron');
-const { existsSync, writeFileSync, mkdirSync, writeFile } = require('fs');
-const formatCode = require('./preloadFunctions/format');
-const {
+import { contextBridge } from 'electron';
+import { existsSync, writeFileSync, mkdirSync, writeFile } from 'fs';
+import formatCode from './preloadFunctions/format';
+import {
   chooseAppDir,
   addAppDirChosenListener,
   removeAllAppDirChosenListeners
-} = require('./preloadFunctions/chooseAppDir');
-const {
+} from './preloadFunctions/chooseAppDir';
+import {
   setCookie,
   getCookie,
   delCookie,
   github,
   tutorial
-} = require('./preloadFunctions/cookies');
+} from './preloadFunctions/cookies';
 
 /* 
 DESCRIPTION: This file appears to limit the node methods the Electron app can access.

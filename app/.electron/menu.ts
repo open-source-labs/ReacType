@@ -1,7 +1,6 @@
-const { Menu } = require('electron');
-const { BrowserWindow } = require('electron');
+import { Menu, BrowserWindow, Shell } from 'electron';
 const isMac = process.platform === 'darwin';
-const Protocol = require('./protocol');
+import Protocol from './protocol';
 /* 
 DESCRIPTION: This file generates an array containing a menu based on the operating system the user is running.
 menuBuilder: The entire file is encompassed in menuBuilder. Ultimately, menuBuilder returns a function called
@@ -25,14 +24,14 @@ defaultTemplate: returns an array of submenus (each an array)
 */
 
 // Create a template for a menu and create menu using that template
-var MenuBuilder = function(mainWindow, appName) {
+var MenuBuilder = function (mainWindow, appName) {
   // https://electronjs.org/docs/api/menu#main-process
   // "roles" are predefined by Electron and used for standard actions
   // https://www.electronjs.org/docs/api/menu-item
   // you can also create custom menu items with their own "on click" functionality if you need to
   // different roles are available between mac and windows
 
-  const openTutorial = () => {
+  function openTutorial(): void {
     const tutorial = new BrowserWindow({
       width: 1180,
       height: 900,
@@ -54,47 +53,28 @@ var MenuBuilder = function(mainWindow, appName) {
       tutorial.loadURL(`${Protocol.scheme}://rse/index-prod.html#/tutorial`);
     }
     tutorial.show();
-  };
+  }
 
-  let defaultTemplate = function() {
-    return [
+  const defaultTemplate= (): Electron.MenuItemConstructorOptions[] => [
       ...(isMac
         ? [
             {
               // on Mac, the first menu item name should be the name of the app
               label: appName,
               submenu: [
-                {
-                  role: 'about'
-                },
-                {
-                  type: 'separator'
-                },
-                {
-                  role: 'services'
-                },
-                {
-                  type: 'separator'
-                },
-                {
-                  role: 'hide'
-                },
-                {
-                  role: 'hideothers'
-                },
-                {
-                  role: 'unhide'
-                },
-                {
-                  type: 'separator'
-                },
-                {
-                  role: 'quit'
-                }
-              ]
-            }
+                {role: 'about'},
+                {type: 'separator'},
+                {role: 'services'},
+                {type: 'separator'},
+                {role: 'hide'},
+                {role: 'hideothers'},
+                {role: 'unhide'},
+                {type: 'separator'},
+                {role: 'quit'}
+              ] as Electron.MenuItemConstructorOptions[],
+            } ,
           ]
-        : []),
+        : []),Electron.MenuItemConstructorOptions[],
       {
         label: 'File',
         submenu: [
@@ -250,11 +230,13 @@ var MenuBuilder = function(mainWindow, appName) {
         ]
       }
     ];
-  };
+
+    return template;
+  }
 
   // constructs menu from default template
   return {
-    buildMenu: function() {
+    buildMenu: function () {
       const menu = Menu.buildFromTemplate(defaultTemplate());
       Menu.setApplicationMenu(menu);
 
@@ -263,4 +245,4 @@ var MenuBuilder = function(mainWindow, appName) {
   };
 };
 
-module.exports = MenuBuilder;
+export { MenuBuilder };
