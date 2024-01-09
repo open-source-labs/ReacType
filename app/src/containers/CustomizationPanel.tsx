@@ -585,16 +585,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 ? ' component'
                 : ' element'}{' '}
               <br />
-              <br />
-              <span
-                className={
-                  isThemeLight
-                    ? `${classes.compName} ${classes.lightThemeFontColor}`
-                    : `${classes.compName} ${classes.darkThemeFontColor}`
-                }
-              >
                 {configTarget.child.name}
-              </span>
             </h4>
           </div>
           <section className={'customization-section'}>
@@ -891,7 +882,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   SAVE
                 </Button>
               </div>
-              <div className={classes.buttonRow}>
+              {/* <div className={classes.buttonRow}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -926,7 +917,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 >
                   Tailwind
                 </Button>
-              </div>
+              </div> */}
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button
