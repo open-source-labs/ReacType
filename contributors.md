@@ -88,6 +88,10 @@
 
 [Khuong Nguyen](https://www.linkedin.com/in/khuong-nguyen/) [@khuongdn16](https://github.com/khuongdn16)
 
+[Laura Forden](https://www.linkedin.com/in/la-forden/) [@lauraafor](https://github.com/lauraafor)
+
+[Lauren Leer](https://www.linkedin.com/in/lauren-leer/) [@LALeer](https://github.com/LALeer)
+
 [Liam Roh](https://www.linkedin.com/in/liam-roh/) [Github](https://github.com/liamroh)
 
 [Lillian Wimberly](https://www.linkedin.com/in/lillianwimberly/) [@lillwimberly](https://github.com/lillwimberly)
@@ -120,7 +124,11 @@
 
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
+[Rose Jiang](https://www.linkedin.com/in/rose-jiang/) [@jujupro](https://github.com/jujupro)
+
 [Salvatore Saluga](https://www.linkedin.com/in/salvatore-saluga) [@SalSaluga](https://github.com/SalSaluga)
+
+[Sang-Hoon (Sean) Kil](https://www.linkedin.com/in/sanghkil/) [@Skilzsz](https://github.com/Skilzsz)
 
 [Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
 
@@ -163,4 +171,3 @@
 [Yohan Jeon](https://www.linkedin.com/in/yohan-jeon1) [Github](https://github.com/Yoheze)
 
 [Yuanji Huang](https://www.linkedin.com/in/yuanjihuang/) [@kr1spybacon](https://github.com/kr1spybacon)
-

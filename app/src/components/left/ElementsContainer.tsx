@@ -18,12 +18,12 @@ const ElementsContainer = (props): JSX.Element => {
 
   const handleDelete = () => {
     dispatch(deleteChild({ id: {}, contextParam: contextParam }));
-    // if (roomCode) {
-    //   emitEvent('deleteChildAction', roomCode, {
-    //     id,
-    //     contextParam
-    //   });
-    // }
+    if (roomCode) {
+      emitEvent('deleteChildAction', roomCode, {
+        id: {},
+        contextParam: contextParam
+      });
+    }
   };
 
   const keyBindedFunc = useCallback((e) => {

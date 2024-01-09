@@ -49,6 +49,7 @@ import store from '../../redux/store';
 import {
   initializeSocket,
   getSocket,
+  emitEvent,
   disconnectSocket
 } from '../../helperFunctions/socket';
 import {
@@ -140,10 +141,13 @@ const RoomsContainer = () => {
         store.dispatch(deleteChild(deleteData));
       });
 
-      socket.on('delete element data from server', (deleteElementData: object) => {
-        // console.log('delete element data received from server', deleteElementData);
-        store.dispatch(deleteElement(deleteElementData));
-      });
+      socket.on(
+        'delete element data from server',
+        (deleteElementData: object) => {
+          // console.log('delete element data received from server', deleteElementData);
+          store.dispatch(deleteElement(deleteElementData));
+        }
+      );
 
       socket.on('update data from server', (updateData: BottomPanelObj) => {
         // console.log('update data received from server', updateData);
@@ -456,8 +460,7 @@ const RoomsContainer = () => {
             fontSize: 'smaller'
           }}
         >
-          Note: For the best experience, limit Collab room occupancy to 3
-          people. Exceeding this limit may lead to app performance issues.
+          Note: Max Occupancy: 6 Users
         </Typography>
       </Stack>
     </div>

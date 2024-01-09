@@ -29,19 +29,18 @@ function Canvas(props: {}): JSX.Element {
   console.log('canvas is rendered');
 
   //remote cursor data
-
   const [remoteCursors, setRemoteCursors] = useState([]);
 
-  //toggle switch
+  // Toggle switch for live cursor tracking
   const [toggleSwitch, setToggleSwitch] = useState(true);
 
-  // toggle text
+  // Toggle button text for live cursor tracking button - on/off
   const [toggleText, setToggleText] = useState('off');
-
   const toggleButton = () => {
     setToggleText(toggleText === 'on' ? 'off' : 'on');
   };
 
+  // Prevents lagging and provides smoother user experience got live cursor tracking (milliseconds can be adjusted but 300ms is most optimal)
   const debounceSetPosition = debounce((newX, newY) => {
     //emit socket event every 300ms when cursor moves
     if (userList.length > 1)
@@ -93,6 +92,21 @@ function Canvas(props: {}): JSX.Element {
     });
   };
 
+  // console.log('userList:', userList);
+  //[{x,y,remoteUserName, isVisible}, {...}, {...}]
+  // console.log('remoteCursors:', remoteCursors);
+
+  // Removes the mouse cursor of the user that leaves the collaboration room.
+  const handleCursorDeleteFromServer = () => {
+    setRemoteCursors((prevRemoteCursors) =>
+      prevRemoteCursors.map((cursor) => ({
+        ...cursor,
+        isVisible: userList.includes(cursor.remoteUserName)
+      }))
+    );
+  };
+
+  // Function that will turn on/off socket depending on toggle Switch.
   const handleToggleSwitch = () => {
     setToggleSwitch(!toggleSwitch);
     //checks the state before it's updated so need to check the opposite condition
@@ -122,17 +136,14 @@ function Canvas(props: {}): JSX.Element {
     }
   };
 
-  console.log('Toggle Switch:', toggleSwitch);
-
-  //Function to handle the click events.
+  //Function to handle the multiple click events of the toggle button.
   const multipleClicks = () => {
     handleToggleSwitch();
     toggleButton();
   };
 
   const socket = getSocket();
-  /* wrap the socket event listener in useEffect with dependency array as [socket], so the effect will run only when: 
-   1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect) */
+  //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
   useEffect(() => {
     console.log(
       'socket inside useEffect:',
@@ -151,6 +162,11 @@ function Canvas(props: {}): JSX.Element {
       if (socket) socket.off('remote cursor data from server');
     };
   }, [socket]);
+
+  useEffect(() => {
+    handleCursorDeleteFromServer();
+    console.log('handle delete has been called');
+  }, [userList]);
 
   //-----------------
 
@@ -177,7 +193,6 @@ function Canvas(props: {}): JSX.Element {
         childId: childId
       });
     }
-    // console.log('emit changeFocusAction event is triggered in canvas');
   };
 
   // onClickHandler is responsible for changing the focused component and child component
@@ -310,6 +325,7 @@ function Canvas(props: {}): JSX.Element {
     currentComponent.style
   );
 
+  // Array of colors that color code users as they join the room (In a set order)
   const userColors = [
     '#FC00BD',
     '#D0FC00',
@@ -362,7 +378,7 @@ function Canvas(props: {}): JSX.Element {
               bottom: '100px',
               left: '51vw',
               textAlign: 'center',
-              color: '#ffffff',
+              color: '#FFFFFF',
               backgroundColor: '#151515',
               zIndex: 0,
               padding: '5px',
