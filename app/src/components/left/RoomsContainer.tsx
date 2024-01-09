@@ -141,10 +141,13 @@ const RoomsContainer = () => {
         store.dispatch(deleteChild(deleteData));
       });
 
-      socket.on('delete element data from server', (deleteElementData: object) => {
-        // console.log('delete element data received from server', deleteElementData);
-        store.dispatch(deleteElement(deleteElementData));
-      });
+      socket.on(
+        'delete element data from server',
+        (deleteElementData: object) => {
+          // console.log('delete element data received from server', deleteElementData);
+          store.dispatch(deleteElement(deleteElementData));
+        }
+      );
 
       socket.on('update data from server', (updateData: BottomPanelObj) => {
         // console.log('update data received from server', updateData);
