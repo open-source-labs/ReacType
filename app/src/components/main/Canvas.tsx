@@ -27,8 +27,17 @@ function Canvas(props: {}): JSX.Element {
   //-------cursors tracking-------
   console.log('canvas is rendered');
 
+  //remote cursor data
   const [remoteCursors, setRemoteCursors] = useState([]);
+
+  // toggle switch
   const [toggleSwitch, setToggleSwitch] = useState(true);
+
+  // toggle text
+  const [toggleText, setToggleText] = useState('off');
+  const toggleButton = () => {
+    setToggleText(toggleText === 'on' ? 'off' : 'on');
+  };
 
   const debounceSetPosition = debounce((newX, newY) => {
     //emit socket event every 300ms when cursor moves
@@ -125,6 +134,12 @@ function Canvas(props: {}): JSX.Element {
 
   console.log('Toggle Switch:', toggleSwitch);
 
+  //Function to handle the click events.
+  const multipleClicks = () => {
+    handleToggleSwitch();
+    toggleButton();
+  };
+
   const socket = getSocket();
   //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
   useEffect(() => {
@@ -169,7 +184,7 @@ function Canvas(props: {}): JSX.Element {
     childId?: number | null
   ) => {
     dispatch(changeFocus({ componentId, childId }));
-    //if room exists, send focus dispatcht to all users
+    //if room exists, send focus dispatch to all users
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
@@ -350,18 +365,29 @@ function Canvas(props: {}): JSX.Element {
           )
       )}
 
-      <label
-        className="switch"
-        style={{
-          position: 'relative',
-          display: 'inline-block',
-          width: '60px',
-          height: '34px'
-        }}
-      >
-        <button className="btn-toggle" onClick={handleToggleSwitch}>
-          On/Off
-        </button>
+      <label className="switch">
+        {userList.length > 1 && (
+          <button
+            className="btn-toggle"
+            onClick={multipleClicks}
+            style={{
+              position: 'fixed',
+              width: 'max-content',
+              height: 'max-content',
+              bottom: '100px',
+              left: '51vw',
+              textAlign: 'center',
+              color: '#FFFFFF',
+              backgroundColor: '#151515',
+              zIndex: 0,
+              padding: '5px',
+              borderColor: '#46C0A5',
+              borderRadius: '5px'
+            }}
+          >
+            {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
+          </button>
+        )}
       </label>
     </div>
   );
