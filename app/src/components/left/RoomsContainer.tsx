@@ -57,7 +57,6 @@ import {
   DeleteContextPayload,
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
-import Canvas from '../../components/main/Canvas';
 
 // // for websockets
 // // Part  - join room and room code functionality
