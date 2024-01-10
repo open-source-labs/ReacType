@@ -48,6 +48,7 @@ Recommendations for Future Enhancements:<br>
   - True real-time rendering so users can see components as they're being dragged onto the canvas, rather than only when they're placed.
   - List of active rooms so users can simply pick one to join. Will likely be paired with a password feature for security, so only users with the proper credentials can join a particular room.
   - Chat Feature in Collaboration Room
+  - Currently, the live tracking cursor is rendered based on the users username/nickname. If multiple users create the same username/nickname, the most recent username/nickname creator will override the former. Possible      solution to this issue could be to store cursor with the socket id rather than username/nickname. "
 
 **Version 18.0.0 Changes**
 
