@@ -24,7 +24,7 @@
 [![ContributorShield][contributors]][contributors-url]
 [![ForksShield][forks]][forks-url]
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version: 18.0.0](https://img.shields.io/badge/version-18.0.0-orange)
+![Version: 19.0.0](https://img.shields.io/badge/version-19.0.0-orange)
 
 </div>
 
@@ -50,7 +50,7 @@
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 <p align="center">
-  <img width="1000" src="./resources/reactype17.png">
+  <img width="1000" src="./resources/reactype19.png">
 </p>
 
 **ReacType** is a rapid prototyping tool that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -64,16 +64,16 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 
 <!-- NEED TO REPLACE THE TUTORIAL LINK -->
 
-## Changes with Version 18.0.0
+## Changes with Version 19.0.0
 
-- **Collaboration Rooms**: Implemented rooms that allow developers to collaborate together on a project.
-  Note: The collaboration room is a beta version and still needs to be improved for larger scaling.
-- **User List**: Designed and built a user list that updates in real-time as clients join and exit.
-- **Typescript Conversion**: Typescript coverage is now increased to ~90%.
-- **Cleanup**: Removed unused code, fixed bugs, and refactored existing code to improve performance, 
+- **Collaboration Rooms**: Official launch of v1 collaboration rooms - allowing developers to work together on the same project smoothly.
+  The Collaboration Room also has user mouse tracking for increased ease in collaboration.
+- **UI Updates**: Designed with users in mind - the interface is redesigned with a smoother look and more intuitive design.
+- **Typescript Conversion**: Typescript coverage is now increased to ~95%.
+- **Cleanup**: Removed unused code, fixed bugs, and made major performance improvements.
 - **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
 
-## File Structure of ReacType Version 18.0.0
+## File Structure of ReacType Version 19.0.0
 
 Here is the main file structure:
 
