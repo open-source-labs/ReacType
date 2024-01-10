@@ -9,8 +9,8 @@ export const initializeSocket = () => {
     // will force new socket connection if re-joining to prevent double emits
     forceNew: true
   });
-  console.log('A user connected');
-  console.log('socket:', socket);
+  // console.log('A user connected');
+  // console.log('socket:', socket);
   // }
 };
 
@@ -22,7 +22,6 @@ export const getSocket = () => {
 export const disconnectSocket = () => {
   if (socket) {
     socket.disconnect();
-    socket = null;
   }
 };
 

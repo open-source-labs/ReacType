@@ -26,7 +26,6 @@ function Canvas(props: {}): JSX.Element {
   const userList = useSelector((store: RootState) => store.roomSlice.userList);
 
   //-------cursors tracking-------
-  console.log('canvas is rendered');
 
   //remote cursor data
   const [remoteCursors, setRemoteCursors] = useState([]);
@@ -40,12 +39,12 @@ function Canvas(props: {}): JSX.Element {
     setToggleText(toggleText === 'on' ? 'off' : 'on');
   };
 
-  // Prevents lagging and provides smoother user experience got live cursor tracking (milliseconds can be adjusted but 300ms is most optimal)
+  // Prevents lagging and provides smoother user experience got live cursor tracking (milliseconds can be adjusted but 500ms is most optimal)
   const debounceSetPosition = debounce((newX, newY) => {
     //emit socket event every 300ms when cursor moves
     if (userList.length > 1)
       emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
-  }, 300);
+  }, 500);
 
   const handleMouseMove = (e) => {
     debounceSetPosition(e.clientX, e.clientY);
@@ -57,7 +56,6 @@ function Canvas(props: {}): JSX.Element {
       const cursorIdx = prevState.findIndex(
         (cursor) => cursor.remoteUserName === remoteData.userName
       );
-      //[{x,y,remoteUserName, isVisible}, {...}, {...}]
       //existing user
       if (cursorIdx >= 0) {
         //check if cursor position has changed
@@ -93,7 +91,7 @@ function Canvas(props: {}): JSX.Element {
   };
 
   // console.log('userList:', userList);
-  //[{x,y,remoteUserName, isVisible}, {...}, {...}]
+  //[{x,y,remoteUserName, isVisible}, {...}, {...}];
   // console.log('remoteCursors:', remoteCursors);
 
   // Removes the mouse cursor of the user that leaves the collaboration room.
@@ -145,27 +143,27 @@ function Canvas(props: {}): JSX.Element {
   const socket = getSocket();
   //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
   useEffect(() => {
-    console.log(
-      'socket inside useEffect:',
-      socket ? 'connected' : 'not connected'
-    );
+    // console.log(
+    //   'socket inside useEffect:',
+    //   socket ? 'connected' : 'not connected'
+    // );
 
     if (socket) {
-      console.log('------setting up socket.on event listener-------');
+      // console.log('------setting up socket.on event listener-------');
       socket.on('remote cursor data from server', (remoteData) =>
         handleCursorDataFromServer(remoteData)
       );
     }
 
     return () => {
-      console.log('clean up cursor event listener after canvas unmount');
+      // console.log('clean up cursor event listener after canvas unmount');
       if (socket) socket.off('remote cursor data from server');
     };
   }, [socket]);
 
   useEffect(() => {
     handleCursorDeleteFromServer();
-    console.log('handle delete has been called');
+    // console.log('handle delete has been called');
   }, [userList]);
 
   //-----------------
@@ -246,9 +244,9 @@ function Canvas(props: {}): JSX.Element {
             contextParam: contextParam
           });
 
-          console.log(
-            `emit addChildAction event is triggered in canvas from ${socket.id}`
-          );
+          // console.log(
+          //   `emit addChildAction event is triggered in canvas from ${socket.id}`
+          // );
         }
       } else if (item.newInstance && item.instanceType === 'Component') {
         let hasDiffParent = false;
@@ -297,7 +295,7 @@ function Canvas(props: {}): JSX.Element {
             contextParam: contextParam
           });
 
-          console.log('emit addChildAction event is triggered in canvas');
+          // console.log('emit addChildAction event is triggered in canvas');
         }
       }
     },
@@ -357,7 +355,7 @@ function Canvas(props: {}): JSX.Element {
                 left: cursor.x + 'px',
                 top: cursor.y - 68 + 'px',
                 //cursor style
-                fontSize: '2em',
+                fontSize: '1em',
                 color: userColors[userList.indexOf(cursor.remoteUserName)]
               }}
             >
