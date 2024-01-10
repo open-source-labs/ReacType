@@ -1,4 +1,27 @@
-import {
+MONGO_DB=mongodb+srv://liamrohx:WjGUQLQQgbLOuVdY@reactypemarketplace.xzr792n.mongodb.net/?retryWrites=true&w=majority
+MONGO_DB_TEST = mongodb+srv://liamrohx:MvuP2sxBO7F09Ktm@testing-reactype.llddslr.mongodb.net/?retryWrites=true&w=majority
+SESSION_SECRET=asdsidfhbos
+GITHUB_SECRET=1c04117be910fe28236512624b03118f34011b6d
+GITHUB_CLIENT=a75cc51ac4cc28669298
+GOOGLE_SECRET=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
+GOOGLE_CLIENT=479450635771-dgavg40p3kv8ehf4vfkk0098ve45ntot.apps.googleusercontent.com
+NODE_ENV=development
+# AWS Amplify Configuration
+REACT_APP_AWS_PROJECT_REGION=us-west-1
+REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID=us-west-1:815039e6-65a1-4c93-bec0-8e7b26758660
+REACT_APP_AWS_COGNITO_REGION=us-west-1
+REACT_APP_AWS_USER_POOLS_ID=us-west-1_VjLE8k86f
+REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID=3np0jl55d2q2qdtrb7dj3vn182
+REACT_APP_AWS_COGNITO_USERNAME_ATTRIBUTES=
+REACT_APP_AWS_COGNITO_SOCIAL_PROVIDERS=
+REACT_APP_AWS_COGNITO_SIGNUP_ATTRIBUTES=EMAIL
+REACT_APP_AWS_COGNITO_MFA_CONFIGURATION=OFF
+REACT_APP_AWS_COGNITO_MFA_TYPES=SMS
+REACT_APP_AWS_COGNITO_PASSWORD_PROTECTION_SETTINGS_PASSWORDPOLICYMINLENGTH=8
+REACT_APP_AWS_COGNITO_PASSWORD_PROTECTION_SETTINGS_PASSWORDPOLICYCHARACTERS=
+REACT_APP_AWS_COGNITO_VERIFICATION_MECHANISMS=EMAIL
+REACT_APP_AWS_USER_FILES_S3_BUCKET=reactypemktimgs233034-dev
+REACT_APP_AWS_USER_FILES_S3_BUCKET_REGION=us-west-1import {
   Button,
   Dialog,
   DialogActions,
@@ -393,9 +416,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         style: styleObj,
         events: eventsObj
       });
-      console.log(
-        'emit updateChildAction event is triggered in CustomizationPanel.tsx'
-      );
+      // console.log(
+      //   'emit updateChildAction event is triggered in CustomizationPanel.tsx'
+      // );
     }
 
     return styleObj;
@@ -425,9 +448,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         id: {},
         contextParam: contextParam
       });
-      console.log(
-        'emit deleteChildAction event is triggered in CustomizationPanel.tsx'
-      );
+      // console.log(
+      //   'emit deleteChildAction event is triggered in CustomizationPanel.tsx'
+      // );
     }
   };
 
