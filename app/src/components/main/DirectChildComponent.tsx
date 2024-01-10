@@ -42,7 +42,7 @@ function DirectChildComponent({ childId, type, typeId, name }: ChildElement) {
         componentId: componentId,
         childId: childId
       });
-      console.log('emit focus event from DirectChildComponent');
+      // console.log('emit focus event from DirectChildComponent');
     }
   };
 

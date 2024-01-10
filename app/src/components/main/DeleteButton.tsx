@@ -20,9 +20,9 @@ function DeleteButton({ id, name }: DeleteButtons) {
         contextParam
       });
 
-      console.log(
-        'emit deleteChildAction event is triggered in DeleteButton.tsx'
-      );
+      // console.log(
+      //   'emit deleteChildAction event is triggered in DeleteButton.tsx'
+      // );
     }
   };
 

@@ -22,13 +22,15 @@ Hook state:
 const DragDropPanel = (props): JSX.Element => {
   const dispatch = useDispatch();
 
-  const state = useSelector((store: RootState) => store.appState);
-  const contextParam = useSelector((store: RootState) => store.contextSlice);
-  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  const state = useSelector((store: RootState) => store.appState); // current state
+  const contextParam = useSelector((store: RootState) => store.contextSlice); // current contextParam
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode); // current roomCode
 
+  // function for delete element
   const handleDelete = (id: number): void => {
     dispatch(deleteElement({ id: id, contextParam: contextParam }));
     if (roomCode) {
+      // send delete element to server to broadcast to all users
       emitEvent('deleteElementAction', roomCode, {
         id,
         contextParam

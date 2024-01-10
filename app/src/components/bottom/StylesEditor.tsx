@@ -23,7 +23,7 @@ const StylesEditor: React.FC<{
     (state: RootState) => state.appState.stylesheet
   );
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-  
+
   //sets state for what text is currently in the csseditor
   const [css, setCss] = useState(stylesheet);
 
@@ -35,7 +35,6 @@ const StylesEditor: React.FC<{
     dispatch(updateStylesheet(css));
     if (roomCode) {
       emitEvent('updateCSSAction', roomCode, css);
-      console.log('emit updateCSSAction event is triggered in StylesEditor.tsx');
     }
   };
 

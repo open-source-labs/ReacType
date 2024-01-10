@@ -44,7 +44,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
         componentId: componentId,
         childId: childId
       });
-      console.log('emit focus event from DirectChildHTML');
+      // console.log('emit focus event from DirectChildHTML');
     }
   };
 

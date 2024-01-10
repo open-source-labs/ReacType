@@ -91,9 +91,9 @@ function DirectChildHTMLNestable({
               contextParam: contextParam
             });
 
-            console.log(
-              'emit addChildAction event is triggered in SeparatorChild'
-            );
+            // console.log(
+            //   'emit addChildAction event is triggered in SeparatorChild'
+            // );
           }
         }
       }
@@ -115,9 +115,9 @@ function DirectChildHTMLNestable({
               contextParam: contextParam
             });
 
-            console.log(
-              'emit changePosition event is triggered in SeparatorChild'
-            );
+            // console.log(
+            //   'emit changePosition event is triggered in SeparatorChild'
+            // );
           }
         }
       }
