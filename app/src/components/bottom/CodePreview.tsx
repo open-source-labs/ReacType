@@ -52,13 +52,6 @@ const CodePreview: React.FC<{
     dispatch(codePreviewInput(currentComponent.code));
   }, [currentComponent, state.components]);
 
-  useEffect(() => {
-    console.log('CodePreview Mounted');
-    return () => {
-      console.log('CodePreview Unmounted');
-    };
-  }, []);
-
   /**
    * Handler thats listens to changes in code editor
    * @param {string} data - Code entered by the user
