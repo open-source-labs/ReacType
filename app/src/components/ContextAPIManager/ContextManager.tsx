@@ -20,9 +20,7 @@ const useStyles = makeStyles({
 });
 
 const ContextManager = (props): JSX.Element => {
-  const { style } = useSelector((store: RootState) => ({
-    style: store.styleSlice
-  }));
+  const style = useSelector((store: RootState) => store.styleSlice);
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
 

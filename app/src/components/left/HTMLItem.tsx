@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ComponentType, ReactElement, useState } from 'react';
 
 import Grid from '@mui/material/Grid';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -9,24 +9,20 @@ import { RootState } from '../../redux/store';
 import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
-// import { useSelector } from 'react-redux';
+import { IconProps } from '@mui/material';
+import CodeIcon from '@mui/icons-material/Code';
+import * as Icons from '@mui/icons-material';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: '#8F8F8F',
-    height: '35px',
-    width: '90px',
-    fontSize: '80%',
+    height: 'auto',
+    width: 'auto',
+    fontSize: 'medium',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     textAlign: 'center',
-    margin: '7px auto',
-    marginLeft: '30px',
-    cursor: 'grab',
-    '& > h3': {
-      display: 'inline-block'
-    }
+    cursor: 'grab'
   },
   lightThemeFontColor: {
     color: '#8F8F8F'
@@ -39,11 +35,16 @@ const useStyles = makeStyles({
 const HTMLItem: React.FC<{
   name: string;
   id: number;
-  Icon: any;
+  icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, handleDelete }) => {
+}> = ({ name, id, icon, handleDelete }) => {
+  //load mui icons base on string parameter
+  const IconComponent = Icons[icon];
+
   const classes = useStyles();
+
   const [modal, setModal] = useState(null);
+
   const [{ isDragging }, drag] = useDrag({
     // is dragging is never read, but if deleted adjustment in the ref are needed line 122/128 ref={drag} to {...drag}
     item: {
@@ -51,6 +52,7 @@ const HTMLItem: React.FC<{
       newInstance: true,
       instanceType: 'HTML Element',
       name,
+      icon,
       instanceTypeId: id
     },
     collect: (monitor: any) => ({
@@ -119,7 +121,7 @@ const HTMLItem: React.FC<{
   // updated the id's to reflect the new element types input and label
   return (
     // HTML Elements
-    <Grid item xs={5} key={`html-g${name}`}>
+    <Grid item xs={5} key={`html-g${name}`} id="HTMLgrid">
       {id <= 20 && (
         <div
           ref={drag}
@@ -127,27 +129,32 @@ const HTMLItem: React.FC<{
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
         >
-          <h3>{name}</h3>
+          {typeof IconComponent !== 'undefined' && (
+            <IconComponent fontSize="small" align-items="center" />
+          )}
+          {name}
         </div>
       )}
+
+      {/* Custom Elements */}
       {id > 20 && (
-        <span id="customHTMLElement">
-          <div
-            ref={drag}
-            style={{ borderColor: '#C6C6C6' }}
-            className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
-            id="HTMLItem"
-          >
-            <h3>{name}</h3>
-          </div>
-          <button
+        <div
+          ref={drag}
+          style={{ borderColor: '#C6C6C6' }}
+          className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
+          id="HTMLItem"
+        >
+          {typeof CodeIcon !== 'undefined' && (
+          <CodeIcon fontSize="small" align-items="center" />)}
+          {name}
+            <button
             id="newElement"
             style={{ color: '#C6C6C6' }}
             onClick={() => deleteAllInstances(id)}
-          >
-            X
-          </button>
-        </span>
+            >
+              X
+            </button>
+        </div>
       )}
       {modal}
     </Grid>

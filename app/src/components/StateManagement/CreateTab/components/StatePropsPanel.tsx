@@ -16,12 +16,13 @@ import TableStateProps from './TableStateProps';
 import TableParentProps from './TableParentProps';
 import TablePassedInProps from './TablePassedInProps';
 import { RootState } from '../../../../redux/store';
+import { emitEvent } from '../../../../helperFunctions/socket';
 
 const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const [inputKey, setInputKey] = useState('');
@@ -160,6 +161,15 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
           contextParam: contextParam
         })
       );
+
+      if (roomCode) {
+        emitEvent('addStateAction', roomCode, {
+          newState: newState,
+          setNewState: setNewState,
+          contextParam: contextParam
+        });
+      }
+
       setRows1([...rows1, newState]);
       setErrorStatus(false);
       clearForm();
@@ -484,11 +494,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '100%'
   },
   rootCheckBox: {
-    borderColor: '#186BB4',
+    borderColor: '#46C0A5',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    borderColor: '#186BB4'
+    borderColor: '#46C0A5'
   },
   panelWrapper: {
     width: '100%',
@@ -512,8 +522,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     textAlign: 'center',
     width: '500px',
-    backgroundColor: '#186BB4',
-    border: '5px solid #186BB4'
+    backgroundColor: '#46C0A5',
+    border: '5px solid #46C0A5'
   },
   panelSubheader: {
     textAlign: 'center',
@@ -521,7 +531,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   input: {},
   newComponent: {
-    color: '#155084',
+    color: '#1b544b',
     fontSize: '95%',
     marginBottom: '20px'
   },
@@ -541,7 +551,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: '90%',
     textAlign: 'center',
     margin: '-20px 0px 5px 150px',
-    border: ' 1px solid #186BB4',
+    border: ' 1px solid #46C0A5',
     transition: '0.3s'
   },
   rootToggle: {

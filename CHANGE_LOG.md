@@ -3,6 +3,52 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 19.0.0 Changes**
+
+Changes:<br>
+
+- Developer Improvement:
+  - Typescript conversion continued and now sits at ~95%
+- User Features:
+  - Collaboration Room: 
+    - Bug Fixes:
+      - Debug “Leave Room” functionality removing username from the users list
+      - Debug “Join Room” functionality so the current canvas does not reset upon new user joining collaboration
+      - Debug Code Preview button that sent error if toggled more than once and does not force toggled view to other users in the room
+    - Collaboration room is now ready for release (v1)
+      - Implemented live cursor tracking with on/off function where multiple users can choose to see the other users mouse cursors in real-time in the same canvas.
+      - Added keydown functionality to “Join Room” by triggering button click on keyboard “Enter”
+      - Reconfigured web socket initiation to force new connection when joining room 
+    - Refactored the way changes were being passed to other users in the collaboration room
+      - Significantly reduces the amount of data being passed among users by passing only the payload for each individual action, triggering singular updates for other users in the collaboration environment
+      - Added Event Emitters for each action that updates canvas
+      - Created a websocket service layer to maintain a single socket instance throughout the app
+    - User List:
+      - Displays the username and mouse cursor of all connected users in a particular room with a specific color scheme
+  - UI updated to enhance user experience
+    - Rendered MUI Icons in HTML Element Panel
+    - Redesigned drag-n-drop to be more intuitive and professionalize application design.
+    - Updated styling to overall style and theme to maintain consistency across the application
+    - Removed Tailwind and CSS save buttons in Customization panel for cleaner UI and drying up repetitive functionality
+
+Recommendations for Future Enhancements:<br>
+
+- Fix Undo & Redo functionality. Undo & Redo buttons on the customization page not functioning as expected. 
+- Update Electron for desktop application use. Resolve electron app functionality to coincide with web app functionality.
+- Add Change Log/View Edit History feature in app
+- v.17 recommendations regarding the Marketplace are still undeveloped.
+- Expand testing coverage. Continue fixing old tests which rely on outdated dependencies, and implementing new tests.
+- Continue Typescript conversion. Consider toggling noImplicitAny to find all 'any' cases that can be addressed.
+- Continue cleanup of outdated and unused code and files.
+- Future teams could look into data structures for scaling on the server side of the app to improve data transmitting and multiple server functionality.
+- Continue modularizing code. Many large, unwieldy files that should be broken up into more modular components still exist.
+- Collaboration room:
+  - Allow for given HTML components to be nested into custom created components
+  - Collaboration Room feature can be further scaled with AWS servers and clients for better experiences. The feature currently is limited to access with only 1 AWS cloud server.
+  - True real-time rendering so users can see components as they're being dragged onto the canvas, rather than only when they're placed.
+  - List of active rooms so users can simply pick one to join. Will likely be paired with a password feature for security, so only users with the proper credentials can join a particular room.
+  - Chat Feature in Collaboration Room
+
 **Version 18.0.0 Changes**
 
 Changes:<br>

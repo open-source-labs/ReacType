@@ -5,8 +5,6 @@
   <h1 align="center">ReacType </h1>
 </p> -->
 
-# ReacType
-
 <!-- PAST LOGOS -->
 <!-- <p align="center">
   <img width="1000" src="https://i.imgur.com/enAcYvB.png">
@@ -24,7 +22,7 @@
 [![ContributorShield][contributors]][contributors-url]
 [![ForksShield][forks]][forks-url]
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version: 18.0.0](https://img.shields.io/badge/version-18.0.0-orange)
+![Version: 19.0.0](https://img.shields.io/badge/version-19.0.0-orange)
 
 </div>
 
@@ -49,40 +47,51 @@
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-<p align="center">
-  <img width="1000" src="./resources/reactype17.png">
-</p>
+<h1 align="center">ReacType </h1>
 
 **ReacType** is a rapid prototyping tool that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
+
+<p align="center">
+  <img width="1000" src="./resources/reactype19.png">
+</p>
 
 Visit [reactype.dev](https://reactype.dev) to learn more about the product.
 
 Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announcements.
 
-### Documentation
+## Changes with Version 19.0.0
 
+- **Collaboration Rooms**: Official launch of v1 collaboration rooms - allowing developers to work together on the same project smoothly.
+  The Collaboration Room also has user mouse tracking for increased ease in collaboration.
+- **UI Updates**: Designed with users in mind - the interface is redesigned with a smoother, more intuitive look.
+- **Typescript Conversion**: Typescript coverage is now increased to ~95%.
+- **Cleanup**: Removed unused code, fixed bugs, and made major performance improvements.
+- **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
+
+<p align="center">
+  <img width="1000" src="./resources/v19 collab room.png">
+</p>
+
+## Preview
+Get a glimpse of how ReacType works!
+
+<p align="center">
+  <img width="1000" src="./resources/demo19.gif">
+</p>
 
 <!-- NEED TO REPLACE THE TUTORIAL LINK -->
 
-## Changes with Version 18.0.0
-
-- **Collaboration Rooms**: Implemented rooms that allow developers to collaborate together on a project.
-  Note: The collaboration room is a beta version and still needs to be improved for larger scaling.
-- **User List**: Designed and built a user list that updates in real-time as clients join and exit.
-- **Typescript Conversion**: Typescript coverage is now increased to ~90%.
-- **Cleanup**: Removed unused code, fixed bugs, and refactored existing code to improve performance, 
-- **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
-
-## File Structure of ReacType Version 18.0.0
+## File Structure of ReacType Version 19.0.0
 
 Here is the main file structure:
 
 <p align="center">
-  <img width="1000" src="https://i.imgur.com/uUzyHwW.png">
+  <img width="1000" src="./resources/v19filestructure.png">
 </p>
 Given to us courtesy of our friends over at React Relay  
 
-Please refer to the Excalidraw provided by ReacType Version 14.0 for more details: https://excalidraw.com/#json=JKwzVD5qx6lsfiHW1_pQ9,XJ6uDoehVu-1bsx0SMlC6w 
+Please refer to the [Excalidraw](https://excalidraw.com/#json=JKwzVD5qx6lsfiHW1_pQ9,XJ6uDoehVu-1bsx0SMlC6w) provided by ReacType Version 14.0 for more details.
+
 
 ## Run ReacType using CLI
 

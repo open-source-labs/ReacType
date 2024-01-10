@@ -1,0 +1,169 @@
+"filename", "language", "JavaScript", "TypeScript JSX", "TypeScript", "HTML", "CSS", "comment", "blank", "total"
+"/Users/rose/Desktop/immersive/ReacType/__tests__/BottomTabs.test.tsx", "TypeScript JSX", 0, -207, 0, 0, 0, -3, -24, -234
+"/Users/rose/Desktop/immersive/ReacType/__tests__/DragAndDrop.test.tsx", "TypeScript JSX", 0, -69, 0, 0, 0, 0, -9, -78
+"/Users/rose/Desktop/immersive/ReacType/__tests__/NavBar.test.tsx", "TypeScript JSX", 0, -222, 0, 0, 0, -18, -55, -295
+"/Users/rose/Desktop/immersive/ReacType/__tests__/componentReducer.test.ts", "TypeScript", 0, 0, -243, 0, 0, -36, -20, -299
+"/Users/rose/Desktop/immersive/ReacType/__tests__/contextReducer.test.js", "JavaScript", -140, 0, 0, 0, 0, -25, -31, -196
+"/Users/rose/Desktop/immersive/ReacType/__tests__/gql.projects.test.ts", "TypeScript", 0, 0, -122, 0, 0, -16, -6, -144
+"/Users/rose/Desktop/immersive/ReacType/__tests__/helper.test.tsx", "TypeScript JSX", 0, -6, 0, 0, 0, 0, -2, -8
+"/Users/rose/Desktop/immersive/ReacType/__tests__/marketplace.test.tsx", "TypeScript JSX", 0, -111, 0, 0, 0, -3, -20, -134
+"/Users/rose/Desktop/immersive/ReacType/__tests__/playwright/example.spec.ts", "TypeScript", 0, 0, 0, 0, 0, -13, -6, -19
+"/Users/rose/Desktop/immersive/ReacType/__tests__/projects.test.ts", "TypeScript", 0, 0, -60, 0, 0, -9, -3, -72
+"/Users/rose/Desktop/immersive/ReacType/__tests__/server.test.tsx", "TypeScript JSX", 0, -320, 0, 0, 0, -58, -57, -435
+"/Users/rose/Desktop/immersive/ReacType/__tests__/signIn.test.tsx", "TypeScript JSX", 0, -49, 0, 0, 0, 0, -3, -52
+"/Users/rose/Desktop/immersive/ReacType/__tests__/spec.ts", "TypeScript", 0, 0, -1, 0, 0, -26, -6, -33
+"/Users/rose/Desktop/immersive/ReacType/__tests__/stateManagementReducer.test.js", "JavaScript", -267, 0, 0, 0, 0, -20, -23, -310
+"/Users/rose/Desktop/immersive/ReacType/__tests__/tree.test.tsx", "TypeScript JSX", 0, -108, 0, 0, 0, -3, -3, -114
+"/Users/rose/Desktop/immersive/ReacType/__tests__/userAuth.test.ts", "TypeScript", 0, 0, -79, 0, 0, -160, -24, -263
+"/Users/rose/Desktop/immersive/ReacType/app/.electron/main.js", "JavaScript", 136, 0, 0, 0, 0, 356, 22, 514
+"/Users/rose/Desktop/immersive/ReacType/app/.electron/menu.js", "JavaScript", 230, 0, 0, 0, 0, 29, 8, 267
+"/Users/rose/Desktop/immersive/ReacType/app/.electron/preload.js", "JavaScript", 30, 0, 0, 0, 0, 22, 3, 55
+"/Users/rose/Desktop/immersive/ReacType/app/.electron/preloadFunctions/chooseAppDir.js", "JavaScript", 17, 0, 0, 0, 0, 4, 5, 26
+"/Users/rose/Desktop/immersive/ReacType/app/.electron/preloadFunctions/cookies.js", "JavaScript", 19, 0, 0, 0, 0, 0, 7, 26
+"/Users/rose/Desktop/immersive/ReacType/app/.electron/preloadFunctions/format.js", "JavaScript", 11, 0, 0, 0, 0, 3, 3, 17
+"/Users/rose/Desktop/immersive/ReacType/app/.electron/protocol.js", "JavaScript", 50, 0, 0, 0, 0, 17, 9, 76
+"/Users/rose/Desktop/immersive/ReacType/app/.electron/render.js", "JavaScript", 8, 0, 0, 0, 0, 1, 1, 10
+"/Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/NavbarDash.tsx", "TypeScript JSX", 0, 167, 0, 0, 0, 8, 2, 177
+"/Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/Project.tsx", "TypeScript JSX", 0, 208, 0, 0, 0, 15, 7, 230
+"/Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/ProjectContainer.tsx", "TypeScript JSX", 0, 155, 0, 0, 0, 24, 12, 191
+"/Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/gqlStrings.ts", "TypeScript", 0, 0, 51, 0, 0, 2, 6, 59
+"/Users/rose/Desktop/immersive/ReacType/app/src/Dashboard/styles.css", "CSS", 0, 0, 0, 0, 76, 0, 17, 93
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/App.tsx", "TypeScript JSX", 0, 33, 0, 0, 0, 67, 14, 114
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/AssignContainer.tsx", "TypeScript JSX", 0, 114, 0, 0, 0, 5, 9, 128
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/components/ComponentDropDrown.tsx", "TypeScript JSX", 0, 90, 0, 0, 0, 5, 10, 105
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/components/ComponentTable.tsx", "TypeScript JSX", 0, 48, 0, 0, 0, 1, 3, 52
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/components/ContextDropDown.tsx", "TypeScript JSX", 0, 87, 0, 0, 0, 5, 11, 103
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/AssignTab/components/ContextTable.tsx", "TypeScript JSX", 0, 66, 0, 0, 0, 1, 6, 73
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/ContextManager.tsx", "TypeScript JSX", 0, 60, 0, 0, 0, 0, 8, 68
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx", "TypeScript JSX", 0, 126, 0, 0, 0, 4, 11, 141
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx", "TypeScript JSX", 0, 138, 0, 0, 0, 7, 11, 156
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/CreateTab/components/AddDataForm.tsx", "TypeScript JSX", 0, 59, 0, 0, 0, 3, 6, 68
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx", "TypeScript JSX", 0, 64, 0, 0, 0, 1, 4, 69
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx", "TypeScript JSX", 0, 45, 0, 0, 0, 2, 6, 53
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/CreateContainer.tsx", "TypeScript JSX", 0, 11, 0, 0, 0, 0, 4, 15
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx", "TypeScript JSX", 0, 582, 0, 0, 0, 12, 21, 615
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx", "TypeScript JSX", 0, 136, 0, 0, 0, 5, 13, 154
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx", "TypeScript JSX", 0, 127, 0, 0, 0, 7, 9, 143
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/CreateTab/components/TableStateProps.tsx", "TypeScript JSX", 0, 140, 0, 0, 0, 4, 10, 154
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/DisplayTab/DataTable.tsx", "TypeScript JSX", 0, 99, 0, 0, 0, 4, 8, 111
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/DisplayTab/DisplayContainer.tsx", "TypeScript JSX", 0, 63, 0, 0, 0, 6, 6, 75
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/DisplayTab/Tree.tsx", "TypeScript JSX", 0, 152, 0, 0, 0, 31, 22, 205
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/DisplayTab/useResizeObserver.ts", "TypeScript", 0, 0, 19, 0, 0, 2, 3, 24
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/StateManagement/StateManagement.tsx", "TypeScript JSX", 0, 59, 0, 0, 0, 2, 9, 70
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/BottomPanel.tsx", "TypeScript JSX", 0, 48, 0, 0, 0, 5, 14, 67
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/BottomTabs.tsx", "TypeScript JSX", 0, 207, 0, 0, 0, 5, 8, 220
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/CodePreview.tsx", "TypeScript JSX", 0, 99, 0, 0, 0, 7, 14, 120
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/CreationPanel.tsx", "TypeScript JSX", 0, 15, 0, 0, 0, 2, 3, 20
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/StylesEditor.tsx", "TypeScript JSX", 0, 67, 0, 0, 0, 3, 9, 79
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/bottom/UseStateModal.tsx", "TypeScript JSX", 0, 59, 0, 0, 0, 1, 4, 64
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/form/Selector.tsx", "TypeScript JSX", 0, 53, 0, 0, 0, 0, 4, 57
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/ComponentDrag.tsx", "TypeScript JSX", 0, 64, 0, 0, 0, 4, 5, 73
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/ComponentsContainer.tsx", "TypeScript JSX", 0, 57, 0, 0, 0, 0, 5, 62
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/ContentArea.tsx", "TypeScript JSX", 0, 40, 0, 0, 0, 0, 5, 45
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/DragDropPanel.tsx", "TypeScript JSX", 0, 102, 0, 0, 0, 14, 5, 121
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/ElementsContainer.tsx", "TypeScript JSX", 0, 51, 0, 0, 0, 1, 8, 60
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/HTMLItem.tsx", "TypeScript JSX", 0, 142, 0, 0, 0, 8, 8, 158
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/HTMLPanel.tsx", "TypeScript JSX", 0, 328, 0, 0, 0, 17, 27, 372
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/RoomsContainer.tsx", "TypeScript JSX", 0, 256, 0, 0, 0, 27, 19, 302
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/left/Sidebar.tsx", "TypeScript JSX", 0, 81, 0, 0, 0, 0, 8, 89
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/login/FBPassWord.tsx", "TypeScript JSX", 0, 190, 0, 0, 0, 2, 14, 206
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/login/SignIn.tsx", "TypeScript JSX", 0, 326, 0, 0, 0, 36, 21, 383
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/login/SignUp.tsx", "TypeScript JSX", 0, 316, 0, 0, 0, 2, 16, 334
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/AddLink.tsx", "TypeScript JSX", 0, 98, 0, 0, 0, 1, 6, 105
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/AddRoute.tsx", "TypeScript JSX", 0, 27, 0, 0, 0, 0, 4, 31
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/Arrow.tsx", "TypeScript JSX", 0, 82, 0, 0, 0, 0, 6, 88
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/Canvas.tsx", "TypeScript JSX", 0, 122, 0, 0, 0, 22, 12, 156
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/CanvasContainer.tsx", "TypeScript JSX", 0, 46, 0, 0, 0, 2, 8, 56
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/DeleteButton.tsx", "TypeScript JSX", 0, 29, 0, 0, 0, 0, 7, 36
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/DemoRender.tsx", "TypeScript JSX", 0, 201, 0, 0, 0, 14, 21, 236
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/DirectChildComponent.tsx", "TypeScript JSX", 0, 66, 0, 0, 0, 8, 8, 82
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/DirectChildHTML.tsx", "TypeScript JSX", 0, 68, 0, 0, 0, 7, 12, 87
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/DirectChildHTMLNestable.tsx", "TypeScript JSX", 0, 170, 0, 0, 0, 18, 17, 205
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/IndirectChild.tsx", "TypeScript JSX", 0, 46, 0, 0, 0, 2, 4, 52
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/RouteLink.tsx", "TypeScript JSX", 0, 65, 0, 0, 0, 7, 5, 77
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/main/SeparatorChild.tsx", "TypeScript JSX", 0, 118, 0, 0, 0, 13, 13, 144
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/marketplace/MarketplaceCard.tsx", "TypeScript JSX", 0, 209, 0, 0, 0, 4, 14, 227
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/marketplace/MarketplaceCardContainer.tsx", "TypeScript JSX", 0, 24, 0, 0, 0, 0, 4, 28
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/marketplace/Searchbar.tsx", "TypeScript JSX", 0, 41, 0, 0, 0, 14, 16, 71
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/ComponentPanel.tsx", "TypeScript JSX", 0, 322, 0, 0, 0, 19, 17, 358
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/ComponentPanelItem.tsx", "TypeScript JSX", 0, 76, 0, 0, 0, 12, 2, 90
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/ComponentPanelRoutingItem.tsx", "TypeScript JSX", 0, 98, 0, 0, 0, 27, 10, 135
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/DeleteProjects.tsx", "TypeScript JSX", 0, 170, 0, 0, 0, 5, 11, 186
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/ExportButton.tsx", "TypeScript JSX", 0, 83, 0, 0, 0, 109, 21, 213
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/LoginButton.tsx", "TypeScript JSX", 0, 87, 0, 0, 0, 3, 12, 102
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/OpenProjects.tsx", "TypeScript JSX", 0, 155, 0, 0, 0, 5, 5, 165
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/ProjectManager.tsx", "TypeScript JSX", 0, 137, 0, 0, 0, 21, 18, 176
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/SaveProjectButton.tsx", "TypeScript JSX", 0, 97, 0, 0, 0, 5, 7, 109
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/SimpleModal.tsx", "TypeScript JSX", 0, 102, 0, 0, 0, 0, 5, 107
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/right/createModal.tsx", "TypeScript JSX", 0, 35, 0, 0, 0, 0, 4, 39
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/top/NavBar.tsx", "TypeScript JSX", 0, 258, 0, 0, 0, 0, 15, 273
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/top/NavBarButtons.tsx", "TypeScript JSX", 0, 250, 0, 0, 0, 14, 20, 284
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/top/NewExportButton.tsx", "TypeScript JSX", 0, 79, 0, 0, 0, 0, 11, 90
+"/Users/rose/Desktop/immersive/ReacType/app/src/components/top/PublishModal.tsx", "TypeScript JSX", 0, 52, 0, 0, 0, 0, 3, 55
+"/Users/rose/Desktop/immersive/ReacType/app/src/constants/ErrorMessages.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 1, 11
+"/Users/rose/Desktop/immersive/ReacType/app/src/constants/ItemTypes.ts", "TypeScript", 0, 0, 5, 0, 0, 0, 1, 6
+"/Users/rose/Desktop/immersive/ReacType/app/src/constants/Styling.ts", "TypeScript", 0, 0, 6, 0, 0, 0, 1, 7
+"/Users/rose/Desktop/immersive/ReacType/app/src/containers/AppContainer.tsx", "TypeScript JSX", 0, 49, 0, 0, 0, 3, 8, 60
+"/Users/rose/Desktop/immersive/ReacType/app/src/containers/CustomizationPanel.tsx", "TypeScript JSX", 0, 1016, 0, 0, 0, 29, 25, 1070
+"/Users/rose/Desktop/immersive/ReacType/app/src/containers/LeftContainer.tsx", "TypeScript JSX", 0, 21, 0, 0, 0, 0, 5, 26
+"/Users/rose/Desktop/immersive/ReacType/app/src/containers/MainContainer.tsx", "TypeScript JSX", 0, 109, 0, 0, 0, 6, 14, 129
+"/Users/rose/Desktop/immersive/ReacType/app/src/containers/MarketplaceContainer.tsx", "TypeScript JSX", 0, 76, 0, 0, 0, 0, 14, 90
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/auth.ts", "TypeScript", 0, 0, 67, 0, 0, 5, 5, 77
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/changePositionValidation.ts", "TypeScript", 0, 0, 40, 0, 0, 4, 3, 47
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/cloneDeep.ts", "TypeScript", 0, 0, 28, 0, 0, 1, 1, 30
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/combineStyles.ts", "TypeScript", 0, 0, 12, 0, 0, 3, 1, 16
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/componentNestValidation.ts", "TypeScript", 0, 0, 11, 0, 0, 3, 2, 16
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/cssRefresh.tsx", "TypeScript JSX", 0, 14, 0, 0, 0, 2, 3, 19
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/generateCode.ts", "TypeScript", 0, 0, 526, 0, 0, 35, 23, 584
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/manageSeparators.ts", "TypeScript", 0, 0, 82, 0, 0, 11, 5, 98
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/projectGetSaveDel.ts", "TypeScript", 0, 0, 124, 0, 0, 3, 14, 141
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/randomPassword.ts", "TypeScript", 0, 0, 20, 0, 0, 0, 2, 22
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/renderChildren.tsx", "TypeScript JSX", 0, 115, 0, 0, 0, 13, 3, 131
+"/Users/rose/Desktop/immersive/ReacType/app/src/helperFunctions/zipFiles.ts", "TypeScript", 0, 0, 23, 0, 0, 8, 3, 34
+"/Users/rose/Desktop/immersive/ReacType/app/src/index.tsx", "TypeScript JSX", 0, 82, 0, 0, 0, 5, 13, 100
+"/Users/rose/Desktop/immersive/ReacType/app/src/interfaces/Interfaces.ts", "TypeScript", 0, 0, 164, 0, 0, 5, 13, 182
+"/Users/rose/Desktop/immersive/ReacType/app/src/interfaces/declarations.d.ts", "TypeScript", 0, 0, 5, 0, 0, 0, 1, 6
+"/Users/rose/Desktop/immersive/ReacType/app/src/interfaces/global.ts", "TypeScript", 0, 0, 7, 0, 0, 0, 2, 9
+"/Users/rose/Desktop/immersive/ReacType/app/src/plugins/fetch-plugin.ts", "TypeScript", 0, 0, 59, 0, 0, 0, 4, 63
+"/Users/rose/Desktop/immersive/ReacType/app/src/plugins/unpkg-path-plugin.ts", "TypeScript", 0, 0, 24, 0, 0, 3, 0, 27
+"/Users/rose/Desktop/immersive/ReacType/app/src/public/index-prod.ejs", "HTML", 0, 0, 0, 15, 0, 0, 1, 16
+"/Users/rose/Desktop/immersive/ReacType/app/src/public/index.ejs", "HTML", 0, 0, 0, 23, 0, 0, 1, 24
+"/Users/rose/Desktop/immersive/ReacType/app/src/public/styles/globalDefaultStyles.ts", "TypeScript", 0, 0, 16, 0, 0, 0, 3, 19
+"/Users/rose/Desktop/immersive/ReacType/app/src/public/styles/style.css", "CSS", 0, 0, 0, 0, 665, 59, 142, 866
+"/Users/rose/Desktop/immersive/ReacType/app/src/public/styles/theme.ts", "TypeScript", 0, 0, 57, 0, 0, 1, 5, 63
+"/Users/rose/Desktop/immersive/ReacType/app/src/redux/HTMLTypes.ts", "TypeScript", 0, 0, 243, 0, 0, 4, 3, 250
+"/Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/rootReducer.ts", "TypeScript", 0, 0, 14, 0, 0, 2, 4, 20
+"/Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/appStateSlice.ts", "TypeScript", 0, 0, 1132, 0, 0, 146, 63, 1341
+"/Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/codePreviewSlice.ts", "TypeScript", 0, 0, 23, 0, 0, 1, 6, 30
+"/Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/contextReducer.ts", "TypeScript", 0, 0, 90, 0, 0, 6, 10, 106
+"/Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/roomSlice.ts", "TypeScript", 0, 0, 28, 0, 0, 5, 3, 36
+"/Users/rose/Desktop/immersive/ReacType/app/src/redux/reducers/slice/styleSlice.ts", "TypeScript", 0, 0, 23, 0, 0, 1, 6, 30
+"/Users/rose/Desktop/immersive/ReacType/app/src/redux/store.ts", "TypeScript", 0, 0, 20, 0, 0, 13, 8, 41
+"/Users/rose/Desktop/immersive/ReacType/app/src/tree/TreeChart.tsx", "TypeScript JSX", 0, 146, 0, 0, 0, 28, 10, 184
+"/Users/rose/Desktop/immersive/ReacType/app/src/tree/useResizeObserver.ts", "TypeScript", 0, 0, 19, 0, 0, 2, 3, 24
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/CSSEditor.tsx", "TypeScript JSX", 0, 37, 0, 0, 0, 0, 3, 40
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Canvas.tsx", "TypeScript JSX", 0, 42, 0, 0, 0, 0, 3, 45
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/CodePreview.tsx", "TypeScript JSX", 0, 23, 0, 0, 0, 0, 4, 27
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/ComponentTree.tsx", "TypeScript JSX", 0, 43, 0, 0, 0, 0, 3, 46
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Customization.tsx", "TypeScript JSX", 0, 170, 0, 0, 0, 0, 3, 173
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/HtmlElements.tsx", "TypeScript JSX", 0, 43, 0, 0, 0, 0, 4, 47
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/KeyboardShortcuts.tsx", "TypeScript JSX", 0, 36, 0, 0, 0, 0, 3, 39
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Pages.tsx", "TypeScript JSX", 0, 50, 0, 0, 0, 0, 4, 54
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/ReusableComponents.tsx", "TypeScript JSX", 0, 36, 0, 0, 0, 0, 4, 40
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/RouteLinks.tsx", "TypeScript JSX", 0, 42, 0, 0, 0, 0, 3, 45
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/States.tsx", "TypeScript JSX", 0, 85, 0, 0, 0, 0, 3, 88
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Styling.tsx", "TypeScript JSX", 0, 43, 0, 0, 0, 0, 2, 45
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/Tutorial.tsx", "TypeScript JSX", 0, 158, 0, 0, 0, 2, 3, 163
+"/Users/rose/Desktop/immersive/ReacType/app/src/tutorial/TutorialPage.tsx", "TypeScript JSX", 0, 219, 0, 0, 0, 0, 6, 225
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createApplication.util.ts", "TypeScript", 0, 0, 378, 0, 0, 10, 7, 395
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createFiles.util.ts", "TypeScript", 0, 0, 39, 0, 0, 3, 2, 44
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createGatsbyApp.util.ts", "TypeScript", 0, 0, 178, 0, 0, 5, 7, 190
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createGatsbyFiles.util.ts", "TypeScript", 0, 0, 36, 0, 0, 5, 1, 42
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createNextApp.util.ts", "TypeScript", 0, 0, 197, 0, 0, 6, 4, 207
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createNextFiles.util.ts", "TypeScript", 0, 0, 36, 0, 0, 4, 6, 46
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createNonce.ts", "TypeScript", 0, 0, 4, 0, 0, 5, 4, 13
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createTestSuite.util.ts", "TypeScript", 0, 0, 190, 0, 0, 3, 12, 205
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createTestSuiteClassic.util.ts", "TypeScript", 0, 0, 124, 0, 0, 0, 18, 142
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/createTestSuiteNext.util.ts", "TypeScript", 0, 0, 210, 0, 0, 0, 18, 228
+"/Users/rose/Desktop/immersive/ReacType/app/src/utils/exportProject.util.ts", "TypeScript", 0, 0, 31, 0, 0, 2, 4, 37
+"Total", "-", 94, 10306, 3866, 38, 741, 1183, 1095, 17323

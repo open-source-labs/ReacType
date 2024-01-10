@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-
 import Grid from '@mui/material/Grid';
 import HTMLItem from './HTMLItem';
 import React from 'react';
 import { RootState } from '../../redux/store';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
+import { emitEvent } from '../../helperFunctions/socket';
 
 /*
 DESCRIPTION: This is the top half of the left panel, starting from the 'HTML
@@ -21,13 +21,23 @@ Hook state:
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
   const dispatch = useDispatch();
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+
+  const state = useSelector((store: RootState) => store.appState); // current state
+  const contextParam = useSelector((store: RootState) => store.contextSlice); // current contextParam
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode); // current roomCode
+
+  // function for delete element
   const handleDelete = (id: number): void => {
     dispatch(deleteElement({ id: id, contextParam: contextParam }));
+    if (roomCode) {
+      // send delete element to server to broadcast to all users
+      emitEvent('deleteElementAction', roomCode, {
+        id,
+        contextParam
+      });
+    }
   };
+
   // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(
     (type) => type.name !== 'separator'
@@ -35,11 +45,11 @@ const DragDropPanel = (props): JSX.Element => {
   return (
     <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
-        <h3 style={{ color: '#C6C6C6' }}>HTML Elements</h3>
+        <h3 style={{ color: '#ffffff' }}> HTML Elements </h3>
         <Grid
           container
-          spacing={{ xs: 0.5, md: 0.5 }}
-          columns={{ xs: 4, sm: 4, md: 4 }}
+          // spacing={{ xs: 0.5, md: 0.5 }}
+          // columns={{ xs: 4, sm: 4, md: 4 }}
           justifyContent="center"
         >
           {htmlTypesToRender.map((option) => {
@@ -49,26 +59,25 @@ const DragDropPanel = (props): JSX.Element => {
               )
             ) {
               return (
-                <Grid item xs={2} sm={2} md={2} key={option.name}>
-                  <HTMLItem
-                    name={option.name}
-                    key={`html-${option.name}`}
-                    id={option.id}
-                    Icon={option.icon}
-                    handleDelete={handleDelete}
-                  />
-                </Grid>
+                <HTMLItem
+                  name={option.name}
+                  key={`html-${option.name}`}
+                  id={option.id}
+                  icon={option.icon}
+                  handleDelete={handleDelete}
+                />
               );
             }
           })}
         </Grid>
+
         {state.projectType === 'Classic React' ? (
-          <h3 style={{ color: '#C6C6C6' }}>React Router</h3>
+          <h3 style={{ color: '#ffffff' }}>React Router</h3>
         ) : null}
         <Grid
           container
-          spacing={{ xs: 0.5, md: 0.5 }}
-          columns={{ xs: 4, sm: 4, md: 4 }}
+          // spacing={{ xs: 0.5, md: 0.5 }}
+          // columns={{ xs: 4, sm: 4, md: 4 }}
           justifyContent="center"
         >
           {htmlTypesToRender.map((option) => {
@@ -79,20 +88,19 @@ const DragDropPanel = (props): JSX.Element => {
               state.projectType === 'Classic React'
             ) {
               return (
-                <Grid item xs={2} sm={2} md={2} key={option.name}>
-                  <HTMLItem
-                    name={option.name}
-                    key={`html-${option.name}`}
-                    id={option.id}
-                    Icon={option.icon}
-                    handleDelete={handleDelete}
-                  />
-                </Grid>
+                <HTMLItem
+                  name={option.name}
+                  key={`html-${option.name}`}
+                  id={option.id}
+                  icon={option.icon}
+                  handleDelete={handleDelete}
+                />
               );
             }
           })}
         </Grid>
 
+        {/* Next.js */}
         {state.projectType === 'Next.js' ? (
           <h3 style={{ color: 'C6C6C6' }}>Next.js</h3>
         ) : null}
@@ -106,7 +114,7 @@ const DragDropPanel = (props): JSX.Element => {
                 name={option.name}
                 key={`html-${option.name}`}
                 id={option.id}
-                Icon={option.icon}
+                icon={option.icon}
                 handleDelete={handleDelete}
               />
             );

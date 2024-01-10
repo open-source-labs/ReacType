@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0');
-@import url("https: //fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap");
+@import url('https: //fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 
 html {
   box-sizing: border-box;
@@ -22,11 +22,11 @@ body {
   padding: 0;
   font-family: 'Roboto', 'Raleway', sans-serif;
   font-size: 0.9 em;
-  font-weight: 400;
+  font-weight: normal;
   overflow: hidden;
   height: 100vh;
   width: 100vw;
-  background-color: #191919
+  background-color: #191919;
 }
 
 h4 {
@@ -143,16 +143,16 @@ span.material-symbols-outlined {
   border: solid gray 1px;
 }
 
-
 .column.left::-webkit-scrollbar {
-  width: .5rem;
-  height: .5rem;
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
 .column.left::-webkit-scrollbar-thumb {
-  transition: .3s ease all;
+  transition: 0.3s ease all;
   border-color: transparent;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1e83714b;
+  border-radius: 8px;
   z-index: 40;
 }
 
@@ -175,23 +175,23 @@ span.material-symbols-outlined {
   flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
-  width: 90%;
+  width: 100%;
   flex-grow: 1;
-  /* border: 3px solid #C6C6C6; */
+  border: 1px solid #c6c6c6;
   /* border-radius: 10px; */
 }
 
-.HTMLItems::-webkit-scrollbar {
+/* .HTMLItems::-webkit-scrollbar {
   width: .5rem;
   height: .5rem;
-}
+} */
 
-.HTMLItems::-webkit-scrollbar-thumb {
+/* .HTMLItems::-webkit-scrollbar-thumb { //not accessing due to cascade, refer to HTMLItemTopHalf
   transition: .3s ease all;
   border-color: transparent;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1c695ccc;
   z-index: 40;
-}
+} */
 
 .HTMLItemsDark {
   display: flex;
@@ -202,34 +202,34 @@ span.material-symbols-outlined {
   border: 3px solid white;
 }
 
-#HTMLItemsTopHalf {
+#Half {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-right: 20px;
   justify-content: top;
-  height: 52vh;
+  height: 60vh;
   text-align: center;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 #HTMLItemsTopHalf::-webkit-scrollbar {
-  width: .5rem;
-  height: .5rem;
+  width: 0.8rem;
+  height: 0.5rem;
 }
 
 #HTMLItemsTopHalf::-webkit-scrollbar-thumb {
-  transition: .3s ease all;
+  transition: 0.3s ease all;
   border-color: transparent;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1e83714b;
+  border-radius: 8px;
   z-index: 40;
 }
 
 #CompBottomHalf {
   flex-grow: 1;
+  text-align: center;
+  overflow-x: hidden;
   overflow-y: auto;
-  margin-bottom: 50%;
 }
 
 .HTMLElements {
@@ -239,20 +239,26 @@ span.material-symbols-outlined {
   flex-wrap: wrap;
 }
 
+#HTMLgrid {
+  margin: 5px;
+}
+
 #HTMLItemsGrid {
   display: flex;
-
   /* margin-left: 35px; */
 }
 
 #HTMLItem {
   transition: 0.3s;
-  border: 1px solid #8F8F8F;
+  border: 1px solid #d2f5eb;
+  color: #f2fbf8;
+  padding: 10%;
+  border-radius: 5px;
 }
 
 #HTMLItem:hover {
-  background-color: #383838;
-  color: white;
+  background-color: #474545a8;
+  color: #a5ead6;
 }
 
 #submitButton {
@@ -260,7 +266,7 @@ span.material-symbols-outlined {
 }
 
 #submitButton:hover {
-  background-color: #297ac2;
+  background-color: #29a38a;
   color: white;
   border: none;
   cursor: pointer;
@@ -298,10 +304,10 @@ span.material-symbols-outlined {
   border: none;
   background: none;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-start;
-  justify-self: flex-end;
-  align-self: flex-start;
+  /* justify-self: flex-end; */
+  /* align-self: flex-start; */
   width: 0.5em;
 }
 
@@ -384,20 +390,20 @@ h1 {
 }
 
 .export-preference div span {
-  transition: .5s
+  transition: 0.5s;
 }
 
 #export-modal {
-  transition: .5s
+  transition: 0.5s;
 }
 
 #export-modal:hover {
-  background-color: #303f9f;
+  background-color: #29a38a;
   cursor: pointer;
 }
 
 #export-modal:hover span {
-  color: white
+  color: white;
 }
 
 .info {
@@ -424,8 +430,6 @@ RIGHT COLUMN
 // RIGHT NOW, I'M NOT SURE WHAT RIGHT COL IS REFERING TO
 */
 #rightContainer {
-  overflow-y: auto;
-  overflow-x: hidden;
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -451,12 +455,12 @@ RIGHT COLUMN
 }
 
 #addComponentButton {
-  border: 2px solid #186BB4;
+  border: 2px solid #46c0a5;
   border-radius: 4px;
 }
 
 #addComponentButton:hover {
-  background-color: #297ac2;
+  background-color: #29a38a;
   color: white;
   border: none;
   cursor: pointer;
@@ -479,14 +483,13 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-      
+  border-color: #46c0a5;
 }
 
 .compPanelItem h3 {
   font-size: 1em;
   letter-spacing: 0.75px;
   padding: 5px 10px;
-  
 }
 
 .compPanelItem:hover {
@@ -528,20 +531,43 @@ BOTTOM PANEL
   background-color: #191919;
 }
 
-.MuiDataGrid-menuList, .MuiDataGrid-columnsPanel, .MuiDataGrid-filterForm {
-
-  background-color: #333333
+.tab-content::-webkit-scrollbar {
+  width: .8rem;
+  height: .5rem;
+  }
+  
+.tab-content::-webkit-scrollbar-thumb {
+  transition: .3s ease all;
+  border-color: transparent;
+  background-color: #1e83714b;
+  border-radius: 8px;
+  z-index: 40;
 }
-.MuiDataGrid-panelHeader, .MuiDataGrid-panelFooter {
 
-  background-color: #252525
-
+.tab-content::-webkit-scrollbar {
+  width: .8rem;
+  height: .5rem;
+  }
+  
+.tab-content::-webkit-scrollbar-thumb {
+  transition: .3s ease all;
+  border-color: transparent;
+  background-color: #1e83714b;
+  border-radius: 8px;
+  z-index: 40;
 }
 
-
+.MuiDataGrid-menuList,
+.MuiDataGrid-columnsPanel,
+.MuiDataGrid-filterForm {
+  background-color: #333333;
+}
+.MuiDataGrid-panelHeader,
+.MuiDataGrid-panelFooter {
+  background-color: #252525;
+}
 
 #resize-drag {
-
   cursor: row-resize;
   height: 25px;
   width: 75px;
@@ -555,17 +581,15 @@ BOTTOM PANEL
   color: silver;
   user-select: none;
   z-index: 1;
-
 }
 
 .bottom-panel {
   transition: width 250ms ease-in-out;
-  background-color: #003366;
+  background-color: #1e8370;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-
 }
 
 .htmlattr {
@@ -637,9 +661,9 @@ NAVBAR
   margin-left: 2vw;
 }
 
-.main-logo h1 {
+/* .main-logo h1 {
   color: #013365;
-}
+} */
 
 .main-navbar svg {
   width: 30px;
@@ -648,7 +672,6 @@ NAVBAR
   margin-right: 2vw;
   cursor: pointer;
 }
-
 
 .navDropDown {
   position: absolute;
@@ -682,12 +705,12 @@ NAVBAR
 
 .navDropDown p {
   margin: 3px 5%;
-  color: whitesmoke
+  color: whitesmoke;
 }
 
 .navDropDown button:hover {
   cursor: pointer;
-  background-color: #555
+  background-color: #555;
 }
 
 .navDropDown button svg {
@@ -706,8 +729,6 @@ NAVBAR
   width: 16%;
 }
 
-
-
 /*
 /////////////////////////////////////////////////
 CANVAS WINDOW
@@ -721,7 +742,8 @@ CANVAS WINDOW
   border: none;
   font-size: 15px;
   color: white;
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
 
 .delete-button-empty:hover {
@@ -733,6 +755,8 @@ CANVAS WINDOW
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'Roboto', 'Raleway', sans-serif;
+  height: 100%;
 }
 
 /* Material-UI */
@@ -811,7 +835,7 @@ a.nav_link:hover {
 .useState-btn {
   color: rgb(241, 240, 240);
   background-color: rgba(0, 0, 0, 0.54);
-  border: 1px solid #186bb4;
+  border: 1px solid #46c0a5;
   border-radius: 3px;
   box-shadow: '2px 2px 2px #1a1a1a';
   font-family: Arial, Helvetica, sans-serif;
@@ -830,12 +854,12 @@ a.nav_link:hover {
 
 .useState-header {
   font-size: 35px;
-  background-color: #003366;
+  background-color: #1e8370;
   color: rgb(241, 240, 240);
   width: 600px;
   border: 3px;
   border-style: solid;
-  border-color: black;
+  border-color: #1e8370;
   font-family: 'Open Sans', sans-serif;
   border-radius: 15px 15px 0px 0px;
 }

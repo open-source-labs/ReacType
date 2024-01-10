@@ -12,6 +12,7 @@ import Fab from '@mui/material/Fab';
 import { RootState } from '../../redux/store';
 import SaveIcon from '@mui/icons-material/Save';
 import { updateStylesheet } from '../../redux/reducers/slice/appStateSlice';
+import { emitEvent } from '../../helperFunctions/socket';
 
 const StylesEditor: React.FC<{
   theme: string | null;
@@ -21,6 +22,8 @@ const StylesEditor: React.FC<{
   const stylesheet = useSelector(
     (state: RootState) => state.appState.stylesheet
   );
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   //sets state for what text is currently in the csseditor
   const [css, setCss] = useState(stylesheet);
 
@@ -30,6 +33,9 @@ const StylesEditor: React.FC<{
   const saveCss = (e) => {
     e.preventDefault();
     dispatch(updateStylesheet(css));
+    if (roomCode) {
+      emitEvent('updateCSSAction', roomCode, css);
+    }
   };
 
   //handles changes in the ace editor

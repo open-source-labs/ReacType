@@ -8,14 +8,20 @@ import { addComponent } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { emitEvent } from '../../helperFunctions/socket';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  // const { state, contextParam } = useSelector((store: RootState) => ({
+  //   state: store.appState,
+  //   contextParam: store.contextSlice
+  // }));
+
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const dispatch = useDispatch();
 
   //state hooks for inputted component name, component id and array of components
@@ -69,6 +75,15 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
         contextParam: contextParam
       })
     );
+
+    if (roomCode) {
+      emitEvent('addComponentAction', roomCode, {
+        componentName: formattedName,
+        root: isRoot,
+        contextParam: contextParam
+      });
+    }
+
     // reset root toggle back to default position
     setIsRoot(false);
     // reset name field
@@ -306,11 +321,11 @@ const useStyles = makeStyles({
     width: '100%'
   },
   rootCheckBox: {
-    borderColor: '#186BB4',
+    borderColor: '#46C0A5',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    borderColor: '#186BB4'
+    borderColor: '#46C0A5'
   },
   newComponent: {
     color: '#C6C6C6',

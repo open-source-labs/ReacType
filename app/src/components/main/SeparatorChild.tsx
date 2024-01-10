@@ -14,6 +14,7 @@ import {
   changePosition,
   addChild
 } from '../../redux/reducers/slice/appStateSlice';
+import { emitEvent } from '../../helperFunctions/socket';
 
 function DirectChildHTMLNestable({
   childId,
@@ -22,10 +23,11 @@ function DirectChildHTMLNestable({
   style,
   children
 }: ChildElement): JSX.Element {
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const dispatch = useDispatch();
   const ref = useRef(null);
 
@@ -81,6 +83,18 @@ function DirectChildHTMLNestable({
               contextParam: contextParam
             })
           );
+          if (roomCode) {
+            emitEvent('addChildAction', roomCode, {
+              type: item.instanceType,
+              typeId: item.instanceTypeId,
+              childId: childId,
+              contextParam: contextParam
+            });
+
+            // console.log(
+            //   'emit addChildAction event is triggered in SeparatorChild'
+            // );
+          }
         }
       }
       // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
@@ -94,6 +108,17 @@ function DirectChildHTMLNestable({
               contextParam: contextParam
             })
           );
+          if (roomCode) {
+            emitEvent('changePositionAction', roomCode, {
+              currentChildId: item.childId,
+              newParentChildId: childId,
+              contextParam: contextParam
+            });
+
+            // console.log(
+            //   'emit changePosition event is triggered in SeparatorChild'
+            // );
+          }
         }
       }
     },
@@ -124,7 +149,7 @@ function DirectChildHTMLNestable({
   };
 
   defaultNestableStyle['backgroundColor'] = isOver
-    ? '#cee2f5'
+    ? '#70d8be'
     : 'rgba(0, 0, 255, 0.0)';
 
   const combinedStyle = combineStyles(
