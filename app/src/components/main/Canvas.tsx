@@ -97,10 +97,10 @@ function Canvas(props: {}): JSX.Element {
   // Removes the mouse cursor of the user that leaves the collaboration room.
   const handleCursorDeleteFromServer = () => {
     setRemoteCursors((prevRemoteCursors) =>
-      prevRemoteCursors.map((cursor) => ({
-        ...cursor,
-        isVisible: userList.includes(cursor.remoteUserName)
-      }))
+      // filter cursors to include only those in the userList
+      prevRemoteCursors.filter((cursor) =>
+        userList.includes(cursor.remoteUserName)
+      )
     );
   };
 
