@@ -73,6 +73,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 </p>
 
 ## Preview
+Get a glimpse of how ReacType works!
 
 <p align="center">
   <img width="1000" src="./resources/demo19.gif">
@@ -85,7 +86,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 Here is the main file structure:
 
 <p align="center">
-  <img width="1000" src="https://i.imgur.com/uUzyHwW.png">
+  <img width="1000" src="./resources/v19filestructure.png">
 </p>
 Given to us courtesy of our friends over at React Relay  
 
