@@ -39,12 +39,12 @@ function Canvas(props: {}): JSX.Element {
     setToggleText(toggleText === 'on' ? 'off' : 'on');
   };
 
-  // Prevents lagging and provides smoother user experience got live cursor tracking (milliseconds can be adjusted but 300ms is most optimal)
+  // Prevents lagging and provides smoother user experience got live cursor tracking (milliseconds can be adjusted but 500ms is most optimal)
   const debounceSetPosition = debounce((newX, newY) => {
     //emit socket event every 300ms when cursor moves
     if (userList.length > 1)
       emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
-  }, 300);
+  }, 500);
 
   const handleMouseMove = (e) => {
     debounceSetPosition(e.clientX, e.clientY);
@@ -355,7 +355,7 @@ function Canvas(props: {}): JSX.Element {
                 left: cursor.x + 'px',
                 top: cursor.y - 68 + 'px',
                 //cursor style
-                fontSize: '2em',
+                fontSize: '1em',
                 color: userColors[userList.indexOf(cursor.remoteUserName)]
               }}
             >
