@@ -37,17 +37,20 @@ import UseStateModal from '../components/bottom/UseStateModal';
 import createModal from '../components/right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { ColumnTab } from '../interfaces/Interfaces';
+import { RootState } from '../redux/store';
+import { emitEvent } from '../helperFunctions/socket';
+import { Number } from 'mongoose';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const dispatch = useDispatch();
-  const { state, contextParam, style } = useSelector((store) => ({
-    state: store.appState,
-    contextParam: store.contextSlice,
-    style: store.styleSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  const style = useSelector((store: RootState) => store.styleSlice);
+
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
@@ -370,7 +373,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
-
     dispatch(
       updateAttributes({
         attributes: attributesObj,
@@ -382,12 +384,31 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
     dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }));
 
+    if (roomCode) {
+      emitEvent('updateChildAction', roomCode, {
+        stateUsedObj: stateUsedObj,
+        contextParam: contextParam,
+        useContextObj: useContextObj,
+        attributes: attributesObj,
+        style: styleObj,
+        events: eventsObj
+      });
+      console.log(
+        'emit updateChildAction event is triggered in CustomizationPanel.tsx'
+      );
+    }
+
     return styleObj;
   };
   const handleTailwind = (): void => {
     dispatch(changeTailwind(true));
     handleSave();
   };
+
+  // const clickToUpdate = () => {
+  //   handleSave();
+  //   saveEmitter();
+  // }
 
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
@@ -399,7 +420,17 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   // placeholder for handling deleting instance
   const handleDelete = () => {
     dispatch(deleteChild({ id: {}, contextParam: contextParam }));
+    if (roomCode) {
+      emitEvent('deleteChildAction', roomCode, {
+        id: {},
+        contextParam: contextParam
+      });
+      console.log(
+        'emit deleteChildAction event is triggered in CustomizationPanel.tsx'
+      );
+    }
   };
+
   const handlePageDelete = (id) => () => {
     // TODO: return modal
     if (isLinkedTo()) return setDeleteLinkedPageError(true);
@@ -432,7 +463,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           button
           onClick={handleDeleteReusableComponent}
           style={{
-            border: '1px solid #3f51b5',
+            border: '1px solid #1b544b',
             marginBottom: '2%',
             marginTop: '5%'
           }}
@@ -444,7 +475,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           button
           onClick={closeModal}
           style={{
-            border: '1px solid #3f51b5',
+            border: '1px solid #1b544b',
             marginBottom: '2%',
             marginTop: '5%'
           }}
@@ -554,16 +585,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 ? ' component'
                 : ' element'}{' '}
               <br />
-              <br />
-              <span
-                className={
-                  isThemeLight
-                    ? `${classes.compName} ${classes.lightThemeFontColor}`
-                    : `${classes.compName} ${classes.darkThemeFontColor}`
-                }
-              >
                 {configTarget.child.name}
-              </span>
             </h4>
           </div>
           <section className={'customization-section'}>
@@ -860,7 +882,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   SAVE
                 </Button>
               </div>
-              <div className={classes.buttonRow}>
+              {/* <div className={classes.buttonRow}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -895,7 +917,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 >
                   Tailwind
                 </Button>
-              </div>
+              </div> */}
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button
@@ -1027,11 +1049,11 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   saveButtonLight: {
-    border: '1px solid #186BB4',
+    border: '1px solid #46C0A5',
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {
-    border: '1px solid #3F51B5'
+    border: '1px solid #1b544b'
   },
   compName: {
     fontSize: '1rem'

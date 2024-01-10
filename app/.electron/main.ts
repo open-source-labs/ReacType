@@ -1,5 +1,3 @@
-const electron = require('electron');
-
 /*
 @description: main.js is what controls the lifecycle of the electron application from initialization to termination.
 @actions: codes for Github Oauth has been commented out because of lack of functionality.
@@ -7,29 +5,28 @@ const electron = require('electron');
 require('dotenv').config();
 const { DEV_PORT } = require('../../config.js');
 const path = require('path');
-const {
+import {
   app,
   protocol,
-  dialog,
   BrowserWindow,
   session,
-  ipcMain
-} = require('electron');
+  ipcMain,
+  dialog
+} from 'electron';
 // The splash screen is what appears while the app is loading
 // const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
-const { resolve } = require('app-root-path');
-
+import { resolve } from 'app-root-path';
 // to install react dev tool extension
 // const {
 //   default: installExtension,
 //   REACT_DEVELOPER_TOOLS
 // } = require('electron-devtools-installer');
-const debug = require('electron-debug');
-
+import debug from 'electron-debug';
 // import custom protocol in protocol.js
-const Protocol = require('./protocol');
+import Protocol from './protocol';
 // menu from another file to modularize the code
-const MenuBuilder = require('./menu');
+
+import MenuBuilder from './menu';
 
 // mode that the app is running in
 const isDev =
@@ -39,8 +36,8 @@ const selfHost = `http://localhost:${port}`;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win;
-let menuBuilder;
+let win: BrowserWindow | null;
+let menuBuilder: any;
 
 // function to create a new browser window
 // this function will be called when Electron has initialized itself
@@ -108,7 +105,7 @@ async function createWindow() {
 
   // load page once window is loaded
   win.once('ready-to-show', () => {
-    win.show();
+    win!.show();
   });
 
   // automatically open DevTools when opening the app
@@ -116,7 +113,7 @@ async function createWindow() {
   if (isDev) {
     win.webContents.once('dom-ready', () => {
       debug();
-      win.webContents.openDevTools();
+      win!.webContents.openDevTools();
     });
   }
 
@@ -128,7 +125,7 @@ async function createWindow() {
     app.quit();
   });
 
-  menuBuilder = MenuBuilder(win, 'ReacType');
+  menuBuilder = MenuBuilder(win!, 'ReacType');
   menuBuilder.buildMenu();
 
   // Removed this security feature for now since it's not being used
@@ -141,7 +138,7 @@ async function createWindow() {
   ses
     .fromPartition(partition)
     .setPermissionRequestHandler((webContents, permission, callback) => {
-      const allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
+      const allowedPermissions: string[] = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
 
       if (allowedPermissions.includes(permission)) {
         callback(true); // Approve permission request
@@ -196,7 +193,7 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  win.webContents.executeJavaScript('window.localStorage.clear();');
+  win!.webContents.executeJavaScript('window.localStorage.clear();');
   app.quit();
 });
 
@@ -343,7 +340,7 @@ ipcMain.on('choose_app_dir', (event) => {
   // dialog displays the native system's dialogue for selecting files
   // once a directory is chosen send a message back to the renderer with the path of the directory
   dialog
-    .showOpenDialog(win, {
+    .showOpenDialog(win!, {
       properties: ['openDirectory'],
       buttonLabel: 'Export'
     })
@@ -419,7 +416,7 @@ ipcMain.on('github', (event) => {
 
     if (code || error) {
       // Close the browser if code found or error
-      authWindow.destroy();
+      github.destroy();
     }
 
     // If there is a code, proceed to get token from github
@@ -464,9 +461,9 @@ ipcMain.on('github', (event) => {
         message: 'Github Oauth Successful!'
       });
       github.close();
-      win.webContents
+      win!.webContents
         .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
-        .then((result) => win.loadURL(`${redirectUrl}`))
+        .then((result) => win!.loadURL(`${redirectUrl}`))
         .catch((err) => console.log(err));
     }
   });

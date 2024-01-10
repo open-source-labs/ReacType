@@ -1,0 +1,70 @@
+"filename", "language", "TypeScript", "JavaScript", "Markdown", "JSON with Comments", "JSON", "YAML", "TypeScript JSX", "CSS", "Docker", "comment", "blank", "total"
+"/Users/rose/Desktop/immersive/ReacType/.eslintrc.json", "JSON with Comments", 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 1, 23
+"/Users/rose/Desktop/immersive/ReacType/.github/workflows/main.yml", "YAML", 0, 0, 0, 0, 0, 22, 0, 0, 0, 11, 8, 41
+"/Users/rose/Desktop/immersive/ReacType/.prettierrc", "JSON", 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 1, 6
+"/Users/rose/Desktop/immersive/ReacType/CHANGE_LOG.md", "Markdown", 0, 0, 252, 0, 0, 0, 0, 0, 0, 0, 45, 297
+"/Users/rose/Desktop/immersive/ReacType/CODE_OF_CONDUCT.md", "Markdown", 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 36, 126
+"/Users/rose/Desktop/immersive/ReacType/Dockerfile", "Docker", 0, 0, 0, 0, 0, 0, 0, 0, 19, 4, 14, 37
+"/Users/rose/Desktop/immersive/ReacType/Dockerrun.aws.json", "JSON", 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 1, 19
+"/Users/rose/Desktop/immersive/ReacType/LICENSE.md", "Markdown", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 10
+"/Users/rose/Desktop/immersive/ReacType/README.md", "Markdown", 0, 0, 101, 0, 0, 0, 0, 0, 0, 16, 52, 169
+"/Users/rose/Desktop/immersive/ReacType/__tests__/BottomTabs.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 207, 0, 0, 3, 24, 234
+"/Users/rose/Desktop/immersive/ReacType/__tests__/DragAndDrop.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 69, 0, 0, 0, 9, 78
+"/Users/rose/Desktop/immersive/ReacType/__tests__/NavBar.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 222, 0, 0, 18, 55, 295
+"/Users/rose/Desktop/immersive/ReacType/__tests__/componentReducer.test.ts", "TypeScript", 243, 0, 0, 0, 0, 0, 0, 0, 0, 36, 20, 299
+"/Users/rose/Desktop/immersive/ReacType/__tests__/contextReducer.test.js", "JavaScript", 0, 140, 0, 0, 0, 0, 0, 0, 0, 25, 31, 196
+"/Users/rose/Desktop/immersive/ReacType/__tests__/gql.projects.test.ts", "TypeScript", 122, 0, 0, 0, 0, 0, 0, 0, 0, 16, 6, 144
+"/Users/rose/Desktop/immersive/ReacType/__tests__/helper.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 2, 8
+"/Users/rose/Desktop/immersive/ReacType/__tests__/marketplace.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 111, 0, 0, 3, 20, 134
+"/Users/rose/Desktop/immersive/ReacType/__tests__/playwright/example.spec.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 6, 19
+"/Users/rose/Desktop/immersive/ReacType/__tests__/projects.test.ts", "TypeScript", 60, 0, 0, 0, 0, 0, 0, 0, 0, 9, 3, 72
+"/Users/rose/Desktop/immersive/ReacType/__tests__/server.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 320, 0, 0, 58, 57, 435
+"/Users/rose/Desktop/immersive/ReacType/__tests__/signIn.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 49, 0, 0, 0, 3, 52
+"/Users/rose/Desktop/immersive/ReacType/__tests__/spec.ts", "TypeScript", 1, 0, 0, 0, 0, 0, 0, 0, 0, 26, 6, 33
+"/Users/rose/Desktop/immersive/ReacType/__tests__/stateManagementReducer.test.js", "JavaScript", 0, 267, 0, 0, 0, 0, 0, 0, 0, 20, 23, 310
+"/Users/rose/Desktop/immersive/ReacType/__tests__/tree.test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 108, 0, 0, 3, 3, 114
+"/Users/rose/Desktop/immersive/ReacType/__tests__/userAuth.test.ts", "TypeScript", 79, 0, 0, 0, 0, 0, 0, 0, 0, 160, 24, 263
+"/Users/rose/Desktop/immersive/ReacType/amplify/.config/project-config.json", "JSON", 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 17
+"/Users/rose/Desktop/immersive/ReacType/amplify/README.md", "Markdown", 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 2, 9
+"/Users/rose/Desktop/immersive/ReacType/amplify/backend/auth/reactype24e8d371/cli-inputs.json", "JSON", 0, 0, 0, 0, 59, 0, 0, 0, 0, 0, 0, 59
+"/Users/rose/Desktop/immersive/ReacType/amplify/backend/backend-config.json", "JSON", 0, 0, 0, 0, 35, 0, 0, 0, 0, 0, 0, 35
+"/Users/rose/Desktop/immersive/ReacType/amplify/backend/storage/ReacTypeMktImg/cli-inputs.json", "JSON", 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 16
+"/Users/rose/Desktop/immersive/ReacType/amplify/backend/tags.json", "JSON", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 10
+"/Users/rose/Desktop/immersive/ReacType/amplify/backend/types/amplify-dependent-resources-ref.d.ts", "TypeScript", 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19
+"/Users/rose/Desktop/immersive/ReacType/amplify/cli.json", "JSON", 0, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 63
+"/Users/rose/Desktop/immersive/ReacType/amplify/hooks/README.md", "Markdown", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 4, 8
+"/Users/rose/Desktop/immersive/ReacType/config.js", "JavaScript", 0, 11, 0, 0, 0, 0, 0, 0, 0, 1, 1, 13
+"/Users/rose/Desktop/immersive/ReacType/contribution_documentation.md", "Markdown", 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 3, 11
+"/Users/rose/Desktop/immersive/ReacType/contributors.md", "Markdown", 0, 0, 83, 0, 0, 0, 0, 0, 0, 0, 84, 167
+"/Users/rose/Desktop/immersive/ReacType/electron-builder.yml", "YAML", 0, 0, 0, 0, 0, 20, 0, 0, 0, 0, 1, 21
+"/Users/rose/Desktop/immersive/ReacType/mockData.ts", "TypeScript", 103, 0, 0, 0, 0, 0, 0, 0, 0, 3, 9, 115
+"/Users/rose/Desktop/immersive/ReacType/package-lock.json", "JSON", 0, 0, 0, 0, 34996, 0, 0, 0, 0, 0, 1, 34997
+"/Users/rose/Desktop/immersive/ReacType/package.json", "JSON", 0, 0, 0, 0, 297, 0, 0, 0, 0, 0, 1, 298
+"/Users/rose/Desktop/immersive/ReacType/playwright.config.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 10, 78
+"/Users/rose/Desktop/immersive/ReacType/prettierrc.json", "JSON", 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 1, 6
+"/Users/rose/Desktop/immersive/ReacType/server/README.md", "Markdown", 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 7, 23
+"/Users/rose/Desktop/immersive/ReacType/server/assets/renderDemo.css", "CSS", 0, 0, 0, 0, 0, 0, 0, 169, 0, 0, 10, 179
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/cookieController.ts", "TypeScript", 23, 0, 0, 0, 0, 0, 0, 0, 0, 3, 10, 36
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/marketplaceController.ts", "TypeScript", 113, 0, 0, 0, 0, 0, 0, 0, 0, 29, 11, 153
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/projectController.ts", "TypeScript", 68, 0, 0, 0, 0, 0, 0, 0, 0, 28, 7, 103
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/sessionController.ts", "TypeScript", 82, 0, 0, 0, 0, 0, 0, 0, 0, 115, 8, 205
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/userController.ts", "TypeScript", 127, 0, 0, 0, 0, 0, 0, 0, 0, 13, 9, 149
+"/Users/rose/Desktop/immersive/ReacType/server/controllers/userStylesController.ts", "TypeScript", 18, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 22
+"/Users/rose/Desktop/immersive/ReacType/server/graphQL/resolvers/mutation.ts", "TypeScript", 143, 0, 0, 0, 0, 0, 0, 0, 0, 13, 22, 178
+"/Users/rose/Desktop/immersive/ReacType/server/graphQL/resolvers/query.ts", "TypeScript", 57, 0, 0, 0, 0, 0, 0, 0, 0, 10, 8, 75
+"/Users/rose/Desktop/immersive/ReacType/server/graphQL/schema/typeDefs.ts", "TypeScript", 31, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 47
+"/Users/rose/Desktop/immersive/ReacType/server/interfaces.ts", "TypeScript", 47, 0, 0, 0, 0, 0, 0, 0, 0, 3, 10, 60
+"/Users/rose/Desktop/immersive/ReacType/server/models/Oauth-model.ts", "TypeScript", 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 19
+"/Users/rose/Desktop/immersive/ReacType/server/models/reactypeModels.ts", "TypeScript", 76, 0, 0, 0, 0, 0, 0, 0, 0, 19, 11, 106
+"/Users/rose/Desktop/immersive/ReacType/server/routers/auth.ts", "TypeScript", 66, 0, 0, 0, 0, 0, 0, 0, 0, 1, 13, 80
+"/Users/rose/Desktop/immersive/ReacType/server/routers/passport-setup.ts", "TypeScript", 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 97
+"/Users/rose/Desktop/immersive/ReacType/server/routers/stylesRouter.ts", "TypeScript", 7, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 10
+"/Users/rose/Desktop/immersive/ReacType/server/server.ts", "TypeScript", 201, 0, 0, 0, 0, 0, 0, 0, 0, 93, 56, 350
+"/Users/rose/Desktop/immersive/ReacType/server/tsconfig.json", "JSON with Comments", 0, 0, 0, 15, 0, 0, 0, 0, 0, 4, 2, 21
+"/Users/rose/Desktop/immersive/ReacType/src/custom-aws-exports.js", "JavaScript", 0, 21, 0, 0, 0, 0, 0, 0, 0, 1, 3, 25
+"/Users/rose/Desktop/immersive/ReacType/tsconfig.json", "JSON with Comments", 0, 0, 0, 28, 0, 0, 0, 0, 0, 1, 1, 30
+"/Users/rose/Desktop/immersive/ReacType/tslint.json", "JSON", 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 1, 19
+"/Users/rose/Desktop/immersive/ReacType/webpack.config.js", "JavaScript", 0, 80, 0, 0, 0, 0, 0, 0, 0, 21, 3, 104
+"/Users/rose/Desktop/immersive/ReacType/webpack.development.js", "JavaScript", 0, 25, 0, 0, 0, 0, 0, 0, 0, 28, 1, 54
+"/Users/rose/Desktop/immersive/ReacType/webpack.production.js", "JavaScript", 0, 17, 0, 0, 0, 0, 0, 0, 0, 5, 2, 24
+"Total", "-", 1789, 561, 566, 65, 35539, 42, 1092, 169, 19, 890, 793, 41525

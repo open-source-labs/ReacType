@@ -9,17 +9,17 @@ interface Context {
   components: string[];
 }
 
-interface AddContextPayload {
+export interface AddContextPayload {
   name: string;
 }
 
-interface AddContextValuesPayload {
+export interface AddContextValuesPayload {
   name: string;
   inputKey: string;
   inputValue: string;
 }
 
-interface DeleteContextPayload {
+export interface DeleteContextPayload {
   name: string;
 }
 

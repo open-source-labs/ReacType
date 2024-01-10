@@ -4,14 +4,16 @@
  @usage: is used in main.js
  */
 
-const fs = require('fs');
-const path = require('path');
+const { stringify } = require('querystring');
+
+import * as fs from 'fs';
+import * as path from 'path';
 
 const DIST_PATH = path.join(__dirname, '../../app/dist');
 
 const scheme = 'app'; // it will serve resources like app://..... instead of default file://...
 
-const mimeTypes = {
+const mimeTypes: Record<string, string> = {
   '.js': 'text/javascript',
   '.mjs': 'text/javascript',
   '.html': 'text/html',
@@ -25,13 +27,13 @@ const mimeTypes = {
   '.map': 'text/plain'
 };
 
-function charset(mimeType) {
-  return ['.html', '.htm', '.js', '.mjs'].some(m => m === mimeType)
+function charset(mimeType: string): string | null {
+  return ['.html', '.htm', '.js', '.mjs'].some((m) => m === mimeType)
     ? 'utf-8'
     : null;
 }
 // return the file type
-function mime(filename) {
+function mime(filename: string): string | null {
   const type = mimeTypes[path.extname(`${filename || ''}`).toLowerCase()];
   return type || null;
 }
@@ -40,7 +42,10 @@ function mime(filename) {
       servers index-prod.html when we access the root endpoint '/'
       read the file above and pass on an object includes mimeType, charset, and exisiting data read from the file 
 */
-function requestHandler(req, next) {
+function requestHandler(
+  req: Electron.ProtocolRequest,
+  next: (response: Electron.ProtocolResponse) => void
+): void {
   // The URL() constructor returns a newly created URL object representing the URL defined by the parameters.
   const reqUrl = new URL(req.url);
   // path.normalize resolves '..' and '.' segments in sequential path segments
@@ -68,8 +73,4 @@ function requestHandler(req, next) {
     }
   });
 }
-
-module.exports = {
-  scheme,
-  requestHandler
-};
+export { scheme, requestHandler };

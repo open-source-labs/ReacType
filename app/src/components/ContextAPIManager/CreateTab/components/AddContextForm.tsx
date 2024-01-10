@@ -25,9 +25,6 @@ const AddContextForm = ({
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [open, setOpen] = useState(false);
-  // const { state } = useSelector((store: RootState) => ({
-  //   state: store.appState
-  // }));
 
   const color = 'white';
 
@@ -129,7 +126,7 @@ const AddContextForm = ({
           <Select
             required
             sx={{ width: 425 }}
-            style={{ border: '1px solid #0099e6', color: color }}
+            style={{ border: '1px solid #29a38a', color: color }}
             value={currentContext}
             label="Select Context"
             MenuProps={{ disablePortal: true }}

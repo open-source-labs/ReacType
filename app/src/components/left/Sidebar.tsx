@@ -20,16 +20,17 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(newValue);
-    toggleVisibility(true);// Show the left-container when a different tab is clicked 
-    oldValue = newValue;//setting the oldvalue to match the new tab
+    toggleVisibility(true); // Show the left-container when a different tab is clicked
+    oldValue = newValue; //setting the oldvalue to match the new tab
   };
 
   const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
-    if (activeTab === oldValue) { //if the person is clicking the same tab, oldValue should match activeTab since it did not trigger an onChange
+    if (activeTab === oldValue) {
+      //if the person is clicking the same tab, oldValue should match activeTab since it did not trigger an onChange
       setActiveTab(null);
       toggleVisibility(false); // Hide the left-container when the same tab is clicked again
     }
-  }
+  };
 
   return (
     <Tabs
@@ -37,8 +38,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       orientation="vertical"
       variant="scrollable"
       value={activeTab}
-      onChange = {handleTabChange}
-      onClick = {(e: React.MouseEvent) => handleTabClick(e, oldValue)}
+      onChange={handleTabChange}
+      onClick={(e: React.MouseEvent) => handleTabClick(e, oldValue)}
       TabIndicatorProps={{
         style: {
           backgroundColor: '#4A4A4A'
@@ -56,27 +57,30 @@ const Sidebar: React.FC<SidebarProps> = ({
         height: '100vh'
       }}
     >
-      <Tab sx={{position: 'absolute', visibility: "hidden"}} value={null}/>
+      <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />
       <Tab
         sx={{
-          color: activeTab === 0 ? '#C6C6C6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#C6C6C6' }
+          color: activeTab === 0 ? '#a5ead6' : '#4A4A4A',
+          '&.Mui-selected': { color: '#a5ead6' },
+          '&:hover': { color: '#d2f5eb' }
         }}
         icon={<AddBoxIcon sx={{ fontSize: '36px' }} />}
         value={0}
       />
       <Tab
         sx={{
-          color: activeTab === 1 ? '#C6C6C6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#C6C6C6' }
+          color: activeTab === 1 ? '#a5ead6' : '#4A4A4A',
+          '&.Mui-selected': { color: '#a5ead6' },
+          '&:hover': { color: '#d2f5eb' }
         }}
         icon={<IoMdCube style={{ fontSize: '33px' }} />}
         value={1}
       />
       <Tab
         sx={{
-          color: activeTab === 2 ? '#C6C6C6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#C6C6C6' }
+          color: activeTab === 2 ? '#a5ead6' : '#4A4A4A',
+          '&.Mui-selected': { color: '#a5ead6' },
+          '&:hover': { color: '#d2f5eb' }
         }}
         icon={<PeopleIcon sx={{ fontSize: '36px' }} />}
         value={2}

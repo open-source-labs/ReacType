@@ -17,7 +17,7 @@
 .tst-form {
   position: relative;
   z-index: 1;
-  background: #0099E6;
+  background: #29a38a;
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
@@ -104,7 +104,7 @@
   background: -moz-linear-gradient(right, #76b852, #8DC26F);
   background: -o-linear-gradient(right, #76b852, #8DC26F);
   background: linear-gradient(to left, #76b852, #8DC26F);
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, Raleway, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 }

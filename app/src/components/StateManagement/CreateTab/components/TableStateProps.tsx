@@ -8,12 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteState } from '../../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../../redux/store';
 import { ColumnTab } from '../../../../interfaces/Interfaces';
+import { emitEvent } from '../../../../helperFunctions/socket';
+
 // updates state mgmt boxes and data grid
 const TableStateProps = (props) => {
-  const { state, contextParam } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice
-  }));
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
@@ -85,6 +87,14 @@ const TableStateProps = (props) => {
         contextParam: contextParam
       })
     );
+
+    if (roomCode) {
+      emitEvent('deleteStateAction', roomCode, {
+        stateProps: filtered,
+        rowId: selectedId,
+        contextParam: contextParam
+      });
+    }
   };
 
   useEffect(() => {

@@ -93,9 +93,11 @@ function navbarDropDown(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
-  const { state } = useSelector((store: RootState) => ({
-    state: store.appState
-  }));
+  // const { state } = useSelector((store: RootState) => ({
+  //   state: store.appState
+  // }));
+  const state = useSelector((store: RootState) => store.appState);
+
   const closeModal = () => setModal('');
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -114,7 +116,7 @@ function navbarDropDown(props) {
           button
           onClick={resetState}
           style={{
-            border: '1px solid #3f51b5',
+            border: '1px solid #1b544b',
             marginBottom: '2%',
             marginTop: '5%'
           }}

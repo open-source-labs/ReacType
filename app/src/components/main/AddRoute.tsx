@@ -3,8 +3,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { emitEvent } from '../../helperFunctions/socket';
 
 function AddRoute({ id }: AddRoutes): JSX.Element {
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const dispatch = useDispatch();
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const handleClick = (id: number): void => {
@@ -16,6 +18,16 @@ function AddRoute({ id }: AddRoutes): JSX.Element {
         contextParam: contextParam
       })
     );
+    if (roomCode) {
+      emitEvent('addChildAction', roomCode, {
+        type: 'HTML Element',
+        typeId: -1,
+        childId: id,
+        contextParam: contextParam
+      });
+
+      console.log('emit addChildAction event is triggered in AddRoute!');
+    }
   };
 
   return (

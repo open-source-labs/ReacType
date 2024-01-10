@@ -1,4 +1,4 @@
-import { Box, Drawer, List, ListItem, ListItemIcon } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,20 +7,25 @@ import DragDropPanel from './DragDropPanel';
 
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { emitEvent } from '../../helperFunctions/socket';
 
-// Left-hand portion of the app, where component options are displayed
+// Left-hand portion of the app, where predefined component options are displayed
 const ElementsContainer = (props): JSX.Element => {
-  const [selectedTab, setSelectedTab] = React.useState('files');
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
-  const { contextParam, style } = useSelector((store: RootState) => ({
-    contextParam: store.contextSlice,
-    style: store.styleSlice
-  }));
   const dispatch = useDispatch();
 
   const handleDelete = () => {
     dispatch(deleteChild({ id: {}, contextParam: contextParam }));
+    if (roomCode) {
+      emitEvent('deleteChildAction', roomCode, {
+        id: {},
+        contextParam: contextParam
+      });
+    }
   };
+
   const keyBindedFunc = useCallback((e) => {
     if (
       e.key === 'Backspace' &&
@@ -29,6 +34,7 @@ const ElementsContainer = (props): JSX.Element => {
     )
       handleDelete();
   }, []);
+
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
     return () => {

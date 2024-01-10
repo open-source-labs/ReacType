@@ -21,11 +21,15 @@ import { RootState } from '../../redux/store';
 const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
   const dispatch = useDispatch();
-  const { state, contextParam, style } = useSelector((store: RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice,
-    style: store.styleSlice
-  }));
+  // const { state, contextParam, style } = useSelector((store: RootState) => ({
+  //   state: store.appState,
+  //   contextParam: store.contextSlice,
+  //   style: store.styleSlice
+  // }));
+
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
@@ -152,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   rootLight: {
-    backgroundColor: '#003366'
+    backgroundColor: '#1e8370'
   },
   bottomHeader: {
     flex: 1,
@@ -211,7 +215,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px'
   },
   projectSelector: {
-    backgroundColor: '#0099E6',
+    backgroundColor: '#29a38a',
     color: 'white'
   }
 }));
