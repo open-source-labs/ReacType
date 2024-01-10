@@ -8,7 +8,7 @@
 Changes:<br>
 
 - Developer Improvement:
-  - Typescript conversion continued sits at ~95%
+  - Typescript conversion continued and now sits at ~95%
 - User Features:
   - Collaboration Room: 
     - Bug Fixes:
