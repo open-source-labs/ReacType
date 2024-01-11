@@ -34,18 +34,22 @@ const HTMLPanel = (props): JSX.Element => {
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  const currentID = useSelector(
+    (store: RootState) => store.appState.customElementId
+  );
 
   const dispatch = useDispatch();
-  let startingID = 0;
-  state.HTMLTypes.forEach((element) => {
-    if (element.id >= startingID) startingID = element.id;
-  });
-  startingID += 1;
+  // let startingID = 0;
+  // state.HTMLTypes.forEach((element) => {
+  //   if (element.id >= startingID) startingID = element.id;
+  // });
+  console.log('currentID:', currentID);
+  // startingID += 1;
 
-  const [currentID, setCurrentID] = useState(startingID);
+  // const [currentID, setCurrentID] = useState(startingID);
 
-  const buttonClasses =
-    'MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary';
+  // const buttonClasses =
+  //   'MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary';
 
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
@@ -114,7 +118,7 @@ const HTMLPanel = (props): JSX.Element => {
       emitEvent('addElementAction', roomCode, newElement);
     }
 
-    setCurrentID(currentID + 1);
+    // setCurrentID(currentID + 1);
     setTag('');
     setName('');
   };
@@ -324,7 +328,7 @@ const useStyles = makeStyles({
     width: '100%'
   },
   addComponentWrapper: {
-    width: '100%',
+    width: '100%'
   },
   input: {
     borderRadius: '5px',

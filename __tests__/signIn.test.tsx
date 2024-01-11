@@ -25,9 +25,9 @@ describe('sign in page', () => {
     render(<TestSignIn />);
     expect(screen.getByTestId('password-input')).toBeInTheDocument();
   });
-  test('should render 4 login buttons and dark mode button', () => {
+  test('should render 4 login buttons', () => {
     render(<TestSignIn />);
-    expect(screen.getAllByRole('button')).toHaveLength(5);
+    expect(screen.getAllByRole('button')).toHaveLength(4);
   });
   test('should invalidate empty username field', () => {
     render(<TestSignIn />);

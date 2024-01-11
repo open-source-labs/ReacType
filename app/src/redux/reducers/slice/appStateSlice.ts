@@ -44,7 +44,8 @@ export const initialState: State = {
   tailwind: false,
   stylesheet: '',
   codePreview: false,
-  screenshotTrigger: false
+  screenshotTrigger: false,
+  customElementId: 10001
 };
 
 let separator = initialState.HTMLTypes[1];
@@ -905,6 +906,7 @@ const appStateSlice = createSlice({
       const HTMLTypes = [...state.HTMLTypes];
       HTMLTypes.push(action.payload);
       state.HTMLTypes = HTMLTypes;
+      state.customElementId += 1;
     },
     //Undo & Redo functions are not working properly. Redo & Undo target the last component rather than last added HTML Element.
     undo: (state, action) => {
