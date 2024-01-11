@@ -16,7 +16,6 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
 import { FaMousePointer } from 'react-icons/fa';
-import { Console } from 'console';
 
 function Canvas(props: {}): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
@@ -97,10 +96,10 @@ function Canvas(props: {}): JSX.Element {
   // Removes the mouse cursor of the user that leaves the collaboration room.
   const handleCursorDeleteFromServer = () => {
     setRemoteCursors((prevRemoteCursors) =>
-      prevRemoteCursors.map((cursor) => ({
-        ...cursor,
-        isVisible: userList.includes(cursor.remoteUserName)
-      }))
+      // filter cursors to include only those in the userList
+      prevRemoteCursors.filter((cursor) =>
+        userList.includes(cursor.remoteUserName)
+      )
     );
   };
 

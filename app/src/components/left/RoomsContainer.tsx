@@ -333,12 +333,15 @@ const RoomsContainer = () => {
         <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
         </Typography>
-        <Typography variant="h6" color={userColors[userList.indexOf(userName)]}>
-          Nickname: {userName}
-        </Typography>
         {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
         {userJoined ? (
           <>
+            <Typography
+              variant="h6"
+              color={userColors[userList.indexOf(userName)]}
+            >
+              Nickname: {userName}
+            </Typography>
             <Typography
               variant="body1"
               sx={{

@@ -10,7 +10,7 @@ Changes:<br>
 - Developer Improvement:
   - Typescript conversion continued and now sits at ~95%
 - User Features:
-  - Collaboration Room: 
+  - Collaboration Room:
     - Bug Fixes:
       - Debug “Leave Room” functionality removing username from the users list
       - Debug “Join Room” functionality so the current canvas does not reset upon new user joining collaboration
@@ -18,7 +18,7 @@ Changes:<br>
     - Collaboration room is now ready for release (v1)
       - Implemented live cursor tracking with on/off function where multiple users can choose to see the other users mouse cursors in real-time in the same canvas.
       - Added keydown functionality to “Join Room” by triggering button click on keyboard “Enter”
-      - Reconfigured web socket initiation to force new connection when joining room 
+      - Reconfigured web socket initiation to force new connection when joining room
     - Refactored the way changes were being passed to other users in the collaboration room
       - Significantly reduces the amount of data being passed among users by passing only the payload for each individual action, triggering singular updates for other users in the collaboration environment
       - Added Event Emitters for each action that updates canvas
@@ -33,7 +33,7 @@ Changes:<br>
 
 Recommendations for Future Enhancements:<br>
 
-- Fix Undo & Redo functionality. Undo & Redo buttons on the customization page not functioning as expected. 
+- Fix Undo & Redo functionality. Undo & Redo buttons on the customization page not functioning as expected.
 - Update Electron for desktop application use. Resolve electron app functionality to coincide with web app functionality.
 - Add Change Log/View Edit History feature in app
 - v.17 recommendations regarding the Marketplace are still undeveloped.
@@ -76,20 +76,20 @@ Changes:<br>
   - Join/Nickname Button:
     - Allows users to specify which room to join, and what name to display upon joining the room.
     - The button only shows when the user is not connected to the room, requiring both fields to be filled out.
-      
+
 Recommendations for Future Enhancements:<br>
 
 - Chat functionality so users in the same room can discuss their projects.
-- List of active rooms so users can simply pick one to join.  Will likely be paired with a password feature for security, so only users with the proper credentials can join a particular room.
+- List of active rooms so users can simply pick one to join. Will likely be paired with a password feature for security, so only users with the proper credentials can join a particular room.
 - True real-time rendering so users can see components as they're being dragged onto the canvas, rather than only when they're placed.
-- Optimize performance of room state updates 
+- Optimize performance of room state updates
 - v.17 recommendations regarding the Marketplace are still undeveloped.
 - Solve residual bugs. Undo & Redo buttons on the customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Persistent Redux error that causes page to rerender more often than necessary.
-- Resolve electron app functionality to coincide with web app functionality.  
+- Resolve electron app functionality to coincide with web app functionality.
 - For the state manager option in the data table there is a MuiData-menu that is not visible when clicking it and after the filter option is clicked it creates a white space in the bottom of the page.
-- Expand testing coverage.  Continue fixing old tests which rely on outdated dependencies, and implementing new tests.
-- Continue modularizing code.  Many large, unwieldy files that should be broken up into more modular components still exist.
-- Continue Typescript conversion.  Consider toggling noImplicitAny to find all 'any' cases that can be addressed.
+- Expand testing coverage. Continue fixing old tests which rely on outdated dependencies, and implementing new tests.
+- Continue modularizing code. Many large, unwieldy files that should be broken up into more modular components still exist.
+- Continue Typescript conversion. Consider toggling noImplicitAny to find all 'any' cases that can be addressed.
 - Continue cleanup of outdated and unused code and files.
 - Collaboration feature still needs to be improved for scalability with AWS servers and clients for better experiences. The feature currently is limited to access with only 1 AWS cloud server.
 - Future teams could look into data structures for scaling on the server side of the app to improve data transmitting and multiple server functionality.
@@ -112,7 +112,7 @@ Changes:<br>
   - UI updated with a modern style for a better developer experience
     - Added many user feedback alerts for a better experience including alerts for when projects are published, cloned, deleted, HTML custom tags are created, context created, or custom components created.
     - Built a specific buttons menu that individually displays the HTML elements, reusable components created, and join room option.
-    - Redesigned the state manager panel option to be readable and functional. 
+    - Redesigned the state manager panel option to be readable and functional.
     - Drop down menu now closes only when the user clicks outside of the menu
   - Marketplace:
     - Implemented a dedicated area for developers to share their projects
@@ -120,7 +120,7 @@ Changes:<br>
     - Projects can also be cloned to the user's account to be used and edited with the addition of a button
     - Added search functionality to search by username and project name
     - Included a separate section in the Saved Projects and Delete Projects modal in the Manage Project menu for cloned projects from the Marketplace
-  - Publish/Unpublish Button: 
+  - Publish/Unpublish Button:
     - Publish feature on the web app allows users to publish their saved project files into the Marketplace from the main app page
     - Dynamically switches between publish/unpublish depending on whether the loaded project is in the Marketplace
 

@@ -12,7 +12,7 @@
   "Environment": [
     {
       "Name": "API_BASE_URL",
-      "Value": "Reactype-v17env.eba-sw2fhsbj.us-east-1.elasticbeanstalk.com"
+      "Value": "Reactype-v19env.eba-sw2fhsbj.us-east-1.elasticbeanstalk.com"
     }
   ]
 }
