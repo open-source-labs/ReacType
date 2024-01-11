@@ -21,6 +21,7 @@ export interface State {
   stylesheet: string;
   codePreview: boolean;
   screenshotTrigger: boolean;
+  customElementId: number;
 }
 
 export interface ChildElement {

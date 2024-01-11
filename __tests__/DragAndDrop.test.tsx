@@ -55,6 +55,7 @@ describe('Drag and Drop Side Panel', () => {
     expect(screen.getByText('Root Components')).toBeInTheDocument();
     expect(screen.getByText('Reusable Components')).toBeInTheDocument();
   });
+
   test('test drag and drop', () => {
     render(
       TestContext(
