@@ -780,6 +780,7 @@ const appStateSlice = createSlice({
       const components = [rootComponent];
 
       const stylesheet = '';
+      const resetHTMLTypes = HTMLTypes;
 
       return {
         ...state,
@@ -789,7 +790,8 @@ const appStateSlice = createSlice({
         nextComponentId,
         components,
         canvasFocus,
-        stylesheet
+        stylesheet,
+        HTMLTypes: resetHTMLTypes
       };
     },
     updateProjectName: (state, action) => {
