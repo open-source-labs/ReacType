@@ -778,6 +778,9 @@ const appStateSlice = createSlice({
         style: {}
       };
       const components = [rootComponent];
+
+      const stylesheet = '';
+
       return {
         ...state,
         nextChildId,
@@ -785,7 +788,8 @@ const appStateSlice = createSlice({
         rootComponents,
         nextComponentId,
         components,
-        canvasFocus
+        canvasFocus,
+        stylesheet
       };
     },
     updateProjectName: (state, action) => {
