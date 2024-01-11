@@ -39,17 +39,6 @@ const HTMLPanel = (props): JSX.Element => {
   );
 
   const dispatch = useDispatch();
-  // let startingID = 0;
-  // state.HTMLTypes.forEach((element) => {
-  //   if (element.id >= startingID) startingID = element.id;
-  // });
-  console.log('currentID:', currentID);
-  // startingID += 1;
-
-  // const [currentID, setCurrentID] = useState(startingID);
-
-  // const buttonClasses =
-  //   'MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary';
 
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
