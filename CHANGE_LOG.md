@@ -42,6 +42,7 @@ Recommendations for Future Enhancements:<br>
 - Continue cleanup of outdated and unused code and files.
 - Future teams could look into data structures for scaling on the server side of the app to improve data transmitting and multiple server functionality.
 - Continue modularizing code. Many large, unwieldy files that should be broken up into more modular components still exist.
+- Fix the reset of context manager and state manager when a user leaves the room.
 - Collaboration room:
   - Allow for given HTML components to be nested into custom created components
   - Collaboration Room feature can be further scaled with AWS servers and clients for better experiences. The feature currently is limited to access with only 1 AWS cloud server.
