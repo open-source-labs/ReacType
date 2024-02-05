@@ -191,6 +191,18 @@ io.on('connection', (client) => {
     }
   });
 
+  client.on('clearCanvasAction', async (roomCode: string, userName: string) => {
+    if (roomCode) {
+      // server send clear canvas to everyone in the room if action is from the host
+      if (userName === Object.values(roomLists[roomCode])[0]) {
+        io.to(roomCode).emit(
+          'clear canvas from server',
+          Object.values(roomLists[roomCode])
+        );
+      }
+    }
+  });
+
   client.on(
     'deleteElementAction',
     (roomCode: string, deleteElementData: object) => {
