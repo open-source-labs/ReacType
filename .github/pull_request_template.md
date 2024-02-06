@@ -1,6 +1,6 @@
 # Description
 
-<!-- Please include the following information
+<!-- Please include the following information:
 - A summary of the changes and the related issue.
 - Relevant motivation and context.
 - Any dependencies that are required for this change.
@@ -8,7 +8,7 @@
 
 ## Type of Change
 
-Please check the options that applied
+Please check the options that apply
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
