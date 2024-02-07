@@ -21,6 +21,7 @@ import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { setStyle } from '../../redux/reducers/slice/styleSlice';
 import store from '../../redux/store';
 import withStyles from '@mui/styles/withStyles';
+import { emitEvent } from '../../helperFunctions/socket';
 
 const { API_BASE_URL } = config;
 
@@ -97,6 +98,8 @@ function navbarDropDown(props) {
   //   state: store.appState
   // }));
   const state = useSelector((store: RootState) => store.appState);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  const userName = useSelector((store: RootState) => store.roomSlice.userName);
 
   const closeModal = () => setModal('');
   const handleClick = (event) => {
@@ -106,7 +109,8 @@ function navbarDropDown(props) {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      dispatch(resetAllState());
+      if (roomCode) emitEvent('clearCanvasAction', roomCode, userName);
+      else dispatch(resetAllState());
     };
     // Set modal options
     const children = (
@@ -129,6 +133,7 @@ function navbarDropDown(props) {
         </ListItem>
       </List>
     );
+
     // Create modal
     setModal(
       createModal({

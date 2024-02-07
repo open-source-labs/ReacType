@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import BottomTabs from './BottomTabs';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const BottomPanel = (props): JSX.Element => {
   let y: number = 0;
@@ -15,18 +16,17 @@ const BottomPanel = (props): JSX.Element => {
     //Start listeners when the user clicks the bottom panel tab
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
-    window.addEventListener('message', handleIframeMessage);//listens for messages from the iframe when the mouse is over it
+    window.addEventListener('message', handleIframeMessage); //listens for messages from the iframe when the mouse is over it
   };
-  
+
   //Interpret the messages from the iframe
   const handleIframeMessage = (e) => {
     if (e.data === 'iframeMouseUp') {
       mouseUpHandler();
-    }else if(e.data.type === 'iframeMouseMove'){
-      mouseMoveHandler(e.data)
+    } else if (e.data.type === 'iframeMouseMove') {
+      mouseMoveHandler(e.data);
     }
-  }    
-
+  };
 
   const mouseMoveHandler = function (e: MouseEvent): void {
     // How far the mouse has been moved
@@ -54,12 +54,21 @@ const BottomPanel = (props): JSX.Element => {
 
   return (
     <>
-    <div className="bottom-panel" id="resize" ref={node}>
-      <div id="resize-drag" onMouseDown={mouseDownHandler} tabIndex={0}>
-        ......
+      <div className="bottom-panel" id="resize" ref={node}>
+        <div
+          id="resize-drag"
+          onMouseDown={mouseDownHandler}
+          onClick={() => props.setBottomShow(true)}
+          tabIndex={0}
+        >
+          {props.bottomShow ? <ExpandMore /> : <ExpandLess />}
+        </div>
+        <BottomTabs
+          setBottomShow={props.setBottomShow}
+          isThemeLight={props.isThemeLight}
+        />
       </div>
-      <BottomTabs setBottomShow = {props.setBottomShow} isThemeLight={props.isThemeLight} />
-    </div></>
+    </>
   );
 };
 
