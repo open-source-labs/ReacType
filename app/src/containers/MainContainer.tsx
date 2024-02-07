@@ -119,6 +119,7 @@ const MainContainer = (props): JSX.Element => {
       </div>
       <div className={showPanel} ref={ref}>
         <BottomPanel
+          bottomShow={bottomShow}
           setBottomShow={setBottomShow}
           isThemeLight={props.isThemeLight}
         />
