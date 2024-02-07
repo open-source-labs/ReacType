@@ -12,6 +12,8 @@ import { useDrag } from 'react-dnd';
 import { IconProps } from '@mui/material';
 import CodeIcon from '@mui/icons-material/Code';
 import * as Icons from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
+import { addChild } from '../../redux/reducers/slice/appStateSlice';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -118,6 +120,25 @@ const HTMLItem: React.FC<{
       })
     );
   };
+
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    console.log('Component clicked:', name);
+    console.log('id', id);
+    // Dispatch action to add child
+    dispatch(
+      addChild({
+        type: 'HTML Element',
+        typeId: id,
+        childId: null,
+        contextParam: {
+          allContext: []
+        }
+      })
+    );
+  };
+
   // updated the id's to reflect the new element types input and label
   return (
     // HTML Elements
@@ -128,6 +149,9 @@ const HTMLItem: React.FC<{
           style={{ borderColor: '#C6C6C6' }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
+          onClick={() => {
+            handleClick();
+          }}
         >
           {typeof IconComponent !== 'undefined' && (
             <IconComponent fontSize="small" align-items="center" />
@@ -143,17 +167,21 @@ const HTMLItem: React.FC<{
           style={{ borderColor: '#C6C6C6' }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
+          onClick={() => {
+            handleClick();
+          }}
         >
           {typeof CodeIcon !== 'undefined' && (
-          <CodeIcon fontSize="small" align-items="center" />)}
+            <CodeIcon fontSize="small" align-items="center" />
+          )}
           {name}
-            <button
+          <button
             id="newElement"
             style={{ color: '#C6C6C6' }}
             onClick={() => deleteAllInstances(id)}
-            >
-              X
-            </button>
+          >
+            X
+          </button>
         </div>
       )}
       {modal}
