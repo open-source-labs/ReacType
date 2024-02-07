@@ -86,7 +86,7 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 // where the main function starts //
-function navbarDropDown(props) {
+const navbarDropDown = (props) => {
   const dispatch = useDispatch();
 
   const [modal, setModal] = React.useState(null);
@@ -151,7 +151,6 @@ function navbarDropDown(props) {
 
   let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
 
-  //for closing the menu on clicks outside of it.
   const useOutsideClick = () => {
     const dropdownRef = useRef(null);
 
@@ -164,16 +163,14 @@ function navbarDropDown(props) {
             !props.menuButtonRef.current.contains(event.target)) ||
           (event.type === 'message' && event.data === 'iframeClicked')
         ) {
-          //menuButtonRef is to ensure that handleClose does not get invoked when the user clicks on the menu dropdown button
           handleClose();
         }
       };
       window.addEventListener('click', handleClick, true);
-      window.addEventListener('message', handleClick); //to capture clicks in the iframe
-
+      window.addEventListener('message', handleClick);
       return () => {
         window.removeEventListener('click', handleClick, true);
-        window.removeEventListener('message', handleClick); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
+        window.removeEventListener('message', handleClick);
       };
     }, [dropdownRef]);
 
@@ -182,16 +179,7 @@ function navbarDropDown(props) {
 
   const ref = useOutsideClick();
 
-  // const handleMessage = (event) => {
-  //   if (event.data === 'iframeClicked') {
-  //     // Handle the click event here, e.g., close the dropdown menu
-  //     handleClose();
-  //   }
-  // };
-  // window.addEventListener('message', handleMessage);
-
   return (
-    // <div ref={dropdownRef} className={showMenu}> dropdownRef making the menu fly off and anchorel messingup
     <div data-testid="navDropDown" ref={ref} className={showMenu}>
       <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
@@ -280,6 +268,6 @@ function navbarDropDown(props) {
       {modal}
     </div>
   );
-}
+};
 
 export default navbarDropDown;

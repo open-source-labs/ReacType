@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
 
   useEffect(() => {
     setProjectName(state.name);
-  }, [state.name]); //update the ProjectName after state.name changes due to loading projects
+  }, [state.name]);
 
   const deleteAlertOpen = () => {
     setDeleteAlert(true);

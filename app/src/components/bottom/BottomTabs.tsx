@@ -19,14 +19,7 @@ import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 const BottomTabs = (props): JSX.Element => {
-  // state that controls which tab the user is on
   const dispatch = useDispatch();
-  // const { state, contextParam, style } = useSelector((store: RootState) => ({
-  //   state: store.appState,
-  //   contextParam: store.contextSlice,
-  //   style: store.styleSlice
-  // }));
-
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
@@ -34,19 +27,16 @@ const BottomTabs = (props): JSX.Element => {
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
 
-  // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };
-  // Allows users to toggle project between "next.js" and "Classic React"
-  // When a user changes the project type, the code of all components is rerendered
+
   const handleProjectChange = (event) => {
     const projectType = event.target.value;
     dispatch(changeProjectType({ projectType, contextParam }));
   };
   const { components } = state;
 
-  // Render's the highliting arrow feature that draws an arrow from the Canvas to the DemoRender
   arrow.renderArrow(state.canvasFocus?.childId);
 
   return (
@@ -156,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   rootLight: {
-    backgroundColor: '#1e8370'
+    backgroundColor: '#253b80'
   },
   bottomHeader: {
     flex: 1,
@@ -215,7 +205,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px'
   },
   projectSelector: {
-    backgroundColor: '#29a38a',
+    backgroundColor: '#253b80',
     color: 'white'
   }
 }));

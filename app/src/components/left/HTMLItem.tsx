@@ -1,15 +1,12 @@
-import React, { ComponentType, ReactElement, useState } from 'react';
-
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { ItemTypes } from '../../constants/ItemTypes';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { RootState } from '../../redux/store';
 import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
-import { IconProps } from '@mui/material';
 import CodeIcon from '@mui/icons-material/Code';
 import * as Icons from '@mui/icons-material';
 
@@ -38,15 +35,10 @@ const HTMLItem: React.FC<{
   icon: any;
   handleDelete: (id: number) => void;
 }> = ({ name, id, icon, handleDelete }) => {
-  //load mui icons base on string parameter
   const IconComponent = Icons[icon];
-
   const classes = useStyles();
-
   const [modal, setModal] = useState(null);
-
   const [{ isDragging }, drag] = useDrag({
-    // is dragging is never read, but if deleted adjustment in the ref are needed line 122/128 ref={drag} to {...drag}
     item: {
       type: ItemTypes.INSTANCE,
       newInstance: true,
@@ -61,11 +53,7 @@ const HTMLItem: React.FC<{
   });
 
   const closeModal = () => setModal(null);
-
-  // creates modal that asks if user wants to clear workspace
-  // if user clears their workspace, then their components are removed from state and the modal is closed
   const deleteAllInstances = (deleteID: number) => {
-    // set modal options
     const children = (
       <List className="export-preference">
         <ListItem
@@ -102,8 +90,6 @@ const HTMLItem: React.FC<{
         </ListItem>
       </List>
     );
-
-    // create modal
     setModal(
       createModal({
         closeModal,
@@ -118,9 +104,7 @@ const HTMLItem: React.FC<{
       })
     );
   };
-  // updated the id's to reflect the new element types input and label
   return (
-    // HTML Elements
     <Grid item xs={5} key={`html-g${name}`} id="HTMLgrid">
       {id <= 20 && (
         <div
@@ -136,7 +120,6 @@ const HTMLItem: React.FC<{
         </div>
       )}
 
-      {/* Custom Elements */}
       {id > 20 && (
         <div
           ref={drag}
@@ -162,3 +145,4 @@ const HTMLItem: React.FC<{
 };
 
 export default HTMLItem;
+

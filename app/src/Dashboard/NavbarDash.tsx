@@ -22,7 +22,6 @@ import greenLogo from '../public/icons/png/512x512.png';
 import {setStyle} from '../redux/reducers/slice/styleSlice'
 import { useSelector,useDispatch } from 'react-redux';
 
-// NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     flexGrow: 1, 
@@ -41,9 +40,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     justifyContent: 'center',
   },
 }));
-// sorting options
+
 const sortMethods = ['RATING', 'DATE', 'USER'];
-// Drop down menu button for SORT PROJECTS
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #d3d4d5',
@@ -51,7 +49,6 @@ const StyledMenu = withStyles({
 })(props => (
   <Menu
     elevation={0}
-    // getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
       horizontal: 'center'
@@ -79,9 +76,7 @@ export default function NavBar(props) {
   const style = useSelector(store => store.styleSlice);
   const dispatch = useDispatch();
   const toggling = () => setIsOpen(!isOpen);
-  // toggle to open and close dropdown sorting menu
   const [isOpen, setIsOpen] = useState(false);
-  // State for sort projects button
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -89,6 +84,7 @@ export default function NavBar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <div className={classes.root} style={style}>
       <AppBar position='static'>
@@ -110,7 +106,7 @@ export default function NavBar(props) {
           >
             SORT PROJECT
           </Button>
-          <StyledMenu  // Dropdown menu connected to Manage Project Button
+          <StyledMenu 
             id='customized-menus'
             anchorEl={anchorEl}
             keepMounted
@@ -148,7 +144,7 @@ export default function NavBar(props) {
             endIcon={props.isThemeLight ? <Brightness3Icon/> : <Brightness5Icon/>}
             onClick={() => {
               !style.backgroundColor
-                ? dispatch(setStyle({ backgroundColor: '#21262D' })) //dark mode color
+                ? dispatch(setStyle({ backgroundColor: '#21262D' })) 
                 : dispatch(setStyle( null ))
               props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
             }}

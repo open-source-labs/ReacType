@@ -3,8 +3,6 @@ const isDev = process.env.NODE_ENV === 'development';
 const { DEV_PORT, API_BASE_URL } = require('../../../config');
 
 let serverURL = API_BASE_URL;
-
-//checks if we're in dev mode or not to reset the serverURL to localhost:8080
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
@@ -30,13 +28,11 @@ export const sessionIsCreated = (
     .then((res) => res.json())
     .then((data) => {
       if (data.sessionId && typeof data.sessionId === 'string') {
-        // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);
-        // save username locally, will be added to saved project for each user
         window.localStorage.setItem('username', username);
         return 'Success';
       }
-      return data; // error message returned from userController.verifyUser
+      return data;
     })
     .catch((err) => 'Error');
   return result;
@@ -63,13 +59,12 @@ export const newUserIsCreated = (
     .then((res) => res.json())
     .then((data) => {
       if (data.sessionId && typeof data.sessionId === 'string') {
-        // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);
-        // save username locally, will be added to saved project for each user
         window.localStorage.setItem('username', username);
+        window.localStorage.setItem('email', email);
         return 'Success';
       }
-      return data; // response is either Email Taken or Username Taken, refer to userController.createUser
+      return data;
     })
     .catch((err) => 'Error');
   return result;

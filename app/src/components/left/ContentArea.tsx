@@ -3,6 +3,8 @@ import ComponentsContainer from './ComponentsContainer';
 import ElementsContainer from './ElementsContainer';
 import React from 'react';
 import RoomsContainer from './RoomsContainer';
+import ProfilePage from './ProfilePage';
+import Settings from './Settings';
 
 interface ContentAreaProps {
   activeTab: number | null;
@@ -22,13 +24,16 @@ const TabPanel: React.FC<{
 const panels = [
   <ElementsContainer />,
   <ComponentsContainer />,
-  <RoomsContainer />
+  <RoomsContainer />,
+  <ProfilePage />,
+  <Settings />
 ];
+
 const ContentArea: React.FC<ContentAreaProps> = ({ activeTab, isVisible }) => {
   return (
     <div
       className="left-container"
-      style={{ display: isVisible ? 'block' : 'none' }} // Visibility based on activeTab
+      style={{ display: isVisible ? 'block' : 'none' }}
     >
       <div className="column left">
         {panels.map((panel, idx) => (
