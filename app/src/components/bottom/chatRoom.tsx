@@ -87,14 +87,16 @@ const Chatroom = (props): JSX.Element => {
   }, [newMessage]);
 
   useEffect(() => {
-    const messageContainer = document.getElementById('message-container');
-    const messageElement = document.createElement('div');
-    messageElement.innerText =
-      userChange.status === 'JOIN'
-        ? `${userChange.nickName} joined the chat room`
-        : `${userChange.nickName} left the chat room`;
-    messageElement.style.color = 'yellow';
-    messageContainer.append(messageElement);
+    if (userChange.nickName !== '' && userChange.status !== '') {
+      const messageContainer = document.getElementById('message-container');
+      const messageElement = document.createElement('div');
+      messageElement.innerText =
+        userChange.status === 'JOIN'
+          ? `${userChange.nickName} joined the chat room`
+          : `${userChange.nickName} left the chat room`;
+      messageElement.style.color = 'yellow';
+      messageContainer.append(messageElement);
+    }
   }, [userChange]);
 
   return (
