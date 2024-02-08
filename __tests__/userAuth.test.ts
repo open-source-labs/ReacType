@@ -2,17 +2,24 @@
  * @jest-environment node
  */
 
+<<<<<<< HEAD
 import marketplaceController from '../server/controllers/marketplaceController';
+=======
+>>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
 import app from '../server/server';
 import mockData from '../mockData';
-import { profileEnd } from 'console';
 import { Sessions, Users } from '../server/models/reactypeModels';
 const request = require('supertest');
 const mongoose = require('mongoose');
+<<<<<<< HEAD
 const mockNext = jest.fn(); // Mock nextFunction
 const MONGO_DB = import.meta.env.MONGO_DB_TEST;
 const { state, projectToSave, user } = mockData;
 const PORT = 8080;
+=======
+const MONGO_DB = process.env.MONGO_DB_TEST;
+const { user } = mockData;
+>>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
 
 const num = Math.floor(Math.random() * 1000);
 
@@ -44,6 +51,10 @@ describe('User Authentication tests', () => {
       expect(response.text).toBe('test request is working');
     });
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
   describe('/signup', () => {
     describe('POST', () => {
       //testing new signup
@@ -71,6 +82,7 @@ describe('User Authentication tests', () => {
       });
     });
   });
+
   describe('/login', () => {
     // tests whether existing login information permits user to log in
     describe('POST', () => {
@@ -92,10 +104,65 @@ describe('User Authentication tests', () => {
           .expect('Content-Type', /json/)
           .then((res) => expect(typeof res.body).toBe('string'));
       });
+      it("returns the message 'No Username Input' when no username is entered", () => {
+        return request(app)
+          .post('/login')
+          .send({
+            username: '',
+            password: 'Reactype123!@#',
+            isFbOauth: false
+          })
+          .then((res) => expect(res.text).toBe('"No Username Input"'));
+      });
+
+      it("returns the message 'No Username Input' when no username is entered", () => {
+        return request(app)
+          .post('/login')
+          .send({
+            username: '',
+            password: 'Reactype123!@#',
+            isFbOauth: false
+          })
+          .then((res) => expect(res.text).toBe('"No Username Input"'));
+      });
+
+      it("returns the message 'No Password Input' when no password is entered", () => {
+        return request(app)
+          .post('/login')
+          .send({
+            username: 'reactype123',
+            password: '',
+            isFbOauth: false
+          })
+          .then((res) => expect(res.text).toBe('"No Password Input"'));
+      });
+
+      it("returns the message 'Invalid Username' when username does not exist", () => {
+        return request(app)
+          .post('/login')
+          .send({
+            username: 'l!b',
+            password: 'test',
+            isFbOauth: false
+          })
+          .then((res) => expect(res.text).toBe('"Invalid Username"'));
+      });
+    });
+
+    it("returns the message 'Incorrect Password' when password does not match", () => {
+      return request(app)
+        .post('/login')
+        .send({
+          username: 'test',
+          password: 'test',
+          isFbOauth: false
+        })
+        .then((res) => expect(res.text).toBe('"Incorrect Password"'));
     });
   });
 });
 
+<<<<<<< HEAD
 // import request from 'supertest';
 // import app from '../server/server';
 // import mockObj from '../mockData';
@@ -182,51 +249,10 @@ describe('User Authentication tests', () => {
 //   });
 // });
 
+=======
+>>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
 // describe('sessionIsCreated', () => {
-//   it("returns the message 'No Username Input' when no username is entered", () => {
-//     return request(app)
-//       .post('/login')
-//       .send({
-//         username: '',
-//         password: 'Reactype123!@#',
-//         isFbOauth: false
-//       })
-//       .then((res) => expect(res.text).toBe('"No Username Input"'));
-//   });
 
-//   it("returns the message 'No Password Input' when no password is entered", () => {
-//     return request(app)
-//       .post('/login')
-//       .send({
-//         username: 'reactype123',
-//         password: '',
-//         isFbOauth: false
-//       })
-//       .then((res) => expect(res.text).toBe('"No Password Input"'));
-//   });
-
-//   it("returns the message 'Invalid Username' when username does not exist", () => {
-//     return request(app)
-//       .post('/login')
-//       .send({
-//         username: 'l!b',
-//         password: 'test',
-//         isFbOauth: false
-//       })
-//       .then((res) => expect(res.text).toBe('"Invalid Username"'));
-//   });
-// });
-
-// it("returns the message 'Incorrect Password' when password does not match", () => {
-//   return request(app)
-//     .post('/login')
-//     .send({
-//       username: 'test',
-//       password: 'test',
-//       isFbOauth: false
-//     })
-//     .then((res) => expect(res.text).toBe('"Incorrect Password"'));
-// });
 // // note that the username and password in this test are kept in the heroku database
 // // DO NOT CHANGE unless you have access to the heroku database
 // it("returns the message 'Success' when the user passes all auth checks", () => {
@@ -241,7 +267,6 @@ describe('User Authentication tests', () => {
 // });
 
 // // // OAuth tests (currently inoperative)
-
 // // xdescribe('Github oauth tests', () => {
 // //   describe('/github/callback?code=', () => {
 // //     describe('GET', () => {

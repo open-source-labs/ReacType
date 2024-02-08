@@ -47,7 +47,7 @@ const BottomTabs = (props): JSX.Element => {
         zIndex: 1,
         borderTop: '2px solid grey'
       }}
-      onMouseOver={() => {
+      onClick={() => {
         props.setBottomShow(true);
       }}
     >

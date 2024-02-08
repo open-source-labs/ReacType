@@ -28,6 +28,7 @@ import {
   addPassedInProps,
   deletePassedInProps,
   deleteElement,
+  resetAllState,
   updateStylesheet
 } from '../../redux/reducers/slice/appStateSlice';
 import {
@@ -109,6 +110,15 @@ const RoomsContainer = () => {
         }
       );
 
+<<<<<<< HEAD
+=======
+      // dispatch clear canvas action to local state when the host of the room has clear canvas
+      socket.on('clear canvas from server', () => {
+        store.dispatch(resetAllState());
+      });
+
+      // dispatch all updates to local state when another user has saved from Bottom Panel
+>>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
       socket.on('update data from server', (updateData: BottomPanelObj) => {
         store.dispatch(
           updateStateUsed({
