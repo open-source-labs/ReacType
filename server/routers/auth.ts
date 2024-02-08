@@ -33,13 +33,13 @@ router.get(
     res.cookie('ssid', req.user.id, {
       httpOnly: true,
       sameSite: 'none',
-      secure: true,
+      secure: true
     });
 
     res.cookie('username', req.user.username, {
       httpOnly: true,
       sameSite: 'none',
-      secure: true,
+      secure: true
     });
     return res.redirect(API_BASE_URL);
   }
@@ -50,7 +50,6 @@ router.get(
   passport.authenticate('google', {
     scope: ['profile']
   })
-  
 );
 
 router.get(
@@ -62,15 +61,13 @@ router.get(
     res.cookie('ssid', req.user.id, {
       httpOnly: true,
       sameSite: 'none',
-      secure: true,
+      secure: true
     });
-
-
 
     res.cookie('username', req.user.username, {
       httpOnly: true,
       sameSite: 'none',
-      secure: true,
+      secure: true
     });
     return res.redirect(API_BASE_URL);
   }
