@@ -4,7 +4,8 @@ import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
 const Chatroom = (props): JSX.Element => {
-  const collaborationRoom = useSelector((store: RootState) => store.roomSlice);
+  const nickName = useSelector((store: RootState) => store.roomSlice.userName);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
   const newMessage = useSelector(
     (store: RootState) => store.roomSlice.newMessage
@@ -13,9 +14,6 @@ const Chatroom = (props): JSX.Element => {
   const userChange = useSelector(
     (store: RootState) => store.roomSlice.userChange
   );
-
-  const nickName = collaborationRoom.userName;
-  const roomCode = collaborationRoom.roomCode;
 
   const wrapperStyles = {
     border: `2px solid #f2fbf8`,
@@ -93,8 +91,8 @@ const Chatroom = (props): JSX.Element => {
     const messageElement = document.createElement('div');
     messageElement.innerText =
       userChange.status === 'JOIN'
-        ? `${userChange.nickName} joined the chatroom`
-        : `${userChange.nickName} left the chatroom`;
+        ? `${userChange.nickName} joined the chat room`
+        : `${userChange.nickName} left the chat room`;
     messageElement.style.color = 'yellow';
     messageContainer.append(messageElement);
   }, [userChange]);
@@ -106,10 +104,10 @@ const Chatroom = (props): JSX.Element => {
     >
       <div className="roomInfo" style={{ paddingLeft: '70px' }}>
         <p>Current room: {roomCode}</p>
-        <p>Your Nickname: {nickName}</p>
+        <p>Your nickname: {nickName}</p>
       </div>
       <div style={{ justifyContent: 'center', display: 'flex', height: '80%' }}>
-        <div id="message-container" style={{ ...wrapperStyles }}></div>
+        <div id="message-container" style={wrapperStyles}></div>
       </div>
       <form
         id="send-container"

@@ -31,7 +31,6 @@ const BottomTabs = (props): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const collaborationRoom = useSelector((store: RootState) => store.roomSlice);
-  // {roomCode: '', userName: '', userList: Array(0), userJoined: false}
 
   const [tab, setTab] = useState(0);
   const classes = useStyles();
@@ -60,7 +59,7 @@ const BottomTabs = (props): JSX.Element => {
         zIndex: 1,
         borderTop: '2px solid grey'
       }}
-      onMouseOver={() => {
+      onClick={() => {
         props.setBottomShow(true);
       }}
     >

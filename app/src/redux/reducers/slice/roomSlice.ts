@@ -4,9 +4,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   roomCode: '',
   userName: '',
-  newMessage: { nickName: '', message: '' },
   userList: [],
   userJoined: false,
+  newMessage: { nickName: '', message: '' },
   userChange: { nickName: '', status: '' }
 };
 
