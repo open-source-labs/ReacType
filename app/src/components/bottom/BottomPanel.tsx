@@ -15,16 +15,10 @@ const BottomPanel = (props): JSX.Element => {
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
-<<<<<<< HEAD
-    window.addEventListener('message', handleIframeMessage);
-  };
-  
-=======
     window.addEventListener('message', handleIframeMessage); //listens for messages from the iframe when the mouse is over it
   };
 
   //Interpret the messages from the iframe
->>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
   const handleIframeMessage = (e) => {
     if (e.data === 'iframeMouseUp') {
       mouseUpHandler();
