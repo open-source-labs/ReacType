@@ -8,6 +8,7 @@ import CustomizationPanel from '../../containers/CustomizationPanel';
 import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
 import StateManager from '../StateManagement/StateManagement';
+import Chatroom from './chatRoom';
 import Box from '@mui/material/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@mui/material/FormControl';
@@ -29,6 +30,8 @@ const BottomTabs = (props): JSX.Element => {
 
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const collaborationRoom = useSelector((store: RootState) => store.roomSlice);
+  // {roomCode: '', userName: '', userList: Array(0), userJoined: false}
 
   const [tab, setTab] = useState(0);
   const classes = useStyles();
@@ -57,7 +60,7 @@ const BottomTabs = (props): JSX.Element => {
         zIndex: 1,
         borderTop: '2px solid grey'
       }}
-      onClick={() => {
+      onMouseOver={() => {
         props.setBottomShow(true);
       }}
     >
@@ -105,6 +108,11 @@ const BottomTabs = (props): JSX.Element => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="State Manager"
           />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Live Chat"
+          />
         </Tabs>
         <div className={classes.projectTypeWrapper}>
           <FormControl size="small">
@@ -143,6 +151,23 @@ const BottomTabs = (props): JSX.Element => {
             isThemeLight={props.isThemeLight}
           />
         )}
+        {tab === 6 &&
+          (collaborationRoom.userJoined ? (
+            <Chatroom />
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%'
+              }}
+            >
+              <p style={{ color: 'white', fontSize: '18px' }}>
+                Please join a collaboration room to enable this function
+              </p>
+            </div>
+          ))}
       </div>
     </div>
   );
