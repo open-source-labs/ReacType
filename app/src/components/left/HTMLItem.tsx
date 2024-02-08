@@ -12,8 +12,9 @@ import { useDrag } from 'react-dnd';
 import { IconProps } from '@mui/material';
 import CodeIcon from '@mui/icons-material/Code';
 import * as Icons from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addChild } from '../../redux/reducers/slice/appStateSlice';
+import { emitEvent } from '../../helperFunctions/socket';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -42,6 +43,8 @@ const HTMLItem: React.FC<{
 }> = ({ name, id, icon, handleDelete }) => {
   //load mui icons base on string parameter
   const IconComponent = Icons[icon];
+
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode); // current roomCode
 
   const classes = useStyles();
 
@@ -123,7 +126,7 @@ const HTMLItem: React.FC<{
 
   const dispatch = useDispatch();
 
-  const handleClick = () => {
+  /* const handleClick = () => {
     console.log('Component clicked:', name);
     console.log('id', id);
     // Dispatch action to add child
@@ -137,6 +140,25 @@ const HTMLItem: React.FC<{
         }
       })
     );
+  };*/
+
+  const handleClick = () => {
+    console.log('Component clicked:', name);
+    console.log('id', id);
+    const childData = {
+      type: 'HTML Element',
+      typeId: id,
+      childId: null,
+      contextParam: {
+        allContext: []
+      }
+    };
+
+    dispatch(addChild(childData));
+    if (roomCode) {
+      // Emit 'addChildAction' event to the server
+      emitEvent('addChildAction', roomCode, childData);
+    }
   };
 
   // updated the id's to reflect the new element types input and label
