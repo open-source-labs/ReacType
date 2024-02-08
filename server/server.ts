@@ -132,7 +132,10 @@ io.on('connection', (client) => {
         //send the message to all clients in room but the sender
         io.to(roomCode).emit(
           'updateUserList',
-          Object.values(roomLists[roomCode]) // send updated userList to all users in room
+          {
+            userList: Object.values(roomLists[roomCode]),
+            activity: { nickName: userName, status: 'JOIN' }
+          } // send updated userList to all users in room
         );
       }
     } catch (error) {
@@ -153,16 +156,17 @@ io.on('connection', (client) => {
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
+    const nickName = roomLists[roomCode][client.id];
     delete roomLists[roomCode][client.id];
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
-      io.to(roomCode).emit(
-        'updateUserList',
-        Object.values(roomLists[roomCode])
-      );
+      io.to(roomCode).emit('updateUserList', {
+        userList: Object.values(roomLists[roomCode]),
+        activity: { nickName, status: 'LEAVE' }
+      });
     }
   });
 

@@ -41,7 +41,8 @@ import {
   setUserName,
   setUserJoined,
   setUserList,
-  setNewMessage
+  setNewMessage,
+  setUserChange
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
@@ -72,6 +73,10 @@ const RoomsContainer = () => {
   );
   const newMessage = useSelector(
     (store: RootState) => store.roomSlice.newMessage
+  );
+
+  const userChange = useSelector(
+    (store: RootState) => store.roomSlice.userChange
   );
 
   // for websockets - initialize socket connection passing in roomCode
@@ -105,9 +110,14 @@ const RoomsContainer = () => {
       });
 
       // update user list when there's a change: new join or leave the room
-      socket.on('updateUserList', (newUserList) => {
+      socket.on('updateUserList', (messageData) => {
         //console.log('user list received from server');
-        dispatch(setUserList(newUserList));
+        dispatch(setUserList(messageData.userList));
+        if (
+          JSON.stringify(messageData.activity) !== JSON.stringify(userChange)
+        ) {
+          dispatch(setUserChange(messageData.activity));
+        }
       });
 
       socket.on('new chat message', (messageData) => {

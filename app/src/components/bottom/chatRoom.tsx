@@ -10,6 +10,10 @@ const Chatroom = (props): JSX.Element => {
     (store: RootState) => store.roomSlice.newMessage
   );
 
+  const userChange = useSelector(
+    (store: RootState) => store.roomSlice.userChange
+  );
+
   const nickName = collaborationRoom.userName;
   const roomCode = collaborationRoom.roomCode;
 
@@ -83,6 +87,17 @@ const Chatroom = (props): JSX.Element => {
       messageContainer.append(messageElement);
     }
   }, [newMessage]);
+
+  useEffect(() => {
+    const messageContainer = document.getElementById('message-container');
+    const messageElement = document.createElement('div');
+    messageElement.innerText =
+      userChange.status === 'JOIN'
+        ? `${userChange.nickName} joined the chatroom`
+        : `${userChange.nickName} left the chatroom`;
+    messageElement.style.color = 'yellow';
+    messageContainer.append(messageElement);
+  }, [userChange]);
 
   return (
     <div

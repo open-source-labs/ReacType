@@ -6,7 +6,8 @@ const initialState = {
   userName: '',
   newMessage: { nickName: '', message: '' },
   userList: [],
-  userJoined: false
+  userJoined: false,
+  userChange: { nickName: '', status: '' }
 };
 
 // Creates new slice with the name , initial state, and reducer function
@@ -28,6 +29,9 @@ const roomSlice = createSlice({
     },
     setNewMessage: (state, action) => {
       state.newMessage = action.payload;
+    },
+    setUserChange: (state, action) => {
+      state.userChange = action.payload;
     }
   }
 });
@@ -38,7 +42,8 @@ export const {
   setUserName,
   setUserList,
   setUserJoined,
-  setNewMessage
+  setNewMessage,
+  setUserChange
 } = roomSlice.actions;
 // Exports so we can combine in rootReducer
 export default roomSlice.reducer;
