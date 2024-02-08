@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   roomCode: '',
   userName: '',
+  newMessage: { nickName: '', message: '' },
   userList: [],
   userJoined: false
 };
@@ -24,12 +25,20 @@ const roomSlice = createSlice({
     },
     setUserJoined: (state, action) => {
       state.userJoined = action.payload;
+    },
+    setNewMessage: (state, action) => {
+      state.newMessage = action.payload;
     }
   }
 });
 
 // Exports the action creator function to be used with useDispatch
-export const { setRoomCode, setUserName, setUserList, setUserJoined } =
-  roomSlice.actions;
+export const {
+  setRoomCode,
+  setUserName,
+  setUserList,
+  setUserJoined,
+  setNewMessage
+} = roomSlice.actions;
 // Exports so we can combine in rootReducer
 export default roomSlice.reducer;
