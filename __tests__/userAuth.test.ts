@@ -2,8 +2,7 @@
  * @jest-environment node
  */
 
-
-import marketplaceController from '../server/controllers/marketplaceController'; 
+import marketplaceController from '../server/controllers/marketplaceController';
 import app from '../server/server';
 import mockData from '../mockData';
 import { profileEnd } from 'console';
@@ -11,8 +10,8 @@ import { Sessions, Users } from '../server/models/reactypeModels';
 const request = require('supertest');
 const mongoose = require('mongoose');
 const mockNext = jest.fn(); // Mock nextFunction
-const MONGO_DB = process.env.MONGO_DB_TEST;
-const { state, projectToSave, user } = mockData
+const MONGO_DB = import.meta.env.MONGO_DB_TEST;
+const { state, projectToSave, user } = mockData;
 const PORT = 8080;
 
 const num = Math.floor(Math.random() * 1000);
@@ -20,15 +19,20 @@ const num = Math.floor(Math.random() * 1000);
 beforeAll(async () => {
   await mongoose.connect(MONGO_DB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   });
 });
 
 afterAll(async () => {
-
-  const result = await Users.deleteMany({_id: {$ne: '64f551e5b28d5292975e08c8'}});//clear the users collection after tests are done except for the mockdata user account
-  const result2 = await Sessions.deleteMany({cookieId: {$ne: '64f551e5b28d5292975e08c8'}});
-  console.log(`${result.deletedCount} and ${result2.deletedCount} documents deleted.`);
+  const result = await Users.deleteMany({
+    _id: { $ne: '64f551e5b28d5292975e08c8' }
+  }); //clear the users collection after tests are done except for the mockdata user account
+  const result2 = await Sessions.deleteMany({
+    cookieId: { $ne: '64f551e5b28d5292975e08c8' }
+  });
+  console.log(
+    `${result.deletedCount} and ${result2.deletedCount} documents deleted.`
+  );
   await mongoose.connection.close();
 });
 
@@ -40,7 +44,7 @@ describe('User Authentication tests', () => {
       expect(response.text).toBe('test request is working');
     });
   });
-  describe('/signup', ()=> {
+  describe('/signup', () => {
     describe('POST', () => {
       //testing new signup
       it('responds with status 200 and sessionId on valid new user signup', () => {
@@ -55,7 +59,7 @@ describe('User Authentication tests', () => {
           .expect(200)
           .then((res) => expect(res.body.sessionId).not.toBeNull());
       });
-  
+
       it('responds with status 400 and json string on invalid new user signup (Already taken)', () => {
         return request(app)
           .post('/signup')
@@ -68,7 +72,7 @@ describe('User Authentication tests', () => {
     });
   });
   describe('/login', () => {
-  // tests whether existing login information permits user to log in
+    // tests whether existing login information permits user to log in
     describe('POST', () => {
       it('responds with status 200 and json object on verified user login', () => {
         return request(app)
@@ -80,7 +84,7 @@ describe('User Authentication tests', () => {
           .then((res) => expect(res.body.sessionId).toEqual(user.userId));
       });
       // if invalid username/password, should respond with status 400
-     it('responds with status 400 and json string on invalid user login', () => {
+      it('responds with status 400 and json string on invalid user login', () => {
         return request(app)
           .post('/login')
           .send({ username: 'wrongusername', password: 'wrongpassword' })
@@ -90,17 +94,14 @@ describe('User Authentication tests', () => {
       });
     });
   });
-
 });
-
-
 
 // import request from 'supertest';
 // import app from '../server/server';
 // import mockObj from '../mockData';
 // const user = mockObj.user;
 // import mongoose from 'mongoose';
-// const URI = process.env.MONGO_DB;
+// const URI = import.meta.env.MONGO_DB;
 
 // beforeAll(() => {
 //   mongoose

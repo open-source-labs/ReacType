@@ -101,6 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         icon={<Settings sx={{ fontSize: '36px' }} />}
         value={4}
       />
+      
     </Tabs>
   );
 };

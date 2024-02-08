@@ -13,7 +13,8 @@ import MenuItem from '@mui/material/MenuItem';
 import ProjectsFolder from '../right/OpenProjects';
 import { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
-import config from '../../../../config';
+import serverConfig from '../../serverConfig.js';
+
 import createModal from '../right/createModal';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -22,7 +23,7 @@ import { setStyle } from '../../redux/reducers/slice/styleSlice';
 import store from '../../redux/store';
 import withStyles from '@mui/styles/withStyles';
 
-const { API_BASE_URL } = config;
+const { API_BASE_URL } = serverConfig;
 
 const useStyles = makeStyles((theme) =>
   createStyles({

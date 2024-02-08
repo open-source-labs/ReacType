@@ -1,5 +1,5 @@
 import { saveAs } from 'file-saver';
-const JSZip = require('jszip');
+import JSZip from'jszip';
 import { State } from '../interfaces/Interfaces';
 
 //function to create a zip file for export in web app

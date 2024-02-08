@@ -182,7 +182,7 @@ export const createPackage = (path, appName, test) => {
 };
 export const createWebpack = (path, appName) => {
   const filePath = `${path}/${appName}/webpack.config.js`;
-  const data = `var status = process.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
+  const data = `var status = import.meta.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
 var path = require('path');
 module.exports = {
   entry: './src/index.tsx',

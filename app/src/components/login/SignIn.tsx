@@ -24,13 +24,15 @@ import { LoginInt } from '../../interfaces/Interfaces';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import config from '../../../../config.js';
+import serverConfig from "../../serverConfig.js";
+
+// const config = require('../../../../config.js');
 import makeStyles from '@mui/styles/makeStyles';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
 import { sessionIsCreated } from '../../helperFunctions/auth';
 
-const { API_BASE_URL } = config;
+const { API_BASE_URL } = serverConfig;
 
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}

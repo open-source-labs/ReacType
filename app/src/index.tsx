@@ -27,8 +27,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const isDev = process.env.NODE_ENV === 'development';
-const { DEV_PORT, API_BASE_URL } = require('../../config.js');
+const isDev = import.meta.env.NODE_ENV === 'development';
+import serverConfig from './serverConfig.js';
+
+const { DEV_PORT, API_BASE_URL } = serverConfig;
 let serverURL = API_BASE_URL;
 
 if (isDev) {

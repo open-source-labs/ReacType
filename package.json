@@ -82,9 +82,12 @@
     "Nam Ha"
   ],
   "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
     "postinstall": "set ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
-    "dev": "concurrently -k \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development nodemon server/server.ts --open\"",
+    "dev": "cross-env NODE_ENV=development nodemon server/server.ts --open",
     "electron-dev": "cross-env NODE_ENV=development electron .",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron . --no-sandbox",
@@ -96,7 +99,7 @@
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "NODE_ENV=test jest --verbose --coverage",
     "server": "cross-env NODE_ENV=development nodemon server/server.ts",
-    "start": "ts-node server/server.ts",
+    "start-server": "ts-node server/server.ts",
     "ts-coverage": "typescript-coverage-report"
   },
   "repository": {
@@ -187,7 +190,8 @@
     "typescript-coverage-report": "^0.7.0",
     "uniqid": "^5.4.0",
     "use-debounce": "^8.0.4",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vite-plugin-env-compatible": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.6",
@@ -208,6 +212,8 @@
     "@types/jest": "^28.1.8",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react-refresh": "^1.3.6",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "apollo": "^2.34.0",
     "axios": "^1.6.2",
@@ -250,6 +256,8 @@
     "ts-jest": "^28.0.8",
     "typescript": "^4.9.5",
     "url-loader": "^4.1.1",
+    "vite": "^5.1.0",
+    "vite-plugin-svgr": "^4.2.0",
     "webpack": "^5.89.0",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.1.4",

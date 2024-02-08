@@ -1,10 +1,9 @@
 import { io } from 'socket.io-client';
-import config from '../../../config';
-
+// import config from '../../../config.js';
 let socket = null;
 
 export const initializeSocket = () => {
-  socket = io(config.API_BASE_URL, {
+  socket = io('http://localhost:5656', {
     transports: ['websocket'],
     // will force new socket connection if re-joining to prevent double emits
     forceNew: true

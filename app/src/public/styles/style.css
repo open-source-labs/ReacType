@@ -1,14 +1,14 @@
+/* @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0');
+@import url('https: //fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap'); */
+
 *,
 *::before,
 *::after {
   box-sizing: inherit;
 }
-
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0');
-@import url('https: //fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 
 html {
   box-sizing: border-box;
@@ -398,7 +398,7 @@ h1 {
 }
 
 #export-modal:hover {
-  background-color: #66c4eb;                  
+  background-color: #66c4eb;
   cursor: pointer;
 }
 /*                                                        ///CHANGED COLOR COLOR */
@@ -532,12 +532,12 @@ BOTTOM PANEL
 }
 
 .tab-content::-webkit-scrollbar {
-  width: .8rem;
-  height: .5rem;
-  }
-  
+  width: 0.8rem;
+  height: 0.5rem;
+}
+
 .tab-content::-webkit-scrollbar-thumb {
-  transition: .3s ease all;
+  transition: 0.3s ease all;
   border-color: transparent;
   background-color: #1e83714b;
   border-radius: 8px;
@@ -545,12 +545,12 @@ BOTTOM PANEL
 }
 
 .tab-content::-webkit-scrollbar {
-  width: .8rem;
-  height: .5rem;
-  }
-  
+  width: 0.8rem;
+  height: 0.5rem;
+}
+
 .tab-content::-webkit-scrollbar-thumb {
-  transition: .3s ease all;
+  transition: 0.3s ease all;
   border-color: transparent;
   background-color: #99d7f2;
   border-radius: 8px;
