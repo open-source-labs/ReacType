@@ -1,19 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
 const Chatroom = (props): JSX.Element => {
-  const nickName = useSelector((store: RootState) => store.roomSlice.userName);
+  const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
-  const newMessage = useSelector(
-    (store: RootState) => store.roomSlice.newMessage
-  );
-
-  const userChange = useSelector(
-    (store: RootState) => store.roomSlice.userChange
-  );
+  const messages = useSelector((store: RootState) => store.roomSlice.messages);
 
   const wrapperStyles = {
     border: `2px solid #f2fbf8`,
@@ -60,44 +54,39 @@ const Chatroom = (props): JSX.Element => {
     ) as HTMLInputElement;
     const message = messageInput.value.trim();
     if (message !== '') {
-      emitEvent('send-chat-message', roomCode, { message, nickName });
+      emitEvent('send-chat-message', roomCode, { userName, message });
       messageInput.value = '';
     }
   };
 
-  const handleMessageStyle = (messageNickName: string) => {
-    return {
-      color: messageNickName === nickName ? '#66C4EB' : 'white'
-    };
+  const handleMessageContainerStyle = (message: object) => {
+    if (message['type'] === 'activity') {
+      return { color: 'yellow' };
+    } else {
+      if (message['userName'] === userName) return { color: '#66C4EB' };
+      return { color: 'white' };
+    }
   };
 
-  useEffect(() => {
-    if (newMessage.nickName !== '' && newMessage.message !== '') {
-      const messageContainer = document.getElementById('message-container');
-      const messageElement = document.createElement('div');
-      messageElement.innerText =
-        nickName === newMessage.nickName
-          ? `You: ${newMessage.message}`
-          : `${newMessage.nickName}: ${newMessage.message}`;
-      messageElement.style.color = handleMessageStyle(
-        newMessage.nickName
-      ).color;
-      messageContainer.append(messageElement);
-    }
-  }, [newMessage]);
-
-  useEffect(() => {
-    if (userChange.nickName !== '' && userChange.status !== '') {
-      const messageContainer = document.getElementById('message-container');
-      const messageElement = document.createElement('div');
-      messageElement.innerText =
-        userChange.status === 'JOIN'
-          ? `${userChange.nickName} joined the chat room`
-          : `${userChange.nickName} left the chat room`;
-      messageElement.style.color = 'yellow';
-      messageContainer.append(messageElement);
-    }
-  }, [userChange]);
+  const renderMessages = () => {
+    return messages.map((message, index) => {
+      if (message.type === 'activity') {
+        return (
+          <div key={index} style={handleMessageContainerStyle(message)}>
+            {message.message}
+          </div>
+        );
+      } else if (message.type === 'chat') {
+        return (
+          <div key={index} style={handleMessageContainerStyle(message)}>
+            {message.userName === userName ? 'You' : message.userName}:{' '}
+            {message.message}
+          </div>
+        );
+      }
+      return null;
+    });
+  };
 
   return (
     <div
@@ -106,10 +95,12 @@ const Chatroom = (props): JSX.Element => {
     >
       <div className="roomInfo" style={{ paddingLeft: '70px' }}>
         <p>Current room: {roomCode}</p>
-        <p>Your nickname: {nickName}</p>
+        <p>Your nickname: {userName}</p>
       </div>
       <div style={{ justifyContent: 'center', display: 'flex', height: '80%' }}>
-        <div id="message-container" style={wrapperStyles}></div>
+        <div id="message-container" style={wrapperStyles}>
+          {renderMessages()}
+        </div>
       </div>
       <form
         id="send-container"

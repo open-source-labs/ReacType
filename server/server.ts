@@ -137,6 +137,11 @@ io.on('connection', (client) => {
             activity: { nickName: userName, status: 'JOIN' }
           } // send updated userList to all users in room
         );
+        io.to(roomCode).emit('new chat message', {
+          userName,
+          message: `${userName} joined chat room`,
+          type: 'activity'
+        });
       }
     } catch (error) {
       //if joining event is having an error and time out
@@ -156,7 +161,7 @@ io.on('connection', (client) => {
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
-    const nickName = roomLists[roomCode][client.id];
+    const userName = roomLists[roomCode][client.id];
     delete roomLists[roomCode][client.id];
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
@@ -164,8 +169,12 @@ io.on('connection', (client) => {
     } else {
       //else emit updated user list
       io.to(roomCode).emit('updateUserList', {
-        userList: Object.values(roomLists[roomCode]),
-        activity: { nickName, status: 'LEAVE' }
+        userList: Object.values(roomLists[roomCode])
+      });
+      io.to(roomCode).emit('new chat message', {
+        userName,
+        message: `${userName} left chat room`,
+        type: 'activity'
       });
     }
   });
@@ -173,7 +182,10 @@ io.on('connection', (client) => {
   //-------Socket events for state synchronization in collab room------------------
   client.on('send-chat-message', (roomCode: string, messageData: object) => {
     if (roomCode) {
-      io.to(roomCode).emit('new chat message', messageData);
+      io.to(roomCode).emit('new chat message', {
+        ...messageData,
+        type: 'chat'
+      });
     }
   });
   client.on('addChildAction', (roomCode: string, childData: object) => {
