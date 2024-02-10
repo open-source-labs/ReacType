@@ -126,25 +126,7 @@ const HTMLItem: React.FC<{
 
   const dispatch = useDispatch();
 
-  /* const handleClick = () => {
-    console.log('Component clicked:', name);
-    console.log('id', id);
-    // Dispatch action to add child
-    dispatch(
-      addChild({
-        type: 'HTML Element',
-        typeId: id,
-        childId: null,
-        contextParam: {
-          allContext: []
-        }
-      })
-    );
-  };*/
-
   const handleClick = () => {
-    console.log('Component clicked:', name);
-    console.log('id', id);
     const childData = {
       type: 'HTML Element',
       typeId: id,
