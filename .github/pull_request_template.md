@@ -1,5 +1,7 @@
 # Description
 
+Please describe the issue of the pull request and the changes
+
 <!-- Please include the following information:
 - A summary of the changes and the related issue.
 - Relevant motivation and context.
@@ -26,6 +28,7 @@ Please also list any relevant details for your test configuration
 # Checklist:
 
 - [ ] My code follows the style guidelines of this project
+- [ ] Changes included in this pull request covers minimal topic
 - [ ] I have performed a self-review of my code
 - [ ] I have commented my code properly, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
