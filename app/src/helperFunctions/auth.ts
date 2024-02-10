@@ -67,7 +67,7 @@ export const newUserIsCreated = (
         window.localStorage.setItem('email', email);
         return 'Success';
       }
-      return data;
+      return data;// response is either Email Taken or Username Taken, refer to userController.createUser
     })
     .catch((err) => 'Error');
   return result;

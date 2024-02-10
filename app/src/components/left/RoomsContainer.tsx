@@ -280,7 +280,7 @@ const RoomsContainer = () => {
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
-    dispatch(setUserJoined(false));
+    dispatch(setUserJoined(false)); //false: join room UI appear
     dispatch(resetState(''));
     dispatch(setPassword(''));
   };
