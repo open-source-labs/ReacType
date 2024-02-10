@@ -8,7 +8,7 @@ import CustomizationPanel from '../../containers/CustomizationPanel';
 import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
 import StateManager from '../StateManagement/StateManagement';
-import Chatroom from './chatRoom';
+import Chatroom from './ChatRoom';
 import Box from '@mui/material/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@mui/material/FormControl';
