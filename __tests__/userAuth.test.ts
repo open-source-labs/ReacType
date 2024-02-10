@@ -2,24 +2,15 @@
  * @jest-environment node
  */
 
-<<<<<<< HEAD
-import marketplaceController from '../server/controllers/marketplaceController';
-=======
->>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
 import app from '../server/server';
 import mockData from '../mockData';
 import { Sessions, Users } from '../server/models/reactypeModels';
 const request = require('supertest');
 const mongoose = require('mongoose');
-<<<<<<< HEAD
 const mockNext = jest.fn(); // Mock nextFunction
 const MONGO_DB = import.meta.env.MONGO_DB_TEST;
 const { state, projectToSave, user } = mockData;
 const PORT = 8080;
-=======
-const MONGO_DB = process.env.MONGO_DB_TEST;
-const { user } = mockData;
->>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
 
 const num = Math.floor(Math.random() * 1000);
 
@@ -51,10 +42,6 @@ describe('User Authentication tests', () => {
       expect(response.text).toBe('test request is working');
     });
   });
-<<<<<<< HEAD
-=======
-
->>>>>>> d96f85e661980df9abf2838c313aebd3698e2464
   describe('/signup', () => {
     describe('POST', () => {
       //testing new signup

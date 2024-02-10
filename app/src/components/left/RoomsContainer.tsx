@@ -132,6 +132,11 @@ const RoomsContainer = () => {
       // dispatch all updates to local state when another user has saved from Bottom Panel
       socket.on('update data from server', (updateData: BottomPanelObj) => {
         // console.log('update data received from server', updateData);
+
+        socket.on('clear canvas from server', () => {
+          store.dispatch(resetAllState());
+        });
+
         store.dispatch(
           updateStateUsed({
             stateUsedObj: updateData.stateUsedObj,
