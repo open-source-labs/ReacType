@@ -30,7 +30,8 @@ import MenuBuilder from './menu';
 
 // mode that the app is running in
 const isDev =
-  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+  import.meta.env.NODE_ENV === 'development' ||
+  import.meta.env.NODE_ENV === 'test';
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
 
@@ -388,8 +389,8 @@ ipcMain.on('github', (event) => {
     ? `http://localhost:${DEV_PORT}/auth/github`
     : `https://reactype-caret.herokuapp.com/auth/github`;
   const options = {
-    client_id: process.env.GITHUB_ID,
-    client_secret: process.env.GITHUB_SECRET,
+    client_id: import.meta.env.GITHUB_ID,
+    client_secret: import.meta.env.GITHUB_SECRET,
     scopes: ['user:email', 'notifications']
   };
   // create new browser window object with size, title, security options

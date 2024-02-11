@@ -1,14 +1,13 @@
-// With redux toolkit you can combine all the actions, action types, and reducers into one 'slice'
 import { createSlice } from '@reduxjs/toolkit';
-// Sets initial state to false
+
 const initialState = {
   roomCode: '',
   userName: '',
   userList: [],
-  userJoined: false
+  userJoined: false,
+  password: ''
 };
 
-// Creates new slice with the name , initial state, and reducer function
 const roomSlice = createSlice({
   name: 'room',
   initialState,
@@ -24,12 +23,19 @@ const roomSlice = createSlice({
     },
     setUserJoined: (state, action) => {
       state.userJoined = action.payload;
+    },
+    setPassword: (state, action) => {
+      state.password = action.payload;
     }
   }
 });
 
-// Exports the action creator function to be used with useDispatch
-export const { setRoomCode, setUserName, setUserList, setUserJoined } =
-  roomSlice.actions;
-// Exports so we can combine in rootReducer
+export const {
+  setRoomCode,
+  setUserName,
+  setUserList,
+  setUserJoined,
+  setPassword
+} = roomSlice.actions;
+
 export default roomSlice.reducer;

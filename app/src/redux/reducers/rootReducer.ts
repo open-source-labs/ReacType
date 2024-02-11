@@ -8,7 +8,6 @@ import styleReducer from './slice/styleSlice';
 import roomReducer from './slice/roomSlice';
 
 const rootReducer = combineReducers({
-  // Add desired slices here
   codePreviewSlice: codePreviewReducer,
   contextSlice: contextReducer,
   appState: appStateReducer,

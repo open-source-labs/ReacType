@@ -7,8 +7,10 @@ import mockData from '../mockData';
 import { Sessions, Users } from '../server/models/reactypeModels';
 const request = require('supertest');
 const mongoose = require('mongoose');
-const MONGO_DB = process.env.MONGO_DB_TEST;
+const mockNext = jest.fn(); // Mock nextFunction
+const MONGO_DB = import.meta.env.MONGO_DB_TEST;
 const { user } = mockData;
+const PORT = 8080;
 
 const num = Math.floor(Math.random() * 1000);
 
@@ -40,7 +42,6 @@ describe('User Authentication tests', () => {
       expect(response.text).toBe('test request is working');
     });
   });
-
   describe('/signup', () => {
     describe('POST', () => {
       //testing new signup
@@ -147,39 +148,3 @@ describe('User Authentication tests', () => {
     });
   });
 });
-
-// describe('sessionIsCreated', () => {
-
-// // note that the username and password in this test are kept in the heroku database
-// // DO NOT CHANGE unless you have access to the heroku database
-// it("returns the message 'Success' when the user passes all auth checks", () => {
-//   return request(app)
-//     .post('/login')
-//     .send({
-//       username: 'test',
-//       password: 'password1!',
-//       isFbOauth: false
-//     })
-//     .then((res) => expect(res.body).toHaveProperty('sessionId'));
-// });
-
-// // // OAuth tests (currently inoperative)
-// // xdescribe('Github oauth tests', () => {
-// //   describe('/github/callback?code=', () => {
-// //     describe('GET', () => {
-// //       it('responds with status 400 and error message if no code received', () => {
-// //         return request(server)
-// //           .get('/github/callback?code=')
-// //           .expect(400)
-// //           .then((res) => {
-// //             return expect(res.text).toEqual(
-// //               '"Undefined or no code received from github.com"'
-// //             );
-// //           });
-// //       });
-// //       it('responds with status 400 if invalid code received', () => {
-// //         return request(server).get('/github/callback?code=123456').expect(400);
-// //       });
-// //     });
-// //   });
-// // });

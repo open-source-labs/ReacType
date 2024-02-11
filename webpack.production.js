@@ -7,7 +7,7 @@ const nonce = require('./app/src/utils/createNonce.ts')();
 
 // merges webpack.config.js with production specific configs
 module.exports = merge(base, {
-  // sets process.env.NODE_ENV to 'production'
+  // sets import.meta.env.NODE_ENV to 'production'
   mode: 'production',
   plugins: [
     // miniCssExtractPlugin is included here because it's used as a loader in wepack.config.js
