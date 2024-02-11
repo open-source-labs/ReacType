@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Canvas from './Canvas';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -38,10 +38,17 @@ function CanvasContainer(props): JSX.Element {
     border: '2px solid #46C0A5'
   } as const;
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [state.components]);
+
   return (
-    <div style={canvasContainerStyle}>
+    <div style={canvasContainerStyle} ref={containerRef}>
       {state.codePreview && <CodePreview theme={theme} setTheme={setTheme} />}
-      {!state.codePreview && <Canvas isThemeLight={props.isThemeLight} />}
+      {!state.codePreview && <Canvas /*isThemeLight={props.isThemeLight} */ />}
 
       <Button style={codePreviewStyle} onClick={onClickCodePreview}>
         Code Preview

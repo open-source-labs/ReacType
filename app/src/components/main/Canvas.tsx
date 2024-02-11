@@ -315,7 +315,7 @@ const Canvas = (props: {}): JSX.Element => {
 
   // zoom out
   const zoomOut = () => {
-    setZoom(zoom - 0.1);
+    setZoom(Math.max(zoom - 0.1, 0.1));
   };
 
   const zoomedChildren: React.CSSProperties = {
@@ -324,72 +324,78 @@ const Canvas = (props: {}): JSX.Element => {
   };
 
   return (
-    <div
-      className={'componentContainer'}
-      ref={drop}
-      data-testid="drop"
-      style={canvasStyle}
-      onClick={onClickHandler}
-      onMouseMove={handleMouseMove}
-    >
+    <div>
       <div
         style={{
+          position: 'relative',
+          bottom: 0,
+          left: 0,
           display: 'flex',
-          flexDirection: 'column',
-          marginLeft: 'auto'
+
+          marginRight: 'auto'
         }}
       >
         <button onClick={zoomIn}>+</button>
         <button onClick={zoomOut}>-</button>
       </div>
-      <div style={zoomedChildren}>
-        {renderChildren(currentComponent.children)}
-      </div>
+      <div
+        className={'componentContainer'}
+        ref={drop}
+        data-testid="drop"
+        style={canvasStyle}
+        onClick={onClickHandler}
+        onMouseMove={handleMouseMove}
+      >
+        <div style={zoomedChildren}>
+          {renderChildren(currentComponent.children)}
+        </div>
 
-      {remoteCursors.map(
-        (cursor, idx) =>
-          cursor.isVisible && (
-            <div
-              key={idx}
-              className="remote-cursor"
+        {remoteCursors.map(
+          (cursor, idx) =>
+            cursor.isVisible && (
+              <div
+                key={idx}
+                className="remote-cursor"
+                style={{
+                  position: 'absolute',
+                  left: cursor.x + 'px',
+                  top: cursor.y - 68 + 'px',
+                  //cursor style
+                  fontSize: '1em',
+                  color: userColors[userList.indexOf(cursor.remoteUserName)]
+                }}
+              >
+                {<FaMousePointer />}
+                {cursor.remoteUserName}
+              </div>
+            )
+        )}
+
+        <label className="switch">
+          {userList.length > 1 && (
+            <button
+              className="btn-toggle"
+              onClick={multipleClicks}
               style={{
-                position: 'absolute',
-                left: cursor.x + 'px',
-                top: cursor.y - 68 + 'px',
-                //cursor style
-                fontSize: '1em',
-                color: userColors[userList.indexOf(cursor.remoteUserName)]
+                position: 'fixed',
+                width: 'max-content',
+                height: 'max-content',
+                bottom: '100px',
+                left: '51vw',
+                textAlign: 'center',
+                color: '#FFFFFF',
+                backgroundColor: '#151515',
+                zIndex: 0,
+                padding: '5px',
+                borderColor: '#46C0A5',
+                borderRadius: '5px'
               }}
             >
-              {<FaMousePointer />}
-              {cursor.remoteUserName}
-            </div>
-          )
-      )}
-      <label className="switch">
-        {userList.length > 1 && (
-          <button
-            className="btn-toggle"
-            onClick={multipleClicks}
-            style={{
-              position: 'fixed',
-              width: 'max-content',
-              height: 'max-content',
-              bottom: '100px',
-              left: '51vw',
-              textAlign: 'center',
-              color: '#FFFFFF',
-              backgroundColor: '#151515',
-              zIndex: 0,
-              padding: '5px',
-              borderColor: '#46C0A5',
-              borderRadius: '5px'
-            }}
-          >
-            {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
-          </button>
-        )}
-      </label>
+              {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
+            </button>
+          )}
+        </label>
+      </div>
     </div>
   );
 };
