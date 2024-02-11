@@ -94,10 +94,6 @@ const Chatroom = (props): JSX.Element => {
       className="livechat-panel"
       style={{ paddingLeft: '10px', width: '100%', height: '100%' }}
     >
-      <div className="roomInfo" style={{ paddingLeft: '70px' }}>
-        <p>Current room: {roomCode}</p>
-        <p>Your nickname: {userName}</p>
-      </div>
       <div style={{ justifyContent: 'center', display: 'flex', height: '80%' }}>
         <div id="message-container" style={wrapperStyles}>
           {renderMessages()}
