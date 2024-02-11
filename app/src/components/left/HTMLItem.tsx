@@ -12,6 +12,9 @@ import { useDrag } from 'react-dnd';
 import { IconProps } from '@mui/material';
 import CodeIcon from '@mui/icons-material/Code';
 import * as Icons from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { addChild } from '../../redux/reducers/slice/appStateSlice';
+import { emitEvent } from '../../helperFunctions/socket';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -40,6 +43,8 @@ const HTMLItem: React.FC<{
 }> = ({ name, id, icon, handleDelete }) => {
   //load mui icons base on string parameter
   const IconComponent = Icons[icon];
+
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode); // current roomCode
 
   const classes = useStyles();
 
@@ -118,6 +123,26 @@ const HTMLItem: React.FC<{
       })
     );
   };
+
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    const childData = {
+      type: 'HTML Element',
+      typeId: id,
+      childId: null,
+      contextParam: {
+        allContext: []
+      }
+    };
+
+    dispatch(addChild(childData));
+    if (roomCode) {
+      // Emit 'addChildAction' event to the server
+      emitEvent('addChildAction', roomCode, childData);
+    }
+  };
+
   // updated the id's to reflect the new element types input and label
   return (
     // HTML Elements
@@ -128,6 +153,9 @@ const HTMLItem: React.FC<{
           style={{ borderColor: '#C6C6C6' }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
+          onClick={() => {
+            handleClick();
+          }}
         >
           {typeof IconComponent !== 'undefined' && (
             <IconComponent fontSize="small" align-items="center" />
@@ -143,17 +171,21 @@ const HTMLItem: React.FC<{
           style={{ borderColor: '#C6C6C6' }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
+          onClick={() => {
+            handleClick();
+          }}
         >
           {typeof CodeIcon !== 'undefined' && (
-          <CodeIcon fontSize="small" align-items="center" />)}
+            <CodeIcon fontSize="small" align-items="center" />
+          )}
           {name}
-            <button
+          <button
             id="newElement"
             style={{ color: '#C6C6C6' }}
             onClick={() => deleteAllInstances(id)}
-            >
-              X
-            </button>
+          >
+            X
+          </button>
         </div>
       )}
       {modal}
