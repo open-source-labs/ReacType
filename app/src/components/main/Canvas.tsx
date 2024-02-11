@@ -306,6 +306,23 @@ const Canvas = (props: {}): JSX.Element => {
     '#9267FF'
   ];
 
+  const [zoom, setZoom] = useState(1);
+
+  // zoom in
+  const zoomIn = () => {
+    setZoom(zoom + 0.1);
+  };
+
+  // zoom out
+  const zoomOut = () => {
+    setZoom(zoom - 0.1);
+  };
+
+  const zoomedChildren: React.CSSProperties = {
+    transform: `scale(${zoom})`,
+    transformOrigin: 'top left'
+  };
+
   return (
     <div
       className={'componentContainer'}
@@ -315,7 +332,19 @@ const Canvas = (props: {}): JSX.Element => {
       onClick={onClickHandler}
       onMouseMove={handleMouseMove}
     >
-      {renderChildren(currentComponent.children)}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginLeft: 'auto'
+        }}
+      >
+        <button onClick={zoomIn}>+</button>
+        <button onClick={zoomOut}>-</button>
+      </div>
+      <div style={zoomedChildren}>
+        {renderChildren(currentComponent.children)}
+      </div>
 
       {remoteCursors.map(
         (cursor, idx) =>
@@ -363,6 +392,6 @@ const Canvas = (props: {}): JSX.Element => {
       </label>
     </div>
   );
-}
+};
 
 export default Canvas;
