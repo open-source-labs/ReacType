@@ -30,8 +30,21 @@ function CanvasContainer(props): JSX.Element {
     position: 'fixed',
     width: 'max-content',
     height: 'max-content',
+    bottom: '150px',
+    right: '45vw',
+    textAlign: 'center',
+    color: '#ffffff',
+    backgroundColor: '#151515',
+    zIndex: 0,
+    border: '2px solid #46C0A5'
+  } as const;
+
+  const backToTop: React.CSSProperties = {
+    position: 'fixed',
+    width: 'max-content',
+    height: 'max-content',
     bottom: '100px',
-    right: '51vw',
+    right: '45vw',
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#151515',
@@ -44,11 +57,13 @@ function CanvasContainer(props): JSX.Element {
 
   //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom. Once elements surpass the view of the canvas, scroll to bottom, else, keep scroll bar to the top.
   useEffect(() => {
+    const allElements = document.querySelector('.allElements');
     const container = containerRef.current;
     if (
       container &&
-      container.scrollHeight > container.clientHeight &&
-      state.components[0].children.length > 24
+      allElements &&
+      allElements.clientHeight > container.clientHeight &&
+      state.components[0].children.length > 0
     ) {
       container.scrollTop = container.scrollHeight;
     } else if (container) {
@@ -63,6 +78,14 @@ function CanvasContainer(props): JSX.Element {
 
       <Button style={codePreviewStyle} onClick={onClickCodePreview}>
         Code Preview
+      </Button>
+      <Button
+        style={backToTop}
+        onClick={() => {
+          containerRef.current.scrollTop = 0;
+        }}
+      >
+        Back to Top
       </Button>
     </div>
   );
