@@ -16,6 +16,9 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
 import { FaMousePointer } from 'react-icons/fa';
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
+import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
 const Canvas = (props: {}): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
@@ -320,10 +323,25 @@ const Canvas = (props: {}): JSX.Element => {
 
   const zoomedChildren: React.CSSProperties = {
     transform: `scale(${zoom})`,
-    transformOrigin: 'top left'
+    transformOrigin: 'top center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   };
 
-  
+  const buttonStyle: React.CSSProperties = {
+    // position: 'fixed',
+    // width: '10px',
+    // height: '10px',
+    // bottom: '150px',
+    // right: '45vw',
+    textAlign: 'center',
+    color: '#ffffff',
+    backgroundColor: '#151515',
+    zIndex: 0,
+    border: '2px solid #46C0A5',
+    margin: '8px 0 0 8px'
+  };
 
   return (
     <div>
@@ -337,12 +355,12 @@ const Canvas = (props: {}): JSX.Element => {
           marginRight: 'auto'
         }}
       >
-        <button style={{ width: '30px', height: '30px' }} onClick={zoomIn}>
-          +
-        </button>
-        <button style={{ width: '30px', height: '30px' }} onClick={zoomOut}>
-          -
-        </button>
+        <Button style={buttonStyle} onClick={zoomIn}>
+          <ZoomIn />
+        </Button>
+        <Button style={buttonStyle} onClick={zoomOut}>
+          <ZoomOut />
+        </Button>
       </div>
       <div
         className={'componentContainer'}
@@ -352,7 +370,7 @@ const Canvas = (props: {}): JSX.Element => {
         onClick={onClickHandler}
         onMouseMove={handleMouseMove}
       >
-        <div className = "allElements" style={zoomedChildren}>
+        <div className="allElements" style={zoomedChildren}>
           {renderChildren(currentComponent.children)}
         </div>
         {remoteCursors.map(
