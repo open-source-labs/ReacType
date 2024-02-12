@@ -121,7 +121,7 @@ const navbarDropDown = (props) => {
           button
           onClick={resetState}
           style={{
-            border: '1px solid #1b544b',
+            border: '1px solid #3c59ba',
             marginBottom: '2%',
             marginTop: '5%'
           }}

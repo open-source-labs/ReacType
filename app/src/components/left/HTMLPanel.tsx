@@ -343,7 +343,7 @@ const useStyles = makeStyles({
     transition: '0.3s',
     borderRadius: '4px',
     alignSelf: 'center',
-    border: '1px solid #46C0A5'
+    border: '1px solid #354e9c'
   },
   lightThemeFontColor: {
     color: 'white',

@@ -126,7 +126,7 @@ const AddContextForm = ({
           <Select
             required
             sx={{ width: 425 }}
-            style={{ border: '1px solid #29a38a', color: color }}
+            style={{ border: '1px solid #354e9c', color: color }}
             value={currentContext}
             label="Select Context"
             MenuProps={{ disablePortal: true }}

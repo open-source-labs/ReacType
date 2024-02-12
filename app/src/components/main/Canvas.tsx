@@ -339,7 +339,7 @@ const Canvas = (props: {}): JSX.Element => {
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #46C0A5',
+    border: '2px solid #354e9c',
     margin: '8px 0 0 8px'
   };
 
@@ -409,7 +409,7 @@ const Canvas = (props: {}): JSX.Element => {
                 backgroundColor: '#151515',
                 zIndex: 0,
                 padding: '5px',
-                borderColor: '#46C0A5',
+                borderColor: '#354e9c',
                 borderRadius: '5px'
               }}
             >

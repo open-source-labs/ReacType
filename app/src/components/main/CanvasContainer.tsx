@@ -36,7 +36,7 @@ function CanvasContainer(props): JSX.Element {
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #46C0A5'
+    border: '2px solid #354e9c'
   } as const;
 
   const backToTop: React.CSSProperties = {
@@ -49,7 +49,7 @@ function CanvasContainer(props): JSX.Element {
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #46C0A5'
+    border: '2px solid #354e9c'
   } as const;
 
   //containerRef references the container that will ultimately have the scroll functionality
