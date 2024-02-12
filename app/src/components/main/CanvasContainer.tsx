@@ -43,7 +43,7 @@ function CanvasContainer(props): JSX.Element {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [state.components]);
+  }, [state.components[0].children.length]);
 
   return (
     <div style={canvasContainerStyle} ref={containerRef}>
