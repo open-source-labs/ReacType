@@ -133,8 +133,7 @@ io.on('connection', (client) => {
         io.to(roomCode).emit(
           'updateUserList',
           {
-            userList: Object.values(roomLists[roomCode]),
-            activity: { nickName: userName, status: 'JOIN' }
+            userList: Object.values(roomLists[roomCode])
           } // send updated userList to all users in room
         );
         io.to(roomCode).emit('new chat message', {
