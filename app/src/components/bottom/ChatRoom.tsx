@@ -3,13 +3,53 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
+import {
+  MeetingProvider,
+  MeetingConsumer,
+  Constants,
+  useMeeting,
+  useParticipant
+} from '@videosdk.live/react-sdk';
 
 const Chatroom = (props): JSX.Element => {
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const messages = useSelector((store: RootState) => store.roomSlice.messages);
+  const [meetingId, setMeetingId] = useState(null);
 
   const [inputContent, setInputContent] = useState('');
+  const token = 'token';
+
+  const createMeeting = async ({ token }: { token: string }) => {
+    const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
+      method: 'POST',
+      headers: {
+        authorization: `${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ customRoomId: 'aaa-bbb-ccc' })
+    });
+    //Destructuring the roomId from the response
+    console.log('res: ', await res.json());
+    const { roomId }: { roomId: string } = await res.json();
+    console.log('Here room id: ', roomId);
+
+    return roomId;
+  };
+  createMeeting({ token });
+  const getMeetingAndToken = async (id?: string) => {
+    const meetingId = id == null ? await createMeeting({ token }) : id;
+    console.log('Checking meeting id: ', meetingId);
+    setMeetingId(meetingId);
+  };
+
+  function JoinScreen({
+    getMeetingAndToken
+  }: {
+    getMeetingAndToken: (meeting?: string) => void;
+  }) {
+    return null;
+  }
 
   const wrapperStyles = {
     border: `2px solid #f2fbf8`,
@@ -89,6 +129,28 @@ const Chatroom = (props): JSX.Element => {
     });
   };
 
+  // const getMeetingId = async (token) => {
+  //   try {
+  //     const VIDEOSDK_API_ENDPOINT = `${LOCAL_SERVER_URL}/create-meeting`;
+  //     const options = {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ token })
+  //     };
+  //     const response = await fetch(VIDEOSDK_API_ENDPOINT, options)
+  //       .then(async (result) => {
+  //         const { meetingId } = await result.json();
+  //         return meetingId;
+  //       })
+  //       .catch((error) => console.log('error', error));
+  //     return response;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
   return (
     <div
       className="livechat-panel"
@@ -99,6 +161,24 @@ const Chatroom = (props): JSX.Element => {
           {renderMessages()}
         </div>
       </div>
+      {/* {token && meetingId ? (
+        <MeetingProvider
+          config={{
+            meetingId,
+            micEnabled: true,
+            webcamEnabled: true,
+            name: 'C.V. Raman',
+            multiStream: false
+          }}
+          token={token}
+          reinitialiseMeetingOnConfigChange={true}
+          joinWithoutUserInteraction={true}
+        >
+          <h1>{meetingId}</h1>
+        </MeetingProvider>
+      ) : (
+        <JoinScreen getMeetingAndToken={getMeetingAndToken} />
+      )} */}
       <form
         id="send-container"
         style={inputContainerStyles}

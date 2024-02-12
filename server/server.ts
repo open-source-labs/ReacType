@@ -106,10 +106,30 @@ io.on('connection', (client) => {
     try {
       //if no room exists, add room to list
       if (!roomLists[roomCode]) {
+        const createMeeting = async () => {
+          const VITE_VIDEOSDK_TOKEN = 'token';
+
+          const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
+            method: 'POST',
+            headers: {
+              // authorization: `${import.meta.env.VITE_VIDEOSDK_TOKEN}`,
+              authorization: VITE_VIDEOSDK_TOKEN,
+              'Content-Type': 'application/json'
+            },
+            // body: JSON.stringify({ customRoomId: roomCode })
+            body: JSON.stringify({ customRoomId: 'aaabbb' })
+          });
+          //   //Destructuring the roomId from the response
+          const { roomId }: { roomId: string } = await res.json();
+          return roomId;
+        };
         roomLists[roomCode] = {};
+        roomLists[roomCode].userList = {};
+        roomLists[roomCode].meetingId = await createMeeting();
       }
-      roomLists[roomCode][client.id] = userName; // adding user into the room list with id: userName on server side
-      const userList = Object.keys(roomLists[roomCode]); //userList for roomCode
+
+      roomLists[roomCode]['userList'][client.id] = userName; // adding user into the room list with id: userName on server side
+      const userList = Object.keys(roomLists[roomCode]['userList']); //userList for roomCode
       const hostID = userList[0]; // host is always assigned to user at index zero
       const newClientID = userList[userList.length - 1]; // new client id is always the last index in userList
 
@@ -118,6 +138,7 @@ io.on('connection', (client) => {
         .timeout(5000)
         .to(hostID) // sends only to host
         .emitWithAck('requesting state from host'); //sending request
+      console.log('Checking hostState: ', hostState);
 
       //share host's state with the latest user
       const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
@@ -131,11 +152,11 @@ io.on('connection', (client) => {
         // console.log('a user joined the room');
         //send the message to all clients in room but the sender
         io.to(roomCode).emit(
-          'updateUserList',
+          'update room info',
           {
-            userList: Object.values(roomLists[roomCode]),
-            activity: { nickName: userName, status: 'JOIN' }
-          } // send updated userList to all users in room
+            userList: Object.values(roomLists[roomCode]['userList']),
+            meetingId: roomLists[roomCode].meetingId
+          } // send updated room info to all users in the chat room
         );
         io.to(roomCode).emit('new chat message', {
           userName,
@@ -161,15 +182,15 @@ io.on('connection', (client) => {
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
-    const userName = roomLists[roomCode][client.id];
-    delete roomLists[roomCode][client.id];
+    const userName = roomLists[roomCode]['userList'][client.id];
+    delete roomLists[roomCode]['userList'][client.id];
     //if room empty, delete room from room list
-    if (!Object.keys(roomLists[roomCode]).length) {
+    if (!Object.keys(roomLists[roomCode]['userList']).length) {
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
       io.to(roomCode).emit('updateUserList', {
-        userList: Object.values(roomLists[roomCode])
+        userList: Object.values(roomLists[roomCode]['userList'])
       });
       io.to(roomCode).emit('new chat message', {
         userName,
@@ -215,10 +236,10 @@ io.on('connection', (client) => {
   client.on('clearCanvasAction', async (roomCode: string, userName: string) => {
     if (roomCode) {
       // server send clear canvas to everyone in the room if action is from the host
-      if (userName === Object.values(roomLists[roomCode])[0]) {
+      if (userName === Object.values(roomLists[roomCode]['userList'])[0]) {
         io.to(roomCode).emit(
           'clear canvas from server',
-          Object.values(roomLists[roomCode])
+          Object.values(roomLists[roomCode]['userList'])
         );
       }
     }

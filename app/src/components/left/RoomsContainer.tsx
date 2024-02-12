@@ -40,6 +40,7 @@ import {
   setUserName,
   setUserJoined,
   setUserList,
+  setMeetingId,
   setMessages,
   setPassword
 } from '../../redux/reducers/slice/roomSlice';
@@ -99,9 +100,10 @@ const RoomsContainer = () => {
       });
 
       // update user list when there's a change: new join or leave the room
-      socket.on('updateUserList', (messageData) => {
+      socket.on('update room info', (messageData) => {
         //console.log('user list received from server');
         dispatch(setUserList(messageData.userList));
+        dispatch(setMeetingId(messageData.meetingId));
       });
 
       socket.on('new chat message', (messageData) => {

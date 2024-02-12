@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   roomCode: '',
+  meetingId: '',
   userName: '',
   userList: [],
   userJoined: false,
@@ -15,6 +16,9 @@ const roomSlice = createSlice({
   reducers: {
     setRoomCode: (state, action) => {
       state.roomCode = action.payload;
+    },
+    setMeetingId: (state, action) => {
+      state.meetingId = action.payload;
     },
     setUserName: (state, action) => {
       state.userName = action.payload;
@@ -37,6 +41,7 @@ const roomSlice = createSlice({
 // Exports the action creator function to be used with useDispatch
 export const {
   setRoomCode,
+  setMeetingId,
   setUserName,
   setUserList,
   setUserJoined,
