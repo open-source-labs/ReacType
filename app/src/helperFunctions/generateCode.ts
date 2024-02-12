@@ -270,7 +270,11 @@ const generateUnformattedCode = (
         activeLink = '"' + childElement.attributes.compLink + '"';
       }
     }
+
     const nestable =
+      childElement.tag === 'h1' ||
+      childElement.tag === 'h2' ||
+      childElement.tag === 'p' ||
       childElement.tag === 'div' ||
       childElement.tag === 'form' ||
       childElement.tag === 'ol' ||

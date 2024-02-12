@@ -1,3 +1,4 @@
+import { TroubleshootSharp } from '@mui/icons-material';
 import { HTMLType } from '../interfaces/Interfaces';
 
 //properties for all HTML components
@@ -47,7 +48,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'TextFormat',
     framework: 'reactClassic',
-    nestable: false
+    nestable: true
   },
   {
     id: 4,
@@ -58,7 +59,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'TextFormat',
     framework: 'reactClassic',
-    nestable: false
+    nestable: TroubleshootSharp
   },
   {
     id: 6,
@@ -69,7 +70,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'ShortTextOutlined',
     framework: 'reactClassic',
-    nestable: false
+    nestable: true
   },
   {
     id: 8,
@@ -80,7 +81,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'NotesOutlined',
     framework: 'reactClassic',
-    nestable: false
+    nestable: true
   },
   {
     id: 9,
@@ -102,7 +103,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'EditOutlined',
     framework: 'reactClassic',
-    nestable: false
+    nestable: true
   },
   {
     id: 5,
