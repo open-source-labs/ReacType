@@ -278,6 +278,7 @@ const generateUnformattedCode = (
     const nestable =
       childElement.tag === 'h1' ||
       childElement.tag === 'h2' ||
+      childElement.tag === 'span' ||
       childElement.tag === 'button' ||
       childElement.tag === 'p' ||
       childElement.tag === 'div' ||
