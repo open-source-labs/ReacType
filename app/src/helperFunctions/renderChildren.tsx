@@ -30,7 +30,13 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           key={'DirChildComp' + childId.toString() + name}
-          name={name} style={undefined} attributes={undefined} events={undefined} stateProps={[]} passedInProps={[]}        />
+          name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
+        />
       );
     }
     // child is a non-nestable type of HTML element (aka NOT divs, forms, OrderedLists, UnorderedLists, menus)
@@ -41,6 +47,7 @@ const renderChildren = (children: ChildElement[]) => {
       typeId !== 2 &&
       typeId !== 3 &&
       typeId !== 4 &&
+      typeId !== 5 &&
       typeId !== 6 &&
       typeId !== 8 &&
       typeId !== 9 &&
@@ -58,7 +65,13 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           key={'DirChildHTML' + childId.toString() + name}
-          name={name} style={undefined} attributes={undefined} events={undefined} stateProps={[]} passedInProps={[]}        />
+          name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
+        />
       );
     }
     // child is a nestable type of HTML element (divs, forms, OrderedLists, UnorderedLists, menus)
@@ -68,6 +81,7 @@ const renderChildren = (children: ChildElement[]) => {
         typeId === 2 ||
         typeId === 3 ||
         typeId === 4 ||
+        typeId === 5 ||
         typeId === 6 ||
         typeId === 8 ||
         typeId === 9 ||
@@ -96,7 +110,12 @@ const renderChildren = (children: ChildElement[]) => {
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={name}
-          attributes={attributes} style={undefined} events={undefined} stateProps={[]} passedInProps={[]}        />
+          attributes={attributes}
+          style={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
+        />
       );
     } else if (type === 'HTML Element' && typeId === 1000) {
       return (
@@ -105,11 +124,19 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           children={children}
-          key={'SeparatorChild' +
+          key={
+            'SeparatorChild' +
             childId.toString() +
             name +
-            (Math.random() * 1000).toString()}
-          name={name} style={undefined} attributes={undefined} events={undefined} stateProps={[]} passedInProps={[]}        />
+            (Math.random() * 1000).toString()
+          }
+          name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
+        />
       );
     }
     // A route link is a next.js or gatsby.js navigation link
@@ -122,7 +149,13 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           children={children}
           key={'RouteLink' + childId.toString() + name}
-          name={name} style={undefined} attributes={undefined} events={undefined} stateProps={[]} passedInProps={[]}        />
+          name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
+        />
       );
     }
   });

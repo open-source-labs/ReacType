@@ -59,7 +59,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'TextFormat',
     framework: 'reactClassic',
-    nestable: TroubleshootSharp
+    nestable: true
   },
   {
     id: 6,
@@ -114,7 +114,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'EditAttributes',
     framework: 'reactClassic',
-    nestable: false
+    nestable: true
   },
 
   {
