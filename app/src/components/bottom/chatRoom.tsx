@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -6,8 +7,9 @@ import { emitEvent } from '../../helperFunctions/socket';
 const Chatroom = (props): JSX.Element => {
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-
   const messages = useSelector((store: RootState) => store.roomSlice.messages);
+
+  const [inputContent, setInputContent] = useState('');
 
   const wrapperStyles = {
     border: `2px solid #f2fbf8`,
@@ -49,13 +51,12 @@ const Chatroom = (props): JSX.Element => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const messageInput = document.getElementById(
-      'message-input'
-    ) as HTMLInputElement;
-    const message = messageInput.value.trim();
-    if (message !== '') {
-      emitEvent('send-chat-message', roomCode, { userName, message });
-      messageInput.value = '';
+    if (inputContent !== '') {
+      emitEvent('send-chat-message', roomCode, {
+        userName,
+        message: inputContent
+      });
+      setInputContent('');
     }
   };
 
@@ -93,10 +94,6 @@ const Chatroom = (props): JSX.Element => {
       className="livechat-panel"
       style={{ paddingLeft: '10px', width: '100%', height: '100%' }}
     >
-      <div className="roomInfo" style={{ paddingLeft: '70px' }}>
-        <p>Current room: {roomCode}</p>
-        <p>Your nickname: {userName}</p>
-      </div>
       <div style={{ justifyContent: 'center', display: 'flex', height: '80%' }}>
         <div id="message-container" style={wrapperStyles}>
           {renderMessages()}
@@ -107,7 +104,13 @@ const Chatroom = (props): JSX.Element => {
         style={inputContainerStyles}
         onSubmit={handleSubmit}
       >
-        <input type="text" id="message-input" style={inputStyles} />
+        <input
+          type="text"
+          id="message-input"
+          onChange={(e) => setInputContent(e.target.value)}
+          value={inputContent}
+          style={inputStyles}
+        />
         <button type="submit" id="send-button" style={buttonStyles}>
           Send
         </button>
