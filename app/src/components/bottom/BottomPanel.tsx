@@ -13,7 +13,6 @@ const BottomPanel = (props): JSX.Element => {
     const styles = window.getComputedStyle(node.current);
     h = parseInt(styles.height, 10);
 
-    //Start listeners when the user clicks the bottom panel tab
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
     window.addEventListener('message', handleIframeMessage); //listens for messages from the iframe when the mouse is over it
@@ -29,11 +28,9 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseMoveHandler = function (e: MouseEvent): void {
-    // How far the mouse has been moved
 
     const dy = y - e.clientY;
 
-    // Adjust the dimension of element
     const newVal = h + dy;
     const styles = window.getComputedStyle(node.current);
     const min = parseInt(styles.minHeight, 10);
@@ -41,7 +38,6 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseUpHandler = function () {
-    // Remove the handlers of `mousemove` and `mouseup`
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
     window.removeEventListener('message', handleIframeMessage);

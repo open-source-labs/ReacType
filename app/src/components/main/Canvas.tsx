@@ -17,14 +17,12 @@ import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
 import { FaMousePointer } from 'react-icons/fa';
 
-function Canvas(props: {}): JSX.Element {
+const Canvas = (props: {}): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const userList = useSelector((store: RootState) => store.roomSlice.userList);
-
-  //-------cursors tracking-------
 
   //remote cursor data
   const [remoteCursors, setRemoteCursors] = useState([]);
@@ -89,10 +87,6 @@ function Canvas(props: {}): JSX.Element {
     });
   };
 
-  // console.log('userList:', userList);
-  //[{x,y,remoteUserName, isVisible}, {...}, {...}];
-  // console.log('remoteCursors:', remoteCursors);
-
   // Removes the mouse cursor of the user that leaves the collaboration room.
   const handleCursorDeleteFromServer = () => {
     setRemoteCursors((prevRemoteCursors) =>
@@ -108,7 +102,6 @@ function Canvas(props: {}): JSX.Element {
     setToggleSwitch(!toggleSwitch);
     //checks the state before it's updated so need to check the opposite condition
     if (toggleSwitch) {
-      //turn off
       socket.off('remote cursor data from server');
       //make remote cursor invisible
       setRemoteCursors((prevState) => {
@@ -119,7 +112,6 @@ function Canvas(props: {}): JSX.Element {
         return newState;
       });
     } else {
-      //turn on
       socket.on('remote cursor data from server', (remoteData) =>
         handleCursorDataFromServer(remoteData)
       );
@@ -142,37 +134,25 @@ function Canvas(props: {}): JSX.Element {
   const socket = getSocket();
   //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
   useEffect(() => {
-    // console.log(
-    //   'socket inside useEffect:',
-    //   socket ? 'connected' : 'not connected'
-    // );
-
     if (socket) {
-      // console.log('------setting up socket.on event listener-------');
       socket.on('remote cursor data from server', (remoteData) =>
         handleCursorDataFromServer(remoteData)
       );
     }
 
     return () => {
-      // console.log('clean up cursor event listener after canvas unmount');
       if (socket) socket.off('remote cursor data from server');
     };
   }, [socket]);
 
   useEffect(() => {
     handleCursorDeleteFromServer();
-    // console.log('handle delete has been called');
   }, [userList]);
-
-  //-----------------
 
   // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-  // console.log(' state.components:', state.components);
-  // console.log('canvasFocus.componentId: ', state.canvasFocus.componentId);
 
   Arrow.deleteLines();
 
@@ -242,10 +222,6 @@ function Canvas(props: {}): JSX.Element {
             childId: null,
             contextParam: contextParam
           });
-
-          // console.log(
-          //   `emit addChildAction event is triggered in canvas from ${socket.id}`
-          // );
         }
       } else if (item.newInstance && item.instanceType === 'Component') {
         let hasDiffParent = false;
@@ -293,8 +269,6 @@ function Canvas(props: {}): JSX.Element {
             childId: null,
             contextParam: contextParam
           });
-
-          // console.log('emit addChildAction event is triggered in canvas');
         }
       }
     },

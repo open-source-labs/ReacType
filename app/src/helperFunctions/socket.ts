@@ -1,17 +1,15 @@
 import { io } from 'socket.io-client';
-import config from '../../../config';
-
+// import config from '../../../config.js';
+import serverConfig from '../serverConfig';
+const { API_BASE_URL } = serverConfig;
 let socket = null;
 
 export const initializeSocket = () => {
-  socket = io(config.API_BASE_URL, {
+  socket = io(API_BASE_URL, {
     transports: ['websocket'],
     // will force new socket connection if re-joining to prevent double emits
     forceNew: true
   });
-  // console.log('A user connected');
-  // console.log('socket:', socket);
-  // }
 };
 
 // export socket to ensure a single socket instance across the entire app

@@ -70,7 +70,7 @@ const CodePreview: React.FC<{
       minify: true,
       plugins: [unpkgPathPlugin(), fetchPlugin(data)],
       define: {
-        'process.env.NODE_ENV': '"production"',
+        'import.meta.env.NODE_ENV': '"production"',
         global: 'window'
       }
     });

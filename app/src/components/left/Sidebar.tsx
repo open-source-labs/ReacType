@@ -1,8 +1,7 @@
 import { Tab, Tabs } from '@mui/material';
 
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import { AddBox, Groups2, AccountBox, Settings } from '@mui/icons-material';
 import { IoMdCube } from 'react-icons/io';
-import PeopleIcon from '@mui/icons-material/People';
 import React from 'react';
 
 interface SidebarProps {
@@ -20,15 +19,14 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(newValue);
-    toggleVisibility(true); // Show the left-container when a different tab is clicked
-    oldValue = newValue; //setting the oldvalue to match the new tab
+    toggleVisibility(true);
+    oldValue = newValue;
   };
 
   const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
     if (activeTab === oldValue) {
-      //if the person is clicking the same tab, oldValue should match activeTab since it did not trigger an onChange
       setActiveTab(null);
-      toggleVisibility(false); // Hide the left-container when the same tab is clicked again
+      toggleVisibility(false);
     }
   };
 
@@ -60,30 +58,48 @@ const Sidebar: React.FC<SidebarProps> = ({
       <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />
       <Tab
         sx={{
-          color: activeTab === 0 ? '#a5ead6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#a5ead6' },
-          '&:hover': { color: '#d2f5eb' }
+          color: activeTab === 0 ? '#c7c5c5' : '#4A4A4A',
+          '&.Mui-selected': { color: '#c7c5c5' },
+          '&:hover': { color: '#e9e9e9' }
         }}
-        icon={<AddBoxIcon sx={{ fontSize: '36px' }} />}
+        icon={<AddBox sx={{ fontSize: '36px' }} />}
         value={0}
       />
       <Tab
         sx={{
-          color: activeTab === 1 ? '#a5ead6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#a5ead6' },
-          '&:hover': { color: '#d2f5eb' }
+          color: activeTab === 1 ? '#c7c5c5' : '#4A4A4A',
+          '&.Mui-selected': { color: '#c7c5c5' },
+          '&:hover': { color: '#e9e9e9' }
         }}
         icon={<IoMdCube style={{ fontSize: '33px' }} />}
         value={1}
       />
       <Tab
         sx={{
-          color: activeTab === 2 ? '#a5ead6' : '#4A4A4A',
-          '&.Mui-selected': { color: '#a5ead6' },
-          '&:hover': { color: '#d2f5eb' }
+          color: activeTab === 2 ? '#c7c5c5' : '#4A4A4A',
+          '&.Mui-selected': { color: '#c7c5c5' },
+          '&:hover': { color: '#e9e9e9' }
         }}
-        icon={<PeopleIcon sx={{ fontSize: '36px' }} />}
+        icon={<Groups2 sx={{ fontSize: '36px' }} />}
         value={2}
+      />
+      <Tab
+        sx={{
+          color: activeTab === 3 ? '#c7c5c5' : '#4A4A4A',
+          '&.Mui-selected': { color: '#c7c5c5' },
+          '&:hover': { color: '#e9e9e9' }
+        }}
+        icon={<AccountBox sx={{ fontSize: '36px' }} />}
+        value={3}
+      />
+      <Tab
+        sx={{
+          color: activeTab === 4 ? '#c7c5c5' : '#4A4A4A',
+          '&.Mui-selected': { color: '#c7c5c5' },
+          '&:hover': { color: '#e9e9e9' }
+        }}
+        icon={<Settings sx={{ fontSize: '36px' }} />}
+        value={4}
       />
     </Tabs>
   );

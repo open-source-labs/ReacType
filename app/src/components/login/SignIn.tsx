@@ -24,16 +24,17 @@ import { LoginInt } from '../../interfaces/Interfaces';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import config from '../../../../config.js';
+import serverConfig from "../../serverConfig.js";
+
+// const config = require('../../../../config.js');
 import makeStyles from '@mui/styles/makeStyles';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
 import { sessionIsCreated } from '../../helperFunctions/auth';
 
-const { API_BASE_URL } = config;
+const { API_BASE_URL } = serverConfig;
 
 declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
 
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#3EC1AC'
   },
   form: {
-    width: '100%' // Fix IE 11 issue.
+    width: '100%'
   },
   submit: {
     cursor: 'pointer'
@@ -84,12 +85,10 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
     const githubCookie = setInterval(() => {
       window.api?.setCookie();
       window.api?.getCookie((cookie) => {
-        // if a cookie exists, set localstorage item with cookie data, clear interval, go back to '/' route to load app
         if (cookie[0]) {
           window.localStorage.setItem('ssid', cookie[0].value);
           clearInterval(githubCookie);
           props.history.push('/');
-          // if an item is already set in localstorage (guest option or normal login) clear interval needs to be run or else this will constantly run
         } else if (window.localStorage.getItem('ssid')) {
           clearInterval(githubCookie);
         }
@@ -104,6 +103,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
       case 'username':
         setUsername(inputVal);
         break;
+
       case 'password':
         setPassword(inputVal);
         break;
@@ -125,14 +125,17 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
             setInvalidUser(true);
             setInvalidUserMsg(loginStatus);
             break;
+
           case 'No Password Input':
             setInvalidPass(true);
             setInvalidPassMsg(loginStatus);
             break;
+
           case 'Invalid Username':
             setInvalidUser(true);
             setInvalidUserMsg(loginStatus);
             break;
+
           case 'Incorrect Password':
             setInvalidPass(true);
             setInvalidPassMsg(loginStatus);
@@ -156,12 +159,10 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
     };
   }, []);
 
-  // for users not wanting to make an account and use as guest
   const handleLoginGuest = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    // generate "cookie" in localStorage for guest users
     window.localStorage.setItem('ssid', 'guest');
     props.history.push('/');
   };
@@ -170,30 +171,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    // window.api.github();
-    // 8080 for container 5656 for dev
     window.location.assign(`${API_BASE_URL}/auth/github`);
   };
-
-  // const responseFacebook = (response) => {
-  //   if (response.accessToken) {
-  //     newUserIsCreated(response.email, response.email, randomPassword()).then(
-  //       (userCreated) => {
-  //         if (userCreated === 'Success') {
-  //           props.history.push('/');
-  //         } else {
-  //           sessionIsCreated(response.email, randomPassword(), true).then(
-  //             (loginStatus) => {
-  //               if (loginStatus === 'Success') {
-  //                 props.history.push('/');
-  //               }
-  //             }
-  //           );
-  //         }
-  //       }
-  //     );
-  //   }
-  // };
 
   const classBtn =
     'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';

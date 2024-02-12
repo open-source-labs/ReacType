@@ -47,7 +47,7 @@ var MenuBuilder = function (mainWindow, appName) {
         devTools: false
       }
     });
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.NODE_ENV === 'development') {
       tutorial.loadURL(`http://localhost:8080/#/tutorial`);
     } else {
       tutorial.loadURL(`${Protocol.scheme}://rse/index-prod.html#/tutorial`);

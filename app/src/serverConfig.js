@@ -1,5 +1,5 @@
 const isProduction = process.env.NODE_ENV === 'production';
-const config = {
+const serverConfig = {
   DEV_PORT: 5656,
   API_BASE_URL: isProduction
     ? 'https://app.reactype.dev'
@@ -9,6 +9,6 @@ const config = {
     ? 'https://app.reactype.dev'
     : 'http://localhost:8080'
 };
-module.exports = config;
+// module.exports = config;
 
-// export default config;
+export default serverConfig;
