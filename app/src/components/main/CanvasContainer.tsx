@@ -19,6 +19,7 @@ function CanvasContainer(props): JSX.Element {
 
   const canvasContainerStyle: React.CSSProperties = {
     width: '100%',
+    height: '100%',
     backgroundColor: 'rgba(25, 25, 25)',
     border: '2px solid grey',
     borderBottom: 'none',
@@ -38,10 +39,16 @@ function CanvasContainer(props): JSX.Element {
     border: '2px solid #46C0A5'
   } as const;
 
+  //containerRef references the container that will ultimately have the scroll functionality
   const containerRef = useRef<HTMLDivElement>(null);
+
+  //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    const container = containerRef.current;
+    if (container && container.scrollHeight > container.clientHeight) {
+      container.scrollTop = container.scrollHeight;
+    } else if (container) {
+      container.scrollTop = 0;
     }
   }, [state.components[0].children.length]);
 
