@@ -323,6 +323,8 @@ const Canvas = (props: {}): JSX.Element => {
     transformOrigin: 'top left'
   };
 
+  
+
   return (
     <div>
       <div
@@ -335,8 +337,12 @@ const Canvas = (props: {}): JSX.Element => {
           marginRight: 'auto'
         }}
       >
-        <button onClick={zoomIn}>+</button>
-        <button onClick={zoomOut}>-</button>
+        <button style={{ width: '30px', height: '30px' }} onClick={zoomIn}>
+          +
+        </button>
+        <button style={{ width: '30px', height: '30px' }} onClick={zoomOut}>
+          -
+        </button>
       </div>
       <div
         className={'componentContainer'}
@@ -346,10 +352,9 @@ const Canvas = (props: {}): JSX.Element => {
         onClick={onClickHandler}
         onMouseMove={handleMouseMove}
       >
-        <div style={zoomedChildren}>
+        <div className = "allElements" style={zoomedChildren}>
           {renderChildren(currentComponent.children)}
         </div>
-
         {remoteCursors.map(
           (cursor, idx) =>
             cursor.isVisible && (
@@ -370,7 +375,6 @@ const Canvas = (props: {}): JSX.Element => {
               </div>
             )
         )}
-
         <label className="switch">
           {userList.length > 1 && (
             <button
