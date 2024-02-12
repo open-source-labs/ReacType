@@ -550,7 +550,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   {configTarget.name}
                 </span>
                 <p style={{ fontSize: '16px' }}>
-                  Drag and drop an html element (or focus one) to see what
+                  Drag or click an html element to the canvas to see what
                   happens!
                 </p>
               </h4>
