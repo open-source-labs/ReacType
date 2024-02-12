@@ -37,7 +37,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'Link',
     framework: 'reactClassic',
-    nestable: false
+    nestable: true
   },
   {
     id: 2,
@@ -103,7 +103,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'EditOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: false
   },
   {
     id: 5,
@@ -137,7 +137,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'MoreOutlined',
     framework: 'reactClassic',
-    nestable: false
+    nestable: true
   },
   {
     id: 14,

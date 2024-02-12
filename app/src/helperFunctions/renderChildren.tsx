@@ -44,6 +44,7 @@ const renderChildren = (children: ChildElement[]) => {
       type === 'HTML Element' &&
       typeId !== 11 &&
       typeId !== 1000 &&
+      typeId !== 1 &&
       typeId !== 2 &&
       typeId !== 3 &&
       typeId !== 4 &&
@@ -78,6 +79,7 @@ const renderChildren = (children: ChildElement[]) => {
     else if (
       type === 'HTML Element' &&
       (typeId === 11 ||
+        typeId === 1 ||
         typeId === 2 ||
         typeId === 3 ||
         typeId === 4 ||

@@ -78,6 +78,8 @@ const generateUnformattedCode = (
         if (
           referencedHTML.tag === 'h1' ||
           referencedHTML.tag === 'h2' ||
+          referencedHTML.tag === 'a' ||
+          referencedHTML.tag === 'p' ||
           referencedHTML.tag === 'button' ||
           referencedHTML.tag === 'span' ||
           referencedHTML.tag === 'div' ||
@@ -89,8 +91,7 @@ const generateUnformattedCode = (
           referencedHTML.tag === 'li' ||
           referencedHTML.tag === 'Link' ||
           referencedHTML.tag === 'Switch' ||
-          referencedHTML.tag === 'Route' ||
-          referencedHTML.tag === 'Image'
+          referencedHTML.tag === 'Route'
         ) {
           child.children = getEnrichedChildren(child);
         }
@@ -278,6 +279,7 @@ const generateUnformattedCode = (
     const nestable =
       childElement.tag === 'h1' ||
       childElement.tag === 'h2' ||
+      childElement.tag === 'a' ||
       childElement.tag === 'span' ||
       childElement.tag === 'button' ||
       childElement.tag === 'p' ||
