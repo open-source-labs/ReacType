@@ -42,7 +42,7 @@ function CanvasContainer(props): JSX.Element {
   //containerRef references the container that will ultimately have the scroll functionality
   const containerRef = useRef<HTMLDivElement>(null);
 
-  //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom
+  //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom. Once elements surpass the view of the canvas, scroll to bottom, else, keep scroll bar to the top.
   useEffect(() => {
     const container = containerRef.current;
     if (container && container.scrollHeight > container.clientHeight) {
