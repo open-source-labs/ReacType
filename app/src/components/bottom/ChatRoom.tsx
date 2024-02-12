@@ -108,22 +108,24 @@ const Chatroom = (props): JSX.Element => {
           {renderMessages()}
         </div>
       </div>
-      <form
-        id="send-container"
-        style={inputContainerStyles}
-        onSubmit={handleSubmit}
-      >
-        <input
-          type="text"
-          id="message-input"
-          onChange={(e) => setInputContent(e.target.value)}
-          value={inputContent}
-          style={inputStyles}
-        />
-        <button type="submit" id="send-button" style={buttonStyles}>
-          Send
-        </button>
-      </form>
+      <div className="chatroom-input">
+        <form
+          id="send-container"
+          style={inputContainerStyles}
+          onSubmit={handleSubmit}
+        >
+          <input
+            type="text"
+            id="message-input"
+            onChange={(e) => setInputContent(e.target.value)}
+            value={inputContent}
+            style={inputStyles}
+          />
+          <button type="submit" id="send-button" style={buttonStyles}>
+            Send
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
