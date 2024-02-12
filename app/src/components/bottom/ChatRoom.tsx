@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -89,13 +89,22 @@ const Chatroom = (props): JSX.Element => {
     });
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to the bottom of the container whenever new messages are added
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div
       className="livechat-panel"
       style={{ paddingLeft: '10px', width: '100%', height: '100%' }}
     >
       <div style={{ justifyContent: 'center', display: 'flex', height: '80%' }}>
-        <div id="message-container" style={wrapperStyles}>
+        <div id="message-container" style={wrapperStyles} ref={containerRef}>
           {renderMessages()}
         </div>
       </div>
