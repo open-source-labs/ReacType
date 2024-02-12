@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
+import { setMeetingId } from '../../redux/reducers/slice/roomSlice';
 import {
   MeetingProvider,
   MeetingConsumer,
@@ -15,9 +16,12 @@ const Chatroom = (props): JSX.Element => {
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const messages = useSelector((store: RootState) => store.roomSlice.messages);
-  const [meetingId, setMeetingId] = useState(null);
+  const meetingId = useSelector(
+    (store: RootState) => store.roomSlice.meetingId
+  );
 
   const [inputContent, setInputContent] = useState('');
+  const [joinMeeting, setJoinMeeting] = useState(false);
   const token = 'token';
 
   const createMeeting = async ({ token }: { token: string }) => {
@@ -30,7 +34,6 @@ const Chatroom = (props): JSX.Element => {
       body: JSON.stringify({ customRoomId: 'aaa-bbb-ccc' })
     });
     //Destructuring the roomId from the response
-    console.log('res: ', await res.json());
     const { roomId }: { roomId: string } = await res.json();
     console.log('Here room id: ', roomId);
 
@@ -157,10 +160,16 @@ const Chatroom = (props): JSX.Element => {
       style={{ paddingLeft: '10px', width: '100%', height: '100%' }}
     >
       <div style={{ justifyContent: 'center', display: 'flex', height: '80%' }}>
+        {token && meetingId && joinMeeting ? (
+          <h1>Start meeting</h1>
+        ) : (
+          <button>Create Meeting</button>
+        )}
         <div id="message-container" style={wrapperStyles}>
           {renderMessages()}
         </div>
       </div>
+
       {/* {token && meetingId ? (
         <MeetingProvider
           config={{
