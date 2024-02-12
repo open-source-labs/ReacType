@@ -330,11 +330,6 @@ const Canvas = (props: {}): JSX.Element => {
   };
 
   const buttonStyle: React.CSSProperties = {
-    // position: 'fixed',
-    // width: '10px',
-    // height: '10px',
-    // bottom: '150px',
-    // right: '45vw',
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#151515',
