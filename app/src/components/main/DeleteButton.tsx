@@ -5,7 +5,7 @@ import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
-function DeleteButton({ id, name }: DeleteButtons) {
+function DeleteButton({ id, name, onClickHandler }: DeleteButtons) {
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -33,6 +33,7 @@ function DeleteButton({ id, name }: DeleteButtons) {
         id={'btn' + id}
         onClick={(event) => {
           event.stopPropagation();
+          onClickHandler(event);
           deleteHTMLtype(id);
         }}
       >

@@ -80,6 +80,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
         <DeleteButton
           id={childId}
           name={name[0].toLowerCase() + name.slice(1)}
+          onClickHandler={onClickHandler}
         />
       </span>
     </div>
