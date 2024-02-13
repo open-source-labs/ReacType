@@ -20,6 +20,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const RL1 = {
+  asd: { 'cnlw8UmsqIHXaM-CAAAD': 'asd', '0NRthNygM3s6WL_ZAAAH': 'asdf' }
+};
+
 const app = express();
 
 const PORT = process.env.PORT || DEV_PORT;
@@ -95,7 +99,8 @@ io.on('connection', (client) => {
         }
 
         if (method === 'CREATE') {
-          roomLists[roomCode][client.id] = { userName, password: roomPassword };
+          roomLists[roomCode][client.id] = userName;
+          roomLists[roomCode]['password'] = roomPassword;
           console.log('ROOM LIST: 1', roomLists);
         }
 
