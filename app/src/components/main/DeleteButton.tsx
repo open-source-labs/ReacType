@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DeleteButtons } from '../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
