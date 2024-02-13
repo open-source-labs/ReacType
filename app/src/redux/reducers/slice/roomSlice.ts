@@ -5,6 +5,7 @@ const initialState = {
   userName: '',
   userList: [],
   userJoined: false,
+  messages: [],
   password: ''
 };
 
@@ -24,6 +25,9 @@ const roomSlice = createSlice({
     setUserJoined: (state, action) => {
       state.userJoined = action.payload;
     },
+    setMessages: (state, action) => {
+      state.messages = [...state.messages, action.payload];
+    },
     setPassword: (state, action) => {
       state.password = action.payload;
     }
@@ -35,6 +39,7 @@ export const {
   setUserName,
   setUserList,
   setUserJoined,
+  setMessages,
   setPassword
 } = roomSlice.actions;
 

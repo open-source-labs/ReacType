@@ -132,8 +132,15 @@ io.on('connection', (client) => {
         //send the message to all clients in room but the sender
         io.to(roomCode).emit(
           'updateUserList',
-          Object.values(roomLists[roomCode]) // send updated userList to all users in room
+          {
+            userList: Object.values(roomLists[roomCode])
+          } // send updated userList to all users in room
         );
+        io.to(roomCode).emit('new chat message', {
+          userName,
+          message: `${userName} joined chat room`,
+          type: 'activity'
+        });
       }
     } catch (error) {
       //if joining event is having an error and time out
@@ -153,20 +160,33 @@ io.on('connection', (client) => {
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
+    const userName = roomLists[roomCode][client.id];
     delete roomLists[roomCode][client.id];
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
-      io.to(roomCode).emit(
-        'updateUserList',
-        Object.values(roomLists[roomCode])
-      );
+      io.to(roomCode).emit('updateUserList', {
+        userList: Object.values(roomLists[roomCode])
+      });
+      io.to(roomCode).emit('new chat message', {
+        userName,
+        message: `${userName} left chat room`,
+        type: 'activity'
+      });
     }
   });
 
   //-------Socket events for state synchronization in collab room------------------
+  client.on('send-chat-message', (roomCode: string, messageData: object) => {
+    if (roomCode) {
+      io.to(roomCode).emit('new chat message', {
+        ...messageData,
+        type: 'chat'
+      });
+    }
+  });
   client.on('addChildAction', (roomCode: string, childData: object) => {
     // console.log('child data received on server:', childData);
     if (roomCode) {
