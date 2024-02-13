@@ -28,7 +28,6 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseMoveHandler = function (e: MouseEvent): void {
-
     const dy = y - e.clientY;
 
     const newVal = h + dy;
@@ -54,7 +53,7 @@ const BottomPanel = (props): JSX.Element => {
         <div
           id="resize-drag"
           onMouseDown={mouseDownHandler}
-          onClick={() => props.setBottomShow(true)}
+          onClick={() => props.setBottomShow(!props.bottomShow)}
           tabIndex={0}
         >
           {props.bottomShow ? <ExpandMore /> : <ExpandLess />}

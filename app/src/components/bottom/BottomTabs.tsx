@@ -39,6 +39,10 @@ const BottomTabs = (props): JSX.Element => {
 
   arrow.renderArrow(state.canvasFocus?.childId);
 
+  const showBottomPanel = () => {
+    props.setBottomShow(true);
+  };
+
   return (
     <div
       className={`${classes.root} ${classes.rootLight}`}
@@ -46,9 +50,6 @@ const BottomTabs = (props): JSX.Element => {
         backgroundColor: '#191919',
         zIndex: 1,
         borderTop: '2px solid grey'
-      }}
-      onClick={() => {
-        props.setBottomShow(true);
       }}
     >
       <Box
@@ -69,31 +70,37 @@ const BottomTabs = (props): JSX.Element => {
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Creation Panel"
+            onClick={showBottomPanel}
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Customization"
+            onClick={showBottomPanel}
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="CSS Editor"
+            onClick={showBottomPanel}
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Component Tree"
+            onClick={showBottomPanel}
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Context Manager"
+            onClick={showBottomPanel}
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="State Manager"
+            onClick={showBottomPanel}
           />
         </Tabs>
         <div className={classes.projectTypeWrapper}>

@@ -363,6 +363,6 @@ const Canvas = (props: {}): JSX.Element => {
       </label>
     </div>
   );
-}
+};
 
 export default Canvas;
