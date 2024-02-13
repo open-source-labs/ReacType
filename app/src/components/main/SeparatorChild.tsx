@@ -149,7 +149,7 @@ function DirectChildHTMLNestable({
   };
 
   defaultNestableStyle['backgroundColor'] = isOver
-    ? '#70d8be'
+    ? 'rgb(53, 78, 156)'
     : 'rgba(0, 0, 255, 0.0)';
 
   const combinedStyle = combineStyles(
