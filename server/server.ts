@@ -82,27 +82,30 @@ const roomLists = {};
 
 io.on('connection', (client) => {
   client.on(
-    'joining',
-    async (userName: string, roomCode: string, roomPassword: string) => {
+    'creating a room',
+    async (
+      userName: string,
+      roomCode: string,
+      roomPassword: string,
+      method: string
+    ) => {
       try {
-        console.log('1', roomLists);
-
         if (!roomLists[roomCode]) {
           roomLists[roomCode] = {};
         }
 
-        // if (Object.keys(roomLists[roomCode]).length === 0) {
-        //   roomLists[roomCode][client.id] = { userName, password: roomPassword };
-        // } else if (roomLists[roomCode].password !== roomPassword) {
-        //   console.log('WRONG');
-        //   return;
-        // }
+        if (method === 'CREATE') {
+          roomLists[roomCode][client.id] = { userName, password: roomPassword };
+          console.log('ROOM LIST: 1', roomLists);
+        }
 
-        roomLists[roomCode][client.id] = { userName, password: roomPassword };
-
-        console.log('2', roomLists);
+        if (method === 'JOIN') {
+          // console.log('ROOM LIST: 2', roomLists);
+        }
 
         const userList = Object.keys(roomLists[roomCode]);
+        console.log(userList);
+
         const hostID = userList[0];
         const newClientID = userList[userList.length - 1];
         //server ask host for the current state
@@ -111,14 +114,11 @@ io.on('connection', (client) => {
           .to(hostID) // sends only to host
           .emitWithAck('requesting state from host'); //sending request
 
-        //share host's state with the latest user
-        //send the requested host state to the new client awaiting for the host state to come back before doing other task
         const newClientResponse = await io
           .timeout(5000)
           .to(newClientID) // sends only to new client
-          .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
+          .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state client response is confirmed
 
-        //client response is confirmed
         if (newClientResponse[0].status === 'confirmed') {
           client.join(roomCode); //client joining a room
           io.to(roomCode).emit(
@@ -127,7 +127,6 @@ io.on('connection', (client) => {
           );
         }
       } catch (error) {
-        //if joining event is having an error and time out
         console.log(
           'Request Timeout: Client failed to request state from host.',
           error
@@ -136,10 +135,25 @@ io.on('connection', (client) => {
     }
   );
 
+  // client.on(
+  //   'join an existing room',
+  //   async (userName: string, roomCode: string, roomPassword: string) => {
+  //     try {
+  //       console.log('roomLIST', roomLists);
+  //     } catch (error) {
+  //       //if joining event is having an error and time out
+  //       console.log(
+  //         'Request Timeout: Client failed to request state from host.',
+  //         error
+  //       );
+  //     }
+  //   }
+  // );
+
   client.on(
     'creating',
     async (userName: string, roomCode: string, roomPassword: string) => {
-      console.log("HERE IN CREATING")
+      console.log('HERE IN CREATING');
     }
   );
 

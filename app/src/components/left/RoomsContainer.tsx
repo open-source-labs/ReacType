@@ -77,7 +77,11 @@ const RoomsContainer = () => {
     (store: RootState) => store.roomSlice.userJoined
   );
 
-  const initSocketConnection = (roomCode: string, roomPassword: string) => {
+  const initSocketConnection = (
+    roomCode: string,
+    roomPassword: string,
+    method: string
+  ) => {
     // helper function to create socket connection
     initializeSocket();
     // assign socket to result of helper function to return socket created
@@ -86,8 +90,24 @@ const RoomsContainer = () => {
     if (socket) {
       //run everytime when a client connects to server
       socket.on('connect', () => {
-        socket.emit('joining', userName, roomCode, roomPassword);
-        // socket.emit('creating', userName, roomCode, roomPassword);
+        if (method === 'CREATE') {
+          socket.emit(
+            'creating a room',
+            userName,
+            roomCode,
+            roomPassword,
+            method
+          );
+          // socket.emit('creating', userName, roomCode, roomPassword);
+        } else if (method === 'JOIN') {
+          socket.emit(
+            'creating a room',
+            userName,
+            roomCode,
+            roomPassword,
+            method
+          );
+        }
       });
 
       socket.on('requesting state from host', (callback) => {
@@ -274,43 +294,43 @@ const RoomsContainer = () => {
     }
   };
 
-  const handleUserEnteredRoom = (roomCode, roomPassword?) => {
-    initSocketConnection(roomCode, roomPassword);
-  };
-
-  const joinExistingCollabRoom = () => {
-    // if (userList.length !== 0) {
-    //   dispatch(setUserList([]));
-    // }
-
-    // handleUserEnteredRoom(roomCode, joinedPasswordAttempt);
-    // dispatch(setUserJoined(true));
-
-    // console.log(userList);
-
-    // if (userList[0].password === joinedPasswordAttempt) {
-    //   console.log('WRONG PW');
-    // }
-
-    console.log('userList', userList);
-  };
+  // const handleUserEnteredRoom = (roomCode, roomPassword) => {
+  //   initSocketConnection(roomCode, roomPassword);
+  // };
 
   const createNewCollabRoom = () => {
     if (userList.length !== 0) {
       dispatch(setUserList([]));
     }
 
-    handleUserEnteredRoom(roomCode, roomPassword);
+    initSocketConnection(roomCode, roomPassword, 'CREATE');
+
     dispatch(setRoomCode(roomCode));
     dispatch(setPassword(roomPassword));
     dispatch(setUserJoined(true));
   };
 
+  const joinExistingCollabRoom = () => {
+    if (userList.length !== 0) {
+      dispatch(setUserList([]));
+    }
+
+    initSocketConnection(roomCode, joinedPasswordAttempt, 'JOIN');
+
+    dispatch(setRoomCode(roomCode));
+    dispatch(setPassword(roomPassword));
+    dispatch(setUserJoined(true));
+
+    console.log('userList', userList);
+  };
+
   const leaveRoom = () => {
     let socket = getSocket();
+
     if (socket) {
       socket.disconnect();
     }
+
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
