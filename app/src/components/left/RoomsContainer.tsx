@@ -53,7 +53,6 @@ import {
   DeleteContextPayload,
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
-// import { initSocketConnection } from '../socketUtils/socket';
 
 const RoomsContainer = () => {
   const dispatch = useDispatch();
