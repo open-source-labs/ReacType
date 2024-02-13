@@ -196,24 +196,23 @@ const Chatroom = (props): JSX.Element => {
       ) : (
         <JoinScreen getMeetingAndToken={getMeetingAndToken} />
       )} */}
-      <form
-        id="send-container"
-        style={inputContainerStyles}
-        onSubmit={handleSubmit}
-      >
-        <input
-          type="text"
-          id="message-input"
-          onChange={(e) => setInputContent(e.target.value)}
-          value={inputContent}
-          style={inputStyles}
-        />
-        <button type="submit" id="send-button" style={buttonStyles}>
-          Send
-        </button>
-      </form>
-      <div id="message-container" style={wrapperStyles} ref={containerRef}>
-        {renderMessages()}
+      <div className="chatroom-input">
+        <form
+          id="send-container"
+          style={inputContainerStyles}
+          onSubmit={handleSubmit}
+        >
+          <input
+            type="text"
+            id="message-input"
+            onChange={(e) => setInputContent(e.target.value)}
+            value={inputContent}
+            style={inputStyles}
+          />
+          <button type="submit" id="send-button" style={buttonStyles}>
+            Send
+          </button>
+        </form>
       </div>
     </div>
     //   <div className="chatroom-input">
