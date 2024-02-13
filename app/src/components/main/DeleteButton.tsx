@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DeleteButtons } from '../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
+import { Delete } from '@mui/icons-material';
 
 function DeleteButton({ id, name, onClickHandler }: DeleteButtons) {
   const contextParam = useSelector((store: RootState) => store.contextSlice);
@@ -37,7 +38,7 @@ function DeleteButton({ id, name, onClickHandler }: DeleteButtons) {
           deleteHTMLtype(id);
         }}
       >
-        x
+        <Delete className="deleteIcon" />
       </button>
     </div>
   );
