@@ -151,7 +151,7 @@ span.material-symbols-outlined {
 .column.left::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: #354e9c;
+  background-color: gray;
   border-radius: 8px;
   z-index: 40;
 }
@@ -220,7 +220,7 @@ span.material-symbols-outlined {
 #HTMLItemsTopHalf::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: #354e9c;
+  background-color: gray;
   border-radius: 8px;
   z-index: 40;
 }
@@ -539,7 +539,7 @@ BOTTOM PANEL
 .tab-content::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: #354e9c;
+  background-color: gray;
   border-radius: 8px;
   z-index: 40;
 }
@@ -552,7 +552,7 @@ BOTTOM PANEL
 .tab-content::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: #354e9c;
+  background-color: gray;
   border-radius: 8px;
   z-index: 40;
 }
