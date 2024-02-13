@@ -16,6 +16,9 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
 import { FaMousePointer } from 'react-icons/fa';
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
+import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
 const Canvas = (props: {}): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
@@ -306,63 +309,112 @@ const Canvas = (props: {}): JSX.Element => {
     '#9267FF'
   ];
 
-  return (
-    <div
-      className={'componentContainer'}
-      ref={drop}
-      data-testid="drop"
-      style={canvasStyle}
-      onClick={onClickHandler}
-      onMouseMove={handleMouseMove}
-    >
-      {renderChildren(currentComponent.children)}
+  const [zoom, setZoom] = useState(1);
 
-      {remoteCursors.map(
-        (cursor, idx) =>
-          cursor.isVisible && (
-            <div
-              key={idx}
-              className="remote-cursor"
+  // zoom in
+  const zoomIn = () => {
+    setZoom(zoom + 0.1);
+  };
+
+  // zoom out
+  const zoomOut = () => {
+    setZoom(Math.max(zoom - 0.1, 0.1));
+  };
+
+  const zoomedChildren: React.CSSProperties = {
+    transform: `scale(${zoom})`,
+    transformOrigin: 'top center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    textAlign: 'center',
+    color: '#ffffff',
+    backgroundColor: '#151515',
+    zIndex: 0,
+    border: '2px solid #354e9c',
+    margin: '8px 0 0 8px'
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          position: 'relative',
+          bottom: 0,
+          left: 0,
+          display: 'flex',
+
+          marginRight: 'auto'
+        }}
+      >
+        <Button style={buttonStyle} onClick={zoomIn}>
+          <ZoomIn />
+        </Button>
+        <Button style={buttonStyle} onClick={zoomOut}>
+          <ZoomOut />
+        </Button>
+      </div>
+      <div
+        className={'componentContainer'}
+        ref={drop}
+        data-testid="drop"
+        style={canvasStyle}
+        onClick={onClickHandler}
+        onMouseMove={handleMouseMove}
+      >
+        <div className="allElements" style={zoomedChildren}>
+          {renderChildren(currentComponent.children)}
+        </div>
+        {remoteCursors.map(
+          (cursor, idx) =>
+            cursor.isVisible && (
+              <div
+                key={idx}
+                className="remote-cursor"
+                style={{
+                  position: 'absolute',
+                  left: cursor.x + 'px',
+                  top: cursor.y - 68 + 'px',
+                  //cursor style
+                  fontSize: '1em',
+                  color: userColors[userList.indexOf(cursor.remoteUserName)]
+                }}
+              >
+                {<FaMousePointer />}
+                {cursor.remoteUserName}
+              </div>
+            )
+        )}
+        <label className="switch">
+          {userList.length > 1 && (
+            <button
+              className="btn-toggle"
+              onClick={multipleClicks}
               style={{
-                position: 'absolute',
-                left: cursor.x + 'px',
-                top: cursor.y - 68 + 'px',
-                //cursor style
-                fontSize: '1em',
-                color: userColors[userList.indexOf(cursor.remoteUserName)]
+                position: 'fixed',
+                width: 'max-content',
+                height: 'max-content',
+                bottom: '100px',
+                left: '51vw',
+                textAlign: 'center',
+                color: '#FFFFFF',
+                backgroundColor: '#151515',
+                zIndex: 0,
+                padding: '5px',
+                borderColor: '#354e9c',
+                borderRadius: '5px'
               }}
             >
-              {<FaMousePointer />}
-              {cursor.remoteUserName}
-            </div>
-          )
-      )}
-      <label className="switch">
-        {userList.length > 1 && (
-          <button
-            className="btn-toggle"
-            onClick={multipleClicks}
-            style={{
-              position: 'fixed',
-              width: 'max-content',
-              height: 'max-content',
-              bottom: '100px',
-              left: '51vw',
-              textAlign: 'center',
-              color: '#FFFFFF',
-              backgroundColor: '#151515',
-              zIndex: 0,
-              padding: '5px',
-              borderColor: '#46C0A5',
-              borderRadius: '5px'
-            }}
-          >
-            {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
-          </button>
-        )}
-      </label>
+              {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
+            </button>
+          )}
+        </label>
+      </div>
     </div>
   );
-}
+};
 
 export default Canvas;

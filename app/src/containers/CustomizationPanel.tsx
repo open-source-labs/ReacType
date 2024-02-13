@@ -463,7 +463,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           button
           onClick={handleDeleteReusableComponent}
           style={{
-            border: '1px solid #1b544b',
+            border: '1px solid #3c59ba',
             marginBottom: '2%',
             marginTop: '5%'
           }}
@@ -475,7 +475,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           button
           onClick={closeModal}
           style={{
-            border: '1px solid #1b544b',
+            border: '1px solid #3c59ba',
             marginBottom: '2%',
             marginTop: '5%'
           }}
@@ -550,7 +550,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   {configTarget.name}
                 </span>
                 <p style={{ fontSize: '16px' }}>
-                  Drag and drop an html element (or focus one) to see what
+                  Drag or click an html element to the canvas to see what
                   happens!
                 </p>
               </h4>
@@ -585,7 +585,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 ? ' component'
                 : ' element'}{' '}
               <br />
-                {configTarget.child.name}
+              {configTarget.child.name}
             </h4>
           </div>
           <section className={'customization-section'}>
@@ -1049,11 +1049,11 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   saveButtonLight: {
-    border: '1px solid #46C0A5',
+    border: '1px solid #354e9c',
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {
-    border: '1px solid #1b544b'
+    border: '1px solid #3c59ba'
   },
   compName: {
     fontSize: '1rem'

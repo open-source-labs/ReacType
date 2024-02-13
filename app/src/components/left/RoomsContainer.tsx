@@ -402,7 +402,7 @@ const RoomsContainer = () => {
                 backgroundColor: '#f2fbf8',
                 color: '#092a26',
                 '&:hover': {
-                  backgroundColor: '#a5ead6',
+                  backgroundColor: '#354e9c',
                   borderColor: '#0062cc'
                 }
               }}
@@ -453,9 +453,9 @@ const RoomsContainer = () => {
               onClick={() => joinRoom()}
               sx={{
                 backgroundColor: '#e9e9e9',
-                color: '#253b80',
+                color: '#354e9c',
                 '&:hover': {
-                  backgroundColor: '#99d7f2'
+                  backgroundColor: '#354e9c'
                 }
               }}
             >
