@@ -1,35 +1,23 @@
 const { ApolloServer } = require('@apollo/server');
-
-// //v4 Apollo imports
 const { expressMiddleware } = require('@apollo/server/express4');
 import cors from 'cors';
 import bodyParser from 'body-parser';
 const { json, urlencoded } = bodyParser;
-
-// //possibly redundant
 const { makeExecutableSchema } = require('@graphql-tools/schema');
-
 import express from 'express';
 import cookieParser from 'cookie-parser';
-
 import config from '../config.js';
 const { API_BASE_URL, DEV_PORT } = config;
-
-// const path = require('path');
 import path from 'path';
-
 import userController from './controllers/userController';
 import cookieController from './controllers/cookieController';
 import sessionController from './controllers/sessionController';
 import projectController from './controllers/projectController';
 import marketplaceController from './controllers/marketplaceController';
-
-// // docker stuff
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
-// // env file
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const app = express();
@@ -41,12 +29,10 @@ const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
-app.use(cookieParser()); //added cookie parser
-// Routes
-// const stylesRouter = require('./routers/stylesRouter');
+app.use(cookieParser());
+
 import stylesRouter from './routers/stylesRouter';
 
-// enable cors
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
 app.use(
   cors({
@@ -67,7 +53,6 @@ const passportSetup = require('./routers/passport-setup');
 const session = require('express-session');
 import authRoutes from './routers/auth';
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -78,10 +63,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// go to other files
-// 8080 only for the container
 app.use('/auth', authRoutes);
 
 import { createServer } from 'http';
@@ -96,53 +78,70 @@ const io = new Server(httpServer, {
   }
 });
 
-const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
-//server listening to new connections
+const roomLists = {};
+
 io.on('connection', (client) => {
-  // console.log('A user connected with socket ID:', client.id);
-  //when user Joined a room
-  client.on('joining', async (userName: string, roomCode: string) => {
-    //adding async
-    try {
-      //if no room exists, add room to list
-      if (!roomLists[roomCode]) {
-        roomLists[roomCode] = {};
-      }
-      roomLists[roomCode][client.id] = userName; // adding user into the room list with id: userName on server side
-      const userList = Object.keys(roomLists[roomCode]); //userList for roomCode
-      const hostID = userList[0]; // host is always assigned to user at index zero
-      const newClientID = userList[userList.length - 1]; // new client id is always the last index in userList
+  client.on(
+    'joining',
+    async (userName: string, roomCode: string, roomPassword: string) => {
+      try {
+        console.log('1', roomLists);
 
-      //server ask host for the current state
-      const hostState = await io //once the request is sent back save to host state
-        .timeout(5000)
-        .to(hostID) // sends only to host
-        .emitWithAck('requesting state from host'); //sending request
+        if (!roomLists[roomCode]) {
+          roomLists[roomCode] = {};
+        }
 
-      //share host's state with the latest user
-      const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
-        .timeout(5000)
-        .to(newClientID) // sends only to new client
-        .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
+        // if (Object.keys(roomLists[roomCode]).length === 0) {
+        //   roomLists[roomCode][client.id] = { userName, password: roomPassword };
+        // } else if (roomLists[roomCode].password !== roomPassword) {
+        //   console.log('WRONG');
+        //   return;
+        // }
 
-      //client response is confirmed
-      if (newClientResponse[0].status === 'confirmed') {
-        client.join(roomCode); //client joining a room
-        // console.log('a user joined the room');
-        //send the message to all clients in room but the sender
-        io.to(roomCode).emit(
-          'updateUserList',
-          Object.values(roomLists[roomCode]) // send updated userList to all users in room
+        roomLists[roomCode][client.id] = { userName, password: roomPassword };
+
+        console.log('2', roomLists);
+
+        const userList = Object.keys(roomLists[roomCode]);
+        const hostID = userList[0];
+        const newClientID = userList[userList.length - 1];
+        //server ask host for the current state
+        const hostState = await io
+          .timeout(5000)
+          .to(hostID) // sends only to host
+          .emitWithAck('requesting state from host'); //sending request
+
+        //share host's state with the latest user
+        //send the requested host state to the new client awaiting for the host state to come back before doing other task
+        const newClientResponse = await io
+          .timeout(5000)
+          .to(newClientID) // sends only to new client
+          .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
+
+        //client response is confirmed
+        if (newClientResponse[0].status === 'confirmed') {
+          client.join(roomCode); //client joining a room
+          io.to(roomCode).emit(
+            'updateUserList',
+            Object.values(roomLists[roomCode]) // send updated userList to all users in room
+          );
+        }
+      } catch (error) {
+        //if joining event is having an error and time out
+        console.log(
+          'Request Timeout: Client failed to request state from host.',
+          error
         );
       }
-    } catch (error) {
-      //if joining event is having an error and time out
-      console.log(
-        'Request Timeout: Client failed to request state from host.',
-        error
-      );
     }
-  });
+  );
+
+  client.on(
+    'creating',
+    async (userName: string, roomCode: string, roomPassword: string) => {
+      console.log("HERE IN CREATING")
+    }
+  );
 
   //updating mouse movement after joining.
 

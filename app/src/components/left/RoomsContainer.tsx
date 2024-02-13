@@ -52,9 +52,14 @@ import {
   DeleteContextPayload,
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
+import { useEffect, useState } from 'react';
 // import { initSocketConnection } from '../socketUtils/socket';
 
 const RoomsContainer = () => {
+  const [isJoinCallabRoom, setIsJoinCollabRoom] = useState(false);
+  const [joinedPasswordAttempt, setJoinedPasswordAttempt] = useState('');
+  const [isPasswordAttemptCorrect, setIsPasswordAttemptCorrect] =
+    useState(false);
   const dispatch = useDispatch();
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
@@ -63,11 +68,16 @@ const RoomsContainer = () => {
     (store: RootState) => store.roomSlice.password
   );
 
+  useEffect(() => {
+    console.log('userList', userList);
+    console.log({ joinedPasswordAttempt });
+  }, []);
+
   const userJoined = useSelector(
     (store: RootState) => store.roomSlice.userJoined
   );
 
-  const initSocketConnection = (roomCode: string) => {
+  const initSocketConnection = (roomCode: string, roomPassword: string) => {
     // helper function to create socket connection
     initializeSocket();
     // assign socket to result of helper function to return socket created
@@ -76,11 +86,10 @@ const RoomsContainer = () => {
     if (socket) {
       //run everytime when a client connects to server
       socket.on('connect', () => {
-        socket.emit('joining', userName, roomCode);
-        // console.log(`${userName} Joined room ${roomCode} from RoomsContainer`);
+        socket.emit('joining', userName, roomCode, roomPassword);
+        // socket.emit('creating', userName, roomCode, roomPassword);
       });
 
-      //If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {
         const newState = store.getState(); //pull the current state
         callback(newState); //send it to backend server
@@ -89,7 +98,7 @@ const RoomsContainer = () => {
       //If you are the new user: receive the state from the host
       socket.on('server emitting state from host', (state, callback) => {
         //dispatching new state to change user current state
-        // console.log('state received by new join:', state);
+        console.log('state received by new join:', state);
         store.dispatch(allCooperativeState(state.appState));
         store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
         store.dispatch(cooperativeStyle(state.styleSlice));
@@ -265,13 +274,33 @@ const RoomsContainer = () => {
     }
   };
 
-  const handleUserEnteredRoom = (roomCode) => {
-    initSocketConnection(roomCode);
+  const handleUserEnteredRoom = (roomCode, roomPassword?) => {
+    initSocketConnection(roomCode, roomPassword);
   };
 
-  const joinRoom = () => {
-    if (userList.length !== 0) dispatch(setUserList([]));
-    handleUserEnteredRoom(roomCode);
+  const joinExistingCollabRoom = () => {
+    // if (userList.length !== 0) {
+    //   dispatch(setUserList([]));
+    // }
+
+    // handleUserEnteredRoom(roomCode, joinedPasswordAttempt);
+    // dispatch(setUserJoined(true));
+
+    // console.log(userList);
+
+    // if (userList[0].password === joinedPasswordAttempt) {
+    //   console.log('WRONG PW');
+    // }
+
+    console.log('userList', userList);
+  };
+
+  const createNewCollabRoom = () => {
+    if (userList.length !== 0) {
+      dispatch(setUserList([]));
+    }
+
+    handleUserEnteredRoom(roomCode, roomPassword);
     dispatch(setRoomCode(roomCode));
     dispatch(setPassword(roomPassword));
     dispatch(setUserJoined(true));
@@ -293,13 +322,16 @@ const RoomsContainer = () => {
   const checkInputField = (...inputs) => {
     let userName: string = inputs[0].trim();
     let roomCode: string = inputs[1].trim();
-    return userName.length === 0 || roomCode.length === 0;
+    let password: string = inputs[2].trim();
+    return (
+      userName.length === 0 || roomCode.length === 0 || password.length === 0
+    );
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && e.target.id === 'filled-hidden-label-small') {
       e.preventDefault();
-      joinRoom();
+      createNewCollabRoom();
     }
   };
 
@@ -323,7 +355,6 @@ const RoomsContainer = () => {
           margin: '0 auto 0 auto'
         }}
       >
-        {' '}
         <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
         </Typography>
@@ -377,7 +408,7 @@ const RoomsContainer = () => {
                   >
                     <ListItemText
                       primary={`${index + 1}. ${
-                        index === 0 ? `${user} (host)` : user
+                        index === 0 ? `${user.userName} (host)` : user.userName
                       }`}
                       style={{ color: userColors[userList.indexOf(user)] }}
                     />
@@ -397,8 +428,7 @@ const RoomsContainer = () => {
                 }
               }}
             >
-              {' '}
-              Leave Room{' '}
+              Leave Room
             </Button>
           </>
         ) : (
@@ -425,22 +455,43 @@ const RoomsContainer = () => {
               className="enterRoomInput"
               onKeyDown={handleKeyDown}
             />
-            <TextField
-              fullWidth
-              hiddenLabel={true}
-              id="filled-hidden-label-small"
-              variant="standard"
-              size="small"
-              value={roomCode}
-              placeholder="Password"
-              onChange={(e) => dispatch(setPassword(e.target.value))}
-              // className="enterRoomInput"
-            />
+            {isJoinCallabRoom ? (
+              <TextField
+                error={isPasswordAttemptCorrect}
+                fullWidth
+                hiddenLabel={true}
+                id="filled-hidden-label-small"
+                variant="standard"
+                size="small"
+                value={joinedPasswordAttempt}
+                placeholder="Password"
+                helperText={
+                  isPasswordAttemptCorrect ? 'Incorrect password.' : ''
+                }
+                onChange={(e) => setJoinedPasswordAttempt(e.target.value)}
+              />
+            ) : (
+              <TextField
+                fullWidth
+                hiddenLabel={true}
+                id="filled-hidden-label-small"
+                variant="standard"
+                size="small"
+                value={roomPassword}
+                placeholder="Password"
+                onChange={(e) => dispatch(setPassword(e.target.value))}
+              />
+            )}
+
             <Button
               variant="contained"
-              disabled={checkInputField(userName, roomCode)}
+              disabled={checkInputField(userName, roomCode, roomCode)}
               fullWidth
-              onClick={() => joinRoom()}
+              onClick={(e) =>
+                isJoinCallabRoom
+                  ? joinExistingCollabRoom()
+                  : createNewCollabRoom()
+              }
               sx={{
                 backgroundColor: '#e9e9e9',
                 color: '#253b80',
@@ -449,8 +500,19 @@ const RoomsContainer = () => {
                 }
               }}
             >
-              Join Room
+              {isJoinCallabRoom ? 'Join' : 'Start'}
             </Button>
+            <Typography
+              onClick={() => setIsJoinCollabRoom(!isJoinCallabRoom)}
+              sx={{
+                color: 'grey',
+                '&:hover': {
+                  textDecoration: 'underline'
+                }
+              }}
+            >
+              {isJoinCallabRoom ? 'Start a new room' : 'Join a room'}
+            </Typography>
           </>
         )}
       </Stack>

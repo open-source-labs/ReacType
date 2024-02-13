@@ -28,7 +28,6 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseMoveHandler = function (e: MouseEvent): void {
-
     const dy = y - e.clientY;
 
     const newVal = h + dy;
