@@ -107,20 +107,18 @@ io.on('connection', (client) => {
       //if no room exists, add room to list
       if (!roomLists[roomCode]) {
         const createMeeting = async () => {
-          const VITE_VIDEOSDK_TOKEN = 'token';
-
           const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
             method: 'POST',
             headers: {
-              // authorization: `${import.meta.env.VITE_VIDEOSDK_TOKEN}`,
-              authorization: VITE_VIDEOSDK_TOKEN,
+              authorization: process.env.VIDEOSDK_TOKEN,
               'Content-Type': 'application/json'
             },
             // body: JSON.stringify({ customRoomId: roomCode })
-            body: JSON.stringify({ customRoomId: 'aaabbb' })
+            body: JSON.stringify({ customRoomId: 'aaa-bbb' })
           });
           //   //Destructuring the roomId from the response
           const { roomId }: { roomId: string } = await res.json();
+          console.log('Here in server roomId: ', roomId);
           return roomId;
         };
         roomLists[roomCode] = {};
@@ -138,7 +136,6 @@ io.on('connection', (client) => {
         .timeout(5000)
         .to(hostID) // sends only to host
         .emitWithAck('requesting state from host'); //sending request
-      console.log('Checking hostState: ', hostState);
 
       //share host's state with the latest user
       const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
@@ -180,12 +177,25 @@ io.on('connection', (client) => {
   });
 
   //disconnecting functionality
-  client.on('disconnecting', () => {
+  client.on('disconnecting', async () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
     const userName = roomLists[roomCode]['userList'][client.id];
     delete roomLists[roomCode]['userList'][client.id];
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]['userList']).length) {
+      // const options = {
+      //   method: 'POST',
+      //   headers: {
+      //     Authorization: process.env.VIDEOSDK_TOKEN,
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ roomId: roomLists[roomCode].meetingId })
+      // };
+      // const url = `https://api.videosdk.live/v2/rooms/deactivate`;
+      // const response = await fetch(url, options);
+      // const data = await response.json();
+      // if (data.disabled)
+      //   console.log(`Successfully deactivate room with id ${data.roomId}`);
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
