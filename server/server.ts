@@ -94,35 +94,44 @@ io.on('connection', (client) => {
       method: string
     ) => {
       try {
-        if (!roomLists[roomCode]) {
+        let userList,
+          hostID,
+          correctPassword = false;
+
+        if (!roomLists[roomCode] && method === "CREATE") {
           roomLists[roomCode] = {};
+          roomLists[roomCode][client.id] = { userName, password: roomPassword };
+
+          userList = Object.keys(roomLists[roomCode]);
+          hostID = userList[0];
+        } else {
+          userList = Object.keys(roomLists[roomCode]);
+          hostID = userList[0];
+
+          if (roomLists[roomCode][hostID].password === roomPassword) {
+            roomLists[roomCode][client.id] = {
+              userName,
+              password: roomPassword
+            };
+
+            correctPassword = true;
+            io.emit('correct password');
+          } else {
+            console.log('WRONG PASSWORD');
+            io.emit('wrong password');
+          }
         }
 
-        if (method === 'CREATE') {
-          roomLists[roomCode][client.id] = userName;
-          roomLists[roomCode]['password'] = roomPassword;
-          console.log('ROOM LIST: 1', roomLists);
-        }
-
-        if (method === 'JOIN') {
-          // console.log('ROOM LIST: 2', roomLists);
-        }
-
-        const userList = Object.keys(roomLists[roomCode]);
-        console.log(userList);
-
-        const hostID = userList[0];
         const newClientID = userList[userList.length - 1];
-        //server ask host for the current state
         const hostState = await io
           .timeout(5000)
           .to(hostID) // sends only to host
-          .emitWithAck('requesting state from host'); //sending request
+          .emitWithAck('requesting state from host');
 
         const newClientResponse = await io
           .timeout(5000)
           .to(newClientID) // sends only to new client
-          .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state client response is confirmed
+          .emitWithAck('server emitting state from host', hostState[0]);
 
         if (newClientResponse[0].status === 'confirmed') {
           client.join(roomCode); //client joining a room
@@ -139,30 +148,6 @@ io.on('connection', (client) => {
       }
     }
   );
-
-  // client.on(
-  //   'join an existing room',
-  //   async (userName: string, roomCode: string, roomPassword: string) => {
-  //     try {
-  //       console.log('roomLIST', roomLists);
-  //     } catch (error) {
-  //       //if joining event is having an error and time out
-  //       console.log(
-  //         'Request Timeout: Client failed to request state from host.',
-  //         error
-  //       );
-  //     }
-  //   }
-  // );
-
-  client.on(
-    'creating',
-    async (userName: string, roomCode: string, roomPassword: string) => {
-      console.log('HERE IN CREATING');
-    }
-  );
-
-  //updating mouse movement after joining.
 
   client.on('mouse connection', (data) => {
     io.emit('mouseCursor', { line: data.line, id: client.id });
@@ -184,17 +169,13 @@ io.on('connection', (client) => {
     }
   });
 
-  //-------Socket events for state synchronization in collab room------------------
   client.on('addChildAction', (roomCode: string, childData: object) => {
-    // console.log('child data received on server:', childData);
     if (roomCode) {
-      //server send the data to everyone in the room
       client.to(roomCode).emit('child data from server', childData);
     }
   });
 
   client.on('changeFocusAction', (roomCode: string, focusData: object) => {
-    //console.log('focus data received on server', focusData);
     if (roomCode) {
       //server send the focus data to everyone in room
       client.to(roomCode).emit('focus data from server', focusData);
@@ -225,7 +206,6 @@ io.on('connection', (client) => {
     'deleteElementAction',
     (roomCode: string, deleteElementData: object) => {
       if (roomCode) {
-        // server send delete element data to everyone in room
         client
           .to(roomCode)
           .emit('delete element data from server', deleteElementData);

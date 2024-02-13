@@ -53,25 +53,22 @@ import {
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
 import { useEffect, useState } from 'react';
-// import { initSocketConnection } from '../socketUtils/socket';
 
 const RoomsContainer = () => {
   const [isJoinCallabRoom, setIsJoinCollabRoom] = useState(false);
   const [joinedPasswordAttempt, setJoinedPasswordAttempt] = useState('');
-  const [isPasswordAttemptCorrect, setIsPasswordAttemptCorrect] =
-    useState(false);
+  const [isPasswordAttemptIncorrect, setIsPasswordAttemptIncorrect] =
+    useState(true);
+  const [isCollabRoomTaken, setIsCollabRoomTaken] = useState(false);
+
   const dispatch = useDispatch();
+
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const userList = useSelector((store: RootState) => store.roomSlice.userList);
   const roomPassword = useSelector(
     (store: RootState) => store.roomSlice.password
   );
-
-  useEffect(() => {
-    console.log('userList', userList);
-    console.log({ joinedPasswordAttempt });
-  }, []);
 
   const userJoined = useSelector(
     (store: RootState) => store.roomSlice.userJoined
@@ -108,6 +105,22 @@ const RoomsContainer = () => {
             method
           );
         }
+      });
+
+      socket.on('wrong password', () => {
+        setIsPasswordAttemptIncorrect(false);
+        console.log('WRONG PASSWORD in client');
+      });
+
+      socket.on('correct password', () => {
+        setIsPasswordAttemptIncorrect(true);
+        addNewUserToCollabRoom();
+        console.log('correct in client');
+      });
+
+      socket.on('room is already taken', () => {
+        setIsPasswordAttemptIncorrect(true);
+        console.log('correct in client');
       });
 
       socket.on('requesting state from host', (callback) => {
@@ -304,24 +317,20 @@ const RoomsContainer = () => {
     }
 
     initSocketConnection(roomCode, roomPassword, 'CREATE');
+  };
 
+  const addNewUserToCollabRoom = () => {
     dispatch(setRoomCode(roomCode));
     dispatch(setPassword(roomPassword));
     dispatch(setUserJoined(true));
   };
 
-  const joinExistingCollabRoom = () => {
+  const joinExistingCollabRoom = async () => {
     if (userList.length !== 0) {
       dispatch(setUserList([]));
     }
 
     initSocketConnection(roomCode, joinedPasswordAttempt, 'JOIN');
-
-    dispatch(setRoomCode(roomCode));
-    dispatch(setPassword(roomPassword));
-    dispatch(setUserJoined(true));
-
-    console.log('userList', userList);
   };
 
   const leaveRoom = () => {
@@ -464,6 +473,7 @@ const RoomsContainer = () => {
               onChange={(e) => dispatch(setUserName(e.target.value))}
             />
             <TextField
+              error={isCollabRoomTaken}
               fullWidth
               hiddenLabel={true}
               id="filled-hidden-label-small"
@@ -474,10 +484,11 @@ const RoomsContainer = () => {
               onChange={(e) => dispatch(setRoomCode(e.target.value))}
               className="enterRoomInput"
               onKeyDown={handleKeyDown}
+              helperText={isCollabRoomTaken ? 'Room name already taken' : ''}
             />
             {isJoinCallabRoom ? (
               <TextField
-                error={isPasswordAttemptCorrect}
+                error={isPasswordAttemptIncorrect === false}
                 fullWidth
                 hiddenLabel={true}
                 id="filled-hidden-label-small"
@@ -486,7 +497,9 @@ const RoomsContainer = () => {
                 value={joinedPasswordAttempt}
                 placeholder="Password"
                 helperText={
-                  isPasswordAttemptCorrect ? 'Incorrect password.' : ''
+                  isPasswordAttemptIncorrect === false
+                    ? 'Incorrect password.'
+                    : ''
                 }
                 onChange={(e) => setJoinedPasswordAttempt(e.target.value)}
               />
