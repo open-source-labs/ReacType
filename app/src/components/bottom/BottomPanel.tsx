@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BottomTabs from './BottomTabs';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
@@ -6,6 +6,8 @@ const BottomPanel = (props): JSX.Element => {
   let y: number = 0;
   let h: number = 0;
   const node = useRef() as React.MutableRefObject<HTMLDivElement>;
+
+  const [isDragging, setIsDragging] = useState(false);
 
   const mouseDownHandler = (e): void => {
     y = e.clientY;
@@ -28,6 +30,8 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseMoveHandler = function (e: MouseEvent): void {
+    if (!props.bottomShow) return; // prevent drag calc to occur when bottom menu is not showing
+
     const dy = y - e.clientY;
 
     const newVal = h + dy;
@@ -37,6 +41,8 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseUpHandler = function () {
+    // puts false in callback queue after OnDragStart sets to true (b/c react 17 doesn't have onDragEnd)
+    setTimeout(() => setIsDragging(false), 0);
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
     window.removeEventListener('message', handleIframeMessage);
@@ -53,7 +59,9 @@ const BottomPanel = (props): JSX.Element => {
         <div
           id="resize-drag"
           onMouseDown={mouseDownHandler}
-          onClick={() => props.setBottomShow(!props.bottomShow)}
+          draggable
+          onDragStart={() => setIsDragging(true)}
+          onClick={() => !isDragging && props.setBottomShow(!props.bottomShow)}
           tabIndex={0}
         >
           {props.bottomShow ? <ExpandMore /> : <ExpandLess />}
