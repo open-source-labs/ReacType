@@ -177,14 +177,14 @@ function DirectChildHTMLNestable({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid #46C0A5'
+        ? '3px solid #354e9c'
         : '1px solid grey'
   };
 
   // interactive style to change color when nested element is hovered over
-  if (isOver) defaultNestableStyle['#1b544b'];
+  if (isOver) defaultNestableStyle['#3c59ba'];
   defaultNestableStyle['backgroundColor'] = isOver
-    ? '#1b544b'
+    ? '#3c59ba'
     : defaultNestableStyle['backgroundColor'];
 
   const combinedStyle = combineStyles(
@@ -221,7 +221,7 @@ function DirectChildHTMLNestable({
         <strong style={{ color: '#f2fbf8' }}>
           {HTMLType.placeHolderShort}
         </strong>
-        <strong style={{ color: '#29a38a' }}>
+        <strong style={{ color: '#354e9c' }}>
           {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>
         {routeButton}

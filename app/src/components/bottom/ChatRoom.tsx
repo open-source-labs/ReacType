@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -153,6 +153,14 @@ const Chatroom = (props): JSX.Element => {
   //     console.log(e);
   //   }
   // };
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to the bottom of the container whenever new messages are added
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
     <div
@@ -204,7 +212,29 @@ const Chatroom = (props): JSX.Element => {
           Send
         </button>
       </form>
+      <div id="message-container" style={wrapperStyles} ref={containerRef}>
+        {renderMessages()}
+      </div>
     </div>
+    //   <div className="chatroom-input">
+    //     <form
+    //       id="send-container"
+    //       style={inputContainerStyles}
+    //       onSubmit={handleSubmit}
+    //     >
+    //       <input
+    //         type="text"
+    //         id="message-input"
+    //         onChange={(e) => setInputContent(e.target.value)}
+    //         value={inputContent}
+    //         style={inputStyles}
+    //       />
+    //       <button type="submit" id="send-button" style={buttonStyles}>
+    //         Send
+    //       </button>
+    //     </form>
+    //   </div>
+    // </div>
   );
 };
 

@@ -38,7 +38,6 @@ const roomSlice = createSlice({
   }
 });
 
-// Exports the action creator function to be used with useDispatch
 export const {
   setRoomCode,
   setMeetingId,
@@ -48,6 +47,5 @@ export const {
   setMessages,
   setPassword
 } = roomSlice.actions;
-// Exports so we can combine in rootReducer
 
 export default roomSlice.reducer;
