@@ -118,9 +118,13 @@ const RoomsContainer = () => {
         console.log('correct in client');
       });
 
+      socket.on('user created a new room', () => {
+        addNewUserToCollabRoom();
+      });
+
       socket.on('room is already taken', () => {
-        setIsPasswordAttemptIncorrect(true);
-        console.log('correct in client');
+        setIsCollabRoomTaken(true);
+        console.log('room is already taken');
       });
 
       socket.on('requesting state from host', (callback) => {

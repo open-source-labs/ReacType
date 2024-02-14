@@ -98,12 +98,19 @@ io.on('connection', (client) => {
           hostID,
           correctPassword = false;
 
-        if (!roomLists[roomCode] && method === "CREATE") {
+        if (roomLists[roomCode] && method === 'CREATE') {
+          io.emit('room is already taken');
+          return;
+        }
+
+        if (!roomLists[roomCode] && method === 'CREATE') {
           roomLists[roomCode] = {};
           roomLists[roomCode][client.id] = { userName, password: roomPassword };
 
           userList = Object.keys(roomLists[roomCode]);
           hostID = userList[0];
+          // } else if (!roomLists[roomCode] && method === 'CREATE') {
+          io.emit('user created a new room');
         } else {
           userList = Object.keys(roomLists[roomCode]);
           hostID = userList[0];
