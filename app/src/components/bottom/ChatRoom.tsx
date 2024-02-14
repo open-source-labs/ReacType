@@ -1,9 +1,19 @@
 import React from 'react';
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-import { setMeetingId } from '../../redux/reducers/slice/roomSlice';
+import {
+  setMeetingId,
+  setUserJoinMeeting,
+  setMeetingParticipants,
+  // setWebcamStreamState,
+  // setMicOnState,
+  // setWebcamOnState,
+  // setIsLocalState,
+  // setDisplayNameState
+  setMeetingInfoState
+} from '../../redux/reducers/slice/roomSlice';
 import {
   MeetingProvider,
   MeetingConsumer,
@@ -11,20 +21,27 @@ import {
   useParticipant
 } from '@videosdk.live/react-sdk';
 import ReactPlayer from 'react-player';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import MicOffIcon from '@mui/icons-material/MicOff';
+import MicIcon from '@mui/icons-material/Mic';
 
 const Chatroom = (props): JSX.Element => {
-  const userName = useSelector((store: RootState) => store.roomSlice.userName);
-  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-  const messages = useSelector((store: RootState) => store.roomSlice.messages);
-  const meetingId = useSelector(
-    (store: RootState) => store.roomSlice.meetingId
-  );
+  const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
+  const dispatch = useDispatch();
+  const {
+    userName,
+    roomCode,
+    messages,
+    meetingId,
+    userJoinMeeting,
+    meetingParticipants,
+    meetingInfoState
+  } = useSelector((store: RootState) => store.roomSlice);
 
   const [inputContent, setInputContent] = useState('');
-  // const [joinMeeting, setJoinMeeting] = useState(false);
-  const [videoSDKToken, setVideoSDKToken] = useState(
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJjYzg4NGJjNi0xOTE5LTQ0OTMtOWE5ZS0wYTdlZDcxMjJiODgiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcwNzQxMTE3NSwiZXhwIjoxNzM4OTQ3MTc1fQ.W6d992rzBjtcb6sCRz5c1Cr2dIy7d8m80mvgwirz4Ts'
-  );
+  const [useWebcam, setUseWebCam] = useState(true);
+  const [useMic, setUseMic] = useState(true);
 
   const wrapperStyles = {
     border: `2px solid #f2fbf8`,
@@ -113,39 +130,103 @@ const Chatroom = (props): JSX.Element => {
     }
   }, [messages]);
 
+  // function Controls() {
+  //   const { leave, toggleMic, toggleWebcam } = useMeeting();
+  //   return (
+  //     <div>
+  //       <button onClick={() => leave()}>Leave</button>
+  //       <button onClick={() => toggleMic()}>toggleMic</button>
+  //       <button onClick={() => toggleWebcam()}>toggleWebcam</button>
+  //     </div>
+  //   );
+  // }
   function Controls() {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
     return (
       <div>
         <button onClick={() => leave()}>Leave</button>
-        <button onClick={() => toggleMic()}>toggleMic</button>
-        <button onClick={() => toggleWebcam()}>toggleWebcam</button>
+        <button onClick={() => toggleMic()}>
+          {useMic ? <MicIcon /> : <MicOffIcon />}
+        </button>
+        <button onClick={() => toggleWebcam()}>
+          {useWebcam ? <VideocamIcon /> : <VideocamOffIcon />}
+        </button>
       </div>
     );
   }
 
   const onMeetingLeave = () => {
     setMeetingId(null);
+    dispatch(setUserJoinMeeting(null));
   };
 
-  function OldParticipantView({ participantId }: { participantId: string }) {
-    const micRef = useRef<HTMLAudioElement | null>(null);
+  function ParticipantView(props) {
+    const micRef = useRef(null);
     const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
-      useParticipant(participantId);
+      useParticipant(props.participantId);
+
+    const meetingInfo = {
+      webcamStream,
+      micStream,
+      webcamOn,
+      micOn,
+      isLocal,
+      displayName
+    };
+    console.log('Here checking meetingInfo');
+
+    if (
+      JSON.stringify(meetingInfo) !== JSON.stringify(meetingInfoState) &&
+      JSON.stringify(meetingInfoState) === '{}'
+    ) {
+      dispatch(setMeetingInfoState(meetingInfo));
+      console.log('Here inside: ', meetingInfoState);
+    }
+    console.log('Checkign outside: ', meetingInfoState);
+    // setUseWebCam(webcamOn);
+    // setUseMic(micOn);
+
+    // const videoStream = useMemo(() => {
+    //   if (webcamOn && webcamStream) {
+    //     const mediaStream = new MediaStream();
+    //     mediaStream.addTrack(webcamStream.track);
+    //     return mediaStream;
+    //   }
+    // }, [webcamStream, webcamOn]);
 
     const videoStream = useMemo(() => {
-      if (webcamOn && webcamStream) {
+      if (meetingInfoState['webcamOn'] && meetingInfoState['webcamStream']) {
         const mediaStream = new MediaStream();
-        mediaStream.addTrack(webcamStream.track);
+        mediaStream.addTrack(meetingInfoState['webcamStream'].track);
         return mediaStream;
       }
-    }, [webcamStream, webcamOn]);
+    }, [meetingInfoState['webcamStream'], meetingInfoState['webcamOn']]);
+
+    // useEffect(() => {
+    //   if (micRef.current) {
+    //     if (micOn && micStream) {
+    //       console.log('Checking micStream: ', micStream);
+    //       const mediaStream = new MediaStream();
+    //       mediaStream.addTrack(micStream.track);
+
+    //       micRef.current.srcObject = mediaStream;
+    //       micRef.current
+    //         .play()
+    //         .catch((error) =>
+    //           console.error('videoElem.current.play() failed', error)
+    //         );
+    //     } else {
+    //       micRef.current.srcObject = null;
+    //     }
+    //   }
+    // }, [micStream, micOn]);
 
     useEffect(() => {
       if (micRef.current) {
-        if (micOn && micStream) {
+        if (meetingInfoState['micOn'] && meetingInfoState['micStream']) {
+          console.log('Checking micStream: ', meetingInfoState['micStream']);
           const mediaStream = new MediaStream();
-          mediaStream.addTrack(micStream.track);
+          mediaStream.addTrack(meetingInfoState['micStream'].track);
 
           micRef.current.srcObject = mediaStream;
           micRef.current
@@ -157,16 +238,22 @@ const Chatroom = (props): JSX.Element => {
           micRef.current.srcObject = null;
         }
       }
-    }, [micStream, micOn]);
+    }, [meetingInfoState['micStream'], meetingInfoState['micOn']]);
 
     return (
-      <div key={participantId}>
+      <div key={props.participantId}>
         <p>
           Participant: {displayName} | Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic:{' '}
           {micOn ? 'ON' : 'OFF'}
         </p>
-        <audio ref={micRef} autoPlay muted={isLocal} />
-        {webcamOn && (
+        {/* <audio ref={micRef} autoPlay muted={isLocal} /> */}
+        <audio
+          ref={meetingInfoState['micRef']}
+          autoPlay
+          muted={meetingInfoState['isLocal']}
+        />
+        {/* {webcamOn && ( */}
+        {meetingInfoState['webcamOn'] && (
           <ReactPlayer
             playsinline
             pip={false}
@@ -175,212 +262,67 @@ const Chatroom = (props): JSX.Element => {
             muted={true}
             playing={true}
             url={videoStream}
-            height={'200px'}
-            width={'300px'}
+            // height={'200px'}
+            // width={'300px'}
+            height="50%"
+            width="50%"
             onError={(err) => {
               console.log(err, 'participant video error');
             }}
           />
-        )}
-      </div>
-    );
-  }
-
-  function ParticipantView(props) {
-    const micRef = useRef(null);
-    const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
-      useParticipant(props.participantId);
-
-    const videoStream = useMemo(() => {
-      if (webcamOn && webcamStream) {
-        const mediaStream = new MediaStream();
-        mediaStream.addTrack(webcamStream.track);
-        return mediaStream;
-      }
-    }, [webcamStream, webcamOn]);
-
-    useEffect(() => {
-      if (micRef.current) {
-        if (micOn && micStream) {
-          const mediaStream = new MediaStream();
-          mediaStream.addTrack(micStream.track);
-
-          micRef.current.srcObject = mediaStream;
-          micRef.current
-            .play()
-            .catch((error) =>
-              console.error('videoElem.current.play() failed', error)
-            );
-        } else {
-          micRef.current.srcObject = null;
-        }
-      }
-    }, [micStream, micOn]);
-
-    return (
-      <div key={props.participantId}>
-        <p>
-          Participant: {displayName} | Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic:{' '}
-          {micOn ? 'ON' : 'OFF'}
-        </p>
-        <audio ref={micRef} autoPlay muted={isLocal} />
-        {webcamOn && (
-          <ReactPlayer
-            //
-            playsinline // very very imp prop
-            pip={false}
-            light={false}
-            controls={false}
-            muted={true}
-            playing={true}
-            //
-            url={videoStream}
-            //
-            height={'200px'}
-            width={'300px'}
-            onError={(err) => {
-              console.log(err, 'participant video error');
-            }}
-          />
-        )}
-      </div>
-    );
-  }
-
-  // function MeetingView({
-  //   onMeetingLeave,
-  //   meetingId
-  // }: {
-  //   onMeetingLeave: () => void;
-  //   meetingId: string;
-  // }) {
-  //   const [joined, setJoined] = useState<string | null>(null);
-  //   //Get the method which will be used to join the meeting.
-  //   //We will also get the participants list to display all participants
-  //   // const { join, participants } = useMeeting({
-  //   //   //callback for when meeting is joined successfully
-  //   //   onMeetingJoined: () => {
-  //   //     setJoined('JOINED');
-  //   //   },
-  //   //   //callback for when meeting is left
-  //   //   onMeetingLeft: () => {
-  //   //     onMeetingLeave();
-  //   //   }
-  //   // });
-  //   const { join } = useMeeting();
-  //   const { participants } = useMeeting({
-  //     onMeetingJoined: () => {
-  //       setJoined('JOINED');
-  //     },
-  //     onMeetingLeft: () => {
-  //       props.onMeetingLeave();
-  //     }
-  //   });
-  //   const joinMeeting = () => {
-  //     setJoined('JOINING');
-  //     join();
-  //   };
-
-  //   console.log('Here check joined and meeting id: ', joined, meetingId);
-
-  //   return (
-  //     <div className="container">
-  //       <h3>Meeting Id: {meetingId}</h3>
-  //       {joined && joined === 'JOINED' ? (
-  //         <div>
-  //           <Controls />
-  //           {
-  //             //For rendering all the participants in the meeting
-  //             [...participants.keys()].map((participantId) => (
-  //               <ParticipantView
-  //                 participantId={participantId}
-  //                 key={participantId}
-  //               />
-  //             ))
-  //           }
-  //         </div>
-  //       ) : joined && joined === 'JOINING' ? (
-  //         <p>Joining the meeting...</p>
-  //       ) : (
-  //         <button onClick={joinMeeting}>Join</button>
-  //       )}
-  //     </div>
-  //   );
-  // }
-
-  function OldMeetingView(props) {
-    const [joined, setJoined] = useState(null);
-    const { join } = useMeeting();
-    console.log('Check joined: ', joined);
-    const { participants } = useMeeting({
-      onMeetingJoined: () => {
-        setJoined('JOINED');
-      },
-      onMeetingLeft: () => {
-        props.onMeetingLeave();
-      }
-    });
-    const joinMeeting = () => {
-      setJoined('JOINING');
-      join();
-    };
-
-    return (
-      <div className="container">
-        <h3>Meeting Id: {props.meetingId}</h3>
-        {joined && joined === 'JOINED' ? (
-          <div>
-            <Controls />
-            {[...participants.keys()].map((participantId) => (
-              <ParticipantView
-                participantId={participantId}
-                key={participantId}
-              />
-            ))}
-          </div>
-        ) : joined && joined === 'JOINING' ? (
-          <p>Joining the meeting...</p>
-        ) : (
-          <button onClick={joinMeeting}>Join</button>
         )}
       </div>
     );
   }
 
   function MeetingView(props) {
-    const [joined, setJoined] = useState(null);
     const { join } = useMeeting();
-    console.log('Checking status of join: ', joined);
+    console.log(
+      'Checking status of join and meeting id: ',
+      userJoinMeeting,
+      meetingId
+    );
     const { participants } = useMeeting({
       onMeetingJoined: () => {
-        setJoined('JOINED');
+        dispatch(setUserJoinMeeting('JOINED'));
       },
       onMeetingLeft: () => {
         props.onMeetingLeave();
       }
     });
+
+    const meetingParticipantsId = [...participants.keys()];
+    if (
+      JSON.stringify(meetingParticipantsId) !==
+        JSON.stringify(meetingParticipants) &&
+      meetingParticipantsId.length > 0
+    ) {
+      dispatch(setMeetingParticipants(meetingParticipantsId));
+    }
+
     const joinMeeting = () => {
-      setJoined('JOINING');
+      dispatch(setUserJoinMeeting('JOINING'));
       join();
     };
-
+    console.log('Checking meetingParticipants: ', meetingParticipants);
     return (
-      <div className="container">
-        <h3>Meeting Id: {props.meetingId}</h3>
-        {joined && joined === 'JOINED' ? (
-          <div>
+      <div className="meeting-container">
+        {userJoinMeeting && userJoinMeeting === 'JOINED' ? (
+          <div className="meeting">
             <Controls />
-            {[...participants.keys()].map((participantId) => (
-              <ParticipantView
-                participantId={participantId}
-                key={participantId}
-              />
-            ))}
+            <div className="meeting-video">
+              {[...meetingParticipants].map((participantId) => (
+                <ParticipantView
+                  participantId={participantId}
+                  key={participantId}
+                />
+              ))}
+            </div>
           </div>
-        ) : joined && joined === 'JOINING' ? (
+        ) : userJoinMeeting && userJoinMeeting === 'JOINING' ? (
           <p>Joining the meeting...</p>
         ) : (
-          <button onClick={joinMeeting}>Join</button>
+          <button onClick={joinMeeting}>Join Meeting</button>
         )}
       </div>
     );
@@ -389,31 +331,25 @@ const Chatroom = (props): JSX.Element => {
   return (
     <div
       className="livechat-panel"
-      style={{ paddingLeft: '10px', width: '100%', height: '100%' }}
+      style={{
+        paddingLeft: '10px',
+        width: '100%',
+        height: '100%',
+        display: 'flex'
+      }}
     >
-      <div className="video-meeting">
+      <div
+        className="video-meeting"
+        style={{
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '80%',
+          width: '50%'
+        }}
+      >
         {videoSDKToken && meetingId ? (
           <div>
-            {/* <MeetingProvider
-              config={{
-                meetingId,
-                micEnabled: true,
-                webcamEnabled: true,
-                name: 'project',
-                participantId: 'xyz',
-                mode: 'CONFERENCE'
-              }}
-              token={videoSDKToken}
-            >
-              <MeetingConsumer>
-                {() => (
-                  <MeetingView
-                    meetingId={meetingId}
-                    onMeetingLeave={onMeetingLeave}
-                  />
-                )}
-              </MeetingConsumer>
-            </MeetingProvider> */}
             <MeetingProvider
               config={{
                 meetingId,
@@ -435,8 +371,7 @@ const Chatroom = (props): JSX.Element => {
           </div>
         ) : (
           <div>
-            {/* <button onClick={() => setJoinMeeting(true)}>Join Meeting</button> */}
-            <button>Join Meeting</button>
+            <p>Please contact the team for technical support</p>
           </div>
         )}
       </div>
@@ -446,7 +381,8 @@ const Chatroom = (props): JSX.Element => {
           justifyContent: 'center',
           display: 'flex',
           flexDirection: 'column',
-          height: '80%'
+          height: '80%',
+          width: '50%'
         }}
       >
         <div
