@@ -111,7 +111,7 @@ io.on('connection', (client) => {
           hostID = userList[0];
           // } else if (!roomLists[roomCode] && method === 'CREATE') {
           io.emit('user created a new room');
-        } else {
+        } else if (method === "JOIN") {
           userList = Object.keys(roomLists[roomCode]);
           hostID = userList[0];
 
