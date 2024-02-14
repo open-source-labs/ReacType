@@ -93,7 +93,6 @@ io.on('connection', (client) => {
       roomPassword: string,
       method: string
     ) => {
-      console.log('HEREERE');
       try {
         let userList,
           hostID,
