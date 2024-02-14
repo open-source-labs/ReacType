@@ -6,13 +6,7 @@ import { emitEvent } from '../../helperFunctions/socket';
 import {
   setMeetingId,
   setUserJoinMeeting,
-  setMeetingParticipants,
-  // setWebcamStreamState,
-  // setMicOnState,
-  // setWebcamOnState,
-  // setIsLocalState,
-  // setDisplayNameState
-  setMeetingInfoState
+  setMeetingParticipants
 } from '../../redux/reducers/slice/roomSlice';
 import {
   MeetingProvider,
@@ -35,8 +29,7 @@ const Chatroom = (props): JSX.Element => {
     messages,
     meetingId,
     userJoinMeeting,
-    meetingParticipants,
-    meetingInfoState
+    meetingParticipants
   } = useSelector((store: RootState) => store.roomSlice);
 
   const [inputContent, setInputContent] = useState('');
@@ -130,17 +123,7 @@ const Chatroom = (props): JSX.Element => {
     }
   }, [messages]);
 
-  // function Controls() {
-  //   const { leave, toggleMic, toggleWebcam } = useMeeting();
-  //   return (
-  //     <div>
-  //       <button onClick={() => leave()}>Leave</button>
-  //       <button onClick={() => toggleMic()}>toggleMic</button>
-  //       <button onClick={() => toggleWebcam()}>toggleWebcam</button>
-  //     </div>
-  //   );
-  // }
-  function Controls() {
+  function ControlPanel() {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
     return (
       <div>
@@ -165,68 +148,19 @@ const Chatroom = (props): JSX.Element => {
     const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
       useParticipant(props.participantId);
 
-    const meetingInfo = {
-      webcamStream,
-      micStream,
-      webcamOn,
-      micOn,
-      isLocal,
-      displayName
-    };
-    console.log('Here checking meetingInfo');
-
-    if (
-      JSON.stringify(meetingInfo) !== JSON.stringify(meetingInfoState) &&
-      JSON.stringify(meetingInfoState) === '{}'
-    ) {
-      dispatch(setMeetingInfoState(meetingInfo));
-      console.log('Here inside: ', meetingInfoState);
-    }
-    console.log('Checkign outside: ', meetingInfoState);
-    // setUseWebCam(webcamOn);
-    // setUseMic(micOn);
-
-    // const videoStream = useMemo(() => {
-    //   if (webcamOn && webcamStream) {
-    //     const mediaStream = new MediaStream();
-    //     mediaStream.addTrack(webcamStream.track);
-    //     return mediaStream;
-    //   }
-    // }, [webcamStream, webcamOn]);
-
     const videoStream = useMemo(() => {
-      if (meetingInfoState['webcamOn'] && meetingInfoState['webcamStream']) {
+      if (webcamOn && webcamStream) {
         const mediaStream = new MediaStream();
-        mediaStream.addTrack(meetingInfoState['webcamStream'].track);
+        mediaStream.addTrack(webcamStream.track);
         return mediaStream;
       }
-    }, [meetingInfoState['webcamStream'], meetingInfoState['webcamOn']]);
-
-    // useEffect(() => {
-    //   if (micRef.current) {
-    //     if (micOn && micStream) {
-    //       console.log('Checking micStream: ', micStream);
-    //       const mediaStream = new MediaStream();
-    //       mediaStream.addTrack(micStream.track);
-
-    //       micRef.current.srcObject = mediaStream;
-    //       micRef.current
-    //         .play()
-    //         .catch((error) =>
-    //           console.error('videoElem.current.play() failed', error)
-    //         );
-    //     } else {
-    //       micRef.current.srcObject = null;
-    //     }
-    //   }
-    // }, [micStream, micOn]);
+    }, [webcamStream, webcamOn]);
 
     useEffect(() => {
       if (micRef.current) {
-        if (meetingInfoState['micOn'] && meetingInfoState['micStream']) {
-          console.log('Checking micStream: ', meetingInfoState['micStream']);
+        if (micOn && micStream) {
           const mediaStream = new MediaStream();
-          mediaStream.addTrack(meetingInfoState['micStream'].track);
+          mediaStream.addTrack(micStream.track);
 
           micRef.current.srcObject = mediaStream;
           micRef.current
@@ -238,7 +172,7 @@ const Chatroom = (props): JSX.Element => {
           micRef.current.srcObject = null;
         }
       }
-    }, [meetingInfoState['micStream'], meetingInfoState['micOn']]);
+    }, [micStream, micOn]);
 
     return (
       <div key={props.participantId}>
@@ -246,14 +180,9 @@ const Chatroom = (props): JSX.Element => {
           Participant: {displayName} | Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic:{' '}
           {micOn ? 'ON' : 'OFF'}
         </p>
-        {/* <audio ref={micRef} autoPlay muted={isLocal} /> */}
-        <audio
-          ref={meetingInfoState['micRef']}
-          autoPlay
-          muted={meetingInfoState['isLocal']}
-        />
-        {/* {webcamOn && ( */}
-        {meetingInfoState['webcamOn'] && (
+        <audio ref={micRef} autoPlay muted={isLocal} />
+
+        {webcamOn && (
           <ReactPlayer
             playsinline
             pip={false}
@@ -277,11 +206,7 @@ const Chatroom = (props): JSX.Element => {
 
   function MeetingView(props) {
     const { join } = useMeeting();
-    console.log(
-      'Checking status of join and meeting id: ',
-      userJoinMeeting,
-      meetingId
-    );
+
     const { participants } = useMeeting({
       onMeetingJoined: () => {
         dispatch(setUserJoinMeeting('JOINED'));
@@ -304,12 +229,12 @@ const Chatroom = (props): JSX.Element => {
       dispatch(setUserJoinMeeting('JOINING'));
       join();
     };
-    console.log('Checking meetingParticipants: ', meetingParticipants);
+
     return (
       <div className="meeting-container">
         {userJoinMeeting && userJoinMeeting === 'JOINED' ? (
           <div className="meeting">
-            <Controls />
+            <ControlPanel />
             <div className="meeting-video">
               {[...meetingParticipants].map((participantId) => (
                 <ParticipantView
