@@ -30,7 +30,7 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseMoveHandler = function (e: MouseEvent): void {
-    if (!props.bottomShow) return; // prevent drag calc to occur when bottom menu is not showing
+    if (!props.bottomShow) return; // prevent drag calculation to occur when bottom menu is not showing
 
     const dy = y - e.clientY;
 
