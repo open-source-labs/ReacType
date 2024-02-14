@@ -93,6 +93,7 @@ io.on('connection', (client) => {
       roomPassword: string,
       method: string
     ) => {
+      console.log('HEREERE');
       try {
         let userList,
           hostID,
@@ -109,9 +110,11 @@ io.on('connection', (client) => {
 
           userList = Object.keys(roomLists[roomCode]);
           hostID = userList[0];
-          // } else if (!roomLists[roomCode] && method === 'CREATE') {
+
+          console.log('rooms', roomLists);
+
           io.emit('user created a new room');
-        } else if (method === "JOIN") {
+        } else if (method === 'JOIN') {
           userList = Object.keys(roomLists[roomCode]);
           hostID = userList[0];
 
@@ -124,7 +127,6 @@ io.on('connection', (client) => {
             correctPassword = true;
             io.emit('correct password');
           } else {
-            console.log('WRONG PASSWORD');
             io.emit('wrong password');
           }
         }
@@ -147,6 +149,12 @@ io.on('connection', (client) => {
             Object.values(roomLists[roomCode]) // send updated userList to all users in room
           );
         }
+
+        io.to(roomCode).emit('new chat message', {
+          userName,
+          message: `${userName} left chat room`,
+          type: 'activity'
+        });
       } catch (error) {
         console.log(
           'Request Timeout: Client failed to request state from host.',
@@ -163,16 +171,21 @@ io.on('connection', (client) => {
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
+    const userName = roomLists[roomCode][client.id];
     delete roomLists[roomCode][client.id];
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
-      io.to(roomCode).emit(
-        'updateUserList',
-        Object.values(roomLists[roomCode])
-      );
+      io.to(roomCode).emit('updateUserList', {
+        userList: Object.values(roomLists[roomCode])
+      });
+      io.to(roomCode).emit('new chat message', {
+        userName,
+        message: `${userName} left chat room`,
+        type: 'activity'
+      });
     }
   });
 
@@ -351,20 +364,9 @@ io.on('connection', (client) => {
   });
 });
 
-//--------------------------------
-
-/*
-GraphQl Router
-*/
-/* ******************************************************************* */
-
-// Query resolvers
 import Query from './graphQL/resolvers/query';
-
-// Mutation resolvers
 import Mutation from './graphQL/resolvers/mutation';
 
-// package resolvers into one variable to pass to Apollo Server
 const resolvers = {
   Query,
   Mutation
@@ -373,30 +375,12 @@ const resolvers = {
 // Re-direct to route handlers:
 app.use('/user-styles', stylesRouter);
 
-// schemas used for graphQL
-
 import typeDefs from './graphQL/schema/typeDefs';
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
 //use make exacutable schema to allow schema to be passed to new server
 const schema = makeExecutableSchema({ typeDefs, resolvers });
-
-// const server = new ApolloServer({ schema });
-
-// //v4 syntax
-
-// await server.start();
-// app.use(
-//   '/graphql',
-//   cors(),
-//   json(),
-//   expressMiddleware(server, {
-//     context: async ({ req }) => ({ token: req.headers.token })
-//   })
-// );
-
-/** ****************************************************************** */
 
 app.post(
   '/signup',
@@ -510,15 +494,6 @@ app.get('/test', (req, res) => {
   res.send('test request is working');
 });
 
-// only for testing purposes in the dev environment
-// app.get('/', function(req, res) {
-//   res.send('Houston, Caret is in orbit!');
-// });
-
-// app.use('http://localhost:8080/*', (req, res) => {
-//   res.status(404).send('not a valid page (404 page)');
-// });
-// catch-all route handler
 app.use('/*', (req, res) => res.status(404).send('Page not found'));
 
 // Global error handler
