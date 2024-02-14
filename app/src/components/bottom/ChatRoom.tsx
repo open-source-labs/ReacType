@@ -35,6 +35,7 @@ const Chatroom = (props): JSX.Element => {
   const [inputContent, setInputContent] = useState('');
   const [useWebcam, setUseWebCam] = useState(true);
   const [useMic, setUseMic] = useState(true);
+  const [remainInTab, setRemainInTab] = useState(null);
 
   const wrapperStyles = {
     border: `2px solid #f2fbf8`,
@@ -216,11 +217,12 @@ const Chatroom = (props): JSX.Element => {
       }
     });
 
-    const meetingParticipantsId = [...participants.keys()];
+    // const meetingParticipantsId = [...participants.keys()];
+    const meetingParticipantsId = new Set(participants.keys());
     if (
       JSON.stringify(meetingParticipantsId) !==
         JSON.stringify(meetingParticipants) &&
-      meetingParticipantsId.length > 0
+      meetingParticipantsId.size > 0
     ) {
       dispatch(setMeetingParticipants(meetingParticipantsId));
     }
@@ -228,15 +230,22 @@ const Chatroom = (props): JSX.Element => {
     const joinMeeting = () => {
       dispatch(setUserJoinMeeting('JOINING'));
       join();
+      setRemainInTab(true);
     };
+
+    if (userJoinMeeting === 'JOINED' && remainInTab === null) {
+      console.log('Need to rejoin!');
+      join();
+      setRemainInTab(true);
+    }
 
     return (
       <div className="meeting-container">
-        {userJoinMeeting && userJoinMeeting === 'JOINED' ? (
+        {userJoinMeeting === 'JOINED' ? (
           <div className="meeting">
             <ControlPanel />
             <div className="meeting-video">
-              {[...meetingParticipants].map((participantId) => (
+              {[...meetingParticipantsId].map((participantId) => (
                 <ParticipantView
                   participantId={participantId}
                   key={participantId}
@@ -244,7 +253,7 @@ const Chatroom = (props): JSX.Element => {
               ))}
             </div>
           </div>
-        ) : userJoinMeeting && userJoinMeeting === 'JOINING' ? (
+        ) : userJoinMeeting === 'JOINING' ? (
           <p>Joining the meeting...</p>
         ) : (
           <button onClick={joinMeeting}>Join Meeting</button>
