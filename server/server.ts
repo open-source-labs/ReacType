@@ -248,9 +248,12 @@ io.on('connection', (client) => {
   });
 
   client.on('clearCanvasAction', async (roomCode: string, userName: string) => {
+    const usernNames = Object.values(roomLists[roomCode]).map(
+      (el) => el['userName']
+    );
     if (roomCode) {
       // server send clear canvas to everyone in the room if action is from the host
-      if (userName === Object.values(roomLists[roomCode])[0]) {
+      if (userName === usernNames[0]) {
         io.to(roomCode).emit(
           'clear canvas from server',
           Object.values(roomLists[roomCode])
