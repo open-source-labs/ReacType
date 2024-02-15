@@ -41,7 +41,8 @@ import {
   setUserJoined,
   setUserList,
   setMessages,
-  setPassword
+  setPassword,
+  setEmptyMessages
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
@@ -342,6 +343,7 @@ const RoomsContainer = () => {
     dispatch(setUserJoined(false)); //false: join room UI appear
     dispatch(resetState(''));
     dispatch(setPassword(''));
+    dispatch(setEmptyMessages([]));
   };
 
   const checkInputField = (...inputs) => {
