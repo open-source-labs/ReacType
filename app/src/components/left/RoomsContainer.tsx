@@ -88,24 +88,13 @@ const RoomsContainer = () => {
     if (socket) {
       //run everytime when a client connects to server
       socket.on('connect', () => {
-        if (method === 'CREATE') {
-          socket.emit(
-            'creating a room',
-            userName,
-            roomCode,
-            roomPassword,
-            method
-          );
-          // socket.emit('creating', userName, roomCode, roomPassword);
-        } else if (method === 'JOIN') {
-          socket.emit(
-            'creating a room',
-            userName,
-            roomCode,
-            roomPassword,
-            method
-          );
-        }
+        socket.emit(
+          'creating a room',
+          userName,
+          roomCode,
+          roomPassword,
+          method
+        );
       });
 
       socket.on('wrong password', () => {
