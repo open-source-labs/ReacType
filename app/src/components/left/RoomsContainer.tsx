@@ -110,13 +110,11 @@ const RoomsContainer = () => {
 
       socket.on('wrong password', () => {
         setIsPasswordAttemptIncorrect(false);
-        console.log('WRONG PASSWORD in client');
       });
 
       socket.on('correct password', () => {
         setIsPasswordAttemptIncorrect(true);
         addNewUserToCollabRoom();
-        console.log('correct in client');
       });
 
       socket.on('user created a new room', () => {
@@ -125,7 +123,6 @@ const RoomsContainer = () => {
 
       socket.on('room is already taken', () => {
         setIsCollabRoomTaken(true);
-        console.log('room is already taken');
       });
       //If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {
