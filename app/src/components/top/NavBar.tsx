@@ -145,7 +145,7 @@ const NavBar: React.FC = () => {
   return (
     <div>
       <nav className="main-navbar" style={{ backgroundColor: '#151515' }}>
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/" style={{ textDecoration: 'none', cursor: 'default' }}>
           <div className="main-logo">
             <Avatar src={logo}></Avatar>
             <h1 style={{ color: 'white' }}>ReacType</h1>
