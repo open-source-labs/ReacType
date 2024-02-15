@@ -18,7 +18,11 @@ const validateNewParent = (
     nestedParent = false
   ): boolean => {
     for (const element of array) {
-      if (element.childId === toTargetParentId && nestedChild === true)
+      if (
+        element.childId === toTargetParentId &&
+        nestedChild === true &&
+        element.typeId > 1000 // check if not a separator (1000) or previously dragged component (> 1000)
+      )
         return (nestedParent = true);
       else if (
         element.childId === currentChildId &&
