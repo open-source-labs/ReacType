@@ -148,7 +148,7 @@ const NavBar: React.FC = () => {
         <Link to="/" style={{ textDecoration: 'none', cursor: 'default' }}>
           <div className="main-logo">
             <Avatar src={logo}></Avatar>
-            <h1 style={{ color: 'white' }}>ReacType</h1>
+            <h1 style={{ color: '#151515' }}>reactype</h1>
           </div>
         </Link>
         <div style={buttonContainerStyle}>

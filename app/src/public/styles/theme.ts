@@ -41,7 +41,7 @@ export const SigninDark = createTheme({
       main: '#17a2b8'
     },
     background: {
-      paper: '#354e9c'
+      paper: '#2997ff'
     }
   }
 });

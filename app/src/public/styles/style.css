@@ -781,17 +781,6 @@ div.rst__rowContents {
   cursor: pointer;
 }
 
-a.nav_link {
-  color: rgba(0, 0, 0, 0.87);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-a.nav_link:hover {
-  color: #3ec1ac;
-  text-decoration: underline;
-}
-
 /* Additional styling for ReacType X */
 .componentDefault {
   width: auto;
@@ -873,4 +862,41 @@ a.nav_link:hover {
 
 li {
   color: black;
+}
+
+.bi {
+  margin-right: 0.5rem;
+  text-transform: none;
+}
+
+.blue-accent-text {
+  color: #2997ff;
+}
+
+a.nav_link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+a.nav_link:hover {
+  color: #3ec1ac;
+  text-decoration: underline;
+}
+
+.other-options {
+  margin-bottom: 1r;
+  text-transform: none;
+  size: 1rem;
+  color: white;
+  transition: 300ms;
+}
+
+.other-options:hover {
+  color: #aaaaaa;
+  cursor: pointer;
 }
