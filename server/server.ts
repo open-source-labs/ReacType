@@ -109,7 +109,7 @@ io.on('connection', (client) => {
       try {
         let userList,
           hostID,
-          correctPassword = false;
+          userMayEnter = false;
 
         if (roomLists[roomCode] && method === 'CREATE') {
           io.emit('room is already taken');
@@ -119,6 +119,7 @@ io.on('connection', (client) => {
           roomLists[roomCode] = {};
           roomLists[roomCode][client.id] = { userName, password: roomPassword };
 
+          userMayEnter = true;
           io.emit('user created a new room');
         }
 
@@ -132,7 +133,7 @@ io.on('connection', (client) => {
               password: roomPassword
             };
 
-            correctPassword = true;
+            userMayEnter = true;
             io.emit('correct password');
           } else {
             io.emit('wrong password');
@@ -142,32 +143,34 @@ io.on('connection', (client) => {
         userList = Object.keys(roomLists[roomCode]);
         hostID = userList[0];
 
-        const newClientID = userList[userList.length - 1];
-        //server ask host for the current state
-        const hostState = await io //once the request is sent back save to host state
-          .timeout(5000)
-          .to(hostID) // sends only to host
-          .emitWithAck('requesting state from host'); //sending request
+        if (userMayEnter === true) {
+          const newClientID = userList[userList.length - 1];
+          //server ask host for the current state
+          const hostState = await io //once the request is sent back save to host state
+            .timeout(5000)
+            .to(hostID) // sends only to host
+            .emitWithAck('requesting state from host'); //sending request
 
-        //share host's state with the latest user
-        const newClientResponse = await io
-          .timeout(5000)
-          .to(newClientID) // sends only to new client
-          .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
+          //share host's state with the latest user
+          const newClientResponse = await io
+            .timeout(5000)
+            .to(newClientID) // sends only to new client
+            .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
 
-        if (newClientResponse[0].status === 'confirmed') {
-          client.join(roomCode); //client joining a room
-          io.to(roomCode).emit(
-            'updateUserList',
-            {
-              userList: Object.values(roomLists[roomCode])
-            } // send updated userList to all users in room
-          );
-          io.to(roomCode).emit('new chat message', {
-            userName,
-            message: `${userName} joined chat room`,
-            type: 'activity'
-          });
+          if (newClientResponse[0].status === 'confirmed') {
+            client.join(roomCode); //client joining a room
+            io.to(roomCode).emit(
+              'updateUserList',
+              {
+                userList: Object.values(roomLists[roomCode])
+              } // send updated userList to all users in room
+            );
+            io.to(roomCode).emit('new chat message', {
+              userName,
+              message: `${userName} joined chat room`,
+              type: 'activity'
+            });
+          }
         }
       } catch (error) {
         console.log(
