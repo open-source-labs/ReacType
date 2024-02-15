@@ -340,10 +340,6 @@ const Canvas = (props: {}): JSX.Element => {
     margin: '8px 0 0 8px'
   };
 
-  useEffect(() => {
-    console.log("CURSOR", remoteCursors);
-  })
-
   return (
     <div>
       <div
