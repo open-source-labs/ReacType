@@ -727,9 +727,14 @@ CANVAS WINDOW
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
 
-.delete-button-empty:hover {
+.deleteIcon {
+  font-size: 18px;
+  color: #4a4a4a;
+  cursor: pointer;
+}
+
+.deleteIcon:hover {
   color: white;
-  background-color: rgba(0, 100, 0, 0.4);
 }
 
 .componentContainer {

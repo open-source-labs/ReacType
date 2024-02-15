@@ -225,7 +225,11 @@ function DirectChildHTMLNestable({
           {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>
         {routeButton}
-        <DeleteButton id={childId} name={name} />
+        <DeleteButton
+          id={childId}
+          name={name}
+          onClickHandler={onClickHandler}
+        />
       </span>
       {renderChildren(children)}
     </div>
