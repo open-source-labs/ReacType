@@ -14,7 +14,6 @@ import FBPassWord from './components/login/FBPassWord';
 import ProjectDashboard from './Dashboard/ProjectContainer';
 import { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import SignIn from './components/login/SignIn';
 import SignUp from './components/login/SignUp';

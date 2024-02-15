@@ -20,12 +20,16 @@ import MicIcon from '@mui/icons-material/Mic';
 const Videomeeting = (props): JSX.Element => {
   const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
   const dispatch = useDispatch();
-  const { meetingId, userJoinMeeting, meetingParticipants } = useSelector(
-    (store: RootState) => store.roomSlice
-  );
+  const {
+    roomCode,
+    meetingId,
+    userJoined,
+    userJoinMeeting,
+    meetingParticipants
+  } = useSelector((store: RootState) => store.roomSlice);
 
-  const [useWebcam, setUseWebCam] = useState(true);
-  const [useMic, setUseMic] = useState(true);
+  const [useWebcam, setUseWebCam] = useState(false);
+  const [useMic, setUseMic] = useState(false);
   const micRef = useRef(null);
 
   function ControlPanel() {
@@ -44,7 +48,7 @@ const Videomeeting = (props): JSX.Element => {
   }
 
   const onMeetingLeave = () => {
-    setMeetingId(null);
+    dispatch(setMeetingId(null));
     dispatch(setUserJoinMeeting(null));
   };
 
@@ -79,6 +83,21 @@ const Videomeeting = (props): JSX.Element => {
       }
     }, [micStream, micOn]);
 
+    // useEffect(() => {
+    //   // Trigger leave() if the user leaves collaboration room
+    //   console.log(
+    //     'In videoMeeting checking userJoined: ',
+    //     roomCode,
+    //     userJoined
+    //   );
+    //   if (!userJoined) {
+    //     console.log('Here check use meeting: ', useMeeting());
+    //     // const { leave } = useMeeting();
+    //     // leave();
+    //     // onMeetingLeave();
+    //   }
+    // }, [roomCode, userJoined]);
+
     return (
       <div key={props.participantId}>
         <p>
@@ -110,8 +129,7 @@ const Videomeeting = (props): JSX.Element => {
   }
 
   function MeetingView(props) {
-    const { join, localParticipant, meeting } = useMeeting();
-    console.log('Here check localParticipant: ', localParticipant);
+    const { join, localParticipant, meeting, leave } = useMeeting();
 
     const { participants } = useMeeting({
       onMeetingJoined: () => {
@@ -136,6 +154,11 @@ const Videomeeting = (props): JSX.Element => {
       dispatch(setUserJoinMeeting('JOINING'));
       join();
     };
+
+    if (!userJoined && userJoinMeeting !== null) {
+      leave();
+      onMeetingLeave();
+    }
 
     return (
       <div className="meeting-container">
@@ -162,30 +185,29 @@ const Videomeeting = (props): JSX.Element => {
   }
 
   return (
-    <div
-      className="video-meeting"
-      style={{
-        justifyContent: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '80%',
-        width: '50%'
-      }}
-    >
-      {videoSDKToken && meetingId ? (
-        <div>
-          <MeetingConsumer>
-            {() => (
-              <MeetingView
-                meetingId={meetingId}
-                onMeetingLeave={onMeetingLeave}
-              />
-            )}
-          </MeetingConsumer>
-        </div>
-      ) : (
-        <div>
-          <p>Please contact the team for technical support</p>
+    <div>
+      {/* {videoSDKToken && meetingId && userJoined && ( */}
+      {videoSDKToken && meetingId && (
+        <div
+          className="video-meeting"
+          style={{
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '80%',
+            width: '50%'
+          }}
+        >
+          <div>
+            <MeetingConsumer>
+              {() => (
+                <MeetingView
+                  meetingId={meetingId}
+                  onMeetingLeave={onMeetingLeave}
+                />
+              )}
+            </MeetingConsumer>
+          </div>
         </div>
       )}
     </div>

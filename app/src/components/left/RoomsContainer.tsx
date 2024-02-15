@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
@@ -57,6 +58,7 @@ import {
 
 const RoomsContainer = () => {
   const dispatch = useDispatch();
+  const roomInfo = useSelector((store: RootState) => store.roomSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const userList = useSelector((store: RootState) => store.roomSlice.userList);
@@ -300,6 +302,8 @@ const RoomsContainer = () => {
     dispatch(setUserJoined(false)); //false: join room UI appear
     dispatch(resetState(''));
     dispatch(setPassword(''));
+    dispatch(setMessages([]));
+    dispatch(setMeetingId(''));
   };
 
   const checkInputField = (...inputs) => {
