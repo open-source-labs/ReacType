@@ -390,26 +390,28 @@ const Canvas = (props: {}): JSX.Element => {
         )}
         <label className="switch">
           {userList.length > 1 && (
-            <button
+            <Button
               className="btn-toggle"
               onClick={multipleClicks}
               style={{
                 position: 'fixed',
-                width: 'max-content',
-                height: 'max-content',
-                bottom: '100px',
-                left: '51vw',
+                width: '100px',
+                height: '35px',
+                bottom: '200px',
+                right: '45vw',
+                padding: '5px',
                 textAlign: 'center',
-                color: '#FFFFFF',
+                color: '#ffffff',
                 backgroundColor: '#151515',
                 zIndex: 0,
-                padding: '5px',
-                borderColor: '#354e9c',
-                borderRadius: '5px'
+                border: '2px solid #354e9c',
+                whiteSpace: 'nowrap',
+                cursor: 'pointer',
+                textTransform: 'none'
               }}
             >
               {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
-            </button>
+            </Button>
           )}
         </label>
       </div>
