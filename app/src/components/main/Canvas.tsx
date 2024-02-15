@@ -30,6 +30,8 @@ const Canvas = (props: {}): JSX.Element => {
   //remote cursor data
   const [remoteCursors, setRemoteCursors] = useState([]);
 
+
+
   // Toggle switch for live cursor tracking
   const [toggleSwitch, setToggleSwitch] = useState(true);
 
@@ -337,6 +339,10 @@ const Canvas = (props: {}): JSX.Element => {
     border: '2px solid #354e9c',
     margin: '8px 0 0 8px'
   };
+
+  useEffect(() => {
+    console.log("CURSOR", remoteCursors);
+  })
 
   return (
     <div>
