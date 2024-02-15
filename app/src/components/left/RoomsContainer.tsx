@@ -386,7 +386,10 @@ const RoomsContainer = () => {
         </Typography>
         {userJoined ? (
           <>
-            <Typography variant="h6" color="#898a8b">
+            <Typography
+              variant="h6"
+              color={userColors[userList.indexOf(userName)]}
+            >
               Nickname: {userName}
             </Typography>
             <Typography
@@ -429,7 +432,7 @@ const RoomsContainer = () => {
                   >
                     <ListItemText
                       primary={`${index + 1}. ${
-                        index === 0 ? `${user.userName} (host)` : user.userName
+                        index === 0 ? `${user} (host)` : user
                       }`}
                       style={{ color: userColors[userList.indexOf(user)] }}
                     />
