@@ -28,6 +28,9 @@ const roomSlice = createSlice({
     setMessages: (state, action) => {
       state.messages = [...state.messages, action.payload];
     },
+    setEmptyMessages: (state, action) => {
+      state.messages = [];
+    },
     setPassword: (state, action) => {
       state.password = action.payload;
     }
@@ -40,6 +43,7 @@ export const {
   setUserList,
   setUserJoined,
   setMessages,
+  setEmptyMessages,
   setPassword
 } = roomSlice.actions;
 
