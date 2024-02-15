@@ -395,16 +395,13 @@ const RoomsContainer = () => {
         </Typography>
         {userJoined ? (
           <>
-            <Typography
-              variant="h6"
-              color={userColors[userList.indexOf(userName)]}
-            >
+            <Typography variant="h6" color="#898a8b">
               Nickname: {userName}
             </Typography>
             <Typography
               variant="body1"
               sx={{
-                color: 'white'
+                color: '#898a8b'
               }}
             >
               Users: {userList.length}
@@ -415,11 +412,9 @@ const RoomsContainer = () => {
                 height: 300,
                 maxWidth: 200,
                 bgcolor: '#333333',
-                border: '3px solid #f2fbf8',
                 borderRadius: '5%',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
                 overflow: 'auto',
                 color: 'white'
               }}

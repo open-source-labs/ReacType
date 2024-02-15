@@ -190,7 +190,7 @@ io.on('connection', (client) => {
   //disconnecting functionality
   client.on('disconnecting', () => {
     const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
-    const userName = roomLists[roomCode][client.id];
+    const userName = roomLists[roomCode][client.id].userName;
     delete roomLists[roomCode][client.id];
     //if room empty, delete room from room list
     if (!Object.keys(roomLists[roomCode]).length) {
