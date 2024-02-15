@@ -108,6 +108,7 @@ const BottomTabs = (props): JSX.Element => {
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Live Chat"
+            onClick={showBottomPanel}
           />
         </Tabs>
         <div className={classes.projectTypeWrapper}>
@@ -121,13 +122,13 @@ const BottomTabs = (props): JSX.Element => {
               onChange={handleProjectChange}
               MenuProps={{ disablePortal: true }}
             >
-              <MenuItem style={{ color: 'black' }} value={'Classic React'}>
+              <MenuItem style={{ color: 'white' }} value={'Classic React'}>
                 Classic React
               </MenuItem>
-              <MenuItem style={{ color: 'black' }} value={'Gatsby.js'}>
+              <MenuItem style={{ color: 'white' }} value={'Gatsby.js'}>
                 Gatsby.js
               </MenuItem>
-              <MenuItem style={{ color: 'black' }} value={'Next.js'}>
+              <MenuItem style={{ color: 'white' }} value={'Next.js'}>
                 Next.js
               </MenuItem>
             </Select>
