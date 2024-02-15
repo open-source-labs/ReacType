@@ -159,10 +159,13 @@ io.on('connection', (client) => {
 
           if (newClientResponse[0].status === 'confirmed') {
             client.join(roomCode); //client joining a room
+            const usernNames = Object.values(roomLists[roomCode]).map(
+              (el) => el['userName']
+            );
             io.to(roomCode).emit(
               'updateUserList',
               {
-                userList: Object.values(roomLists[roomCode])
+                userList: usernNames
               } // send updated userList to all users in room
             );
             io.to(roomCode).emit('new chat message', {
@@ -197,8 +200,11 @@ io.on('connection', (client) => {
       delete roomLists[roomCode];
     } else {
       //else emit updated user list
+      const usernNames = Object.values(roomLists[roomCode]).map(
+        (el) => el['userName']
+      );
       io.to(roomCode).emit('updateUserList', {
-        userList: Object.values(roomLists[roomCode])
+        userList: usernNames
       });
       io.to(roomCode).emit('new chat message', {
         userName,
