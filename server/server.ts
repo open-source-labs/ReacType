@@ -118,7 +118,6 @@ io.on('connection', (client) => {
           });
           //   //Destructuring the roomId from the response
           const { roomId }: { roomId: string } = await res.json();
-          console.log('Here in server roomId: ', roomId);
           return roomId;
         };
         roomLists[roomCode] = {};

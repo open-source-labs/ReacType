@@ -17,7 +17,6 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 import MicIcon from '@mui/icons-material/Mic';
 
 const Videomeeting = (props): JSX.Element => {
-  const { joinStatus } = props;
   const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
   const dispatch = useDispatch();
   const {
@@ -30,9 +29,7 @@ const Videomeeting = (props): JSX.Element => {
   const [useWebcam, setUseWebCam] = useState(false);
   const [useMic, setUseMic] = useState(false);
   const micRef = useRef(null);
-  const [isJoinButtonVisible, setIsJoinButtonVisible] = useState(
-    userJoinMeetingStatus === null
-  );
+
   function ControlPanel() {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
     return (
@@ -59,7 +56,6 @@ const Videomeeting = (props): JSX.Element => {
 
   const onMeetingLeave = () => {
     dispatch(setUserJoinMeetingStatus(null));
-    setIsJoinButtonVisible(true);
   };
 
   function ParticipantView(props) {
@@ -152,10 +148,7 @@ const Videomeeting = (props): JSX.Element => {
     const joinMeeting = () => {
       dispatch(setUserJoinMeetingStatus('JOINING'));
       join();
-      setIsJoinButtonVisible(false);
     };
-
-    console.log('Here check status: ', joinStatus);
 
     if (!userJoinCollabRoom && userJoinMeetingStatus !== null) {
       leave();

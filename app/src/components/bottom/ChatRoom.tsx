@@ -110,7 +110,7 @@ const Chatroom = (props): JSX.Element => {
         alignItems: 'center'
       }}
     >
-      <Videomeeting joinStatus={userJoinCollabRoom} />
+      <Videomeeting />
       {userJoinCollabRoom && (
         <div
           className="chatroom"

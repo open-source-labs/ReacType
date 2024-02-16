@@ -452,7 +452,6 @@ const RoomsContainer = () => {
               value={roomCode}
               placeholder="Password"
               onChange={(e) => dispatch(setPassword(e.target.value))}
-              // className="enterRoomInput"
             />
             <Button
               variant="contained"
