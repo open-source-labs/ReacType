@@ -15,6 +15,8 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import MicIcon from '@mui/icons-material/Mic';
+import CallEndIcon from '@mui/icons-material/CallEnd';
+import Button from '@mui/material/Button';
 
 const Videomeeting = (props): JSX.Element => {
   const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
@@ -32,22 +34,63 @@ const Videomeeting = (props): JSX.Element => {
 
   function ControlPanel() {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
+
+    const iconStyle = {
+      backgroundColor: 'transparent',
+      color: '#0070BA',
+      fontSize: 36
+    };
+    const buttonStyle = {
+      backgroundColor: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      padding: 0,
+      margin: 0,
+      outline: 'none'
+    };
     return (
       userJoinMeetingStatus === 'JOINED' && (
-        <div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
           <button
+            style={buttonStyle}
             onClick={() => {
               leave();
               onMeetingLeave();
             }}
           >
-            Leave
+            <CallEndIcon style={{ ...iconStyle, color: 'red' }} />
           </button>
-          <button onClick={() => toggleMic()}>
-            {useMic ? <MicIcon /> : <MicOffIcon />}
+          <button
+            style={buttonStyle}
+            onClick={() => {
+              toggleMic();
+              setUseMic(!useMic);
+            }}
+          >
+            {useMic ? (
+              <MicIcon style={iconStyle} />
+            ) : (
+              <MicOffIcon style={iconStyle} />
+            )}
           </button>
-          <button onClick={() => toggleWebcam()}>
-            {useWebcam ? <VideocamIcon /> : <VideocamOffIcon />}
+          <button
+            style={buttonStyle}
+            onClick={() => {
+              toggleWebcam();
+              setUseWebCam(!useWebcam);
+            }}
+          >
+            {useWebcam ? (
+              <VideocamIcon style={iconStyle} />
+            ) : (
+              <VideocamOffIcon style={iconStyle} />
+            )}
           </button>
         </div>
       )
@@ -157,10 +200,26 @@ const Videomeeting = (props): JSX.Element => {
     }
 
     return (
-      <div className="meeting-container">
+      <div
+        className="meeting-container"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%'
+        }}
+      >
         <div className="meeting">
           <ControlPanel />
-          <div className="meeting-video">
+          <div
+            className="meeting-video"
+            // style={{
+            //   display: 'flex',
+            //   justifyContent: 'center',
+            //   alignItems: 'center',
+            //   height: '100%'
+            // }}
+          >
             {[...meetingParticipantsId].map((participantId) => (
               <ParticipantView
                 participantId={participantId}
@@ -173,7 +232,13 @@ const Videomeeting = (props): JSX.Element => {
         </div>
         {userJoinMeetingStatus === 'JOINING' && <p>Joining the meeting...</p>}
         {userJoinCollabRoom && userJoinMeetingStatus === null && (
-          <button onClick={joinMeeting}>Join Meeting</button>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: '#0070BA' }}
+            onClick={joinMeeting}
+          >
+            Join Meeting
+          </Button>
         )}
       </div>
     );
@@ -188,7 +253,7 @@ const Videomeeting = (props): JSX.Element => {
           justifyContent: 'center',
           display: 'flex',
           flexDirection: 'column',
-          height: '80%',
+          height: '90%',
           width: '50%'
         }}
       >
