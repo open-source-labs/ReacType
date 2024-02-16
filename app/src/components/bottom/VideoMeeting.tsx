@@ -58,7 +58,6 @@ const Videomeeting = (props): JSX.Element => {
   }
 
   const onMeetingLeave = () => {
-    // dispatch(setMeetingId(null));
     dispatch(setUserJoinMeetingStatus(null));
     setIsJoinButtonVisible(true);
   };
@@ -124,10 +123,6 @@ const Videomeeting = (props): JSX.Element => {
             )}
           </div>
         )}
-        {/* {userJoinMeetingStatus === 'JOINING' && <p>Joining the meeting...</p>}
-        {userJoinCollabRoom && userJoinMeetingStatus === null && (
-          <button onClick={props.joinMeeting()}>Join Meeting</button>
-        )} */}
       </>
     );
   }
@@ -163,7 +158,6 @@ const Videomeeting = (props): JSX.Element => {
     console.log('Here check status: ', joinStatus);
 
     if (!userJoinCollabRoom && userJoinMeetingStatus !== null) {
-      console.log('MeetingView: ', userJoinCollabRoom, userJoinMeetingStatus);
       leave();
       onMeetingLeave();
       dispatch(setUserJoinMeetingStatus(null));
@@ -171,7 +165,6 @@ const Videomeeting = (props): JSX.Element => {
 
     return (
       <div className="meeting-container">
-        {/* {userJoinMeetingStatus === 'JOINED' && ( */}
         <div className="meeting">
           <ControlPanel />
           <div className="meeting-video">
@@ -218,7 +211,6 @@ const Videomeeting = (props): JSX.Element => {
         </div>
       </div>
     )
-    // </div>
   );
 };
 
