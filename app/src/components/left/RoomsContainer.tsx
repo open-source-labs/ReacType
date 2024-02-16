@@ -39,11 +39,13 @@ import {
 import {
   setRoomCode,
   setUserName,
-  setUserJoined,
+  setUserJoinCollabRoom,
   setUserList,
   setMeetingId,
   setMessages,
-  setPassword
+  setEmptyMessages,
+  setPassword,
+  setUserJoinMeetingStatus
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
@@ -66,9 +68,10 @@ const RoomsContainer = () => {
     (store: RootState) => store.roomSlice.password
   );
 
-  const userJoined = useSelector(
-    (store: RootState) => store.roomSlice.userJoined
+  const userJoinCollabRoom = useSelector(
+    (store: RootState) => store.roomSlice.userJoinCollabRoom
   );
+
   const messages = useSelector((store: RootState) => store.roomSlice.messages);
 
   const initSocketConnection = (roomCode: string) => {
@@ -288,7 +291,7 @@ const RoomsContainer = () => {
     handleUserEnteredRoom(roomCode);
     dispatch(setRoomCode(roomCode));
     dispatch(setPassword(roomPassword));
-    dispatch(setUserJoined(true));
+    dispatch(setUserJoinCollabRoom(true));
   };
 
   const leaveRoom = () => {
@@ -299,11 +302,10 @@ const RoomsContainer = () => {
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
-    dispatch(setUserJoined(false)); //false: join room UI appear
+    dispatch(setUserJoinCollabRoom(false)); //false: join room UI appear
     dispatch(resetState(''));
     dispatch(setPassword(''));
-    dispatch(setMessages([]));
-    dispatch(setMeetingId(''));
+    dispatch(setEmptyMessages([]));
   };
 
   const checkInputField = (...inputs) => {
@@ -343,7 +345,7 @@ const RoomsContainer = () => {
         <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
         </Typography>
-        {userJoined ? (
+        {userJoinCollabRoom ? (
           <>
             <Typography
               variant="h6"

@@ -155,23 +155,6 @@ const BottomTabs = (props): JSX.Element => {
               isThemeLight={props.isThemeLight}
             />
           )}
-          {/* {tab === 6 &&
-            (collaborationRoom.userJoined ? (
-              <Chatroom />
-            ) : (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%'
-                }}
-              >
-                <p style={{ color: 'white', fontSize: '18px' }}>
-                  Please join a collaboration room to enable this function
-                </p>
-              </div>
-            ))} */}
           {tab === 6 && <Chatroom />}
         </div>
       </div>

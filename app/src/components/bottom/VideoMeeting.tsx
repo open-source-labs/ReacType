@@ -2,8 +2,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import {
-  setMeetingId,
-  setUserJoinMeeting,
+  setUserJoinMeetingStatus,
   setMeetingParticipants
 } from '../../redux/reducers/slice/roomSlice';
 import {
@@ -18,38 +17,50 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 import MicIcon from '@mui/icons-material/Mic';
 
 const Videomeeting = (props): JSX.Element => {
+  const { joinStatus } = props;
   const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
   const dispatch = useDispatch();
   const {
-    roomCode,
     meetingId,
-    userJoined,
-    userJoinMeeting,
+    userJoinCollabRoom,
+    userJoinMeetingStatus,
     meetingParticipants
   } = useSelector((store: RootState) => store.roomSlice);
 
   const [useWebcam, setUseWebCam] = useState(false);
   const [useMic, setUseMic] = useState(false);
   const micRef = useRef(null);
-
+  const [isJoinButtonVisible, setIsJoinButtonVisible] = useState(
+    userJoinMeetingStatus === null
+  );
   function ControlPanel() {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
     return (
-      <div>
-        <button onClick={() => leave()}>Leave</button>
-        <button onClick={() => toggleMic()}>
-          {useMic ? <MicIcon /> : <MicOffIcon />}
-        </button>
-        <button onClick={() => toggleWebcam()}>
-          {useWebcam ? <VideocamIcon /> : <VideocamOffIcon />}
-        </button>
-      </div>
+      userJoinMeetingStatus === 'JOINED' && (
+        <div>
+          <button
+            onClick={() => {
+              leave();
+              onMeetingLeave();
+            }}
+          >
+            Leave
+          </button>
+          <button onClick={() => toggleMic()}>
+            {useMic ? <MicIcon /> : <MicOffIcon />}
+          </button>
+          <button onClick={() => toggleWebcam()}>
+            {useWebcam ? <VideocamIcon /> : <VideocamOffIcon />}
+          </button>
+        </div>
+      )
     );
   }
 
   const onMeetingLeave = () => {
-    dispatch(setMeetingId(null));
-    dispatch(setUserJoinMeeting(null));
+    // dispatch(setMeetingId(null));
+    dispatch(setUserJoinMeetingStatus(null));
+    setIsJoinButtonVisible(true);
   };
 
   function ParticipantView(props) {
@@ -83,57 +94,50 @@ const Videomeeting = (props): JSX.Element => {
       }
     }, [micStream, micOn]);
 
-    // useEffect(() => {
-    //   // Trigger leave() if the user leaves collaboration room
-    //   console.log(
-    //     'In videoMeeting checking userJoined: ',
-    //     roomCode,
-    //     userJoined
-    //   );
-    //   if (!userJoined) {
-    //     console.log('Here check use meeting: ', useMeeting());
-    //     // const { leave } = useMeeting();
-    //     // leave();
-    //     // onMeetingLeave();
-    //   }
-    // }, [roomCode, userJoined]);
-
     return (
-      <div key={props.participantId}>
-        <p>
-          Participant: {props.isLocalParticipant ? 'You' : displayName} |
-          Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic: {micOn ? 'ON' : 'OFF'}
-        </p>
-        <audio ref={micRef} autoPlay muted={isLocal} />
+      <>
+        {userJoinMeetingStatus === 'JOINED' && (
+          <div key={props.participantId}>
+            <p>
+              Participant: {props.isLocalParticipant ? 'You' : displayName} |
+              Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic: {micOn ? 'ON' : 'OFF'}
+            </p>
+            <audio ref={micRef} autoPlay muted={isLocal} />
 
-        {webcamOn && (
-          <ReactPlayer
-            playsinline
-            pip={false}
-            light={false}
-            controls={false}
-            muted={true}
-            playing={true}
-            url={videoStream}
-            height={'200px'}
-            width={'300px'}
-            // height="50%"
-            // width="50%"
-            onError={(err) => {
-              console.log(err, 'participant video error');
-            }}
-          />
+            {webcamOn && (
+              <ReactPlayer
+                playsinline
+                pip={false}
+                light={false}
+                controls={false}
+                muted={true}
+                playing={true}
+                url={videoStream}
+                height={'200px'}
+                width={'300px'}
+                // height="50%"
+                // width="50%"
+                onError={(err) => {
+                  console.log(err, 'participant video error');
+                }}
+              />
+            )}
+          </div>
         )}
-      </div>
+        {/* {userJoinMeetingStatus === 'JOINING' && <p>Joining the meeting...</p>}
+        {userJoinCollabRoom && userJoinMeetingStatus === null && (
+          <button onClick={props.joinMeeting()}>Join Meeting</button>
+        )} */}
+      </>
     );
   }
 
   function MeetingView(props) {
-    const { join, localParticipant, meeting, leave } = useMeeting();
+    const { join, localParticipant, leave } = useMeeting();
 
     const { participants } = useMeeting({
       onMeetingJoined: () => {
-        dispatch(setUserJoinMeeting('JOINED'));
+        dispatch(setUserJoinMeetingStatus('JOINED'));
       },
       onMeetingLeft: () => {
         props.onMeetingLeave();
@@ -151,33 +155,38 @@ const Videomeeting = (props): JSX.Element => {
     }
 
     const joinMeeting = () => {
-      dispatch(setUserJoinMeeting('JOINING'));
+      dispatch(setUserJoinMeetingStatus('JOINING'));
       join();
+      setIsJoinButtonVisible(false);
     };
 
-    if (!userJoined && userJoinMeeting !== null) {
+    console.log('Here check status: ', joinStatus);
+
+    if (!userJoinCollabRoom && userJoinMeetingStatus !== null) {
+      console.log('MeetingView: ', userJoinCollabRoom, userJoinMeetingStatus);
       leave();
       onMeetingLeave();
+      dispatch(setUserJoinMeetingStatus(null));
     }
 
     return (
       <div className="meeting-container">
-        {userJoinMeeting === 'JOINED' ? (
-          <div className="meeting">
-            <ControlPanel />
-            <div className="meeting-video">
-              {[...meetingParticipantsId].map((participantId) => (
-                <ParticipantView
-                  participantId={participantId}
-                  key={participantId}
-                  isLocalParticipant={participantId === localParticipant.id}
-                />
-              ))}
-            </div>
+        {/* {userJoinMeetingStatus === 'JOINED' && ( */}
+        <div className="meeting">
+          <ControlPanel />
+          <div className="meeting-video">
+            {[...meetingParticipantsId].map((participantId) => (
+              <ParticipantView
+                participantId={participantId}
+                key={participantId}
+                isLocalParticipant={participantId === localParticipant.id}
+                joinMeeting={joinMeeting}
+              />
+            ))}
           </div>
-        ) : userJoinMeeting === 'JOINING' ? (
-          <p>Joining the meeting...</p>
-        ) : (
+        </div>
+        {userJoinMeetingStatus === 'JOINING' && <p>Joining the meeting...</p>}
+        {userJoinCollabRoom && userJoinMeetingStatus === null && (
           <button onClick={joinMeeting}>Join Meeting</button>
         )}
       </div>
@@ -185,32 +194,31 @@ const Videomeeting = (props): JSX.Element => {
   }
 
   return (
-    <div>
-      {/* {videoSDKToken && meetingId && userJoined && ( */}
-      {videoSDKToken && meetingId && (
-        <div
-          className="video-meeting"
-          style={{
-            justifyContent: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            height: '80%',
-            width: '50%'
-          }}
-        >
-          <div>
-            <MeetingConsumer>
-              {() => (
-                <MeetingView
-                  meetingId={meetingId}
-                  onMeetingLeave={onMeetingLeave}
-                />
-              )}
-            </MeetingConsumer>
-          </div>
+    videoSDKToken &&
+    meetingId && (
+      <div
+        className="video-meeting"
+        style={{
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '80%',
+          width: '50%'
+        }}
+      >
+        <div>
+          <MeetingConsumer>
+            {() => (
+              <MeetingView
+                meetingId={meetingId}
+                onMeetingLeave={onMeetingLeave}
+              />
+            )}
+          </MeetingConsumer>
         </div>
-      )}
-    </div>
+      </div>
+    )
+    // </div>
   );
 };
 

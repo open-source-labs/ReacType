@@ -5,7 +5,7 @@ import { emitEvent } from '../../helperFunctions/socket';
 import Videomeeting from './VideoMeeting';
 
 const Chatroom = (props): JSX.Element => {
-  const { userName, roomCode, messages, userJoined } = useSelector(
+  const { userName, roomCode, messages, userJoinCollabRoom } = useSelector(
     (store: RootState) => store.roomSlice
   );
 
@@ -98,72 +98,6 @@ const Chatroom = (props): JSX.Element => {
     }
   }, [messages]);
 
-  //   return (
-  //     <div
-  //       className="livechat-panel"
-  //       style={{
-  //         paddingLeft: '10px',
-  //         width: '100%',
-  //         height: '100%',
-  //         display: 'flex'
-  //       }}
-  //     >
-  //       {collaborationRoom.userJoined ? (
-  //       <Videomeeting />
-  //       <div
-  //         className="chatroom"
-  //         style={{
-  //           justifyContent: 'center',
-  //           display: 'flex',
-  //           flexDirection: 'column',
-  //           height: '80%',
-  //           width: '50%'
-  //         }}
-  //       >
-  //         <div
-  //           style={{ justifyContent: 'center', display: 'flex', height: '80%' }}
-  //         >
-  //           <div id="message-container" ref={containerRef} style={wrapperStyles}>
-  //             {renderMessages()}
-  //           </div>
-  //         </div>
-  //         <div className="chatroom-input">
-  //           <form
-  //             id="send-container"
-  //             style={inputContainerStyles}
-  //             onSubmit={handleSubmit}
-  //           >
-  //             <input
-  //               type="text"
-  //               id="message-input"
-  //               onChange={(e) => setInputContent(e.target.value)}
-  //               value={inputContent}
-  //               style={inputStyles}
-  //             />
-  //             <button type="submit" id="send-button" style={buttonStyles}>
-  //               Send
-  //             </button>
-  //           </form>
-  //         </div>
-  //       </div>{' '}
-  //       ) : (
-  //       <div
-  //         style={{
-  //           display: 'flex',
-  //           justifyContent: 'center',
-  //           alignItems: 'center',
-  //           height: '100%'
-  //         }}
-  //       >
-  //         <p style={{ color: 'white', fontSize: '18px' }}>
-  //           Please join a collaboration room to enable this function
-  //         </p>
-  //       </div>
-  //       )}
-  //     </div>
-  //   );
-  // };
-
   return (
     <div
       className="livechat-panel"
@@ -176,8 +110,8 @@ const Chatroom = (props): JSX.Element => {
         alignItems: 'center'
       }}
     >
-      <Videomeeting />
-      {userJoined && (
+      <Videomeeting joinStatus={userJoinCollabRoom} />
+      {userJoinCollabRoom && (
         <div
           className="chatroom"
           style={{
@@ -223,7 +157,7 @@ const Chatroom = (props): JSX.Element => {
           </div>
         </div>
       )}
-      {!userJoined && (
+      {!userJoinCollabRoom && (
         <div
           style={{
             display: 'flex',

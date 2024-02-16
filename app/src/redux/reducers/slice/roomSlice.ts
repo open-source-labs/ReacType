@@ -5,8 +5,8 @@ const initialState = {
   meetingId: '',
   userName: '',
   userList: [],
-  userJoined: false,
-  userJoinMeeting: null,
+  userJoinCollabRoom: false,
+  userJoinMeetingStatus: null,
   meetingParticipants: [],
   messages: [],
   password: ''
@@ -28,17 +28,20 @@ const roomSlice = createSlice({
     setUserList: (state, action) => {
       state.userList = action.payload;
     },
-    setUserJoined: (state, action) => {
-      state.userJoined = action.payload;
+    setUserJoinCollabRoom: (state, action) => {
+      state.userJoinCollabRoom = action.payload;
     },
-    setUserJoinMeeting: (state, action) => {
-      state.userJoinMeeting = action.payload;
+    setUserJoinMeetingStatus: (state, action) => {
+      state.userJoinMeetingStatus = action.payload;
     },
     setMeetingParticipants: (state, action) => {
       state.meetingParticipants = action.payload;
     },
     setMessages: (state, action) => {
       state.messages = [...state.messages, action.payload];
+    },
+    setEmptyMessages: (state, action) => {
+      state.messages = [];
     },
     setPassword: (state, action) => {
       state.password = action.payload;
@@ -51,10 +54,11 @@ export const {
   setMeetingId,
   setUserName,
   setUserList,
-  setUserJoined,
-  setUserJoinMeeting,
+  setUserJoinCollabRoom,
+  setUserJoinMeetingStatus,
   setMeetingParticipants,
   setMessages,
+  setEmptyMessages,
   setPassword
 } = roomSlice.actions;
 
