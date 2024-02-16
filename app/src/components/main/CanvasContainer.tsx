@@ -143,7 +143,14 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           <ZoomOut />
         </Button>
       </div>
-      {state.codePreview && <CodePreview theme={theme} setTheme={setTheme} />}
+      {state.codePreview && (
+        <CodePreview
+          theme={theme}
+          setTheme={setTheme}
+          zoom={zoom}
+          containerRef={containerRef}
+        />
+      )}
       {!state.codePreview && (
         <Canvas
           zoom={zoom}
