@@ -42,6 +42,10 @@ const BottomTabs = (props): JSX.Element => {
 
   arrow.renderArrow(state.canvasFocus?.childId);
 
+  const showBottomPanel = () => {
+    props.setBottomShow(true);
+  };
+
   return (
     <MeetingProvider
       config={{
@@ -84,38 +88,46 @@ const BottomTabs = (props): JSX.Element => {
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Creation Panel"
+              onClick={showBottomPanel}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Customization"
+              onClick={showBottomPanel}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="CSS Editor"
+              onClick={showBottomPanel}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Component Tree"
+              onClick={showBottomPanel}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Context Manager"
+              onClick={showBottomPanel}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="State Manager"
+              onClick={showBottomPanel}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Live Chat"
+              onClick={showBottomPanel}
             />
           </Tabs>
+
           <div className={classes.projectTypeWrapper}>
             <FormControl size="small">
               <Select
@@ -127,13 +139,13 @@ const BottomTabs = (props): JSX.Element => {
                 onChange={handleProjectChange}
                 MenuProps={{ disablePortal: true }}
               >
-                <MenuItem style={{ color: 'black' }} value={'Classic React'}>
+                <MenuItem style={{ color: 'white' }} value={'Classic React'}>
                   Classic React
                 </MenuItem>
-                <MenuItem style={{ color: 'black' }} value={'Gatsby.js'}>
+                <MenuItem style={{ color: 'white' }} value={'Gatsby.js'}>
                   Gatsby.js
                 </MenuItem>
-                <MenuItem style={{ color: 'black' }} value={'Next.js'}>
+                <MenuItem style={{ color: 'white' }} value={'Next.js'}>
                   Next.js
                 </MenuItem>
               </Select>

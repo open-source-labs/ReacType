@@ -28,28 +28,33 @@ function CanvasContainer(props): JSX.Element {
 
   const codePreviewStyle: React.CSSProperties = {
     position: 'fixed',
-    width: 'max-content',
-    height: 'max-content',
+    width: '100px',
+    height: '35px',
     bottom: '150px',
     right: '45vw',
+    padding: '5px',
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #354e9c'
+    border: '2px solid #354e9c',
+    whiteSpace: 'nowrap',
+    textTransform: 'none'
   } as const;
 
   const backToTop: React.CSSProperties = {
     position: 'fixed',
-    width: 'max-content',
-    height: 'max-content',
+    width: '100px',
+    height: '35px',
     bottom: '100px',
     right: '45vw',
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #354e9c'
+    border: '2px solid #354e9c',
+    whiteSpace: 'nowrap',
+    textTransform: 'none',
   } as const;
 
   //containerRef references the container that will ultimately have the scroll functionality

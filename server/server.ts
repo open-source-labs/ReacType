@@ -15,7 +15,6 @@ import cookieParser from 'cookie-parser';
 import config from '../config.js';
 const { API_BASE_URL, DEV_PORT } = config;
 
-// const path = require('path');
 import path from 'path';
 
 import userController from './controllers/userController';
@@ -67,7 +66,6 @@ const passportSetup = require('./routers/passport-setup');
 const session = require('express-session');
 import authRoutes from './routers/auth';
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -78,7 +76,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // go to other files
 // 8080 only for the container
@@ -96,116 +93,145 @@ const io = new Server(httpServer, {
   }
 });
 
-const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
-//server listening to new connections
-io.on('connection', (client) => {
-  // console.log('A user connected with socket ID:', client.id);
-  //when user Joined a room
-  client.on('joining', async (userName: string, roomCode: string) => {
-    //adding async
-    try {
-      //if no room exists, add room to list
-      if (!roomLists[roomCode]) {
-        const createMeeting = async () => {
-          const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
-            method: 'POST',
-            headers: {
-              authorization: process.env.VIDEOSDK_TOKEN,
-              'Content-Type': 'application/json'
-            },
-            // body: JSON.stringify({ customRoomId: roomCode })
-            body: JSON.stringify({ customRoomId: 'aaa-bbb' })
-          });
-          //   //Destructuring the roomId from the response
-          const { roomId }: { roomId: string } = await res.json();
-          return roomId;
-        };
-        roomLists[roomCode] = {};
-        roomLists[roomCode].userList = {};
-        roomLists[roomCode].meetingId = await createMeeting();
-      }
-
-      roomLists[roomCode]['userList'][client.id] = userName; // adding user into the room list with id: userName on server side
-      const userList = Object.keys(roomLists[roomCode]['userList']); //userList for roomCode
-      const hostID = userList[0]; // host is always assigned to user at index zero
-      const newClientID = userList[userList.length - 1]; // new client id is always the last index in userList
-
-      //server ask host for the current state
-      const hostState = await io //once the request is sent back save to host state
-        .timeout(5000)
-        .to(hostID) // sends only to host
-        .emitWithAck('requesting state from host'); //sending request
-
-      //share host's state with the latest user
-      const newClientResponse = await io //send the requested host state to the new client awaiting for the host state to come back before doing other task
-        .timeout(5000)
-        .to(newClientID) // sends only to new client
-        .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
-
-      //client response is confirmed
-      if (newClientResponse[0].status === 'confirmed') {
-        client.join(roomCode); //client joining a room
-        // console.log('a user joined the room');
-        //send the message to all clients in room but the sender
-        io.to(roomCode).emit(
-          'update room info',
-          {
-            userList: Object.values(roomLists[roomCode]['userList']),
-            meetingId: roomLists[roomCode].meetingId
-          } // send updated room info to all users in the chat room
-        );
-        io.to(roomCode).emit('new chat message', {
-          userName,
-          message: `${userName} joined chat room`,
-          type: 'activity'
-        });
-      }
-    } catch (error) {
-      //if joining event is having an error and time out
-      console.log(
-        'Request Timeout: Client failed to request state from host.',
-        error
-      );
-    }
+const createMeeting = async () => {
+  const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
+    method: 'POST',
+    headers: {
+      authorization: process.env.VIDEOSDK_TOKEN,
+      'Content-Type': 'application/json'
+    },
+    // body: JSON.stringify({ customRoomId: roomCode })
+    body: JSON.stringify({ customRoomId: 'aaa-bbb' })
   });
 
-  //updating mouse movement after joining.
+  const { roomId }: { roomId: string } = await res.json();
+  return roomId;
+};
 
+const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
+//server listening to new connections
+
+io.on('connection', (client) => {
+  client.on(
+    'creating a room',
+    async (
+      userName: string,
+      roomCode: string,
+      roomPassword: string,
+      method: string
+    ) => {
+      try {
+        let userMayEnter = false;
+        if (roomLists[roomCode] && method === 'CREATE') {
+          io.emit('room is already taken');
+        }
+
+        if (!roomLists[roomCode] && method === 'CREATE') {
+          roomLists[roomCode] = {};
+          roomLists[roomCode].userList = {};
+          roomLists[roomCode]['userList'][client.id] = userName;
+          roomLists[roomCode]['password'] = roomPassword;
+          roomLists[roomCode].meetingId = await createMeeting();
+          userMayEnter = true;
+          io.emit('user created a new room');
+        }
+
+        if (method === 'JOIN') {
+          if (roomLists[roomCode]['password'] === roomPassword) {
+            roomLists[roomCode]['userList'][client.id] = userName;
+            userMayEnter = true;
+            io.emit('correct password');
+          } else {
+            io.emit('wrong password');
+          }
+        }
+
+        const userIdList = Object.keys(roomLists[roomCode]['userList']); //userIdList for roomCode
+        const hostID = userIdList[0]; // host is always assigned to user at index zero
+        const userNameList = Object.values(roomLists[roomCode]['userList']);
+
+        if (userMayEnter === true) {
+          const newClientID = userIdList[userIdList.length - 1];
+          //server ask host for the current state
+          const hostState = await io //once the request is sent back save to host state
+            .timeout(5000)
+            .to(hostID) // sends only to host
+            .emitWithAck('requesting state from host'); //sending request
+
+          //share host's state with the latest user
+          const newClientResponse = await io
+            .timeout(5000)
+            .to(newClientID) // sends only to new client
+            .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
+
+          //client response is confirmed
+          if (newClientResponse[0].status === 'confirmed') {
+            client.join(roomCode); //client joining a room
+            io.to(roomCode).emit(
+              'update room infomation',
+              {
+                userList: userNameList,
+                meetingId: roomLists[roomCode].meetingId
+              } // send updated userList and video meeting id to all users in room
+            );
+            io.to(roomCode).emit('new chat message', {
+              userName,
+              message: `${userName} joined chat room`,
+              type: 'activity'
+            });
+          }
+        }
+      } catch (error) {
+        console.log(
+          'Request Timeout: Client failed to request state from host.',
+          error
+        );
+      }
+    }
+  );
+
+  //updating mouse movement after joining.
   client.on('mouse connection', (data) => {
     io.emit('mouseCursor', { line: data.line, id: client.id });
   });
 
   //disconnecting functionality
   client.on('disconnecting', async () => {
-    const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
-    const userName = roomLists[roomCode]['userList'][client.id];
-    delete roomLists[roomCode]['userList'][client.id];
-    //if room empty, delete room from room list
-    if (!Object.keys(roomLists[roomCode]['userList']).length) {
-      // const options = {
-      //   method: 'POST',
-      //   headers: {
-      //     Authorization: process.env.VIDEOSDK_TOKEN,
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ roomId: roomLists[roomCode].meetingId })
-      // };
-      // const url = `https://api.videosdk.live/v2/rooms/deactivate`;
-      // const response = await fetch(url, options);
-      // const data = await response.json();
-      // if (data.disabled)
-      //   console.log(`Successfully deactivate room with id ${data.roomId}`);
-      delete roomLists[roomCode];
-    } else {
-      //else emit updated user list
-      io.to(roomCode).emit('updateUserList', {
-        userList: Object.values(roomLists[roomCode]['userList'])
-      });
-      io.to(roomCode).emit('new chat message', {
-        userName,
-        message: `${userName} left chat room`,
-        type: 'activity'
-      });
+    try {
+      const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
+      const userName = roomLists[roomCode]['userList'][client.id];
+      delete roomLists[roomCode]['userList'][client.id];
+
+      //if room empty, delete room from room list and deactivate meeting room
+      if (!Object.keys(roomLists[roomCode]['userList']).length) {
+        const options = {
+          method: 'POST',
+          headers: {
+            Authorization: process.env.VIDEOSDK_TOKEN,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ roomId: roomLists[roomCode].meetingId })
+        };
+        const url = `https://api.videosdk.live/v2/rooms/deactivate`;
+        const response = await fetch(url, options);
+        const data = await response.json();
+        if (data.disabled) delete roomLists[roomCode];
+      } else {
+        //else emit updated userName list
+        const userNameList = Object.values(roomLists[roomCode]['userList']);
+        io.to(roomCode).emit('update room infomation', {
+          userList: userNameList
+        });
+        io.to(roomCode).emit('new chat message', {
+          userName,
+          message: `${userName} left chat room`,
+          type: 'activity'
+        });
+      }
+    } catch (error) {
+      console.log(
+        `Unexpected error happens when user disconnect from collaboration room: ${error}`
+      );
     }
   });
 
@@ -243,6 +269,9 @@ io.on('connection', (client) => {
   });
 
   client.on('clearCanvasAction', async (roomCode: string, userName: string) => {
+    const usernNames = Object.values(roomLists[roomCode]).map(
+      (el) => el['userName']
+    );
     if (roomCode) {
       // server send clear canvas to everyone in the room if action is from the host
       if (userName === Object.values(roomLists[roomCode]['userList'])[0]) {

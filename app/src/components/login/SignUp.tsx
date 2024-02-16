@@ -14,18 +14,21 @@ import {
   ThemeProvider
 } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  Box,
+  Avatar,
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  TextField,
+  Typography
+} from '@mui/material';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { RootState } from '../../redux/store';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+
 import makeStyles from '@mui/styles/makeStyles';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 
@@ -39,7 +42,6 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © ReacType '}
       {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }
@@ -51,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center'
   },
   avatar: {
-    backgroundColor: '#3EC1AC'
+    backgroundColor: 'white'
   },
   form: {
     width: '100%' // Fix IE 11 issue.
@@ -59,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   submit: {},
   root: {
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#3EC1AC'
+      borderColor: 'white'
     }
   }
 }));
@@ -198,17 +200,23 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={SigninDark}>
-        <Container component="main" maxWidth="xs">
+        <Container
+          component="main"
+          maxWidth="xs"
+          sx={{
+            marginTop: '10vh'
+          }}
+        >
           <CssBaseline />
           <div className={classes.paper}>
-            <Avatar className={classes.avatar} sx={{ marginTop: '10vh' }}>
+            <Avatar className={classes.avatar} sx={{ margin: '2vh' }}>
               <AssignmentIcon />
             </Avatar>
             <Typography
               component="h1"
               variant="h5"
               color="textPrimary"
-              sx={{ marginBottom: '10px' }}
+              sx={{ marginBottom: '2rem' }}
             >
               Sign up
             </Typography>
@@ -221,10 +229,9 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                     required
                     fullWidth
                     id="email"
-                    label="Email Address"
+                    label="Email"
                     name="email"
                     autoComplete="email"
-                    autoFocus
                     value={email}
                     onChange={handleChange}
                     helperText={invalidEmailMsg}
@@ -282,6 +289,30 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                   />
                 </Grid>
               </Grid>
+              <Typography
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  color: '#aaaaaa',
+                  margin: '2rem',
+                  padding: '0 4rem 0 0',
+                  width: '100%'
+                }}
+              >
+                <span>
+                  By signing up, you agree to our
+                  <span className="blue-accent-text">
+                    {' '}
+                    Terms , Privacy Policy
+                  </span>{' '}
+                  and <span className="blue-accent-text">
+                    {' '}
+                    Cookies Policy
+                  </span>{' '}
+                </span>
+              </Typography>
               <Button
                 type="submit"
                 fullWidth
@@ -290,11 +321,16 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                 className={classes.submit}
                 onClick={(e) => handleSignUp(e)}
                 sx={{
-                  marginTop: '15px',
-                  marginBottom: '5px'
+                  backgroundColor: '#2997ff',
+                  marginBottom: '5px',
+                  marginTop: '20px',
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  '$:hover': {
+                    cursor: 'pointer'
+                  }
                 }}
               >
-                Sign Up
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -307,18 +343,19 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                   <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
                   <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
                 </svg>
+                Sign Up
               </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <RouteLink
-                    style={{ color: '#aaaaaa' }}
-                    to={`/login`}
-                    className="nav_link"
-                  >
-                    Already have an account? Sign In
-                  </RouteLink>
-                </Grid>
-              </Grid>
+
+              <RouteLink
+                style={{ color: '#aaaaaa' }}
+                to={`/login`}
+                className="nav_link"
+              >
+                <span>
+                  Already have an account?
+                  <span className="blue-accent-text"> Log in</span>{' '}
+                </span>
+              </RouteLink>
             </form>
           </div>
           <Box mt={5}>

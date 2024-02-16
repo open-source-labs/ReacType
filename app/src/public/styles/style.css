@@ -151,7 +151,7 @@ span.material-symbols-outlined {
 .column.left::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: #354e9c;
+  background-color: gray;
   border-radius: 8px;
   z-index: 40;
 }
@@ -220,7 +220,7 @@ span.material-symbols-outlined {
 #HTMLItemsTopHalf::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: #354e9c;
+  background-color: gray;
   border-radius: 8px;
   z-index: 40;
 }
@@ -502,25 +502,6 @@ BOTTOM PANEL
 /////////////////////////////////////////////////////
 */
 
-.bottom-hide {
-  max-height: 64px;
-  box-sizing: border-box;
-  transition: all 0.5s ease-in-out;
-}
-
-.bottom-show {
-  max-height: 100%;
-  transition: all 0.5s ease-in-out;
-}
-
-.bottom-hide:focus-within {
-  max-height: 100%;
-}
-/* 
-.bottom-hide:hover {
-  max-height: 100%;
-} */
-
 .tab-content {
   height: calc(100% - 76px);
   width: 100%;
@@ -539,7 +520,7 @@ BOTTOM PANEL
 .tab-content::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: #354e9c;
+  background-color: gray;
   border-radius: 8px;
   z-index: 40;
 }
@@ -552,7 +533,7 @@ BOTTOM PANEL
 .tab-content::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: #354e9c;
+  background-color: gray;
   border-radius: 8px;
   z-index: 40;
 }
@@ -746,9 +727,14 @@ CANVAS WINDOW
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
 
-.delete-button-empty:hover {
+.deleteIcon {
+  font-size: 18px;
+  color: #4a4a4a;
+  cursor: pointer;
+}
+
+.deleteIcon:hover {
   color: white;
-  background-color: rgba(0, 100, 0, 0.4);
 }
 
 .componentContainer {
@@ -793,17 +779,6 @@ div.rst__rowContents {
 
 .closeIcon:hover {
   cursor: pointer;
-}
-
-a.nav_link {
-  color: rgba(0, 0, 0, 0.87);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-a.nav_link:hover {
-  color: #3ec1ac;
-  text-decoration: underline;
 }
 
 /* Additional styling for ReacType X */
@@ -887,4 +862,41 @@ a.nav_link:hover {
 
 li {
   color: black;
+}
+
+.bi {
+  margin-right: 0.5rem;
+  text-transform: none;
+}
+
+.blue-accent-text {
+  color: #2997ff;
+}
+
+a.nav_link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+a.nav_link:hover {
+  color: #3ec1ac;
+  text-decoration: underline;
+}
+
+.other-options {
+  margin-bottom: 1r;
+  text-transform: none;
+  size: 1rem;
+  color: white;
+  transition: 300ms;
+}
+
+.other-options:hover {
+  color: #aaaaaa;
+  cursor: pointer;
 }

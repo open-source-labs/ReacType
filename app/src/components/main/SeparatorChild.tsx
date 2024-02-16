@@ -16,7 +16,7 @@ import {
 } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 
-function DirectChildHTMLNestable({
+function SeparatorChild({
   childId,
   type,
   typeId,
@@ -165,4 +165,4 @@ function DirectChildHTMLNestable({
   );
 }
 
-export default DirectChildHTMLNestable;
+export default SeparatorChild;
