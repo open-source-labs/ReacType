@@ -5,9 +5,16 @@ import { RootState } from '../../redux/store';
 import CodePreview from '../bottom/CodePreview';
 import { toggleCodePreview } from '../../redux/reducers/slice/appStateSlice';
 import { Button } from '@mui/material';
+import { ZoomIn, ZoomOut } from '@mui/icons-material';
+
+interface CanvasContainerProps {
+  zoom: number;
+  theme: string;
+  setTheme: React.Dispatch<React.SetStateAction<string>>;
+}
 
 // The CanvasContainer sets the boundaries on the width/height of the canvas
-function CanvasContainer(props): JSX.Element {
+function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   const [theme, setTheme] = useState('solarized_light'); // theme for ACE editor, taken from BottomTabs
   const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
@@ -19,7 +26,7 @@ function CanvasContainer(props): JSX.Element {
 
   const canvasContainerStyle: React.CSSProperties = {
     width: '100%',
-    height: '100%',
+    minHeight: '100%',
     backgroundColor: 'rgba(25, 25, 25)',
     border: '2px solid grey',
     borderBottom: 'none',
@@ -27,12 +34,12 @@ function CanvasContainer(props): JSX.Element {
   };
 
   const codePreviewStyle: React.CSSProperties = {
-    position: 'fixed',
-    width: '100px',
-    height: '35px',
-    bottom: '150px',
-    right: '45vw',
-    padding: '5px',
+    // position: 'relative',
+    // width: '100px',
+    // height: '35px',
+    // bottom: '150px',
+    // right: '45vw',
+    // padding: '5px',
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#151515',
@@ -43,18 +50,18 @@ function CanvasContainer(props): JSX.Element {
   } as const;
 
   const backToTop: React.CSSProperties = {
-    position: 'fixed',
-    width: '100px',
-    height: '35px',
-    bottom: '100px',
-    right: '45vw',
+    // position: 'relative',
+    // width: '100px',
+    // height: '35px',
+    // bottom: '100px',
+    // right: '45vw',
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
     border: '2px solid #354e9c',
     whiteSpace: 'nowrap',
-    textTransform: 'none',
+    textTransform: 'none'
   } as const;
 
   //containerRef references the container that will ultimately have the scroll functionality
@@ -76,22 +83,73 @@ function CanvasContainer(props): JSX.Element {
     }
   }, [state.components[0].children.length]);
 
-  return (
-    <div style={canvasContainerStyle} ref={containerRef}>
-      {state.codePreview && <CodePreview theme={theme} setTheme={setTheme} />}
-      {!state.codePreview && <Canvas /*isThemeLight={props.isThemeLight} */ />}
+  const [zoom, setZoom] = useState(1);
 
-      <Button style={codePreviewStyle} onClick={onClickCodePreview}>
-        Code Preview
-      </Button>
-      <Button
-        style={backToTop}
-        onClick={() => {
-          containerRef.current.scrollTop = 0;
+  const zoomIn = () => {
+    setZoom(zoom + 0.1);
+  };
+
+  const zoomOut = () => {
+    setZoom(Math.max(zoom - 0.1, 0.1));
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    textAlign: 'center',
+    color: '#ffffff',
+    backgroundColor: '#151515',
+    zIndex: 0,
+    border: '2px solid #354e9c'
+  };
+
+  return (
+    <div style={canvasContainerStyle}>
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          display: 'flex',
+          justifyContent: 'space-around',
+          zIndex: 999,
+          margin: '10px 0px 10px 0px',
+          padding: '20px'
         }}
       >
-        Back to Top
-      </Button>
+        <Button style={codePreviewStyle} onClick={onClickCodePreview}>
+          Code Preview
+        </Button>
+        <div>
+          <Button
+            style={backToTop}
+            onClick={() => {
+              containerRef.current.scrollTop = 0;
+            }}
+          >
+            Scroll Top
+          </Button>
+          <Button
+            style={backToTop}
+            onClick={() => {
+              containerRef.current.scrollTop =
+                containerRef.current.clientHeight;
+            }}
+          >
+            Scroll Bottom
+          </Button>
+        </div>
+        <Button style={buttonStyle} onClick={zoomIn}>
+          <ZoomIn />
+        </Button>
+        <Button style={buttonStyle} onClick={zoomOut}>
+          <ZoomOut />
+        </Button>
+      </div>
+      {state.codePreview && <CodePreview theme={theme} setTheme={setTheme} />}
+      {!state.codePreview && (
+        <Canvas
+          zoom={zoom}
+          ref={containerRef} /*isThemeLight={props.isThemeLight} */
+        />
+      )}
     </div>
   );
 }

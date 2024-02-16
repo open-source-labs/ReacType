@@ -24,7 +24,7 @@ const DemoRender = (): JSX.Element => {
     width: '100%',
     backgroundColor: '#FBFBFB',
     borderBottom: 'none',
-    overflow: 'auto',
+     overflow: 'auto',
  
   };
 

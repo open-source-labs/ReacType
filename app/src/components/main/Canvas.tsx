@@ -1,6 +1,6 @@
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import {
   addChild,
   changeFocus,
@@ -20,7 +20,11 @@ import { display } from 'html2canvas/dist/types/css/property-descriptors/display
 import { ZoomIn, ZoomOut } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
-const Canvas = (props: {}): JSX.Element => {
+interface CanvasProps {
+  zoom: number;
+}
+
+const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -29,8 +33,6 @@ const Canvas = (props: {}): JSX.Element => {
 
   //remote cursor data
   const [remoteCursors, setRemoteCursors] = useState([]);
-
-
 
   // Toggle switch for live cursor tracking
   const [toggleSwitch, setToggleSwitch] = useState(true);
@@ -311,24 +313,14 @@ const Canvas = (props: {}): JSX.Element => {
     '#9267FF'
   ];
 
-  const [zoom, setZoom] = useState(1);
-
-  // zoom in
-  const zoomIn = () => {
-    setZoom(zoom + 0.1);
-  };
-
-  // zoom out
-  const zoomOut = () => {
-    setZoom(Math.max(zoom - 0.1, 0.1));
-  };
-
   const zoomedChildren: React.CSSProperties = {
     transform: `scale(${zoom})`,
+    width: '100%',
     transformOrigin: 'top center',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    overflow: 'auto'
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -343,23 +335,6 @@ const Canvas = (props: {}): JSX.Element => {
   return (
     <div>
       <div
-        style={{
-          position: 'relative',
-          bottom: 0,
-          left: 0,
-          display: 'flex',
-
-          marginRight: 'auto'
-        }}
-      >
-        <Button style={buttonStyle} onClick={zoomIn}>
-          <ZoomIn />
-        </Button>
-        <Button style={buttonStyle} onClick={zoomOut}>
-          <ZoomOut />
-        </Button>
-      </div>
-      <div
         className={'componentContainer'}
         ref={drop}
         data-testid="drop"
@@ -367,7 +342,7 @@ const Canvas = (props: {}): JSX.Element => {
         onClick={onClickHandler}
         onMouseMove={handleMouseMove}
       >
-        <div className="allElements" style={zoomedChildren}>
+        <div className="allElements" style={zoomedChildren} ref={ref}>
           {renderChildren(currentComponent.children)}
         </div>
         {remoteCursors.map(
@@ -419,6 +394,6 @@ const Canvas = (props: {}): JSX.Element => {
       </div>
     </div>
   );
-};
+});
 
 export default Canvas;
