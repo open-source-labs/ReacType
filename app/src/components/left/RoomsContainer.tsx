@@ -133,7 +133,7 @@ const RoomsContainer = () => {
       });
 
       // update user list when there's a change: new join or leave the room
-      socket.on('update room infomation', (messageData) => {
+      socket.on('update room information', (messageData) => {
         //console.log('user list received from server');
         if (messageData.userList) dispatch(setUserList(messageData.userList));
         if (messageData.meetingId)

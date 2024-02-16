@@ -168,7 +168,7 @@ io.on('connection', (client) => {
           if (newClientResponse[0].status === 'confirmed') {
             client.join(roomCode); //client joining a room
             io.to(roomCode).emit(
-              'update room infomation',
+              'update room information',
               {
                 userList: userNameList,
                 meetingId: roomLists[roomCode].meetingId
@@ -219,7 +219,7 @@ io.on('connection', (client) => {
       } else {
         //else emit updated userName list
         const userNameList = Object.values(roomLists[roomCode]['userList']);
-        io.to(roomCode).emit('update room infomation', {
+        io.to(roomCode).emit('update room information', {
           userList: userNameList
         });
         io.to(roomCode).emit('new chat message', {
