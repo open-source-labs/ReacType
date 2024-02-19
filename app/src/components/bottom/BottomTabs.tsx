@@ -49,17 +49,17 @@ const BottomTabs = (props): JSX.Element => {
     <div
       className={`${classes.root} ${classes.rootLight}`}
       style={{
-        backgroundColor: '#191919',
-        zIndex: 1,
-        borderTop: '2px solid grey'
+        backgroundColor: '#1E2024', // changed
+        zIndex: 1
+        // borderTop: '2px solid grey'
       }}
     >
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        paddingBottom="10px"
-        paddingRight="10px"
+        // paddingBottom="10px"
+        // paddingRight="10px"
       >
         <Tabs
           value={tab}
@@ -121,6 +121,13 @@ const BottomTabs = (props): JSX.Element => {
               value={state.projectType}
               onChange={handleProjectChange}
               MenuProps={{ disablePortal: true }}
+              sx={{
+                color: '#131416',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#131416'
+                }
+              }}
+              style={{ color: 'grey' }} // added
             >
               <MenuItem style={{ color: 'white' }} value={'Classic React'}>
                 Classic React
@@ -190,12 +197,14 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: 'white'
+    backgroundColor: '#2D313A' // changed
   },
   tabRoot: {
     textTransform: 'initial',
-    minWidth: 40,
-    margin: '0 16px',
+    minWidth: 170, // changed
+    height: 60, // added
+    // width: '150px',
+    // margin: '0 16px',
 
     fontFamily: [
       '-apple-system',
@@ -213,8 +222,10 @@ const useStyles = makeStyles((theme) => ({
       color: 'white',
       opacity: 1
     },
+    fontWeight: 300, // added
     '&$tabSelected': {
-      color: 'white'
+      color: 'white',
+      backgroundColor: '#2D313A' // added
     },
     '&:focus': {
       color: 'white'
@@ -237,8 +248,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px'
   },
   projectSelector: {
-    backgroundColor: '#354e9c',
-    color: 'white'
+    backgroundColor: '#131416', // changed
+    color: 'white',
+    margin: '0 10px 10px 0' // added
   }
 }));
 
