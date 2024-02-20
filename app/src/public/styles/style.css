@@ -38,8 +38,9 @@ h4 {
   color: black;
   display: flex;
   flex-direction: row;
-  /* height: 100%; */
-  background-color: #191919;
+  height: 100%;
+  width: 100%;
+  background-color: #1e2024;
 }
 
 .customization-section {
@@ -95,7 +96,7 @@ header {
 }
 
 .column {
-  background-color: #191919;
+  background-color: #1e2024;
 }
 
 /*
@@ -139,8 +140,6 @@ span.material-symbols-outlined {
   align-content: center;
   position: relative;
   overflow-x: hidden;
-  /* border-right: solid black 3px; */
-  border: solid gray 1px;
 }
 
 .column.left::-webkit-scrollbar {
@@ -151,7 +150,7 @@ span.material-symbols-outlined {
 .column.left::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: gray;
+  background-color: #1e2024;
   border-radius: 8px;
   z-index: 40;
 }
@@ -177,8 +176,6 @@ span.material-symbols-outlined {
   flex-wrap: wrap;
   width: 100%;
   flex-grow: 1;
-  border: 1px solid #c6c6c6;
-  /* border-radius: 10px; */
 }
 
 /* .HTMLItems::-webkit-scrollbar {
@@ -220,7 +217,7 @@ span.material-symbols-outlined {
 #HTMLItemsTopHalf::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: gray;
+  background-color: #1e2024;
   border-radius: 8px;
   z-index: 40;
 }
@@ -509,7 +506,7 @@ BOTTOM PANEL
   overflow-x: auto;
   position: relative;
   z-index: 0;
-  background-color: #191919;
+  background-color: #1e2024;
 }
 
 .tab-content::-webkit-scrollbar {
@@ -550,13 +547,11 @@ BOTTOM PANEL
 
 #resize-drag {
   cursor: row-resize;
-  height: 25px;
+  height: 23px;
   width: 75px;
-  background-color: rgb(0, 0, 0);
-  outline: 2px solid rgba(192, 192, 192, 0.5);
-  outline-offset: -5px;
+  background-color: #1e2024;
   text-align: center;
-  border-radius: 10px 10px 0 0;
+  border-radius: 7px 7px 0 0;
   align-self: center;
   margin-top: -25px;
   color: silver;
@@ -632,14 +627,13 @@ NAVBAR
   justify-content: space-between;
   align-items: center;
   z-index: 9999;
-  border: solid gray 1px;
 }
 
 .main-logo {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 2vw;
+  margin-left: 15px;
 }
 
 /* .main-logo h1 {

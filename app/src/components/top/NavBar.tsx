@@ -144,11 +144,11 @@ const NavBar: React.FC = () => {
 
   return (
     <div>
-      <nav className="main-navbar" style={{ backgroundColor: '#151515' }}>
+      <nav className="main-navbar" style={{ backgroundColor: '#1e2024' }}>
         <Link to="/" style={{ textDecoration: 'none', cursor: 'default' }}>
           <div className="main-logo">
             <Avatar src={logo}></Avatar>
-            <h1 style={{ color: '#151515' }}>reactype</h1>
+            <h1 style={{ color: '#1e2024' }}>reactype</h1>
           </div>
         </Link>
         <div style={buttonContainerStyle}>
