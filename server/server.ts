@@ -97,7 +97,7 @@ const createMeeting = async () => {
   const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
     method: 'POST',
     headers: {
-      authorization: process.env.VIDEOSDK_TOKEN,
+      authorization: process.env.VITE_VIDEOSDK_TOKEN,
       'Content-Type': 'application/json'
     },
     // body: JSON.stringify({ customRoomId: roomCode })
