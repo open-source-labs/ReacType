@@ -55,6 +55,7 @@ const Videomeeting = (props): JSX.Element => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
+            // overflow: 'auto'
           }}
         >
           <button
@@ -99,6 +100,8 @@ const Videomeeting = (props): JSX.Element => {
 
   const onMeetingLeave = () => {
     dispatch(setUserJoinMeetingStatus(null));
+    setUseWebCam(false);
+    setUseMic(false);
   };
 
   function ParticipantView(props) {
@@ -153,8 +156,8 @@ const Videomeeting = (props): JSX.Element => {
                 url={videoStream}
                 height={'200px'}
                 width={'300px'}
-                // height="50%"
-                // width="50%"
+                // height="80%"
+                // width="80%"
                 onError={(err) => {
                   console.log(err, 'participant video error');
                 }}
@@ -204,31 +207,36 @@ const Videomeeting = (props): JSX.Element => {
         className="meeting-container"
         style={{
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100%'
+          width: '70%',
+          height: '80%',
+          position: 'relative',
+          overflow: 'auto'
         }}
       >
-        <div className="meeting">
-          <ControlPanel />
-          <div
-            className="meeting-video"
-            // style={{
-            //   display: 'flex',
-            //   justifyContent: 'center',
-            //   alignItems: 'center',
-            //   height: '100%'
-            // }}
-          >
-            {[...meetingParticipantsId].map((participantId) => (
-              <ParticipantView
-                participantId={participantId}
-                key={participantId}
-                isLocalParticipant={participantId === localParticipant.id}
-                joinMeeting={joinMeeting}
-              />
-            ))}
-          </div>
+        <ControlPanel />
+        <div
+          className="video-wrapper"
+          style={{
+            width: 'auto',
+            height: 'auto',
+            display: 'flex',
+            // justifyContent: 'center',
+            // alignItems: 'center',
+            flexDirection: 'column'
+            // height: '100%'
+          }}
+        >
+          {[...meetingParticipantsId].map((participantId) => (
+            <ParticipantView
+              participantId={participantId}
+              key={participantId}
+              isLocalParticipant={participantId === localParticipant.id}
+              joinMeeting={joinMeeting}
+            />
+          ))}
         </div>
         {userJoinMeetingStatus === 'JOINING' && <p>Joining the meeting...</p>}
         {userJoinCollabRoom && userJoinMeetingStatus === null && (
@@ -247,27 +255,11 @@ const Videomeeting = (props): JSX.Element => {
   return (
     videoSDKToken &&
     meetingId && (
-      <div
-        className="video-meeting"
-        style={{
-          justifyContent: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '90%',
-          width: '50%'
-        }}
-      >
-        <div>
-          <MeetingConsumer>
-            {() => (
-              <MeetingView
-                meetingId={meetingId}
-                onMeetingLeave={onMeetingLeave}
-              />
-            )}
-          </MeetingConsumer>
-        </div>
-      </div>
+      <MeetingConsumer>
+        {() => (
+          <MeetingView meetingId={meetingId} onMeetingLeave={onMeetingLeave} />
+        )}
+      </MeetingConsumer>
     )
   );
 };
