@@ -17,6 +17,7 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 import MicIcon from '@mui/icons-material/Mic';
 import CallEndIcon from '@mui/icons-material/CallEnd';
 import Button from '@mui/material/Button';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Videomeeting = (props): JSX.Element => {
   const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
@@ -55,7 +56,6 @@ const Videomeeting = (props): JSX.Element => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
-            // overflow: 'auto'
           }}
         >
           <button
@@ -98,10 +98,34 @@ const Videomeeting = (props): JSX.Element => {
     );
   }
 
+  function TurnOffCameraDisplay() {
+    return (
+      <div
+        style={{
+          background: 'transparent',
+          height: '200px',
+          width: '300px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingLeft: '10px',
+          paddingRight: '10px'
+        }}
+      >
+        <AccountCircleIcon style={{ fontSize: 100, color: 'white' }} />
+      </div>
+    );
+  }
+
   const onMeetingLeave = () => {
     dispatch(setUserJoinMeetingStatus(null));
     setUseWebCam(false);
     setUseMic(false);
+  };
+
+  const handleUserInfoStyle = (isLocalParticipant: boolean) => {
+    if (isLocalParticipant) return { color: '#FC00BD' };
+    else return { color: 'white' };
   };
 
   function ParticipantView(props) {
@@ -138,32 +162,41 @@ const Videomeeting = (props): JSX.Element => {
     return (
       <>
         {userJoinMeetingStatus === 'JOINED' && (
-          <div key={props.participantId}>
-            <p>
-              Participant: {props.isLocalParticipant ? 'You' : displayName} |
-              Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic: {micOn ? 'ON' : 'OFF'}
-            </p>
-            <audio ref={micRef} autoPlay muted={isLocal} />
-
-            {webcamOn && (
-              <ReactPlayer
-                playsinline
-                pip={false}
-                light={false}
-                controls={false}
-                muted={true}
-                playing={true}
-                url={videoStream}
-                height={'200px'}
-                width={'300px'}
-                // height="80%"
-                // width="80%"
-                onError={(err) => {
-                  console.log(err, 'participant video error');
-                }}
-              />
-            )}
-          </div>
+          <>
+            <div
+              key={props.participantId}
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                display: 'column',
+                paddingLeft: '10px',
+                paddingRight: '10px'
+              }}
+            >
+              <p style={handleUserInfoStyle(props.isLocalParticipant)}>
+                Participant: {props.isLocalParticipant ? 'You' : displayName} |
+                Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic: {micOn ? 'ON' : 'OFF'}
+              </p>
+              <audio ref={micRef} autoPlay muted={isLocal} />
+              {!webcamOn && <TurnOffCameraDisplay />}
+              {webcamOn && (
+                <ReactPlayer
+                  playsinline
+                  pip={false}
+                  light={false}
+                  controls={false}
+                  muted={true}
+                  playing={true}
+                  url={videoStream}
+                  height={'200px'}
+                  width={'300px'}
+                  onError={(err) => {
+                    console.log(err, 'participant video error');
+                  }}
+                />
+              )}
+            </div>
+          </>
         )}
       </>
     );
@@ -210,8 +243,8 @@ const Videomeeting = (props): JSX.Element => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          width: '70%',
-          height: '80%',
+          width: '80%',
+          height: '100%',
           position: 'relative',
           overflow: 'auto'
         }}
@@ -223,18 +256,17 @@ const Videomeeting = (props): JSX.Element => {
             width: 'auto',
             height: 'auto',
             display: 'flex',
-            // justifyContent: 'center',
-            // alignItems: 'center',
-            flexDirection: 'column'
-            // height: '100%'
+            flexDirection: 'row',
+            flexWrap: 'wrap'
           }}
         >
-          {[...meetingParticipantsId].map((participantId) => (
+          {[...meetingParticipantsId].map((participantId, idx) => (
             <ParticipantView
               participantId={participantId}
               key={participantId}
               isLocalParticipant={participantId === localParticipant.id}
               joinMeeting={joinMeeting}
+              idx={idx}
             />
           ))}
         </div>
