@@ -257,7 +257,9 @@ const Videomeeting = (props): JSX.Element => {
             height: 'auto',
             display: 'flex',
             flexDirection: 'row',
-            flexWrap: 'wrap'
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}
         >
           {[...meetingParticipantsId].map((participantId, idx) => (
