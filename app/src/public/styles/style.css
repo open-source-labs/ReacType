@@ -40,7 +40,6 @@ h4 {
   flex-direction: row;
   height: 100%;
   width: 100%;
-  background-color: #1e2024;
 }
 
 .customization-section {
@@ -48,7 +47,6 @@ h4 {
   display: flex;
   flex-direction: row;
   height: 100%;
-  background-color: #191919;
 }
 
 .state-panel {
@@ -97,6 +95,7 @@ header {
 
 .column {
   background-color: #1e2024;
+  margin-right: 1.5px;
 }
 
 /*

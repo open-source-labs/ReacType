@@ -182,7 +182,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100%',
     color: '#E8E8E8',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    // boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   rootLight: {
     backgroundColor: '#354e9c'
