@@ -249,28 +249,30 @@ const Videomeeting = (props): JSX.Element => {
           overflow: 'auto'
         }}
       >
-        <ControlPanel />
-        <div
-          className="video-wrapper"
-          style={{
-            width: 'auto',
-            height: 'auto',
-            display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          {[...meetingParticipantsId].map((participantId, idx) => (
-            <ParticipantView
-              participantId={participantId}
-              key={participantId}
-              isLocalParticipant={participantId === localParticipant.id}
-              joinMeeting={joinMeeting}
-              idx={idx}
-            />
-          ))}
+        <div style={{ overflow: 'auto' }}>
+          <ControlPanel />
+          <div
+            className="video-wrapper"
+            style={{
+              width: 'auto',
+              height: 'auto',
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            {[...meetingParticipantsId].map((participantId, idx) => (
+              <ParticipantView
+                participantId={participantId}
+                key={participantId}
+                isLocalParticipant={participantId === localParticipant.id}
+                joinMeeting={joinMeeting}
+                idx={idx}
+              />
+            ))}
+          </div>
         </div>
         {userJoinMeetingStatus === 'JOINING' && <p>Joining the meeting...</p>}
         {userJoinCollabRoom && userJoinMeetingStatus === null && (
@@ -286,6 +288,7 @@ const Videomeeting = (props): JSX.Element => {
     );
   }
 
+  console.log('Here check meeting Id: ', meetingId);
   return (
     videoSDKToken &&
     meetingId && (
