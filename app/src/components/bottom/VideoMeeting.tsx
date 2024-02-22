@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import {
@@ -11,11 +11,6 @@ import {
   useParticipant
 } from '@videosdk.live/react-sdk';
 import ReactPlayer from 'react-player';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import VideocamOffIcon from '@mui/icons-material/VideocamOff';
-import MicOffIcon from '@mui/icons-material/MicOff';
-import MicIcon from '@mui/icons-material/Mic';
-import CallEndIcon from '@mui/icons-material/CallEnd';
 import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VideoMeetingControl from './VideoMeetingControl';
@@ -32,149 +27,7 @@ const Videomeeting = (props): JSX.Element => {
 
   const [useWebcam, setUseWebCam] = useState(false);
   const [useMic, setUseMic] = useState(false);
-  const [callEndHovered, setCallEndHovered] = useState(false);
-  const [micHovered, setMicHovered] = useState(false);
-  const [webcamHovered, setWebcamHovered] = useState(false);
   const micRef = useRef(null);
-
-  function ControlPanel() {
-    const { leave, toggleMic, toggleWebcam } = useMeeting();
-
-    const iconStyle = {
-      backgroundColor: 'transparent',
-      color: '#0070BA',
-      fontSize: 36,
-      margin: '0 15px'
-    };
-    const buttonStyle = {
-      backgroundColor: 'transparent',
-      border: 'none',
-      cursor: 'pointer',
-      padding: 0,
-      margin: 0,
-      outline: 'none'
-    };
-    const divStyle = {
-      backgroundColor: 'transparent', // Default background color
-      transition: 'background-color 0.3s',
-      borderRadius: '5px',
-      padding: '5px'
-    };
-
-    const handleCallEndHover = useCallback((hovered) => {
-      setCallEndHovered(hovered);
-    }, []);
-
-    const handleMicHover = useCallback((hovered) => {
-      setMicHovered(hovered);
-    }, []);
-
-    const handleWebcamHover = useCallback((hovered) => {
-      setWebcamHovered(hovered);
-    }, []);
-
-    return (
-      userJoinMeetingStatus === 'JOINED' && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            transform: 'translate(-50%, 0)',
-            bottom: 5,
-            left: '50%',
-            right: 0,
-            zIndex: 9999
-          }}
-        >
-          <div
-            style={{
-              ...divStyle,
-              backgroundColor: callEndHovered ? '#dddddd' : 'transparent'
-            }}
-            onMouseEnter={(e) => {
-              e.preventDefault(); // Prevent default action so that when mouse hover the scroll bar wont move to the top
-              setCallEndHovered(true);
-            }}
-            onMouseLeave={(e) => {
-              e.preventDefault();
-              setCallEndHovered(false);
-            }}
-          >
-            <button
-              style={buttonStyle}
-              onClick={() => {
-                leave();
-                onMeetingLeave();
-                setCallEndHovered(false);
-              }}
-            >
-              <CallEndIcon style={{ ...iconStyle, color: 'red' }} />
-            </button>
-          </div>
-          <div
-            style={{
-              ...divStyle,
-              backgroundColor: micHovered ? '#dddddd' : 'transparent'
-            }}
-            onMouseEnter={(e) => {
-              e.preventDefault();
-              setMicHovered(true);
-            }}
-            onMouseLeave={(e) => {
-              e.preventDefault();
-              setMicHovered(false);
-            }}
-          >
-            <button
-              style={buttonStyle}
-              onClick={() => {
-                toggleMic();
-                setUseMic(!useMic);
-                setMicHovered(false);
-              }}
-            >
-              {useMic ? (
-                <MicIcon style={iconStyle} />
-              ) : (
-                <MicOffIcon style={iconStyle} />
-              )}
-            </button>
-          </div>
-          <div
-            style={{
-              ...divStyle,
-              backgroundColor: webcamHovered ? '#dddddd' : 'transparent'
-            }}
-            onMouseEnter={(e) => {
-              e.preventDefault();
-              setWebcamHovered(true);
-            }}
-            onMouseLeave={(e) => {
-              e.preventDefault();
-              setWebcamHovered(false);
-            }}
-          >
-            <button
-              style={buttonStyle}
-              onClick={() => {
-                toggleWebcam();
-                setUseWebCam(!useWebcam);
-                setWebcamHovered(false);
-              }}
-            >
-              {useWebcam ? (
-                <VideocamIcon style={iconStyle} />
-              ) : (
-                <VideocamOffIcon style={iconStyle} />
-              )}
-            </button>
-          </div>
-        </div>
-      )
-    );
-  }
 
   function TurnOffCameraDisplay() {
     return (
@@ -328,7 +181,6 @@ const Videomeeting = (props): JSX.Element => {
         }}
       >
         <div style={{ overflow: 'auto' }}>
-          {/* <ControlPanel /> */}
           <VideoMeetingControl
             userJoinMeetingStatus={userJoinMeetingStatus}
             useWebcam={useWebcam}
