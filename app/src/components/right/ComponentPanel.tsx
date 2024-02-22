@@ -300,25 +300,25 @@ const useStyles = makeStyles({
     border: '2px solid grey'
   },
   inputWrapper: {
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '15px'
+    // textAlign: 'center',
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
+    // marginBottom: '15px'
   },
   panelWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flexGrow: 1,
-    color: '#000000'
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center',
+    // flexGrow: 1,
+    // color: '#000000'
   },
   addComponentWrapper: {
-    padding: 'auto',
-    marginLeft: '21px',
-    display: 'inline-block',
-    width: '100%'
+    // padding: 'auto',
+    // marginLeft: '21px',
+    // display: 'inline-block',
+    // width: '100%'
   },
   rootCheckBox: {
     borderColor: '#354e9c',
@@ -329,12 +329,12 @@ const useStyles = makeStyles({
   },
   newComponent: {
     color: '#C6C6C6',
-    fontSize: '95%',
-    marginBottom: '20px'
+    fontSize: '95%'
+    // marginBottom: '20px'
   },
   inputLabel: {
-    fontSize: '1em',
-    marginLeft: '10px'
+    // fontSize: '1em',
+    // marginLeft: '10px'
   },
   btnGroup: {
     display: 'flex',

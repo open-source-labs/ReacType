@@ -30,8 +30,6 @@ const Canvas = (props: {}): JSX.Element => {
   //remote cursor data
   const [remoteCursors, setRemoteCursors] = useState([]);
 
-
-
   // Toggle switch for live cursor tracking
   const [toggleSwitch, setToggleSwitch] = useState(true);
 
@@ -290,6 +288,10 @@ const Canvas = (props: {}): JSX.Element => {
     // borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box'
+    // backgroundColor: '#080909',
+    // backgroundImage: 'radial-gradient(#2D313A 0.71px, transparent 0)',
+    // backgroundSize: '10px 10px',
+    // backgroundPosition: '-19px -19px'
   };
 
   // Combine the default styles of the canvas with the custom styles set by the user for that component
@@ -348,8 +350,11 @@ const Canvas = (props: {}): JSX.Element => {
           bottom: 0,
           left: 0,
           display: 'flex',
-
           marginRight: 'auto'
+          // backgroundColor: '#080909',
+          // backgroundImage: 'radial-gradient(#2D313A 0.71px, transparent 0)',
+          // backgroundSize: '10px 10px',
+          // backgroundPosition: '-19px -19px'
         }}
       >
         <Button style={buttonStyle} onClick={zoomIn}>
