@@ -288,7 +288,6 @@ const Videomeeting = (props): JSX.Element => {
     );
   }
 
-  console.log('Here check meeting Id: ', meetingId);
   return (
     videoSDKToken &&
     meetingId && (

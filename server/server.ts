@@ -100,15 +100,14 @@ const createMeeting = async () => {
       authorization: process.env.VITE_VIDEOSDK_TOKEN,
       'Content-Type': 'application/json'
     },
-    // body: JSON.stringify({ customRoomId: roomCode })
-    body: JSON.stringify({ customRoomId: 'aaa-bbb' })
+    body: JSON.stringify({})
   });
 
   const { roomId }: { roomId: string } = await res.json();
   return roomId;
 };
 
-const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
+const roomLists = {};
 //server listening to new connections
 
 io.on('connection', (client) => {
@@ -204,18 +203,23 @@ io.on('connection', (client) => {
 
       //if room empty, delete room from room list and deactivate meeting room
       if (!Object.keys(roomLists[roomCode]['userList']).length) {
+        const meetingId = roomLists[roomCode].meetingId;
         const options = {
           method: 'POST',
           headers: {
-            Authorization: process.env.VIDEOSDK_TOKEN,
+            Authorization: process.env.VITE_VIDEOSDK_TOKEN,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ roomId: roomLists[roomCode].meetingId })
+          body: JSON.stringify({ roomId: meetingId })
         };
         const url = `https://api.videosdk.live/v2/rooms/deactivate`;
         const response = await fetch(url, options);
         const data = await response.json();
-        if (data.disabled) delete roomLists[roomCode];
+        delete roomLists[roomCode];
+        if (!data.disabled)
+          throw new Error(
+            `Failed to deactivate meeting room ${meetingId} of collaboration room ${roomCode}`
+          );
       } else {
         //else emit updated userName list
         const userNameList = Object.values(roomLists[roomCode]['userList']);

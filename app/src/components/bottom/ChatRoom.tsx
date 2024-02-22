@@ -105,60 +105,73 @@ const Chatroom = (props): JSX.Element => {
         paddingLeft: '10px',
         width: '100%',
         height: '100%',
-        display: 'flex',
+        display: 'center',
         justifyContent: 'space-between',
         alignItems: 'center'
       }}
     >
-      <Videomeeting />
-      {userJoinCollabRoom && (
-        <div
-          className="chatroom"
-          style={{
-            justifyContent: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            height: '80%',
-            width: '50%'
-          }}
-        >
+      <div
+        className="livechat-panel-join"
+        style={{
+          paddingLeft: '10px',
+          width: userJoinCollabRoom ? '100%' : '0%',
+          height: userJoinCollabRoom ? '100%' : '0%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <Videomeeting />
+        {userJoinCollabRoom && (
           <div
+            className="chatroom"
             style={{
               justifyContent: 'center',
               display: 'flex',
-              height: '80%'
+              flexDirection: 'column',
+              height: '80%',
+              width: '50%'
             }}
           >
             <div
-              id="message-container"
-              ref={containerRef}
-              style={wrapperStyles}
+              style={{
+                justifyContent: 'center',
+                display: 'flex',
+                height: '80%'
+              }}
             >
-              {renderMessages()}
+              <div
+                id="message-container"
+                ref={containerRef}
+                style={wrapperStyles}
+              >
+                {renderMessages()}
+              </div>
+            </div>
+            <div className="chatroom-input">
+              <form
+                id="send-container"
+                style={inputContainerStyles}
+                onSubmit={handleSubmit}
+              >
+                <input
+                  type="text"
+                  id="message-input"
+                  onChange={(e) => setInputContent(e.target.value)}
+                  value={inputContent}
+                  style={inputStyles}
+                />
+                <button type="submit" id="send-button" style={buttonStyles}>
+                  Send
+                </button>
+              </form>
             </div>
           </div>
-          <div className="chatroom-input">
-            <form
-              id="send-container"
-              style={inputContainerStyles}
-              onSubmit={handleSubmit}
-            >
-              <input
-                type="text"
-                id="message-input"
-                onChange={(e) => setInputContent(e.target.value)}
-                value={inputContent}
-                style={inputStyles}
-              />
-              <button type="submit" id="send-button" style={buttonStyles}>
-                Send
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
       {!userJoinCollabRoom && (
         <div
+          className="join-notification"
           style={{
             display: 'flex',
             justifyContent: 'center',
