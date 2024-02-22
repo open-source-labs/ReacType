@@ -582,9 +582,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
             >
               Instance of
               {configTarget.child.type === 'component'
-                ? ' component'
-                : ' element'}{' '}
-              <br />
+                ? ' component:'
+                : ' element:'}{' '}
               {configTarget.child.name}
             </h4>
           </div>
@@ -1063,11 +1062,10 @@ const useStyles = makeStyles({
   },
   // 'Parent Component' font size
   configHeader: {
-    height: '70px',
     '& > h4': {
       fontSize: '1rem',
       letterSpacing: '0.5px',
-      marginBottom: '0',
+      marginBottom: '10px',
       marginTop: '10px'
     }
   },
