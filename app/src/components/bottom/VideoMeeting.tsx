@@ -18,6 +18,7 @@ import MicIcon from '@mui/icons-material/Mic';
 import CallEndIcon from '@mui/icons-material/CallEnd';
 import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import VideoMeetingControl from './VideoMeetingControl';
 
 const Videomeeting = (props): JSX.Element => {
   const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
@@ -327,7 +328,12 @@ const Videomeeting = (props): JSX.Element => {
         }}
       >
         <div style={{ overflow: 'auto' }}>
-          <ControlPanel />
+          {/* <ControlPanel /> */}
+          <VideoMeetingControl
+            userJoinMeetingStatus={userJoinMeetingStatus}
+            useWebcam={useWebcam}
+            useMic={useMic}
+          />
           <div
             className="video-wrapper"
             style={{
