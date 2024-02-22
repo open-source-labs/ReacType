@@ -14,7 +14,7 @@ const Chatroom = (props): JSX.Element => {
   const wrapperStyles = {
     border: `2px solid #f2fbf8`,
     borderRadius: '8px',
-    width: '70%',
+    width: '75%',
     height: '100%',
     display: 'column',
     padding: '20px',
@@ -31,7 +31,7 @@ const Chatroom = (props): JSX.Element => {
   };
 
   const inputStyles = {
-    width: '70%',
+    width: '75%',
     padding: '10px',
     border: 'none',
     borderRadius: '5px',
@@ -130,14 +130,15 @@ const Chatroom = (props): JSX.Element => {
               display: 'flex',
               flexDirection: 'column',
               height: '80%',
-              width: '50%'
+              width: '60%'
             }}
           >
             <div
               style={{
                 justifyContent: 'center',
                 display: 'flex',
-                height: '80%'
+                height: '90%',
+                width: '100%'
               }}
             >
               <div
