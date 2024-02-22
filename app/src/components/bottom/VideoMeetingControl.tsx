@@ -42,18 +42,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
     }
   }, []);
 
-  const handleCallEndHover = useCallback((hovered: boolean) => {
-    setCallEndHovered(hovered);
-  }, []);
-
-  const handleMicHover = useCallback((hovered: boolean) => {
-    setMicHovered(hovered);
-  }, []);
-
-  const handleWebcamHover = useCallback((hovered: boolean) => {
-    setWebcamHovered(hovered);
-  }, []);
-
   return (
     userJoinMeetingStatus === 'JOINED' && (
       <div
@@ -77,8 +65,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
             borderRadius: '5px',
             padding: '5px'
           }}
-          //   onMouseEnter={() => handleCallEndHover(true)}
-          //   onMouseLeave={() => handleCallEndHover(false)}
           onMouseEnter={() => handleButtonHover(ButtonType.CALL_END, true)}
           onMouseLeave={() => handleButtonHover(ButtonType.CALL_END, false)}
         >
@@ -94,7 +80,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
             onClick={() => {
               leave();
               handleButtonHover(ButtonType.CALL_END, false);
-              //   setCallEndHovered(false);
             }}
           >
             <CallEndIcon
@@ -112,8 +97,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
           }}
           onMouseEnter={() => handleButtonHover(ButtonType.MIC, true)}
           onMouseLeave={() => handleButtonHover(ButtonType.MIC, false)}
-          //   onMouseEnter={() => handleMicHover(true)}
-          //   onMouseLeave={() => handleMicHover(false)}
         >
           <button
             style={{
@@ -127,7 +110,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
             onClick={() => {
               toggleMic();
               handleButtonHover(ButtonType.MIC, false);
-              //   setMicHovered(false);
             }}
           >
             {useMic ? (
@@ -151,8 +133,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
           }}
           onMouseEnter={() => handleButtonHover(ButtonType.WEBCAM, true)}
           onMouseLeave={() => handleButtonHover(ButtonType.WEBCAM, false)}
-          //   onMouseEnter={() => handleWebcamHover(true)}
-          //   onMouseLeave={() => handleWebcamHover(false)}
         >
           <button
             style={{
@@ -166,7 +146,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
             onClick={() => {
               toggleWebcam();
               handleButtonHover(ButtonType.WEBCAM, false);
-              //   setWebcamHovered(false);
             }}
           >
             {useWebcam ? (
