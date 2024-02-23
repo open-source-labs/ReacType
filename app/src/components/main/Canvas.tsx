@@ -335,63 +335,61 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
   };
 
   return (
-    <div>
-      <div
-        className={'componentContainer'}
-        ref={drop}
-        data-testid="drop"
-        style={canvasStyle}
-        onClick={onClickHandler}
-        onMouseMove={handleMouseMove}
-      >
-        {renderChildren(currentComponent.children)}
-        {remoteCursors.map(
-          (cursor, idx) =>
-            cursor.isVisible && (
-              <div
-                key={idx}
-                className="remote-cursor"
-                style={{
-                  position: 'absolute',
-                  left: cursor.x + 'px',
-                  top: cursor.y - 68 + 'px',
-                  //cursor style
-                  fontSize: '1em',
-                  color: userColors[userList.indexOf(cursor.remoteUserName)]
-                }}
-              >
-                {<FaMousePointer />}
-                {cursor.remoteUserName}
-              </div>
-            )
-        )}
-        <label className="switch">
-          {userList.length > 1 && (
-            <Button
-              className="btn-toggle"
-              onClick={multipleClicks}
+    <div
+      className={'componentContainer'}
+      ref={drop}
+      data-testid="drop"
+      style={canvasStyle}
+      onClick={onClickHandler}
+      onMouseMove={handleMouseMove}
+    >
+      {renderChildren(currentComponent.children)}
+      {remoteCursors.map(
+        (cursor, idx) =>
+          cursor.isVisible && (
+            <div
+              key={idx}
+              className="remote-cursor"
               style={{
-                position: 'fixed',
-                width: '100px',
-                height: '35px',
-                bottom: '200px',
-                right: '45vw',
-                padding: '5px',
-                textAlign: 'center',
-                color: '#ffffff',
-                backgroundColor: '#151515',
-                zIndex: 0,
-                border: '2px solid #354e9c',
-                whiteSpace: 'nowrap',
-                cursor: 'pointer',
-                textTransform: 'none'
+                position: 'absolute',
+                left: cursor.x + 'px',
+                top: cursor.y - 68 + 'px',
+                //cursor style
+                fontSize: '1em',
+                color: userColors[userList.indexOf(cursor.remoteUserName)]
               }}
             >
-              {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
-            </Button>
-          )}
-        </label>
-      </div>
+              {<FaMousePointer />}
+              {cursor.remoteUserName}
+            </div>
+          )
+      )}
+      <label className="switch">
+        {userList.length > 1 && (
+          <Button
+            className="btn-toggle"
+            onClick={multipleClicks}
+            style={{
+              position: 'fixed',
+              width: '100px',
+              height: '35px',
+              bottom: '200px',
+              right: '45vw',
+              padding: '5px',
+              textAlign: 'center',
+              color: '#ffffff',
+              backgroundColor: '#151515',
+              zIndex: 0,
+              border: '2px solid #354e9c',
+              whiteSpace: 'nowrap',
+              cursor: 'pointer',
+              textTransform: 'none'
+            }}
+          >
+            {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
+          </Button>
+        )}
+      </label>
     </div>
   );
 });

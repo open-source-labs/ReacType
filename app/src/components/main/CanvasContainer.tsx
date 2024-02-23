@@ -68,6 +68,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const container = document.getElementById('canvasContainer');
+  const components = document.querySelector('.componentContainer');
 
   const [zoom, setZoom] = useState(1);
 
@@ -81,7 +82,22 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
 
   //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom. Once elements surpass the view of the canvas, scroll to bottom, else, keep scroll bar to the top.
   useEffect(() => {
-    if (container && state.components[0].children.length > 0) {
+    if (
+      container &&
+      components &&
+      state.components[0].children.length > 0 &&
+      components.scrollHeight == components.clientHeight
+    ) {
+      console.log('if components scroll height', components.scrollHeight);
+      console.log('if components client height', components.clientHeight);
+      console.log('if container scroll height', container.scrollHeight);
+      console.log('if container client height', container.clientHeight);
+      container.scrollTop = 0;
+    } else if (container && components) {
+      console.log('else components scroll height', components.scrollHeight);
+      console.log('else components client height', components.clientHeight);
+      console.log('else container scroll height', container.scrollHeight);
+      console.log('else container client height', container.clientHeight);
       container.scrollTop = container.scrollHeight;
     }
   }, [state.components[0].children.length, zoom]);
