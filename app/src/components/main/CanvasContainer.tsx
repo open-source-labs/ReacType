@@ -67,18 +67,12 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   //containerRef references the container that will ultimately have the scroll functionality
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const container = document.getElementById('canvasContainer');
+
   //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom. Once elements surpass the view of the canvas, scroll to bottom, else, keep scroll bar to the top.
   useEffect(() => {
-    const allElements = document.querySelector('.allElements');
-    const container = containerRef.current;
-    if (
-      container &&
-      allElements &&
-      state.components[0].children.length > 0
-    ) {
-      container.scrollTop = container.scrollHeight;
-    } else if (container) {
-      container.scrollTop = 0;
+    if (container && state.components[0].children.length > 0) {
+      container.scrollTop = container.clientHeight;
     }
   }, [state.components[0].children.length]);
 
@@ -101,7 +95,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   };
 
   return (
-    <div style={canvasContainerStyle}>
+    <div id="canvasContainer" style={canvasContainerStyle}>
       <div
         style={{
           position: 'sticky',
@@ -120,7 +114,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           <Button
             style={backToTop}
             onClick={() => {
-              containerRef.current.scrollTop = 0;
+              container.scrollTop = 0;
             }}
           >
             Scroll Top
@@ -128,8 +122,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           <Button
             style={backToTop}
             onClick={() => {
-              containerRef.current.scrollTop =
-                containerRef.current.clientHeight;
+              container.scrollTop = container.clientHeight;
             }}
           >
             Scroll Bottom

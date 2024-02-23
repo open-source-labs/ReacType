@@ -291,7 +291,9 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
     backgroundColor: isOver ? '#242323' : '#191919',
     // borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    transform: `scale(${zoom})`,
+    transformOrigin: 'top center'
   };
 
   // Combine the default styles of the canvas with the custom styles set by the user for that component
@@ -342,9 +344,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
         onClick={onClickHandler}
         onMouseMove={handleMouseMove}
       >
-        <div className="allElements" style={zoomedChildren} ref={ref}>
-          {renderChildren(currentComponent.children)}
-        </div>
+        {renderChildren(currentComponent.children)}
         {remoteCursors.map(
           (cursor, idx) =>
             cursor.isVisible && (
