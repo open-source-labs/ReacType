@@ -88,16 +88,8 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
       state.components[0].children.length > 0 &&
       components.scrollHeight == components.clientHeight
     ) {
-      console.log('if components scroll height', components.scrollHeight);
-      console.log('if components client height', components.clientHeight);
-      console.log('if container scroll height', container.scrollHeight);
-      console.log('if container client height', container.clientHeight);
       container.scrollTop = 0;
     } else if (container && components) {
-      console.log('else components scroll height', components.scrollHeight);
-      console.log('else components client height', components.clientHeight);
-      console.log('else container scroll height', container.scrollHeight);
-      console.log('else container client height', container.clientHeight);
       container.scrollTop = container.scrollHeight;
     }
   }, [state.components[0].children.length, zoom]);
@@ -126,24 +118,26 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
         <Button style={codePreviewStyle} onClick={onClickCodePreview}>
           Code Preview
         </Button>
-        <div>
-          <Button
-            style={backToTop}
-            onClick={() => {
-              container.scrollTop = 0;
-            }}
-          >
-            Scroll Top
-          </Button>
-          <Button
-            style={backToTop}
-            onClick={() => {
-              container.scrollTop = container.clientHeight;
-            }}
-          >
-            Scroll Bottom
-          </Button>
-        </div>
+        {!state.codePreview && (
+          <div>
+            <Button
+              style={backToTop}
+              onClick={() => {
+                container.scrollTop = 0;
+              }}
+            >
+              Scroll Top
+            </Button>
+            <Button
+              style={backToTop}
+              onClick={() => {
+                container.scrollTop = container.clientHeight;
+              }}
+            >
+              Scroll Bottom
+            </Button>
+          </div>
+        )}
         <Button style={buttonStyle} onClick={zoomIn}>
           <ZoomIn />
         </Button>
@@ -151,15 +145,14 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           <ZoomOut />
         </Button>
       </div>
-      {state.codePreview && (
+      {state.codePreview ? (
         <CodePreview
           theme={theme}
           setTheme={setTheme}
           zoom={zoom}
           containerRef={containerRef}
         />
-      )}
-      {!state.codePreview && (
+      ) : (
         <Canvas
           zoom={zoom}
           ref={containerRef} /*isThemeLight={props.isThemeLight} */
