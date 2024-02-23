@@ -589,7 +589,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
             </h4>
           </div>
           <section className={'customization-section'}>
-            <div>
+            <div style={{marginRight: '150px'}}>
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
