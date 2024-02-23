@@ -69,13 +69,6 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
 
   const container = document.getElementById('canvasContainer');
 
-  //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom. Once elements surpass the view of the canvas, scroll to bottom, else, keep scroll bar to the top.
-  useEffect(() => {
-    if (container && state.components[0].children.length > 0) {
-      container.scrollTop = container.clientHeight;
-    }
-  }, [state.components[0].children.length]);
-
   const [zoom, setZoom] = useState(1);
 
   const zoomIn = () => {
@@ -85,6 +78,13 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   const zoomOut = () => {
     setZoom(Math.max(zoom - 0.1, 0.1));
   };
+
+  //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom. Once elements surpass the view of the canvas, scroll to bottom, else, keep scroll bar to the top.
+  useEffect(() => {
+    if (container && state.components[0].children.length > 0) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [state.components[0].children.length, zoom]);
 
   const buttonStyle: React.CSSProperties = {
     textAlign: 'center',
