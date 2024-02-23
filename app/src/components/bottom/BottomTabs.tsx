@@ -127,7 +127,7 @@ const BottomTabs = (props): JSX.Element => {
                   borderColor: '#131416'
                 }
               }}
-              style={{ color: 'grey' }} // added
+              style={{ color: '#9C9D9F' }} // added
             >
               <MenuItem style={{ color: 'white' }} value={'Classic React'}>
                 Classic React
@@ -181,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     height: '100%',
-    color: '#E8E8E8',
+    color: '#E8E8E8'
     // boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   rootLight: {
@@ -197,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: '#2D313A' // changed
+    backgroundColor: '#354e9c' // changed
   },
   tabRoot: {
     textTransform: 'initial',

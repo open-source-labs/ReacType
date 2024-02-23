@@ -11,6 +11,7 @@ import {
   ListItemText,
   TextField
 } from '@mui/material';
+import { Redo, Undo } from '@mui/icons-material';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   changeTailwind,
@@ -571,7 +572,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
-        <div>
+        <div style={{ height: '300px' }}>
           <div className={classes.configHeader}>
             <h4
               className={
@@ -694,9 +695,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <h3>Background color:</h3>
                 </div>
                 <div className={classes.configValue}>
-                  <FormControl variant="filled" className={classes.formControl}>
+                  <FormControl className={classes.formControl}>
                     <TextField
-                      variant="filled"
                       name="bgcolor"
                       className={classes.select}
                       inputProps={{
@@ -724,9 +724,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <h3>Text:</h3>
                 </div>
                 <div className={classes.configValue}>
-                  <FormControl variant="filled" className={classes.formControl}>
+                  <FormControl className={classes.formControl}>
                     <TextField
-                      variant="filled"
                       name="compText"
                       className={classes.select}
                       inputProps={{
@@ -736,7 +735,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       }}
                       value={compText}
                       onChange={handleChange}
-                      placeholder="Text"
+                      placeholder="text"
                     />
                   </FormControl>
                 </div>
@@ -759,9 +758,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <h3>Link:</h3>
                 </div>
                 <div className={classes.configValue}>
-                  <FormControl variant="filled" className={classes.formControl}>
+                  <FormControl className={classes.formControl}>
                     <TextField
-                      variant="filled"
                       name="compLink"
                       className={classes.select}
                       inputProps={{
@@ -771,7 +769,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       }}
                       value={compLink}
                       onChange={handleChange}
-                      placeholder="Text"
+                      placeholder="example.com"
                     />
                   </FormControl>
                 </div>
@@ -791,12 +789,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       : `${classes.configType} ${classes.darkThemeFontColor}`
                   }
                 >
-                  <h3>Css Classes:</h3>
+                  <h3>CSS Classes:</h3>
                 </div>
                 <div className={classes.configValue}>
-                  <FormControl variant="filled" className={classes.formControl}>
+                  <FormControl className={classes.formControl}>
                     <TextField
-                      variant="filled"
                       name="cssClasses"
                       className={classes.select}
                       inputProps={{
@@ -806,7 +803,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       }}
                       value={cssClasses}
                       onChange={handleChange}
-                      placeholder="Text"
+                      placeholder="class"
                     />
                   </FormControl>
                 </div>
@@ -839,9 +836,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   >
                     <h3>Function Name:</h3>
                   </div>
-                  <FormControl variant="filled">
+                  <FormControl>
                     <TextField
-                      variant="filled"
                       name="funcName"
                       inputProps={{
                         className: isThemeLight
@@ -865,23 +861,25 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </div>
               )}
             </div>
+          </section>
+          <div className={classes.buttonRow}>
             <div>
-              <div className={classes.buttonRow}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={
-                    isThemeLight
-                      ? `${classes.button} ${classes.saveButtonLight}`
-                      : `${classes.button} ${classes.saveButtonDark}`
-                  }
-                  onClick={handleSave}
-                  id="saveButton"
-                >
-                  SAVE
-                </Button>
-              </div>
-              {/* <div className={classes.buttonRow}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={
+                  isThemeLight
+                    ? `${classes.button} ${classes.saveButtonLight}`
+                    : `${classes.button} ${classes.saveButtonDark}`
+                }
+                onClick={handleSave}
+                id="saveButton"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                Save
+              </Button>
+            </div>
+            {/* <div className={classes.buttonRow}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -917,65 +915,67 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   Tailwind
                 </Button>
               </div> */}
-              {configTarget.child ? (
-                <div className={classes.buttonRow}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={
-                      isThemeLight
-                        ? `${classes.button} ${classes.saveButtonLight}`
-                        : `${classes.button} ${classes.saveButtonDark}`
-                    }
-                    onClick={handleDelete}
-                  >
-                    DELETE INSTANCE
-                  </Button>
-                </div>
-              ) : isPage(configTarget) ? (
-                <div className={classes.buttonRow}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className={classes.button}
-                    onClick={handlePageDelete(configTarget.id)}
-                  >
-                    DELETE PAGE
-                  </Button>
-                </div>
-              ) : (
-                <div className={classes.buttonRow}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className={classes.button}
-                    onClick={clearComps}
-                    id="deleteComp"
-                  >
-                    DELETE REUSABLE COMPONENT
-                  </Button>
-                </div>
-              )}
-              <div className={classes.buttonRow}>
+            {configTarget.child ? (
+              <div>
                 <Button
                   variant="contained"
                   color="primary"
-                  className={classes.button}
-                  onClick={handleUndo}
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleDelete}
+                  sx={{ textTransform: 'capitalize' }}
                 >
-                  <i className="fas fa-undo"></i>
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={handleRedo}
-                >
-                  <i className="fas fa-redo"></i>
+                  Delete Instance
                 </Button>
               </div>
+            ) : isPage(configTarget) ? (
+              <div>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  className={classes.button}
+                  onClick={handlePageDelete(configTarget.id)}
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  Delete Page
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  className={classes.button}
+                  onClick={clearComps}
+                  id="deleteComp"
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  Delete Reuseable Component
+                </Button>
+              </div>
+            )}
+            <div>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={handleUndo}
+              >
+                <Undo />
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={handleRedo}
+              >
+                <Redo />
+              </Button>
             </div>
-          </section>
+          </div>
         </div>
       </div>
       <Dialog
@@ -1009,6 +1009,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 const useStyles = makeStyles({
   select: {
     fontSize: '1em',
+    // backgroundColor: '#0E0E11',
+    borderRadius: '10px',
     '> .MuiSelect-icon': {
       color: '#C6C6C6'
     }
@@ -1018,8 +1020,7 @@ const useStyles = makeStyles({
     paddingLeft: '15px'
   },
   formControl: {
-    minWidth: '125px',
-    backgroundColor: 'rgba(255,255,255,0.15)'
+    minWidth: '125px'
   },
   configRow: {
     display: 'flex',
@@ -1035,8 +1036,10 @@ const useStyles = makeStyles({
     marginLeft: '20px'
   },
   buttonRow: (isThemeLight) => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     textAlign: 'center',
-    marginTop: '25px',
     '& > .MuiButton-textSecondary': {
       color: isThemeLight ? '#808080' : '#ECECEA', // color for delete page
       border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'
@@ -1045,7 +1048,8 @@ const useStyles = makeStyles({
   button: {
     fontSize: '1rem',
     paddingLeft: '20px',
-    paddingRight: '20px'
+    paddingRight: '20px',
+    margin: '0 10px'
   },
   saveButtonLight: {
     border: '1px solid #354e9c',

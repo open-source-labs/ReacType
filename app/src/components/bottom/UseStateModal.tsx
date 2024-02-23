@@ -51,7 +51,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange }) {
   return (
     <div ref={container}>
       <button className="useState-btn" onClick={() => setOpen(true)}>
-        USE STATE
+        Use State
       </button>
       <Modal open={open} container={container.current}>
         {body}

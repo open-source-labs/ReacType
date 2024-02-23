@@ -800,13 +800,14 @@ div.rst__rowContents {
 
 .useState-btn {
   color: rgb(241, 240, 240);
-  background-color: rgba(0, 0, 0, 0.54);
-  border: 1px solid #354e9c;
-  border-radius: 3px;
+  background-color: #2D313A;
+  border: 1px solid #2D313A;
+  border-radius: 10px;
   box-shadow: '2px 2px 2px #1a1a1a';
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
   padding: 12px;
-  margin-left: 5px;
+  margin-left: 20px;
 }
 
 .useState-position {
