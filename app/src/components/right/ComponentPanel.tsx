@@ -259,6 +259,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
               }
               color="primary"
               variant="contained"
+              sx={{ textTransform: 'capitalize' }}
               id="addComponentButton"
               onClick={handleNameSubmit}
             >

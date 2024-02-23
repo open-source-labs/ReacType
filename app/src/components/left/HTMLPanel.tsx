@@ -269,6 +269,7 @@ const HTMLPanel = (props): JSX.Element => {
                 color="primary"
                 variant="contained"
                 value="Add Element"
+                sx={{ textTransform: 'capitalize' }}
               >
                 Add Element
               </Button>
