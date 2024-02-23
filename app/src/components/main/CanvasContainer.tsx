@@ -74,7 +74,6 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     if (
       container &&
       allElements &&
-      allElements.clientHeight > container.clientHeight &&
       state.components[0].children.length > 0
     ) {
       container.scrollTop = container.scrollHeight;
