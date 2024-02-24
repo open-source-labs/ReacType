@@ -250,7 +250,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
               />
             </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'end', marginRight: '300px' }}>
             <br />
             <Button
               className={
