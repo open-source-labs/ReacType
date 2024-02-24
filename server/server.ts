@@ -115,6 +115,10 @@ io.on('connection', (client) => {
           io.emit('room is already taken');
         }
 
+        if (!roomLists[roomCode] && method === "JOIN") {
+          io.emit('room does not exist');
+        }
+
         if (!roomLists[roomCode] && method === 'CREATE') {
           roomLists[roomCode] = {};
           roomLists[roomCode][client.id] = { userName, password: roomPassword };
