@@ -307,12 +307,16 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
 
   // Array of colors that color code users as they join the room (In a set order)
   const userColors = [
-    '#FC00BD',
-    '#D0FC00',
-    '#00DBFC',
-    '#FD98B8',
-    '#FCAA00',
-    '#9267FF'
+    '#0671e3',
+    '#2fd64d',
+    '#f0c000',
+    '#fb4c64',
+    '#be5be8',
+    '#fe9c06',
+    '#f6352b',
+    '#1667d1',
+    '#1667d1',
+    '#50ed6a'
   ];
 
   const zoomedChildren: React.CSSProperties = {
@@ -380,7 +384,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
               color: '#ffffff',
               backgroundColor: '#151515',
               zIndex: 0,
-              border: '2px solid #354e9c',
+              border: '2px solid #0671e3',
               whiteSpace: 'nowrap',
               cursor: 'pointer',
               textTransform: 'none'
