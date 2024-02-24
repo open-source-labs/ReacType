@@ -181,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   rootLight: {
-    backgroundColor: '#354e9c'
+    backgroundColor: '#0671e3'
   },
   bottomHeader: {
     flex: 1,
@@ -240,7 +240,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px'
   },
   projectSelector: {
-    backgroundColor: '#354e9c',
+    backgroundColor: '#0671e3',
     color: 'white'
   }
 }));

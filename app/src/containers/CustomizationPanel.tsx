@@ -1049,7 +1049,7 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   saveButtonLight: {
-    border: '1px solid #354e9c',
+    border: '1px solid #0671e3',
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {
