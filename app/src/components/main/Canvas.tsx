@@ -1,6 +1,6 @@
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import {
   addChild,
   changeFocus,
@@ -20,7 +20,11 @@ import { display } from 'html2canvas/dist/types/css/property-descriptors/display
 import { ZoomIn, ZoomOut } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
-const Canvas = (props: {}): JSX.Element => {
+interface CanvasProps {
+  zoom: number;
+}
+
+const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -287,7 +291,9 @@ const Canvas = (props: {}): JSX.Element => {
     backgroundColor: isOver ? '#242323' : '#191919',
     // borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    transform: `scale(${zoom})`,
+    transformOrigin: 'top center'
   };
 
   // Combine the default styles of the canvas with the custom styles set by the user for that component
@@ -309,24 +315,14 @@ const Canvas = (props: {}): JSX.Element => {
     '#9267FF'
   ];
 
-  const [zoom, setZoom] = useState(1);
-
-  // zoom in
-  const zoomIn = () => {
-    setZoom(zoom + 0.1);
-  };
-
-  // zoom out
-  const zoomOut = () => {
-    setZoom(Math.max(zoom - 0.1, 0.1));
-  };
-
   const zoomedChildren: React.CSSProperties = {
     transform: `scale(${zoom})`,
+    width: '100%',
     transformOrigin: 'top center',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    overflow: 'auto'
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -339,84 +335,63 @@ const Canvas = (props: {}): JSX.Element => {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          position: 'relative',
-          bottom: 0,
-          left: 0,
-          display: 'flex',
-
-          marginRight: 'auto'
-        }}
-      >
-        <Button style={buttonStyle} onClick={zoomIn}>
-          <ZoomIn />
-        </Button>
-        <Button style={buttonStyle} onClick={zoomOut}>
-          <ZoomOut />
-        </Button>
-      </div>
-      <div
-        className={'componentContainer'}
-        ref={drop}
-        data-testid="drop"
-        style={canvasStyle}
-        onClick={onClickHandler}
-        onMouseMove={handleMouseMove}
-      >
-        <div className="allElements" style={zoomedChildren}>
-          {renderChildren(currentComponent.children)}
-        </div>
-        {remoteCursors.map(
-          (cursor, idx) =>
-            cursor.isVisible && (
-              <div
-                key={idx}
-                className="remote-cursor"
-                style={{
-                  position: 'absolute',
-                  left: cursor.x + 'px',
-                  top: cursor.y - 68 + 'px',
-                  //cursor style
-                  fontSize: '1em',
-                  color: userColors[userList.indexOf(cursor.remoteUserName)]
-                }}
-              >
-                {<FaMousePointer />}
-                {cursor.remoteUserName}
-              </div>
-            )
-        )}
-        <label className="switch">
-          {userList.length > 1 && (
-            <Button
-              className="btn-toggle"
-              onClick={multipleClicks}
+    <div
+      className={'componentContainer'}
+      ref={drop}
+      data-testid="drop"
+      style={canvasStyle}
+      onClick={onClickHandler}
+      onMouseMove={handleMouseMove}
+    >
+      {renderChildren(currentComponent.children)}
+      {remoteCursors.map(
+        (cursor, idx) =>
+          cursor.isVisible && (
+            <div
+              key={idx}
+              className="remote-cursor"
               style={{
-                position: 'fixed',
-                width: '100px',
-                height: '35px',
-                bottom: '200px',
-                right: '45vw',
-                padding: '5px',
-                textAlign: 'center',
-                color: '#ffffff',
-                backgroundColor: '#151515',
-                zIndex: 0,
-                border: '2px solid #0671e3',
-                whiteSpace: 'nowrap',
-                cursor: 'pointer',
-                textTransform: 'none'
+                position: 'absolute',
+                left: cursor.x + 'px',
+                top: cursor.y - 68 + 'px',
+                //cursor style
+                fontSize: '1em',
+                color: userColors[userList.indexOf(cursor.remoteUserName)]
               }}
             >
-              {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
-            </Button>
-          )}
-        </label>
-      </div>
+              {<FaMousePointer />}
+              {cursor.remoteUserName}
+            </div>
+          )
+      )}
+      <label className="switch">
+        {userList.length > 1 && (
+          <Button
+            className="btn-toggle"
+            onClick={multipleClicks}
+            style={{
+              position: 'fixed',
+              width: '100px',
+              height: '35px',
+              bottom: '200px',
+              right: '45vw',
+              padding: '5px',
+              textAlign: 'center',
+              color: '#ffffff',
+              backgroundColor: '#151515',
+              zIndex: 0,
+              border: '2px solid #354e9c',
+              whiteSpace: 'nowrap',
+              cursor: 'pointer',
+              textTransform: 'none'
+            }}
+          >
+            {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
+          </Button>
+        )}
+      </label>
     </div>
   );
-};
+});
 
 export default Canvas;

@@ -348,7 +348,7 @@ h1 {
   flex-direction: column;
   flex: 1;
   min-width: 700px;
-  /* overflow: auto; */
+  overflow: auto;
 }
 
 .main-header {
