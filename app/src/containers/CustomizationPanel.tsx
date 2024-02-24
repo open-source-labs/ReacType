@@ -1049,7 +1049,7 @@ const useStyles = makeStyles({
     fontSize: '1rem',
     paddingLeft: '20px',
     paddingRight: '20px',
-    margin: '0 10px'
+    margin: '1px 10px'
   },
   saveButtonLight: {
     border: '1px solid #354e9c',
