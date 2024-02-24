@@ -70,7 +70,7 @@ const StylesEditor: React.FC<{
         }}
       />
       <Fab
-        className="bttn"
+        className="cssSaveBtn"
         onClick={saveCss}
         color="secondary"
         aria-label="add"

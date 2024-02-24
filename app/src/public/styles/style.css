@@ -798,10 +798,20 @@ div.rst__rowContents {
   z-index: 999;
 }
 
+.cssSaveBtn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  background-color: #354e9c;
+  box-shadow: none;
+  padding: 32px;
+}
+
 .useState-btn {
   color: rgb(241, 240, 240);
-  background-color: #2D313A;
-  border: 1px solid #2D313A;
+  background-color: #2d313a;
+  border: 1px solid #2d313a;
   border-radius: 10px;
   box-shadow: '2px 2px 2px #1a1a1a';
   font-family: Arial, Helvetica, sans-serif;
