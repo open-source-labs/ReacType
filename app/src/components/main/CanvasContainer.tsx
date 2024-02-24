@@ -26,7 +26,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
 
   const canvasContainerStyle: React.CSSProperties = {
     width: '100%',
-    minHeight: '100%',
+    height: '100%',
     backgroundColor: 'rgba(25, 25, 25)',
     border: '2px solid grey',
     borderBottom: 'none',
@@ -34,12 +34,6 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   };
 
   const codePreviewStyle: React.CSSProperties = {
-    // position: 'relative',
-    // width: '100px',
-    // height: '35px',
-    // bottom: '150px',
-    // right: '45vw',
-    // padding: '5px',
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#151515',
@@ -50,11 +44,6 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   } as const;
 
   const backToTop: React.CSSProperties = {
-    // position: 'relative',
-    // width: '100px',
-    // height: '35px',
-    // bottom: '100px',
-    // right: '45vw',
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#151515',
@@ -153,10 +142,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           containerRef={containerRef}
         />
       ) : (
-        <Canvas
-          zoom={zoom}
-          ref={containerRef} /*isThemeLight={props.isThemeLight} */
-        />
+        <Canvas zoom={zoom} ref={containerRef} />
       )}
     </div>
   );
