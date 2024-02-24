@@ -31,7 +31,7 @@ const Videomeeting = (props): JSX.Element => {
 
   const micRef = useRef(null);
 
-  function TurnOffCameraDisplay() {
+  const TurnOffCameraDisplay = () => {
     return (
       <div
         style={{
@@ -48,7 +48,7 @@ const Videomeeting = (props): JSX.Element => {
         <AccountCircleIcon style={{ fontSize: 100, color: 'white' }} />
       </div>
     );
-  }
+  };
 
   const onMeetingLeave = () => {
     dispatch(setUserJoinMeetingStatus(null));
@@ -61,9 +61,15 @@ const Videomeeting = (props): JSX.Element => {
     else return { color: 'white' };
   };
 
-  function ParticipantView(props) {
+  const ParticipantView = ({
+    participantId,
+    key,
+    isLocalParticipant,
+    joinMeeting,
+    idx
+  }) => {
     const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
-      useParticipant(props.participantId);
+      useParticipant(participantId);
 
     const videoStream = useMemo(() => {
       if (webcamOn && webcamStream) {
@@ -97,7 +103,7 @@ const Videomeeting = (props): JSX.Element => {
         {userJoinMeetingStatus === 'JOINED' && (
           <>
             <div
-              key={props.participantId}
+              key={participantId}
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -106,8 +112,8 @@ const Videomeeting = (props): JSX.Element => {
                 paddingRight: '10px'
               }}
             >
-              <p style={handleUserInfoStyle(props.isLocalParticipant)}>
-                Participant: {props.isLocalParticipant ? 'You' : displayName} |
+              <p style={handleUserInfoStyle(isLocalParticipant)}>
+                Participant: {isLocalParticipant ? 'You' : displayName} |
                 Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic: {micOn ? 'ON' : 'OFF'}
               </p>
               <audio ref={micRef} autoPlay muted={isLocal} />
@@ -133,9 +139,9 @@ const Videomeeting = (props): JSX.Element => {
         )}
       </>
     );
-  }
+  };
 
-  function MeetingView(props) {
+  const MeetingView = ({ meetingId, onMeetingLeave }) => {
     const { join, localParticipant, leave } = useMeeting();
 
     const { participants } = useMeeting({
@@ -143,7 +149,7 @@ const Videomeeting = (props): JSX.Element => {
         dispatch(setUserJoinMeetingStatus('JOINED'));
       },
       onMeetingLeft: () => {
-        props.onMeetingLeave();
+        onMeetingLeave();
       }
     });
 
@@ -223,7 +229,7 @@ const Videomeeting = (props): JSX.Element => {
         )}
       </div>
     );
-  }
+  };
 
   return (
     videoSDKToken &&
