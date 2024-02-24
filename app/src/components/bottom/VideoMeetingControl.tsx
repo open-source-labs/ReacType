@@ -1,10 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { useMeeting } from '@videosdk.live/react-sdk';
+import { useSelector, useDispatch } from 'react-redux';
 import CallEndIcon from '@mui/icons-material/CallEnd';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import MicIcon from '@mui/icons-material/Mic';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+
+import { setUseMic, setUseWebcam } from '../../redux/reducers/slice/roomSlice';
+import { RootState } from '../../redux/store';
 
 interface VideoMeetingControlProps {
   userJoinMeetingStatus: string;
@@ -18,16 +22,17 @@ enum ButtonType {
   WEBCAM = 'Webcam'
 }
 
-const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
-  userJoinMeetingStatus,
-  useWebcam,
-  useMic
-}) => {
+const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
   const { leave, toggleMic, toggleWebcam } = useMeeting();
 
   const [callEndHovered, setCallEndHovered] = useState(false);
   const [micHovered, setMicHovered] = useState(false);
   const [webcamHovered, setWebcamHovered] = useState(false);
+
+  const dispatch = useDispatch();
+  const { userJoinMeetingStatus, useMic, useWebcam } = useSelector(
+    (store: RootState) => store.roomSlice
+  );
 
   const handleButtonHover = useCallback((button: string, hovered: boolean) => {
     switch (button) {
@@ -109,6 +114,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
             }}
             onClick={() => {
               toggleMic();
+              dispatch(setUseMic(null));
               handleButtonHover(ButtonType.MIC, false);
             }}
           >
@@ -145,6 +151,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = ({
             }}
             onClick={() => {
               toggleWebcam();
+              dispatch(setUseWebcam(null));
               handleButtonHover(ButtonType.WEBCAM, false);
             }}
           >

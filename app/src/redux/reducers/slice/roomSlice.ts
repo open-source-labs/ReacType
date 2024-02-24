@@ -9,7 +9,9 @@ const initialState = {
   userJoinMeetingStatus: null,
   meetingParticipants: [],
   messages: [],
-  password: ''
+  password: '',
+  useMic: false,
+  useWebcam: false
 };
 
 const roomSlice = createSlice({
@@ -45,6 +47,14 @@ const roomSlice = createSlice({
     },
     setPassword: (state, action) => {
       state.password = action.payload;
+    },
+    setUseMic: (state, action) => {
+      if (action.payload === null) state.useMic = !state.useMic;
+      else state.useMic = action.payload;
+    },
+    setUseWebcam: (state, action) => {
+      if (action.payload === null) state.useWebcam = !state.useWebcam;
+      else state.useWebcam = action.payload;
     }
   }
 });
@@ -59,7 +69,9 @@ export const {
   setMeetingParticipants,
   setMessages,
   setEmptyMessages,
-  setPassword
+  setPassword,
+  setUseMic,
+  setUseWebcam
 } = roomSlice.actions;
 
 export default roomSlice.reducer;

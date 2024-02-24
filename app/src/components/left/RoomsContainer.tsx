@@ -44,7 +44,9 @@ import {
   setMeetingId,
   setMessages,
   setEmptyMessages,
-  setPassword
+  setPassword,
+  setUseMic,
+  setUseWebcam
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
@@ -348,6 +350,8 @@ const RoomsContainer = () => {
     dispatch(resetState(''));
     dispatch(setPassword(''));
     dispatch(setEmptyMessages([]));
+    dispatch(setUseMic(false));
+    dispatch(setUseWebcam(false));
   };
 
   const checkInputField = (...inputs) => {

@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import {
   setUserJoinMeetingStatus,
-  setMeetingParticipants
+  setMeetingParticipants,
+  setUseMic,
+  setUseWebcam
 } from '../../redux/reducers/slice/roomSlice';
 import {
   MeetingConsumer,
@@ -22,11 +24,11 @@ const Videomeeting = (props): JSX.Element => {
     meetingId,
     userJoinCollabRoom,
     userJoinMeetingStatus,
-    meetingParticipants
+    meetingParticipants,
+    useMic,
+    useWebcam
   } = useSelector((store: RootState) => store.roomSlice);
 
-  const [useWebcam, setUseWebCam] = useState(false);
-  const [useMic, setUseMic] = useState(false);
   const micRef = useRef(null);
 
   function TurnOffCameraDisplay() {
@@ -50,8 +52,8 @@ const Videomeeting = (props): JSX.Element => {
 
   const onMeetingLeave = () => {
     dispatch(setUserJoinMeetingStatus(null));
-    setUseWebCam(false);
-    setUseMic(false);
+    dispatch(setUseWebcam(false));
+    dispatch(setUseMic(false));
   };
 
   const handleUserInfoStyle = (isLocalParticipant: boolean) => {
