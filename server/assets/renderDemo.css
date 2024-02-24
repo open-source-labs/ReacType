@@ -17,7 +17,7 @@
 .tst-form {
   position: relative;
   z-index: 1;
-  background: #354e9c;
+  background: #0671e3;
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
@@ -52,7 +52,7 @@
 .tst-form button:hover,
 .form button:active,
 .form button:focus {
-  background: #354e9c;
+  background: #0671e3;
 }
 .tst-form .message {
   margin: 15px 0 0;
