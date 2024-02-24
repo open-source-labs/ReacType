@@ -21,6 +21,7 @@ import { MeetingProvider } from '@videosdk.live/react-sdk';
 const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
 
 const BottomTabs = (props): JSX.Element => {
+  const { setBottomShow, isThemeLight } = props;
   const dispatch = useDispatch();
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
@@ -43,7 +44,7 @@ const BottomTabs = (props): JSX.Element => {
   arrow.renderArrow(state.canvasFocus?.childId);
 
   const showBottomPanel = () => {
-    props.setBottomShow(true);
+    setBottomShow(true);
   };
 
   return (
@@ -64,7 +65,7 @@ const BottomTabs = (props): JSX.Element => {
           borderTop: '2px solid grey'
         }}
         onClick={() => {
-          props.setBottomShow(true);
+          setBottomShow(true);
         }}
       >
         <Box
@@ -153,10 +154,8 @@ const BottomTabs = (props): JSX.Element => {
           </div>
         </Box>
         <div className="tab-content">
-          {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
-          {tab === 1 && (
-            <CustomizationPanel isThemeLight={props.isThemeLight} />
-          )}
+          {tab === 0 && <CreationPanel isThemeLight={isThemeLight} />}
+          {tab === 1 && <CustomizationPanel isThemeLight={isThemeLight} />}
           {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
           {tab === 3 && <Tree data={components} />}
           {tab === 4 && <ContextManager theme={theme} setTheme={setTheme} />}
@@ -164,7 +163,7 @@ const BottomTabs = (props): JSX.Element => {
             <StateManager
               theme={theme}
               setTheme={setTheme}
-              isThemeLight={props.isThemeLight}
+              isThemeLight={isThemeLight}
             />
           )}
           {tab === 6 && <Chatroom />}
