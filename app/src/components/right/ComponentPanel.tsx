@@ -211,6 +211,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                       color: isThemeLight ? 'white' : 'white'
                     }
                   }}
+                  placeholder='name'
                 />
               </div>
             </div>
@@ -291,14 +292,14 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 const useStyles = makeStyles({
   inputField: {
     marginTop: '10px',
-    borderRadius: '5px',
+    // borderRadius: '5px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    // backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
-    borderColor: 'grey',
-    border: '2px solid grey'
+    // borderColor: 'grey',
+    border: '0px solid grey'
   },
   inputWrapper: {
     textAlign: 'center',
@@ -323,14 +324,13 @@ const useStyles = makeStyles({
   },
   rootCheckBox: {
     borderColor: '#354e9c',
-    padding: '0px'
+    padding: '7px 0'
   },
   rootCheckBoxLabel: {
     borderColor: '#354e9c'
   },
   newComponent: {
     color: '#C6C6C6',
-    fontSize: '95%',
     marginBottom: '20px'
   },
   inputLabel: {

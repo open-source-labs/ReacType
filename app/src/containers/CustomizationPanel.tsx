@@ -589,7 +589,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
             </h4>
           </div>
           <section className={'customization-section'}>
-            <div style={{marginRight: '150px'}}>
+            <div style={{ marginRight: '150px' }}>
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
@@ -692,7 +692,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       : `${classes.configType} ${classes.darkThemeFontColor}`
                   }
                 >
-                  <h3>Background color:</h3>
+                  <h3>Background Color:</h3>
                 </div>
                 <div className={classes.configValue}>
                   <FormControl className={classes.formControl}>

@@ -451,14 +451,18 @@ RIGHT COLUMN
 }
 
 #addComponentButton {
+  height: 49px;
+  width: 250px;
+  background-color: #354e9c;
   border: 2px solid #354e9c;
-  border-radius: 4px;
+  border-radius: 10px;
+  font-size: 16.5px;
 }
 
 #addComponentButton:hover {
-  background-color: #354e9c;
+  background-color: #25366D;
+  border: 2px solid #354e9c;
   color: white;
-  border: none;
   cursor: pointer;
 }
 
