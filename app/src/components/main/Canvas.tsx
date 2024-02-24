@@ -30,8 +30,6 @@ const Canvas = (props: {}): JSX.Element => {
   //remote cursor data
   const [remoteCursors, setRemoteCursors] = useState([]);
 
-
-
   // Toggle switch for live cursor tracking
   const [toggleSwitch, setToggleSwitch] = useState(true);
 
@@ -336,7 +334,7 @@ const Canvas = (props: {}): JSX.Element => {
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #354e9c',
+    border: '2px solid #0671e3',
     margin: '8px 0 0 8px'
   };
 
@@ -406,7 +404,7 @@ const Canvas = (props: {}): JSX.Element => {
                 color: '#ffffff',
                 backgroundColor: '#151515',
                 zIndex: 0,
-                border: '2px solid #354e9c',
+                border: '2px solid #0671e3',
                 whiteSpace: 'nowrap',
                 cursor: 'pointer',
                 textTransform: 'none'

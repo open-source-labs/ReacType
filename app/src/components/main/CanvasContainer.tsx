@@ -37,7 +37,7 @@ function CanvasContainer(props): JSX.Element {
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #354e9c',
+    border: '2px solid #0671e3',
     whiteSpace: 'nowrap',
     textTransform: 'none'
   } as const;
@@ -52,9 +52,9 @@ function CanvasContainer(props): JSX.Element {
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #354e9c',
+    border: '2px solid #0671e3',
     whiteSpace: 'nowrap',
-    textTransform: 'none',
+    textTransform: 'none'
   } as const;
 
   //containerRef references the container that will ultimately have the scroll functionality

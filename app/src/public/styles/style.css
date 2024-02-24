@@ -250,7 +250,7 @@ span.material-symbols-outlined {
 
 #HTMLItem {
   transition: 0.3s;
-  border: 1px solid #354e9c;
+  border: 1px solid #0671e3;
   color: #f2fbf8;
   padding: 10%;
   border-radius: 5px;
@@ -266,7 +266,7 @@ span.material-symbols-outlined {
 }
 
 #submitButton:hover {
-  background-color: #354e9c;
+  background-color: #0671e3;
   color: white;
   border: none;
   cursor: pointer;
@@ -455,12 +455,12 @@ RIGHT COLUMN
 }
 
 #addComponentButton {
-  border: 2px solid #354e9c;
+  border: 2px solid #0671e3;
   border-radius: 4px;
 }
 
 #addComponentButton:hover {
-  background-color: #354e9c;
+  background-color: #0671e3;
   color: white;
   border: none;
   cursor: pointer;
@@ -483,7 +483,7 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-  border-color: #354e9c;
+  border-color: #0671e3;
 }
 
 .compPanelItem h3 {
@@ -566,7 +566,7 @@ BOTTOM PANEL
 
 .bottom-panel {
   transition: width 250ms ease-in-out;
-  background-color: #354e9c;
+  background-color: #0671e3;
   width: 100%;
   height: 100%;
   display: flex;
@@ -609,7 +609,7 @@ BOTTOM PANEL
   padding-left: 10px;
   border: rgb(68, 68, 68) solid 1px;
   border-radius: 5px;
-  background-color: #354e9c;
+  background-color: #0671e3;
 }
 
 .event-table {
@@ -808,7 +808,7 @@ div.rst__rowContents {
 .useState-btn {
   color: rgb(241, 240, 240);
   background-color: rgba(0, 0, 0, 0.54);
-  border: 1px solid #354e9c;
+  border: 1px solid #0671e3;
   border-radius: 3px;
   box-shadow: '2px 2px 2px #1a1a1a';
   font-family: Arial, Helvetica, sans-serif;
@@ -827,12 +827,12 @@ div.rst__rowContents {
 
 .useState-header {
   font-size: 35px;
-  background-color: #354e9c;
+  background-color: #0671e3;
   color: rgb(241, 240, 240);
   width: 600px;
   border: 3px;
   border-style: solid;
-  border-color: #354e9c;
+  border-color: #0671e3;
   font-family: 'Open Sans', sans-serif;
   border-radius: 15px 15px 0px 0px;
 }
