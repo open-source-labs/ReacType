@@ -12,8 +12,6 @@
 
 html {
   box-sizing: border-box;
-  /* height: 100vh;
-  width: 100vw; */
   overflow: auto;
 }
 
@@ -113,17 +111,6 @@ LEFT COLUMN
   z-index: 1;
 }
 
-/* .left-indicator {
-  height: 50%;
-  width: 20px;
-  background-color: silver;
-  border: 2px solid black;
-  writing-mode: vertical-lr;
-  text-align: center;
-  border-radius: 0 10px 10px 0;
-  align-self: center;
-} */
-
 span.material-symbols-outlined {
   padding: 1px;
   font-size: 18px;
@@ -158,12 +145,10 @@ span.material-symbols-outlined {
   position: absolute;
   height: 100%;
   left: -252px;
-  /* opacity: 0; */
   transition: all 0.5s ease-in-out;
 }
 
 .hide-show:hover {
-  /* opacity: 1; */
   left: 0px;
   z-index: 289;
 }
@@ -176,18 +161,6 @@ span.material-symbols-outlined {
   width: 100%;
   flex-grow: 1;
 }
-
-/* .HTMLItems::-webkit-scrollbar {
-  width: .5rem;
-  height: .5rem;
-} */
-
-/* .HTMLItems::-webkit-scrollbar-thumb { //not accessing due to cascade, refer to HTMLItemTopHalf
-  transition: .3s ease all;
-  border-color: transparent;
-  background-color: #1c695ccc;
-  z-index: 40;
-} */
 
 .HTMLItemsDark {
   display: flex;
@@ -241,7 +214,6 @@ span.material-symbols-outlined {
 
 #HTMLItemsGrid {
   display: flex;
-  /* margin-left: 35px; */
 }
 
 #HTMLItem {
@@ -274,26 +246,15 @@ span.material-symbols-outlined {
 }
 
 .customForm {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-content: center;
+  align-items: start;
   color: white;
   font-size: 95%;
 }
 
-.customForm h5 {
-  text-align: center;
-  font-size: 100%;
-  font-weight: 700;
-  width: 125%;
-  margin-left: -5px;
-}
-
-.customForm input {
+.customForm h4 {
   align-self: center;
-  margin: 0px 0px;
 }
 
 #newElement {
@@ -302,8 +263,6 @@ span.material-symbols-outlined {
   display: flex;
   align-items: baseline;
   justify-content: flex-start;
-  /* justify-self: flex-end; */
-  /* align-self: flex-start; */
   width: 0.5em;
 }
 
@@ -344,7 +303,6 @@ h1 {
   flex-direction: column;
   flex: 1;
   min-width: 700px;
-  /* overflow: auto; */
 }
 
 .main-header {
@@ -452,7 +410,7 @@ RIGHT COLUMN
 
 #addComponentButton {
   height: 49px;
-  width: 250px;
+  width: 455px;
   background-color: #354e9c;
   border: 2px solid #354e9c;
   border-radius: 10px;
@@ -638,10 +596,6 @@ NAVBAR
   gap: 10px;
   margin-left: 15px;
 }
-
-/* .main-logo h1 {
-  color: #013365;
-} */
 
 .main-navbar svg {
   width: 30px;

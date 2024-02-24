@@ -189,12 +189,12 @@ const HTMLPanel = (props): JSX.Element => {
         <div className={classes.addComponentWrapper}>
           <div className={classes.inputWrapper}>
             <form onSubmit={handleSubmit} className="customForm">
-              <h4 className={classes.darkThemeFontColor}>New HTML Tag: </h4>
+              <h4 className={classes.darkThemeFontColor}>New HTML Tag</h4>
               <InputLabel
                 htmlFor="tag"
                 className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
               >
-                Tag:
+                Tag
               </InputLabel>
               <TextField
                 id="tag"
@@ -212,6 +212,7 @@ const HTMLPanel = (props): JSX.Element => {
                     color: 'white'
                   }
                 }}
+                placeholder='tag'
               />
 
               {(!tag.charAt(0).match(/[A-Za-z]/) ||
@@ -230,7 +231,7 @@ const HTMLPanel = (props): JSX.Element => {
                 htmlFor="elementName"
                 className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
               >
-                Element Name:
+                Element Name
               </InputLabel>
               <TextField
                 id="elementName"
@@ -248,6 +249,7 @@ const HTMLPanel = (props): JSX.Element => {
                     color: 'white'
                   }
                 }}
+                placeholder='name'
               />
               {(!name.charAt(0).match(/[A-Za-z]/) ||
                 !alphanumeric(name) ||

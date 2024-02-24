@@ -184,7 +184,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                     : `${classes.inputLabel} ${classes.darkThemeFontColor}`
                 }
               >
-                Name:
+                Name
               </InputLabel>
               <div className={classes.inputWrapper}>
                 <TextField
@@ -291,6 +291,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
 const useStyles = makeStyles({
   inputField: {
+    width: '400px',
     marginTop: '10px',
     // borderRadius: '5px',
     whiteSpace: 'nowrap',
@@ -331,7 +332,7 @@ const useStyles = makeStyles({
   },
   newComponent: {
     color: '#C6C6C6',
-    marginBottom: '20px'
+    marginBottom: '25px'
   },
   inputLabel: {
     fontSize: '1em',
