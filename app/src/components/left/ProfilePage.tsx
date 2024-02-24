@@ -43,14 +43,11 @@ const ProfilePage = () => {
   return (
     <Card sx={{ minWidth: 275, color: 'white', backgroundColor: 'black' }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Hi,
-        </Typography>
         <Typography variant="h5" component="div" sx={{ color: '#019cde' }}>
           {username ? username : null}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          welcome to Reactype!
+          Welcome to Reactype!
         </Typography>
         {email ? (
           <Typography variant="body2">

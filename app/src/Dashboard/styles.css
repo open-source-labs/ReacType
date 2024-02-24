@@ -30,7 +30,7 @@
   flex-direction: column-reverse;
   flex-flow: row wrap;
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: scroll; 
 }
 
 .projectInfo {
