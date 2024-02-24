@@ -18,7 +18,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VideoMeetingControl from './VideoMeetingControl';
 
 const Videomeeting = (props): JSX.Element => {
-  const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
   const dispatch = useDispatch();
   const {
     meetingId,
@@ -223,7 +222,6 @@ const Videomeeting = (props): JSX.Element => {
   };
 
   return (
-    videoSDKToken &&
     meetingId && (
       <MeetingConsumer>
         {() => <MeetingView onMeetingLeave={onMeetingLeave} />}
