@@ -61,13 +61,7 @@ const Videomeeting = (props): JSX.Element => {
     else return { color: 'white' };
   };
 
-  const ParticipantView = ({
-    participantId,
-    key,
-    isLocalParticipant,
-    joinMeeting,
-    idx
-  }) => {
+  const ParticipantView = ({ participantId, isLocalParticipant }) => {
     const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
       useParticipant(participantId);
 
@@ -141,7 +135,7 @@ const Videomeeting = (props): JSX.Element => {
     );
   };
 
-  const MeetingView = ({ meetingId, onMeetingLeave }) => {
+  const MeetingView = ({ onMeetingLeave }) => {
     const { join, localParticipant, leave } = useMeeting();
 
     const { participants } = useMeeting({
@@ -209,10 +203,7 @@ const Videomeeting = (props): JSX.Element => {
             {[...meetingParticipantsId].map((participantId, idx) => (
               <ParticipantView
                 participantId={participantId}
-                key={participantId}
                 isLocalParticipant={participantId === localParticipant.id}
-                joinMeeting={joinMeeting}
-                idx={idx}
               />
             ))}
           </div>
@@ -235,9 +226,7 @@ const Videomeeting = (props): JSX.Element => {
     videoSDKToken &&
     meetingId && (
       <MeetingConsumer>
-        {() => (
-          <MeetingView meetingId={meetingId} onMeetingLeave={onMeetingLeave} />
-        )}
+        {() => <MeetingView onMeetingLeave={onMeetingLeave} />}
       </MeetingConsumer>
     )
   );
