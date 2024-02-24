@@ -54,7 +54,7 @@ app.use(
       `http://localhost:8080`,
       'app://rse',
       API_BASE_URL,
-      'http:/localhost:4173'
+      'http://localhost:4173'
     ],
     credentials: true
   })
