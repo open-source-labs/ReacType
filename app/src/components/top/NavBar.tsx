@@ -6,7 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import NavBarButtons from './NavBarButtons';
 import NewExportButton from './NewExportButton';
 import { RootState } from '../../redux/store';
-import logo from '../../public/icons/win/logo.png';
+import logo from '../../public/icons/win/blue-R-white-bg.png';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   publishProject,
@@ -22,6 +22,22 @@ import {
 import { State } from '../../interfaces/Interfaces';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import {
+  Send,
+  CancelScheduleSend,
+  MoreVert,
+  ManageSearch,
+  Menu
+} from '@mui/icons-material/';
+import { styled, alpha } from '@mui/material/styles';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase
+} from '@mui/material';
 
 const NavBar: React.FC = () => {
   const [dropMenu, setDropMenu] = useState(false);
@@ -42,6 +58,43 @@ const NavBar: React.FC = () => {
   const [openAlert, setOpenAlert] = React.useState<boolean>(false);
   const [loginAlert, setLoginAlert] = React.useState<boolean>(false);
 
+  const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }));
+
+  const Search = styled('div')(({ theme }) => ({
+    color: 'white',
+    backgroundColor: '#4a4a4a',
+    borderRadius: theme.shape.borderRadius,
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: 'auto',
+    display: 'flex', // Make the container a flex container
+    alignItems: 'center' // Align items vertically
+  }));
+
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 5, 1, 0),
+      paddingLeft: `calc(1em + ${theme.spacing(6)})`,
+      transition: theme.transitions.create('width'),
+      width: '10ch', // Adjust width as needed
+      [theme.breakpoints.up('sm')]: {
+        width: '50ch',
+        '&:focus': {
+          width: '60ch' // Adjust width as needed
+        }
+      }
+    }
+  }));
+
   useEffect(() => {
     setProjectName(state.name);
   }, [state.name]);
@@ -56,8 +109,9 @@ const NavBar: React.FC = () => {
 
   const buttonContainerStyle = {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start'
+    margin: '0',
+    justifyContent: 'flex-start',
+    padding: '0'
   };
 
   const buttonStyle = {
@@ -73,8 +127,7 @@ const NavBar: React.FC = () => {
   };
 
   const moreVertButtonStyle = {
-    backgroundColor: '#333',
-    border: '1px solid #333',
+    backgroundColor: 'black',
     padding: '0',
     cursor: 'pointer',
     display: 'flex',
@@ -84,7 +137,7 @@ const NavBar: React.FC = () => {
     width: '30px',
     minWidth: '20px',
     marginLeft: '0px',
-    marginRight: '10px'
+    marginRight: '5rem'
   };
 
   const handlePublish = () => {
@@ -147,30 +200,59 @@ const NavBar: React.FC = () => {
       <nav className="main-navbar" style={{ backgroundColor: '#151515' }}>
         <Link to="/" style={{ textDecoration: 'none', cursor: 'default' }}>
           <div className="main-logo">
-            <Avatar src={logo}></Avatar>
-            <h1 style={{ color: '#151515' }}>reactype</h1>
+            <Avatar
+              src={logo}
+              sx={{
+                width: '3rem',
+                height: '3rem'
+              }}
+            />
           </div>
         </Link>
+
+        <Box sx={{ flexGrow: 1 }}>
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+            ></IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            ></Typography>
+            <Search>
+              <SearchIconWrapper>
+                <ManageSearch sx={{ marginRight: '2rem' }} />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+          </Toolbar>
+        </Box>
+
         <div style={buttonContainerStyle}>
           {isMarketplace ? null : state.published ? (
-            <button style={buttonStyle} onClick={handleUnpublish}>
-              Unpublish
-            </button>
+            <Button style={buttonStyle} onClick={handleUnpublish}>
+              <CancelScheduleSend
+                style={{ color: 'white', marginRight: '-1rem' }}
+              />
+            </Button>
           ) : (
-            <button style={buttonStyle} onClick={handlePublish}>
-              Publish
-            </button>
+            <Button onClick={handlePublish}>
+              <Send style={{ color: '#86868b', marginRight: '-1rem' }} />
+            </Button>
           )}
           <NewExportButton />
-          <Button
-            style={moreVertButtonStyle}
-            variant="contained"
-            color="primary"
-            onClick={() => setDropMenu(!dropMenu)}
-            ref={menuButtonRef}
-          >
-            <MoreVertIcon
-              style={{ color: 'white' }}
+          <Button onClick={() => setDropMenu(!dropMenu)} ref={menuButtonRef}>
+            <MoreVert
+              style={{ color: '#86868b' }}
               data-testid="more-vert-button"
             />
           </Button>

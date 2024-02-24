@@ -41,7 +41,7 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <Card sx={{ minWidth: 275, color: 'white', backgroundColor: 'black' }}>
+    <div sx={{ minWidth: 275, color: 'white' }}>
       <CardContent>
         <Typography variant="h5" component="div" sx={{ color: '#019cde' }}>
           {username ? username : null}
@@ -83,7 +83,7 @@ const ProfilePage = () => {
       <CardActions>
         <Button
           size="small"
-          sx={{ color: '#189bd7' }}
+          sx={{ color: '#0671e3' }}
           href="https://legacy.reactjs.org/tutorial/tutorial.html"
         >
           React docs
@@ -103,22 +103,21 @@ const ProfilePage = () => {
       <CardActions>
         <Button
           size="small"
-          sx={{ color: '#189bd7' }}
+          sx={{ color: '#0671e3' }}
           href="https://www.mongodb.com/"
         >
           MongoDB
         </Button>
         <Button
           size="small"
-          sx={{ color: '#189bd7' }}
+          sx={{ color: '#0671e3' }}
           href="https://aws.amazon.com/what-is/sql/#:~:text=Structured%20query%20language%20(SQL)%20is,relationships%20between%20the%20data%20values."
         >
           AWS SQL
         </Button>
       </CardActions>
-
       <Divider />
-    </Card>
+    </div>
   );
 };
 

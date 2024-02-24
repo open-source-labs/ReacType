@@ -118,6 +118,7 @@ const RoomsContainer = () => {
 
       socket.on('room does not exist', () => {
         setIsRoomAvailable(false);
+
       });
       //If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {
@@ -366,7 +367,7 @@ const RoomsContainer = () => {
       createNewCollabRoom();
     }
   };
-  
+
   const userColors = [
     '#0671e3',
     '#2fd64d',
@@ -550,6 +551,8 @@ const RoomsContainer = () => {
                   : createNewCollabRoom();
 
                 setJoinedPasswordAttempt('');
+                setIsCollabRoomTaken(false);
+                setIsRoomAvailable(true);
               }}
               sx={{
                 backgroundColor: '#e9e9e9',
