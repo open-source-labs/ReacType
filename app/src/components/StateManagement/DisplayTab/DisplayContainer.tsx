@@ -41,9 +41,9 @@ function DisplayContainer({ data, props }) {
         setClickedComp={setClickedComp}
       />
       <Divider orientation="vertical" variant="middle" flexItem />
-      <Grid item>
+      <Grid item style={{margin: '60px 0 0 20px'}}>
         <Typography
-          style={{ color: 'white' }}
+          style={{ color: 'white', marginBottom: '30px' }}
           variant="subtitle2"
           gutterBottom
           align="center"
