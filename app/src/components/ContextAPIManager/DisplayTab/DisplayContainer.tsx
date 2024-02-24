@@ -31,13 +31,16 @@ const DisplayContainer = () => {
     wordtree: {
       format: 'implicit',
       word: 'App'
-    }
+    },
+    // backgroundColor: 'red'//"#1E2024"
+    backgroundColor: '#019CDE',
+    backgroundImage: 'linear-gradient(160deg, #253B80 0%, #019CDE 100%)',
   };
 
   return (
-    <Grid container display="flex" justifyContent="center">
-      {contextData.length < 2 && <h2>No Contexts consumed</h2>}
-      <Grid item>
+    <Grid container display="flex" justifyContent="center" alignItems="center">
+      {contextData.length < 2 && <h2>No Contexts Consumed</h2>}
+      <Grid item style={{marginLeft: '100px'}}>
         <Chart
           chartType="WordTree"
           width="100%"

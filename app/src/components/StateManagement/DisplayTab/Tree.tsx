@@ -170,7 +170,7 @@ function Tree({
       .attr('y', (node) => node.x - 20)
       .attr('text-anchor', 'middle')
       .attr('font-size', 18)
-      .style('fill', textAndBorderColor)
+      .style('fill', 'white')
       .text((node) => node.data.name)
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
@@ -185,13 +185,13 @@ function Tree({
   };
 
   const wrapperStyles = {
-    border: `2px solid ${textAndBorderColor}`,
-    borderRadius: '8px',
+    borderRadius: '10px',
     width: '100%',
     height: '90%',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#42464C',
+    backgroundColor: '#019CDE',
+    backgroundImage: 'linear-gradient(160deg, #253B80 0%, #019CDE 100%)',
   };
 
   return (

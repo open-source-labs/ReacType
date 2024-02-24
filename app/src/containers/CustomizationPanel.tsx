@@ -957,7 +957,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </Button>
               </div>
             )}
-            <div>
+            <div style={{marginLeft: '17px'}}>
               <Button
                 variant="contained"
                 color="primary"
@@ -1009,7 +1009,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 const useStyles = makeStyles({
   select: {
     fontSize: '1em',
-    // backgroundColor: '#0E0E11',
     borderRadius: '10px',
     '> .MuiSelect-icon': {
       color: '#C6C6C6'
@@ -1047,9 +1046,9 @@ const useStyles = makeStyles({
   }),
   button: {
     fontSize: '1rem',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    margin: '1px 10px'
+    padding: '9px 35px',
+    margin: '10px 15px 0 0',
+    borderRadius: '8px'
   },
   saveButtonLight: {
     border: '1px solid #354e9c',

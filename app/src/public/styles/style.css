@@ -48,6 +48,7 @@ h4 {
 }
 
 .state-panel {
+  margin-top: -15px;
   flex-grow: 2;
   display: flex;
   flex-direction: row;
@@ -387,6 +388,7 @@ RIGHT COLUMN
   display: flex;
   flex-direction: row;
   height: 100%;
+  width: 99.9%;
 }
 
 .right {

@@ -34,7 +34,7 @@ export default function DataTable({ target }) {
       <Table sx={{ width: '510px' }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">Contexts Consumed</StyledTableCell>
+            <StyledTableCell align="center" style={{backgroundColor: '#131416'}}>Contexts Consumed</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

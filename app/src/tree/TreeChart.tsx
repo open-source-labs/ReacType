@@ -22,7 +22,6 @@ function TreeChart({ data }) {
   const wrapperRef = useRef();
 
   const xPosition = 50;
-  const textAndBorderColor = '#bdbdbd';
   const dimensions = useResizeObserver(wrapperRef);
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
@@ -152,7 +151,7 @@ function TreeChart({ data }) {
       .attr('y', (node) => node.x - 12)
       .attr('text-anchor', 'middle')
       .attr('font-size', 18)
-      .style('fill', textAndBorderColor)
+      .style('fill', 'white')
       .text((node) => node.data.name)
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
@@ -164,13 +163,14 @@ function TreeChart({ data }) {
     overflow: 'auto'
   };
   const wrapperStyles = {
-    border: `2px solid ${textAndBorderColor}`,
-    borderRadius: '8px',
+    borderRadius: '10px',
     width: '100%',
-    height: '90%',
+    height: '97%',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#42464C'
+    backgroundColor: '#019CDE',
+    backgroundImage: 'linear-gradient(160deg, #253B80 0%, #019CDE 100%)',
+    marginTop: '1.7px'
   };
   return (
     <div ref={wrapperRef} style={wrapperStyles}>

@@ -48,7 +48,7 @@ function DisplayContainer({ data, props }) {
           gutterBottom
           align="center"
         >
-          Click on a component in the graph to see its state!
+          Click on a component in the graph to see its state
         </Typography>
         <Typography
           style={{ color: 'white' }}

@@ -166,6 +166,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
             New Component
           </h4>
           {/* input for new component */}
+          <div style={{display: 'flex', flexDirection: 'column'}}>
           <div
             style={{
               display: 'flex',
@@ -250,7 +251,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
               />
             </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'end', marginRight: '300px' }}>
+          <div style={{ display: 'flex', justifyContent: 'end' }}>
             <br />
             <Button
               className={
@@ -267,6 +268,8 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
               Create
             </Button>
           </div>
+          </div>
+          
         </div>
       </div>
       <>
@@ -291,15 +294,12 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
 const useStyles = makeStyles({
   inputField: {
-    width: '400px',
+    width: '500px',
     marginTop: '10px',
-    // borderRadius: '5px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    // backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
-    // borderColor: 'grey',
     border: '0px solid grey'
   },
   inputWrapper: {
@@ -319,9 +319,8 @@ const useStyles = makeStyles({
   },
   addComponentWrapper: {
     padding: 'auto',
-    marginLeft: '21px',
-    display: 'inline-block',
-    width: '100%'
+    margin: '0 auto',
+    display: 'inline-block'
   },
   rootCheckBox: {
     borderColor: '#354e9c',
@@ -351,7 +350,8 @@ const useStyles = makeStyles({
     textAlign: 'center',
     borderStyle: 'none',
     transition: '0.3s',
-    borderRadius: '25px'
+    borderRadius: '25px',
+    marginRight: '65px'
   },
   rootToggle: {
     color: '#696969',

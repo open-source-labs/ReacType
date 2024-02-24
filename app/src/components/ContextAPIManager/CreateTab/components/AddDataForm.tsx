@@ -33,30 +33,39 @@ const AddDataForm = ({ handleClickInputData, currentContext }) => {
   return (
     <>
       <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
-        Add context data
+        Add Context Data
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, color: 'black' }}>
         <TextField
           id="outlined-basic"
-          label="Key"
-          variant="filled"
+          label="key"
+          variant="outlined"
           value={dataContext.inputKey}
           name="inputKey"
           onChange={(e) => handleChange(e)}
           InputProps={{ style: { color: color } }}
-          style={{ border: '1px solid black' }}
+          style={{ border: '1px solid black', width: '205px' }}
         />
         <TextField
           id="outlined-basic"
-          label="Value"
-          variant="filled"
+          label="value"
+          variant="outlined"
           value={dataContext.inputValue}
           name="inputValue"
           onChange={(e) => handleChange(e)}
-          style={{ border: '1px solid black' }}
+          style={{ border: '1px solid black', width: '205px' }}
           InputProps={{ style: { color: color } }}
         />
-        <Button variant="contained" onClick={saveData}>
+        <Button
+          variant="contained"
+          onClick={saveData}
+          sx={{
+            textTransform: 'capitalize',
+            height: '50px',
+            width: '100px',
+            fontSize: '15px'
+          }}
+        >
           Save
         </Button>
       </Box>
