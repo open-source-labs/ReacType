@@ -28,7 +28,8 @@ export default function NewExportButton(): React.JSX.Element {
             style={{
               border: '1px solid #3c59ba',
               marginBottom: '2%',
-              marginTop: '5%'
+              marginTop: '5%',
+              backgroundColor: '#4a4a4a'
             }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
