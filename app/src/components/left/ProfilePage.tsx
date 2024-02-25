@@ -41,7 +41,7 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <Card sx={{ minWidth: 275, color: 'white', backgroundColor: '#1E2024'}}>
+    <Card sx={{ minWidth: 275, color: 'white', backgroundColor: '#1E2024'}} variant="outlined">
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Hello,
