@@ -61,14 +61,14 @@ const ContextDropDown = ({
   };
 
   const renderOption = (props, option) => (
-    <li style={{ color: 'black' }} {...props}>
+    <li style={{ color: 'white' }} {...props}>
       {option.name}
     </li>
   );
 
   return (
     <Fragment>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4, border: '1px black solid' }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
         <Autocomplete
           id="autoCompleteContextField"
           value={contextInput}
@@ -80,7 +80,7 @@ const ContextDropDown = ({
           options={allContext || []}
           getOptionLabel={getOptionLabel}
           renderOption={renderOption}
-          sx={{ width: 425 }}
+          sx={{ width: 510 }}
           freeSolo
           renderInput={(params) => (
             <TextField
@@ -90,7 +90,7 @@ const ContextDropDown = ({
                 style: { color: 'white' }
               }}
               label="Select Context"
-              variant="filled"
+              variant="outlined"
             />
           )}
         />
