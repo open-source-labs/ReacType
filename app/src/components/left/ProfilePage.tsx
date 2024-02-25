@@ -50,7 +50,7 @@ const ProfilePage = () => {
           {username ? username : null}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          welcome to Reactype!
+          Welcome to Reactype!
         </Typography>
         {email ? (
           <Typography variant="body2">

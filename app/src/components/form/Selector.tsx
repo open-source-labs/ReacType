@@ -26,7 +26,7 @@ const FormSelector = (props): JSX.Element => {
   let key = 1;
   props.items.forEach((el) => {
     items.push(
-      <MenuItem style={{ color: 'black' }} value={el.value} key={`menu${key}`}>
+      <MenuItem style={{ color: 'white' }} value={el.value} key={`menu${key}`}>
         {el.text}
       </MenuItem>
     );
