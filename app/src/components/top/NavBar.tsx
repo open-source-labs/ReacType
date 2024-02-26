@@ -61,7 +61,7 @@ const NavBar: React.FC = () => {
   };
 
   const buttonStyle = {
-    backgroundColor: '#253B80',
+    backgroundColor: '#354E9C',
     border: 'none',
     color: 'white',
     fontSize: '12px',
