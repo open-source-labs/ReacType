@@ -168,9 +168,7 @@ function TreeChart({ data }) {
     height: '97%',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#019CDE',
-    backgroundImage: 'linear-gradient(160deg, #253B80 0%, #019CDE 100%)',
-    marginTop: '1.7px'
+    backgroundColor: '#1E2024'
   };
   return (
     <div ref={wrapperRef} style={wrapperStyles}>

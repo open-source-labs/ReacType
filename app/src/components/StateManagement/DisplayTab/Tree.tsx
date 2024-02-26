@@ -190,8 +190,7 @@ function Tree({
     height: '90%',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#019CDE',
-    backgroundImage: 'linear-gradient(160deg, #253B80 0%, #019CDE 100%)',
+    backgroundColor: '#1E2024'
   };
 
   return (

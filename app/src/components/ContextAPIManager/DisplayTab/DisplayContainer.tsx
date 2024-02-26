@@ -32,9 +32,7 @@ const DisplayContainer = () => {
       format: 'implicit',
       word: 'App'
     },
-    // backgroundColor: 'red'//"#1E2024"
-    backgroundColor: '#019CDE',
-    backgroundImage: 'linear-gradient(160deg, #253B80 0%, #019CDE 100%)',
+    backgroundColor: '#1E2024'
   };
 
   return (
