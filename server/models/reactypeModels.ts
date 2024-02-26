@@ -78,8 +78,8 @@ const sessionSchema = new Schema({
 
 const projectSchema = new Schema(
   {
-    name: {type: String, required: true},
-    forked: {type: String},
+    name: { type: String, required: true },
+    forked: { type: String },
     likes: { type: Number, default: 0 },
     published: { type: Boolean, default: false },
     project: { type: Object, required: true },
@@ -96,7 +96,7 @@ const projectSchema = new Schema(
       }
     ]
   },
-  { minimize: false }//changed to false -dw
+  { minimize: false } //changed to false -dw
 );
 
 export const Users = mongoose.model('Users', userSchema);
