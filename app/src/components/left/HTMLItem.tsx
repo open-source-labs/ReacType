@@ -140,7 +140,7 @@ const HTMLItem: React.FC<{
       {id <= 20 && (
         <div
           ref={drag}
-          style={{ borderColor: '#C6C6C6' }}
+          style={{ backgroundColor: '#019CDE', backgroundImage: 'linear-gradient(160deg, #019CDE 0%, #253B80 100%)'}}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
           onClick={() => {
