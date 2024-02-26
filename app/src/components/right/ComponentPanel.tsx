@@ -327,7 +327,7 @@ const useStyles = makeStyles({
     padding: '7px 0'
   },
   rootCheckBoxLabel: {
-    borderColor: '#0671e3'
+    borderColor: '#354e9c'
   },
   newComponent: {
     color: '#C6C6C6',

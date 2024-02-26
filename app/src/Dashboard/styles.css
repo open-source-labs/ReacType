@@ -30,7 +30,7 @@
   flex-direction: column-reverse;
   flex-flow: row wrap;
   flex-grow: 1;
-  overflow-y: scroll; 
+  overflow-y: scroll;
 }
 
 .projectInfo {
@@ -75,7 +75,7 @@
 }
 
 .header {
-  background-color: #0671e3;
+  background-color: #354e9c;
   color: rgba(255, 255, 255, 0.897);
   width: 100%;
   position: relative;

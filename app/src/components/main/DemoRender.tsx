@@ -1,10 +1,4 @@
-import {
-  Link,
-  Route,
-  BrowserRouter as Router,
-  Switch,
-  useHistory
-} from 'react-router-dom';
+import { Link, Route, BrowserRouter as Router, Switch, useHistory } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -30,7 +24,8 @@ const DemoRender = (): JSX.Element => {
     width: '100%',
     backgroundColor: '#FBFBFB',
     borderBottom: 'none',
-    overflow: 'auto'
+    overflow: 'auto',
+ 
   };
 
   const html = `
@@ -106,7 +101,7 @@ const DemoRender = (): JSX.Element => {
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
-        const innerText = element.attributes.compText;
+        const innerText = element.attributes.compText; 
         const classRender = element.attributes.cssClasses;
         const activeLink = element.attributes.compLink;
         let renderedChildren;
@@ -214,10 +209,11 @@ const DemoRender = (): JSX.Element => {
   //adds the code into the iframe
   useEffect(() => {
     //load the current state code when the iframe is loaded and when code changes
-    iframe.current.addEventListener('load', () => {
+    iframe.current.addEventListener('load', ()=>{
       iframe.current.contentWindow.postMessage(code, '*');
-    });
+    })
     iframe.current.contentWindow.postMessage(code, '*');
+
   }, [code]);
 
   return (
@@ -229,7 +225,7 @@ const DemoRender = (): JSX.Element => {
           srcDoc={html}
           width="100%"
           height="100%"
-          style={{ zIndex: -30 }}
+          style = {{zIndex: -30}}
         />
       </div>
     </>

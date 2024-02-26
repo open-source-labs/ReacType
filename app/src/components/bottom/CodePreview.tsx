@@ -22,9 +22,7 @@ import { initializeEsbuild } from '../../helperFunctions/esbuildService';
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
-  zoom: number;
-  containerRef: any;
-}> = ({ theme, setTheme, zoom, containerRef }) => {
+}> = ({ theme, setTheme }) => {
   const ref = useRef<any>();
 
   const dispatch = useDispatch();
@@ -86,8 +84,7 @@ const CodePreview: React.FC<{
         top: '1vw',
         height: '100%',
         maxWidth: '100%',
-        justifyContent: 'center',
-        transform: `scale(${zoom})`
+        justifyContent: 'center'
       }}
     >
       <AceEditor

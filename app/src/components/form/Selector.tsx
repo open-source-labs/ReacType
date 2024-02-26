@@ -46,7 +46,7 @@ const FormSelector = (props): JSX.Element => {
       <div className={props.classes.configValue}>
         <FormControl variant="filled" className={props.classes.formControl}>
           <Select
-            style={props.isThemeLight ? { border: '1px solid #0671e3' } : null}
+            style={props.isThemeLight ? { border: '1px solid #354e9c' } : null}
             value={props.selectValue}
             name={props.name}
             onChange={props.handleChange}

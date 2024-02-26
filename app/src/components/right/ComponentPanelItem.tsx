@@ -65,7 +65,7 @@ const ComponentPanelItem: React.FC<{
         backgroundColor: 'transparent',
         border: '2px solid',
         borderRadius: '4px',
-        borderColor: '#0671e3',
+        borderColor: '#354e9c',
         margin: '5px 0px',
         wordBreak: 'break-all',
         width: '10rem'
@@ -85,7 +85,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba (0, 0, 0, 0.54)' //this doesnt do anything....
   },
   focusMark: {
-    backgroundColor: '#0671e3',
+    backgroundColor: '#354e9c',
     justifySelf: 'left',
     width: '14px',
     height: '14px',

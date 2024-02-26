@@ -50,12 +50,7 @@ import stylesRouter from './routers/stylesRouter';
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
 app.use(
   cors({
-    origin: [
-      `http://localhost:8080`,
-      'app://rse',
-      API_BASE_URL,
-      'http://localhost:4173'
-    ],
+    origin: [`http://localhost:8080`, 'app://rse', API_BASE_URL],
     credentials: true
   })
 );

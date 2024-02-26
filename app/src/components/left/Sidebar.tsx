@@ -23,16 +23,12 @@ const Sidebar: React.FC<SidebarProps> = ({
     oldValue = newValue;
   };
 
-  //the following allows users to click on the left panel to expand and collapse.
-  // We decided to freeze so we've commented this and line 41 out
-
-  
-  // const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
-  //   if (activeTab === oldValue) {
-  //     setActiveTab(null);
-  //     // toggleVisibility(false);
-  //   }
-  // };
+  const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
+    if (activeTab === oldValue) {
+      setActiveTab(null);
+      toggleVisibility(false);
+    }
+  };
 
   return (
     <Tabs
@@ -41,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       variant="scrollable"
       value={activeTab}
       onChange={handleTabChange}
-      // onClick={(e: React.MouseEvent) => handleTabClick(e, oldValue)}
+      onClick={(e: React.MouseEvent) => handleTabClick(e, oldValue)}
       TabIndicatorProps={{
         style: {
           backgroundColor: '#4A4A4A'
