@@ -3,8 +3,8 @@ import ContentArea from '../components/left/ContentArea';
 import Sidebar from '../components/left/Sidebar';
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState<number | null>(0);
+  const [isVisible, setIsVisible] = useState(true);
 
   const toggleVisibility = (state: boolean) => {
     setIsVisible(state);

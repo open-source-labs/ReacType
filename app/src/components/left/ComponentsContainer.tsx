@@ -45,7 +45,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    overflow: 'auto'
+     overflow: 'auto'
   },
   panelWrapperList: {
     minHeight: '120px'
