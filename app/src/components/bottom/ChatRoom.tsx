@@ -1,20 +1,20 @@
-import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
+import Videomeeting from './VideoMeeting';
 
 const Chatroom = (props): JSX.Element => {
-  const userName = useSelector((store: RootState) => store.roomSlice.userName);
-  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-  const messages = useSelector((store: RootState) => store.roomSlice.messages);
+  const { userName, roomCode, messages, userJoinCollabRoom } = useSelector(
+    (store: RootState) => store.roomSlice
+  );
 
   const [inputContent, setInputContent] = useState('');
 
   const wrapperStyles = {
     border: `2px solid #f2fbf8`,
     borderRadius: '8px',
-    width: '70%',
+    width: '75%',
     height: '100%',
     display: 'column',
     padding: '20px',
@@ -31,7 +31,7 @@ const Chatroom = (props): JSX.Element => {
   };
 
   const inputStyles = {
-    width: '70%',
+    width: '75%',
     padding: '10px',
     border: 'none',
     borderRadius: '5px',
@@ -101,33 +101,91 @@ const Chatroom = (props): JSX.Element => {
   return (
     <div
       className="livechat-panel"
-      style={{ paddingLeft: '10px', width: '100%', height: '100%' }}
+      style={{
+        paddingLeft: '10px',
+        width: '100%',
+        height: '100%',
+        display: 'center',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}
     >
-      <div style={{ justifyContent: 'center', display: 'flex', height: '80%' }}>
-        <div id="message-container" style={wrapperStyles} ref={containerRef}>
-          {renderMessages()}
-        </div>
+      <div
+        className="livechat-panel-join"
+        style={{
+          paddingLeft: '10px',
+          width: userJoinCollabRoom ? '100%' : '0%',
+          height: userJoinCollabRoom ? '100%' : '0%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <Videomeeting />
+        {userJoinCollabRoom && (
+          <div
+            className="chatroom"
+            style={{
+              justifyContent: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '80%',
+              width: '60%'
+            }}
+          >
+            <div
+              style={{
+                justifyContent: 'center',
+                display: 'flex',
+                height: '90%',
+                width: '100%'
+              }}
+            >
+              <div
+                id="message-container"
+                ref={containerRef}
+                style={wrapperStyles}
+              >
+                {renderMessages()}
+              </div>
+            </div>
+            <div className="chatroom-input">
+              <form
+                id="send-container"
+                style={inputContainerStyles}
+                onSubmit={handleSubmit}
+              >
+                <input
+                  type="text"
+                  id="message-input"
+                  onChange={(e) => setInputContent(e.target.value)}
+                  value={inputContent}
+                  style={inputStyles}
+                />
+                <button type="submit" id="send-button" style={buttonStyles}>
+                  Send
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
-      <div className="chatroom-input">
-        <form
-          id="send-container"
-          style={inputContainerStyles}
-          onSubmit={handleSubmit}
+      {!userJoinCollabRoom && (
+        <div
+          className="join-notification"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%'
+          }}
         >
-          <input
-            type="text"
-            id="message-input"
-            onChange={(e) => setInputContent(e.target.value)}
-            value={inputContent}
-            style={inputStyles}
-          />
-          <button type="submit" id="send-button" style={buttonStyles}>
-            Send
-          </button>
-        </form>
-      </div>
+          <p style={{ color: 'white', fontSize: '18px' }}>
+            Please join a collaboration room to enable this function
+          </p>
+        </div>
+      )}
     </div>
   );
 };
-
 export default Chatroom;
