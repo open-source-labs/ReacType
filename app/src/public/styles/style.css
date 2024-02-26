@@ -219,10 +219,11 @@ span.material-symbols-outlined {
 
 #HTMLItem {
   transition: 0.3s;
-  border: 1px solid #354e9c;
+  border: 1px solid transparent;
   color: #f2fbf8;
   padding: 10%;
   border-radius: 10px;
+  box-shadow: #191919;
 }
 
 #HTMLItem:hover {
