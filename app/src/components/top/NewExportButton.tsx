@@ -16,14 +16,14 @@ export default function NewExportButton(): React.JSX.Element {
   const closeModal = () => setModal('');
 
   const buttonStyle = {
-    backgroundColor: '#333',
+    backgroundColor: '#2D313A',
     border: 'none',
     color: 'white',
     fontSize: '12px',
-    padding: '8px 12px',
+    padding: '8px 15px',
     cursor: 'pointer',
-    marginRight: '10px',
-    borderRadius: '4px'
+    marginRight: '6px',
+    borderRadius: '10px'
   };
 
   const showGenerateAppModal = () => {
@@ -81,7 +81,7 @@ export default function NewExportButton(): React.JSX.Element {
   return (
     <div>
       <button style={buttonStyle} onClick={showGenerateAppModal}>
-        &lt; &gt; Export
+       Export
       </button>
       {modal}
     </div>

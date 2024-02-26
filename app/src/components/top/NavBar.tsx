@@ -61,20 +61,19 @@ const NavBar: React.FC = () => {
   };
 
   const buttonStyle = {
-    backgroundColor: '#333',
+    backgroundColor: '#253B80',
     border: 'none',
-    color: 'lightgray',
+    color: 'white',
     fontSize: '12px',
-    padding: '8px 12px',
+    padding: '8px 15px',
     cursor: 'pointer',
     marginRight: '10px',
     marginLeft: '5px',
-    borderRadius: '4px'
+    borderRadius: '10px'
   };
 
   const moreVertButtonStyle = {
-    backgroundColor: '#333',
-    border: '1px solid #333',
+    backgroundColor: '#1E2024',
     padding: '0',
     cursor: 'pointer',
     display: 'flex',
@@ -84,7 +83,8 @@ const NavBar: React.FC = () => {
     width: '30px',
     minWidth: '20px',
     marginLeft: '0px',
-    marginRight: '10px'
+    marginRight: '10px',
+    boxShadow: 'none'
   };
 
   const handlePublish = () => {
@@ -151,6 +151,7 @@ const NavBar: React.FC = () => {
             <h1 style={{ color: '#1e2024' }}>reactype</h1>
           </div>
         </Link>
+        
         <div style={buttonContainerStyle}>
           {isMarketplace ? null : state.published ? (
             <button style={buttonStyle} onClick={handleUnpublish}>
