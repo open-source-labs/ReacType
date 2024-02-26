@@ -39,7 +39,12 @@ import stylesRouter from './routers/stylesRouter';
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
 app.use(
   cors({
-    origin: [`http://localhost:8080`, 'app://rse', API_BASE_URL],
+    origin: [
+      `http://localhost:8080`,
+      'app://rse',
+      API_BASE_URL,
+      'http://localhost:4173'
+    ],
     credentials: true
   })
 );
@@ -74,7 +79,21 @@ const io = new Server(httpServer, {
   }
 });
 
-const roomLists = {}; //key: roomCode, value: Obj{ socketid: username }
+const createMeeting = async () => {
+  const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
+    method: 'POST',
+    headers: {
+      authorization: process.env.VITE_VIDEOSDK_TOKEN,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({})
+  });
+
+  const { roomId }: { roomId: string } = await res.json();
+  return roomId;
+};
+
+const roomLists = {};
 //server listening to new connections
 
 io.on('connection', (client) => {
@@ -87,10 +106,7 @@ io.on('connection', (client) => {
       method: string
     ) => {
       try {
-        let userList,
-          hostID,
-          userMayEnter = false;
-
+        let userMayEnter = false;
         if (roomLists[roomCode] && method === 'CREATE') {
           io.emit('room is already taken');
         }
@@ -101,22 +117,17 @@ io.on('connection', (client) => {
 
         if (!roomLists[roomCode] && method === 'CREATE') {
           roomLists[roomCode] = {};
-          roomLists[roomCode][client.id] = { userName, password: roomPassword };
-
+          roomLists[roomCode].userList = {};
+          roomLists[roomCode]['userList'][client.id] = userName;
+          roomLists[roomCode]['password'] = roomPassword;
+          roomLists[roomCode].meetingId = await createMeeting();
           userMayEnter = true;
           io.emit('user created a new room');
         }
 
-        userList = Object.keys(roomLists[roomCode]);
-        hostID = userList[0];
-
         if (method === 'JOIN') {
-          if (roomLists[roomCode][hostID].password === roomPassword) {
-            roomLists[roomCode][client.id] = {
-              userName,
-              password: roomPassword
-            };
-
+          if (roomLists[roomCode]['password'] === roomPassword) {
+            roomLists[roomCode]['userList'][client.id] = userName;
             userMayEnter = true;
             io.emit('correct password');
           } else {
@@ -124,11 +135,12 @@ io.on('connection', (client) => {
           }
         }
 
-        userList = Object.keys(roomLists[roomCode]);
-        hostID = userList[0];
+        const userIdList = Object.keys(roomLists[roomCode]['userList']); //userIdList for roomCode
+        const hostID = userIdList[0]; // host is always assigned to user at index zero
+        const userNameList = Object.values(roomLists[roomCode]['userList']);
 
         if (userMayEnter === true) {
-          const newClientID = userList[userList.length - 1];
+          const newClientID = userIdList[userIdList.length - 1];
           //server ask host for the current state
           const hostState = await io //once the request is sent back save to host state
             .timeout(5000)
@@ -141,16 +153,15 @@ io.on('connection', (client) => {
             .to(newClientID) // sends only to new client
             .emitWithAck('server emitting state from host', hostState[0]); //Once the server got host state, sending state to the new client
 
+          //client response is confirmed
           if (newClientResponse[0].status === 'confirmed') {
             client.join(roomCode); //client joining a room
-            const usernNames = Object.values(roomLists[roomCode]).map(
-              (el) => el['userName']
-            );
             io.to(roomCode).emit(
-              'updateUserList',
+              'update room information',
               {
-                userList: usernNames
-              } // send updated userList to all users in room
+                userList: userNameList,
+                meetingId: roomLists[roomCode].meetingId
+              } // send updated userList and video meeting id to all users in room
             );
             io.to(roomCode).emit('new chat message', {
               userName,
@@ -169,32 +180,52 @@ io.on('connection', (client) => {
   );
 
   //updating mouse movement after joining.
-
   client.on('mouse connection', (data) => {
     io.emit('mouseCursor', { line: data.line, id: client.id });
   });
 
   //disconnecting functionality
-  client.on('disconnecting', () => {
-    const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
-    const userName = roomLists[roomCode][client.id].userName;
-    delete roomLists[roomCode][client.id];
-    //if room empty, delete room from room list
-    if (!Object.keys(roomLists[roomCode]).length) {
-      delete roomLists[roomCode];
-    } else {
-      //else emit updated user list
-      const usernNames = Object.values(roomLists[roomCode]).map(
-        (el) => el['userName']
+  client.on('disconnecting', async () => {
+    try {
+      const roomCode = Array.from(client.rooms)[1]; //grabbing current room client was in when disconnecting
+      const userName = roomLists[roomCode]['userList'][client.id];
+      delete roomLists[roomCode]['userList'][client.id];
+
+      //if room empty, delete room from room list and deactivate meeting room
+      if (!Object.keys(roomLists[roomCode]['userList']).length) {
+        const meetingId = roomLists[roomCode].meetingId;
+        const options = {
+          method: 'POST',
+          headers: {
+            Authorization: process.env.VITE_VIDEOSDK_TOKEN,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ roomId: meetingId })
+        };
+        const url = `https://api.videosdk.live/v2/rooms/deactivate`;
+        const response = await fetch(url, options);
+        const data = await response.json();
+        delete roomLists[roomCode];
+        if (!data.disabled)
+          throw new Error(
+            `Failed to deactivate meeting room ${meetingId} of collaboration room ${roomCode}`
+          );
+      } else {
+        //else emit updated userName list
+        const userNameList = Object.values(roomLists[roomCode]['userList']);
+        io.to(roomCode).emit('update room information', {
+          userList: userNameList
+        });
+        io.to(roomCode).emit('new chat message', {
+          userName,
+          message: `${userName} left chat room`,
+          type: 'activity'
+        });
+      }
+    } catch (error) {
+      console.log(
+        `Unexpected error happens when user disconnect from collaboration room: ${error}`
       );
-      io.to(roomCode).emit('updateUserList', {
-        userList: usernNames
-      });
-      io.to(roomCode).emit('new chat message', {
-        userName,
-        message: `${userName} left chat room`,
-        type: 'activity'
-      });
     }
   });
 
@@ -237,10 +268,10 @@ io.on('connection', (client) => {
     );
     if (roomCode) {
       // server send clear canvas to everyone in the room if action is from the host
-      if (userName === usernNames[0]) {
+      if (userName === Object.values(roomLists[roomCode]['userList'])[0]) {
         io.to(roomCode).emit(
           'clear canvas from server',
-          Object.values(roomLists[roomCode])
+          Object.values(roomLists[roomCode]['userList'])
         );
       }
     }

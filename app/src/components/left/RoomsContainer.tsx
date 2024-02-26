@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
@@ -38,11 +39,14 @@ import {
 import {
   setRoomCode,
   setUserName,
-  setUserJoined,
+  setUserJoinCollabRoom,
   setUserList,
+  setMeetingId,
   setMessages,
+  setEmptyMessages,
   setPassword,
-  setEmptyMessages
+  setUseMic,
+  setUseWebcam
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
@@ -54,7 +58,6 @@ import {
   DeleteContextPayload,
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
-import { useState } from 'react';
 
 const RoomsContainer = () => {
   const [isJoinCallabRoom, setIsJoinCollabRoom] = useState(false);
@@ -71,10 +74,12 @@ const RoomsContainer = () => {
   const roomPassword = useSelector(
     (store: RootState) => store.roomSlice.password
   );
- 
-  const userJoined = useSelector(
-    (store: RootState) => store.roomSlice.userJoined
+
+
+  const userJoinCollabRoom = useSelector(
+    (store: RootState) => store.roomSlice.userJoinCollabRoom
   );
+
   const messages = useSelector((store: RootState) => store.roomSlice.messages);
 
   const initSocketConnection = (
@@ -137,9 +142,11 @@ const RoomsContainer = () => {
       });
 
       // update user list when there's a change: new join or leave the room
-      socket.on('updateUserList', (messageData) => {
+      socket.on('update room information', (messageData) => {
         //console.log('user list received from server');
-        dispatch(setUserList(messageData.userList));
+        if (messageData.userList) dispatch(setUserList(messageData.userList));
+        if (messageData.meetingId)
+          dispatch(setMeetingId(messageData.meetingId));
       });
 
       socket.on('new chat message', (messageData) => {
@@ -325,7 +332,7 @@ const RoomsContainer = () => {
   const addNewUserToCollabRoom = () => {
     dispatch(setRoomCode(roomCode));
     dispatch(setPassword(roomPassword));
-    dispatch(setUserJoined(true));
+    dispatch(setUserJoinCollabRoom(true));
   };
 
   const joinExistingCollabRoom = async () => {
@@ -346,10 +353,12 @@ const RoomsContainer = () => {
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
-    dispatch(setUserJoined(false)); //false: join room UI appear
+    dispatch(setUserJoinCollabRoom(false)); //false: join room UI appear
     dispatch(resetState(''));
     dispatch(setPassword(''));
     dispatch(setEmptyMessages([]));
+    dispatch(setUseMic(false));
+    dispatch(setUseWebcam(false));
   };
 
   const checkInputField = (...inputs) => {
@@ -395,7 +404,7 @@ const RoomsContainer = () => {
         <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
         </Typography>
-        {userJoined ? (
+        {userJoinCollabRoom ? (
           <>
             <Typography
               variant="h6"
