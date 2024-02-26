@@ -95,7 +95,7 @@ io.on('connection', (client) => {
           io.emit('room is already taken');
         }
 
-        if (!roomLists[roomCode] && method === "JOIN") {
+        if (!roomLists[roomCode] && method === 'JOIN') {
           io.emit('room does not exist');
         }
 

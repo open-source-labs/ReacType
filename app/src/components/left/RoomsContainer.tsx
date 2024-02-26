@@ -71,7 +71,7 @@ const RoomsContainer = () => {
   const roomPassword = useSelector(
     (store: RootState) => store.roomSlice.password
   );
-
+ 
   const userJoined = useSelector(
     (store: RootState) => store.roomSlice.userJoined
   );
