@@ -65,6 +65,7 @@ const RoomsContainer = () => {
   const [isPasswordAttemptIncorrect, setIsPasswordAttemptIncorrect] =
     useState(true);
   const [isCollabRoomTaken, setIsCollabRoomTaken] = useState(false);
+  const [isRoomAvailable, setIsRoomAvailable] = useState(true);
 
   const dispatch = useDispatch();
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -73,6 +74,7 @@ const RoomsContainer = () => {
   const roomPassword = useSelector(
     (store: RootState) => store.roomSlice.password
   );
+
 
   const userJoinCollabRoom = useSelector(
     (store: RootState) => store.roomSlice.userJoinCollabRoom
@@ -117,6 +119,11 @@ const RoomsContainer = () => {
 
       socket.on('room is already taken', () => {
         setIsCollabRoomTaken(true);
+      });
+
+      socket.on('room does not exist', () => {
+        setIsRoomAvailable(false);
+
       });
       //If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {
@@ -369,13 +376,18 @@ const RoomsContainer = () => {
       createNewCollabRoom();
     }
   };
+
   const userColors = [
-    '#FC00BD',
-    '#D0FC00',
-    '#00DBFC',
-    '#FD98B8',
-    '#FCAA00',
-    '#9267FF'
+    '#0671e3',
+    '#2fd64d',
+    '#f0c000',
+    '#fb4c64',
+    '#be5be8',
+    '#fe9c06',
+    '#f6352b',
+    '#1667d1',
+    '#1667d1',
+    '#50ed6a'
   ];
 
   return (
@@ -475,20 +487,39 @@ const RoomsContainer = () => {
               placeholder="Nickname"
               onChange={(e) => dispatch(setUserName(e.target.value))}
             />
-            <TextField
-              error={isCollabRoomTaken}
-              fullWidth
-              hiddenLabel={true}
-              id="filled-hidden-label-small"
-              variant="standard"
-              size="small"
-              value={roomCode}
-              placeholder="Room Name"
-              onChange={(e) => dispatch(setRoomCode(e.target.value))}
-              className="enterRoomInput"
-              onKeyDown={handleKeyDown}
-              helperText={isCollabRoomTaken ? 'Room name already taken' : ''}
-            />
+            {isJoinCallabRoom ? (
+              <TextField
+                error={isRoomAvailable === false}
+                fullWidth
+                hiddenLabel={true}
+                id="filled-hidden-label-small"
+                variant="standard"
+                size="small"
+                value={roomCode}
+                placeholder="Room Name"
+                onChange={(e) => dispatch(setRoomCode(e.target.value))}
+                className="enterRoomInput"
+                onKeyDown={handleKeyDown}
+                helperText={
+                  isRoomAvailable === false ? `Room doesn't exist` : ''
+                }
+              />
+            ) : (
+              <TextField
+                error={isCollabRoomTaken}
+                fullWidth
+                hiddenLabel={true}
+                id="filled-hidden-label-small"
+                variant="standard"
+                size="small"
+                value={roomCode}
+                placeholder="Room Name"
+                onChange={(e) => dispatch(setRoomCode(e.target.value))}
+                className="enterRoomInput"
+                onKeyDown={handleKeyDown}
+                helperText={isCollabRoomTaken ? 'Room name already taken' : ''}
+              />
+            )}
             {isJoinCallabRoom ? (
               <TextField
                 error={isPasswordAttemptIncorrect === false}
@@ -523,11 +554,15 @@ const RoomsContainer = () => {
               variant="contained"
               disabled={checkInputField(userName, roomCode, roomCode)}
               fullWidth
-              onClick={(e) =>
+              onClick={(e) => {
                 isJoinCallabRoom
                   ? joinExistingCollabRoom()
-                  : createNewCollabRoom()
-              }
+                  : createNewCollabRoom();
+
+                setJoinedPasswordAttempt('');
+                setIsCollabRoomTaken(false);
+                setIsRoomAvailable(true);
+              }}
               sx={{
                 backgroundColor: '#e9e9e9',
                 color: '#253b80',
