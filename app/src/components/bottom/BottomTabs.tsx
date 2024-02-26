@@ -60,21 +60,14 @@ const BottomTabs = (props): JSX.Element => {
       <div
         className={`${classes.root} ${classes.rootLight}`}
         style={{
-          backgroundColor: '#191919',
-          zIndex: 1,
-          borderTop: '2px solid grey'
+          backgroundColor: '#1E2024',
+          zIndex: 1
         }}
         onClick={() => {
           setBottomShow(true);
         }}
       >
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          paddingBottom="10px"
-          paddingRight="10px"
-        >
+        <Box display="flex" justifyContent="space-between" alignItems="center">
           <Tabs
             value={tab}
             onChange={handleChange}
@@ -139,6 +132,13 @@ const BottomTabs = (props): JSX.Element => {
                 value={state.projectType}
                 onChange={handleProjectChange}
                 MenuProps={{ disablePortal: true }}
+                sx={{
+                  color: '#131416',
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#131416'
+                  }
+                }}
+                style={{ color: '#9C9D9F' }}
               >
                 <MenuItem style={{ color: 'white' }} value={'Classic React'}>
                   Classic React
