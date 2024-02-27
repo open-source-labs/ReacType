@@ -663,6 +663,19 @@ NAVBAR
   width: 16%;
 }
 
+#canvasContainer::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.7rem;
+}
+
+#canvasContainer::-webkit-scrollbar-thumb {
+  transition: 0.3s ease all;
+  border-color: transparent;
+  background-color: gray;
+  border-radius: 8px;
+  z-index: 40;
+}
+
 /*
 /////////////////////////////////////////////////
 CANVAS WINDOW

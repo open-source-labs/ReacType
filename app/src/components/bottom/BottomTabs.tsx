@@ -80,24 +80,28 @@ const BottomTabs = (props): JSX.Element => {
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Creation Panel"
               onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Customization"
               onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="CSS Editor"
               onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Component Tree"
               onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
