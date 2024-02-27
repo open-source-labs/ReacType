@@ -305,12 +305,16 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
 
   // Array of colors that color code users as they join the room (In a set order)
   const userColors = [
-    '#FC00BD',
-    '#D0FC00',
-    '#00DBFC',
-    '#FD98B8',
-    '#FCAA00',
-    '#9267FF'
+    '#0671e3',
+    '#2fd64d',
+    '#f0c000',
+    '#fb4c64',
+    '#be5be8',
+    '#fe9c06',
+    '#f6352b',
+    '#1667d1',
+    '#1667d1',
+    '#50ed6a'
   ];
 
   const buttonStyle: React.CSSProperties = {

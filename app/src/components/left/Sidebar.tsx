@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     oldValue = newValue;
   };
 
-  //the following allows users to click on the left panel to expand and collapse.
+    //the following allows users to click on the left panel to expand and collapse.
   // We decided to freeze so we've commented this and line 41 out
 
   // const handleTabClick = (event: React.MouseEvent, oldValue: number) => {

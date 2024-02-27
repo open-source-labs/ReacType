@@ -134,7 +134,6 @@ const ProfilePage = () => {
           AWS SQL
         </Button>
       </CardActions>
-
       <Divider />
     </Card>
   );
