@@ -144,8 +144,9 @@ function SeparatorChild({
   // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
   const defaultNestableStyle = { ...globalDefaultStyle };
   const separatorStyle = {
-    padding: '2px 10px',
-    margin: '1px 10px'
+    padding:  isOver ? '40px 10px' : '2px 10px',
+    margin: '1px 10px',
+    transition: 'padding 1s ease-out'
   };
 
   defaultNestableStyle['backgroundColor'] = isOver
