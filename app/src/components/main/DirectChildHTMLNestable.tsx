@@ -213,12 +213,12 @@ function DirectChildHTMLNestable({
   return (
     <div
       onClick={onClickHandler}
-      style={combinedStyle}
+      style={{...combinedStyle, backgroundColor: isOver ? '#3c59ba' : '#1E2024', border: '1px solid #31343A'}}
       ref={ref}
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color: '#f2fbf8' }}>
+        <strong style={{ color: 'white' }}>
           {HTMLType.placeHolderShort}
         </strong>
         <strong style={{ color: '#0671e3' }}>
