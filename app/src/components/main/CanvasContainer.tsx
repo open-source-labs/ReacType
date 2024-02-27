@@ -71,11 +71,24 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   const buttonStyle: React.CSSProperties = {
     textAlign: 'center',
     color: '#ffffff',
-    backgroundColor: '#151515',
+    backgroundColor: '#2D313A',
     zIndex: 0,
-    border: '2px solid #0671e3',
     whiteSpace: 'nowrap',
-    textTransform: 'none'
+    textTransform: 'none',
+    padding: '10px',
+    borderRadius: '0'
+  } as const;
+
+  const codePreviewStyle: React.CSSProperties = {
+    borderRadius: '10px'
+  } as const;
+
+  const upArrowStyle: React.CSSProperties = {
+    borderRadius: '10px 0 0 10px'
+  } as const;
+
+  const zoomOutStyle: React.CSSProperties = {
+    borderRadius: '0 10px 10px 0'
   } as const;
 
   return (
@@ -87,16 +100,16 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           display: 'flex',
           justifyContent: 'space-between',
           zIndex: 999,
-          padding: '20px'
+          padding: '20px 20px 5px 20px'
         }}
       >
-        <Button style={buttonStyle} onClick={onClickCodePreview}>
+        <Button style={{...buttonStyle, ...codePreviewStyle}} onClick={onClickCodePreview}>
           <DeveloperMode />
         </Button>
         {!state.codePreview && (
           <div>
             <Button
-              style={buttonStyle}
+              style={{...buttonStyle, ...upArrowStyle}}
               onClick={() => {
                 container.scrollTop = 0;
               }}
@@ -114,7 +127,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
             <Button style={buttonStyle} onClick={zoomIn}>
               <ZoomIn />
             </Button>
-            <Button style={buttonStyle} onClick={zoomOut}>
+            <Button style={{...buttonStyle, ...zoomOutStyle}} onClick={zoomOut}>
               <ZoomOut />
             </Button>
           </div>
