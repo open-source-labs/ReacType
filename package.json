@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "20.0.0 by Yameng Zhang, Brian Yan, Cyrus Burns, Jon Wage",
+  "version": "20.0.0 by Yameng Zhang, Brian Yan, Cyrus Burns, John Wage",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/.electron/main.js",
@@ -83,7 +83,7 @@
     "Yameng Zhang",
     "Brian Yan",
     "Cyrus Burns",
-    "Jon Wage"
+    "John Wage"
   ],
   "scripts": {
     "dev-frontend": "vite",
