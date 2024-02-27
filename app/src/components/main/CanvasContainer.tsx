@@ -5,7 +5,13 @@ import { RootState } from '../../redux/store';
 import CodePreview from '../bottom/CodePreview';
 import { toggleCodePreview } from '../../redux/reducers/slice/appStateSlice';
 import { Button } from '@mui/material';
-import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import {
+  ArrowDownward,
+  ArrowUpward,
+  DeveloperMode,
+  ZoomIn,
+  ZoomOut
+} from '@mui/icons-material';
 
 interface CanvasContainerProps {
   zoom: number;
@@ -104,7 +110,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
         }}
       >
         <Button style={codePreviewStyle} onClick={onClickCodePreview}>
-          Code Preview
+          <DeveloperMode />
         </Button>
         {!state.codePreview && (
           <div>
@@ -114,7 +120,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
                 container.scrollTop = 0;
               }}
             >
-              Scroll Top
+              <ArrowUpward />
             </Button>
             <Button
               style={backToTop}
@@ -122,16 +128,16 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
                 container.scrollTop = container.clientHeight;
               }}
             >
-              Scroll Bottom
+              <ArrowDownward />
+            </Button>
+            <Button style={buttonStyle} onClick={zoomIn}>
+              <ZoomIn />
+            </Button>
+            <Button style={buttonStyle} onClick={zoomOut}>
+              <ZoomOut />
             </Button>
           </div>
         )}
-        <Button style={buttonStyle} onClick={zoomIn}>
-          <ZoomIn />
-        </Button>
-        <Button style={buttonStyle} onClick={zoomOut}>
-          <ZoomOut />
-        </Button>
       </div>
       {state.codePreview ? (
         <CodePreview
