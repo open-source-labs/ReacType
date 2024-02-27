@@ -2,7 +2,7 @@ import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-dracula';
-import 'ace-builds/src-noconflict/theme-terminal';
+import 'ace-builds/src-noconflict/theme-clouds_midnight';
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
@@ -92,7 +92,7 @@ const CodePreview: React.FC<{
     >
       <AceEditor
         mode="javascript"
-        theme="dracula"
+        theme="clouds_midnight"
         width="100%"
         height="100%"
         onChange={handleChange}
