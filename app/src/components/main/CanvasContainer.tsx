@@ -137,7 +137,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
         <CodePreview
           theme={theme}
           setTheme={setTheme}
-          zoom={zoom}
+          //zoom={zoom} // remove so that Code Preview would not zoom in and out
           containerRef={containerRef}
         />
       ) : (

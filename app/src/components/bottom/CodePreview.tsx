@@ -22,7 +22,7 @@ import { initializeEsbuild } from '../../helperFunctions/esbuildService';
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
-  zoom: number;
+  // zoom: number; // 
   containerRef: any;
 }> = ({ theme, setTheme, zoom, containerRef }) => {
   const ref = useRef<any>();
