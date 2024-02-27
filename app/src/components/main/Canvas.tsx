@@ -368,7 +368,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
               color: '#ffffff',
               backgroundColor: '#151515',
               zIndex: 0,
-              border: '2px solid #354e9c',
+              border: '2px solid #0671E3',
               whiteSpace: 'nowrap',
               cursor: 'pointer',
               textTransform: 'none'

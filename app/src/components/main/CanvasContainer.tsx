@@ -6,9 +6,9 @@ import CodePreview from '../bottom/CodePreview';
 import { toggleCodePreview } from '../../redux/reducers/slice/appStateSlice';
 import { Button } from '@mui/material';
 import {
-  ArrowDownward,
-  ArrowUpward,
   DeveloperMode,
+  VerticalAlignBottom,
+  VerticalAlignTop,
   ZoomIn,
   ZoomOut
 } from '@mui/icons-material';
@@ -118,7 +118,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
                 container.scrollTop = 0;
               }}
             >
-              <ArrowUpward />
+              <VerticalAlignTop />
             </Button>
             <Button
               style={buttonStyle}
@@ -126,7 +126,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
                 container.scrollTop = container.clientHeight;
               }}
             >
-              <ArrowDownward />
+              <VerticalAlignBottom />
             </Button>
             <Button style={buttonStyle} onClick={zoomIn}>
               <ZoomIn />

@@ -414,8 +414,8 @@ RIGHT COLUMN
 #addComponentButton {
   height: 49px;
   width: 130px;
-  background-color: #354e9c;
-  border: 2px solid #354e9c;
+  background-color: #0671E3;
+  border: 2px solid #0671E3;
   border-radius: 10px;
   font-size: 16.5px;
 }
@@ -776,7 +776,7 @@ div.rst__rowContents {
   bottom: 30px;
   right: 30px;
   z-index: 999;
-  background-color: #354e9c;
+  background-color: #0671E3;
   box-shadow: none;
   padding: 32px;
 }

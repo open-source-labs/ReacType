@@ -49,7 +49,7 @@ const ProfilePage = () => {
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Hello,
         </Typography>
-        <Typography variant="h5" component="div" sx={{ color: '#0070BA' }}>
+        <Typography variant="h5" component="div" sx={{ color: '#0671E3' }}>
           {username ? username : 'Guest'}
         </Typography>
         <Typography sx={{ mb: 1.5, marginTop: '7px' }} color="text.secondary">
@@ -90,7 +90,7 @@ const ProfilePage = () => {
         <Button
           size="small"
           sx={{
-            color: '#0070BA',
+            color: '#0671E3',
             textTransform: 'capitalize',
             fontSize: '14px'
           }}
@@ -114,7 +114,7 @@ const ProfilePage = () => {
         <Button
           size="small"
           sx={{
-            color: '#0070BA',
+            color: '#0671E3',
             textTransform: 'capitalize',
             fontSize: '14px'
           }}
@@ -125,7 +125,7 @@ const ProfilePage = () => {
         <Button
           size="small"
           sx={{
-            color: '#0070BA',
+            color: '#0671E3',
             textTransform: 'capitalize',
             fontSize: '14px'
           }}

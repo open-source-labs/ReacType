@@ -432,7 +432,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
             display: 'flex',
             flexDirection: 'column',
             width: `${40}px`,
-            color: '#354E9C',
+            color: '#0671E3',
             justifyContent: 'center'
           }}
         >
@@ -554,7 +554,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: '14.5px',
     textAlign: 'center',
     margin: '-20px 0px 5px 150px',
-    border: ' 1px solid #354e9c',
+    border: ' 1px solid #0671E3',
     borderRadius: '8px',
     transition: '0.3s'
   },

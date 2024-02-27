@@ -179,7 +179,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100%',
     color: '#E8E8E8'
-    // boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   rootLight: {
     backgroundColor: '#0671e3'
@@ -194,15 +193,12 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: '#354e9c' // changed
+    backgroundColor: '#0671E3'
   },
   tabRoot: {
     textTransform: 'initial',
-    minWidth: 170, // changed
-    height: 60, // added
-    // width: '150px',
-    // margin: '0 16px',
-
+    minWidth: 170,
+    height: 60,
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -219,10 +215,10 @@ const useStyles = makeStyles((theme) => ({
       color: 'white',
       opacity: 1
     },
-    fontWeight: 300, // added
+    fontWeight: 300,
     '&$tabSelected': {
       color: 'white',
-      backgroundColor: '#2D313A' // added
+      backgroundColor: '#2D313A'
     },
     '&:focus': {
       color: 'white'
@@ -245,9 +241,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px'
   },
   projectSelector: {
-    backgroundColor: '#131416', // changed
+    backgroundColor: '#131416',
     color: 'white',
-    margin: '0 10px 10px 0' // added
+    margin: '0 10px 10px 0'
   }
 }));
 

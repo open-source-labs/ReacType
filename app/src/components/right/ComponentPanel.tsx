@@ -323,7 +323,7 @@ const useStyles = makeStyles({
     display: 'inline-block'
   },
   rootCheckBox: {
-    borderColor: '#354e9c',
+    borderColor: '#0671E3',
     padding: '7px 0'
   },
   rootCheckBoxLabel: {
