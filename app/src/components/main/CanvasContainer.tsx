@@ -38,26 +38,6 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     overflow: 'auto'
   };
 
-  const codePreviewStyle: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#ffffff',
-    backgroundColor: '#151515',
-    zIndex: 0,
-    border: '2px solid #0671e3',
-    whiteSpace: 'nowrap',
-    textTransform: 'none'
-  } as const;
-
-  const backToTop: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#ffffff',
-    backgroundColor: '#151515',
-    zIndex: 0,
-    border: '2px solid #0671e3',
-    whiteSpace: 'nowrap',
-    textTransform: 'none'
-  } as const;
-
   //containerRef references the container that will ultimately have the scroll functionality
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -93,8 +73,10 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     color: '#ffffff',
     backgroundColor: '#151515',
     zIndex: 0,
-    border: '2px solid #354e9c'
-  };
+    border: '2px solid #0671e3',
+    whiteSpace: 'nowrap',
+    textTransform: 'none'
+  } as const;
 
   return (
     <div id="canvasContainer" style={canvasContainerStyle}>
@@ -103,19 +85,18 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           position: 'sticky',
           top: 0,
           display: 'flex',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
           zIndex: 999,
-          margin: '10px 0px 10px 0px',
           padding: '20px'
         }}
       >
-        <Button style={codePreviewStyle} onClick={onClickCodePreview}>
+        <Button style={buttonStyle} onClick={onClickCodePreview}>
           <DeveloperMode />
         </Button>
         {!state.codePreview && (
           <div>
             <Button
-              style={backToTop}
+              style={buttonStyle}
               onClick={() => {
                 container.scrollTop = 0;
               }}
@@ -123,7 +104,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
               <ArrowUpward />
             </Button>
             <Button
-              style={backToTop}
+              style={buttonStyle}
               onClick={() => {
                 container.scrollTop = container.clientHeight;
               }}
