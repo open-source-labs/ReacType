@@ -60,21 +60,11 @@ const BottomTabs = (props): JSX.Element => {
       <div
         className={`${classes.root} ${classes.rootLight}`}
         style={{
-          backgroundColor: '#191919',
-          zIndex: 1,
-          borderTop: '2px solid grey'
-        }}
-        onClick={() => {
-          setBottomShow(true);
+          backgroundColor: '#1E2024',
+          zIndex: 1
         }}
       >
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          paddingBottom="10px"
-          paddingRight="10px"
-        >
+        <Box display="flex" justifyContent="space-between" alignItems="center">
           <Tabs
             value={tab}
             onChange={handleChange}
@@ -90,24 +80,28 @@ const BottomTabs = (props): JSX.Element => {
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Creation Panel"
               onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Customization"
               onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="CSS Editor"
               onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Component Tree"
               onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
@@ -139,6 +133,13 @@ const BottomTabs = (props): JSX.Element => {
                 value={state.projectType}
                 onChange={handleProjectChange}
                 MenuProps={{ disablePortal: true }}
+                sx={{
+                  color: '#131416',
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#131416'
+                  }
+                }}
+                style={{ color: '#9C9D9F' }}
               >
                 <MenuItem style={{ color: 'white' }} value={'Classic React'}>
                   Classic React
@@ -177,8 +178,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     height: '100%',
-    color: '#E8E8E8',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    color: '#E8E8E8'
   },
   rootLight: {
     backgroundColor: '#0671e3'
@@ -193,13 +193,12 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: 'white'
+    backgroundColor: '#0671E3'
   },
   tabRoot: {
     textTransform: 'initial',
-    minWidth: 40,
-    margin: '0 16px',
-
+    minWidth: 170,
+    height: 60,
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -216,8 +215,10 @@ const useStyles = makeStyles((theme) => ({
       color: 'white',
       opacity: 1
     },
+    fontWeight: 300,
     '&$tabSelected': {
-      color: 'white'
+      color: 'white',
+      backgroundColor: '#2D313A'
     },
     '&:focus': {
       color: 'white'
@@ -240,8 +241,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px'
   },
   projectSelector: {
-    backgroundColor: '#0671e3',
-    color: 'white'
+    backgroundColor: '#131416',
+    color: 'white',
+    margin: '0 10px 10px 0'
   }
 }));
 

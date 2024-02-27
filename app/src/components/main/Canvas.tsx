@@ -288,8 +288,6 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
   const defaultCanvasStyle: React.CSSProperties = {
     width: '100%',
     minHeight: '100%',
-    backgroundColor: isOver ? '#242323' : '#191919',
-    // borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box',
     transform: `scale(${zoom})`,
@@ -318,16 +316,6 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
     '#1667d1',
     '#50ed6a'
   ];
-
-  const zoomedChildren: React.CSSProperties = {
-    transform: `scale(${zoom})`,
-    width: '100%',
-    transformOrigin: 'top center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    overflow: 'auto'
-  };
 
   const buttonStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -384,7 +372,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
               color: '#ffffff',
               backgroundColor: '#151515',
               zIndex: 0,
-              border: '2px solid #0671e3',
+              border: '2px solid #0671E3',
               whiteSpace: 'nowrap',
               cursor: 'pointer',
               textTransform: 'none'

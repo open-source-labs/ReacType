@@ -12,8 +12,6 @@
 
 html {
   box-sizing: border-box;
-  /* height: 100vh;
-  width: 100vw; */
   overflow: auto;
 }
 
@@ -38,8 +36,8 @@ h4 {
   color: black;
   display: flex;
   flex-direction: row;
-  /* height: 100%; */
-  background-color: #191919;
+  height: 100%;
+  width: 100%;
 }
 
 .customization-section {
@@ -47,10 +45,10 @@ h4 {
   display: flex;
   flex-direction: row;
   height: 100%;
-  background-color: #191919;
 }
 
 .state-panel {
+  margin-top: -15px;
   flex-grow: 2;
   display: flex;
   flex-direction: row;
@@ -95,7 +93,8 @@ header {
 }
 
 .column {
-  background-color: #191919;
+  background-color: #1e2024;
+  margin-right: 1.5px;
 }
 
 /*
@@ -113,17 +112,6 @@ LEFT COLUMN
   z-index: 1;
 }
 
-/* .left-indicator {
-  height: 50%;
-  width: 20px;
-  background-color: silver;
-  border: 2px solid black;
-  writing-mode: vertical-lr;
-  text-align: center;
-  border-radius: 0 10px 10px 0;
-  align-self: center;
-} */
-
 span.material-symbols-outlined {
   padding: 1px;
   font-size: 18px;
@@ -139,8 +127,6 @@ span.material-symbols-outlined {
   align-content: center;
   position: relative;
   overflow-x: hidden;
-  /* border-right: solid black 3px; */
-  border: solid gray 1px;
 }
 
 .column.left::-webkit-scrollbar {
@@ -151,7 +137,7 @@ span.material-symbols-outlined {
 .column.left::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: gray;
+  background-color: #1e2024;
   border-radius: 8px;
   z-index: 40;
 }
@@ -160,12 +146,10 @@ span.material-symbols-outlined {
   position: absolute;
   height: 100%;
   left: -252px;
-  /* opacity: 0; */
   transition: all 0.5s ease-in-out;
 }
 
 .hide-show:hover {
-  /* opacity: 1; */
   left: 0px;
   z-index: 289;
 }
@@ -177,21 +161,7 @@ span.material-symbols-outlined {
   flex-wrap: wrap;
   width: 100%;
   flex-grow: 1;
-  border: 1px solid #c6c6c6;
-  /* border-radius: 10px; */
 }
-
-/* .HTMLItems::-webkit-scrollbar {
-  width: .5rem;
-  height: .5rem;
-} */
-
-/* .HTMLItems::-webkit-scrollbar-thumb { //not accessing due to cascade, refer to HTMLItemTopHalf
-  transition: .3s ease all;
-  border-color: transparent;
-  background-color: #1c695ccc;
-  z-index: 40;
-} */
 
 .HTMLItemsDark {
   display: flex;
@@ -220,7 +190,7 @@ span.material-symbols-outlined {
 #HTMLItemsTopHalf::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  background-color: gray;
+  background-color: #1e2024;
   border-radius: 8px;
   z-index: 40;
 }
@@ -245,15 +215,15 @@ span.material-symbols-outlined {
 
 #HTMLItemsGrid {
   display: flex;
-  /* margin-left: 35px; */
 }
 
 #HTMLItem {
   transition: 0.3s;
-  border: 1px solid #0671e3;
+  border: 1px solid transparent;
   color: #f2fbf8;
   padding: 10%;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: #191919;
 }
 
 #HTMLItem:hover {
@@ -278,26 +248,15 @@ span.material-symbols-outlined {
 }
 
 .customForm {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-content: center;
+  align-items: start;
   color: white;
   font-size: 95%;
 }
 
-.customForm h5 {
-  text-align: center;
-  font-size: 100%;
-  font-weight: 700;
-  width: 125%;
-  margin-left: -5px;
-}
-
-.customForm input {
+.customForm h4 {
   align-self: center;
-  margin: 0px 0px;
 }
 
 #newElement {
@@ -306,8 +265,6 @@ span.material-symbols-outlined {
   display: flex;
   align-items: baseline;
   justify-content: flex-start;
-  /* justify-self: flex-end; */
-  /* align-self: flex-start; */
   width: 0.5em;
 }
 
@@ -348,7 +305,6 @@ h1 {
   flex-direction: column;
   flex: 1;
   min-width: 700px;
-  overflow: auto;
 }
 
 .main-header {
@@ -433,6 +389,7 @@ RIGHT COLUMN
   display: flex;
   flex-direction: row;
   height: 100%;
+  width: 99.9%;
 }
 
 .right {
@@ -455,14 +412,18 @@ RIGHT COLUMN
 }
 
 #addComponentButton {
-  border: 2px solid #0671e3;
-  border-radius: 4px;
+  height: 49px;
+  width: 130px;
+  background-color: #0671E3;
+  border: 2px solid #0671E3;
+  border-radius: 10px;
+  font-size: 16.5px;
 }
 
 #addComponentButton:hover {
-  background-color: #0671e3;
+  background-color: #25366d;
+  border: 2px solid #354e9c;
   color: white;
-  border: none;
   cursor: pointer;
 }
 
@@ -509,7 +470,7 @@ BOTTOM PANEL
   overflow-x: auto;
   position: relative;
   z-index: 0;
-  background-color: #191919;
+  background-color: #1e2024;
 }
 
 .tab-content::-webkit-scrollbar {
@@ -550,13 +511,11 @@ BOTTOM PANEL
 
 #resize-drag {
   cursor: row-resize;
-  height: 25px;
+  height: 23px;
   width: 75px;
-  background-color: rgb(0, 0, 0);
-  outline: 2px solid rgba(192, 192, 192, 0.5);
-  outline-offset: -5px;
+  background-color: #1e2024;
   text-align: center;
-  border-radius: 10px 10px 0 0;
+  border-radius: 7px 7px 0 0;
   align-self: center;
   margin-top: -25px;
   color: silver;
@@ -632,19 +591,14 @@ NAVBAR
   justify-content: space-between;
   align-items: center;
   z-index: 9999;
-  border: solid gray 1px;
 }
 
 .main-logo {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 2vw;
+  margin-left: 15px;
 }
-
-/* .main-logo h1 {
-  color: #013365;
-} */
 
 .main-navbar svg {
   width: 30px;
@@ -656,15 +610,13 @@ NAVBAR
 
 .navDropDown {
   position: absolute;
-  border: 1px solid #555;
-  width: 20vw;
-  border-radius: 5px;
+  width: 230px;
+  border-radius: 8px;
   right: 1vw;
   z-index: 10;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: #31343A;
   top: 45px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 10px 0;
   display: hidden;
 }
 
@@ -673,32 +625,33 @@ NAVBAR
 }
 
 .navDropDown button {
-  width: 90%;
-  margin: 3px 5%;
-  background-color: #333333;
-  color: white;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5px;
+  width: 100%;
+  background-color: #31343A;
+  color: #D9DADA;
+  padding: 9px 25px;
   display: flex;
   align-items: center;
+  border: none;
+}
+
+.navDropDown span {
+  margin-left: -25px;
 }
 
 .navDropDown p {
   margin: 3px 5%;
-  color: whitesmoke;
+  color: #D9DADA;
 }
 
 .navDropDown button:hover {
   cursor: pointer;
-  background-color: #555;
+  background-color: #393C42;
 }
 
 .navDropDown button svg {
   width: 20px;
   height: 20px;
-  margin-left: 8px;
-  color: white;
+  color: gray;
 }
 
 #navbarButton {
@@ -708,6 +661,19 @@ NAVBAR
 
 #customized-menu {
   width: 16%;
+}
+
+#canvasContainer::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.7rem;
+}
+
+#canvasContainer::-webkit-scrollbar-thumb {
+  transition: 0.3s ease all;
+  border-color: transparent;
+  background-color: gray;
+  border-radius: 8px;
+  z-index: 40;
 }
 
 /*
@@ -727,7 +693,7 @@ CANVAS WINDOW
 
 .deleteIcon {
   font-size: 18px;
-  color: #4a4a4a;
+  color: gray;
   cursor: pointer;
 }
 
@@ -805,15 +771,26 @@ div.rst__rowContents {
   z-index: 999;
 }
 
+.cssSaveBtn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  background-color: #0671E3;
+  box-shadow: none;
+  padding: 32px;
+}
+
 .useState-btn {
   color: rgb(241, 240, 240);
-  background-color: rgba(0, 0, 0, 0.54);
-  border: 1px solid #0671e3;
-  border-radius: 3px;
+  background-color: #2d313a;
+  border: 1px solid #2d313a;
+  border-radius: 10px;
   box-shadow: '2px 2px 2px #1a1a1a';
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
   padding: 12px;
-  margin-left: 5px;
+  margin-left: 20px;
 }
 
 .useState-position {

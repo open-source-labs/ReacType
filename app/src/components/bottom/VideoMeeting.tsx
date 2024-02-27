@@ -211,7 +211,7 @@ const Videomeeting = (props): JSX.Element => {
         {userJoinCollabRoom && userJoinMeetingStatus === null && (
           <Button
             variant="contained"
-            style={{ backgroundColor: '#0070BA' }}
+            style={{ backgroundColor: '#0671E3' }}
             onClick={joinMeeting}
           >
             Join Meeting

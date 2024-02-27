@@ -26,7 +26,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     //the following allows users to click on the left panel to expand and collapse.
   // We decided to freeze so we've commented this and line 41 out
 
-
   // const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
   //   if (activeTab === oldValue) {
   //     setActiveTab(null);
@@ -52,58 +51,78 @@ const Sidebar: React.FC<SidebarProps> = ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'top',
-        paddingTop: '15px',
         gap: '50px',
-        width: 67,
-        background: '#151515',
+        width: '70px',
+        background: '#1e2024',
+        marginRight: '2px',
         height: '100vh'
       }}
     >
       <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />
       <Tab
         sx={{
-          color: activeTab === 0 ? '#c7c5c5' : '#4A4A4A',
-          '&.Mui-selected': { color: '#c7c5c5' },
-          '&:hover': { color: '#e9e9e9' }
+          color: activeTab === 0 ? '#E4E4E5' : '#9C9D9F',
+          backgroundColor: activeTab === 0 && '#2D313A',
+          '&.Mui-selected': { color: '#E4E4E5' },
+          '&:hover': { color: '#e9e9e9' },
+          fontSize: '11px',
+          textTransform: 'none'
         }}
-        icon={<AddBox sx={{ fontSize: '36px' }} />}
+        icon={<AddBox sx={{ fontSize: '26px' }} />}
         value={0}
+        label="Canvas"
       />
       <Tab
         sx={{
-          color: activeTab === 1 ? '#c7c5c5' : '#4A4A4A',
-          '&.Mui-selected': { color: '#c7c5c5' },
-          '&:hover': { color: '#e9e9e9' }
+          color: activeTab === 1 ? '#E4E4E5' : '#9C9D9F',
+          backgroundColor: activeTab === 1 && '#2D313A',
+          '&.Mui-selected': { color: '#E4E4E5' },
+          '&:hover': { color: '#e9e9e9' },
+          fontSize: '11px',
+          textTransform: 'none'
         }}
-        icon={<IoMdCube style={{ fontSize: '33px' }} />}
+        icon={<IoMdCube style={{ fontSize: '25px' }} />}
         value={1}
+        label="Create"
       />
       <Tab
         sx={{
-          color: activeTab === 2 ? '#c7c5c5' : '#4A4A4A',
-          '&.Mui-selected': { color: '#c7c5c5' },
-          '&:hover': { color: '#e9e9e9' }
+          color: activeTab === 2 ? '#E4E4E5' : '#9C9D9F',
+          backgroundColor: activeTab === 2 && '#2D313A',
+          '&.Mui-selected': { color: '#E4E4E5' },
+          '&:hover': { color: '#e9e9e9' },
+          fontSize: '11px',
+          textTransform: 'none'
         }}
-        icon={<Groups2 sx={{ fontSize: '36px' }} />}
+        icon={<Groups2 sx={{ fontSize: '28px' }} />}
         value={2}
+        label="Collab"
       />
       <Tab
         sx={{
-          color: activeTab === 3 ? '#c7c5c5' : '#4A4A4A',
-          '&.Mui-selected': { color: '#c7c5c5' },
-          '&:hover': { color: '#e9e9e9' }
+          color: activeTab === 3 ? '#E4E4E5' : '#9C9D9F',
+          backgroundColor: activeTab === 3 && '#2D313A',
+          '&.Mui-selected': { color: '#E4E4E5' },
+          '&:hover': { color: '#e9e9e9' },
+          fontSize: '11px',
+          textTransform: 'none'
         }}
-        icon={<AccountBox sx={{ fontSize: '36px' }} />}
+        icon={<AccountBox sx={{ fontSize: '26px' }} />}
         value={3}
+        label="Profile"
       />
       <Tab
         sx={{
-          color: activeTab === 4 ? '#c7c5c5' : '#4A4A4A',
-          '&.Mui-selected': { color: '#c7c5c5' },
-          '&:hover': { color: '#e9e9e9' }
+          color: activeTab === 4 ? '#E4E4E5' : '#9C9D9F',
+          backgroundColor: activeTab === 4 && '#2D313A',
+          '&.Mui-selected': { color: '#E4E4E5' },
+          '&:hover': { color: '#e9e9e9' },
+          fontSize: '11px',
+          textTransform: 'none'
         }}
-        icon={<Settings sx={{ fontSize: '36px' }} />}
+        icon={<Settings sx={{ fontSize: '26px' }} />}
         value={4}
+        label="Settings"
       />
     </Tabs>
   );

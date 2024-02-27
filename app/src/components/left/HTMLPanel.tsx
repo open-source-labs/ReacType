@@ -189,12 +189,12 @@ const HTMLPanel = (props): JSX.Element => {
         <div className={classes.addComponentWrapper}>
           <div className={classes.inputWrapper}>
             <form onSubmit={handleSubmit} className="customForm">
-              <h4 className={classes.darkThemeFontColor}>New HTML Tag: </h4>
+              <h4 className={classes.darkThemeFontColor}>New HTML Tag</h4>
               <InputLabel
                 htmlFor="tag"
                 className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
               >
-                Tag:
+                Tag
               </InputLabel>
               <TextField
                 id="tag"
@@ -212,6 +212,7 @@ const HTMLPanel = (props): JSX.Element => {
                     color: 'white'
                   }
                 }}
+                placeholder="tag"
               />
 
               {(!tag.charAt(0).match(/[A-Za-z]/) ||
@@ -230,7 +231,7 @@ const HTMLPanel = (props): JSX.Element => {
                 htmlFor="elementName"
                 className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
               >
-                Element Name:
+                Element Name
               </InputLabel>
               <TextField
                 id="elementName"
@@ -242,12 +243,13 @@ const HTMLPanel = (props): JSX.Element => {
                 onChange={handleNameChange}
                 autoComplete="off"
                 className={`${classes.input} ${classes.darkThemeFontColor}`}
-                style={{}}
+                style={{ marginTop: '10px' }}
                 InputProps={{
                   style: {
                     color: 'white'
                   }
                 }}
+                placeholder="name"
               />
               {(!name.charAt(0).match(/[A-Za-z]/) ||
                 !alphanumeric(name) ||
@@ -269,6 +271,7 @@ const HTMLPanel = (props): JSX.Element => {
                 color="primary"
                 variant="contained"
                 value="Add Element"
+                sx={{ textTransform: 'capitalize' }}
               >
                 Add Element
               </Button>
@@ -320,30 +323,27 @@ const useStyles = makeStyles({
     width: '100%'
   },
   input: {
-    borderRadius: '5px',
+    width: '500px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 0px',
-    alignSelf: 'center',
-    border: '2px solid grey'
+    alignSelf: 'center'
   },
   inputLabel: {
     fontSize: '1em',
     marginLeft: '10px'
   },
   addElementButton: {
-    backgroundColor: 'transparent',
-    height: '40px',
-    width: '200px',
+    height: '50px',
+    width: '150px',
     fontFamily: 'Roboto, Raleway, sans-serif',
-    fontSize: '85%',
+    fontSize: '15.5px',
     textAlign: 'center',
     transition: '0.3s',
-    borderRadius: '4px',
-    alignSelf: 'center',
-    border: '1px solid #0671e3'
+    borderRadius: '10px',
+    alignSelf: 'end',
+    border: '1px solid #0671E3'
   },
   lightThemeFontColor: {
     color: 'white',

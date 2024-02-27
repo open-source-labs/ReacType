@@ -64,7 +64,7 @@ const ProjectManager = () => {
       createModal({
         closeModal,
         children,
-        message: 'Are you sure want to delete all data?',
+        message: 'Are you sure you want to delete all data?',
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,

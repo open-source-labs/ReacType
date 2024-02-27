@@ -71,7 +71,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   return (
     <div
       onClick={onClickHandler}
-      style={combinedStyle}
+      style={{...combinedStyle, backgroundColor: '#1E2024', border: '1px solid #31343A'}}
       ref={drag}
       id={`canv${childId}`}
     >

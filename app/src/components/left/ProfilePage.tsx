@@ -41,12 +41,18 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <div sx={{ minWidth: 275, color: 'white' }}>
+    <Card
+      sx={{ minWidth: 275, color: 'white', backgroundColor: '#1E2024' }}
+      variant="outlined"
+    >
       <CardContent>
-        <Typography variant="h5" component="div" sx={{ color: '#019cde' }}>
-          {username ? username : null}
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Hello,
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        <Typography variant="h5" component="div" sx={{ color: '#0671E3' }}>
+          {username ? username : 'Guest'}
+        </Typography>
+        <Typography sx={{ mb: 1.5, marginTop: '7px' }} color="text.secondary">
           Welcome to Reactype!
         </Typography>
         {email ? (
@@ -64,7 +70,7 @@ const ProfilePage = () => {
         <Typography variant="h6" component="div" sx={{ color: 'white' }}>
           Apps
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        <Typography sx={{ mb: 1.5, marginTop: '8px' }} color="text.secondary">
           Create a web app or a native mobile app to build a custom internal
           tool for your business.
         </Typography>
@@ -76,14 +82,18 @@ const ProfilePage = () => {
         <Typography variant="h6" component="div" sx={{ color: 'white' }}>
           Resources
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        <Typography sx={{ mb: 1.5, marginTop: '8px' }} color="text.secondary">
           Securely connect your data and display it inside of Reactype apps.
         </Typography>
       </CardContent>
       <CardActions>
         <Button
           size="small"
-          sx={{ color: '#0671e3' }}
+          sx={{
+            color: '#0671E3',
+            textTransform: 'capitalize',
+            fontSize: '14px'
+          }}
           href="https://legacy.reactjs.org/tutorial/tutorial.html"
         >
           React docs
@@ -96,28 +106,36 @@ const ProfilePage = () => {
         <Typography variant="h6" component="div" sx={{ color: 'white' }}>
           Database
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        <Typography sx={{ mb: 1.5, marginTop: '8px' }} color="text.secondary">
           Easily store data in a free SQL database and power your Reactype app.
         </Typography>
       </CardContent>
       <CardActions>
         <Button
           size="small"
-          sx={{ color: '#0671e3' }}
+          sx={{
+            color: '#0671E3',
+            textTransform: 'capitalize',
+            fontSize: '14px'
+          }}
           href="https://www.mongodb.com/"
         >
           MongoDB
         </Button>
         <Button
           size="small"
-          sx={{ color: '#0671e3' }}
+          sx={{
+            color: '#0671E3',
+            textTransform: 'capitalize',
+            fontSize: '14px'
+          }}
           href="https://aws.amazon.com/what-is/sql/#:~:text=Structured%20query%20language%20(SQL)%20is,relationships%20between%20the%20data%20values."
         >
           AWS SQL
         </Button>
       </CardActions>
       <Divider />
-    </div>
+    </Card>
   );
 };
 

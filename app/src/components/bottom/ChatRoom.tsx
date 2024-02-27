@@ -42,7 +42,7 @@ const Chatroom = (props): JSX.Element => {
   const buttonStyles = {
     padding: '10px',
     marginLeft: '10px',
-    backgroundColor: '#0070BA',
+    backgroundColor: '#0671E3',
     color: 'white',
     border: 'none',
     borderRadius: '5px',

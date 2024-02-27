@@ -120,11 +120,11 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
           >
             {useMic ? (
               <MicIcon
-                style={{ fontSize: 36, color: '#0070BA', margin: '0 15px' }}
+                style={{ fontSize: 36, color: '#0671E3', margin: '0 15px' }}
               />
             ) : (
               <MicOffIcon
-                style={{ fontSize: 36, color: '#0070BA', margin: '0 15px' }}
+                style={{ fontSize: 36, color: '#0671E3', margin: '0 15px' }}
               />
             )}
           </button>
@@ -157,11 +157,11 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
           >
             {useWebcam ? (
               <VideocamIcon
-                style={{ fontSize: 36, color: '#0070BA', margin: '0 15px' }}
+                style={{ fontSize: 36, color: '#0671E3', margin: '0 15px' }}
               />
             ) : (
               <VideocamOffIcon
-                style={{ fontSize: 36, color: '#0070BA', margin: '0 15px' }}
+                style={{ fontSize: 36, color: '#0671E3', margin: '0 15px' }}
               />
             )}
           </button>

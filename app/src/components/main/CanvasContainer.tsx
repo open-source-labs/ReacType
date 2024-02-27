@@ -5,7 +5,13 @@ import { RootState } from '../../redux/store';
 import CodePreview from '../bottom/CodePreview';
 import { toggleCodePreview } from '../../redux/reducers/slice/appStateSlice';
 import { Button } from '@mui/material';
-import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import {
+  DeveloperMode,
+  VerticalAlignBottom,
+  VerticalAlignTop,
+  ZoomIn,
+  ZoomOut
+} from '@mui/icons-material';
 
 interface CanvasContainerProps {
   zoom: number;
@@ -27,31 +33,13 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   const canvasContainerStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(25, 25, 25)',
-    border: '2px solid grey',
+    background: '#070808',
+    backgroundImage: 'radial-gradient(#1E2024 .71px, transparent 0)',
+    backgroundSize: '8px 8px',
+    backgroundPosition: '-19px -19px',
     borderBottom: 'none',
     overflow: 'auto'
   };
-
-  const codePreviewStyle: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#ffffff',
-    backgroundColor: '#151515',
-    zIndex: 0,
-    border: '2px solid #0671e3',
-    whiteSpace: 'nowrap',
-    textTransform: 'none'
-  } as const;
-
-  const backToTop: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#ffffff',
-    backgroundColor: '#151515',
-    zIndex: 0,
-    border: '2px solid #0671e3',
-    whiteSpace: 'nowrap',
-    textTransform: 'none'
-  } as const;
 
   //containerRef references the container that will ultimately have the scroll functionality
   const containerRef = useRef<HTMLDivElement>(null);
@@ -86,10 +74,25 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   const buttonStyle: React.CSSProperties = {
     textAlign: 'center',
     color: '#ffffff',
-    backgroundColor: '#151515',
+    backgroundColor: '#2D313A',
     zIndex: 0,
-    border: '2px solid #0671e3'
-  };
+    whiteSpace: 'nowrap',
+    textTransform: 'none',
+    padding: '10px',
+    borderRadius: '0'
+  } as const;
+
+  const codePreviewStyle: React.CSSProperties = {
+    borderRadius: '10px'
+  } as const;
+
+  const upArrowStyle: React.CSSProperties = {
+    borderRadius: '10px 0 0 10px'
+  } as const;
+
+  const zoomOutStyle: React.CSSProperties = {
+    borderRadius: '0 10px 10px 0'
+  } as const;
 
   return (
     <div id="canvasContainer" style={canvasContainerStyle}>
@@ -98,47 +101,46 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           position: 'sticky',
           top: 0,
           display: 'flex',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
           zIndex: 999,
-          margin: '10px 0px 10px 0px',
-          padding: '20px'
+          padding: '20px 20px 5px 20px'
         }}
       >
-        <Button style={codePreviewStyle} onClick={onClickCodePreview}>
-          Code Preview
+        <Button style={{...buttonStyle, ...codePreviewStyle}} onClick={onClickCodePreview}>
+          <DeveloperMode />
         </Button>
         {!state.codePreview && (
           <div>
             <Button
-              style={backToTop}
+              style={{...buttonStyle, ...upArrowStyle}}
               onClick={() => {
                 container.scrollTop = 0;
               }}
             >
-              Scroll Top
+              <VerticalAlignTop />
             </Button>
             <Button
-              style={backToTop}
+              style={buttonStyle}
               onClick={() => {
                 container.scrollTop = container.clientHeight;
               }}
             >
-              Scroll Bottom
+              <VerticalAlignBottom />
+            </Button>
+            <Button style={buttonStyle} onClick={zoomIn}>
+              <ZoomIn />
+            </Button>
+            <Button style={{...buttonStyle, ...zoomOutStyle}} onClick={zoomOut}>
+              <ZoomOut />
             </Button>
           </div>
         )}
-        <Button style={buttonStyle} onClick={zoomIn}>
-          <ZoomIn />
-        </Button>
-        <Button style={buttonStyle} onClick={zoomOut}>
-          <ZoomOut />
-        </Button>
       </div>
       {state.codePreview ? (
         <CodePreview
           theme={theme}
           setTheme={setTheme}
-          zoom={zoom}
+          //zoom={zoom} // This is added if you want the Code Editor to zoom in/out
           containerRef={containerRef}
         />
       ) : (

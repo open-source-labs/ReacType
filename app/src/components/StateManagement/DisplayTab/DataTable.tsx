@@ -86,22 +86,22 @@ export default function DataTable(props) {
         {/* The below table will contain the state initialized within the clicked component */}
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center" colSpan={3}>
+            <StyledTableCell align="center" colSpan={3} style={{backgroundColor: '#131416'}}>
               State Initialized in Current Component:
             </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          <StyledTableRow>
-            <StyledTableCell component="th" scope="row"><b>Key</b></StyledTableCell>
-            <StyledTableCell align="right"><b>Type</b></StyledTableCell>
-            <StyledTableCell align="right"><b>Initial Value</b></StyledTableCell>
+          <StyledTableRow style={{ backgroundColor: '#2D313A' }}>
+            <StyledTableCell component="th" scope="row" style={{ color: 'white' }}><b>Key</b></StyledTableCell>
+            <StyledTableCell align="right" style={{ color: 'white' }}><b>Type</b></StyledTableCell>
+            <StyledTableCell align="right" style={{ color: 'white' }}><b>Initial Value</b></StyledTableCell>
           </StyledTableRow>
           {currComponentState ? currComponentState.map((data, index) => (
-            <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row">{data.key}</StyledTableCell>
-              <StyledTableCell align="right">{data.type}</StyledTableCell>
-              <StyledTableCell align="right">{data.value}</StyledTableCell>
+            <StyledTableRow key={index} style={{ backgroundColor: '#2D313A' }}>
+              <StyledTableCell component="th" scope="row" style={{ color: 'white' }}>{data.key}</StyledTableCell>
+              <StyledTableCell align="right" style={{ color: 'white' }}>{data.type}</StyledTableCell>
+              <StyledTableCell align="right" style={{ color: 'white' }}>{data.value}</StyledTableCell>
             </StyledTableRow>
           )) : ''}
         </TableBody>
