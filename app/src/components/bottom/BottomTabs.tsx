@@ -63,9 +63,6 @@ const BottomTabs = (props): JSX.Element => {
           backgroundColor: '#1E2024',
           zIndex: 1
         }}
-        onClick={() => {
-          setBottomShow(true);
-        }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Tabs
