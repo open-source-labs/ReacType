@@ -90,6 +90,7 @@ const CodePreview: React.FC<{
         transform: `scale(${zoom})`
       }}
     >
+      <div style={{width: '100%', height: '80px', marginTop: '-70px', backgroundColor: '#191919'}}></div>
       <AceEditor
         mode="javascript"
         theme="clouds_midnight"

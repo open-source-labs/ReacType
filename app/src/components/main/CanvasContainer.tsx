@@ -33,7 +33,11 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
   const canvasContainerStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(25, 25, 25)',
+    // backgroundColor: 'rgba(25, 25, 25)',
+    background: '#070808',
+    backgroundImage: 'radial-gradient(#1E2024 .71px, transparent 0)',
+    backgroundSize: '8px 8px',
+    backgroundPosition: '-19px -19px',
     borderBottom: 'none',
     overflow: 'auto'
   };
