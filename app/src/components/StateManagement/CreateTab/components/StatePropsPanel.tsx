@@ -287,11 +287,6 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
               onChange={(event) => setInputType(event.target.value)}
               MenuProps={{ disablePortal: true }}
               style={{
-                // backgroundColor: 'gray',
-                // color: '#fff',
-                // border: '1px solid white',
-                // height: '50px',
-                // width: '234px',
                 height: '100%',
                 width: '100%',
                 margin: '0 auto'

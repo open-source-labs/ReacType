@@ -26,7 +26,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   //the following allows users to click on the left panel to expand and collapse.
   // We decided to freeze so we've commented this and line 41 out
 
-  
   // const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
   //   if (activeTab === oldValue) {
   //     setActiveTab(null);
@@ -53,9 +52,9 @@ const Sidebar: React.FC<SidebarProps> = ({
         alignItems: 'center',
         justifyContent: 'top',
         gap: '50px',
-        width: '70px', // changed from 67
-        background: '#1e2024', // changed
-        marginRight: '2px', // added
+        width: '70px',
+        background: '#1e2024',
+        marginRight: '2px',
         height: '100vh'
       }}
     >
@@ -63,15 +62,15 @@ const Sidebar: React.FC<SidebarProps> = ({
       <Tab
         sx={{
           color: activeTab === 0 ? '#E4E4E5' : '#9C9D9F',
-          backgroundColor: activeTab === 0 && '#2D313A', // added
+          backgroundColor: activeTab === 0 && '#2D313A',
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px', // added
-          textTransform: 'none' // added
+          fontSize: '11px',
+          textTransform: 'none'
         }}
         icon={<AddBox sx={{ fontSize: '26px' }} />}
         value={0}
-        label="Canvas" // added
+        label="Canvas"
       />
       <Tab
         sx={{
@@ -79,12 +78,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           backgroundColor: activeTab === 1 && '#2D313A',
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px', // added
-          textTransform: 'none' // added
+          fontSize: '11px',
+          textTransform: 'none'
         }}
         icon={<IoMdCube style={{ fontSize: '25px' }} />}
         value={1}
-        label="Create" // added
+        label="Create"
       />
       <Tab
         sx={{
@@ -92,12 +91,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           backgroundColor: activeTab === 2 && '#2D313A',
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px', // added
-          textTransform: 'none' // added
+          fontSize: '11px',
+          textTransform: 'none'
         }}
         icon={<Groups2 sx={{ fontSize: '28px' }} />}
         value={2}
-        label="Collab" // added
+        label="Collab"
       />
       <Tab
         sx={{
@@ -105,12 +104,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           backgroundColor: activeTab === 3 && '#2D313A',
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px', // added
-          textTransform: 'none' // added
+          fontSize: '11px',
+          textTransform: 'none'
         }}
         icon={<AccountBox sx={{ fontSize: '26px' }} />}
         value={3}
-        label="Profile" // added
+        label="Profile"
       />
       <Tab
         sx={{
@@ -118,12 +117,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           backgroundColor: activeTab === 4 && '#2D313A',
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px', // added
-          textTransform: 'none' // added
+          fontSize: '11px',
+          textTransform: 'none'
         }}
         icon={<Settings sx={{ fontSize: '26px' }} />}
         value={4}
-        label="Settings" // added
+        label="Settings"
       />
     </Tabs>
   );
