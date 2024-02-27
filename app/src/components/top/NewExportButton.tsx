@@ -40,7 +40,7 @@ export default function NewExportButton(): React.JSX.Element {
               marginTop: '5%'
             }}
           >
-            <ListItemText primary={option} style={{ textAlign: 'center' }} />
+            <ListItemText primary={option} style={{ textAlign: 'center'}} />
           </ListItem>
         ))}
       </List>

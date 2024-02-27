@@ -610,15 +610,13 @@ NAVBAR
 
 .navDropDown {
   position: absolute;
-  border: 1px solid #555;
-  width: 20vw;
-  border-radius: 5px;
+  width: 230px;
+  border-radius: 8px;
   right: 1vw;
   z-index: 10;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: #31343A;
   top: 45px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 10px 0;
   display: hidden;
 }
 
@@ -627,32 +625,33 @@ NAVBAR
 }
 
 .navDropDown button {
-  width: 90%;
-  margin: 3px 5%;
-  background-color: #333333;
-  color: white;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5px;
+  width: 100%;
+  background-color: #31343A;
+  color: #D9DADA;
+  padding: 9px 25px;
   display: flex;
   align-items: center;
+  border: none;
+}
+
+.navDropDown span {
+  margin-left: -25px;
 }
 
 .navDropDown p {
   margin: 3px 5%;
-  color: whitesmoke;
+  color: #D9DADA;
 }
 
 .navDropDown button:hover {
   cursor: pointer;
-  background-color: #555;
+  background-color: #393C42;
 }
 
 .navDropDown button svg {
   width: 20px;
   height: 20px;
-  margin-left: 8px;
-  color: white;
+  color: gray;
 }
 
 #navbarButton {

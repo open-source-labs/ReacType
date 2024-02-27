@@ -158,7 +158,7 @@ const Project = ({
       createModal({
         closeModal,
         children,
-        message: 'Are you sure want to delete this project?',
+        message: 'Are you sure you want to delete this project?',
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,
