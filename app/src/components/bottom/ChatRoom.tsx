@@ -12,13 +12,14 @@ const Chatroom = (props): JSX.Element => {
   const [inputContent, setInputContent] = useState('');
 
   const wrapperStyles = {
-    border: `2px solid #f2fbf8`,
+    border: '1px solid #31343A',
     borderRadius: '8px',
-    width: '75%',
+    width: '70%',
     height: '100%',
-    display: 'column',
+    display: 'flex',
+    flexDirection: 'column',
     padding: '20px',
-    backgroundColor: '#42464C',
+    backgroundColor: '#1B1B1B',
     overflow: 'auto'
   };
 
@@ -33,10 +34,11 @@ const Chatroom = (props): JSX.Element => {
   const inputStyles = {
     width: '75%',
     padding: '10px',
-    border: 'none',
     borderRadius: '5px',
-    backgroundColor: '#333333',
-    color: 'white'
+    backgroundColor: '#1B1B1B',
+    color: 'white',
+    border: '1px solid #31343A',
+    marginLeft: '28px'
   };
 
   const buttonStyles = {
