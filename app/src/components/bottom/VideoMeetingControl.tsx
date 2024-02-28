@@ -70,7 +70,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
         {/* Mic Button */}
         <div
           style={{
-            // backgroundColor: micHovered ? '#dddddd' : 'transparent',
             transition: 'background-color 0.3s',
             borderRadius: '5px',
             padding: '5px'
@@ -107,7 +106,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
         {/* Webcam Button */}
         <div
           style={{
-            // backgroundColor: webcamHovered ? '#dddddd' : 'transparent',
             transition: 'background-color 0.3s',
             borderRadius: '5px',
             padding: '5px'
@@ -144,7 +142,6 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
         {/* Call End Button */}
         <div
           style={{
-            // backgroundColor: callEndHovered ? '#dddddd' : 'transparent',
             transition: 'background-color 0.3s',
             borderRadius: '5px',
             padding: '5px'
