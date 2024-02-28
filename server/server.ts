@@ -520,34 +520,36 @@ app.get(
 );
 
 // serve index.html on the route '/'
-const isDocker = process.env.IS_DOCKER === 'true';
-console.log('this is running on docker: ', isDocker);
+// const isDocker = process.env.IS_DOCKER === 'true';
+// console.log('this is running on docker: ', isDocker);
 
 //if in production mode, statically serve everything in the build folder on the route '/dist'
 if (process.env.NODE_ENV == 'production') {
+  console.log('in production');
+  console.log('dirname: ', __dirname);
   app.use('/', express.static(path.join(__dirname, '/build')));
+} else {
+  console.log('not production');
+  console.log('dirname: ', __dirname);
+  app.get('/', (req, res) => {
+    const indexPath = path.join(__dirname, '../index.html');
+    return res.status(200).sendFile(indexPath);
+  });
 }
-
-app.get('/', (req, res) => {
-  const indexPath = isDocker
-    ? path.join(__dirname, '../index-prod.html')
-    : path.join(__dirname, '../index.html');
-  return res.status(200).sendFile(indexPath);
-});
 
 // app.get('/bundle.js', (req, res) => {
 //   return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
 // });
 
-if (isDocker) {
-  app.get('/main.css', (req, res) => {
-    return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
-  });
-}
+// if (isDocker) {
+//   app.get('/main.css', (req, res) => {
+//     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
+//   });
+// }
 
-app.get('/test', (req, res) => {
-  res.send('test request is working');
-});
+// app.get('/test', (req, res) => {
+//   res.send('test request is working');
+// });
 
 app.use('/*', (req, res) => res.status(404).send('Page not found'));
 
