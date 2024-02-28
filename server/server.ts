@@ -565,8 +565,8 @@ app.use((err, req, res, next) => {
 
 // starts server on PORT
 if (!isTest) {
-  httpServer.listen(5656, () =>
-    console.log(`Server listening on port: ${DEV_PORT}`)
+  httpServer.listen(PORT, () =>
+    console.log(`Server listening on port: ${PORT}`)
   );
 }
 
