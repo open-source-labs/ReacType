@@ -49,6 +49,20 @@ app.use(
   })
 );
 
+//if in production mode, statically serve everything in the build folder on the route '/dist'
+if (process.env.NODE_ENV == 'production') {
+  console.log('in production');
+  console.log('joined path: ', path.join(__dirname, '../build'));
+  app.use('/', express.static(path.join(__dirname, '../build')));
+} else {
+  console.log('not production');
+  console.log('joined path: ', path.join(__dirname, '../build'));
+  app.get('/', (req, res) => {
+    const indexPath = path.join(__dirname, '../index.html');
+    return res.status(200).sendFile(indexPath);
+  });
+}
+
 // NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
 
 const passport = require('passport');
@@ -522,20 +536,6 @@ app.get(
 // serve index.html on the route '/'
 // const isDocker = process.env.IS_DOCKER === 'true';
 // console.log('this is running on docker: ', isDocker);
-
-//if in production mode, statically serve everything in the build folder on the route '/dist'
-if (process.env.NODE_ENV == 'production') {
-  console.log('in production');
-  console.log('joined path: ', path.join(__dirname, '../build'));
-  app.use('/', express.static(path.join(__dirname, '../build')));
-} else {
-  console.log('not production');
-  console.log('joined path: ', path.join(__dirname, '../build'));
-  app.get('/', (req, res) => {
-    const indexPath = path.join(__dirname, '../index.html');
-    return res.status(200).sendFile(indexPath);
-  });
-}
 
 // app.get('/bundle.js', (req, res) => {
 //   return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
