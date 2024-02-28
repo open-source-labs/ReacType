@@ -525,7 +525,7 @@ console.log('this is running on docker: ', isDocker);
 
 //if in production mode, statically serve everything in the build folder on the route '/dist'
 if (process.env.NODE_ENV == 'production') {
-  app.use('/dist', express.static(path.join(__dirname, '/app/dist')));
+  app.use('/', express.static(path.join(__dirname, '/build')));
 }
 
 app.get('/', (req, res) => {
@@ -535,9 +535,9 @@ app.get('/', (req, res) => {
   return res.status(200).sendFile(indexPath);
 });
 
-app.get('/bundle.js', (req, res) => {
-  return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
-});
+// app.get('/bundle.js', (req, res) => {
+//   return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
+// });
 
 if (isDocker) {
   app.get('/main.css', (req, res) => {
