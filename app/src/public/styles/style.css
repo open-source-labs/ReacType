@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0');
-@import url('https: //fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+@import url('https: //fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap'); */
 
 *,
 *::before,
@@ -414,8 +414,8 @@ RIGHT COLUMN
 #addComponentButton {
   height: 49px;
   width: 130px;
-  background-color: #0671E3;
-  border: 2px solid #0671E3;
+  background-color: #0671e3;
+  border: 2px solid #0671e3;
   border-radius: 10px;
   font-size: 16.5px;
 }
@@ -614,7 +614,7 @@ NAVBAR
   border-radius: 8px;
   right: 1vw;
   z-index: 10;
-  background-color: #31343A;
+  background-color: #31343a;
   top: 45px;
   padding: 10px 0;
   display: hidden;
@@ -626,8 +626,8 @@ NAVBAR
 
 .navDropDown button {
   width: 100%;
-  background-color: #31343A;
-  color: #D9DADA;
+  background-color: #31343a;
+  color: #d9dada;
   padding: 9px 25px;
   display: flex;
   align-items: center;
@@ -640,12 +640,12 @@ NAVBAR
 
 .navDropDown p {
   margin: 3px 5%;
-  color: #D9DADA;
+  color: #d9dada;
 }
 
 .navDropDown button:hover {
   cursor: pointer;
-  background-color: #393C42;
+  background-color: #393c42;
 }
 
 .navDropDown button svg {
@@ -776,7 +776,7 @@ div.rst__rowContents {
   bottom: 30px;
   right: 30px;
   z-index: 999;
-  background-color: #0671E3;
+  background-color: #0671e3;
   box-shadow: none;
   padding: 32px;
 }
