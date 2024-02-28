@@ -467,9 +467,10 @@ const RoomsContainer = () => {
                 backgroundColor: '#f2fbf8',
                 color: '#092a26',
                 '&:hover': {
-                  backgroundColor: '#a5ead6',
-                  borderColor: '#0062cc'
-                }
+                  backgroundColor: '#E12D39',
+                  color: 'white'
+                },
+                textTransform: 'capitalize'
               }}
             >
               Leave Room

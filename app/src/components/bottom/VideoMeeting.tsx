@@ -213,6 +213,7 @@ const Videomeeting = (props): JSX.Element => {
             variant="contained"
             style={{ backgroundColor: '#0671E3' }}
             onClick={joinMeeting}
+            sx={{ textTransform: 'capitalize' }}
           >
             Join Meeting
           </Button>
