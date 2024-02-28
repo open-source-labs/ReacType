@@ -207,7 +207,7 @@ const Chatroom = (props): JSX.Element => {
                     style={inputStyles}
                   />
                   <button type="submit" id="send-button" style={buttonStyles}>
-                    <Send sx={{ width: '20px', marginLeft: '2px' }} />
+                    <Send sx={{ width: '20px', height: '20px', marginLeft: '2px', marginTop: '2px' }} />
                   </button>
                 </form>
               </div>
