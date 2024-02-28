@@ -34,17 +34,20 @@ const Videomeeting = (props): JSX.Element => {
     return (
       <div
         style={{
-          background: 'transparent',
-          height: '200px',
+          border: '1px solid #31343A',
+          borderRadius: '15px',
+          backgroundColor: '#1B1B1B',
+          height: '170px',
           width: '300px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          margin: '29px 0 15px 0',
           paddingLeft: '10px',
           paddingRight: '10px'
         }}
       >
-        <AccountCircleIcon style={{ fontSize: 100, color: 'white' }} />
+        <AccountCircleIcon style={{ fontSize: 100, color: '#9C9D9F' }} />
       </div>
     );
   };
@@ -56,7 +59,7 @@ const Videomeeting = (props): JSX.Element => {
   };
 
   const handleUserInfoStyle = (isLocalParticipant: boolean) => {
-    if (isLocalParticipant) return { color: '#FC00BD' };
+    if (isLocalParticipant) return { color: '#0671E3', alignSelf: 'center' };
     else return { color: 'white' };
   };
 
@@ -101,13 +104,13 @@ const Videomeeting = (props): JSX.Element => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 display: 'column',
-                paddingLeft: '10px',
-                paddingRight: '10px'
+                paddingLeft: '5px',
+                paddingRight: '5px'
               }}
             >
               <p style={handleUserInfoStyle(isLocalParticipant)}>
                 Participant: {isLocalParticipant ? 'You' : displayName} |
-                Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic: {micOn ? 'ON' : 'OFF'}
+                Video: {webcamOn ? 'ON' : 'OFF'} | Mic: {micOn ? 'ON' : 'OFF'}
               </p>
               <audio ref={micRef} autoPlay muted={isLocal} />
               {!webcamOn && <TurnOffCameraDisplay />}
@@ -181,7 +184,7 @@ const Videomeeting = (props): JSX.Element => {
           overflow: 'auto'
         }}
       >
-        <div style={{ overflow: 'auto' }}>
+        <div className="video-scrollable" style={{ overflow: 'auto' }}>
           <VideoMeetingControl
             userJoinMeetingStatus={userJoinMeetingStatus}
             useWebcam={useWebcam}

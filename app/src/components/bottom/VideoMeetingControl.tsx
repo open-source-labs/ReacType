@@ -59,43 +59,18 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
           bottom: 5,
           left: '50%',
           right: 0,
-          zIndex: 9999
+          zIndex: 9999,
+          width: '270px',
+          border: '1px solid #31343A',
+          borderRadius: '15px',
+          backgroundColor: '#1B1B1B',
+          padding: '5px'
         }}
       >
-        {/* Call End Button */}
-        <div
-          style={{
-            backgroundColor: callEndHovered ? '#dddddd' : 'transparent',
-            transition: 'background-color 0.3s',
-            borderRadius: '5px',
-            padding: '5px'
-          }}
-          onMouseEnter={() => handleButtonHover(ButtonType.CALL_END, true)}
-          onMouseLeave={() => handleButtonHover(ButtonType.CALL_END, false)}
-        >
-          <button
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0,
-              margin: 0,
-              outline: 'none'
-            }}
-            onClick={() => {
-              leave();
-              handleButtonHover(ButtonType.CALL_END, false);
-            }}
-          >
-            <CallEndIcon
-              style={{ fontSize: 36, color: 'red', margin: '0 15px' }}
-            />
-          </button>
-        </div>
         {/* Mic Button */}
         <div
           style={{
-            backgroundColor: micHovered ? '#dddddd' : 'transparent',
+            // backgroundColor: micHovered ? '#dddddd' : 'transparent',
             transition: 'background-color 0.3s',
             borderRadius: '5px',
             padding: '5px'
@@ -120,11 +95,11 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
           >
             {useMic ? (
               <MicIcon
-                style={{ fontSize: 36, color: '#0671E3', margin: '0 15px' }}
+                style={{ fontSize: 36, color: micHovered ? 'white' : '#0671E3', transition: 'color 0.3s', margin: '0 15px' }}
               />
             ) : (
               <MicOffIcon
-                style={{ fontSize: 36, color: '#0671E3', margin: '0 15px' }}
+                style={{ fontSize: 36, color: micHovered ? 'white' : '#9C9D9F', transition: 'color 0.3s', margin: '0 15px' }}
               />
             )}
           </button>
@@ -132,7 +107,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
         {/* Webcam Button */}
         <div
           style={{
-            backgroundColor: webcamHovered ? '#dddddd' : 'transparent',
+            // backgroundColor: webcamHovered ? '#dddddd' : 'transparent',
             transition: 'background-color 0.3s',
             borderRadius: '5px',
             padding: '5px'
@@ -157,13 +132,43 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = () => {
           >
             {useWebcam ? (
               <VideocamIcon
-                style={{ fontSize: 36, color: '#0671E3', margin: '0 15px' }}
+                style={{ fontSize: 36, color: webcamHovered ? 'white' : '#0671E3', transition: 'color 0.3s', margin: '0 15px' }}
               />
             ) : (
               <VideocamOffIcon
-                style={{ fontSize: 36, color: '#0671E3', margin: '0 15px' }}
+                style={{ fontSize: 36, color: webcamHovered ? 'white' : '#9C9D9F', transition: 'color 0.3s', margin: '0 15px' }}
               />
             )}
+          </button>
+        </div>
+        {/* Call End Button */}
+        <div
+          style={{
+            // backgroundColor: callEndHovered ? '#dddddd' : 'transparent',
+            transition: 'background-color 0.3s',
+            borderRadius: '5px',
+            padding: '5px'
+          }}
+          onMouseEnter={() => handleButtonHover(ButtonType.CALL_END, true)}
+          onMouseLeave={() => handleButtonHover(ButtonType.CALL_END, false)}
+        >
+          <button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+              margin: 0,
+              outline: 'none'
+            }}
+            onClick={() => {
+              leave();
+              handleButtonHover(ButtonType.CALL_END, false);
+            }}
+          >
+            <CallEndIcon
+              style={{ fontSize: 36, color: callEndHovered ? 'white' : '#E12D39', transition: 'color 0.3s', margin: '0 15px' }}
+            />
           </button>
         </div>
       </div>
