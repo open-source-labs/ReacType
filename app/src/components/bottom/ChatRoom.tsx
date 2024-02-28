@@ -14,7 +14,7 @@ const Chatroom = (props): JSX.Element => {
 
   const wrapperStyles = {
     border: '1px solid #31343A',
-    borderRadius: '8px',
+    borderRadius: '15px',
     width: '70%',
     height: '100%',
     display: 'flex',
