@@ -588,10 +588,8 @@ BOTTOM PANEL
 #message-container::-webkit-scrollbar-thumb {
   transition: 0.3s ease all;
   border-color: transparent;
-  /* background-color: gray; */
   background-color: #1e2024;
-background-image: linear-gradient(180deg, #1e2024 15%, grey 15%, grey 85%, #1e2024 85%);
-
+  background-image: linear-gradient(180deg, #1e2024 15%, grey 15%, grey 85%, #1e2024 85%);
   border-radius: 10px;
   z-index: 40;
   overflow-y: hidden;
