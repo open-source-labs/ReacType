@@ -526,11 +526,11 @@ app.get(
 //if in production mode, statically serve everything in the build folder on the route '/dist'
 if (process.env.NODE_ENV == 'production') {
   console.log('in production');
-  console.log('dirname: ', __dirname);
-  app.use('/', express.static(path.join(__dirname, '/build')));
+  console.log('joined path: ', path.join(__dirname, '../build'));
+  app.use('/', express.static(path.join(__dirname, '../build')));
 } else {
   console.log('not production');
-  console.log('dirname: ', __dirname);
+  console.log('joined path: ', path.join(__dirname, '../build'));
   app.get('/', (req, res) => {
     const indexPath = path.join(__dirname, '../index.html');
     return res.status(200).sendFile(indexPath);
