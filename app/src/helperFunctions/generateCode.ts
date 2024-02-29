@@ -76,6 +76,12 @@ const generateUnformattedCode = (
         );
         child['tag'] = referencedHTML.tag;
         if (
+          referencedHTML.tag === 'h1' ||
+          referencedHTML.tag === 'h2' ||
+          referencedHTML.tag === 'a' ||
+          referencedHTML.tag === 'p' ||
+          referencedHTML.tag === 'button' ||
+          referencedHTML.tag === 'span' ||
           referencedHTML.tag === 'div' ||
           referencedHTML.tag === 'separator' ||
           referencedHTML.tag === 'form' ||
@@ -85,8 +91,7 @@ const generateUnformattedCode = (
           referencedHTML.tag === 'li' ||
           referencedHTML.tag === 'Link' ||
           referencedHTML.tag === 'Switch' ||
-          referencedHTML.tag === 'Route' ||
-          referencedHTML.tag === 'Image'
+          referencedHTML.tag === 'Route'
         ) {
           child.children = getEnrichedChildren(child);
         }
@@ -173,7 +178,14 @@ const generateUnformattedCode = (
         width,
         justifyContent
       } = childElement.style;
-      let w:String, h:String, items:String, bg:String, d:String, flexDir:String, justCon:String, cssClasses:String;
+      let w: String,
+        h: String,
+        items: String,
+        bg: String,
+        d: String,
+        flexDir: String,
+        justCon: String,
+        cssClasses: String;
       if (childElement.style.alignItems) {
         if (alignItems === 'center') items = 'items-center ';
         else if (alignItems === 'flex-start') items = 'items-start ';
@@ -263,7 +275,14 @@ const generateUnformattedCode = (
         activeLink = '"' + childElement.attributes.compLink + '"';
       }
     }
+
     const nestable =
+      childElement.tag === 'h1' ||
+      childElement.tag === 'h2' ||
+      childElement.tag === 'a' ||
+      childElement.tag === 'span' ||
+      childElement.tag === 'button' ||
+      childElement.tag === 'p' ||
       childElement.tag === 'div' ||
       childElement.tag === 'form' ||
       childElement.tag === 'ol' ||
@@ -370,7 +389,7 @@ const generateUnformattedCode = (
   };
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: String[]) => {
-    let stateToRender:String = '';
+    let stateToRender: String = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2, 2) + element + ';';
     }
@@ -392,7 +411,7 @@ const generateUnformattedCode = (
             return `import ${comp} from './${comp}'`;
           })
           .join('\n');
-  const createState = (stateProps:StateProp[]) => {
+  const createState = (stateProps: StateProp[]) => {
     let state = '{';
     stateProps.forEach((ele) => {
       state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
@@ -468,7 +487,7 @@ const generateUnformattedCode = (
       return importStr;
     };
 
-    const createEventHandler = (children:ChildElement[]) => {
+    const createEventHandler = (children: ChildElement[]) => {
       let importStr = '';
       children.map((child) => {
         if (child.type === 'HTML Element') {
@@ -567,7 +586,7 @@ const generateUnformattedCode = (
 };
 // formats code with prettier linter
 const formatCode = (code: string) => {
-  if (process.env.NODE_ENV === 'test') {
+  if (import.meta.env.NODE_ENV === 'test') {
     const { format } = require('prettier');
     return format(code, {
       singleQuote: true,

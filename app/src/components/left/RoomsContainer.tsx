@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
@@ -5,7 +6,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import { BottomPanelObj } from '../../interfaces/Interfaces';
@@ -28,6 +28,7 @@ import {
   addPassedInProps,
   deletePassedInProps,
   deleteElement,
+  resetAllState,
   updateStylesheet
 } from '../../redux/reducers/slice/appStateSlice';
 import {
@@ -38,20 +39,19 @@ import {
 import {
   setRoomCode,
   setUserName,
-  setUserJoined,
-  setUserList
+  setUserJoinCollabRoom,
+  setUserList,
+  setMeetingId,
+  setMessages,
+  setEmptyMessages,
+  setPassword,
+  setUseMic,
+  setUseWebcam
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
-// websocket front end starts here
 import store from '../../redux/store';
-//pasted from navbarbuttons
-import {
-  initializeSocket,
-  getSocket,
-  emitEvent,
-  disconnectSocket
-} from '../../helperFunctions/socket';
+import { initializeSocket, getSocket } from '../../helperFunctions/socket';
 import {
   AddContextPayload,
   AddContextValuesPayload,
@@ -60,17 +60,33 @@ import {
 } from '../../../src/redux/reducers/slice/contextReducer';
 
 const RoomsContainer = () => {
+  const [isJoinCallabRoom, setIsJoinCollabRoom] = useState(false);
+  const [joinedPasswordAttempt, setJoinedPasswordAttempt] = useState('');
+  const [isPasswordAttemptIncorrect, setIsPasswordAttemptIncorrect] =
+    useState(true);
+  const [isCollabRoomTaken, setIsCollabRoomTaken] = useState(false);
+  const [isRoomAvailable, setIsRoomAvailable] = useState(true);
+
   const dispatch = useDispatch();
-  //roomCode/userName for emiting to socket io, userList for displaying user List receiving from back end, userJoined fo conditional rendering between join and leave room.
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const userList = useSelector((store: RootState) => store.roomSlice.userList);
-  const userJoined = useSelector(
-    (store: RootState) => store.roomSlice.userJoined
+  const roomPassword = useSelector(
+    (store: RootState) => store.roomSlice.password
   );
 
-  // for websockets - initialize socket connection passing in roomCode
-  function initSocketConnection(roomCode: string) {
+
+  const userJoinCollabRoom = useSelector(
+    (store: RootState) => store.roomSlice.userJoinCollabRoom
+  );
+
+  const messages = useSelector((store: RootState) => store.roomSlice.messages);
+
+  const initSocketConnection = (
+    roomCode: string,
+    roomPassword: string,
+    method: string
+  ) => {
     // helper function to create socket connection
     initializeSocket();
     // assign socket to result of helper function to return socket created
@@ -79,10 +95,36 @@ const RoomsContainer = () => {
     if (socket) {
       //run everytime when a client connects to server
       socket.on('connect', () => {
-        socket.emit('joining', userName, roomCode);
-        // console.log(`${userName} Joined room ${roomCode} from RoomsContainer`);
+        socket.emit(
+          'creating a room',
+          userName,
+          roomCode,
+          roomPassword,
+          method
+        );
       });
 
+      socket.on('wrong password', () => {
+        setIsPasswordAttemptIncorrect(false);
+      });
+
+      socket.on('correct password', () => {
+        setIsPasswordAttemptIncorrect(true);
+        addNewUserToCollabRoom();
+      });
+
+      socket.on('user created a new room', () => {
+        addNewUserToCollabRoom();
+      });
+
+      socket.on('room is already taken', () => {
+        setIsCollabRoomTaken(true);
+      });
+
+      socket.on('room does not exist', () => {
+        setIsRoomAvailable(false);
+
+      });
       //If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {
         const newState = store.getState(); //pull the current state
@@ -100,9 +142,20 @@ const RoomsContainer = () => {
       });
 
       // update user list when there's a change: new join or leave the room
-      socket.on('updateUserList', (newUserList) => {
+      socket.on('update room information', (messageData) => {
         //console.log('user list received from server');
-        dispatch(setUserList(newUserList));
+        if (messageData.userList) dispatch(setUserList(messageData.userList));
+        if (messageData.meetingId)
+          dispatch(setMeetingId(messageData.meetingId));
+      });
+
+      socket.on('new chat message', (messageData) => {
+        if (
+          messages.length === 0 ||
+          JSON.stringify(messageData) !== JSON.stringify(messages[-1])
+        ) {
+          dispatch(setMessages(messageData));
+        }
       });
 
       // dispatch add child to local state when element has been added by another user
@@ -131,6 +184,11 @@ const RoomsContainer = () => {
           store.dispatch(deleteElement(deleteElementData));
         }
       );
+
+      // dispatch clear canvas action to local state when the host of the room has clear canvas
+      socket.on('clear canvas from server', () => {
+        store.dispatch(resetAllState());
+      });
 
       // dispatch all updates to local state when another user has saved from Bottom Panel
       socket.on('update data from server', (updateData: BottomPanelObj) => {
@@ -261,65 +319,80 @@ const RoomsContainer = () => {
         );
       });
     }
-  }
+  };
 
-  // invoked when join room in invoked passing in room code to init socket for that room
-  function handleUserEnteredRoom(roomCode) {
-    initSocketConnection(roomCode);
-  }
-
-  //joining room function
-  function joinRoom() {
-    //edge case: if userList is not empty, reset it to empty array
-    if (userList.length !== 0) dispatch(setUserList([]));
-    handleUserEnteredRoom(roomCode);
-    dispatch(setRoomCode(roomCode)); // setting state to roomCode input
-    dispatch(setUserJoined(true)); //setting joined room to true for rendering leave room button
-  }
-
-  // leave room function
-  function leaveRoom() {
-    let socket = getSocket(); // assigning socket var to get socket helper func
-    if (socket) {
-      socket.disconnect(); //disconnecting socket from server
-      // console.log('user leaves the room');
+  const createNewCollabRoom = () => {
+    if (userList.length !== 0) {
+      dispatch(setUserList([]));
     }
-    //reset all state values
+
+    initSocketConnection(roomCode, roomPassword, 'CREATE');
+  };
+
+  const addNewUserToCollabRoom = () => {
+    dispatch(setRoomCode(roomCode));
+    dispatch(setPassword(roomPassword));
+    dispatch(setUserJoinCollabRoom(true));
+  };
+
+  const joinExistingCollabRoom = async () => {
+    if (userList.length !== 0) {
+      dispatch(setUserList([]));
+    }
+
+    initSocketConnection(roomCode, joinedPasswordAttempt, 'JOIN');
+  };
+
+  const leaveRoom = () => {
+    let socket = getSocket();
+
+    if (socket) {
+      socket.disconnect();
+    }
+
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
-    dispatch(setUserJoined(false)); //setting joined to false so join room UI appear
+    dispatch(setUserJoinCollabRoom(false)); //false: join room UI appear
     dispatch(resetState(''));
-  }
+    dispatch(setPassword(''));
+    dispatch(setEmptyMessages([]));
+    dispatch(setUseMic(false));
+    dispatch(setUseWebcam(false));
+  };
 
-  //checking empty input field (not including spaces)
-  function checkInputField(...inputs) {
+  const checkInputField = (...inputs) => {
     let userName: string = inputs[0].trim();
     let roomCode: string = inputs[1].trim();
-    return userName.length === 0 || roomCode.length === 0;
-  }
+    let password: string = inputs[2].trim();
+    return (
+      userName.length === 0 || roomCode.length === 0 || password.length === 0
+    );
+  };
 
-  // handle keydown enter to join room rather than click if room code has been entered
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && e.target.id === 'filled-hidden-label-small') {
       e.preventDefault();
-      joinRoom();
+      createNewCollabRoom();
     }
   };
 
-  // color array for live cursor tracking - if more than six users join, cursor defaults to black currently
   const userColors = [
-    '#FC00BD',
-    '#D0FC00',
-    '#00DBFC',
-    '#FD98B8',
-    '#FCAA00',
-    '#9267FF'
+    '#0671e3',
+    '#2fd64d',
+    '#f0c000',
+    '#fb4c64',
+    '#be5be8',
+    '#fe9c06',
+    '#f6352b',
+    '#1667d1',
+    '#1667d1',
+    '#50ed6a'
   ];
 
   return (
     <div>
-      <Stack //stack styling for container
+      <Stack
         spacing={2}
         sx={{
           paddingTop: '20px',
@@ -328,13 +401,10 @@ const RoomsContainer = () => {
           margin: '0 auto 0 auto'
         }}
       >
-        {' '}
-        {/* live room display */}
         <Typography variant="h5" color={'#f2fbf8'}>
           Live Room: {roomCode}
         </Typography>
-        {/*  Set up condition rendering depends on if user joined a room then render leave button if not render join button */}
-        {userJoined ? (
+        {userJoinCollabRoom ? (
           <>
             <Typography
               variant="h6"
@@ -345,28 +415,24 @@ const RoomsContainer = () => {
             <Typography
               variant="body1"
               sx={{
-                color: 'white' // Text color for the count
+                color: '#898a8b'
               }}
             >
               Users: {userList.length}
             </Typography>
-            {/* User count inside the box */}
             <Box
               sx={{
                 width: '100%',
                 height: 300,
                 maxWidth: 200,
                 bgcolor: '#333333',
-                border: '3px solid #f2fbf8',
                 borderRadius: '5%',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
                 overflow: 'auto',
                 color: 'white'
               }}
             >
-              {/* User count inside the box */}
               <List
                 sx={{
                   display: 'flex',
@@ -401,68 +467,126 @@ const RoomsContainer = () => {
                 backgroundColor: '#f2fbf8',
                 color: '#092a26',
                 '&:hover': {
-                  backgroundColor: '#a5ead6',
-                  borderColor: '#0062cc'
-                }
+                  backgroundColor: '#E12D39',
+                  color: 'white'
+                },
+                textTransform: 'capitalize'
               }}
             >
-              {' '}
-              Leave Room{' '}
+              Leave Room
             </Button>
           </>
         ) : (
-          //after joinning room
           <>
             <TextField
+              fullWidth
               hiddenLabel={true}
               id="filled-hidden-label-small"
-              variant="filled"
+              variant="standard"
               size="small"
               value={userName}
-              placeholder="Input Nickname"
+              placeholder="Nickname"
               onChange={(e) => dispatch(setUserName(e.target.value))}
             />
-            <TextField
-              hiddenLabel={true}
-              id="filled-hidden-label-small"
-              variant="filled"
-              size="small"
-              value={roomCode}
-              placeholder="Input Room Number"
-              onChange={(e) => dispatch(setRoomCode(e.target.value))}
-              className="enterRoomInput"
-              onKeyDown={handleKeyDown}
-            />
+            {isJoinCallabRoom ? (
+              <TextField
+                error={isRoomAvailable === false}
+                fullWidth
+                hiddenLabel={true}
+                id="filled-hidden-label-small"
+                variant="standard"
+                size="small"
+                value={roomCode}
+                placeholder="Room Name"
+                onChange={(e) => dispatch(setRoomCode(e.target.value))}
+                className="enterRoomInput"
+                onKeyDown={handleKeyDown}
+                helperText={
+                  isRoomAvailable === false ? `Room doesn't exist` : ''
+                }
+              />
+            ) : (
+              <TextField
+                error={isCollabRoomTaken}
+                fullWidth
+                hiddenLabel={true}
+                id="filled-hidden-label-small"
+                variant="standard"
+                size="small"
+                value={roomCode}
+                placeholder="Room Name"
+                onChange={(e) => dispatch(setRoomCode(e.target.value))}
+                className="enterRoomInput"
+                onKeyDown={handleKeyDown}
+                helperText={isCollabRoomTaken ? 'Room name already taken' : ''}
+              />
+            )}
+            {isJoinCallabRoom ? (
+              <TextField
+                error={isPasswordAttemptIncorrect === false}
+                fullWidth
+                hiddenLabel={true}
+                id="filled-hidden-label-small"
+                variant="standard"
+                size="small"
+                value={joinedPasswordAttempt}
+                placeholder="Password"
+                helperText={
+                  isPasswordAttemptIncorrect === false
+                    ? 'Incorrect password.'
+                    : ''
+                }
+                onChange={(e) => setJoinedPasswordAttempt(e.target.value)}
+              />
+            ) : (
+              <TextField
+                fullWidth
+                hiddenLabel={true}
+                id="filled-hidden-label-small"
+                variant="standard"
+                size="small"
+                value={roomPassword}
+                placeholder="Password"
+                onChange={(e) => dispatch(setPassword(e.target.value))}
+              />
+            )}
+
             <Button
               variant="contained"
-              disabled={checkInputField(userName, roomCode)}
-              onClick={() => joinRoom()}
+              disabled={checkInputField(userName, roomCode, roomCode)}
+              fullWidth
+              onClick={(e) => {
+                isJoinCallabRoom
+                  ? joinExistingCollabRoom()
+                  : createNewCollabRoom();
+
+                setJoinedPasswordAttempt('');
+                setIsCollabRoomTaken(false);
+                setIsRoomAvailable(true);
+              }}
               sx={{
-                backgroundColor: '#f2fbf8',
-                color: '#092a26',
+                backgroundColor: '#e9e9e9',
+                color: '#253b80',
                 '&:hover': {
-                  backgroundColor: '#a5ead6',
-                  borderColor: '#0062cc'
+                  backgroundColor: '#99d7f2'
                 }
               }}
             >
-              Join Room
+              {isJoinCallabRoom ? 'Join' : 'Start'}
             </Button>
-            {/* Note about Collab room feature */}
+            <Typography
+              onClick={() => setIsJoinCollabRoom(!isJoinCallabRoom)}
+              sx={{
+                color: 'grey',
+                '&:hover': {
+                  textDecoration: 'underline'
+                }
+              }}
+            >
+              {isJoinCallabRoom ? 'Start a new room' : 'Join a room'}
+            </Typography>
           </>
         )}
-        <Typography
-          variant="body2"
-          color="white" // Use a color that signifies a warning or important information
-          sx={{
-            marginTop: '10px',
-            textAlign: 'center',
-            fontStyle: 'italic',
-            fontSize: 'smaller'
-          }}
-        >
-          For optimal collaboration experience, limit to 6 users per room
-        </Typography>
       </Stack>
     </div>
   );

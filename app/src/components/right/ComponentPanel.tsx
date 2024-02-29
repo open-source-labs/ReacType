@@ -166,6 +166,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
             New Component
           </h4>
           {/* input for new component */}
+          <div style={{display: 'flex', flexDirection: 'column'}}>
           <div
             style={{
               display: 'flex',
@@ -184,7 +185,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                     : `${classes.inputLabel} ${classes.darkThemeFontColor}`
                 }
               >
-                Name:
+                Name
               </InputLabel>
               <div className={classes.inputWrapper}>
                 <TextField
@@ -211,6 +212,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                       color: isThemeLight ? 'white' : 'white'
                     }
                   }}
+                  placeholder='name'
                 />
               </div>
             </div>
@@ -249,7 +251,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
               />
             </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'end' }}>
             <br />
             <Button
               className={
@@ -259,12 +261,15 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
               }
               color="primary"
               variant="contained"
+              sx={{ textTransform: 'capitalize' }}
               id="addComponentButton"
               onClick={handleNameSubmit}
             >
               Create
             </Button>
           </div>
+          </div>
+          
         </div>
       </div>
       <>
@@ -289,15 +294,13 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
 const useStyles = makeStyles({
   inputField: {
+    width: '500px',
     marginTop: '10px',
-    borderRadius: '5px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
-    borderColor: 'grey',
-    border: '2px solid grey'
+    border: '0px solid grey'
   },
   inputWrapper: {
     textAlign: 'center',
@@ -316,21 +319,19 @@ const useStyles = makeStyles({
   },
   addComponentWrapper: {
     padding: 'auto',
-    marginLeft: '21px',
-    display: 'inline-block',
-    width: '100%'
+    margin: '0 auto',
+    display: 'inline-block'
   },
   rootCheckBox: {
-    borderColor: '#46C0A5',
-    padding: '0px'
+    borderColor: '#0671E3',
+    padding: '7px 0'
   },
   rootCheckBoxLabel: {
-    borderColor: '#46C0A5'
+    borderColor: '#0671e3'
   },
   newComponent: {
     color: '#C6C6C6',
-    fontSize: '95%',
-    marginBottom: '20px'
+    marginBottom: '25px'
   },
   inputLabel: {
     fontSize: '1em',
@@ -349,7 +350,8 @@ const useStyles = makeStyles({
     textAlign: 'center',
     borderStyle: 'none',
     transition: '0.3s',
-    borderRadius: '25px'
+    borderRadius: '25px',
+    marginRight: '65px'
   },
   rootToggle: {
     color: '#696969',

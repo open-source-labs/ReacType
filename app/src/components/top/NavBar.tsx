@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
 
   useEffect(() => {
     setProjectName(state.name);
-  }, [state.name]); //update the ProjectName after state.name changes due to loading projects
+  }, [state.name]);
 
   const deleteAlertOpen = () => {
     setDeleteAlert(true);
@@ -61,20 +61,19 @@ const NavBar: React.FC = () => {
   };
 
   const buttonStyle = {
-    backgroundColor: '#333',
+    backgroundColor: '#0671E3',
     border: 'none',
-    color: 'lightgray',
+    color: 'white',
     fontSize: '12px',
-    padding: '8px 12px',
+    padding: '8px 15px',
     cursor: 'pointer',
     marginRight: '10px',
     marginLeft: '5px',
-    borderRadius: '4px'
+    borderRadius: '10px'
   };
 
   const moreVertButtonStyle = {
-    backgroundColor: '#333',
-    border: '1px solid #333',
+    backgroundColor: '#1E2024',
     padding: '0',
     cursor: 'pointer',
     display: 'flex',
@@ -84,7 +83,8 @@ const NavBar: React.FC = () => {
     width: '30px',
     minWidth: '20px',
     marginLeft: '0px',
-    marginRight: '10px'
+    marginRight: '10px',
+    boxShadow: 'none'
   };
 
   const handlePublish = () => {
@@ -144,13 +144,14 @@ const NavBar: React.FC = () => {
 
   return (
     <div>
-      <nav className="main-navbar" style={{ backgroundColor: '#151515' }}>
-        <Link to="/" style={{ textDecoration: 'none' }}>
+      <nav className="main-navbar" style={{ backgroundColor: '#1e2024' }}>
+        <Link to="/" style={{ textDecoration: 'none', cursor: 'default' }}>
           <div className="main-logo">
             <Avatar src={logo}></Avatar>
-            <h1 style={{ color: 'white' }}>ReacType</h1>
+            <h1 style={{ color: '#1e2024' }}>reactype</h1>
           </div>
         </Link>
+        
         <div style={buttonContainerStyle}>
           {isMarketplace ? null : state.published ? (
             <button style={buttonStyle} onClick={handleUnpublish}>

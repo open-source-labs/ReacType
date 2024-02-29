@@ -237,7 +237,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
           </h4>
           <TextField
             id="textfield-key"
-            label="key:"
+            label="key"
             variant="outlined"
             value={inputKey}
             error={errorStatus}
@@ -272,7 +272,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
             error={inputTypeError != '' || errorStatus}
           >
             <InputLabel id="select-required-label" style={{ color: 'white' }}>
-              Type
+              type
             </InputLabel>
             <Select
               data-testid="type-select"
@@ -287,64 +287,62 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
               onChange={(event) => setInputType(event.target.value)}
               MenuProps={{ disablePortal: true }}
               style={{
-                backgroundColor: 'gray',
-                color: '#fff',
-                border: '1px solid white',
-                height: '28px',
-                width: '200px'
+                height: '100%',
+                width: '100%',
+                margin: '0 auto'
               }}
             >
-              <MenuItem value="" style={{ color: 'black' }}>
+              <MenuItem value="" style={{ color: 'white' }}>
                 <em>Types</em>
               </MenuItem>
               <MenuItem
                 id="type-selector"
                 value={'string'}
-                style={{ color: 'black' }}
+                style={{ color: 'white' }}
               >
-                String
+                string
               </MenuItem>
               <MenuItem
                 id="type-selector"
                 value={'number'}
-                style={{ color: 'black' }}
+                style={{ color: 'white' }}
               >
-                Number
+                number
               </MenuItem>
               <MenuItem
                 id="type-selector"
                 value={'boolean'}
-                style={{ color: 'black' }}
+                style={{ color: 'white' }}
               >
-                Boolean
+                boolean
               </MenuItem>
               <MenuItem
                 id="type-selector"
                 value={'array'}
-                style={{ color: 'black' }}
+                style={{ color: 'white' }}
               >
-                Array
+                array
               </MenuItem>
               <MenuItem
                 id="type-selector"
                 value={'object'}
-                style={{ color: 'black' }}
+                style={{ color: 'white' }}
               >
-                Object
+                object
               </MenuItem>
               <MenuItem
                 id="type-selector"
                 value={'undefined'}
-                style={{ color: 'black' }}
+                style={{ color: 'white' }}
               >
-                Undefined
+                undefined
               </MenuItem>
               <MenuItem
                 id="type-selector"
                 value={'any'}
-                style={{ color: 'black' }}
+                style={{ color: 'white' }}
               >
-                Any
+                any
               </MenuItem>
             </Select>
             <FormHelperText
@@ -372,6 +370,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                 ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
                 : `${classes.addComponentButton} ${classes.darkThemeFontColor}`
             }
+            sx={{ textTransform: 'capitalize' }}
           >
             Save
           </Button>
@@ -428,7 +427,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
             display: 'flex',
             flexDirection: 'column',
             width: `${40}px`,
-            color: 'black',
+            color: '#0671E3',
             justifyContent: 'center'
           }}
         >
@@ -494,11 +493,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '100%'
   },
   rootCheckBox: {
-    borderColor: '#46C0A5',
+    borderColor: '#0671e3',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    borderColor: '#46C0A5'
+    borderColor: '#0671e3'
   },
   panelWrapper: {
     width: '100%',
@@ -522,8 +521,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     textAlign: 'center',
     width: '500px',
-    backgroundColor: '#46C0A5',
-    border: '5px solid #46C0A5'
+    backgroundColor: '#0671e3',
+    border: '5px solid #0671e3'
   },
   panelSubheader: {
     textAlign: 'center',
@@ -531,7 +530,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   input: {},
   newComponent: {
-    color: '#1b544b',
+    color: '#3c59ba',
     fontSize: '95%',
     marginBottom: '20px'
   },
@@ -544,14 +543,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: 'column'
   },
   addComponentButton: {
-    backgroundColor: 'transparent',
-    height: '40px',
+    height: '42px',
     width: '100px',
     fontFamily: 'Roboto, Raleway, sans-serif',
-    fontSize: '90%',
+    fontSize: '14.5px',
     textAlign: 'center',
     margin: '-20px 0px 5px 150px',
-    border: ' 1px solid #46C0A5',
+    border: ' 1px solid #0671E3',
+    borderRadius: '8px',
     transition: '0.3s'
   },
   rootToggle: {
@@ -580,15 +579,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   rootLight: {
     '& .MuiFormLabel-root': {
       color: 'white'
-    }
+    },
+    margin: '5px'
   },
   rootDark: {
-    '& .MuiFormLabel-root': {
-      color: '#fff'
-    },
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#fff'
-    }
+    '& .MuiFormLabel-root': {},
+    '& .MuiOutlinedInput-notchedOutline': {},
+    margin: '5px'
   },
   underlineDark: {
     borderBottom: '1px solid white'

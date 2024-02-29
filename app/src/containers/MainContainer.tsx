@@ -109,7 +109,16 @@ const MainContainer = (props): JSX.Element => {
     setBottomShow(false);
   };
 
-  let showPanel = bottomShow ? 'bottom-show' : 'bottom-hide';
+  const hideBottomPanelStyles = {
+    maxHeight: '64px',
+    boxSizing: 'border-box',
+    transition: 'all 0.5s ease-in-out'
+  };
+
+  const showBottomPanelStyles = {
+    maxHeight: '100%',
+    transition: 'all 0.5s ease-in-out'
+  };
 
   return (
     <div className="main-container" style={style} ref={containerRef}>
@@ -117,8 +126,12 @@ const MainContainer = (props): JSX.Element => {
         <CanvasContainer isThemeLight={props.isThemeLight} />
         <DemoRender />
       </div>
-      <div className={showPanel} ref={ref}>
+      <div
+        ref={ref}
+        style={bottomShow ? showBottomPanelStyles : hideBottomPanelStyles}
+      >
         <BottomPanel
+          bottomShow={bottomShow}
           setBottomShow={setBottomShow}
           isThemeLight={props.isThemeLight}
         />

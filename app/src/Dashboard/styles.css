@@ -1,12 +1,11 @@
-
 .project {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   margin: 5px;
-  border: 1px solid  #f0f0f0;
+  border: 1px solid #f0f0f0;
   border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   height: 500px;
   width: 400px;
   justify-content: space-between;
@@ -14,7 +13,7 @@
 
 .dashboardContainer {
   height: 100%;
-  width: 100%
+  width: 100%;
 }
 
 .userDashboard {
@@ -26,12 +25,12 @@
   width: 100%;
 }
 
- .projectContainer{
+.projectContainer {
   display: flex;
   flex-direction: column-reverse;
   flex-flow: row wrap;
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: scroll; 
 }
 
 .projectInfo {
@@ -76,14 +75,14 @@
 }
 
 .header {
-  background-color: #29a38a;
+  background-color: #0671e3;
   color: rgba(255, 255, 255, 0.897);
   width: 100%;
   position: relative;
 }
 
 .commentField {
-  border: 1px solid  #f0f0f0;
+  border: 1px solid #f0f0f0;
   padding-left: 2%;
 }
 

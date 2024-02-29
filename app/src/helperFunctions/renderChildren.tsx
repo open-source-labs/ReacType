@@ -31,6 +31,11 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           key={'DirChildComp' + childId.toString() + name}
           name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
         />
       );
     }
@@ -39,8 +44,14 @@ const renderChildren = (children: ChildElement[]) => {
       type === 'HTML Element' &&
       typeId !== 11 &&
       typeId !== 1000 &&
+      typeId !== 1 &&
       typeId !== 2 &&
       typeId !== 3 &&
+      typeId !== 4 &&
+      typeId !== 5 &&
+      typeId !== 6 &&
+      typeId !== 8 &&
+      typeId !== 9 &&
       typeId !== 14 &&
       typeId !== 15 &&
       typeId !== 16 &&
@@ -56,6 +67,11 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           key={'DirChildHTML' + childId.toString() + name}
           name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
         />
       );
     }
@@ -63,8 +79,14 @@ const renderChildren = (children: ChildElement[]) => {
     else if (
       type === 'HTML Element' &&
       (typeId === 11 ||
+        typeId === 1 ||
         typeId === 2 ||
         typeId === 3 ||
+        typeId === 4 ||
+        typeId === 5 ||
+        typeId === 6 ||
+        typeId === 8 ||
+        typeId === 9 ||
         typeId === 14 ||
         typeId === 15 ||
         typeId === 16 ||
@@ -91,6 +113,10 @@ const renderChildren = (children: ChildElement[]) => {
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={name}
           attributes={attributes}
+          style={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
         />
       );
     } else if (type === 'HTML Element' && typeId === 1000) {
@@ -107,6 +133,11 @@ const renderChildren = (children: ChildElement[]) => {
             (Math.random() * 1000).toString()
           }
           name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
         />
       );
     }
@@ -121,6 +152,11 @@ const renderChildren = (children: ChildElement[]) => {
           children={children}
           key={'RouteLink' + childId.toString() + name}
           name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
         />
       );
     }

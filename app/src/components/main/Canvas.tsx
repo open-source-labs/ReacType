@@ -1,6 +1,6 @@
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import {
   addChild,
   changeFocus,
@@ -16,15 +16,20 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
 import { FaMousePointer } from 'react-icons/fa';
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
+import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
-function Canvas(props: {}): JSX.Element {
+interface CanvasProps {
+  zoom: number;
+}
+
+const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const userList = useSelector((store: RootState) => store.roomSlice.userList);
-
-  //-------cursors tracking-------
 
   //remote cursor data
   const [remoteCursors, setRemoteCursors] = useState([]);
@@ -89,10 +94,6 @@ function Canvas(props: {}): JSX.Element {
     });
   };
 
-  // console.log('userList:', userList);
-  //[{x,y,remoteUserName, isVisible}, {...}, {...}];
-  // console.log('remoteCursors:', remoteCursors);
-
   // Removes the mouse cursor of the user that leaves the collaboration room.
   const handleCursorDeleteFromServer = () => {
     setRemoteCursors((prevRemoteCursors) =>
@@ -108,7 +109,6 @@ function Canvas(props: {}): JSX.Element {
     setToggleSwitch(!toggleSwitch);
     //checks the state before it's updated so need to check the opposite condition
     if (toggleSwitch) {
-      //turn off
       socket.off('remote cursor data from server');
       //make remote cursor invisible
       setRemoteCursors((prevState) => {
@@ -119,7 +119,6 @@ function Canvas(props: {}): JSX.Element {
         return newState;
       });
     } else {
-      //turn on
       socket.on('remote cursor data from server', (remoteData) =>
         handleCursorDataFromServer(remoteData)
       );
@@ -142,37 +141,25 @@ function Canvas(props: {}): JSX.Element {
   const socket = getSocket();
   //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
   useEffect(() => {
-    // console.log(
-    //   'socket inside useEffect:',
-    //   socket ? 'connected' : 'not connected'
-    // );
-
     if (socket) {
-      // console.log('------setting up socket.on event listener-------');
       socket.on('remote cursor data from server', (remoteData) =>
         handleCursorDataFromServer(remoteData)
       );
     }
 
     return () => {
-      // console.log('clean up cursor event listener after canvas unmount');
       if (socket) socket.off('remote cursor data from server');
     };
   }, [socket]);
 
   useEffect(() => {
     handleCursorDeleteFromServer();
-    // console.log('handle delete has been called');
   }, [userList]);
-
-  //-----------------
 
   // find the current component based on the canvasFocus component ID in the state
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-  // console.log(' state.components:', state.components);
-  // console.log('canvasFocus.componentId: ', state.canvasFocus.componentId);
 
   Arrow.deleteLines();
 
@@ -242,10 +229,6 @@ function Canvas(props: {}): JSX.Element {
             childId: null,
             contextParam: contextParam
           });
-
-          // console.log(
-          //   `emit addChildAction event is triggered in canvas from ${socket.id}`
-          // );
         }
       } else if (item.newInstance && item.instanceType === 'Component') {
         let hasDiffParent = false;
@@ -293,8 +276,6 @@ function Canvas(props: {}): JSX.Element {
             childId: null,
             contextParam: contextParam
           });
-
-          // console.log('emit addChildAction event is triggered in canvas');
         }
       }
     },
@@ -307,10 +288,10 @@ function Canvas(props: {}): JSX.Element {
   const defaultCanvasStyle: React.CSSProperties = {
     width: '100%',
     minHeight: '100%',
-    backgroundColor: isOver ? '#242323' : '#191919',
-    // borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    transform: `scale(${zoom})`,
+    transformOrigin: 'top center'
   };
 
   // Combine the default styles of the canvas with the custom styles set by the user for that component
@@ -324,13 +305,26 @@ function Canvas(props: {}): JSX.Element {
 
   // Array of colors that color code users as they join the room (In a set order)
   const userColors = [
-    '#FC00BD',
-    '#D0FC00',
-    '#00DBFC',
-    '#FD98B8',
-    '#FCAA00',
-    '#9267FF'
+    '#0671e3',
+    '#2fd64d',
+    '#f0c000',
+    '#fb4c64',
+    '#be5be8',
+    '#fe9c06',
+    '#f6352b',
+    '#1667d1',
+    '#1667d1',
+    '#50ed6a'
   ];
+
+  const buttonStyle: React.CSSProperties = {
+    textAlign: 'center',
+    color: '#ffffff',
+    backgroundColor: '#151515',
+    zIndex: 0,
+    border: '2px solid #0671e3',
+    margin: '8px 0 0 8px'
+  };
 
   return (
     <div
@@ -342,7 +336,6 @@ function Canvas(props: {}): JSX.Element {
       onMouseMove={handleMouseMove}
     >
       {renderChildren(currentComponent.children)}
-
       {remoteCursors.map(
         (cursor, idx) =>
           cursor.isVisible && (
@@ -365,30 +358,32 @@ function Canvas(props: {}): JSX.Element {
       )}
       <label className="switch">
         {userList.length > 1 && (
-          <button
+          <Button
             className="btn-toggle"
             onClick={multipleClicks}
             style={{
               position: 'fixed',
-              width: 'max-content',
-              height: 'max-content',
-              bottom: '100px',
-              left: '51vw',
+              width: '100px',
+              height: '35px',
+              bottom: '200px',
+              right: '45vw',
+              padding: '5px',
               textAlign: 'center',
-              color: '#FFFFFF',
+              color: '#ffffff',
               backgroundColor: '#151515',
               zIndex: 0,
-              padding: '5px',
-              borderColor: '#46C0A5',
-              borderRadius: '5px'
+              border: '2px solid #0671E3',
+              whiteSpace: 'nowrap',
+              cursor: 'pointer',
+              textTransform: 'none'
             }}
           >
             {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
-          </button>
+          </Button>
         )}
       </label>
     </div>
   );
-}
+});
 
 export default Canvas;

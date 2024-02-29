@@ -2,7 +2,7 @@ import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-dracula';
-import 'ace-builds/src-noconflict/theme-terminal';
+import 'ace-builds/src-noconflict/theme-clouds_midnight';
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
@@ -22,7 +22,9 @@ import { initializeEsbuild } from '../../helperFunctions/esbuildService';
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
-}> = ({ theme, setTheme }) => {
+  // zoom: number; // This is added if you want the Code Editor to zoom in/out
+  containerRef: any;
+}> = ({ theme, setTheme, zoom, containerRef }) => {
   const ref = useRef<any>();
 
   const dispatch = useDispatch();
@@ -70,7 +72,7 @@ const CodePreview: React.FC<{
       minify: true,
       plugins: [unpkgPathPlugin(), fetchPlugin(data)],
       define: {
-        'process.env.NODE_ENV': '"production"',
+        'import.meta.env.NODE_ENV': '"production"',
         global: 'window'
       }
     });
@@ -84,12 +86,14 @@ const CodePreview: React.FC<{
         top: '1vw',
         height: '100%',
         maxWidth: '100%',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        transform: `scale(${zoom})`
       }}
     >
+      <div style={{width: '100%', height: '80px', marginTop: '-70px', backgroundColor: '#191919'}}></div>
       <AceEditor
         mode="javascript"
-        theme="dracula"
+        theme="clouds_midnight"
         width="100%"
         height="100%"
         onChange={handleChange}

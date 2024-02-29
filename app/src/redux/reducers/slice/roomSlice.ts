@@ -1,14 +1,19 @@
-// With redux toolkit you can combine all the actions, action types, and reducers into one 'slice'
 import { createSlice } from '@reduxjs/toolkit';
-// Sets initial state to false
+
 const initialState = {
   roomCode: '',
+  meetingId: '',
   userName: '',
   userList: [],
-  userJoined: false
+  userJoinCollabRoom: false,
+  userJoinMeetingStatus: null,
+  meetingParticipants: [],
+  messages: [],
+  password: '',
+  useMic: false,
+  useWebcam: false
 };
 
-// Creates new slice with the name , initial state, and reducer function
 const roomSlice = createSlice({
   name: 'room',
   initialState,
@@ -16,20 +21,57 @@ const roomSlice = createSlice({
     setRoomCode: (state, action) => {
       state.roomCode = action.payload;
     },
+    setMeetingId: (state, action) => {
+      state.meetingId = action.payload;
+    },
     setUserName: (state, action) => {
       state.userName = action.payload;
     },
     setUserList: (state, action) => {
       state.userList = action.payload;
     },
-    setUserJoined: (state, action) => {
-      state.userJoined = action.payload;
+    setUserJoinCollabRoom: (state, action) => {
+      state.userJoinCollabRoom = action.payload;
+    },
+    setUserJoinMeetingStatus: (state, action) => {
+      state.userJoinMeetingStatus = action.payload;
+    },
+    setMeetingParticipants: (state, action) => {
+      state.meetingParticipants = action.payload;
+    },
+    setMessages: (state, action) => {
+      state.messages = [...state.messages, action.payload];
+    },
+    setEmptyMessages: (state, action) => {
+      state.messages = [];
+    },
+    setPassword: (state, action) => {
+      state.password = action.payload;
+    },
+    setUseMic: (state, action) => {
+      if (action.payload === null) state.useMic = !state.useMic;
+      else state.useMic = action.payload;
+    },
+    setUseWebcam: (state, action) => {
+      if (action.payload === null) state.useWebcam = !state.useWebcam;
+      else state.useWebcam = action.payload;
     }
   }
 });
 
-// Exports the action creator function to be used with useDispatch
-export const { setRoomCode, setUserName, setUserList, setUserJoined } =
-  roomSlice.actions;
-// Exports so we can combine in rootReducer
+export const {
+  setRoomCode,
+  setMeetingId,
+  setUserName,
+  setUserList,
+  setUserJoinCollabRoom,
+  setUserJoinMeetingStatus,
+  setMeetingParticipants,
+  setMessages,
+  setEmptyMessages,
+  setPassword,
+  setUseMic,
+  setUseWebcam
+} = roomSlice.actions;
+
 export default roomSlice.reducer;

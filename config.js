@@ -10,3 +10,5 @@ const config = {
     : 'http://localhost:8080'
 };
 module.exports = config;
+
+// export default config;

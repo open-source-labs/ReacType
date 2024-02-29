@@ -75,7 +75,7 @@ const AddContextForm = ({
 
   return (
     <Fragment>
-      <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
+      <Typography style={{ color: 'color' }} variant="h6" gutterBottom={true}>
         Create Context
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
@@ -85,14 +85,13 @@ const AddContextForm = ({
           }}
           onChange={handleChange}
           sx={{
-            width: 425,
-            border: `1px solid ${color}`
+            width: 425
           }}
-          label="Create Context"
+          label="context"
           value={contextInput}
           helperText={errorStatus ? errorMsg : null}
           error={errorStatus}
-          variant="filled"
+          variant="outlined"
         />
         <Snackbar
           open={open && !errorStatus}
@@ -113,6 +112,12 @@ const AddContextForm = ({
           color="primary"
           onClick={handleSubmit}
           disabled={btnDisabled}
+          sx={{
+            textTransform: 'capitalize',
+            height: '50px',
+            width: '100px',
+            fontSize: '15px'
+          }}
         >
           Create
         </Button>
@@ -120,13 +125,13 @@ const AddContextForm = ({
       <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
         Select Context
       </Typography>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
-        <FormControl variant="filled">
-          <InputLabel style={{ color: color }}>Select Context</InputLabel>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+        <FormControl variant="outlined">
+          <InputLabel>select context</InputLabel>
           <Select
             required
             sx={{ width: 425 }}
-            style={{ border: '1px solid #29a38a', color: color }}
+            style={{ color: color }}
             value={currentContext}
             label="Select Context"
             MenuProps={{ disablePortal: true }}
@@ -141,6 +146,12 @@ const AddContextForm = ({
           color="primary"
           variant="contained"
           onClick={handleDeleteContextClick}
+          sx={{
+            textTransform: 'capitalize',
+            height: '50px',
+            width: '100px',
+            fontSize: '15px'
+          }}
         >
           Delete
         </Button>

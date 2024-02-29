@@ -17,7 +17,6 @@ export const initialState: State = {
   forked: false,
   published: false,
   isLoggedIn: false,
-  //config: { saveFlag: true, saveTimer: false },
   components: [
     {
       id: 1,

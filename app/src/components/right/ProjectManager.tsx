@@ -1,5 +1,5 @@
 //note for future developers - this may be electron specific - without signin working on the browser it is difficult to test
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -7,16 +7,16 @@ import ListItemText from '@mui/material/ListItemText';
 import { withRouter } from 'react-router-dom';
 import exportProject from '../../utils/exportProject.util';
 import createModal from '../right/createModal';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { resetState } from '../../redux/reducers/slice/appStateSlice';
 // ProjectManager function moved to NavBar.tsx
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
-  const state = useSelector((store:RootState) => store.appState)
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
-  
+
   // State to keep track of how the user wants their components to be exported
   // GenOption = 0 --> export only components
   // GenOption = 1 --> export an entire project w/ webpack, server, etc.
@@ -24,7 +24,7 @@ const ProjectManager = () => {
     'Export components',
     'Export components with application files'
   ];
-  let genOption:number = 0;
+  let genOption: number = 0;
 
   // Closes out the open modal
   const closeModal = () => setModal('');
@@ -45,7 +45,7 @@ const ProjectManager = () => {
           button
           onClick={resetStates}
           style={{
-            border: '1px solid #1b544b',
+            border: '1px solid #3c59ba',
             marginBottom: '2%',
             marginTop: '5%'
           }}
@@ -64,7 +64,7 @@ const ProjectManager = () => {
       createModal({
         closeModal,
         children,
-        message: 'Are you sure want to delete all data?',
+        message: 'Are you sure you want to delete all data?',
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,
@@ -85,7 +85,7 @@ const ProjectManager = () => {
             button
             onClick={() => chooseGenOptions(i)}
             style={{
-              border: '1px solid #1b544b',
+              border: '1px solid #3c59ba',
               marginBottom: '2%',
               marginTop: '5%'
             }}
@@ -112,7 +112,7 @@ const ProjectManager = () => {
     // add listener for when an app directory is chosen
     // when a directory is chosen, the callback will export the project to the chosen folder
     // Note: this listener is imported from the main process via preload.js
-    window.api.addAppDirChosenListener(path => {
+    window.api.addAppDirChosenListener((path) => {
       exportProject(
         path,
         state.name
@@ -121,7 +121,7 @@ const ProjectManager = () => {
         genOption,
         state.projectType,
         state.components,
-        state.rootComponents,
+        state.rootComponents
       );
     });
 
@@ -139,18 +139,14 @@ const ProjectManager = () => {
     );
   };
 
-
-  return (
-    <div> {modal} </div>
-  );
+  return <div> {modal} </div>;
 };
 
 const useStyles = makeStyles({
-
   logoutButton: {
     position: 'absolute',
     bottom: '50px',
-    right: '150px',
+    right: '150px'
   },
   btnGroup: {
     display: 'flex',
@@ -169,7 +165,7 @@ const useStyles = makeStyles({
     minWidth: '300px',
     marginTop: '10px',
     marginBotton: '10px'
-  },
+  }
 });
 
 export default withRouter(ProjectManager);

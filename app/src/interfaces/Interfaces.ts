@@ -116,6 +116,7 @@ export interface LoginInt {
 export interface DeleteButtons {
   id: number;
   name: string;
+  onClickHandler: (event: any) => void;
 }
 export interface StatePropsPanelProps {
   selectHandler: (table: any) => void;

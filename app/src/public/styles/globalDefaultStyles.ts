@@ -10,11 +10,11 @@ const globalDefaultStyle: Object = {
   borderRadius: '10px',
   border: '10px Solid grey',
   fontFamily: 'Roboto',
-  color: '#f2fbf8',
+  color: '#f1efea',
   maxWidth: 'fit-content',
   minWidth: '250px',
   cursor: 'grab',
-  backgroundColor: 'rgba(0, 0, 0, 0.2)', // experiment to see what is inherited
+  backgroundColor: 'rgba(0, 0, 0, 0.2)',
 };
 
 export default globalDefaultStyle;

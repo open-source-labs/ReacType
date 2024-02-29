@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import CodePreview from './CodePreview';
 import StylesEditor from './StylesEditor';
 import CustomizationPanel from '../../containers/CustomizationPanel';
 import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
 import StateManager from '../StateManagement/StateManagement';
+import Chatroom from './ChatRoom';
 import Box from '@mui/material/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@mui/material/FormControl';
@@ -17,134 +17,160 @@ import arrow from '../main/Arrow';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { MeetingProvider } from '@videosdk.live/react-sdk';
+const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
 
 const BottomTabs = (props): JSX.Element => {
-  // state that controls which tab the user is on
+  const { setBottomShow, isThemeLight } = props;
   const dispatch = useDispatch();
-  // const { state, contextParam, style } = useSelector((store: RootState) => ({
-  //   state: store.appState,
-  //   contextParam: store.contextSlice,
-  //   style: store.styleSlice
-  // }));
-
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const collaborationRoom = useSelector((store: RootState) => store.roomSlice);
 
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
 
-  // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };
-  // Allows users to toggle project between "next.js" and "Classic React"
-  // When a user changes the project type, the code of all components is rerendered
+
   const handleProjectChange = (event) => {
     const projectType = event.target.value;
     dispatch(changeProjectType({ projectType, contextParam }));
   };
   const { components } = state;
 
-  // Render's the highliting arrow feature that draws an arrow from the Canvas to the DemoRender
   arrow.renderArrow(state.canvasFocus?.childId);
 
+  const showBottomPanel = () => {
+    setBottomShow(true);
+  };
+
   return (
-    <div
-      className={`${classes.root} ${classes.rootLight}`}
-      style={{
-        backgroundColor: '#191919',
-        zIndex: 1,
-        borderTop: '2px solid grey'
+    <MeetingProvider
+      config={{
+        meetingId: `${collaborationRoom.meetingId}`,
+        micEnabled: false,
+        webcamEnabled: false,
+        name: `${collaborationRoom.userName}`
       }}
-      onMouseOver={() => {
-        props.setBottomShow(true);
-      }}
+      token={videoSDKToken}
     >
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        paddingBottom="10px"
-        paddingRight="10px"
+      <div
+        className={`${classes.root} ${classes.rootLight}`}
+        style={{
+          backgroundColor: '#1E2024',
+          zIndex: 1
+        }}
       >
-        <Tabs
-          value={tab}
-          onChange={handleChange}
-          classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Creation Panel"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Customization"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="CSS Editor"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component Tree"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Context Manager"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="State Manager"
-          />
-        </Tabs>
-        <div className={classes.projectTypeWrapper}>
-          <FormControl size="small">
-            <Select
-              variant="outlined"
-              labelId="project-type-label"
-              id="demo-simple-select"
-              className={classes.projectSelector}
-              value={state.projectType}
-              onChange={handleProjectChange}
-              MenuProps={{ disablePortal: true }}
-            >
-              <MenuItem style={{ color: 'black' }} value={'Classic React'}>
-                Classic React
-              </MenuItem>
-              <MenuItem style={{ color: 'black' }} value={'Gatsby.js'}>
-                Gatsby.js
-              </MenuItem>
-              <MenuItem style={{ color: 'black' }} value={'Next.js'}>
-                Next.js
-              </MenuItem>
-            </Select>
-          </FormControl>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Tabs
+            value={tab}
+            onChange={handleChange}
+            classes={{
+              root: classes.tabsRoot,
+              indicator: classes.tabsIndicator
+            }}
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Live Chat"
+              onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Creation Panel"
+              onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Customization"
+              onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="CSS Editor"
+              onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Component Tree"
+              onClick={showBottomPanel}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Context Manager"
+              onClick={showBottomPanel}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="State Manager"
+              onClick={showBottomPanel}
+            />
+          </Tabs>
+
+          <div className={classes.projectTypeWrapper}>
+            <FormControl size="small">
+              <Select
+                variant="outlined"
+                labelId="project-type-label"
+                id="demo-simple-select"
+                className={classes.projectSelector}
+                value={state.projectType}
+                onChange={handleProjectChange}
+                MenuProps={{ disablePortal: true }}
+                sx={{
+                  color: '#131416',
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#131416'
+                  }
+                }}
+                style={{ color: '#9C9D9F' }}
+              >
+                <MenuItem style={{ color: 'white' }} value={'Classic React'}>
+                  Classic React
+                </MenuItem>
+                <MenuItem style={{ color: 'white' }} value={'Gatsby.js'}>
+                  Gatsby.js
+                </MenuItem>
+                <MenuItem style={{ color: 'white' }} value={'Next.js'}>
+                  Next.js
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </Box>
+        <div className="tab-content">
+          {tab === 0 && <Chatroom />}
+          {tab === 1 && <CreationPanel isThemeLight={isThemeLight} />}
+          {tab === 2 && <CustomizationPanel isThemeLight={isThemeLight} />}
+          {tab === 3 && <StylesEditor theme={theme} setTheme={setTheme} />}
+          {tab === 4 && <Tree data={components} />}
+          {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
+          {tab === 6 && (
+            <StateManager
+              theme={theme}
+              setTheme={setTheme}
+              isThemeLight={isThemeLight}
+            />
+          )}
         </div>
-      </Box>
-      <div className="tab-content">
-        {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
-        {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
-        {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
-        {tab === 3 && <Tree data={components} />}
-        {tab === 4 && <ContextManager theme={theme} setTheme={setTheme} />}
-        {tab === 5 && (
-          <StateManager
-            theme={theme}
-            setTheme={setTheme}
-            isThemeLight={props.isThemeLight}
-          />
-        )}
       </div>
-    </div>
+    </MeetingProvider>
   );
 };
 
@@ -152,11 +178,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     height: '100%',
-    color: '#E8E8E8',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    color: '#E8E8E8'
   },
   rootLight: {
-    backgroundColor: '#1e8370'
+    backgroundColor: '#0671e3'
   },
   bottomHeader: {
     flex: 1,
@@ -168,13 +193,12 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: 'white'
+    backgroundColor: '#0671E3'
   },
   tabRoot: {
     textTransform: 'initial',
-    minWidth: 40,
-    margin: '0 16px',
-
+    minWidth: 170,
+    height: 60,
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -191,8 +215,10 @@ const useStyles = makeStyles((theme) => ({
       color: 'white',
       opacity: 1
     },
+    fontWeight: 300,
     '&$tabSelected': {
-      color: 'white'
+      color: 'white',
+      backgroundColor: '#2D313A'
     },
     '&:focus': {
       color: 'white'
@@ -215,8 +241,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px'
   },
   projectSelector: {
-    backgroundColor: '#29a38a',
-    color: 'white'
+    backgroundColor: '#131416',
+    color: 'white',
+    margin: '0 10px 10px 0'
   }
 }));
 

@@ -1,10 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BottomTabs from './BottomTabs';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const BottomPanel = (props): JSX.Element => {
   let y: number = 0;
   let h: number = 0;
   const node = useRef() as React.MutableRefObject<HTMLDivElement>;
+
+  const [isDragging, setIsDragging] = useState(false);
 
   const mouseDownHandler = (e): void => {
     y = e.clientY;
@@ -12,28 +15,25 @@ const BottomPanel = (props): JSX.Element => {
     const styles = window.getComputedStyle(node.current);
     h = parseInt(styles.height, 10);
 
-    //Start listeners when the user clicks the bottom panel tab
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
-    window.addEventListener('message', handleIframeMessage);//listens for messages from the iframe when the mouse is over it
+    window.addEventListener('message', handleIframeMessage); //listens for messages from the iframe when the mouse is over it
   };
-  
+
   //Interpret the messages from the iframe
   const handleIframeMessage = (e) => {
     if (e.data === 'iframeMouseUp') {
       mouseUpHandler();
-    }else if(e.data.type === 'iframeMouseMove'){
-      mouseMoveHandler(e.data)
+    } else if (e.data.type === 'iframeMouseMove') {
+      mouseMoveHandler(e.data);
     }
-  }    
-
+  };
 
   const mouseMoveHandler = function (e: MouseEvent): void {
-    // How far the mouse has been moved
+    if (!props.bottomShow) return; // prevent drag calculation to occur when bottom menu is not showing
 
     const dy = y - e.clientY;
 
-    // Adjust the dimension of element
     const newVal = h + dy;
     const styles = window.getComputedStyle(node.current);
     const min = parseInt(styles.minHeight, 10);
@@ -41,7 +41,8 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseUpHandler = function () {
-    // Remove the handlers of `mousemove` and `mouseup`
+    // puts false in callback queue after OnDragStart sets to true (b/c react 17 doesn't have onDragEnd)
+    setTimeout(() => setIsDragging(false), 0);
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
     window.removeEventListener('message', handleIframeMessage);
@@ -54,12 +55,23 @@ const BottomPanel = (props): JSX.Element => {
 
   return (
     <>
-    <div className="bottom-panel" id="resize" ref={node}>
-      <div id="resize-drag" onMouseDown={mouseDownHandler} tabIndex={0}>
-        ......
+      <div className="bottom-panel" id="resize" ref={node}>
+        <div
+          id="resize-drag"
+          onMouseDown={mouseDownHandler}
+          draggable
+          onDragStart={() => setIsDragging(true)}
+          onClick={() => !isDragging && props.setBottomShow(!props.bottomShow)}
+          tabIndex={0}
+        >
+          {props.bottomShow ? <ExpandMore /> : <ExpandLess />}
+        </div>
+        <BottomTabs
+          setBottomShow={props.setBottomShow}
+          isThemeLight={props.isThemeLight}
+        />
       </div>
-      <BottomTabs setBottomShow = {props.setBottomShow} isThemeLight={props.isThemeLight} />
-    </div></>
+    </>
   );
 };
 
