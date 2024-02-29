@@ -59,8 +59,8 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '4px solid #0671e3'
-        : '1px solid grey'
+        ? '2px solid #0671e3'
+        : '1px solid #31343A'
   };
 
   const combinedStyle = combineStyles(
@@ -71,7 +71,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   return (
     <div
       onClick={onClickHandler}
-      style={{...combinedStyle, backgroundColor: '#1E2024', border: '1px solid #31343A'}}
+      style={{...combinedStyle, backgroundColor: '#1E2024'}}
       ref={drag}
       id={`canv${childId}`}
     >

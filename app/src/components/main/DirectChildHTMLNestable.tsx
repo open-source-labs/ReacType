@@ -177,8 +177,8 @@ function DirectChildHTMLNestable({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid #0671e3'
-        : '1px solid grey'
+        ? '2px solid #0671e3'
+        : '1px solid #31343A'
   };
 
   // interactive style to change color when nested element is hovered over
@@ -213,7 +213,7 @@ function DirectChildHTMLNestable({
   return (
     <div
       onClick={onClickHandler}
-      style={{...combinedStyle, backgroundColor: isOver ? '#3c59ba' : '#1E2024', border: '1px solid #31343A'}}
+      style={{...combinedStyle, backgroundColor: isOver ? '#3c59ba' : '#1E2024'}}
       ref={ref}
       id={`canv${childId}`}
     >
