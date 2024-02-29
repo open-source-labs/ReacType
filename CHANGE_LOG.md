@@ -8,7 +8,7 @@
 Changes:<br>
 
 - Developer Improvement:
-  - Migrated from Webpack to Vite , improving HMR times drastically
+  - Migrated from Webpack to Vite, improving HMR times drastically
   - Deployed app using Heroku isntead of AWS decreasing time to deployment
 - User Features:
   - Collaboration Room:
@@ -22,6 +22,7 @@ Changes:<br>
 - Bugs Fixed
   - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements
   - Bottom Panel - Now opens by onclick instead of hover
+  - Users can now delete elements without first clicking it and then the X. This applies to the nested components as well.
 
 Recommendations for Future Enhancements:<br>
 
@@ -35,7 +36,9 @@ Recommendations for Future Enhancements:<br>
 - List active rooms to join
 - Clean up unnecessary code / comments
 - a tags which are nested do not display accurate code in code preview
-
+- Eliminate all unneeded Webpack associated files/folders/etc...
+- Remove the many deprecated dependencies
+- Allow users to send links/reactions via the chat.
 
 **Version 19.0.0 Changes**
 
