@@ -20,9 +20,11 @@ Changes:<br>
     - Added scroll and zoom buttons to canvas. Scroll now automatically scrolls to bottom once enough elements are added
     - Updated UI design to reflect a more modern look
 - Bugs Fixed
-  - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements
+  - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements. They can also be dragged.
   - Bottom Panel - Now opens by onclick instead of hover
   - Users can now delete elements without first clicking it and then the X. This applies to the nested components as well.
+- Landing Page
+  -revamped entire landing page for a more modern look
 
 Recommendations for Future Enhancements:<br>
 
@@ -35,10 +37,15 @@ Recommendations for Future Enhancements:<br>
 - List active rooms to join
 - Clean up unnecessary code / comments
 - a tags which are nested do not display accurate code in code preview
-- Eliminate all unneeded Webpack associated files/folders/etc...
+- Eliminate all Webpack associated files/folders/dependencies/etc... now that we run on Vite
 - Remove the many deprecated dependencies
-- Allow users to send links/reactions via the chat.
-- Implement MUI/Shadcn in addition to standard html elements on left panel so that users are able to start off with pre styled elements
+- Add additional features to the live chat (Links, reactions, raise hand feature etc)
+- Allow live chat to be a popup and draggable outside of the app
+- Implement MUI/ShadcnUI in addition to standard html elements on left panel so that users are able to start off with pre styled elements
+- Make the app mobile responsive. Right now it does not work/look good on mobile
+- We had to deploy via Heroku due to time limitations and Vite. I would recommend going back to AWS with dockerized containers.
+- Light/Dark mode in the left settings tab
+- revise links in the footer of the landing page
 
 **Version 19.0.0 Changes**
 
