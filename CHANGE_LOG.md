@@ -15,9 +15,9 @@ Changes:<br>
     - Implemented live chat and video functionality using socket.IO
     - Added authentication and error handling to joining existing rooms
   - UI updates to enhance user experience
-    - In addition to drag to add, users are now able to click to add 
+    - In addition to drag to add, users are now able to click to add
     - Updated left panel to include user information and settings
-    - Added scroll and zoom buttons to canvas. Scroll now automatically scrolls to bottom once enough elements are added 
+    - Added scroll and zoom buttons to canvas. Scroll now automatically scrolls to bottom once enough elements are added
     - Updated UI design to reflect a more modern look
 - Bugs Fixed
   - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements
@@ -30,7 +30,6 @@ Recommendations for Future Enhancements:<br>
 - Populate settings tab in the left panel with additional functionality
 - Allow users to modify code dynamically in the code preview and reflect visual componenets in real time
 - Add zoom in and zoom out / scroll functionality to code preview and component tree
-- Create a library of premade components similar to Material UI
 - Convert from 95% to 100% typescript
 - Add more functionality to the nav bar
 - List active rooms to join
@@ -39,6 +38,7 @@ Recommendations for Future Enhancements:<br>
 - Eliminate all unneeded Webpack associated files/folders/etc...
 - Remove the many deprecated dependencies
 - Allow users to send links/reactions via the chat.
+- Implement MUI/Shadcn in addition to standard html elements on left panel so that users are able to start off with pre styled elements
 
 **Version 19.0.0 Changes**
 
