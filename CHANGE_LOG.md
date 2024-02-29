@@ -3,6 +3,40 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 20.0.0 Changes**
+
+Changes:<br>
+
+- Developer Improvement:
+  - Migrated from Webpack to Vite , improving HMR times drastically
+  - Deployed app using Heroku isntead of AWS decreasing time to deployment
+- User Features:
+  - Collaboration Room:
+    - Implemented live chat and video functionality using socket.IO
+    - Added authentication and error handling to joining existing rooms
+  - UI updates to enhance user experience
+    - In addition to drag to add, users are now able to click to add 
+    - Updated left panel to include user information and settings
+    - Added scroll and zoom buttons to canvas. Scroll now automatically scrolls to bottom once enough elements are added 
+    - Updated UI design to reflect a more modern look
+- Bugs Fixed
+  - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements
+  - Bottom Panel - Now opens by onclick instead of hover
+
+Recommendations for Future Enhancements:<br>
+
+- Fix bottom panel to only close upon clicking the icon, and not anywhere else
+- Populate settings tab in the left panel with additional functionality
+- Allow users to modify code dynamically in the code preview and reflect visual componenets in real time
+- Add zoom in and zoom out / scroll functionality to code preview and component tree
+- Create a library of premade components similar to Material UI
+- Convert from 95% to 100% typescript
+- Add more functionality to the nav bar
+- List active rooms to join
+- Clean up unnecessary code / comments
+- a tags which are nested do not display accurate code in code preview
+
+
 **Version 19.0.0 Changes**
 
 Changes:<br>
@@ -49,7 +83,7 @@ Recommendations for Future Enhancements:<br>
   - True real-time rendering so users can see components as they're being dragged onto the canvas, rather than only when they're placed.
   - List of active rooms so users can simply pick one to join. Will likely be paired with a password feature for security, so only users with the proper credentials can join a particular room.
   - Chat Feature in Collaboration Room
-  - Currently, the live tracking cursor is rendered based on the users username/nickname. If multiple users create the same username/nickname, the most recent username/nickname creator will override the former. Possible      solution to this issue could be to store cursor with the socket id rather than username/nickname. "
+  - Currently, the live tracking cursor is rendered based on the users username/nickname. If multiple users create the same username/nickname, the most recent username/nickname creator will override the former. Possible solution to this issue could be to store cursor with the socket id rather than username/nickname. "
 
 **Version 18.0.0 Changes**
 
