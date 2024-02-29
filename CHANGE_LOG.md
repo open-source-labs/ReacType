@@ -3,15 +3,15 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
-# Version 20.0.0 Changes
+## Version 20.0.0 Changes
 
-## Changes:
+### Changes:
 
-- Developer Improvement:
+- **Developer Improvement:**
   - Migrated from Webpack to Vite, improving HMR times drastically
   - Deployed app using Heroku instead of AWS decreasing time to deployment
-- User Features:
-  - Collaboration Room:
+- **User Features:**
+  - **Collaboration Room:**
     - Implemented live chat and video functionality using socket.IO
     - Added authentication and error handling to joining existing rooms
   - UI updates to enhance user experience
@@ -19,14 +19,14 @@
     - Updated left panel to include user information and settings
     - Added scroll and zoom buttons to canvas. Scroll now automatically scrolls to bottom once enough elements are added
     - Updated UI design to reflect a more modern look
-- Bugs Fixed
+- **Bugs Fixed:**
   - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements. They can also be dragged.
   - Bottom Panel - Now opens by onclick instead of hover
   - Users can now delete elements without first clicking it and then the X. This applies to the nested components as well.
 - Landing Page
-  -revamped entire landing page for a more modern look
+  - Revamped entire landing page for a more modern look
 
-## Recommendations for Future Enhancements:
+### Recommendations for Future Enhancements:
 
 - Fix bottom panel to only close upon clicking the icon, and not anywhere else
 - Populate settings tab in the left panel with additional functionality
@@ -75,7 +75,7 @@
     - Updated styling to overall style and theme to maintain consistency across the application
     - Removed Tailwind and CSS save buttons in Customization panel for cleaner UI and drying up repetitive functionality
 
-## Recommendations for Future Enhancements:
+### Recommendations for Future Enhancements:
 
 - Fix Undo & Redo functionality. Undo & Redo buttons on the customization page not functioning as expected.
 - Update Electron for desktop application use. Resolve electron app functionality to coincide with web app functionality.
