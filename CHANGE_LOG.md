@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="100" src="https://i.imgur.com/Yn70tqI.png">
+  <img width="100" src="readme.png">
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
@@ -9,7 +9,7 @@ Changes:<br>
 
 - Developer Improvement:
   - Migrated from Webpack to Vite, improving HMR times drastically
-  - Deployed app using Heroku isntead of AWS decreasing time to deployment
+  - Deployed app using Heroku instead of AWS decreasing time to deployment
 - User Features:
   - Collaboration Room:
     - Implemented live chat and video functionality using socket.IO
