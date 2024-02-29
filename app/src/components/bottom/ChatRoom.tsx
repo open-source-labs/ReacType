@@ -121,12 +121,6 @@ const Chatroom = (props): JSX.Element => {
               </div>
             </div>
           );
-        // return (
-        //   <div key={index} style={handleMessageContainerStyle(message)}>
-        //     {message.userName === userName ? 'You' : message.userName}:{' '}
-        //     {message.message}
-        //   </div>
-        // );
       }
       return null;
     });
@@ -207,7 +201,14 @@ const Chatroom = (props): JSX.Element => {
                     style={inputStyles}
                   />
                   <button type="submit" id="send-button" style={buttonStyles}>
-                    <Send sx={{ width: '20px', height: '20px', marginLeft: '2px', marginTop: '2px' }} />
+                    <Send
+                      sx={{
+                        width: '20px',
+                        height: '20px',
+                        marginLeft: '2px',
+                        marginTop: '2px'
+                      }}
+                    />
                   </button>
                 </form>
               </div>

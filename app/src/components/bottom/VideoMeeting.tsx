@@ -107,13 +107,10 @@ const Videomeeting = (props): JSX.Element => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                // justifyContent: 'center',
-                // alignItems: 'center',
                 paddingLeft: '5px',
                 paddingRight: '5px'
               }}
             >
-              
               <audio ref={micRef} autoPlay muted={isLocal} />
               {!webcamOn && <TurnOffCameraDisplay />}
               {webcamOn && (
@@ -132,9 +129,25 @@ const Videomeeting = (props): JSX.Element => {
                   }}
                 />
               )}
-              <div style={{...handleUserInfoStyle(isLocalParticipant), display: 'flex', marginTop: '-50px', marginLeft: '15px'}}>
-              <span>{displayName}</span>
-                {webcamOn ? <VideocamIcon style={{marginLeft: '14.5px'}}/> : <VideocamOffIcon style={{marginLeft: '14.5px'}}/>} {micOn ? <MicIcon style={{marginLeft: '10px'}}/> : <MicOffIcon style={{marginLeft: '10px'}}/>}
+              <div
+                style={{
+                  ...handleUserInfoStyle(isLocalParticipant),
+                  display: 'flex',
+                  marginTop: '-50px',
+                  marginLeft: '15px'
+                }}
+              >
+                <span>{displayName}</span>
+                {webcamOn ? (
+                  <VideocamIcon style={{ marginLeft: '14.5px' }} />
+                ) : (
+                  <VideocamOffIcon style={{ marginLeft: '14.5px' }} />
+                )}{' '}
+                {micOn ? (
+                  <MicIcon style={{ marginLeft: '10px' }} />
+                ) : (
+                  <MicOffIcon style={{ marginLeft: '10px' }} />
+                )}
               </div>
             </div>
           </>
