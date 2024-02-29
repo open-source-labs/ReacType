@@ -21,7 +21,7 @@
 [![ContributorShield][contributors]][contributors-url]
 [![ForksShield][forks]][forks-url]
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version: 19.0.0](https://img.shields.io/badge/version-19.0.0-orange)
+![Version: 20.0.0](https://img.shields.io/badge/version-20.0.0-orange)
 
 </div>
 
