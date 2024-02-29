@@ -26,7 +26,7 @@
 </div>
 
  <p align="center">
-  <img width="1000" src="https://i.imgur.com/6alI8ub.png">
+  <img width="1000" src="./resources/readme.png">
 </p>
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
@@ -50,7 +50,7 @@
 **ReacType** is a React prototyping tool that allows users _visualize_ their application architecture dynamically, employing an interactive drop and drag display with real-time component code preview and a collaboration room that features live video and chat functionality. Generated code can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
 
 <p align="center">
-  <img width="1000" src="./resources/readme.png">
+  <img width="1000" src="./resources/v20 empty canvas.png">
 </p>
 
 Visit [reactype.dev](https://reactype.dev) to learn more about the product.
