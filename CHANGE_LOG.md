@@ -23,7 +23,7 @@
   - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements. They can also be dragged.
   - Bottom Panel - Now opens by onclick instead of hover
   - Users can now delete elements without first clicking it and then the X. This applies to the nested components as well.
-- Landing Page
+- **Landing Page:**
   - Revamped entire landing page for a more modern look
 
 ### Recommendations for Future Enhancements:
