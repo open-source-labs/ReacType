@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 import Videomeeting from './VideoMeeting';
+import { Send } from '@mui/icons-material';
 
 const Chatroom = (props): JSX.Element => {
   const { userName, roomCode, messages, userJoinCollabRoom } = useSelector(
@@ -12,40 +13,43 @@ const Chatroom = (props): JSX.Element => {
   const [inputContent, setInputContent] = useState('');
 
   const wrapperStyles = {
-    border: `2px solid #f2fbf8`,
-    borderRadius: '8px',
-    width: '75%',
+    border: '1px solid #31343A',
+    borderRadius: '15px',
+    width: '70%',
     height: '100%',
-    display: 'column',
-    padding: '20px',
-    backgroundColor: '#42464C',
+    display: 'flex',
+    flexDirection: 'column',
+    alignSelf: 'center',
+    padding: '12px 20px',
+    backgroundColor: '#1B1B1B',
     overflow: 'auto'
   };
 
   const inputContainerStyles = {
     width: '100%',
-    paddingLeft: '30px',
+    paddingLeft: '20px',
     paddingTop: '10px',
     display: 'flex',
     justifyContent: 'center'
   };
 
   const inputStyles = {
-    width: '75%',
-    padding: '10px',
-    border: 'none',
-    borderRadius: '5px',
-    backgroundColor: '#333333',
-    color: 'white'
+    width: '72%',
+    padding: '10px 12px',
+    borderRadius: '50px',
+    backgroundColor: '#1B1B1B',
+    color: 'white',
+    border: '1px solid #31343A',
+    marginLeft: '28px'
   };
 
   const buttonStyles = {
-    padding: '10px',
+    padding: '5px 7px',
     marginLeft: '10px',
     backgroundColor: '#0671E3',
     color: 'white',
     border: 'none',
-    borderRadius: '5px',
+    borderRadius: '50%',
     cursor: 'pointer'
   };
 
@@ -62,10 +66,30 @@ const Chatroom = (props): JSX.Element => {
 
   const handleMessageContainerStyle = (message: object) => {
     if (message['type'] === 'activity') {
-      return { color: 'yellow' };
+      return {
+        color: '#E8E9EB',
+        fontSize: '12px',
+        alignSelf: 'center',
+        margin: '3px 0'
+      };
     } else {
-      if (message['userName'] === userName) return { color: '#66C4EB' };
-      return { color: 'white' };
+      if (message['userName'] === userName)
+        return {
+          alignSelf: 'end',
+          padding: '8px 15px',
+          backgroundColor: '#0671E3',
+          borderRadius: '15.5px',
+          margin: '3px 0',
+          maxWidth: '300px'
+        };
+      return {
+        color: 'white',
+        padding: '8px 15px',
+        backgroundColor: '#333333',
+        borderRadius: '15.5px',
+        margin: '3px 0',
+        maxWidth: '300px'
+      };
     }
   };
 
@@ -78,12 +102,25 @@ const Chatroom = (props): JSX.Element => {
           </div>
         );
       } else if (message.type === 'chat') {
-        return (
-          <div key={index} style={handleMessageContainerStyle(message)}>
-            {message.userName === userName ? 'You' : message.userName}:{' '}
-            {message.message}
-          </div>
-        );
+        if (message.userName === userName) {
+          return (
+            <div key={index} style={handleMessageContainerStyle(message)}>
+              {message.message}
+            </div>
+          );
+        } else
+          return (
+            <div key={index} style={{ alignSelf: 'start' }}>
+              <div
+                style={{ color: '#E8E9EB', fontSize: '12px', margin: '3px 0' }}
+              >
+                {message.userName}
+              </div>
+              <div style={handleMessageContainerStyle(message)}>
+                {message.message}
+              </div>
+            </div>
+          );
       }
       return null;
     });
@@ -129,7 +166,7 @@ const Chatroom = (props): JSX.Element => {
               justifyContent: 'center',
               display: 'flex',
               flexDirection: 'column',
-              height: '80%',
+              height: '90%',
               width: '60%'
             }}
           >
@@ -137,7 +174,8 @@ const Chatroom = (props): JSX.Element => {
               style={{
                 justifyContent: 'center',
                 display: 'flex',
-                height: '90%',
+                flexDirection: 'column',
+                height: '100%',
                 width: '100%'
               }}
             >
@@ -148,24 +186,32 @@ const Chatroom = (props): JSX.Element => {
               >
                 {renderMessages()}
               </div>
-            </div>
-            <div className="chatroom-input">
-              <form
-                id="send-container"
-                style={inputContainerStyles}
-                onSubmit={handleSubmit}
-              >
-                <input
-                  type="text"
-                  id="message-input"
-                  onChange={(e) => setInputContent(e.target.value)}
-                  value={inputContent}
-                  style={inputStyles}
-                />
-                <button type="submit" id="send-button" style={buttonStyles}>
-                  Send
-                </button>
-              </form>
+              <div className="chatroom-input">
+                <form
+                  id="send-container"
+                  style={inputContainerStyles}
+                  onSubmit={handleSubmit}
+                >
+                  <input
+                    type="text"
+                    id="message-input"
+                    placeholder="message"
+                    onChange={(e) => setInputContent(e.target.value)}
+                    value={inputContent}
+                    style={inputStyles}
+                  />
+                  <button type="submit" id="send-button" style={buttonStyles}>
+                    <Send
+                      sx={{
+                        width: '20px',
+                        height: '20px',
+                        marginLeft: '2px',
+                        marginTop: '2px'
+                      }}
+                    />
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         )}

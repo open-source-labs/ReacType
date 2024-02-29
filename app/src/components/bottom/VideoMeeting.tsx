@@ -15,6 +15,10 @@ import {
 import ReactPlayer from 'react-player';
 import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MicOffIcon from '@mui/icons-material/MicOff';
+import MicIcon from '@mui/icons-material/Mic';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import VideoMeetingControl from './VideoMeetingControl';
 
 const Videomeeting = (props): JSX.Element => {
@@ -34,17 +38,20 @@ const Videomeeting = (props): JSX.Element => {
     return (
       <div
         style={{
-          background: 'transparent',
-          height: '200px',
+          border: '1px solid #31343A',
+          borderRadius: '15px',
+          backgroundColor: '#1B1B1B',
+          height: '170px',
           width: '300px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          margin: '29px 0 15px 0',
           paddingLeft: '10px',
           paddingRight: '10px'
         }}
       >
-        <AccountCircleIcon style={{ fontSize: 100, color: 'white' }} />
+        <AccountCircleIcon style={{ fontSize: 100, color: '#9C9D9F' }} />
       </div>
     );
   };
@@ -56,8 +63,8 @@ const Videomeeting = (props): JSX.Element => {
   };
 
   const handleUserInfoStyle = (isLocalParticipant: boolean) => {
-    if (isLocalParticipant) return { color: '#FC00BD' };
-    else return { color: 'white' };
+    if (isLocalParticipant) return { color: '#0671E3', alignItems: 'center' };
+    else return { color: 'white', alignItems: 'center' };
   };
 
   const ParticipantView = ({ participantId, isLocalParticipant }) => {
@@ -98,17 +105,12 @@ const Videomeeting = (props): JSX.Element => {
             <div
               key={participantId}
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                display: 'column',
-                paddingLeft: '10px',
-                paddingRight: '10px'
+                display: 'flex',
+                flexDirection: 'column',
+                paddingLeft: '5px',
+                paddingRight: '5px'
               }}
             >
-              <p style={handleUserInfoStyle(isLocalParticipant)}>
-                Participant: {isLocalParticipant ? 'You' : displayName} |
-                Webcam: {webcamOn ? 'ON' : 'OFF'} | Mic: {micOn ? 'ON' : 'OFF'}
-              </p>
               <audio ref={micRef} autoPlay muted={isLocal} />
               {!webcamOn && <TurnOffCameraDisplay />}
               {webcamOn && (
@@ -127,6 +129,26 @@ const Videomeeting = (props): JSX.Element => {
                   }}
                 />
               )}
+              <div
+                style={{
+                  ...handleUserInfoStyle(isLocalParticipant),
+                  display: 'flex',
+                  marginTop: '-50px',
+                  marginLeft: '15px'
+                }}
+              >
+                <span>{displayName}</span>
+                {webcamOn ? (
+                  <VideocamIcon style={{ marginLeft: '14.5px' }} />
+                ) : (
+                  <VideocamOffIcon style={{ marginLeft: '14.5px' }} />
+                )}{' '}
+                {micOn ? (
+                  <MicIcon style={{ marginLeft: '10px' }} />
+                ) : (
+                  <MicOffIcon style={{ marginLeft: '10px' }} />
+                )}
+              </div>
             </div>
           </>
         )}
@@ -175,13 +197,14 @@ const Videomeeting = (props): JSX.Element => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          width: '80%',
+          width: '60%',
           height: '100%',
           position: 'relative',
-          overflow: 'auto'
+          overflow: 'auto',
+          paddingBottom: '68px'
         }}
       >
-        <div style={{ overflow: 'auto' }}>
+        <div className="video-scrollable" style={{ overflow: 'auto' }}>
           <VideoMeetingControl
             userJoinMeetingStatus={userJoinMeetingStatus}
             useWebcam={useWebcam}
@@ -213,6 +236,7 @@ const Videomeeting = (props): JSX.Element => {
             variant="contained"
             style={{ backgroundColor: '#0671E3' }}
             onClick={joinMeeting}
+            sx={{ textTransform: 'capitalize' }}
           >
             Join Meeting
           </Button>
