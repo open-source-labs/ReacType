@@ -12,16 +12,16 @@
   - Deployed app using Heroku instead of AWS decreasing time to deployment
 - **User Features:**
   - **Collaboration Room:**
-    - Implemented live chat and video functionality using socket.IO
+    - Implemented live video, audio, and text functionality using socket.IO
     - Added authentication and error handling to joining existing rooms
-  - UI updates to enhance user experience
+  - **UI updates to enhance user experience:**
     - In addition to drag to add, users are now able to click to add
     - Updated left panel to include user information and settings
     - Added scroll and zoom buttons to canvas. Scroll now automatically scrolls to bottom once enough elements are added
     - Updated UI design to reflect a more modern look
 - **Bugs Fixed:**
   - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements. They can also be dragged.
-  - Bottom Panel - Now opens by onclick instead of hover
+  - Bottom Panel - Now opens by click instead of hover
   - Users can now delete elements without first clicking it and then the X. This applies to the nested components as well.
 - **Landing Page:**
   - Revamped entire landing page for a more modern look
