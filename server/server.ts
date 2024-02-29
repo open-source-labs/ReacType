@@ -51,12 +51,12 @@ app.use(
 
 //if in production mode, statically serve everything in the build folder on the route '/dist'
 if (process.env.NODE_ENV == 'production') {
+  console.log('currently in port', process.env.PORT);
   console.log('in production');
   console.log('joined path: ', path.join(__dirname, '../build'));
   app.use('/', express.static(path.join(__dirname, '../build')));
 } else {
   console.log('not production');
-  console.log('joined path: ', path.join(__dirname, '../build'));
   app.get('/', (req, res) => {
     const indexPath = path.join(__dirname, '../index.html');
     return res.status(200).sendFile(indexPath);
@@ -89,7 +89,12 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   transports: ['websocket'],
   cors: {
-    origin: ['http://localhost:5656', 'http://localhost:8080', API_BASE_URL]
+    origin: [
+      process.env.PORT,
+      'http://localhost:5656',
+      'http://localhost:8080',
+      API_BASE_URL
+    ]
   }
 });
 
