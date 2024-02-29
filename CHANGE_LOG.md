@@ -1,11 +1,11 @@
 <p align="center">
-  <img width="100" src="readme.png">
+  <img width="100" src="/resources/readme.png">
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
-**Version 20.0.0 Changes**
+# Version 20.0.0 Changes
 
-Changes:<br>
+## Changes:
 
 - Developer Improvement:
   - Migrated from Webpack to Vite, improving HMR times drastically
@@ -26,7 +26,7 @@ Changes:<br>
 - Landing Page
   -revamped entire landing page for a more modern look
 
-Recommendations for Future Enhancements:<br>
+## Recommendations for Future Enhancements:
 
 - Fix bottom panel to only close upon clicking the icon, and not anywhere else
 - Populate settings tab in the left panel with additional functionality
@@ -34,8 +34,8 @@ Recommendations for Future Enhancements:<br>
 - Add zoom in and zoom out / scroll functionality to code preview and component tree
 - Convert from 95% to 100% typescript
 - Add more functionality to the nav bar
-- List active rooms to join
-- Clean up unnecessary code / comments
+- List all active rooms to join
+- Clean up unnecessary code / comments and deprecated libraries
 - a tags which are nested do not display accurate code in code preview
 - Eliminate all Webpack associated files/folders/dependencies/etc... now that we run on Vite
 - Remove the many deprecated dependencies
@@ -43,19 +43,19 @@ Recommendations for Future Enhancements:<br>
 - Allow live chat to be a popup and draggable outside of the app
 - Implement MUI/ShadcnUI in addition to standard html elements on left panel so that users are able to start off with pre styled elements
 - Make the app mobile responsive. Right now it does not work/look good on mobile
-- We had to deploy via Heroku due to time limitations and Vite. I would recommend going back to AWS with dockerized containers.
+- We had to deploy via Heroku due to time limitations and Vite. We would recommend going back to AWS with dockerized containers.
 - Light/Dark mode in the left settings tab
-- revise links in the footer of the landing page
+- Update links in the footer of the landing page
 
-**Version 19.0.0 Changes**
+## Version 19.0.0 Changes
 
-Changes:<br>
+### Changes:
 
-- Developer Improvement:
+- **Developer Improvement:**
   - Typescript conversion continued and now sits at ~95%
-- User Features:
-  - Collaboration Room:
-    - Bug Fixes:
+- **User Features:**
+  - **Collaboration Room:**
+    - **Bug Fixes:**
       - Debug “Leave Room” functionality removing username from the users list
       - Debug “Join Room” functionality so the current canvas does not reset upon new user joining collaboration
       - Debug Code Preview button that sent error if toggled more than once and does not force toggled view to other users in the room
@@ -67,15 +67,15 @@ Changes:<br>
       - Significantly reduces the amount of data being passed among users by passing only the payload for each individual action, triggering singular updates for other users in the collaboration environment
       - Added Event Emitters for each action that updates canvas
       - Created a websocket service layer to maintain a single socket instance throughout the app
-    - User List:
+    - **User List:**
       - Displays the username and mouse cursor of all connected users in a particular room with a specific color scheme
-  - UI updated to enhance user experience
+  - UI updated to enhance user experience:
     - Rendered MUI Icons in HTML Element Panel
     - Redesigned drag-n-drop to be more intuitive and professionalize application design.
     - Updated styling to overall style and theme to maintain consistency across the application
     - Removed Tailwind and CSS save buttons in Customization panel for cleaner UI and drying up repetitive functionality
 
-Recommendations for Future Enhancements:<br>
+## Recommendations for Future Enhancements:
 
 - Fix Undo & Redo functionality. Undo & Redo buttons on the customization page not functioning as expected.
 - Update Electron for desktop application use. Resolve electron app functionality to coincide with web app functionality.
