@@ -1,4 +1,3 @@
-
 <!-- <p align="center">
   <img width="100" src="https://i.imgur.com/Yn70tqI.png">
 
@@ -28,8 +27,7 @@
 
  <p align="center">
   <img width="1000" src="https://i.imgur.com/6alI8ub.png">
-</p> 
-
+</p>
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
@@ -49,34 +47,35 @@
 
 <h1 align="center">ReacType </h1>
 
-**ReacType** is a rapid prototyping tool that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
+**ReacType** is a React prototyping tool that allows users _visualize_ their application architecture dynamically, employing an interactive drop and drag display with real-time component code preview and a collaboration room that features live video and chat functionality. Generated code can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
 
 <p align="center">
-  <img width="1000" src="./resources/reactype19.png">
+  <img width="1000" src="./resources/readme.png">
 </p>
 
 Visit [reactype.dev](https://reactype.dev) to learn more about the product.
 
 Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announcements.
 
-## Changes with Version 19.0.0
+## Changes with Version 20.0.0
 
-- **Collaboration Rooms**: Official launch of v1 collaboration rooms - allowing developers to work together on the same project smoothly.
-  The Collaboration Room also has user mouse tracking for increased ease in collaboration.
-- **UI Updates**: Designed with users in mind - the interface is redesigned with a smoother, more intuitive look.
-- **Typescript Conversion**: Typescript coverage is now increased to ~95%.
+- **Collaboration Rooms**: Official launch of v2 collaboration rooms - Now featuring a secure live collaborative chat room with video and cursor tracking functionality!
+- **UI Updates**: The UI now features a new logo, zoom and scroll functionality to the canvas, and numerous updates to styling to reflect a more modern and user friendly experience.
+- **DX Updates**: Migrated from WebPack to Vite, drastically reducing HMR time. Now deployed via Heroku instead of AWS.
+- **Typescript Conversion**: Typescript coverage is at 95%.
 - **Cleanup**: Removed unused code, fixed bugs, and made major performance improvements.
 - **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
 
 <p align="center">
-  <img width="1000" src="./resources/v19 collab room.png">
+  <img width="1000" src="./resources/v20 collab room.png">
 </p>
 
 ## Preview
+
 Get a glimpse of how ReacType works!
 
 <p align="center">
-  <img width="1000" src="./resources/demo19.gif">
+  <img width="1000" src="./resources/canvasDemoV20.gif">
 </p>
 
 <!-- NEED TO REPLACE THE TUTORIAL LINK -->
@@ -88,10 +87,7 @@ Here is the main file structure:
 <p align="center">
   <img width="1000" src="./resources/v19filestructure.png">
 </p>
-Given to us courtesy of our friends over at React Relay  
-
-Please refer to the [Excalidraw](https://excalidraw.com/#json=JKwzVD5qx6lsfiHW1_pQ9,XJ6uDoehVu-1bsx0SMlC6w) provided by ReacType Version 14.0 for more details.
-
+Given to us courtesy of our friends over at React Relay
 
 ## Run ReacType using CLI
 
@@ -146,9 +142,7 @@ npm install
 npm run build
 ```
 
-
 - Start an instance
-
 
 ```bash
 npm run start
@@ -158,7 +152,7 @@ npm run start
 
 ## Stack
 
-Typescript, React.js, Redux Toolkit, Javascript, ESM, Node.js (Express), HTML, CSS, MUI, GraphQL, Next.js, Gatsby.js, Electron, NoSQL, Webpack, TDD (Jest, React Testing Library, Playwright), OAuth 2.0, Websocket, SocketIO, Continuous Integration (Github Actions), Docker, AWS (ECR, Elastic Beanstalk), Ace Editor, Google Charts, React DnD
+Typescript, React.js, Redux Toolkit, Javascript, ESM, Node.js (Express), HTML, CSS, MUI, GraphQL, Next.js, Gatsby.js, Electron, NoSQL, Webpack, TDD (Jest, React Testing Library, Playwright), OAuth 2.0, Websocket, SocketIO, Continuous Integration (Github Actions), Docker, AWS (ECR, Elastic Beanstalk), Ace Editor, Google Charts, React DnD, Vite
 
 ## Contributions
 
