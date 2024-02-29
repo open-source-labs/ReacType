@@ -78,6 +78,13 @@ const BottomTabs = (props): JSX.Element => {
             <Tab
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Live Chat"
+              onClick={showBottomPanel}
+              sx={{ borderTop: '2px solid #191919' }}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Creation Panel"
               onClick={showBottomPanel}
               sx={{ borderTop: '2px solid #191919' }}
@@ -101,7 +108,6 @@ const BottomTabs = (props): JSX.Element => {
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Component Tree"
               onClick={showBottomPanel}
-              sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
               disableRipple
@@ -113,12 +119,6 @@ const BottomTabs = (props): JSX.Element => {
               disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="State Manager"
-              onClick={showBottomPanel}
-            />
-            <Tab
-              disableRipple
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="Live Chat"
               onClick={showBottomPanel}
             />
           </Tabs>
@@ -155,19 +155,19 @@ const BottomTabs = (props): JSX.Element => {
           </div>
         </Box>
         <div className="tab-content">
-          {tab === 0 && <CreationPanel isThemeLight={isThemeLight} />}
-          {tab === 1 && <CustomizationPanel isThemeLight={isThemeLight} />}
-          {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
-          {tab === 3 && <Tree data={components} />}
-          {tab === 4 && <ContextManager theme={theme} setTheme={setTheme} />}
-          {tab === 5 && (
+          {tab === 0 && <Chatroom />}
+          {tab === 1 && <CreationPanel isThemeLight={isThemeLight} />}
+          {tab === 2 && <CustomizationPanel isThemeLight={isThemeLight} />}
+          {tab === 3 && <StylesEditor theme={theme} setTheme={setTheme} />}
+          {tab === 4 && <Tree data={components} />}
+          {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
+          {tab === 6 && (
             <StateManager
               theme={theme}
               setTheme={setTheme}
               isThemeLight={isThemeLight}
             />
           )}
-          {tab === 6 && <Chatroom />}
         </div>
       </div>
     </MeetingProvider>
