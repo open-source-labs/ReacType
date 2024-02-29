@@ -80,13 +80,14 @@ Get a glimpse of how ReacType works!
 
 <!-- NEED TO REPLACE THE TUTORIAL LINK -->
 
-## File Structure of ReacType Version 19.0.0
+## File Structure of ReacType Version 20.0.0
 
 Here is the main file structure:
 
 <p align="center">
   <img width="1000" src="./resources/v19filestructure.png">
 </p>
+
 Given to us courtesy of our friends over at React Relay
 
 ## Run ReacType using CLI
@@ -117,7 +118,7 @@ npm run test
 npm run dev
 ```
 
-- Note that a .env with DEV_PORT, and a NODE_ENV flag (=production or development) are needed.
+- Note that DEV_PORT, NODE_ENV flag (=production or development) and VIDEOSDK token are needed in the .env file.
 - Please note that the development build is not connected to the production server. `npm run dev` should spin up the development server from the server folder of this repo. For additional information, the readme is [here](https://github.com/open-source-labs/ReacType/blob/master/server/README.md). Alternatively, you can select "Continue as guest" on the login page of the app, which will not use any features that rely on the server (authentication and saving project data.)
 
 - To run the development build of electron app
