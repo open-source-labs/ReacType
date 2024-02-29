@@ -49,6 +49,20 @@ app.use(
   })
 );
 
+//if in production mode, statically serve everything in the build folder on the route '/dist'
+if (process.env.NODE_ENV == 'production') {
+  console.log('currently in port', process.env.PORT);
+  console.log('in production');
+  console.log('joined path: ', path.join(__dirname, '../build'));
+  app.use('/', express.static(path.join(__dirname, '../build')));
+} else {
+  console.log('not production');
+  app.get('/', (req, res) => {
+    const indexPath = path.join(__dirname, '../index.html');
+    return res.status(200).sendFile(indexPath);
+  });
+}
+
 // NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
 
 const passport = require('passport');
@@ -75,7 +89,12 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   transports: ['websocket'],
   cors: {
-    origin: ['http://localhost:5656', 'http://localhost:8080', API_BASE_URL]
+    origin: [
+      process.env.PORT,
+      'http://localhost:5656',
+      'http://localhost:8080',
+      API_BASE_URL
+    ]
   }
 });
 
@@ -520,34 +539,22 @@ app.get(
 );
 
 // serve index.html on the route '/'
-const isDocker = process.env.IS_DOCKER === 'true';
-console.log('this is running on docker: ', isDocker);
+// const isDocker = process.env.IS_DOCKER === 'true';
+// console.log('this is running on docker: ', isDocker);
 
-//if in production mode, statically serve everything in the build folder on the route '/dist'
-if (process.env.NODE_ENV == 'production') {
-  app.use('/dist', express.static(path.join(__dirname, '/app/dist')));
-}
+// app.get('/bundle.js', (req, res) => {
+//   return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
+// });
 
-app.get('/', (req, res) => {
-  const indexPath = isDocker
-    ? path.join(__dirname, '../index-prod.html')
-    : path.join(__dirname, '../index.html');
-  return res.status(200).sendFile(indexPath);
-});
+// if (isDocker) {
+//   app.get('/main.css', (req, res) => {
+//     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
+//   });
+// }
 
-app.get('/bundle.js', (req, res) => {
-  return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
-});
-
-if (isDocker) {
-  app.get('/main.css', (req, res) => {
-    return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
-  });
-}
-
-app.get('/test', (req, res) => {
-  res.send('test request is working');
-});
+// app.get('/test', (req, res) => {
+//   res.send('test request is working');
+// });
 
 app.use('/*', (req, res) => res.status(404).send('Page not found'));
 
@@ -565,8 +572,8 @@ app.use((err, req, res, next) => {
 
 // starts server on PORT
 if (!isTest) {
-  httpServer.listen(5656, () =>
-    console.log(`Server listening on port: ${DEV_PORT}`)
+  httpServer.listen(PORT, () =>
+    console.log(`Server listening on port: ${PORT}`)
   );
 }
 
