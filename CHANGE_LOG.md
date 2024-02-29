@@ -1,17 +1,61 @@
 <p align="center">
-  <img width="100" src="https://i.imgur.com/Yn70tqI.png">
+  <img width="100" src="/resources/readme.png">
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
-**Version 19.0.0 Changes**
+## Version 20.0.0 Changes
 
-Changes:<br>
+### Changes:
 
-- Developer Improvement:
+- **Developer Improvement:**
+  - Migrated from Webpack to Vite, improving HMR times drastically
+  - Deployed app using Heroku instead of AWS decreasing time to deployment
+- **User Features:**
+  - **Collaboration Room:**
+    - Implemented live chat and video functionality using socket.IO
+    - Added authentication and error handling to joining existing rooms
+  - UI updates to enhance user experience
+    - In addition to drag to add, users are now able to click to add
+    - Updated left panel to include user information and settings
+    - Added scroll and zoom buttons to canvas. Scroll now automatically scrolls to bottom once enough elements are added
+    - Updated UI design to reflect a more modern look
+- **Bugs Fixed:**
+  - Canvas - All appropriate elements can now be nested - Nested Elements in the code preview now accurately reflect nested elements. They can also be dragged.
+  - Bottom Panel - Now opens by onclick instead of hover
+  - Users can now delete elements without first clicking it and then the X. This applies to the nested components as well.
+- **Landing Page:**
+  - Revamped entire landing page for a more modern look
+
+### Recommendations for Future Enhancements:
+
+- Fix bottom panel to only close upon clicking the icon, and not anywhere else
+- Populate settings tab in the left panel with additional functionality
+- Allow users to modify code dynamically in the code preview and reflect visual componenets in real time
+- Add zoom in and zoom out / scroll functionality to code preview and component tree
+- Convert from 95% to 100% typescript
+- Add more functionality to the nav bar
+- List all active rooms to join
+- Clean up unnecessary code / comments and deprecated libraries
+- a tags which are nested do not display accurate code in code preview
+- Eliminate all Webpack associated files/folders/dependencies/etc... now that we run on Vite
+- Remove the many deprecated dependencies
+- Add additional features to the live chat (Links, reactions, raise hand feature etc)
+- Allow live chat to be a popup and draggable outside of the app
+- Implement MUI/ShadcnUI in addition to standard html elements on left panel so that users are able to start off with pre styled elements
+- Make the app mobile responsive. Right now it does not work/look good on mobile
+- We had to deploy via Heroku due to time limitations and Vite. We would recommend going back to AWS with dockerized containers.
+- Light/Dark mode in the left settings tab
+- Update links in the footer of the landing page
+
+## Version 19.0.0 Changes
+
+### Changes:
+
+- **Developer Improvement:**
   - Typescript conversion continued and now sits at ~95%
-- User Features:
-  - Collaboration Room:
-    - Bug Fixes:
+- **User Features:**
+  - **Collaboration Room:**
+    - **Bug Fixes:**
       - Debug “Leave Room” functionality removing username from the users list
       - Debug “Join Room” functionality so the current canvas does not reset upon new user joining collaboration
       - Debug Code Preview button that sent error if toggled more than once and does not force toggled view to other users in the room
@@ -23,15 +67,15 @@ Changes:<br>
       - Significantly reduces the amount of data being passed among users by passing only the payload for each individual action, triggering singular updates for other users in the collaboration environment
       - Added Event Emitters for each action that updates canvas
       - Created a websocket service layer to maintain a single socket instance throughout the app
-    - User List:
+    - **User List:**
       - Displays the username and mouse cursor of all connected users in a particular room with a specific color scheme
-  - UI updated to enhance user experience
+  - UI updated to enhance user experience:
     - Rendered MUI Icons in HTML Element Panel
     - Redesigned drag-n-drop to be more intuitive and professionalize application design.
     - Updated styling to overall style and theme to maintain consistency across the application
     - Removed Tailwind and CSS save buttons in Customization panel for cleaner UI and drying up repetitive functionality
 
-Recommendations for Future Enhancements:<br>
+### Recommendations for Future Enhancements:
 
 - Fix Undo & Redo functionality. Undo & Redo buttons on the customization page not functioning as expected.
 - Update Electron for desktop application use. Resolve electron app functionality to coincide with web app functionality.
@@ -49,7 +93,7 @@ Recommendations for Future Enhancements:<br>
   - True real-time rendering so users can see components as they're being dragged onto the canvas, rather than only when they're placed.
   - List of active rooms so users can simply pick one to join. Will likely be paired with a password feature for security, so only users with the proper credentials can join a particular room.
   - Chat Feature in Collaboration Room
-  - Currently, the live tracking cursor is rendered based on the users username/nickname. If multiple users create the same username/nickname, the most recent username/nickname creator will override the former. Possible      solution to this issue could be to store cursor with the socket id rather than username/nickname. "
+  - Currently, the live tracking cursor is rendered based on the users username/nickname. If multiple users create the same username/nickname, the most recent username/nickname creator will override the former. Possible solution to this issue could be to store cursor with the socket id rather than username/nickname. "
 
 **Version 18.0.0 Changes**
 
