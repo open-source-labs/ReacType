@@ -14,7 +14,6 @@ import { RootState } from '../../redux/store';
 
 const useStyles = makeStyles({
   contextContainer: {
-    backgroundColor: '#191919',
     height: 'fit-content'
   }
 });

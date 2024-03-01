@@ -39,7 +39,7 @@ export default function DataTable({ target, currentContext }) {
         >
           <TableHead>
             <TableRow>
-              <StyledTableCell align="center" colSpan={3}>
+              <StyledTableCell align="center" colSpan={3} style={{backgroundColor: '#131416'}}>
                 {currentContext ? currentContext : 'Context Name'}
               </StyledTableCell>
             </TableRow>
@@ -48,14 +48,14 @@ export default function DataTable({ target, currentContext }) {
             {target.map((data, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell
-                  style={{ color: 'black' }}
+                  style={{ color: 'white', backgroundColor: '#2D313A' }}
                   component="th"
                   scope="row"
                   key={`${index}-key-${data.key}`}
                 >
                   {data.key}
                 </StyledTableCell>
-                <StyledTableCell style={{ color: 'black' }} align="right" key={`${index}-value-${data.value}`}>
+                <StyledTableCell style={{ color: 'white', backgroundColor: '#2D313A' }} align="right" key={`${index}-value-${data.value}`}>
                   {data.value}
                 </StyledTableCell>
               </StyledTableRow>

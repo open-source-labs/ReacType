@@ -11,11 +11,9 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import App from './components/App';
 import FBPassWord from './components/login/FBPassWord';
-import MarketplaceContainer from './containers/MarketplaceContainer';
 import ProjectDashboard from './Dashboard/ProjectContainer';
 import { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import SignIn from './components/login/SignIn';
 import SignUp from './components/login/SignUp';
@@ -28,11 +26,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const isDev = process.env.NODE_ENV === 'development';
-const { DEV_PORT, API_BASE_URL } = require('../../config.js');
+const isDev = import.meta.env.NODE_ENV === 'development';
+import serverConfig from './serverConfig.js';
+
+const { DEV_PORT, API_BASE_URL } = serverConfig;
 let serverURL = API_BASE_URL;
 
-//check if we're in dev mode
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
@@ -46,7 +45,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       headers: {
         'content-type': 'application/json'
       },
-      // need credentials for userid pull from cookie
       credentials: 'include'
     })
       .then((res) => res.json())
@@ -64,11 +62,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
           isLoggedIn === true ||
           window.localStorage.getItem('ssid') === 'guest'
         ) {
-          // User is logged in, render the protected component
           return <Component {...props} />;
         } else if (isLoggedIn !== null) {
-          // User is not logged in, redirect to the login page
-          // Ignores the initial render which would have isLoggedIn as null
           return <Redirect to="/login" />;
         }
       }}

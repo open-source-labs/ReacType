@@ -33,14 +33,11 @@ const StateManager = (props): JSX.Element => {
   // add hook here to access which component has been clicked
   // then this will re-render the dataTable
 
-  const background_Color = '#21262b';
-  const color = 'white';
-
   return (
     <React.Fragment>
       <div
         className={classes.contextContainer}
-        style={{ backgroundColor: background_Color }}
+        style={{ backgroundColor: '#1e2024' }}
       >
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>

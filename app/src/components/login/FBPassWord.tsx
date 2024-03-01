@@ -1,4 +1,4 @@
-import React, {  useState, MouseEvent} from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import {
   Link as RouteLink,
@@ -26,7 +26,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
+const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
   const classes = useStyles();
   const [password, setPassword] = useState('');
   const [passwordVerify, setPasswordVerify] = useState('');
@@ -122,11 +122,10 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
     }
 
     // get username and email from FB
-    newUserIsCreated(email, email, password).then(userCreated => {
+    newUserIsCreated(email, email, password).then((userCreated) => {
       if (userCreated === 'Success') {
         props.history.push('/');
       } else {
-    
       }
     });
   };
@@ -183,9 +182,11 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
             fullWidth
             variant="contained"
             className={classes.submit}
-            onClick={e => handleSignUp(e)}>
+            onClick={(e) => handleSignUp(e)}
+          >
             Sign Up
-          </Button>+
+          </Button>
+          +
           <Grid container justifyContent="flex-end">
             <Grid item>
               <RouteLink to={`/login`} className="nav_link">

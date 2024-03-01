@@ -56,7 +56,7 @@ function DirectChildComponent({ childId, type, typeId, name }: ChildElement) {
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid #46C0A5'
+        ? '3px solid #0671e3'
         : '1px Solid grey',
     boxShadow:
       state.canvasFocus.childId === childId ? '1px 1px 3px #a7cced' : ''

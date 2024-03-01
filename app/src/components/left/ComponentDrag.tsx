@@ -4,7 +4,7 @@ import React from 'react';
 import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
-// The component panel section of the left panel displays all components and has the ability to add new components
+
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
@@ -15,10 +15,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
 
   return (
     <div className={classes.panelWrapper}>
-      {/* Display all root components */}
-      {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
-        {/* Heading just below ADD button */}
         <h4 className={classes.darkThemeFontColor}>
           {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
             ? 'Pages'

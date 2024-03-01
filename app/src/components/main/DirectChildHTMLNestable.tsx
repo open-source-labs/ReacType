@@ -177,14 +177,14 @@ function DirectChildHTMLNestable({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid #46C0A5'
-        : '1px solid grey'
+        ? '2px solid #0671e3'
+        : '1px solid #31343A'
   };
 
   // interactive style to change color when nested element is hovered over
-  if (isOver) defaultNestableStyle['#1b544b'];
+  if (isOver) defaultNestableStyle['#3c59ba'];
   defaultNestableStyle['backgroundColor'] = isOver
-    ? '#1b544b'
+    ? '#3c59ba'
     : defaultNestableStyle['backgroundColor'];
 
   const combinedStyle = combineStyles(
@@ -213,19 +213,23 @@ function DirectChildHTMLNestable({
   return (
     <div
       onClick={onClickHandler}
-      style={combinedStyle}
+      style={{...combinedStyle, backgroundColor: isOver ? '#3c59ba' : '#1E2024'}}
       ref={ref}
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color: '#f2fbf8' }}>
+        <strong style={{ color: 'white' }}>
           {HTMLType.placeHolderShort}
         </strong>
-        <strong style={{ color: '#29a38a' }}>
+        <strong style={{ color: '#0671e3' }}>
           {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>
         {routeButton}
-        <DeleteButton id={childId} name={name} />
+        <DeleteButton
+          id={childId}
+          name={name}
+          onClickHandler={onClickHandler}
+        />
       </span>
       {renderChildren(children)}
     </div>

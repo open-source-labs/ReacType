@@ -16,7 +16,7 @@ import {
 } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 
-function DirectChildHTMLNestable({
+function SeparatorChild({
   childId,
   type,
   typeId,
@@ -144,12 +144,13 @@ function DirectChildHTMLNestable({
   // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
   const defaultNestableStyle = { ...globalDefaultStyle };
   const separatorStyle = {
-    padding: '2px 10px',
-    margin: '1px 10px'
+    padding:  isOver ? '40px 10px' : '2px 10px',
+    margin: '1px 10px',
+    transition: 'padding 1s ease-out'
   };
 
   defaultNestableStyle['backgroundColor'] = isOver
-    ? '#70d8be'
+    ? 'rgb(53, 78, 156)'
     : 'rgba(0, 0, 255, 0.0)';
 
   const combinedStyle = combineStyles(
@@ -165,4 +166,4 @@ function DirectChildHTMLNestable({
   );
 }
 
-export default DirectChildHTMLNestable;
+export default SeparatorChild;

@@ -1,10 +1,11 @@
-const fetch = require('node-fetch');
-const isDev = process.env.NODE_ENV === 'development';
-const { DEV_PORT, API_BASE_URL } = require('../../../config');
+// const fetch = require('node-fetch');
+const isDev = import.meta.env.NODE_ENV === 'development';
+// const fetch = require('node-fetch');
+// import fetch from 'node-fetch';
+import serverConfig from '../serverConfig.js';
+const { DEV_PORT, API_BASE_URL } = serverConfig;
 
 let serverURL = API_BASE_URL;
-
-//checks if we're in dev mode or not to reset the serverURL to localhost:8080
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
@@ -19,7 +20,7 @@ export const sessionIsCreated = (
     password,
     isFbOauth
   });
-  const result = fetch(`/login`, {
+  const result = fetch(`${serverURL}/login`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -30,13 +31,11 @@ export const sessionIsCreated = (
     .then((res) => res.json())
     .then((data) => {
       if (data.sessionId && typeof data.sessionId === 'string') {
-        // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);
-        // save username locally, will be added to saved project for each user
         window.localStorage.setItem('username', username);
         return 'Success';
       }
-      return data; // error message returned from userController.verifyUser
+      return data;
     })
     .catch((err) => 'Error');
   return result;
@@ -52,7 +51,7 @@ export const newUserIsCreated = (
     email,
     password
   });
-  const result = fetch(`/signup`, {
+  const result = fetch(`${serverURL}/signup`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -63,13 +62,12 @@ export const newUserIsCreated = (
     .then((res) => res.json())
     .then((data) => {
       if (data.sessionId && typeof data.sessionId === 'string') {
-        // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);
-        // save username locally, will be added to saved project for each user
         window.localStorage.setItem('username', username);
+        window.localStorage.setItem('email', email);
         return 'Success';
       }
-      return data; // response is either Email Taken or Username Taken, refer to userController.createUser
+      return data;// response is either Email Taken or Username Taken, refer to userController.createUser
     })
     .catch((err) => 'Error');
   return result;

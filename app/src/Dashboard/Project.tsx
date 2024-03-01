@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { 
+import {
   ADD_LIKE,
   MAKE_COPY,
   DELETE_PROJECT,
   PUBLISH_PROJECT,
-  ADD_COMMENT,
+  ADD_COMMENT
 } from './gqlStrings';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCommentIcon from '@mui/icons-material/AddComment';
@@ -19,13 +19,13 @@ import ListItemText from '@mui/material/ListItemText';
 import createModal from '../components/right/createModal';
 // Variable validation using typescript
 type props = {
-  name: string,
-  id: string,
-  userId: string,
-  username: string,
-  likes: number,
-  published: boolean,
-  comments: object[],
+  name: string;
+  id: string;
+  userId: string;
+  username: string;
+  likes: number;
+  published: boolean;
+  comments: object[];
 };
 
 // Use current user info to make a make copy of another user's project
@@ -33,8 +33,13 @@ const currUserSSID = window.localStorage.getItem('ssid') || 'unavailable';
 const currUsername = window.localStorage.getItem('username') || 'unavailable';
 
 const Project = ({
-  name, likes, id, username, published, comments,
-}: props) : JSX.Element => {
+  name,
+  likes,
+  id,
+  username,
+  published,
+  comments
+}: props): JSX.Element => {
   // IMPORTANT:
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
@@ -46,16 +51,15 @@ const Project = ({
   const [publishProject] = useMutation(PUBLISH_PROJECT);
   const [addComment] = useMutation(ADD_COMMENT);
 
-  const noPointer = {cursor: 'default'};
+  const noPointer = { cursor: 'default' };
   //Likes the project when the star icon is clicked
   function handleLike(e) {
     e.preventDefault();
     const myVar = {
-      variables: 
-      {
+      variables: {
         projId: id,
-        likes: likes + 1,
-      },
+        likes: likes + 1
+      }
     };
     addLike(myVar);
   }
@@ -63,12 +67,11 @@ const Project = ({
   function handleDownload(e) {
     e.preventDefault();
     const myVar = {
-      variables:
-      {
+      variables: {
         projId: id,
         userId: currUserSSID,
-        username: currUsername,
-      },
+        username: currUsername
+      }
     };
     makeCopy(myVar);
   }
@@ -76,11 +79,10 @@ const Project = ({
   function handlePublish(e) {
     e.preventDefault();
     const myVar = {
-      variables:
-      {
+      variables: {
         projId: id,
-        published: !published,
-      },
+        published: !published
+      }
     };
     publishProject(myVar);
   }
@@ -88,14 +90,13 @@ const Project = ({
   function handleComment(e) {
     e.preventDefault();
     const myVar = {
-      variables:
-      {
-      projId: id,
-      comment: commentVal,
-      username: currUsername,
-      },
+      variables: {
+        projId: id,
+        comment: commentVal,
+        username: currUsername
+      }
     };
-    addComment(myVar)
+    addComment(myVar);
   }
   //sets state of commentVal to what the user types in to comment
   function handleChange(e) {
@@ -104,16 +105,17 @@ const Project = ({
     setCommentVal(commentValue);
   }
   const recentComments = [];
-  if (comments?.length > 0) { 
+  if (comments?.length > 0) {
     const reversedCommentArray = comments.slice(0).reverse();
-    const min = Math.min(6, reversedCommentArray.length)
-    for (let i = 0; i < min ; i++) {
-    recentComments.push(
-      <p className='comment'>
-        <b>{ reversedCommentArray[i].username }</b>: 
-        { reversedCommentArray[i].text }
-      </p>
-        )}
+    const min = Math.min(6, reversedCommentArray.length);
+    for (let i = 0; i < min; i++) {
+      recentComments.push(
+        <p className="comment">
+          <b>{reversedCommentArray[i].username}</b>:
+          {reversedCommentArray[i].text}
+        </p>
+      );
+    }
   }
   // Closes out the open modal
   const closeModal = () => setModal('');
@@ -123,13 +125,12 @@ const Project = ({
     const handleDelete = (e) => {
       e.preventDefault();
       const myVar = {
-        variables:
-        {
-          projId: id,
-        },
+        variables: {
+          projId: id
+        }
       };
       deleteProject(myVar);
-    }
+    };
     // Set modal options
     const children = (
       <List className="export-preference">
@@ -138,7 +139,7 @@ const Project = ({
           button
           onClick={handleDelete}
           style={{
-            border: '1px solid #1b544b',
+            border: '1px solid #3c59ba',
             marginBottom: '2%',
             marginTop: '5%'
           }}
@@ -157,7 +158,7 @@ const Project = ({
       createModal({
         closeModal,
         children,
-        message: 'Are you sure want to delete this project?',
+        message: 'Are you sure you want to delete this project?',
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,
@@ -168,61 +169,79 @@ const Project = ({
   };
 
   return (
-    <div className = 'project'>
-      <div className = 'header'>
-      { currUsername === username ?
-        <IconButton
-          tooltip = "Delete Project"
-          onClick={ deleteProjectModal }
-          style={{position: 'absolute', right: '0'}}
-          size="large">
-          <CloseIcon/>
-        </IconButton>
-        : '' }
-        <div className = 'projectInfo'>
+    <div className="project">
+      <div className="header">
+        {currUsername === username ? (
+          <IconButton
+            tooltip="Delete Project"
+            onClick={deleteProjectModal}
+            style={{ position: 'absolute', right: '0' }}
+            size="large"
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : (
+          ''
+        )}
+        <div className="projectInfo">
           <b>
-            <h2>Project: { name }</h2>
-            <h3>Author: { username }</h3>
-            <h3>Likes: { likes }</h3>
+            <h2>Project: {name}</h2>
+            <h3>Author: {username}</h3>
+            <h3>Likes: {likes}</h3>
           </b>
         </div>
 
-        <div className = "icons">
+        <div className="icons">
+          <IconButton
+            tooltip="Like Template"
+            style={noPointer}
+            onClick={handleLike}
+            size="large"
+          >
+            <ThumbUpAltIcon fontSize="Large" />
+          </IconButton>
+          {currUsername !== username ? (
             <IconButton
-              tooltip="Like Template"
+              tooltip="Download Template"
               style={noPointer}
-              onClick = { handleLike }
-              size="large">
-              <ThumbUpAltIcon fontSize='Large'/>
-            </IconButton> 
-          { currUsername !== username ?
-            <IconButton
-              tooltip ="Download Template"
-              style={noPointer}
-              onClick={ handleDownload }
-              size="large">
-              <GetAppIcon fontSize="large" className="download"/> 
-            </IconButton>       
-            : '' }
-          { currUsername === username ?
-            <IconButton
-              tooltip ="Publish Template"
-              style={noPointer}
-              onClick={ handlePublish }
-              size="large">
-              <PublishIcon fontSize="large"/> 
+              onClick={handleDownload}
+              size="large"
+            >
+              <GetAppIcon fontSize="large" className="download" />
             </IconButton>
-            : '' }
+          ) : (
+            ''
+          )}
+          {currUsername === username ? (
+            <IconButton
+              tooltip="Publish Template"
+              style={noPointer}
+              onClick={handlePublish}
+              size="large"
+            >
+              <PublishIcon fontSize="large" />
+            </IconButton>
+          ) : (
+            ''
+          )}
         </div>
       </div>
-        <div className = "commentContainer">
-            {recentComments}
-        </div>
-        <div className = 'commentInput'>
-          <input type="text" placeholder="Add Comment" className="commentField" onChange={ handleChange }></input>
-          <AddCommentIcon className='commentBtn' fontSize='Large' onClick={ handleComment } style={{position: 'absolute', right: '8', top: '13'}}/>
-        </div>
-    {modal}
+      <div className="commentContainer">{recentComments}</div>
+      <div className="commentInput">
+        <input
+          type="text"
+          placeholder="Add Comment"
+          className="commentField"
+          onChange={handleChange}
+        ></input>
+        <AddCommentIcon
+          className="commentBtn"
+          fontSize="Large"
+          onClick={handleComment}
+          style={{ position: 'absolute', right: '8', top: '13' }}
+        />
+      </div>
+      {modal}
     </div>
   );
 };

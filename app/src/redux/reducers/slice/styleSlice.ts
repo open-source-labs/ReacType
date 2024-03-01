@@ -15,7 +15,6 @@ const styleSlice = createSlice({
   initialState,
   reducers: {
     setStyle: (state, action: PayloadAction<any>) => {
-      // Replace any with your specific type
       state.style = action.payload;
     },
     cooperativeStyle: (state, action: PayloadAction<Partial<StyleState>>) => {
