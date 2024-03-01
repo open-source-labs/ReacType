@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="100" src="/resources/readme.png">
+  <img width="50%" src="/resources/readme.png">
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
