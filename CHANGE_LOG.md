@@ -28,6 +28,7 @@
 
 ### Recommendations for Future Enhancements:
 
+- Bug fix for market place preview display
 - Fix bottom panel to only close upon clicking the icon, and not anywhere else
 - Populate settings tab in the left panel with additional functionality
 - Allow users to modify code dynamically in the code preview and reflect visual componenets in real time
