@@ -159,7 +159,6 @@ Typescript, React.js, Redux Toolkit, Javascript, ESM, Node.js (Express), HTML, C
 ## Contributions
 
 Here is the up to date [list](https://github.com/open-source-labs/ReacType/blob/master/contributors.md) of all co-developers of this product.
-Please visit our [contribution documentation](https://github.com/open-source-labs/ReacType/blob/master/contribution_documentation.md) for more information on how you can contribute to ReacType!
 
 ## License
 
