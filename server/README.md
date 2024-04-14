@@ -7,6 +7,11 @@
 
 **For future development teams**: If you wish to update the server and re-deploy through heroku, you will need to get the credentials from one of the last team members:
 
+- Cyrus Burns
+- Brian Yan
+- Eliza Zhang
+- Jon Wage
+
 - [Alex Yu](https://www.linkedin.com/in/alexjihunyu/) [@buddhajjigae](https://github.com/buddhajjigae)
 - [Daryl Foster](https://www.linkedin.com/in/darylfosterma/) [@MadinventorZero](https://github.com/MadinventorZero)
 - [Jonathan Calvo Ramirez](https://www.linkedin.com/in/jonathan-calvo/) [@jonocr](https://github.com/jonocr)
