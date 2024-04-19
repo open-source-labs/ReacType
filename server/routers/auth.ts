@@ -13,7 +13,7 @@ interface UserReq extends Request {
   };
 }
 
-const { API_BASE_URL } = config;
+const { API_BASE_URL2 } = config;
 const router = express.Router();
 
 router.get(
@@ -41,7 +41,7 @@ router.get(
       sameSite: 'none',
       secure: true
     });
-    return res.redirect(API_BASE_URL);
+    return res.redirect(API_BASE_URL2);
   }
 );
 
@@ -69,7 +69,7 @@ router.get(
       sameSite: 'none',
       secure: true
     });
-    return res.redirect(API_BASE_URL);
+    return res.redirect(API_BASE_URL2);
   }
 );
 

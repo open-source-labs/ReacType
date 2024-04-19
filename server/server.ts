@@ -23,6 +23,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+console.log('process.env.NODE_ENV check', process.env.NODE_ENV);
 
 const PORT = process.env.PORT || DEV_PORT;
 const isDev = process.env.NODE_ENV === 'development';
@@ -48,6 +49,13 @@ app.use(
     credentials: true
   })
 );
+
+function logRequest(req, res, next) {
+  const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+  console.log(`Received request on ${req.method}: ${fullUrl}`);
+  next();
+}
+app.use(logRequest);
 
 //if in production mode, statically serve everything in the build folder on the route '/dist'
 if (process.env.NODE_ENV == 'production') {
