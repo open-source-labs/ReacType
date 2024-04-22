@@ -216,3 +216,29 @@ export interface BottomPanelObj {
   style: object;
   events: object;
 }
+
+export interface IErrorSetters {
+  setInvalidEmail?: (value: boolean) => void;
+  setInvalidEmailMsg?: (message: string) => void;
+  setInvalidUser?: (value: boolean) => void;
+  setInvalidUserMsg?: (message: string) => void;
+  setInvalidPassword?: (value: boolean) => void;
+  setInvalidPasswordMsg?: (message: string) => void;
+  setInvalidVerifyPassword?: (value: boolean) => void;
+  setInvalidVerifyPasswordMsg?: (message: string) => void;
+}
+
+export interface AuthStateSetters {
+  setEmail?: (value: string) => void;
+  setUsername?: (value: string) => void;
+  setPassword?: (value: string) => void;
+  setPasswordVerify?: (value: string) => void;
+}
+
+export interface ValidationParams {
+  email?: string;
+  username?: string;
+  password?: string;
+  passwordVerify?: string;
+  errorSetters: IErrorSetters;
+}
