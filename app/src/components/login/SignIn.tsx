@@ -1,17 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { RouteComponentProps, Link as RouteLink } from 'react-router-dom';
+import {
+  RouteComponentProps,
+  Link as RouteLink,
+  useHistory
+} from 'react-router-dom';
 import { SigninDark } from '../../../../app/src/public/styles/theme';
 import {
   StyledEngineProvider,
   Theme,
   ThemeProvider
 } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
+import { styled } from '@mui/material/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { LoginInt } from '../../interfaces/Interfaces';
 import serverConfig from '../../serverConfig.js';
 import makeStyles from '@mui/styles/makeStyles';
-import { sessionIsCreated } from '../../helperFunctions/auth';
+import {
+  sessionIsCreated,
+  handleChange,
+  resetErrorValidation,
+  validateInputs
+} from '../../helperFunctions/auth';
 import {
   Divider,
   Box,
@@ -19,7 +28,6 @@ import {
   Button,
   Container,
   CssBaseline,
-  Grid,
   TextField,
   Typography
 } from '@mui/material';
@@ -62,17 +70,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
+const StyledForm = styled('form')(({ theme }) => ({
+  width: '100%', // Fix IE 11 issue.
+  marginTop: theme.spacing(3)
+}));
+
+const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const history = useHistory();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [invalidUserMsg, setInvalidUserMsg] = useState('');
-  const [invalidPassMsg, setInvalidPassMsg] = useState('');
+  const [invalidPassMsg, setInvalidPasswordMsg] = useState('');
   const [invalidUser, setInvalidUser] = useState(false);
-  const [invalidPass, setInvalidPass] = useState(false);
+  const [invalidPass, setInvalidPassword] = useState(false);
 
+  /**
+   * Periodically checks for specific cookies and manages session state based on their presence.
+   * If a specific cookie is found, it stores the session ID in local storage and redirects to the home page.
+   * The check stops once the necessary cookie is found or if a session ID already exists in local storage.
+   */
   useEffect(() => {
     const githubCookie = setInterval(() => {
       window.api?.setCookie();
@@ -80,7 +98,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
         if (cookie[0]) {
           window.localStorage.setItem('ssid', cookie[0].value);
           clearInterval(githubCookie);
-          props.history.push('/');
+          history.push('/');
         } else if (window.localStorage.getItem('ssid')) {
           clearInterval(githubCookie);
         }
@@ -88,55 +106,80 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
     }, 2000);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let inputVal = e.target.value;
+  // define error setters to pass to resetErrorValidation function
+  const errorSetters = {
+    setInvalidUser,
+    setInvalidUserMsg,
+    setInvalidPassword,
+    setInvalidPasswordMsg
+  };
+  // define handle change setters to pass to handleChange function
+  const handleChangeSetters = {
+    setUsername,
+    setPassword
+  };
 
-    switch (e.target.name) {
-      case 'username':
-        setUsername(inputVal);
-        break;
+  /**
+   * Handles input changes for form fields and updates the state accordingly.
+   * This function delegates to the `handleChange` function, passing the event
+   * and the `handleChangeSetters` for updating the specific state tied to the input fields.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The event object that triggered the change.
+   */
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    handleChange(e, handleChangeSetters);
+  };
 
-      case 'password':
-        setPassword(inputVal);
-        break;
+  /**
+   * Handles the form submission for user login. This function prevents the default form submission behavior,
+   * resets any previous validation errors, and attempts to create a session with the provided credentials.
+   * If successful, the user is redirected to the home page. Otherwise, it updates the UI with appropriate error messages
+   * based on the error type returned from the login attempt.
+   * @param {React.FormEvent<HTMLFormElement>} e - The event object that triggered the form submission, typically used to prevent the default form behavior.
+   */
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default form submission behavior.
+    resetErrorValidation(errorSetters); // Reset validation errors before a new login attempt.
+    const isValid = validateInputs({
+      username,
+      password,
+      errorSetters
+    }); // Validate Inputs using Auth helper function
+    if (!isValid) {
+      console.log('Validation failed, login attempt not processed.');
+      return;
+    }
+    // Attempt to create a session using the provided credentials.
+    try {
+      const loginStatus = await sessionIsCreated(username, password, false);
+      if (loginStatus === 'Success') {
+        console.log('Login successful, redirecting...');
+        history.push('/');
+      } else {
+        if (
+          [
+            'No Username Input',
+            'No Password Input',
+            'Invalid Username',
+            'Incorrect Password'
+          ].includes(loginStatus)
+        ) {
+          setInvalidUser(true);
+          setInvalidUserMsg(loginStatus);
+        } else {
+          console.error('Unhandled error during login:', loginStatus);
+        }
+      }
+    } catch (err) {
+      console.error('Error during signin in handleLogin:', err);
     }
   };
 
-  const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    setInvalidUser(false);
-    setInvalidUserMsg('');
-    setInvalidPass(false);
-    setInvalidPassMsg('');
-    sessionIsCreated(username, password, false).then((loginStatus) => {
-      if (loginStatus === 'Success') {
-        props.history.push('/');
-      } else {
-        switch (loginStatus) {
-          case 'No Username Input':
-            setInvalidUser(true);
-            setInvalidUserMsg(loginStatus);
-            break;
-
-          case 'No Password Input':
-            setInvalidPass(true);
-            setInvalidPassMsg(loginStatus);
-            break;
-
-          case 'Invalid Username':
-            setInvalidUser(true);
-            setInvalidUserMsg(loginStatus);
-            break;
-
-          case 'Incorrect Password':
-            setInvalidPass(true);
-            setInvalidPassMsg(loginStatus);
-            break;
-        }
-      }
-    });
-  };
-
+  /**
+   * Handles the "Enter" key press to trigger a sign-in button click.
+   * This function checks if the pressed key is "Enter" and, if so, prevents the default action
+   * and programmatically clicks the sign-in button. This allows users to submit the form by pressing Enter.
+   * @param {KeyboardEvent} e - The keyboard event that triggered this handler.
+   */
   const keyBindSignIn = useCallback((e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -144,30 +187,18 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
     }
   }, []);
 
+  /**
+   * Sets up and cleans up the keydown event listener for the sign-in form.
+   * This effect binds the 'Enter' key to trigger a sign-in button click across the component.
+   * It ensures that the event listener is removed when the component unmounts to prevent memory leaks
+   * and unintended behavior in other parts of the application.
+   */
   useEffect(() => {
     document.addEventListener('keydown', keyBindSignIn);
     return () => {
       document.removeEventListener('keydown', keyBindSignIn);
     };
   }, []);
-
-  const handleLoginGuest = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    window.localStorage.setItem('ssid', 'guest');
-    props.history.push('/');
-  };
-
-  const handleGithubLogin = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    window.location.assign(`${API_BASE_URL}/auth/github`);
-  };
-
-  const classBtn =
-    'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
 
   return (
     <StyledEngineProvider injectFirst>
@@ -192,82 +223,84 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
             >
               Log in
             </Typography>
-            <TextField
-              className={classes.root}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              value={username}
-              onChange={handleChange}
-              helperText={invalidUserMsg}
-              error={invalidUser}
-              data-testid="username-input"
-            />
-            <TextField
-              className={classes.root}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={handleChange}
-              helperText={invalidPassMsg}
-              error={invalidPass}
-              data-testid="password-input"
-            />
+            <StyledForm noValidate onSubmit={handleLogin}>
+              <TextField
+                className={classes.root}
+                variant="outlined"
+                margin="normal"
+                required
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                value={username}
+                onChange={handleInputChange}
+                helperText={invalidUserMsg}
+                error={invalidUser}
+                data-testid="username-input"
+                sx={{ width: '100%' }}
+              />
+              <TextField
+                className={classes.root}
+                variant="outlined"
+                margin="normal"
+                required
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={handleInputChange}
+                helperText={invalidPassMsg}
+                error={invalidPass}
+                data-testid="password-input"
+                sx={{ width: '100%' }}
+              />
 
-            <Button
-              fullWidth
-              id="SignIn"
-              variant="contained"
-              color="primary"
-              onClick={(e) => handleLogin(e)}
-              sx={{
-                backgroundColor: '#2997ff',
-                marginBottom: '5px',
-                marginTop: '20px',
-                textTransform: 'none',
-                fontSize: '1rem',
-                '$:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-person-check"
-                viewBox="0 0 16 16"
-                style={{ marginLeft: '5px' }}
+              <Button
+                type="submit"
+                id="SignIn"
+                variant="contained"
+                color="primary"
+                sx={{
+                  backgroundColor: '#2997ff',
+                  marginBottom: '5px',
+                  marginTop: '20px',
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  '$:hover': {
+                    cursor: 'pointer'
+                  },
+                  width: '100%'
+                }}
               >
-                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
-                <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
-              </svg>
-              Log In
-            </Button>
-
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-person-check"
+                  viewBox="0 0 16 16"
+                  style={{ marginLeft: '5px' }}
+                >
+                  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                  <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                </svg>
+                Log In
+              </Button>
+            </StyledForm>
             <Divider sx={{ color: 'gray', margin: '1rem', zIndex: '1500' }}>
               OR
             </Divider>
 
             <Typography
               className="other-options"
-              fullWidth
               id="SignInWithGithub"
-              variant=""
-              onClick={(e) => handleGithubLogin(e)}
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.assign(`${API_BASE_URL}/auth/github`);
+              }}
               sx={{
                 marginBottom: '1rem',
                 textTransform: 'none',
@@ -295,8 +328,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
             </Typography>
             <Typography
               className="other-options"
-              fullWidth
-              variant="contained"
               color="primary"
               id="SignInWithGoogle"
               onClick={(e) => {
@@ -328,11 +359,13 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
               Sign in With Google
             </Typography>
             <Typography
-              fullWidth
-              variant=""
               className="other-options"
               color="primary"
-              onClick={(e) => handleLoginGuest(e)}
+              onClick={(e) => {
+                e.preventDefault();
+                window.localStorage.setItem('ssid', 'guest');
+                history.push('/');
+              }}
               sx={{
                 marginBottom: '1rem',
                 textTransform: 'none',
@@ -363,7 +396,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
             </Typography>
             <RouteLink
               style={{ color: '#aaaaaa' }}
-              to={`/signup`}
+              to={`/password`}
               className="nav_link"
             >
               Forgot password?

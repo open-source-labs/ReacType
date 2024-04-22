@@ -49,6 +49,7 @@ export interface UserController {
   getUser: RequestHandler;
   createUser: RequestHandler;
   verifyUser: RequestHandler;
+  updatePassword: RequestHandler;
 }
 
 export interface UserStylesController {

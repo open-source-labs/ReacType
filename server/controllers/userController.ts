@@ -140,9 +140,44 @@ const userController: UserController = {
         return res.status(400).json('Invalid Username');
       }
     });
+  },
+
+  // updatePassword - update the user's password in the database
+  updatePassword: async (req, res, next) => {
+    try {
+      if (!req.body.password) {
+        return res.status(400).json({ error: 'Password is required.' });
+      }
+      const user = await Users.findOne({ username: res.locals.user.username });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+      const isSame = await bcrypt.compare(req.body.password, user.password);
+      if (isSame) {
+        return res.status(400).json({
+          error: 'New password must be different from the current password.'
+        });
+      }
+      const salt = await bcrypt.genSalt(10); // generate a salt
+      const encryptedPW = await bcrypt.hash(req.body.password, salt); // encrypt the password
+      const updatedUser = await Users.findOneAndUpdate(
+        { username: res.locals.user.username },
+        { password: encryptedPW },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return res.status(404).json({ error: 'User update failed.' });
+      }
+      res.locals.id = updatedUser._id;
+      return next();
+    } catch (err) {
+      return next({
+        log: 'error caught in updatePassword middleware',
+        status: 400,
+        message: { err: 'Cannot update password' }
+      });
+    }
   }
-
-
- };
+};
 
 export default userController;
