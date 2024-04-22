@@ -469,7 +469,7 @@ app.post(
   userController.createUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
-  (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
+  (req, res) => res.status(200).json({ message: 'Success' })
 );
 
 app.post(
@@ -490,6 +490,16 @@ app.get(
   cookieController.deleteCookies,
   sessionController.endSession,
   (req, res) => res.status(200).json(res.locals.deleted)
+);
+
+app.patch(
+  '/updatePassword',
+  userController.getUser,
+  userController.updatePassword,
+  cookieController.setSSIDCookie,
+  sessionController.startSession,
+  (req, res) =>
+    res.status(200).json({ sessionId: res.locals.ssid, message: 'Success' })
 );
 
 // user must be logged in to get or save projects, otherwise they will be redirected to login page

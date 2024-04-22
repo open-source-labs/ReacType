@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "20.0.0 by Yameng Zhang, Brian Yan, Cyrus Burns, John Wage",
+  "version": "21.0.0 by Austin Alvarez, Heather Pfeiffer, Sean Ryan, Jesse Wowczuk, Zack Vandiver",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/.electron/main.js",
@@ -167,6 +167,7 @@
     "html2canvas": "^1.4.1",
     "identity-obj-proxy": "^3.0.0",
     "js-cookie": "^3.0.5",
+    "jsdoc": "^4.0.2",
     "jszip": "^3.10.1",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
