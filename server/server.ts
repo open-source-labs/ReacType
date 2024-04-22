@@ -469,7 +469,7 @@ app.post(
   userController.createUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
-  (req, res) => res.status(200).json({ message: 'Success.' })
+  (req, res) => res.status(200).json({ message: 'Success' })
 );
 
 app.post(
