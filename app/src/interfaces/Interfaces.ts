@@ -101,6 +101,20 @@ export interface HTMLType {
   framework: string;
   nestable: boolean;
 }
+export interface MUIType {
+  id: number;
+  tag: string;
+  name: string;
+  style: any;
+  placeHolderShort: string | React.JSX.Element;
+  placeHolderLong: string;
+  // ? == optional type part of icon, cant comment out icon and it works
+  // Icon?: any;
+  icon?: any;
+  framework: string;
+  nestable: boolean;
+  imports: any[];
+}
 export interface DragItem extends DragObjectWithType {
   newInstance: boolean;
   instanceType: string;
