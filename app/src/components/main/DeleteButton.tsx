@@ -34,7 +34,9 @@ function DeleteButton({ id, name, onClickHandler }: DeleteButtons) {
         id={'btn' + id}
         onClick={(event) => {
           event.stopPropagation();
-          onClickHandler(event);
+          if (typeof onClickHandler === 'function') {
+            onClickHandler(event);
+          }
           deleteHTMLtype(id);
         }}
       >
