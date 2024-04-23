@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { ItemTypes } from '../../constants/ItemTypes';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
-import CodeIcon from '@mui/icons-material/Code';
-import * as Icons from '@mui/icons-material';
+
+import { ItemTypes } from '../../constants/ItemTypes';
+import { RootState } from '../../redux/store';
+import * as Icons from '@mui/icons-material'; // Assuming a collection of MUI icons
+import CodeIcon from '@mui/icons-material/Code'; // Default icon if specific icon not provided
 import { useDispatch, useSelector } from 'react-redux';
 import { addChild } from '../../redux/reducers/slice/appStateSlice';
-import { emitEvent } from '../../helperFunctions/socket';
-import { RootState } from '../../redux/store';
+import createModal from '../right/createModal'; // Modal creation utility
+import { emitEvent } from '../../helperFunctions/socket'; // Event emission utility
 
+// Define component styles using MUI styling solutions
 const useStyles = makeStyles({
-  HTMLPanelItem: {
+  MUIPanelItem: {
     height: 'auto',
     width: 'auto',
     fontSize: 'medium',
@@ -33,7 +35,7 @@ const useStyles = makeStyles({
   }
 });
 
-const HTMLItem: React.FC<{
+const MUIItem: React.FC<{
   name: string;
   id: number;
   icon: any;
@@ -43,13 +45,14 @@ const HTMLItem: React.FC<{
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode); // current roomCode
 
+  // Use drag and drop functionality
   const classes = useStyles();
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.INSTANCE,
       newInstance: true,
-      instanceType: 'HTML Element',
+      instanceType: 'MUI Component', // MUI Element? - we should carefully consider what we call this
       name,
       icon,
       instanceTypeId: id
@@ -116,7 +119,7 @@ const HTMLItem: React.FC<{
 
   const handleClick = () => {
     const childData = {
-      type: 'HTML Element',
+      type: 'MUI Component',
       typeId: id,
       childId: null,
       contextParam: {
@@ -131,8 +134,8 @@ const HTMLItem: React.FC<{
     }
   };
 
-  // updated the id's to reflect the new element types input and label
-
+  // id over/under 20 logic
+  // html-g{name} - html grid name = item
   return (
     <Grid item xs={5} key={`html-g${name}`} id="HTMLgrid">
       {id <= 20 && (
@@ -142,7 +145,7 @@ const HTMLItem: React.FC<{
             backgroundColor: '#2D313A',
             backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
           }}
-          className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
+          className={`${classes.MUIPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
           onClick={() => {
             handleClick();
@@ -159,7 +162,7 @@ const HTMLItem: React.FC<{
         <div
           ref={drag}
           style={{ borderColor: '#C6C6C6' }}
-          className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
+          className={`${classes.MUIPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
           onClick={() => {
             handleClick();
@@ -183,4 +186,4 @@ const HTMLItem: React.FC<{
   );
 };
 
-export default HTMLItem;
+export default MUIItem;
