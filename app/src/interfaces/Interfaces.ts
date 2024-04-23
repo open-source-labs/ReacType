@@ -17,6 +17,7 @@ export interface State {
   nextBottomSeparatorId?: number;
   nextChildId: number;
   HTMLTypes: HTMLType[];
+  MUITypes: MUIType[];
   tailwind: boolean;
   stylesheet: string;
   codePreview: boolean;

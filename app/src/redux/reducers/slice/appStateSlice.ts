@@ -5,9 +5,11 @@ import {
   State,
   Component,
   ChildElement,
-  HTMLType
+  HTMLType,
+  MUIType
 } from '../../../interfaces/Interfaces';
 import HTMLTypes from '../../HTMLTypes';
+import MUITypes from '../../MUITypes';
 import generateCode from '../../../helperFunctions/generateCode';
 import manageSeparators from '../../../helperFunctions/manageSeparators';
 
@@ -40,6 +42,7 @@ export const initialState: State = {
   nextChildId: 1,
   nextTopSeparatorId: 1000,
   HTMLTypes: HTMLTypes, // left as is for now
+  MUITypes: MUITypes, // left as is for now
   tailwind: false,
   stylesheet: '',
   codePreview: false,

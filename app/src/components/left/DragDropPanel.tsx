@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import HTMLItem from './HTMLItem';
+import MUIItem from './MUI_Item';
 import React from 'react';
 import { RootState } from '../../redux/store';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
@@ -10,18 +11,17 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { makeStyles } from '@mui/styles';
-import ComponentDrag from './ComponentDrag'; 
-
+import ComponentDrag from './ComponentDrag';
 
 const useStyles = makeStyles({
   accordion: {
     backgroundColor: '#000000', // Set the background color to gray
-    color: '#ffffff', // Set the text color to white
+    color: '#ffffff' // Set the text color to white
   },
   accordionSummary: {
     backgroundColor: '#000000', // Set the background color of the summary to gray
-    color: '#ffffff', // Set the text color of the summary to white
-  },
+    color: '#ffffff' // Set the text color of the summary to white
+  }
 });
 
 const DragDropPanel = (props): JSX.Element => {
@@ -45,6 +45,8 @@ const DragDropPanel = (props): JSX.Element => {
   const htmlTypesToRender = state.HTMLTypes.filter(
     (type) => type.name !== 'separator'
   );
+
+  const muiTypesToRender = state.MUITypes;
 
   return (
     <div className={'HTMLItems'}>
@@ -93,7 +95,7 @@ const DragDropPanel = (props): JSX.Element => {
             </Grid>
           </AccordionDetails>
         </Accordion>
-  
+
         {/* MUI Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
@@ -106,23 +108,23 @@ const DragDropPanel = (props): JSX.Element => {
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">
-              {htmlTypesToRender.map((option) => {
-                if (option.name === 'MUI') {
-                  return (
-                    <HTMLItem
-                      name={option.name}
-                      key={`html-${option.name}`}
-                      id={option.id}
-                      icon={option.icon}
-                      handleDelete={handleDelete}
-                    />
-                  );
-                }
+              {muiTypesToRender.map((option) => {
+                // if (option.name === 'MUI') {
+                return (
+                  <HTMLItem
+                    name={option.name}
+                    key={`mui-${option.name}`}
+                    id={option.id}
+                    icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                );
+                // }
               })}
             </Grid>
           </AccordionDetails>
         </Accordion>
-  
+
         {/* React Router */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
@@ -156,7 +158,7 @@ const DragDropPanel = (props): JSX.Element => {
             </Grid>
           </AccordionDetails>
         </Accordion>
-  
+
         {/* Next.js */}
         {state.projectType === 'Next.js' ? (
           <h3 style={{ color: 'C6C6C6' }}>Next.js</h3>
@@ -183,4 +185,3 @@ const DragDropPanel = (props): JSX.Element => {
 };
 
 export default DragDropPanel;
-
