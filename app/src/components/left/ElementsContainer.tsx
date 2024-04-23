@@ -55,9 +55,10 @@ const ElementsContainer = (props): JSX.Element => {
     >
       {' '}
       <DragDropPanel />
-      <div id={'CompBottomHalf'}>
+      { // moved ComponentDrag to DragDropPanel
+      /* <div id={'CompBottomHalf'}>
         <ComponentDrag isThemeLight={props.isThemeLight} />
-      </div>
+      </div> */}
     </Box>
   );
 };

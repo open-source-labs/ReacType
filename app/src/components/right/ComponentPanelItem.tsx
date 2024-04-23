@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
+import * as Icons from '@mui/icons-material';
 /*
 DESCRIPTION: This component is each box beneath the 'HTML Elements' and
   'reusable components' (in classic React mode) headings. Drag-and-drop
@@ -23,10 +24,12 @@ const ComponentPanelItem: React.FC<{
   isFocus: boolean;
   isThemeLight: boolean;
 }> = ({ name, id, root, isFocus, isThemeLight }) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
   const dispatch = useDispatch();
+
+  const IconComponent = Icons[name]; // Use the correct icon component based on the name
 
   // useDrag hook allows components in left panel to be drag source
   const [{ isDragging }, drag] = useDrag({
@@ -61,36 +64,47 @@ const ComponentPanelItem: React.FC<{
       ref={drag}
       xs={8}
       style={{
-        color: 'white',
-        backgroundColor: 'transparent',
+        fontSize: 'small',
+        backgroundColor: '#2D313A', // Set background color
         border: '2px solid',
-        borderRadius: '4px',
-        borderColor: '#0671e3',
+        borderRadius: '10px',
+        borderColor: '#2D313A',
         margin: '5px 0px',
-        wordBreak: 'break-all',
-        width: '10rem'
+        width: '10rem', 
+        height: '3rem', 
+        position: 'relative',
       }}
     >
       {isFocus && <div className={classes.focusMark}></div>}
       <div className="compPanelItem" onClick={handleClick}>
-        {/* render element's name on the left panel*/}
-        <h3>{name}</h3>
+        <div className={classes.nameContainer}>
+          {IconComponent && <IconComponent />}
+          <h3
+            className={`${name} ${
+              isThemeLight ? classes.lightTheme : classes.darkTheme
+            }`}
+          >
+            {name}
+          </h3>
+        </div>
       </div>
     </Grid>
   );
 };
 
 const useStyles = makeStyles({
-  activeFocus: {
-    backgroundColor: 'rgba (0, 0, 0, 0.54)' //this doesnt do anything....
+  nameContainer: {
+    display: 'flex',
+    alignItems: 'center', 
   },
   focusMark: {
-    backgroundColor: '#0671e3',
-    justifySelf: 'left',
-    width: '14px',
-    height: '14px',
-    borderRadius: '25px',
-    position: 'absolute' //so it doesn't cause the containing box to jiggle when selected due to change in size
+    border: '2px solid #0671e3', 
+    borderRadius: '5%', 
+    position: 'absolute', 
+    top: '0', 
+    left: '0', 
+    right: '0', 
+    bottom: '0',  
   },
   lightTheme: {
     color: 'rgba (0, 0, 0, 0.54)'
@@ -99,4 +113,5 @@ const useStyles = makeStyles({
     color: '#ffffff'
   }
 });
+
 export default ComponentPanelItem;

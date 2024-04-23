@@ -48,7 +48,7 @@ const useStyles = makeStyles({
      overflow: 'auto'
   },
   panelWrapperList: {
-    minHeight: '120px'
+    minHeight: 'auto'
   },
   lightThemeFontColor: {
     color: '#fff'
