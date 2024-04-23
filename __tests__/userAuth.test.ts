@@ -147,4 +147,60 @@ describe('User Authentication tests', () => {
         .then((res) => expect(res.text).toBe('"Incorrect Password"'));
     });
   });
+
+  describe('/updatePassword', () => {
+    describe('POST', () => {
+      //testing update password
+      const testUsername = `supertest${Date.now()}`;
+      const testPassword = `password${Date.now()}`;
+      it('responds with status 200 and json string on valid password update (Success)', () => {
+        return request(app)
+          .post('/updatePassword')
+          .set('Content-Type', 'application/json')
+          .send({
+            username: testUsername,
+            password: testPassword
+          })
+          .expect(200)
+          .then((res) => expect(res.body.message).toBe('Success')); // might need to be res.text instead of res.body.message
+      });
+
+      it('responds with status 400 and json string if no password is provided (Password is required.)', () => {
+        return request(app)
+          .post('/updatePassword')
+          .send({ username: testUsername })
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+          .then((res) => expect(res.body.error).toBe('Password is required.'));
+      });
+
+      it('responds with status 404 and json string if user is not found (User not found.)', () => {
+        return request(app)
+          .post('/updatePassword')
+          .send({ username: 'doesntexist', password: 'fakepassword' })
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(404)
+          .then((res) => expect(res.body.error).toBe('User not found.'));
+      });
+
+      it('responds with status 400 and json string the provided password is the same as the current password (New password must be different from the current password.)', () => {
+        return request(app)
+          .post('/updatePassword')
+          .send({
+            username: testUsername,
+            password: testPassword
+          })
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+          .then((res) =>
+            expect(res.body.error).toBe(
+              'New password must be different from the current password.'
+            )
+          );
+      });
+    });
+  });
 });
