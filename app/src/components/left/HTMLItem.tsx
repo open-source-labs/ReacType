@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   HTMLPanelItem: {
     height: 'auto',
     width: 'auto',
-    fontSize: 'medium',
+    fontSize: 'small',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',

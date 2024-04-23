@@ -1,11 +1,31 @@
-import ComponentPanelItem from '../right/ComponentPanelItem';
-import Grid from '@mui/material/Grid';
 import React from 'react';
+import Grid from '@mui/material/Grid';
 import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
+import ComponentPanelItem from '../right/ComponentPanelItem';
 
-const ComponentDrag = ({ isThemeLight }): JSX.Element => {
+
+const useStyles = makeStyles({
+  panelWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    flexGrow: 1,
+    overflow: 'auto'
+  },
+  panelWrapperList: {
+    minHeight: 'auto'
+  },
+  lightThemeFontColor: {
+    color: '#fff'
+  },
+  darkThemeFontColor: {
+    color: '#fff'
+  }
+});
+
+const ComponentDrag = ({ isVisible, isThemeLight }): JSX.Element | null => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
 
@@ -13,13 +33,15 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
 
+  if (!isVisible) return null;
+
   return (
     <div className={classes.panelWrapper}>
       <div className={classes.panelWrapperList}>
         <h4 className={classes.darkThemeFontColor}>
           {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
             ? 'Pages'
-            : 'Root Components'}
+            : ''}
         </h4>
         <Grid
           container
@@ -47,23 +69,5 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   );
 };
 
-const useStyles = makeStyles({
-  panelWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flexGrow: 1,
-    overflow: 'auto'
-  },
-  panelWrapperList: {
-    minHeight: '120px'
-  },
-  lightThemeFontColor: {
-    color: '#fff'
-  },
-  darkThemeFontColor: {
-    color: '#fff'
-  }
-});
-
 export default ComponentDrag;
+
