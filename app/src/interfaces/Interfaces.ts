@@ -101,6 +101,21 @@ export interface HTMLType {
   framework: string;
   nestable: boolean;
 }
+export interface MUIType {
+  id: number;
+  tag: string;
+  name: string;
+  style: any;
+  placeHolderShort: string | React.JSX.Element;
+  placeHolderLong: string;
+  // ? == optional type part of icon, cant comment out icon and it works
+  // Icon?: any;
+  icon?: any;
+  framework: string;
+  nestable: boolean;
+  imports: any[];
+  props: any[];
+}
 export interface DragItem extends DragObjectWithType {
   newInstance: boolean;
   instanceType: string;
@@ -201,4 +216,30 @@ export interface BottomPanelObj {
   attributes: object;
   style: object;
   events: object;
+}
+
+export interface IErrorSetters {
+  setInvalidEmail?: (value: boolean) => void;
+  setInvalidEmailMsg?: (message: string) => void;
+  setInvalidUser?: (value: boolean) => void;
+  setInvalidUserMsg?: (message: string) => void;
+  setInvalidPassword?: (value: boolean) => void;
+  setInvalidPasswordMsg?: (message: string) => void;
+  setInvalidVerifyPassword?: (value: boolean) => void;
+  setInvalidVerifyPasswordMsg?: (message: string) => void;
+}
+
+export interface AuthStateSetters {
+  setEmail?: (value: string) => void;
+  setUsername?: (value: string) => void;
+  setPassword?: (value: string) => void;
+  setPasswordVerify?: (value: string) => void;
+}
+
+export interface ValidationParams {
+  email?: string;
+  username?: string;
+  password?: string;
+  passwordVerify?: string;
+  errorSetters: IErrorSetters;
 }
