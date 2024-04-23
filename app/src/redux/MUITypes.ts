@@ -1,58 +1,5 @@
-import { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
-import { ButtonProps as MuiButtonProps } from '@mui/material/Button';
-import { CardProps as MuiCardProps } from '@mui/material/Card';
-import { TypographyProps as MuiTypographyProps } from '@mui/material/Typography';
 import { MUIType } from '../interfaces/Interfaces';
 import { TroubleshootSharp } from '@mui/icons-material';
-
-interface ButtonSchema {
-    id: number;
-    tag: string;
-    name: string;
-    style: React.CSSProperties;
-    placeHolderShort: string;
-    placeHolderLong: string;
-    icon: string;
-    framework: string;
-    nestable: boolean;
-    props: MuiButtonProps;
-   }
-interface InputSchema {
-    id: number;
-    tag: string;
-    name: string;
-    style: React.CSSProperties;
-    placeHolderShort: string;
-    placeHolderLong: string;
-    icon: string;
-    framework: string;
-    nestable: boolean;
-    props: MuiTextFieldProps;
-   }
-interface CardSchema {
-    id: number;
-    tag: string;
-    name: string;
-    style: React.CSSProperties;
-    placeHolderShort: string;
-    placeHolderLong: string;
-    icon: string;
-    framework: string;
-    nestable: boolean;
-    props: MuiCardProps;
-   }
-interface TypographySchema {
-    id: number;
-    tag: string;
-    name: string;
-    style: React.CSSProperties;
-    placeHolderShort: string;
-    placeHolderLong: string;
-    icon: string;
-    framework: string;
-    nestable: boolean;
-    props: MuiTypographyProps;
-   }
 
 const MUITypes: MUIType[] = [  
    {
@@ -62,15 +9,27 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'button',
     placeHolderLong: 'Material UI Button Component',
-    icon: 'Code',
+    icon: 'EditAttributes',
     framework: 'reactClassic',
     nestable: true,
-    props: {
-       variant: 'contained',
-       color: 'primary',
-       disabled: false,
-       // Add other MUI ButtonProps as needed
-    },
+    imports: ["import Button from '@mui/material/Button'"], 
+    props: [
+        'children',
+        'classes',
+        'color',
+        'component',
+        'disabled',
+        'disableElevation',
+        'disableFocusRipple',
+        'disableRipple',
+        'endIcon',
+        'fullWidth',
+        'href',
+        'size',
+        'startIcon',
+        'sx',
+        'variant'
+    ]
    },
    {
     id: 21,
@@ -79,14 +38,44 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'input',
     placeHolderLong: 'Material UI TextField Component',
-    icon: 'TextFields',
+    icon: 'Input',
     framework: 'reactClassic',
     nestable: true,
-    props: {
-       variant: 'outlined',
-       fullWidth: true,
-       // Add other MUI TextFieldProps as needed
-    },
+    imports: ["import Box from '@mui/material/Box'", "import TextField from '@mui/material/TextField'"],
+    props: [
+        'autoComplete',
+        'autoFocus',
+        'classes',
+        'color',
+        'defaultValue',
+        'disabled',
+        'error',
+        'FormHelperTextProps',
+        'fullWidth',
+        'helperText',
+        'id',
+        'InputLabelProps',
+        'inputProps',
+        'InputProps',
+        'inputRef',
+        'label',
+        'margin',
+        'maxRows',
+        'minRows',
+        'multiline',
+        'name',
+        'onChange',
+        'placeholder',
+        'required',
+        'rows',
+        'select',
+        'SelectProps',
+        'size',
+        'sx',
+        'type',
+        'value',
+        'variant'
+    ]
    },
    {
     id: 31,
@@ -98,10 +87,8 @@ const MUITypes: MUIType[] = [
     icon: 'CardTravel',
     framework: 'reactClassic',
     nestable: true,
-    props: {
-       variant: 'outlined',
-       // Add other MUI CardProps as needed
-    },
+    imports: ["import Box from '@mui/material/Box'", "import Card from '@mui/material/Card'", "import CardActions from '@mui/material/CardActions'", "import CardContent from '@mui/material/CardContent'", "import Button from '@mui/material/Button'", "import Typography from '@mui/material/Typography'"],
+    props: ['children','classes','raised','sx']
    }, 
    {
     id: 41,
@@ -110,13 +97,22 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'typography',
     placeHolderLong: 'Material UI Typography Component',
-    icon: 'TextFormat',
+    icon: 'TextFields',
     framework: 'reactClassic',
     nestable: true,
-    props: {
-       variant: 'h6',
-       // Add other MUI TypographyProps as needed
-    },
+    imports: ["import Box from '@mui/material/Box'", "import Typography from '@mui/material/Typography'"],
+    props: [
+        'align',
+        'children',
+        'classes',
+        'component',
+        'gutterBottom',
+        'noWrap',
+        'paragraph',
+        'sx',
+        'variant',
+        'variantMapping'
+    ]
    }
 ];
 
