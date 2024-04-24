@@ -5,9 +5,11 @@ import {
   State,
   Component,
   ChildElement,
-  HTMLType
+  HTMLType,
+  MUIType
 } from '../../../interfaces/Interfaces';
 import HTMLTypes from '../../HTMLTypes';
+import MUITypes from '../../MUITypes';
 import generateCode from '../../../helperFunctions/generateCode';
 import manageSeparators from '../../../helperFunctions/manageSeparators';
 
@@ -40,6 +42,7 @@ export const initialState: State = {
   nextChildId: 1,
   nextTopSeparatorId: 1000,
   HTMLTypes: HTMLTypes, // left as is for now
+  MUITypes: MUITypes, // left as is for now
   tailwind: false,
   stylesheet: '',
   codePreview: false,
@@ -123,6 +126,13 @@ const findChild = (component: Component, childId: number) => {
   // if no match is found return false
   return;
 };
+function createHTMLElement(data) {
+  return {
+    ...data,
+    isHTMLElement: true
+  };
+}
+
 // update all ids and typeIds to match one another
 const updateAllIds = (comp: Component[] | ChildElement[]) => {
   // put components' names and ids into an obj
@@ -272,6 +282,7 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
+        state.MUITypes,
         state.tailwind,
         action.payload.contextParam
       );
@@ -280,7 +291,6 @@ const appStateSlice = createSlice({
     },
 
     addChild: (state, action) => {
-      let parentComponentId: number;
       const {
         type,
         typeId,
@@ -288,60 +298,57 @@ const appStateSlice = createSlice({
       }: { type: string; typeId: number; childId: any } = action.payload;
 
       // determine the parent component id
-      if (action.payload.copyId) {
-        parentComponentId = action.payload.copyId;
-      } else {
-        parentComponentId = state.canvasFocus.componentId;
-      }
+      const parentComponentId =
+        action.payload.copyId || state.canvasFocus.componentId;
 
       // make a copy of the components from state
       const components = [...state.components];
 
       // find the parent component
       const parentComponent = findComponent(components, parentComponentId);
+      if (!parentComponent) return state; // ensure that parent component exists
 
       // if type is 'Component', loop through components to find componentName and componentChildren
       let componentName: string = '';
       let componentChildren: ChildElement[] = [];
-      if (type === 'Component') {
-        components.forEach((comp) => {
-          if (comp.id === typeId) {
-            componentName = comp.name;
-            componentChildren = comp.children;
-          }
-        });
-      }
+
       if (type === 'Component') {
         const originalComponent = findComponent(state.components, typeId);
         if (originalComponent) {
+          componentName = originalComponent.name;
+          componentChildren = originalComponent.children;
           if (
             childTypeExists('Component', parentComponentId, originalComponent)
           )
             return state;
         }
-      }
-
-      // create a new name based on the type of element
-      let newName = state.HTMLTypes.reduce((name, el) => {
-        if (typeId === el.id) {
-          name = type === 'Component' ? componentName : el.tag;
+      } else if (type === 'Route Link') {
+        const routeLinkComponent = components.find(
+          (comp) => comp.id === typeId
+        );
+        if (routeLinkComponent) {
+          componentName = routeLinkComponent.name;
         }
-        return name;
-      }, '');
-
-      if (type === 'Route Link') {
-        components.find((comp) => {
-          if (comp.id === typeId) {
-            newName = comp.name;
-            return;
+      } else if (type === 'HTML Element') {
+        componentName = state.HTMLTypes.reduce((name, el) => {
+          if (typeId === el.id) {
+            name = el.tag;
           }
-        });
+          return name;
+        }, '');
+      } else {
+        componentName = state.MUITypes.reduce((name, el) => {
+          if (typeId === el.id) {
+            name = el.tag;
+          }
+          return name;
+        }, '');
       }
 
       const newChild: ChildElement = {
         type,
         typeId,
-        name: newName,
+        name: componentName,
         childId: state.nextChildId,
         style: {},
         attributes: {},
@@ -369,26 +376,20 @@ const appStateSlice = createSlice({
       // if the newChild Element is an input or img type, delete the children key/value pair
       // if (newChild.name === 'input' && newChild.name === 'img')
       //   delete newChild.children;
-      let directParent: HTMLElement | any;
+      // let directParent: HTMLElement | any;
       if (childId === null) {
-        if (parentComponent) {
-          parentComponent.children.push(topSeparator);
-          parentComponent.children.push(newChild);
-        }
-      }
-      // if there is a childId (childId here references the direct parent of the new child) find that child and add new child to its children array
-      else {
-        if (parentComponent) {
-          directParent = findChild(parentComponent, childId);
-          //disable nesting a component inside a HTML element
+        parentComponent.children.push(topSeparator, newChild);
+      } else {
+        const directParent = findChild(parentComponent, childId);
+        if (directParent) {
           if (directParent.type === 'HTML Element' && type === 'HTML Element') {
-            directParent.children.push(topSeparator);
-            directParent.children.push(newChild);
+            directParent.children.push(topSeparator, newChild);
           } else {
             return { ...state };
           }
         }
       }
+
       // update canvasFocus to the new child
       const canvasFocus = {
         ...state.canvasFocus,
@@ -396,38 +397,34 @@ const appStateSlice = createSlice({
         childId: newChild.childId
       };
 
-      const nextChildId = state.nextChildId + 1;
-      let nextTopSeparatorId = state.nextTopSeparatorId + 1;
-      let addChildArray = components[canvasFocus.componentId - 1].children;
-      // merge separator needs interface and type
-      addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
-      if (directParent && directParent.name === 'separator')
-        nextTopSeparatorId = manageSeparators.handleSeparators(
-          // handle separator needs interface and type
-          addChildArray,
-          'add'
+      // Increment IDs
+      state.nextChildId += 1;
+      state.nextTopSeparatorId += 1;
+
+      // Update the components array and potentially other parts of the state
+      components[parentComponentId - 1].children =
+        manageSeparators.mergeSeparator(
+          components[parentComponentId - 1].children,
+          1
         );
 
-      components[canvasFocus.componentId - 1].children = addChildArray;
+      // Generate code for the component
+      parentComponent.code = generateCode(
+        components,
+        parentComponentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.MUITypes,
+        state.tailwind,
+        action.payload.contextParam
+      );
 
-      // generate code
-      if (parentComponent) {
-        parentComponent.code = generateCode(
-          components,
-          parentComponentId,
-          [...state.rootComponents],
-          state.projectType,
-          state.HTMLTypes,
-          state.tailwind,
-          action.payload.contextParam
-        );
-      }
-
-      // update the state with the new values
+      // Update state
       state.components = components;
-      state.nextChildId = nextChildId;
       state.canvasFocus = canvasFocus;
-      state.nextTopSeparatorId = nextTopSeparatorId;
+
+      return state;
     },
 
     changeTailwind: (state, action) => {
@@ -465,6 +462,7 @@ const appStateSlice = createSlice({
               [...state.rootComponents],
               state.projectType,
               state.HTMLTypes,
+              state.MUITypes,
               state.tailwind,
               action.payload.contextParam
             );
@@ -489,6 +487,7 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -556,6 +555,7 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -582,6 +582,7 @@ const appStateSlice = createSlice({
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes,
+            state.MUITypes,
             state.tailwind,
             action.payload.contextParam
           );
@@ -610,6 +611,7 @@ const appStateSlice = createSlice({
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes,
+            state.MUITypes,
             state.tailwind,
             action.payload.contextParam
           );
@@ -639,6 +641,7 @@ const appStateSlice = createSlice({
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes,
+            state.MUITypes,
             state.tailwind,
             action.payload.contextParam
           );
@@ -665,6 +668,7 @@ const appStateSlice = createSlice({
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes,
+            state.MUITypes,
             state.tailwind,
             action.payload.contextParam
           );
@@ -723,6 +727,7 @@ const appStateSlice = createSlice({
           rootComponents,
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -753,6 +758,7 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -781,6 +787,7 @@ const appStateSlice = createSlice({
 
       const stylesheet = '';
       const resetHTMLTypes = HTMLTypes;
+      const resetMUITypes = MUITypes;
 
       return {
         ...state,
@@ -791,7 +798,8 @@ const appStateSlice = createSlice({
         components,
         canvasFocus,
         stylesheet,
-        HTMLTypes: resetHTMLTypes
+        HTMLTypes: resetHTMLTypes,
+        MUITypes: resetMUITypes
       };
     },
     updateProjectName: (state, action) => {
@@ -814,6 +822,12 @@ const appStateSlice = createSlice({
         }
         return el.id !== action.payload.id;
       });
+      // const MUITypes: MUIType[] = [...state.MUITypes].filter((el) => {
+      //   if (el.id === action.payload.id) {
+      //     name = el.tag;
+      //   }
+      //   return el.id !== action.payload.id;
+      // });
       const components: Component[] = deleteById(
         action.payload.id,
         name,
@@ -828,6 +842,7 @@ const appStateSlice = createSlice({
           rootComponents,
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -835,6 +850,7 @@ const appStateSlice = createSlice({
 
       state.canvasFocus = canvasFocus;
       state.HTMLTypes = HTMLTypes;
+      // state.MUITypes = MUITypes;
     },
 
     deleteChild: (state, action) => {
@@ -880,6 +896,7 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
+        state.MUITypes,
         state.tailwind,
         action.payload.contextParam
       );
@@ -931,6 +948,7 @@ const appStateSlice = createSlice({
           state.rootComponents,
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -959,6 +977,7 @@ const appStateSlice = createSlice({
           state.rootComponents,
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -982,6 +1001,7 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
+        state.MUITypes,
         state.tailwind,
         action.payload.contextParam
       );
@@ -1035,6 +1055,7 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
+        state.MUITypes,
         state.tailwind,
         action.payload.contextParam
       );
@@ -1045,6 +1066,7 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
+        state.MUITypes,
         state.tailwind,
         action.payload.contextParam
       );
@@ -1101,6 +1123,7 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -1125,6 +1148,7 @@ const appStateSlice = createSlice({
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes,
+            state.MUITypes,
             state.tailwind,
             action.payload.contextParam
           );
@@ -1148,6 +1172,7 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );
@@ -1162,6 +1187,7 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
+        state.MUITypes,
         state.tailwind,
         action.payload.contextParam
       );
@@ -1266,6 +1292,7 @@ const appStateSlice = createSlice({
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes,
+            state.MUITypes,
             state.tailwind,
             action.payload.contextParam
           );
@@ -1278,6 +1305,7 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes,
+          state.MUITypes,
           state.tailwind,
           action.payload.contextParam
         );

@@ -231,6 +231,20 @@ span.material-symbols-outlined {
   color: #8ca8ff;
 }
 
+#MUIItem {
+  transition: 0.3s;
+  border: 1px solid transparent;
+  color: #f2fbf8;
+  padding: 10%;
+  border-radius: 10px;
+  box-shadow: #191919;
+}
+
+#MUIItem:hover {
+  background-color: #474545a8;
+  color: #8ca8ff;
+}
+
 #submitButton {
   margin-left: 5px;
 }
@@ -589,7 +603,13 @@ BOTTOM PANEL
   transition: 0.3s ease all;
   border-color: transparent;
   background-color: #1e2024;
-  background-image: linear-gradient(180deg, #1e2024 15%, grey 15%, grey 85%, #1e2024 85%);
+  background-image: linear-gradient(
+    180deg,
+    #1e2024 15%,
+    grey 15%,
+    grey 85%,
+    #1e2024 85%
+  );
   border-radius: 10px;
   z-index: 40;
   overflow-y: hidden;
@@ -608,7 +628,13 @@ BOTTOM PANEL
   transition: 0.3s ease all;
   border-color: transparent;
   background-color: #1e2024;
-  background-image: linear-gradient(180deg, #1e2024 15%, #31343A 15%, #31343A 85%, #1e2024 85%);
+  background-image: linear-gradient(
+    180deg,
+    #1e2024 15%,
+    #31343a 15%,
+    #31343a 85%,
+    #1e2024 85%
+  );
   border-radius: 10px;
   z-index: 40;
   overflow-y: hidden;

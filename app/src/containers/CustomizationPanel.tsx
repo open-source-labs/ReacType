@@ -56,6 +56,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
+  const [flexOptionsVisible, setFlexOptionsVisible] = useState(false);
   const [BGColor, setBGColor] = useState('');
   const [compText, setCompText] = useState('');
   const [compLink, setCompLink] = useState('');
@@ -69,7 +70,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
   const [eventAll, setEventAll] = useState(['', '']);
+  const [eventOptionsVisible, setEventOptionsVisible] = useState(false);
   const [eventRow, setEventRow] = useState([]);
+  const [eventRowsVisible, setEventRowsVisible] = useState(false);
 
   const currFocus = getFocus().child;
 
@@ -85,6 +88,35 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       setEventRow(addedEvent);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (displayMode === 'flex') {
+      return setFlexOptionsVisible(true);
+    }
+    return setFlexOptionsVisible(false);
+  }, [displayMode]);
+
+  useEffect(() => {
+    if (eventAll[0] !== '') {
+      return setEventOptionsVisible(true);
+    }
+    return setEventOptionsVisible(false);
+  }, [eventAll]);
+
+  useEffect(() => {
+    if (eventRow.length) {
+      return setEventRowsVisible(true);
+    }
+    return setEventRowsVisible(false);
+  }, [eventRow]);
+
+  const marginTopAmount = () => {
+    let totalMargin = 0;
+    if (eventOptionsVisible) totalMargin += 90;
+    if (flexOptionsVisible) totalMargin = Math.max(totalMargin, 210);
+    if (eventRowsVisible) totalMargin = Math.max(totalMargin, 335);
+    return `${totalMargin}px`;
+  };
 
   //this function allows properties to persist and appear in nested divs
   function deepIterate(arr) {
@@ -128,7 +160,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     resetFields();
   }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
   // handles all input field changes, with specific updates called based on input's name
-  const handleChange = (e: React.ChangeEvent<{ value: any }>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputVal = e.target.value;
     switch (e.target.name) {
       case 'display':
@@ -862,7 +894,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               )}
             </div>
           </section>
-          <div className={classes.buttonRow}>
+          <div
+            className={classes.buttonRow}
+            style={{ marginTop: marginTopAmount() }}
+          >
             <div>
               <Button
                 variant="contained"
@@ -957,7 +992,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </Button>
               </div>
             )}
-            <div style={{marginLeft: '17px'}}>
+            <div style={{ marginLeft: '17px' }}>
               <Button
                 variant="contained"
                 color="primary"
@@ -1039,6 +1074,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    marginLeft: '15px',
     '& > .MuiButton-textSecondary': {
       color: isThemeLight ? '#808080' : '#ECECEA', // color for delete page
       border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'

@@ -1,36 +1,40 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import HTMLItem from './HTMLItem';
+import MUIItem from './MUIItem';
 import React from 'react';
 import { RootState } from '../../redux/store';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { makeStyles } from '@mui/styles';
+import ComponentDrag from './ComponentDrag';
 
-/*
-DESCRIPTION: This is the top half of the left panel, starting from the 'HTML
-  Elements' header. The boxes containing each HTML element are rendered in
-  HTMLItem, which itself is rendered by this component.
+const useStyles = makeStyles({
+  accordion: {
+    backgroundColor: '#000000', // Set the background color to gray
+    color: '#ffffff' // Set the text color to white
+  },
+  accordionSummary: {
+    backgroundColor: '#000000', // Set the background color of the summary to gray
+    color: '#ffffff' // Set the text color of the summary to white
+  }
+});
 
-Central state contains all available HTML elements (stored in the HTMLTypes property).
-  The data for HTMLTypes is stored in HTMLTypes.tsx and is added to central state in
-  initialState.tsx.
-
-Hook state:
-  -tag:
-*/
-// Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
+  const classes = useStyles();
   const dispatch = useDispatch();
 
-  const state = useSelector((store: RootState) => store.appState); // current state
-  const contextParam = useSelector((store: RootState) => store.contextSlice); // current contextParam
-  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode); // current roomCode
+  const state = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice);
+  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
-  // function for delete element
   const handleDelete = (id: number): void => {
     dispatch(deleteElement({ id: id, contextParam: contextParam }));
     if (roomCode) {
-      // send delete element to server to broadcast to all users
       emitEvent('deleteElementAction', roomCode, {
         id,
         contextParam
@@ -38,67 +42,125 @@ const DragDropPanel = (props): JSX.Element => {
     }
   };
 
-  // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(
     (type) => type.name !== 'separator'
   );
+
+  const muiTypesToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator'
+  );
+
   return (
     <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
-        <h3 style={{ color: '#ffffff' }}> HTML Elements </h3>
-        <Grid
-          container
-          // spacing={{ xs: 0.5, md: 0.5 }}
-          // columns={{ xs: 4, sm: 4, md: 4 }}
-          justifyContent="center"
-        >
-          {htmlTypesToRender.map((option) => {
-            if (
-              !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
-                option.name
-              )
-            ) {
-              return (
-                <HTMLItem
-                  name={option.name}
-                  key={`html-${option.name}`}
-                  id={option.id}
-                  icon={option.icon}
-                  handleDelete={handleDelete}
-                />
-              );
-            }
-          })}
-        </Grid>
+        {/* Root Components */}
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>Root Components</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ComponentDrag isVisible={true} isThemeLight={props.isThemeLight} />
+          </AccordionDetails>
+        </Accordion>
 
-        {state.projectType === 'Classic React' ? (
-          <h3 style={{ color: '#ffffff' }}>React Router</h3>
-        ) : null}
-        <Grid
-          container
-          // spacing={{ xs: 0.5, md: 0.5 }}
-          // columns={{ xs: 4, sm: 4, md: 4 }}
-          justifyContent="center"
-        >
-          {htmlTypesToRender.map((option) => {
-            if (
-              (option.name === 'Switch' ||
-                option.name === 'LinkTo' ||
-                option.name === 'Route') &&
-              state.projectType === 'Classic React'
-            ) {
-              return (
-                <HTMLItem
-                  name={option.name}
-                  key={`html-${option.name}`}
-                  id={option.id}
-                  icon={option.icon}
-                  handleDelete={handleDelete}
-                />
-              );
-            }
-          })}
-        </Grid>
+        {/* HTML Components */}
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>HTML Elements</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {htmlTypesToRender.map((option) => {
+                if (
+                  !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
+                    option.name
+                  )
+                ) {
+                  return (
+                    <HTMLItem
+                      name={option.name}
+                      key={`html-${option.name}`}
+                      id={option.id}
+                      icon={option.icon}
+                      handleDelete={handleDelete}
+                    />
+                  );
+                }
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+
+        {/* MUI Components */}
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>MUI Components</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {muiTypesToRender.map((option) => {
+                return (
+                  <MUIItem
+                    name={option.name}
+                    key={`mui-${option.name}`}
+                    id={option.id}
+                    icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+
+        {/* React Router */}
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>React Router</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {htmlTypesToRender.map((option) => {
+                if (
+                  (option.name === 'Switch' ||
+                    option.name === 'LinkTo' ||
+                    option.name === 'Route') &&
+                  state.projectType === 'Classic React'
+                ) {
+                  return (
+                    <HTMLItem
+                      name={option.name}
+                      key={`html-${option.name}`}
+                      id={option.id}
+                      icon={option.icon}
+                      handleDelete={handleDelete}
+                    />
+                  );
+                }
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
 
         {/* Next.js */}
         {state.projectType === 'Next.js' ? (

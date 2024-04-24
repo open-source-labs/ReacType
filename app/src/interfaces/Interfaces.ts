@@ -17,6 +17,7 @@ export interface State {
   nextBottomSeparatorId?: number;
   nextChildId: number;
   HTMLTypes: HTMLType[];
+  MUITypes: MUIType[];
   tailwind: boolean;
   stylesheet: string;
   codePreview: boolean;
@@ -114,6 +115,7 @@ export interface MUIType {
   framework: string;
   nestable: boolean;
   imports: any[];
+  props: any[];
 }
 export interface DragItem extends DragObjectWithType {
   newInstance: boolean;
