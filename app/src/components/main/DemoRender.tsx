@@ -13,6 +13,7 @@ import { Component } from '../../interfaces/Interfaces';
 import ReactDOMServer from 'react-dom/server';
 import { RootState } from '../../redux/store';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { blue } from '@mui/material/colors';
 
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
@@ -79,11 +80,12 @@ const DemoRender = (): JSX.Element => {
   `;
 
   window.onmessage = (event) => {
+    // console.log('event', event)
     // If event.data or event.data.data is undefined, return early
     if (!event.data || typeof event.data.data !== 'string') return;
 
     const component: string = event.data.data.split('/').at(-1);
-
+    console.log('component', component)
     // If components aren't defined or component isn't a string, return early
     if (!state.components || !component) return;
 
@@ -102,10 +104,13 @@ const DemoRender = (): JSX.Element => {
   const componentBuilder = (array: any, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
+      console.log("array")
+      console.log(array)
       if (element.name !== 'separator') {
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
+        console.log("elementStyle", elementStyle)
         const innerText = element.attributes.compText;
         const classRender = element.attributes.cssClasses;
         const activeLink = element.attributes.compLink;
@@ -188,6 +193,7 @@ const DemoRender = (): JSX.Element => {
         key += 1;
       }
     }
+    console.log('componentstoRender array line 196', componentsToRender)
     return componentsToRender;
   };
 
@@ -198,16 +204,17 @@ const DemoRender = (): JSX.Element => {
   const currComponent = state.components.find(
     (element) => element.id === state.canvasFocus.componentId
   );
-
+  
   //writes each component to the code
   componentBuilder(currComponent.children).forEach((element) => {
     try {
       code += ReactDOMServer.renderToString(element);
+      console.log('code line 211', code)
     } catch {
       return;
     }
   });
-
+  console.log('code line 215', code)
   //writes our stylesheet from state to the code
   code += `<style>${stylesheet}</style>`;
 

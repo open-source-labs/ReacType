@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     color: '#fff'
   },
   darkThemeFontColor: {
-    color: '#fff'
+    color: '#00008B,'
   }
 });
 
@@ -30,6 +30,8 @@ const ComponentDrag = ({ isVisible, isThemeLight }): JSX.Element | null => {
   const state = useSelector((store: RootState) => store.appState);
 
   const isFocus = (targetId: Number) => {
+    console.log('targetID line 33', targetId)
+    console.log('componentID line 34', state.canvasFocus.componentId)
     return state.canvasFocus.componentId === targetId ? true : false;
   };
 
