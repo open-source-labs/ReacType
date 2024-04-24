@@ -20,10 +20,11 @@ const useStyles = makeStyles({
   MUIPanelItem: {
     height: 'auto',
     width: 'auto',
-    fontSize: 'medium',
+    fontSize: 'small',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    alignItems: 'center',
     textAlign: 'center',
     cursor: 'grab'
   },
@@ -48,15 +49,20 @@ const MUIItem: React.FC<{
   // Use drag and drop functionality
   const classes = useStyles();
   const [modal, setModal] = useState(null);
+
+  const item = {
+    type: ItemTypes.INSTANCE,
+    newInstance: true,
+    instanceType: 'MUI Component', // MUI Element? - we should carefully consider what we call this
+    name,
+    icon,
+    instanceTypeId: id
+  };
+
+  // console.log('draggable item', item);
+
   const [{ isDragging }, drag] = useDrag({
-    item: {
-      type: ItemTypes.INSTANCE,
-      newInstance: true,
-      instanceType: 'MUI Component', // MUI Element? - we should carefully consider what we call this
-      name,
-      icon,
-      instanceTypeId: id
-    },
+    item,
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })
@@ -137,8 +143,8 @@ const MUIItem: React.FC<{
   // id over/under 20 logic
   // html-g{name} - html grid name = item
   return (
-    <Grid item xs={5} key={`html-g${name}`} id="HTMLgrid">
-      {id <= 20 && (
+    <Grid item xs={5} key={`mui-g${name}`} id="HTMLgrid">
+      {id >= 20 && (
         <div
           ref={drag}
           style={{
@@ -146,7 +152,7 @@ const MUIItem: React.FC<{
             backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
           }}
           className={`${classes.MUIPanelItem} ${classes.darkThemeFontColor}`}
-          id="HTMLItem"
+          id="MUIItem"
           onClick={() => {
             handleClick();
           }}
@@ -158,12 +164,12 @@ const MUIItem: React.FC<{
         </div>
       )}
 
-      {id > 20 && (
+      {id < 20 && (
         <div
           ref={drag}
           style={{ borderColor: '#C6C6C6' }}
           className={`${classes.MUIPanelItem} ${classes.darkThemeFontColor}`}
-          id="HTMLItem"
+          id="MUIItem"
           onClick={() => {
             handleClick();
           }}

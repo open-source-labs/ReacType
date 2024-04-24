@@ -2,6 +2,7 @@ import {
   Component,
   ChildElement,
   HTMLType,
+  MUIType,
   ChildStyle,
   StateProp
 } from '../interfaces/Interfaces';
@@ -17,6 +18,7 @@ const generateCode = (
   rootComponents: number[],
   projectType: string,
   HTMLTypes: HTMLType[],
+  MUITypes: MUIType[],
   tailwind: boolean,
   contextParam: any
 ) => {
@@ -26,6 +28,7 @@ const generateCode = (
     rootComponents,
     projectType,
     HTMLTypes,
+    MUITypes,
     tailwind,
     contextParam
   );
@@ -39,6 +42,7 @@ const generateUnformattedCode = (
   rootComponents: number[],
   projectType: string,
   HTMLTypes: HTMLType[],
+  MUITypes: MUIType[],
   tailwind: boolean,
   contextParam: any
 ) => {
@@ -104,6 +108,30 @@ const generateUnformattedCode = (
           importReactRouter = true;
         else if (referencedHTML.tag === 'Link') links = true;
         if (referencedHTML.tag === 'Image') images = true;
+        return child;
+      } else if (child.type === 'MUI Component') {
+        const referencedMUI = MUITypes.find((elem) => elem.id === child.typeId);
+        child['tag'] = referencedMUI.tag;
+        if (
+          referencedMUI.tag === 'button' ||
+          referencedMUI.tag === 'card' ||
+          referencedMUI.tag === 'typography' ||
+          referencedMUI.tag === 'input' ||
+          referencedMUI.tag === 'Link' ||
+          referencedMUI.tag === 'Switch' ||
+          referencedMUI.tag === 'Route'
+        ) {
+          child.children = getEnrichedChildren(child);
+        }
+
+        // when we see a Switch or LinkTo, import React Router
+        if (
+          (referencedMUI.tag === 'Switch' || referencedMUI.tag === 'Route') &&
+          projectType === 'Classic React'
+        )
+          importReactRouter = true;
+        else if (referencedMUI.tag === 'Link') links = true;
+        if (referencedMUI.tag === 'Image') images = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
@@ -491,6 +519,15 @@ const generateUnformattedCode = (
       let importStr = '';
       children.map((child) => {
         if (child.type === 'HTML Element') {
+          if (child.events) {
+            for (const [event, funcName] of Object.entries(child.events)) {
+              importStr += `\tconst ${funcName} = () => {};\n`;
+            }
+          }
+          if (child.children.length !== 0)
+            importStr += createEventHandler(child.children);
+        }
+        if (child.type === 'MUI Component') {
           if (child.events) {
             for (const [event, funcName] of Object.entries(child.events)) {
               importStr += `\tconst ${funcName} = () => {};\n`;

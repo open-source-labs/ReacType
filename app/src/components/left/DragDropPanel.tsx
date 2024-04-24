@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import HTMLItem from './HTMLItem';
-import MUIItem from './MUI_Item';
+import MUIItem from './MUIItem';
 import React from 'react';
 import { RootState } from '../../redux/store';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
@@ -46,11 +46,14 @@ const DragDropPanel = (props): JSX.Element => {
     (type) => type.name !== 'separator'
   );
 
-  const muiTypesToRender = state.MUITypes;
+  const muiTypesToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator'
+  );
 
   return (
     <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
+        {/* Root Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -64,6 +67,8 @@ const DragDropPanel = (props): JSX.Element => {
             <ComponentDrag isVisible={true} isThemeLight={props.isThemeLight} />
           </AccordionDetails>
         </Accordion>
+
+        {/* HTML Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -109,9 +114,8 @@ const DragDropPanel = (props): JSX.Element => {
           <AccordionDetails>
             <Grid container justifyContent="center">
               {muiTypesToRender.map((option) => {
-                // if (option.name === 'MUI') {
                 return (
-                  <HTMLItem
+                  <MUIItem
                     name={option.name}
                     key={`mui-${option.name}`}
                     id={option.id}
@@ -119,7 +123,6 @@ const DragDropPanel = (props): JSX.Element => {
                     handleDelete={handleDelete}
                   />
                 );
-                // }
               })}
             </Grid>
           </AccordionDetails>

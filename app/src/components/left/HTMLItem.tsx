@@ -19,6 +19,7 @@ const useStyles = makeStyles({
     height: 'auto',
     width: 'auto',
     fontSize: 'small',
+    alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
