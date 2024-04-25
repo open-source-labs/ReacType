@@ -33,11 +33,13 @@ const BottomPanel = (props): JSX.Element => {
     if (!props.bottomShow) return; // prevent drag calculation to occur when bottom menu is not showing
 
     const dy = y - e.clientY;
+    const newHeight = h + dy;
 
-    const newVal = h + dy;
-    const styles = window.getComputedStyle(node.current);
-    const min = parseInt(styles.minHeight, 10);
-    node.current.style.height = newVal > min ? `${h + dy}px` : `${min}px`;
+  const styles = window.getComputedStyle(node.current);
+  const minHeight = parseInt(styles.minHeight, 10);
+  const maxHeight = window.innerHeight * 0.8; // Set a maximum height, e.g., 90% of window height
+
+  node.current.style.height = `${Math.max(minHeight, Math.min(maxHeight, newHeight))}px`;
   };
 
   const mouseUpHandler = function () {
@@ -49,13 +51,18 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   useEffect(() => {
-    node.current.style.height = '50vh';
-    node.current.style.minHeight = '50vh';
-  }, []);
+    if (props.bottomShow) {
+      node.current.style.height = '50vh'; // Initial height when bottom panel is open
+      node.current.style.minHeight = '20vh'; // Minimum height when bottom panel is open
+    } else {
+      node.current.style.height = '0.1'; // Initial height when bottom panel is closed
+      node.current.style.minHeight = '0.1'; // Minimum height when bottom panel is closed
+    }
+  }, [props.bottomShow]);
 
   return (
     <>
-      <div className="bottom-panel" id="resize" ref={node}>
+      <div className="bottom-panel" id="resize" ref={node} >
         <div
           id="resize-drag"
           onMouseDown={mouseDownHandler}

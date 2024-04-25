@@ -11,6 +11,7 @@ declare global {
     api: any;
   }
 }
+
 // generate code based on component hierarchy and then return the rendered code
 const generateCode = (
   components: Component[],
@@ -52,379 +53,500 @@ const generateUnformattedCode = (
   const currComponent = components.find((elem) => elem.id === componentId);
   // find the unique components that we need to import into this component file
   let imports: any = [];
+  let muiImports = new Set();
   let providers: string = '';
   let context: string = '';
   let links: boolean = false;
   let images: boolean = false;
   const isRoot = rootComponents.includes(componentId);
   let importReactRouter = false;
+
   // returns an array of objects which may include components, html elements, and/or route links
-  const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
-    // declare an array of enriched children
-    const enrichedChildren = currentComponent.children?.map((elem: any) => {
-      //enrichedChildren is iterating through the children array
-      const child: ChildElement = { ...elem };
-      // check if child is a component
-      if (child.type === 'Component') {
-        // verify that the child is in the components array in state
-        const referencedComponent = components.find(
-          (elem) => elem.id === child.typeId
-        );
-        // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
-        if (!imports.includes(referencedComponent.name))
-          imports.push(referencedComponent.name);
-        child['name'] = referencedComponent.name;
-        return child;
-      } else if (child.type === 'HTML Element') {
-        const referencedHTML = HTMLTypes.find(
-          (elem) => elem.id === child.typeId
-        );
-        child['tag'] = referencedHTML.tag;
-        if (
-          referencedHTML.tag === 'h1' ||
-          referencedHTML.tag === 'h2' ||
-          referencedHTML.tag === 'a' ||
-          referencedHTML.tag === 'p' ||
-          referencedHTML.tag === 'button' ||
-          referencedHTML.tag === 'span' ||
-          referencedHTML.tag === 'div' ||
-          referencedHTML.tag === 'separator' ||
-          referencedHTML.tag === 'form' ||
-          referencedHTML.tag === 'ul' ||
-          referencedHTML.tag === 'ol' ||
-          referencedHTML.tag === 'menu' ||
-          referencedHTML.tag === 'li' ||
-          referencedHTML.tag === 'Link' ||
-          referencedHTML.tag === 'Switch' ||
-          referencedHTML.tag === 'Route'
-        ) {
-          child.children = getEnrichedChildren(child);
-        }
+  const getEnrichedChildren = (currentComponent) => {
+    const enrichedChildren = [];
 
-        // when we see a Switch or LinkTo, import React Router
-        if (
-          (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Route') &&
-          projectType === 'Classic React'
-        )
-          importReactRouter = true;
-        else if (referencedHTML.tag === 'Link') links = true;
-        if (referencedHTML.tag === 'Image') images = true;
-        return child;
-      } else if (child.type === 'MUI Component') {
-        const referencedMUI = MUITypes.find((elem) => elem.id === child.typeId);
-        child['tag'] = referencedMUI.tag;
-        if (
-          referencedMUI.tag === 'button' ||
-          referencedMUI.tag === 'card' ||
-          referencedMUI.tag === 'typography' ||
-          referencedMUI.tag === 'input' ||
-          referencedMUI.tag === 'Link' ||
-          referencedMUI.tag === 'Switch' ||
-          referencedMUI.tag === 'Route'
-        ) {
-          child.children = getEnrichedChildren(child);
-        }
+    currentComponent.children?.forEach((child) => {
+      const newChild = { ...child }; // Copy to avoid mutating original data
 
-        // when we see a Switch or LinkTo, import React Router
-        if (
-          (referencedMUI.tag === 'Switch' || referencedMUI.tag === 'Route') &&
-          projectType === 'Classic React'
-        )
-          importReactRouter = true;
-        else if (referencedMUI.tag === 'Link') links = true;
-        if (referencedMUI.tag === 'Image') images = true;
-        return child;
-      } else if (child.type === 'Route Link') {
-        links = true;
-        child.name = components.find(
-          (comp: Component) => comp.id === child.typeId
-        ).name;
-        return child;
+      switch (child.type) {
+        case 'Component':
+          const component = components.find((c) => c.id === child.typeId);
+          if (component && !imports.includes(component.name)) {
+            imports.push(component.name); // Track imports to avoid duplicates
+          }
+          newChild.name = component?.name; // Assign the name for rendering
+          break;
+
+        case 'HTML Element':
+          const htmlElement = HTMLTypes.find((h) => h.id === child.typeId);
+          newChild.tag = htmlElement?.tag;
+          if (htmlElement) {
+            // If this HTML element can contain children, process them recursively
+            if (
+              [
+                'h1',
+                'h2',
+                'a',
+                'p',
+                'button',
+                'span',
+                'div',
+                'form',
+                'ul',
+                'ol',
+                'menu',
+                'li',
+                'Link',
+                'Switch',
+                'Route'
+              ].includes(htmlElement.tag)
+            ) {
+              newChild.children = getEnrichedChildren({
+                children: child.children
+              });
+            }
+
+            // Additional flags for special types
+            if (
+              ['Switch', 'Route'].includes(htmlElement.tag) &&
+              projectType === 'Classic React'
+            ) {
+              importReactRouter = true;
+            } else if (htmlElement.tag === 'Link') {
+              links = true;
+            } else if (htmlElement.tag === 'Image') {
+              images = true;
+            }
+          }
+          break;
+
+        case 'MUI Component':
+          const muiComponent = MUITypes.find((m) => m.id === child.typeId);
+          newChild.tag = muiComponent?.tag;
+          if (muiComponent) {
+            // Recursively process MUI components that can have children
+            if (
+              ['mui button', 'card', 'typography', 'textfield'].includes(
+                muiComponent.tag
+              )
+            ) {
+              newChild.children = getEnrichedChildren({
+                children: child.children
+              });
+              collectMUIImports(child, MUITypes, muiImports);
+            }
+          }
+          break;
+
+        case 'Route Link':
+          links = true;
+          newChild.name = components.find((c) => c.id === child.typeId)?.name;
+          break;
+
+        default:
+          // Handle other types or add error handling
+          break;
       }
+      enrichedChildren.push(newChild); // Add the processed child to the list
     });
+
     return enrichedChildren;
   };
+
   // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
-  const formatStyles = (styleObj: ChildStyle) => {
-    if (Object.keys(styleObj).length === 0) return ``;
-    const formattedStyles: String[] = [];
-    let styleString: String;
-    for (let i in styleObj) {
-      if (i === 'style') {
-        styleString = i + '=' + '{' + JSON.stringify(styleObj[i]) + '}';
-        formattedStyles.push(styleString);
-      }
-    }
-    return formattedStyles;
+  const formatStyles = (styleObj) => {
+    if (Object.keys(styleObj).length === 0) return '';
+    return `style={{${Object.entries(styleObj)
+      .map(([key, value]) => `${key}: '${value}'`)
+      .join(', ')}}}`;
   };
   // function to dynamically add classes, ids, and styles to an element if it exists.
-  //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
-  const elementTagDetails = (childElement: ChildElement) => {
-    let customizationDetails = '';
-    let passedInPropsString = '';
-    if (childElement.type === 'Component') {
-      let childComponent: Component;
-      for (let i = 0; i < components.length; i++) {
-        if (childElement.name === components[i].name) {
-          childComponent = components[i];
+  // LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
+  const elementTagDetails = (childElement) => {
+    const details = [];
+
+    if (childElement.childId && childElement.tag !== 'Route') {
+      details.push(`id="${childElement.childId}"`);
+    }
+
+    if (childElement.attributes && childElement.attributes.cssClasses) {
+      details.push(`className="${childElement.attributes.cssClasses}"`);
+    }
+
+    if (childElement.style && Object.keys(childElement.style).length > 0) {
+      if (tailwind) {
+        // Assuming 'tailwind' variable is globally available
+        const {
+          height,
+          alignItems,
+          backgroundColor,
+          display,
+          flexDirection,
+          width,
+          justifyContent
+        } = childElement.style;
+        const classMap = {
+          alignItems: {
+            center: 'items-center',
+            'flex-start': 'items-start',
+            'flex-end': 'items-end',
+            stretch: 'items-stretch'
+          },
+          display: {
+            flex: 'flex',
+            'inline-block': 'inline-block',
+            block: 'block',
+            none: 'hidden'
+          },
+          flexDirection: {
+            column: 'flex-col'
+          },
+          justifyContent: {
+            center: 'justify-center',
+            'flex-start': 'justify-start',
+            'space-between': 'justify-between',
+            'space-around': 'justify-around',
+            'flex-end': 'justify-end',
+            'space-evenly': 'justify-evenly'
+          },
+          height: {
+            '100%': 'h-full',
+            '50%': 'h-1/2',
+            '25%': 'h-1/4',
+            auto: 'auto'
+          },
+          width: {
+            '100%': 'w-full',
+            '50%': 'w-1/2',
+            '25%': 'w-1/4',
+            auto: 'w-auto'
+          }
+        };
+
+        let classes = [
+          classMap.alignItems[alignItems],
+          classMap.display[display],
+          classMap.flexDirection[flexDirection],
+          classMap.height[height],
+          classMap.justifyContent[justifyContent],
+          classMap.width[width],
+          backgroundColor ? `bg-[${backgroundColor}]` : ''
+        ]
+          .filter(Boolean)
+          .join(' ');
+
+        if (childElement.attributes && childElement.attributes.cssClasses) {
+          classes += ` ${childElement.attributes.cssClasses}`;
         }
+
+        details.push(`className="${classes}"`);
+      } else {
+        details.push(formatStyles(childElement.style));
       }
-      childComponent.passedInProps.forEach((prop) => {
-        passedInPropsString += `${prop.key} = {${prop.key}} `;
+    }
+
+    if (childElement.events) {
+      Object.entries(childElement.events).forEach(([event, funcName]) => {
+        details.push(`${event}={${funcName}}`);
       });
     }
 
-    if (childElement.childId && childElement.tag !== 'Route')
-      customizationDetails +=
-        ' ' + `id="${+childElement.childId}" ` + `${passedInPropsString}`;
-
-    if (
-      childElement.attributes &&
-      childElement.attributes.cssClasses &&
-      !tailwind
-    ) {
-      customizationDetails +=
-        ' ' + `className="${childElement.attributes.cssClasses}"`;
-    }
-    if (
-      childElement.style &&
-      Object.keys(childElement.style).length > 0 &&
-      tailwind === false
-    )
-      customizationDetails += ' ' + formatStyles(childElement.style);
-    if (
-      childElement.style &&
-      Object.keys(childElement.style).length > 0 &&
-      tailwind === true
-    ) {
-      let {
-        height,
-        alignItems,
-        backgroundColor,
-        display,
-        flexDirection,
-        width,
-        justifyContent
-      } = childElement.style;
-      let w: String,
-        h: String,
-        items: String,
-        bg: String,
-        d: String,
-        flexDir: String,
-        justCon: String,
-        cssClasses: String;
-      if (childElement.style.alignItems) {
-        if (alignItems === 'center') items = 'items-center ';
-        else if (alignItems === 'flex-start') items = 'items-start ';
-        else if (alignItems === 'flex-end') items = 'items-end ';
-        else if (alignItems === 'stretch') items = 'items-stretch ';
-      }
-      if (childElement.style.backgroundColor) {
-        bg = `bg-[${backgroundColor}] `;
-      }
-      if (childElement.style.display) {
-        if (display === 'flex') d = 'flex ';
-        else if (display === 'inline-block') d = 'inline-block ';
-        else if (display === 'block') d = 'block ';
-        else if (display === 'none') d = 'hidden ';
-      }
-      if (childElement.style.flexDirection) {
-        if (flexDirection === 'column') flexDir = 'flex-col ';
-      }
-      if (childElement.style.height) {
-        if (height === '100%') h = 'h-full ';
-        else if (height === '50%') h = 'h-1/2 ';
-        else if (height === '25%') h = 'h-1/4 ';
-        else if (height === 'auto') h = 'auto ';
-      }
-      if (childElement.style.justifyContent) {
-        if (justifyContent === 'center') justCon = 'justify-center ';
-        else if (justifyContent === 'flex-start') justCon = 'justify-start ';
-        else if (justifyContent === 'space-between')
-          justCon = 'justify-between ';
-        else if (justifyContent === 'space-around') justCon = 'justify-around ';
-        else if (justifyContent === 'flex-end') justCon = 'justify-end ';
-        else if (justifyContent === 'space-evenly') justCon = 'justify-evenly ';
-      }
-      if (childElement.style.width) {
-        if (width === '100%') w = 'w-full ';
-        else if (width === '50%') w = 'w-1/2 ';
-        else if (width === '25%') w = 'w-1/4 ';
-        else if (width === 'auto') w = 'w-auto ';
-      }
-      if (childElement.attributes && childElement.attributes.cssClasses) {
-        cssClasses = `${childElement.attributes.cssClasses} `;
-      }
-      customizationDetails +=
-        ' ' +
-        `className = "${cssClasses ? cssClasses : ''} ${w ? w : ''}${
-          h ? h : ''
-        }${justCon ? justCon : ''}${flexDir ? flexDir : ''}${d ? d : ''}${
-          bg ? bg : ''
-        }${items ? items : ''}"`;
-    }
-
-    if (childElement.events && Object.keys(childElement.events).length > 0) {
-      // SPACE BETWEEN ATTRIBUTE EXPRESSIONS
-      for (const [event, funcName] of Object.entries(childElement.events)) {
-        customizationDetails += ' ' + `${event}={(event) => ${funcName}()}`;
-      }
-    }
-
-    return customizationDetails;
+    return details.join(' ');
   };
+
   // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
-  const tabSpacer = (level: number) => {
-    let tabs = '  ';
-    for (let i = 0; i < level; i++) tabs += '  ';
-    return tabs;
-  };
+  const tabSpacer = (level) => '  '.repeat(level);
   // function to dynamically generate the appropriate levels for the code preview
-  const levelSpacer = (level: number, spaces: number) => {
-    if (level === 2) return `\n${tabSpacer(spaces)}`;
-    else return '';
-  };
+  const levelSpacer = (level) => `\n${tabSpacer(level)}`;
   // function to dynamically generate a complete html (& also other library type) elements
-  const elementGenerator = (childElement: ChildElement, level: number = 2) => {
+  const elementGenerator = (childElement, level = 0) => {
+    const jsxArray = [];
+    const indentation = '  '.repeat(level);
+
+    // Immediately return an empty array if the tag is 'separator'
+    if (childElement.tag === 'separator') {
+      return jsxArray; // Returns empty, adding nothing to output
+    }
+
     let innerText = '';
     let activeLink = '""';
+
     if (childElement.attributes && childElement.attributes.compText) {
-      if (childElement.stateUsed && childElement.stateUsed.compText) {
-        innerText = '{' + childElement.stateUsed.compText + '}';
-      } else {
-        innerText = childElement.attributes.compText;
-      }
+      innerText =
+        childElement.stateUsed && childElement.stateUsed.compText
+          ? `{${childElement.stateUsed.compText}}`
+          : childElement.attributes.compText;
     }
+
     if (childElement.attributes && childElement.attributes.compLink) {
-      if (childElement.stateUsed && childElement.stateUsed.compLink) {
-        activeLink = '{' + childElement.stateUsed.compLink + '}';
+      activeLink =
+        childElement.stateUsed && childElement.stateUsed.compLink
+          ? `{${childElement.stateUsed.compLink}}`
+          : `"${childElement.attributes.compLink}"`;
+    }
+
+    const nestableTags = [
+      'h1',
+      'h2',
+      'a',
+      'span',
+      'button',
+      'p',
+      'div',
+      'form',
+      'ol',
+      'ul',
+      'menu',
+      'li',
+      'Switch',
+      'Route'
+    ];
+    const isNestable = nestableTags.includes(childElement.tag);
+
+    const tagDetails = elementTagDetails(childElement);
+    if (isNestable) {
+      if (childElement.children) {
+        const childJsx = writeNestedElements(childElement.children, level + 1);
+        jsxArray.push(`${indentation}<${childElement.tag} ${tagDetails}>`);
+        jsxArray.push(...childJsx);
+        jsxArray.push(`${indentation}</${childElement.tag}>`);
       } else {
-        activeLink = '"' + childElement.attributes.compLink + '"';
+        jsxArray.push(`${indentation}<${childElement.tag} ${tagDetails} />`);
       }
+    } else {
+      jsxArray.push(
+        `${indentation}<${childElement.tag} ${tagDetails}>${innerText}</${childElement.tag}>`
+      );
     }
 
-    const nestable =
-      childElement.tag === 'h1' ||
-      childElement.tag === 'h2' ||
-      childElement.tag === 'a' ||
-      childElement.tag === 'span' ||
-      childElement.tag === 'button' ||
-      childElement.tag === 'p' ||
-      childElement.tag === 'div' ||
-      childElement.tag === 'form' ||
-      childElement.tag === 'ol' ||
-      childElement.tag === 'ul' ||
-      childElement.tag === 'menu' ||
-      childElement.tag === 'li' ||
-      childElement.tag === 'Switch' ||
-      childElement.tag === 'Route';
+    return jsxArray;
+  };
 
-    if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(
-        2,
-        3 + level
-      )}`;
-    } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${
-        childElement.tag
-      }>${levelSpacer(2, 3 + level)}`;
-    } else if (childElement.tag === 'input') {
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
-        childElement
-      )}></${childElement.tag}>${levelSpacer(2, 3 + level)}`;
-    } else if (childElement.tag === 'Link' && projectType === 'Classic React') {
-      return `${levelSpacer(level, 5)}<Link to=${activeLink}${elementTagDetails(
-        childElement
-      )}>
-        ${tabSpacer(level)}${writeNestedElements(
-        childElement.children,
+  function insertNestedJsxBeforeClosingTag(
+    parentJsx,
+    nestedJsx,
+    indentationLevel
+  ) {
+    // Find the index of the closing tag of the parent component
+    const closingTagIndex = parentJsx.lastIndexOf('</');
+    if (closingTagIndex === -1) return parentJsx; // No closing tag found, likely a self-closing tag
+
+    // Generate the indentation string for nested elements
+    const indent = '  '.repeat(indentationLevel);
+
+    // Prepare the nested JSX with proper indentation
+    const indentedNestedJsx = nestedJsx
+      .map((line) => `${indent}${line}`)
+      .join('\n');
+
+    // Insert the nested JSX before the closing tag of the parent component
+    return [
+      parentJsx.slice(0, closingTagIndex),
+      indentedNestedJsx,
+      parentJsx.slice(closingTagIndex)
+    ].join('\n');
+  }
+
+  function modifyAndIndentJsx(jsxAry, newProps, childId, name) {
+    // Define a regular expression to match the start tag of the specified child element
+    const tagRegExp = new RegExp(`^<${name}(\\s|>)`);
+
+    // Iterate through each line of JSX code
+    const modifiedJsx = jsxAry.map((line, index) => {
+      // Capture the original indentation by extracting leading spaces
+      const originalIndent = line.match(/^[\s]*/)[0];
+      const trimmedLine = line.trim();
+      // Find the position right after the component name to insert id and newProps
+      let insertIndex = trimmedLine.indexOf(`<${name}`) + `<${name}`.length;
+      // Condition for the first line (index 0)
+      if (index === 0) {
+        // Check if the line contains the start tag of the specified child element
+        if (tagRegExp.test(trimmedLine)) {
+          // Check and insert id if not already present
+          if (!trimmedLine.includes(`id=`) && childId) {
+            line = `${trimmedLine.substring(
+              0,
+              insertIndex
+            )} ${childId}${trimmedLine.substring(insertIndex)}`;
+            // Adjust insertIndex for the next insertion
+            insertIndex += childId.length + 1;
+          }
+
+          // Insert newProps at the updated insertion index
+          if (newProps) {
+            line = `${line.substring(
+              0,
+              insertIndex
+            )} ${newProps}${line.substring(insertIndex)}`;
+          }
+        } else {
+          // If the regex test fails but it's the first line, just add the id
+          if (!trimmedLine.includes(`id=`) && childId) {
+            let spaceIndex = trimmedLine.indexOf(' ');
+            if (spaceIndex === -1) {
+              // If no space found, use position before '>'
+              spaceIndex = trimmedLine.indexOf('>');
+            }
+            line = `${trimmedLine.substring(
+              0,
+              spaceIndex
+            )} ${childId} ${trimmedLine.substring(spaceIndex)}`;
+          }
+        }
+      } else if (index > 0 && tagRegExp.test(trimmedLine)) {
+        insertIndex = line.indexOf(`<${name}`) + `<${name}`.length;
+        if (newProps) {
+          line = `${line.substring(0, insertIndex)} ${newProps}${line.substring(
+            insertIndex
+          )}`;
+        }
+      } else {
+        // For other lines, no changes are made
+        line = trimmedLine;
+      }
+      // Return the line with its original indentation preserved
+      return originalIndent + line; // Avoid trimming here as line may already include necessary spaces
+    });
+    return modifiedJsx;
+  }
+
+  const muiGenerator = (child, level = 0) => {
+    let childId = '';
+    let passedInPropsString = '';
+
+    const MUIComp = MUITypes.find((el) => el.tag === child.name);
+    const MUIName = MUIComp.name;
+    // 'passedInProps' will be where the props from the MUI Props panel will saved
+    child.passedInProps.forEach((prop) => {
+      passedInPropsString += `${prop.key}={${prop.key}} `;
+    });
+
+    MUIComp.defaultProps.forEach((prop) => {
+      passedInPropsString += `${prop}`;
+    });
+
+    if (child.childId) {
+      childId = `id="${+child.childId}"`;
+    }
+
+    // Indent the JSX generated for MUI components based on the provided level
+    const indentedJSX = MUIComp.jsx.map(
+      (line) => `${'  '.repeat(level)}${line}`
+    );
+    let modifiedJSx = modifyAndIndentJsx(
+      indentedJSX,
+      passedInPropsString,
+      childId,
+      MUIName
+    );
+
+    // Handle nested components, if any
+    if (child.children && child.children.length > 0) {
+      const nestedJsx = writeNestedElements(child.children, level + 1);
+      modifiedJSx = insertNestedJsxBeforeClosingTag(
+        modifiedJSx.join('\n'),
+        nestedJsx,
         level + 1
-      )}${innerText}
-        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, 3 + level)}`;
-    } else if (childElement.tag === 'Link' && projectType === 'Next.js') {
-      return `${levelSpacer(
-        level,
-        5
-      )}<Link href=${activeLink}${elementTagDetails(childElement)}>
-        ${tabSpacer(level)}<a>${innerText}${writeNestedElements(
-        childElement.children,
-        level + 1
-      )}</a>
-        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, 3 + level)}`;
-    } else if (childElement.tag === 'Image') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } src=${activeLink} ${elementTagDetails(childElement)}/>`;
-    } else if (nestable) {
+      ).split('\n');
+    }
+    return modifiedJSx.join('\n');
+  };
+
+  const handleRouteLink = (child, level) => {
+    const jsxArray = [];
+    const indentation = '  '.repeat(level);
+
+    if (projectType === 'Next.js') {
+      // Next.js uses Link with the 'href' attribute and requires an <a> tag inside
+      jsxArray.push(
+        `<Link href="/${child.name === 'index' ? '' : child.name}">`
+      );
+      jsxArray.push(
+        `${indentation}  <a>${child.displayName || child.name}</a>`
+      );
+      jsxArray.push(`${indentation}</Link>`);
+    } else if (projectType === 'Gatsby.js') {
+      // Gatsby uses Link with the 'to' attribute
+      jsxArray.push(
+        `<Link to="/${child.name === 'index' ? '' : child.name}">${
+          child.displayName || child.name
+        }</Link>`
+      );
+    } else if (projectType === 'Classic React') {
+      // Classic React might use react-router-dom's Link or another routing method
+      jsxArray.push(
+        `<Link to="/${child.name === 'index' ? '' : child.name}">${
+          child.displayName || child.name
+        }</Link>`
+      );
+    } else {
+      // Fallback or default handling, such as a simple anchor tag
+      jsxArray.push(
+        `<a href="/${child.name === 'index' ? '' : child.name}">${
+          child.displayName || child.name
+        }</a>`
+      );
+    }
+
+    // Apply indentation to each line and join them with new lines
+    return jsxArray.map((line) => `${indentation}${line}`).join('\n');
+  };
+
+  // Function to collect MUI imports as components are processed
+  function collectMUIImports(component, MUITypes, muiImports) {
+    if (component.type === 'MUI Component') {
+      const muiComponent = MUITypes.find((m) => m.id === component.typeId);
       if (
-        (childElement.tag === 'Route' || childElement.tag === 'Switch') &&
-        projectType === 'Next.js'
+        muiComponent &&
+        muiComponent.imports &&
+        muiComponent.imports.length > 0
       ) {
-        return `${writeNestedElements(childElement.children, level)}`;
+        muiComponent.imports.forEach((importStatement) => {
+          if (!muiImports.has(importStatement)) {
+            muiImports.add(importStatement);
+          }
+        });
       }
-      const routePath =
-        childElement.tag === 'Route' ? ' ' + 'exact path=' + activeLink : '';
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
-        childElement
-      )}${routePath}>
-        ${tabSpacer(level)}${innerText}
-        ${tabSpacer(level)}${writeNestedElements(
-        childElement.children,
-        level + 1
-      )}
-        ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(
-        2,
-        3 + level
-      )}`;
-    } else if (childElement.tag !== 'separator') {
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
-        childElement
-      )}>${innerText}</${childElement.tag}>${levelSpacer(2, 3 + level)}`;
+
+      // Recursively collect imports from child components if they exist
+      if (component.children) {
+        component.children.forEach((child) =>
+          collectMUIImports(child, MUITypes, muiImports)
+        );
+      }
     }
+  }
+  // Generate MUI import strings from a set of import statements
+  function generateMUIImportStatements(muiImports) {
+    return Array.from(muiImports).join('\n');
+  }
+
+  const writeNestedElements = (enrichedChildren, level = 0) => {
+    return enrichedChildren.flatMap((child) => {
+      if (child.type === 'Component') {
+        return [`<${child.name} ${elementTagDetails(child)} />`];
+      } else if (child.type === 'HTML Element') {
+        return elementGenerator(child, level);
+      } else if (child.type === 'MUI Component') {
+        return muiGenerator(child, level);
+      } else if (child.type === 'Route Link') {
+        return handleRouteLink(child, level);
+      }
+      return []; // Return empty array for unhandled cases
+    });
   };
-  // write all code that will be under the "return" of the component
-  const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
-    return `${enrichedChildren
-      .map((child: ChildElement) => {
-        if (child.type === 'Component') {
-          return `<${child.name} ${elementTagDetails(child)}/>`;
-        } else if (child.type === 'HTML Element') {
-          return elementGenerator(child, level);
-        }
-        // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
-        else if (child.type === 'Route Link') {
-          if (projectType === 'Next.js') {
-            // if route link points to index, to go endpoint / rather than /index
-            if (child.name === 'index')
-              return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
-            else
-              return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
-          } else if (projectType === 'Gatsby.js') {
-            if (child.name === 'index')
-              return `<div><Link to="/">${child.name}</Link></div>`;
-            else
-              return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
-          } else return `<div><a>${child.name}</a></div>`;
-        }
-      })
-      .filter((element) => !!element)
-      .join('')}`;
-  };
+
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: String[]) => {
     let stateToRender: String = '';
     for (const element of stateArray) {
-      stateToRender += levelSpacer(2, 2) + element + ';';
+      stateToRender += levelSpacer(2) + element + ';';
     }
     return stateToRender;
   };
   const enrichedChildren: ChildElement[] = getEnrichedChildren(currComponent);
+
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
@@ -440,14 +562,6 @@ const generateUnformattedCode = (
             return `import ${comp} from './${comp}'`;
           })
           .join('\n');
-  const createState = (stateProps: StateProp[]) => {
-    let state = '{';
-    stateProps.forEach((ele) => {
-      state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
-    });
-    state = state.substring(0, state.length - 2) + '}';
-    return state;
-  };
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
@@ -469,26 +583,44 @@ const generateUnformattedCode = (
       return acc;
     }, {});
 
-    //return a string with all contexts provider in component's body
     const createRender = () => {
-      let result = `${writeNestedElements(enrichedChildren)}`;
-      if (importReactRouter) result = `<Router>\n ${result}\n </Router>`;
-      if (allContext.length < 1) return result;
+      const jsxElements = writeNestedElements(enrichedChildren);
 
-      if (currComponent.name === 'App') {
-        allContext.reverse().forEach((el, i) => {
-          let tabs = `\t\t`;
-          if (i === allContext.length - 1) {
-            tabs = `\t\t\t`;
-          }
-          result = `${tabs.repeat(allContext.length - i)}<${
-            el.name
-          }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
-            el.name
-          }Provider>`;
-        });
+      let jsxString = jsxElements.join('\n');
+
+      // Adding Router wrapper if necessary
+      if (importReactRouter) {
+        jsxString = `<Router>\n${indentLinesExceptFirst(
+          jsxString,
+          1
+        )}\n</Router>`;
       }
-      return result;
+
+      // Add context providers if the component is 'App' and contexts are defined
+      if (allContext.length > 0 && currComponent.name === 'App') {
+        allContext
+          .slice()
+          .reverse()
+          .forEach((el, index) => {
+            const indent = '  '.repeat(index + 1);
+            jsxString = `${indent}<${
+              el.name
+            }Provider>\n${indentLinesExceptFirst(
+              jsxString,
+              index + 1
+            )}\n${indent}</${el.name}Provider>`;
+          });
+      }
+
+      return jsxString;
+    };
+
+    const indentLinesExceptFirst = (text, level) => {
+      const lines = text.split('\n');
+      const firstLine = lines.shift(); // Remove the first line
+      const indentation = '  '.repeat(level);
+      const indentedLines = lines.map((line) => `${indentation}${line}`);
+      return `${firstLine}\n${indentedLines.join('\n')}`;
     };
 
     //decide which imports statements to use for which components
@@ -498,19 +630,6 @@ const generateUnformattedCode = (
       let importStr = '';
       componentContext[currComponent.name].forEach((context) => {
         importStr += `import { ${context} } from '../contexts/${context}.js'\n`;
-      });
-
-      return importStr;
-    };
-
-    //call use context hooks for components that are consuming contexts
-    //LEGACY PD:
-    const createUseContextHook = () => {
-      if (!(currComponent.name in componentContext)) return '';
-
-      let importStr = '';
-      componentContext[currComponent.name].forEach((context) => {
-        importStr += `  const [${context}Val] = useContext(${context})\n`;
       });
 
       return importStr;
@@ -541,7 +660,7 @@ const generateUnformattedCode = (
 
       return importStr;
     };
-
+    const muiImportStatements = generateMUIImportStatements(muiImports);
     let generatedCode =
       "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'App' ? contextImports : '';
@@ -550,6 +669,7 @@ const generateUnformattedCode = (
       : ``;
     generatedCode += createContextImport() ? `${createContextImport()}\n` : '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
+    generatedCode += muiImportStatements ? `${muiImportStatements}\n\n` : '';
     // below is the return statement of the codepreview
     generatedCode += `const ${currComponent.name} = (props) => {\n`;
     generatedCode += writeStateProps(currComponent.useStateCodes)
@@ -561,7 +681,7 @@ const generateUnformattedCode = (
     generatedCode += `
   return(
     <>
-      ${createRender()}
+      ${indentLinesExceptFirst(createRender(), 3)}
     </>
   );`;
     generatedCode += `\n}`;

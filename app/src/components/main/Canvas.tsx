@@ -211,7 +211,6 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({ zoom }, ref) => {
       }
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance && item.instanceType !== 'Component') {
-        console.log('inside not component check', item);
         dispatch(
           //update state
           addChild({
