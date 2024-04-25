@@ -13,7 +13,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: ["import Button from '@mui/material/Button'"],
-    props: [
+    defaultProps: ['variant="contained"'],
+    propOptions: [
       'children',
       'classes',
       'color',
@@ -29,7 +30,9 @@ const MUITypes: MUIType[] = [
       'startIcon',
       'sx',
       'variant'
-    ]
+    ],
+    jsx: [`<Button >Contained</Button>`],
+    children: []
   },
   // do not move this separator element out of index 1 in this array
   // in componentReducer.ts, separator is referenced as 'initialState.HTMLTypes[1]'
@@ -44,7 +47,10 @@ const MUITypes: MUIType[] = [
     framework: '',
     nestable: true,
     imports: [],
-    props: []
+    propOptions: [],
+    defaultProps: [],
+    jsx: [],
+    children: []
   },
   {
     id: 31,
@@ -60,7 +66,8 @@ const MUITypes: MUIType[] = [
       "import Box from '@mui/material/Box'",
       "import TextField from '@mui/material/TextField'"
     ],
-    props: [
+    defaultProps: ['variant="outlined"'],
+    propOptions: [
       'autoComplete',
       'autoFocus',
       'classes',
@@ -93,7 +100,13 @@ const MUITypes: MUIType[] = [
       'type',
       'value',
       'variant'
-    ]
+    ],
+    jsx: [
+      `<Box component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }}} noValidate autoComplete="off">`,
+      `  <TextField id="outlined-basic" label="Outlined" />`,
+      `</Box>`
+    ],
+    children: []
   },
   {
     id: 41,
@@ -113,7 +126,32 @@ const MUITypes: MUIType[] = [
       "import Button from '@mui/material/Button'",
       "import Typography from '@mui/material/Typography'"
     ],
-    props: ['children', 'classes', 'raised', 'sx']
+    defaultProps: ['sx={{ minWidth: 275 }}'],
+    propOptions: ['children', 'classes', 'raised', 'sx'],
+    jsx: [
+      `<Card >`,
+      `  <CardContent>`,
+      `    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>`,
+      `      Word of the Day`,
+      `    </Typography>`,
+      `    <Typography variant="h5" component="div">`,
+      `      benevolent`,
+      `    </Typography>`,
+      `    <Typography sx={{ mb: 1.5 }} color="text.secondary">`,
+      `      adjective`,
+      `    </Typography>`,
+      `    <Typography variant="body2">`,
+      `      well meaning and kindly.`,
+      `      <br />`,
+      `      {'"a benevolent smile"'}`,
+      `    </Typography>`,
+      `  </CardContent>`,
+      `  <CardActions>`,
+      `    <Button size="small">Learn More</Button>`,
+      `  </CardActions>`,
+      `</Card>`
+    ],
+    children: []
   },
   {
     id: 51,
@@ -129,7 +167,8 @@ const MUITypes: MUIType[] = [
       "import Box from '@mui/material/Box'",
       "import Typography from '@mui/material/Typography'"
     ],
-    props: [
+    defaultProps: ['variant="h1"'],
+    propOptions: [
       'align',
       'children',
       'classes',
@@ -140,7 +179,9 @@ const MUITypes: MUIType[] = [
       'sx',
       'variant',
       'variantMapping'
-    ]
+    ],
+    jsx: [`<Typography gutterBottom> h1. Heading </Typography>`],
+    children: []
   }
 ];
 

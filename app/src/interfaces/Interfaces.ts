@@ -115,7 +115,10 @@ export interface MUIType {
   framework: string;
   nestable: boolean;
   imports: any[];
-  props: any[];
+  propOptions: any[];
+  defaultProps: any[];
+  jsx: any[];
+  children: [];
 }
 export interface DragItem extends DragObjectWithType {
   newInstance: boolean;
