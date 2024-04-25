@@ -85,7 +85,6 @@ const DemoRender = (): JSX.Element => {
     if (!event.data || typeof event.data.data !== 'string') return;
 
     const component: string = event.data.data.split('/').at(-1);
-    console.log('component', component)
     // If components aren't defined or component isn't a string, return early
     if (!state.components || !component) return;
 
@@ -110,6 +109,7 @@ const DemoRender = (): JSX.Element => {
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
+        console.log("elementType", elementType)
         console.log("elementStyle", elementStyle)
         const innerText = element.attributes.compText;
         const classRender = element.attributes.cssClasses;
@@ -167,7 +167,7 @@ const DemoRender = (): JSX.Element => {
             >
               {innerText}
               {renderedChildren}
-            </Box>
+            </Box>,
           );
         else if (elementType === 'Switch')
           componentsToRender.push(<Switch>{renderedChildren}</Switch>);
@@ -214,7 +214,7 @@ const DemoRender = (): JSX.Element => {
       return;
     }
   });
-  console.log('code line 215', code)
+  console.log('This is the CODE on line 215 of DemoRender', code)
   //writes our stylesheet from state to the code
   code += `<style>${stylesheet}</style>`;
 

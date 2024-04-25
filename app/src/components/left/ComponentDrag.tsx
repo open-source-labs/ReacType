@@ -5,6 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import ComponentPanelItem from '../right/ComponentPanelItem';
 
+console.log('line 8 ComponentDrag')
 
 const useStyles = makeStyles({
   panelWrapper: {
@@ -12,7 +13,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    overflow: 'auto'
+    overflow: 'auto',
   },
   panelWrapperList: {
     minHeight: 'auto'
@@ -28,6 +29,12 @@ const useStyles = makeStyles({
 const ComponentDrag = ({ isVisible, isThemeLight }): JSX.Element | null => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
+  console.log("isVisible", isVisible)
+  console.log("isThemeLight", isThemeLight)
+  console.log("isVisible", isVisible)
+  console.log("state", state)
+  console.log("stateMUI", state.MUITypes)
+
 
   const isFocus = (targetId: Number) => {
     console.log('targetID line 33', targetId)
@@ -73,3 +80,19 @@ const ComponentDrag = ({ isVisible, isThemeLight }): JSX.Element | null => {
 
 export default ComponentDrag;
 
+
+const propsArray4 = [
+  { Name: "align", 
+  Type: "'center' | 'inherit' | 'justify' | 'left' | 'right'", 
+  Default: "'inherit'", 
+  Description: "Set the text-align on the component." },
+  { Name: "children", Type: "node" },
+  { Name: "classes", Type: "object" },
+  { Name: "component", Type: "elementType", Description: "The component used for the root node." },
+  { Name: "gutterBottom", Type: "bool", Default: "false", Description: "If true, the text will have a bottom margin." },
+  { Name: "noWrap", Type: "bool", Default: "false", Description: "If true, the text will not wrap, but instead will truncate with a text overflow ellipsis." },
+  { Name: "paragraph", Type: "bool", Default: "false", Description: "If true, the element will be a paragraph element." },
+  { Name: "sx", Type: "Array<func | object | bool> | func | object" },
+  { Name: "variant", Type: "'body1' | 'body2' | 'button' | 'caption' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'inherit' | 'overline' | 'subtitle1' | 'subtitle2' | string", Default: "'body1'", Description: "Applies the theme typography styles." },
+  { Name: "variantMapping", Type: "object", Default: "{ h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', h5: 'h5', h6: 'h6', subtitle1: 'h6', subtitle2: 'h6', body1: 'p', body2: 'p', inherit: 'p' }", Description: "The component maps the variant prop to a range of different HTML element types." }
+];
