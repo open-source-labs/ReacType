@@ -48,7 +48,6 @@ const generateUnformattedCode = (
   contextParam: any
 ) => {
   const components = [...comps];
-  console.log("hi from line 50 in the generateCode")
   // find the component that we're going to generate code for
   const currComponent = components.find((elem) => elem.id === componentId);
   // find the unique components that we need to import into this component file

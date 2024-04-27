@@ -32,6 +32,15 @@ const MUITypes: MUIType[] = [
       'variant'
     ],
     jsx: [`<Button >Contained</Button>`],
+    componentData: {
+      type: 'Button',
+      props: {
+        variant: 'contained',
+        color: 'primary',
+        children: 'Click Me'
+      },
+      children: []
+    },
     children: []
   },
   // do not move this separator element out of index 1 in this array
@@ -50,6 +59,7 @@ const MUITypes: MUIType[] = [
     propOptions: [],
     defaultProps: [],
     jsx: [],
+    componentData: {},
     children: []
   },
   {
@@ -106,6 +116,16 @@ const MUITypes: MUIType[] = [
       `  <TextField id="outlined-basic" label="Outlined" />`,
       `</Box>`
     ],
+    componentData: {
+      type: 'TextField',
+      props: {
+        variant: 'outlined',
+        label: 'Enter Text',
+        helperText: 'Please enter your text here',
+        fullWidth: true
+      },
+      children: []
+    },
     children: []
   },
   {
@@ -151,6 +171,72 @@ const MUITypes: MUIType[] = [
       `  </CardActions>`,
       `</Card>`
     ],
+    componentData: {
+      type: 'Card',
+      props: {
+        sx: { minWidth: 275 }
+      },
+      children: [
+        {
+          type: 'CardContent',
+          props: {},
+          children: [
+            {
+              type: 'Typography',
+              props: {
+                sx: { fontSize: 14 },
+                color: "text.secondary",
+                gutterBottom: true,
+                children: "Word of the Day"
+              }
+            },
+            {
+              type: 'Typography',
+              props: {
+                variant: "h5",
+                component: "div",
+                children: "benevolent"
+              }
+            },
+            {
+              type: 'Typography',
+              props: {
+                sx: { mb: 1.5 },
+                color: "text.secondary",
+                children: "adjective"
+              }
+            },
+            {
+              type: 'Typography',
+              props: {
+                variant: "body2",
+                children: [
+                  "well meaning and kindly.",
+                  {
+                    type: "br",
+                    props: {}
+                  },
+                  '"a benevolent smile"'
+                ]
+              }
+            }
+          ]
+        },
+        {
+          type: 'CardActions',
+          props: {},
+          children: [
+            {
+              type: 'Button',
+              props: {
+                size: "small",
+                children: "Learn More"
+              }
+            }
+          ]
+        }
+      ]
+    },
     children: []
   },
   {
@@ -181,6 +267,15 @@ const MUITypes: MUIType[] = [
       'variantMapping'
     ],
     jsx: [`<Typography gutterBottom> h1. Heading </Typography>`],
+    componentData: {
+      type: 'Typography',
+      props: {
+        variant: 'h6',
+        color: 'text.secondary',
+        children: 'Sample Text'
+      },
+      children: []
+    },
     children: []
   }
 ];

@@ -5,7 +5,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import ComponentPanelItem from '../right/ComponentPanelItem';
 
-console.log('line 8 ComponentDrag')
 
 const useStyles = makeStyles({
   panelWrapper: {
@@ -29,16 +28,9 @@ const useStyles = makeStyles({
 const ComponentDrag = ({ isVisible, isThemeLight }): JSX.Element | null => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
-  console.log("isVisible", isVisible)
-  console.log("isThemeLight", isThemeLight)
-  console.log("isVisible", isVisible)
-  console.log("state", state)
-  console.log("stateMUI", state.MUITypes)
 
 
   const isFocus = (targetId: Number) => {
-    console.log('targetID line 33', targetId)
-    console.log('componentID line 34', state.canvasFocus.componentId)
     return state.canvasFocus.componentId === targetId ? true : false;
   };
 
