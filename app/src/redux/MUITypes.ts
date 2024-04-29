@@ -1,5 +1,6 @@
 import { MUIType } from '../interfaces/Interfaces';
 import { TroubleshootSharp } from '@mui/icons-material';
+import React from 'react';
 
 const MUITypes: MUIType[] = [
   {
@@ -37,9 +38,9 @@ const MUITypes: MUIType[] = [
       props: {
         variant: 'contained',
         color: 'primary',
-        children: 'Click Me'
+        sx: { mt: 2, mb: 2 }
       },
-      children: []
+      children: 'Click Me'
     },
     children: []
   },
@@ -122,7 +123,8 @@ const MUITypes: MUIType[] = [
         variant: 'outlined',
         label: 'Enter Text',
         helperText: 'Please enter your text here',
-        fullWidth: true
+        fullWidth: false,
+        sx: { mt: 2, mb: 2 }
       },
       children: []
     },
@@ -173,9 +175,7 @@ const MUITypes: MUIType[] = [
     ],
     componentData: {
       type: 'Card',
-      props: {
-        sx: { minWidth: 275 }
-      },
+      props: { sx: { mt: 2, mb: 2 } },
       children: [
         {
           type: 'CardContent',
@@ -185,40 +185,29 @@ const MUITypes: MUIType[] = [
               type: 'Typography',
               props: {
                 sx: { fontSize: 14 },
-                color: "text.secondary",
-                gutterBottom: true,
-                children: "Word of the Day"
-              }
+                color: 'text.secondary',
+                gutterBottom: true
+              },
+              children: 'Word of the Day'
             },
             {
               type: 'Typography',
-              props: {
-                variant: "h5",
-                component: "div",
-                children: "benevolent"
-              }
+              props: { variant: 'h5', component: 'div' },
+              children: 'benevolent'
             },
             {
               type: 'Typography',
-              props: {
-                sx: { mb: 1.5 },
-                color: "text.secondary",
-                children: "adjective"
-              }
+              props: { sx: { mb: 1.5 }, color: 'text.secondary' },
+              children: 'adjective'
             },
             {
               type: 'Typography',
-              props: {
-                variant: "body2",
-                children: [
-                  "well meaning and kindly.",
-                  {
-                    type: "br",
-                    props: {}
-                  },
-                  '"a benevolent smile"'
-                ]
-              }
+              props: { variant: 'body2' },
+              children: [
+                'well meaning and kindly.',
+                'br',
+                '"a benevolent smile"'
+              ]
             }
           ]
         },
@@ -229,9 +218,9 @@ const MUITypes: MUIType[] = [
             {
               type: 'Button',
               props: {
-                size: "small",
-                children: "Learn More"
-              }
+                size: 'small'
+              },
+              children: 'Learn More'
             }
           ]
         }
@@ -253,7 +242,7 @@ const MUITypes: MUIType[] = [
       "import Box from '@mui/material/Box'",
       "import Typography from '@mui/material/Typography'"
     ],
-    defaultProps: ['variant="h1"'],
+    defaultProps: ['variant="h3"'],
     propOptions: [
       'align',
       'children',
@@ -266,15 +255,15 @@ const MUITypes: MUIType[] = [
       'variant',
       'variantMapping'
     ],
-    jsx: [`<Typography gutterBottom> h1. Heading </Typography>`],
+    jsx: [`<Typography gutterBottom> h3. Heading </Typography>`],
     componentData: {
       type: 'Typography',
       props: {
-        variant: 'h6',
-        color: 'text.secondary',
-        children: 'Sample Text'
+        variant: 'h3',
+        gutterBottom: true,
+        sx: { mt: 2, mb: 2 }
       },
-      children: []
+      children: 'h3. Heading'
     },
     children: []
   }
