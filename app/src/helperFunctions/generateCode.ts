@@ -125,9 +125,18 @@ const generateUnformattedCode = (
           if (muiComponent) {
             // Recursively process MUI components that can have children
             if (
-              ['mui button', 'card', 'typography', 'textfield'].includes(
-                muiComponent.tag
-              )
+              [
+                'mui button',
+                'card',
+                'typography',
+                'textfield',
+                'autocomplete',
+                'btn group',
+                'checkbox',
+                'fab',
+                'radio group',
+                'rating'
+              ].includes(muiComponent.tag)
             ) {
               newChild.children = getEnrichedChildren({
                 children: child.children
@@ -347,7 +356,7 @@ const generateUnformattedCode = (
     ].join('\n');
   }
 
-  function modifyAndIndentJsx(jsxAry, newProps, childId, name) {
+  function modifyAndIndentJsx(jsxAry, newProps, childId, name, key) {
     // Define a regular expression to match the start tag of the specified child element
     const tagRegExp = new RegExp(`^<${name}(\\s|>)`);
 
@@ -370,8 +379,15 @@ const generateUnformattedCode = (
             )} ${childId}${trimmedLine.substring(insertIndex)}`;
             // Adjust insertIndex for the next insertion
             insertIndex += childId.length + 1;
+          } else if (trimmedLine.includes(`id=`) && childId) {
+            // Define the insertion point for "{key} " right after `id="`
+            let idInsertIndex = trimmedLine.indexOf(`id="`) + 4;
+            // Insert "{key} " at the identified position within the existing id value
+            line = `${trimmedLine.substring(
+              0,
+              idInsertIndex
+            )}${key} ${trimmedLine.substring(idInsertIndex)}`;
           }
-
           // Insert newProps at the updated insertion index
           if (newProps) {
             line = `${line.substring(
@@ -413,6 +429,7 @@ const generateUnformattedCode = (
   const muiGenerator = (child, level = 0) => {
     let childId = '';
     let passedInPropsString = '';
+    let key = 0;
 
     const MUIComp = MUITypes.find((el) => el.tag === child.name);
     const MUIName = MUIComp.name;
@@ -427,6 +444,7 @@ const generateUnformattedCode = (
 
     if (child.childId) {
       childId = `id="${+child.childId}"`;
+      key = +child.childId;
     }
 
     // Indent the JSX generated for MUI components based on the provided level
@@ -437,7 +455,8 @@ const generateUnformattedCode = (
       indentedJSX,
       passedInPropsString,
       childId,
-      MUIName
+      MUIName,
+      key
     );
 
     // Handle nested components, if any
