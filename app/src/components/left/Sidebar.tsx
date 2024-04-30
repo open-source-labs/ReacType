@@ -1,6 +1,14 @@
 import { Tab, Tabs } from '@mui/material';
 
-import { AddBox, Groups2, AccountBox, Settings } from '@mui/icons-material';
+import {
+  AddBox,
+  Groups2,
+  AccountBox,
+  Settings,
+  Menu,
+  Memory,
+  TabOutlined
+} from '@mui/icons-material';
 import { IoMdCube } from 'react-icons/io';
 import React from 'react';
 
@@ -23,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     oldValue = newValue;
   };
 
-    //the following allows users to click on the left panel to expand and collapse.
+  //the following allows users to click on the left panel to expand and collapse.
   // We decided to freeze so we've commented this and line 41 out
 
   // const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
@@ -74,6 +82,19 @@ const Sidebar: React.FC<SidebarProps> = ({
       />
       <Tab
         sx={{
+          color: activeTab === 4 ? '#E4E4E5' : '#9C9D9F',
+          backgroundColor: activeTab === 4 && '#2D313A',
+          '&.Mui-selected': { color: '#E4E4E5' },
+          '&:hover': { color: '#e9e9e9' },
+          fontSize: '11px',
+          textTransform: 'none'
+        }}
+        icon={<TabOutlined sx={{ fontSize: '26px' }} />}
+        value={4}
+        label="Material UI"
+      />
+      <Tab
+        sx={{
           color: activeTab === 1 ? '#E4E4E5' : '#9C9D9F',
           backgroundColor: activeTab === 1 && '#2D313A',
           '&.Mui-selected': { color: '#E4E4E5' },
@@ -110,19 +131,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         icon={<AccountBox sx={{ fontSize: '26px' }} />}
         value={3}
         label="Profile"
-      />
-      <Tab
-        sx={{
-          color: activeTab === 4 ? '#E4E4E5' : '#9C9D9F',
-          backgroundColor: activeTab === 4 && '#2D313A',
-          '&.Mui-selected': { color: '#E4E4E5' },
-          '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px',
-          textTransform: 'none'
-        }}
-        icon={<Settings sx={{ fontSize: '26px' }} />}
-        value={4}
-        label="Settings"
       />
     </Tabs>
   );

@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
-import HTMLItem from './HTMLItem';
 import MUIItem from './MUIItem';
 import React from 'react';
 import { RootState } from '../../redux/store';
@@ -24,7 +23,7 @@ const useStyles = makeStyles({
   }
 });
 
-const DragDropPanel = (props): JSX.Element => {
+const MUIDragDropPanel = (props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -68,41 +67,8 @@ const DragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* HTML Components */}
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            className={classes.accordionSummary}
-          >
-            <h3>HTML Elements</h3>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container justifyContent="center">
-              {htmlTypesToRender.map((option) => {
-                if (
-                  !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
-                    option.name
-                  )
-                ) {
-                  return (
-                    <HTMLItem
-                      name={option.name}
-                      key={`html-${option.name}`}
-                      id={option.id}
-                      icon={option.icon}
-                      handleDelete={handleDelete}
-                    />
-                  );
-                }
-              })}
-            </Grid>
-          </AccordionDetails>
-        </Accordion>
-
         {/* MUI Components */}
-        {/* <Accordion className={classes.accordion}>
+        <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -123,40 +89,6 @@ const DragDropPanel = (props): JSX.Element => {
                     handleDelete={handleDelete}
                   />
                 );
-              })}
-            </Grid>
-          </AccordionDetails>
-        </Accordion> */}
-
-        {/* React Router */}
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            className={classes.accordionSummary}
-          >
-            <h3>React Router</h3>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container justifyContent="center">
-              {htmlTypesToRender.map((option) => {
-                if (
-                  (option.name === 'Switch' ||
-                    option.name === 'LinkTo' ||
-                    option.name === 'Route') &&
-                  state.projectType === 'Classic React'
-                ) {
-                  return (
-                    <HTMLItem
-                      name={option.name}
-                      key={`html-${option.name}`}
-                      id={option.id}
-                      icon={option.icon}
-                      handleDelete={handleDelete}
-                    />
-                  );
-                }
               })}
             </Grid>
           </AccordionDetails>
@@ -187,4 +119,4 @@ const DragDropPanel = (props): JSX.Element => {
   );
 };
 
-export default DragDropPanel;
+export default MUIDragDropPanel;
