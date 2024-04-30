@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -116,6 +116,13 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     <BrushIcon className={classes.icons} />,
     <KeyboardIcon className={classes.icons} />
   ];
+
+  useEffect(()=>{
+    console.log('Tutorial component mounted');
+    console.log('Topics:', topics);
+    console.log('Icons:', icons);
+  }, []);
+
   const body = document.querySelector('body');
   body.style.overflowY = 'auto';
   body.style.backgroundColor = Styling.tutorialGray;
@@ -138,7 +145,7 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <div>
-        {/* <Link to='/' style={{textDecoration: 'none'}}> */}
+        <Link to='/' style={{textDecoration: 'none'}}>
         <Button
           variant="contained"
           color="primary"
@@ -150,7 +157,7 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
         >
           Close
         </Button>
-        {/* </Link> */}
+        </Link>
       </div>
       <Container maxWidth="xl" className={classes.container}>
         <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
@@ -159,4 +166,5 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     </>
   );
 };
-export default withRouter(Tutorial);
+
+export default Tutorial;

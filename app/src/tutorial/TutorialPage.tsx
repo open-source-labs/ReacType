@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Pages from './Pages';
@@ -89,9 +89,16 @@ const tutorialPageStyle = {
   }
 };
 
-const TutorialPage: React.FC<RouteComponentProps> = (props) => {
+const TutorialPage: React.FC<RouteComponentProps<{ learn: string }>> = (props) => {
+  console.log('TutorialPage component is rendered');
   const classes = useStyles();
   const [page, setPage] = useState(props.match.params.learn);
+  console.log(props.match.params.learn)
+  console.log('TutorialPage rendered with page:', page);
+
+  useEffect(() => {
+    console.log('Page:', page);
+  }, [page]);
 
   return (
     <div style={tutorialPageStyle.tutorial_page}>
@@ -221,4 +228,4 @@ const TutorialPage: React.FC<RouteComponentProps> = (props) => {
   );
 };
 
-export default withRouter(TutorialPage);
+export default TutorialPage;

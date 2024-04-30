@@ -5,7 +5,8 @@ import {
   Redirect,
   Route,
   HashRouter as Router,
-  Switch
+  Switch,
+  Link
 } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -28,6 +29,7 @@ const client = new ApolloClient({
 
 const isDev = import.meta.env.NODE_ENV === 'development';
 import serverConfig from './serverConfig.js';
+import { error } from 'console';
 
 const { DEV_PORT, API_BASE_URL } = serverConfig;
 let serverURL = API_BASE_URL;
@@ -47,11 +49,17 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       },
       credentials: 'include'
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(!res.ok){
+          throw new Error('Network Response was not ok')
+        }
+        return res.json();
+      })
       .then((data) => {
         setIsLoggedIn(data);
       })
-      .catch((err) => console.log(`Error getting project ${err}`));
+      .catch((err) => { 
+        console.log(`Error getting project ${err}`)});
   }, []);
 
   return (
@@ -63,7 +71,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
           window.localStorage.getItem('ssid') === 'guest'
         ) {
           return <Component {...props} />;
-        } else if (isLoggedIn !== null) {
+        } else if (isLoggedIn === false || isLoggedIn !== null) {
           return <Redirect to="/login" />;
         }
       }}
@@ -84,9 +92,9 @@ ReactDOM.render(
             <PrivateRoute exact path="/" component={App} />
           </DndProvider>
           <Route exact path="/dashboard" component={ProjectDashboard} />
-          <Route exact path="/tutorial" component={Tutorial} />
-          <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
         </Switch>
+        <Route exact path="/tutorial" component={Tutorial} />
+        <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
       </Router>
     </Provider>
   </ApolloProvider>,
