@@ -38,7 +38,7 @@ const MUITypes: MUIType[] = [
       props: {
         variant: 'contained',
         color: 'primary',
-        sx: { mt: 2, mb: 2 }
+        sx: { m: 1 }
       },
       children: 'Click Me'
     },
@@ -124,7 +124,7 @@ const MUITypes: MUIType[] = [
         label: 'Enter Text',
         helperText: 'Please enter your text here',
         fullWidth: false,
-        sx: { mt: 2, mb: 2 }
+        sx: { m: 1 }
       },
       children: []
     },
@@ -175,7 +175,7 @@ const MUITypes: MUIType[] = [
     ],
     componentData: {
       type: 'Card',
-      props: { sx: { mt: 2, mb: 2 } },
+      props: { sx: { m: 1 } },
       children: [
         {
           type: 'CardContent',
@@ -261,7 +261,7 @@ const MUITypes: MUIType[] = [
       props: {
         variant: 'h3',
         gutterBottom: true,
-        sx: { mt: 2, mb: 2 }
+        sx: { m: 1 }
       },
       children: 'h3. Heading'
     },
@@ -363,7 +363,7 @@ const MUITypes: MUIType[] = [
         disablePortal: true,
         id: 'combo-box-demo',
         options: 'top100Films',
-        sx: { width: 300 },
+        sx: { width: 300, m: 1 },
         renderInput: "params => <TextField {...params} label='Movie' />"
       },
       children: []
@@ -411,7 +411,8 @@ const MUITypes: MUIType[] = [
       type: 'ButtonGroup',
       props: {
         variant: 'contained',
-        'aria-label': 'Basic button group'
+        'aria-label': 'Basic button group',
+        sx: { m: 1 }
       },
       children: [
         { type: 'Button', children: 'One' },
@@ -460,7 +461,7 @@ const MUITypes: MUIType[] = [
     ],
     componentData: {
       type: 'div',
-      props: {},
+      props: { sx: { m: 1 } },
       children: [
         {
           type: 'Checkbox',
@@ -512,7 +513,7 @@ const MUITypes: MUIType[] = [
     componentData: {
       type: 'Box',
       props: {
-        sx: { '& > :not(style)': { m: 1 } }
+        sx: { m: 1, '& > :not(style)': { m: 1 } }
       },
       children: [
         {
@@ -559,7 +560,7 @@ const MUITypes: MUIType[] = [
     ],
     componentData: {
       type: 'FormControl',
-      props: {},
+      props: { sx: { m: 1 } },
       children: [
         {
           type: 'FormLabel',
@@ -651,7 +652,7 @@ const MUITypes: MUIType[] = [
     componentData: {
       type: 'Box',
       props: {
-        sx: { '& > legend': { mt: 2 } }
+        sx: { m: 1, '& > legend': { mt: 2 } }
       },
       children: [
         {
@@ -667,6 +668,191 @@ const MUITypes: MUIType[] = [
             name: 'simple-controlled',
             value: 2,
             onChange: 'setValue(newValue)'
+          }
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 121,
+    tag: 'select',
+    name: 'Select',
+    style: {},
+    placeHolderShort: 'select',
+    placeHolderLong: 'Material UI Select Component',
+    icon: 'ExpandMore',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import InputLabel from '@mui/material/InputLabel'",
+      "import MenuItem from '@mui/material/MenuItem'",
+      "import FormControl from '@mui/material/FormControl'",
+      "import Select from '@mui/material/Select'",
+      "import React from 'react'"
+    ],
+    defaultProps: [],
+    propOptions: [
+      'autoWidth',
+      'children',
+      'classes',
+      'defaultOpen',
+      'defaultValue',
+      'displayEmpty',
+      'IconComponent',
+      'id',
+      'input',
+      'inputProps',
+      'label',
+      'labelId',
+      'MenuProps',
+      'multiple',
+      'native',
+      'onChange',
+      'onClose',
+      'onOpen',
+      'open',
+      'renderValue',
+      'SelectDisplayProps',
+      'sx',
+      'value',
+      'variant'
+    ],
+    jsx: [
+      '<Box sx={{ minWidth: 120 }}>',
+      '  <FormControl fullWidth>',
+      '    <InputLabel id="demo-simple-select-label">Age</InputLabel>',
+      '    <Select labelId="demo-simple-select-label" id="demo-simple-selec" value={age} label="Age" onChange={handleChange}>',
+      '      <MenuItem value={10}>Ten</MenuItem>',
+      '      <MenuItem value={20}>Twenty</MenuItem>',
+      '      <MenuItem value={30}>Thirty</MenuItem>',
+      '    </Select>',
+      '  </FormControl>',
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: { width: 250, m: 1, mt: 2, mb: 2 }
+      },
+      children: [
+        {
+          type: 'FormControl',
+          props: {
+            sx: { width: 250 }
+          },
+          children: [
+            {
+              type: 'InputLabel',
+              props: {
+                id: 'demo-simple-select-label'
+              },
+              children: 'Age'
+            },
+            {
+              type: 'Select',
+              props: {
+                labelId: 'demo-simple-select-label',
+                id: 'demo-simple-select',
+                value: '{age}',
+                label: 'Age',
+                onChange: '{handleChange}'
+              },
+              children: [
+                {
+                  type: 'MenuItem',
+                  props: {
+                    value: 10
+                  },
+                  children: 'Ten'
+                },
+                {
+                  type: 'MenuItem',
+                  props: {
+                    value: 20
+                  },
+                  children: 'Twenty'
+                },
+                {
+                  type: 'MenuItem',
+                  props: {
+                    value: 30
+                  },
+                  children: 'Thirty'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 131,
+    tag: 'slider',
+    name: 'Slider',
+    style: {},
+    placeHolderShort: 'slider',
+    placeHolderLong: 'Material UI Slider Component',
+    icon: 'Tune',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Slider from '@mui/material/Slider'",
+      "import React from 'react'",
+      '\nconst initialSliderValue = 30;\n'
+    ],
+    defaultProps: [
+      "defaultValue={initialSliderValue} sx={{ width: 200 }} aria-label='slider'"
+    ],
+    propOptions: [
+      'aria-label',
+      'aria-labelledby',
+      'aria-valuetext',
+      'classes',
+      'color',
+      'components',
+      'componentsProps',
+      'defaultValue',
+      'disabled',
+      'disableSwap',
+      'getAriaLabel',
+      'getAriaValueText',
+      'marks',
+      'max',
+      'min',
+      'name',
+      'onChange',
+      'onChangeCommitted',
+      'orientation',
+      'scale',
+      'shiftStep',
+      'size',
+      'slotProps',
+      'slots',
+      'step',
+      'sx',
+      'tabIndex',
+      'track',
+      'value',
+      'valueLabelDisplay',
+      'valueLabelFormat'
+    ],
+    jsx: ['<Box sx={{ width: 200 }}>', '  <Slider />', '</Box>'],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: { width: 200, m: 1 }
+      },
+      children: [
+        {
+          type: 'Slider',
+          props: {
+            disabled: true,
+            defaultValue: 33
           }
         }
       ]

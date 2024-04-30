@@ -202,7 +202,7 @@ const DemoRender = (): JSX.Element => {
   <style id="mui-styles"></style>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app";"></div>
   <script>
     const top100Films = [
       { label: 'The Shawshank Redemption', year: 1994 },
@@ -266,42 +266,51 @@ const DemoRender = (): JSX.Element => {
           FormControlLabel: MaterialUI?.FormControlLabel,
           FormControl: MaterialUI?.FormControl,
           FormLabel: MaterialUI?.FormLabel,
-          Rating: MaterialUI?.Rating
+          Rating: MaterialUI?.Rating,
+          MenuItem: MaterialUI?.MenuItem,
+          Select: MaterialUI?.Select,
+          InputLabel: MaterialUI?.InputLabel,
+          Slider: MaterialUI?.Slider,
         };
 
       const specialComponents = {
-        'br': React.createElement('br', {})
+        'br': () => React.createElement('br', {})
+      };
+
+      const isJsonString = (str) => {
+        try {
+          JSON.parse(str);
+          return true;
+        } catch (e) {
+          return false;
+        }
       };
 
       const createComponentFromData = (data) => {
-        console.log('data', data);
         const { type, props, children } = data;
-        const Component = componentMap[type] || 'div';
+        const Component = componentMap[type] || 'div'; // Default to div if component is not found
+      
         const processChildren = (child) => {
           if (typeof child === 'string') {
-            if (specialComponents[child]) {
-              return specialComponents[child];
-            } else {
-              return child;
+            if (isJsonString(child)) {
+              return createComponentFromData(JSON.parse(child));
             }
+            return specialComponents[child] ? specialComponents[child]() : child;
           } else if (typeof child === 'object' && child !== null) {
             return createComponentFromData(child);
-          } else {
-            return null;
           }
+          return null;
         };
-
-        if (typeof children === 'string' || children === null) {
-          return React.createElement(Component, props, children);
-        } else if (Array.isArray(children)) {
-          const processedChildren = children.map(processChildren);
-          return React.createElement(Component, props, ...processedChildren);
-        } else if (typeof children === 'object') {
-          return React.createElement(Component, props, createComponentFromData(children));
-        }
-        return React.createElement(Component, props);
-      };
-
+      
+        // Handling single and multiple children uniformly
+        const processedChildren = Array.isArray(children) ?
+          children.map(processChildren) : 
+          [processChildren(children)]; // Wrap non-array children in an array
+      
+        // Spreading children into createElement function
+        return React.createElement(Component, props, ...processedChildren);
+      };      
+      
       window.addEventListener('message', (event) => {
         console.log('event', event);
         const dataArr = event.data.replace(/}{/g, '},,{').replace(/}</g, '},,<').replace(/>{/g, '>,,{').split(',,');
@@ -309,10 +318,16 @@ const DemoRender = (): JSX.Element => {
         const container = document.getElementById('app');
         container.innerHTML = '';
         dataArr.forEach(segment => {
+          console.log('segment', segment)
           if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
             try {
               const jsonData = JSON.parse(segment);
               console.log('jsonData', jsonData);
+              if (jsonData.props.children) {
+                console.log('jsonData.props.children', jsonData.props.children);
+                jsonData.children = [...jsonData.children, ...jsonData.props.children];
+              }
+              
               const componentContainer = document.createElement('div');
               container.appendChild(componentContainer);
               const component = createComponentFromData(jsonData);
@@ -401,18 +416,22 @@ const DemoRender = (): JSX.Element => {
       const innerText = element.attributes.compText;
       const classRender = element.attributes.cssClasses;
       const activeLink = element.attributes.compLink;
+
+      let allChildren = [];
+
+      if (element.componentData && element.componentData.children) {
+        allChildren = [...element.componentData.children];
+      }
+      if (element.children && element.children.length > 0) {
+        allChildren = [...allChildren, ...element.children];
+      }
+
       let renderedChildren =
-        element.children && element.children.length > 0
-          ? componentBuilder2(element.children, ++key)
+        allChildren.length > 0
+          ? componentBuilder2(allChildren, ++key)
           : undefined;
-      const shouldSerialize = element.type === 'MUI Component' ? true : false;
-      if (shouldSerialize) {
-        renderedChildren =
-          element.componentData && element.componentData.children
-            ? componentBuilder2([element.componentData], key + 1) // If children are in componentData
-            : element.children && element.children.length > 0
-            ? componentBuilder2(element.children, key + 1) // Standard children handling
-            : undefined; // No children to render
+
+      if (element.type === 'MUI Component') {
         const baseData = MUITypes.find(
           (m) => m.tag === elementType
         ).componentData;
@@ -421,8 +440,9 @@ const DemoRender = (): JSX.Element => {
         const componentData = {
           ...baseData,
           props: {
-            ...(baseData.props || {}),
-            key: ++key
+            ...baseData.props,
+            key: ++key,
+            children: renderedChildren
           }
         };
         componentsToRender.push(JSON.stringify(componentData));
@@ -480,6 +500,7 @@ const DemoRender = (): JSX.Element => {
       }
       key++;
     }
+    console.log('componentsToRender', componentsToRender);
     return componentsToRender;
   };
   //initializes our 'code' which will be whats actually in the iframe in the demo render
@@ -506,9 +527,9 @@ const DemoRender = (): JSX.Element => {
     }
   });
 
-  //writes our stylesheet from state to the code
-  // code += `<style>${stylesheet}</style>`;
-  //adds the code into the iframe
+  // writes our stylesheet from state to the code
+  code += `<style>${stylesheet}</style>`;
+  // adds the code into the iframe
   useEffect(() => {
     //load the current state code when the iframe is loaded and when code changes
     iframe.current.addEventListener('load', () => {

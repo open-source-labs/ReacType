@@ -60,7 +60,7 @@ const generateUnformattedCode = (
   const isRoot = rootComponents.includes(componentId);
   let importReactRouter = false;
 
-  // returns an array of objects which may include components, html elements, and/or route links
+  // returns an array of objects which may include components, html elements, MaterialUI components, and/or route links
   const getEnrichedChildren = (currentComponent) => {
     const enrichedChildren = [];
 
@@ -135,7 +135,9 @@ const generateUnformattedCode = (
                 'checkbox',
                 'fab',
                 'radio group',
-                'rating'
+                'rating',
+                'select',
+                'slider'
               ].includes(muiComponent.tag)
             ) {
               newChild.children = getEnrichedChildren({

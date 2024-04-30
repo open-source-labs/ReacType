@@ -124,7 +124,11 @@ const renderChildren = (children: ChildElement[]) => {
       );
     } else if (
       type === 'MUI Component' &&
-      (typeId === 31 || typeId === 61 || typeId === 81 || typeId === 111)
+      (typeId === 31 ||
+        typeId === 61 ||
+        typeId === 81 ||
+        typeId === 111 ||
+        typeId === 121)
     ) {
       return (
         <DirectChildMUI
