@@ -11,6 +11,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { makeStyles } from '@mui/styles';
 import ComponentDrag from './ComponentDrag';
+import { Icon } from '@mui/material';
 
 const useStyles = makeStyles({
   accordion: {
@@ -45,13 +46,39 @@ const MUIDragDropPanel = (props): JSX.Element => {
     (type) => type.name !== 'separator'
   );
 
-  const muiTypesToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator'
+  const muiInputToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator' && type.id >= 21 && type.id <= 33
+  );
+
+  const muiDataDisplayToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator' && type.id >= 34 && type.id <= 43
+  );
+
+  const muiFeedbackToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator' && type.id >= 44 && type.id <= 49
+  );
+
+  const muiSurfacesToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator' && type.id >= 50 && type.id <= 53
+  );
+  
+  const muiNavigationToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator' && type.id >= 54 && type.id <= 62
+  );
+  
+
+  const muiLayoutToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator' && type.id >= 63 && type.id <= 70
+  );
+
+  const muiUtilsToRender = state.MUITypes.filter(
+    (type) => type.name !== 'separator' && type.id >= 71 && type.id <= 80
   );
 
   return (
-    <div className={'HTMLItems'}>
-      <div id="HTMLItemsTopHalf">
+    <div className={'MUIItems'}>
+      <div id="MUIItemsPanel">
+
         {/* Root Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
@@ -67,7 +94,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* MUI Components */}
+        {/* Inputs Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -79,7 +106,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
+              {muiInputToRender.map((option) => {
                 return (
                   <MUIItem
                     name={option.name}
@@ -93,18 +120,20 @@ const MUIDragDropPanel = (props): JSX.Element => {
             </Grid>
           </AccordionDetails>
         </Accordion>
+
+        {/* Data Display Component*/}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
+            aria-controls="panel3a-content"
+            id="panel3a-header"
             className={classes.accordionSummary}
           >
             <h3>Data Display</h3>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
+              {muiDataDisplayToRender.map((option) => {
                 return (
                   <MUIItem
                     name={option.name}
@@ -118,18 +147,20 @@ const MUIDragDropPanel = (props): JSX.Element => {
             </Grid>
           </AccordionDetails>
         </Accordion>
+
+        {/* Feedback Component*/}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
+            aria-controls="panel4a-content"
+            id="panel4a-header"
             className={classes.accordionSummary}
           >
             <h3>Feedback</h3>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
+              {muiFeedbackToRender.map((option) => {
                 return (
                   <MUIItem
                     name={option.name}
@@ -143,18 +174,20 @@ const MUIDragDropPanel = (props): JSX.Element => {
             </Grid>
           </AccordionDetails>
         </Accordion>
+
+        {/* Surfaces Component*/}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
+            aria-controls="panel5a-content"
+            id="panel5a-header"
             className={classes.accordionSummary}
           >
             <h3>Surfaces</h3>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
+              {muiSurfacesToRender.map((option) => {
                 return (
                   <MUIItem
                     name={option.name}
@@ -168,18 +201,20 @@ const MUIDragDropPanel = (props): JSX.Element => {
             </Grid>
           </AccordionDetails>
         </Accordion>
+
+        {/* Navigation Component*/}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
+            aria-controls="panel6a-content"
+            id="panel6a-header"
             className={classes.accordionSummary}
           >
             <h3>Navigation</h3>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
+              {muiNavigationToRender.map((option) => {
                 return (
                   <MUIItem
                     name={option.name}
@@ -193,18 +228,20 @@ const MUIDragDropPanel = (props): JSX.Element => {
             </Grid>
           </AccordionDetails>
         </Accordion>
+
+        {/* Layout Component*/}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
+            aria-controls="panel7a-content"
+            id="panel7a-header"
             className={classes.accordionSummary}
           >
             <h3>Layout</h3>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
+              {muiLayoutToRender.map((option) => {
                 return (
                   <MUIItem
                     name={option.name}
@@ -218,18 +255,20 @@ const MUIDragDropPanel = (props): JSX.Element => {
             </Grid>
           </AccordionDetails>
         </Accordion>
+
+        {/* Utils Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
+            aria-controls="panel8a-content"
+            id="panel8a-header"
             className={classes.accordionSummary}
           >
             <h3>Utils</h3>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
+              {muiUtilsToRender.map((option) => {
                 return (
                   <MUIItem
                     name={option.name}

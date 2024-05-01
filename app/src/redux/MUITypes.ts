@@ -45,9 +45,9 @@ SURFACES
 NAVIGATION
 54. Bottom Navigation
 55. Breadcrumbs
-56. Drawer
-57. Link
-58. Menu
+56. Drawer 
+57. Link 
+58. Menu 
 59. Pagination
 60. Speed Dial
 61. Stepper
@@ -2174,10 +2174,10 @@ const MUITypes: MUIType[] = [
   },
   {
     id: 49,
-    tag: 'simplesnackbar',
-    name: 'SimpleSnackbar',
+    tag: 'snackbar',
+    name: 'Snackbar',
     style: {},
-    placeHolderShort: 'simplesnackbar',
+    placeHolderShort: 'snackbar',
     placeHolderLong: 'Material UI Simple Snackbar Component',
     icon: 'Info',
     framework: 'reactClassic',
