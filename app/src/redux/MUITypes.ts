@@ -13,7 +13,7 @@ import { MUIType } from '../interfaces/Interfaces';
 29. Slider
 30. Switch
 31. Text Field
-32. Transfer List
+32. Transfer List //not working
 33. Toggle Button
 
 DATA DISPLAY
@@ -24,20 +24,20 @@ DATA DISPLAY
 38. Icons
 39. Material Icons
 40. List
-41. Table
+41. Table //not working
 42. Tooltip
 43. Typography
 
 FEEDBACK
-44. Alert
-45. Backdrop
-46. Dialog
-47. Progress
-48. Skeleton
-49. Snackbar
+44. Alert //working but icon needed 
+45. Backdrop //not working
+46. Dialog //not working
+47. Progress //not working
+48. Skeleton //not working
+49. Snackbar //not working
 
 SURFACES
-50. Accordion
+50. Accordion 
 51. App Bar
 52. Card
 53. Paper
@@ -45,34 +45,33 @@ SURFACES
 NAVIGATION
 54. Bottom Navigation
 55. Breadcrumbs
-56. Drawer 
+56. Drawer //not working
 57. Link 
-58. Menu 
+58. Menu //not working (no state)
 59. Pagination
 60. Speed Dial
-61. Stepper
-62. Tabs
+61. Stepper //not working
+62. Tabs //not working (no state)
 
 LAYOUT
 63. Box
-64. Container
-65. Grid
-66. Grid v2
-67. NEW
+64. Container //not working (odd visual)
+65. Grid //not included
+66. Grid v2 //not working
 68. Stack
-69. Image List
-70. Hidden
+69. Image List //not working
+70. Hidden - deprecated not working 
 
 UTILS
-71. Click-Away Listener
-72. CSS Baseline
-73. Modal
-74. No SSR
-75. Popover
-76. Popper
-77. Portal
+71. Click-Away Listener - not included 
+72. CSS Baseline - not included
+73. Modal //not working
+74. No SSR - not included 
+75. Popover - //not working
+76. Popper //not working (no state)
+77. Portal - //not working 
 78. Textarea Autosize
-79. Transitions
+79. Transitions //not working 
 80. useMediaQuery */
 
 const MUITypes: MUIType[] = [
@@ -99,7 +98,7 @@ const MUITypes: MUIType[] = [
     ],
     stateAndEventHandlers: [],
     defaultProps: [
-      'disablePortal options={top100Films} sx={{ width: 300 }} renderInput={(params) => <TextField {...params} label="Movie" />}'
+      "disablePortal options={top100Films} sx={{ width: 300 }} renderInput={(params) => <TextField {...params} label='Movie' />}"
     ],
     propOptions: [
       'options',
@@ -166,7 +165,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'value'
     ],
-    jsx: [`<Autocomplete id="combo-box-demo" />`],
+    jsx: ['<Autocomplete id="combo-box-demo"/>'],
     componentData: {
       type: 'Autocomplete',
       props: {
@@ -413,7 +412,7 @@ const MUITypes: MUIType[] = [
     placeHolderLong: 'Material UI Radio Buttons Group Component',
     icon: 'RadioButtonChecked',
     framework: 'reactClassic',
-    nestable: true,
+    nestable: false,
     imports: [
       "import Radio from '@mui/material/Radio'",
       "import RadioGroup from '@mui/material/RadioGroup'",
@@ -1546,7 +1545,15 @@ const MUITypes: MUIType[] = [
       "import TableContainer from '@mui/material/TableContainer';",
       "import TableHead from '@mui/material/TableHead';",
       "import TableRow from '@mui/material/TableRow';",
-      "import Paper from '@mui/material/Paper';"
+      "import Paper from '@mui/material/Paper';",
+      '\nfunction createData(name, calories, fat, carbs, protein) { return { name, calories, fat, carbs, protein }; }',
+      '\nconst rows = [',
+      "  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),",
+      "  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),",
+      "  createData('Eclair', 262, 16.0, 24, 6.0),",
+      "  createData('Cupcake', 305, 3.7, 67, 4.3),",
+      "  createData('Gingerbread', 356, 16.0, 49, 3.9)",
+      '];'
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -1590,108 +1597,214 @@ const MUITypes: MUIType[] = [
       '</TableContainer>'
     ],
     componentData: {
-      componentData: {
-        type: 'TableContainer',
-        props: {
-          component: 'Paper'
-        },
-        children: [
-          {
-            type: 'Table',
-            props: {
-              sx: {
-                minWidth: 650
-              },
-              'aria-label': 'simple table'
+      type: 'TableContainer',
+      props: {
+        component: 'Paper'
+      },
+      children: [
+        {
+          type: 'Table',
+          props: {
+            sx: {
+              minWidth: 650
             },
-            children: [
-              {
-                type: 'TableHead',
-                children: [
-                  {
-                    type: 'TableRow',
-                    children: [
-                      {
-                        type: 'TableCell',
-                        children: 'Dessert (100g serving)'
-                      },
-                      {
-                        type: 'TableCell',
-                        props: {
-                          align: 'right'
-                        },
-                        children: 'Calories'
-                      },
-                      {
-                        type: 'TableCell',
-                        props: {
-                          align: 'right'
-                        },
-                        children: 'Fat (g)'
-                      },
-                      {
-                        type: 'TableCell',
-                        props: {
-                          align: 'right'
-                        },
-                        children: 'Carbs (g)'
-                      },
-                      {
-                        type: 'TableCell',
-                        props: {
-                          align: 'right'
-                        },
-                        children: 'Protein (g)'
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                type: 'TableBody',
-                children: [
-                  {
-                    type: 'TableCell',
-                    props: {
-                      component: 'th',
-                      scope: 'row'
+            'aria-label': 'simple table'
+          },
+          children: [
+            {
+              type: 'TableHead',
+              children: [
+                {
+                  type: 'TableRow',
+                  children: [
+                    { type: 'TableCell', children: 'Dessert (100g serving)' },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: 'Calories'
                     },
-                    children: '{row.name}'
-                  },
-                  {
-                    type: 'TableCell',
-                    props: {
-                      align: 'right'
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: 'Fat (g)'
                     },
-                    children: '{row.calories}'
-                  },
-                  {
-                    type: 'TableCell',
-                    props: {
-                      align: 'right'
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: 'Carbs (g)'
                     },
-                    children: '{row.fat}'
-                  },
-                  {
-                    type: 'TableCell',
-                    props: {
-                      align: 'right'
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: 'Protein (g)'
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: 'TableBody',
+              children: [
+                {
+                  type: 'TableRow',
+                  props: { key: 'Frozen yoghurt' },
+                  children: [
+                    {
+                      type: 'TableCell',
+                      props: { component: 'th', scope: 'row' },
+                      children: 'Frozen yoghurt'
                     },
-                    children: '{row.carbs}'
-                  },
-                  {
-                    type: 'TableCell',
-                    props: {
-                      align: 'right'
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['159']
                     },
-                    children: '{row.protein}'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['6']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['24']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['4']
+                    }
+                  ]
+                },
+                {
+                  type: 'TableRow',
+                  props: { key: 'Ice cream sandwich' },
+                  children: [
+                    {
+                      type: 'TableCell',
+                      props: { component: 'th', scope: 'row' },
+                      children: 'Ice cream sandwich'
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['237']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['9']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['37']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['4.3']
+                    }
+                  ]
+                },
+                {
+                  type: 'TableRow',
+                  props: { key: 'Eclair' },
+                  children: [
+                    {
+                      type: 'TableCell',
+                      props: { component: 'th', scope: 'row' },
+                      children: 'Eclair'
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['262']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['16']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['24']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['6']
+                    }
+                  ]
+                },
+                {
+                  type: 'TableRow',
+                  props: { key: 'Cupcake' },
+                  children: [
+                    {
+                      type: 'TableCell',
+                      props: { component: 'th', scope: 'row' },
+                      children: 'Cupcake'
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['305']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['3.7']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['67']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['4.3']
+                    }
+                  ]
+                },
+                {
+                  type: 'TableRow',
+                  props: { key: 'Gingerbread' },
+                  children: [
+                    {
+                      type: 'TableCell',
+                      props: { component: 'th', scope: 'row' },
+                      children: 'Gingerbread'
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['356']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['16']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['49']
+                    },
+                    {
+                      type: 'TableCell',
+                      props: { align: 'right' },
+                      children: ['3.9']
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     children: []
   },
@@ -1702,7 +1815,7 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'tooltip',
     placeHolderLong: 'Material UI Tooltip Component',
-    icon: 'Info',
+    icon: 'Help',
     framework: 'reactClassic',
     nestable: false,
     imports: [
@@ -1814,7 +1927,7 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'alert',
     placeHolderLong: 'Material UI Alert Component',
-    icon: 'Info',
+    icon: 'Error',
     framework: 'reactClassic',
     nestable: false,
     imports: [
@@ -1863,7 +1976,7 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'backdrop',
     placeHolderLong: 'Material UI Backdrop Component',
-    icon: 'Info',
+    icon: 'Layers',
     framework: 'reactClassic',
     nestable: true,
     imports: [
@@ -1913,7 +2026,7 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'dialog',
     placeHolderLong: 'Material UI Dialog Component',
-    icon: 'Info',
+    icon: 'Message',
     framework: 'reactClassic',
     nestable: false,
     imports: [
@@ -2032,7 +2145,7 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'progress',
     placeHolderLong: 'Material UI Circular Progress With Label Component',
-    icon: 'Info',
+    icon: 'HourglassFull',
     framework: 'reactClassic',
     nestable: false,
     imports: [
@@ -2107,9 +2220,9 @@ const MUITypes: MUIType[] = [
     tag: 'skeleton',
     name: 'Skeleton',
     style: {},
-    placeHolderShort: 'skeletont',
+    placeHolderShort: 'skeleton',
     placeHolderLong: 'Material UI Skeleton Component',
-    icon: 'Info',
+    icon: 'NotificationImportant',
     framework: 'reactClassic',
     nestable: true,
     imports: [
@@ -2179,7 +2292,7 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'snackbar',
     placeHolderLong: 'Material UI Simple Snackbar Component',
-    icon: 'Info',
+    icon: 'ViewSidebar',
     framework: 'reactClassic',
     nestable: true,
     imports: [
@@ -2253,7 +2366,7 @@ const MUITypes: MUIType[] = [
     placeHolderLong: 'Material UI Accordion Component',
     icon: 'ExpandMore',
     framework: 'reactClassic',
-    nestable: false,
+    nestable: true,
     imports: [
       "import Accordion from '@mui/material/Accordion'",
       "import AccordionActions from '@mui/material/AccordionActions'",
@@ -2630,7 +2743,7 @@ const MUITypes: MUIType[] = [
     componentData: {
       type: 'Box',
       props: {
-        sx: { width: 500 }
+        sx: { width: 500, m: 1 }
       },
       children: [
         {
@@ -2679,7 +2792,7 @@ const MUITypes: MUIType[] = [
     style: {},
     placeHolderShort: 'breadcrumbs',
     placeHolderLong: 'Material UI Breadcrumbs Component',
-    icon: 'Breadcrumb',
+    icon: 'BakeryDining',
     framework: 'reactClassic',
     nestable: false,
     imports: [
@@ -2687,13 +2800,15 @@ const MUITypes: MUIType[] = [
       "import Link from '@mui/material/Link'",
       "import RestoreIcon from '@mui/icons-material/Restore'",
       "import FavoriteIcon from '@mui/icons-material/Favorite'",
-      "import LocationOnIcon from '@mui/icons-material/LocationOn'",
+      "import LocationOnIcon from '@mui/icons-material/LocationOn'"
+    ],
+    stateAndEventHandlers: [
       '\nfunction handleClick(event) {',
       '  event.preventDefault();',
-      '  console.info("You clicked a breadcrumb.");\n};'
+      '  console.info("You clicked a breadcrumb.");',
+      '}; \n'
     ],
-    stateAndEventHandlers: [],
-    defaultProps: ['onClick={(event) => handleClick(event)}'],
+    defaultProps: [],
     propOptions: [
       'children',
       'classes',
@@ -2720,7 +2835,8 @@ const MUITypes: MUIType[] = [
       type: 'div',
       props: {
         role: 'presentation',
-        onClick: '{handleClick}'
+        onClick: '{handleClick}',
+        s: { m: 1 }
       },
       children: [
         {
@@ -2764,6 +2880,865 @@ const MUITypes: MUIType[] = [
     children: []
   },
   {
+    id: 56,
+    tag: 'drawer',
+    name: 'Drawer',
+    style: {},
+    placeHolderShort: 'drawer',
+    placeHolderLong: 'Material UI Drawer Component',
+    icon: 'DynamicFeed',
+    framework: 'reactClassic',
+    nestable: true,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Drawer from '@mui/material/Drawer'",
+      "import Button from '@mui/material/Button'",
+      "import List from '@mui/material/List'",
+      "import Divider from '@mui/material/Divider'",
+      "import ListItem from '@mui/material/ListItem'",
+      "import ListItemButton from '@mui/material/ListItemButton'",
+      "import ListItemIcon from '@mui/material/ListItemIcon'",
+      "import ListItemText from '@mui/material/ListItemText'",
+      "import InboxIcon from '@mui/icons-material/MoveToInbox'",
+      "import MailIcon from '@mui/icons-material/Mail'"
+    ],
+    stateAndEventHandlers: [
+      'const [open, setOpen] = React.useState(false);',
+      'const toggleDrawer = (newOpen) => () => {',
+      '  setOpen(newOpen);',
+      '};',
+      '\nconst DrawerList = (',
+      "  <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}> ",
+      '    <List>',
+      "      {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (",
+      '        <ListItem key={text} disablePadding>',
+      '          <ListItemButton>',
+      '            <ListItemIcon>',
+      '              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}',
+      '            </ListItemIcon>',
+      '            <ListItemText primary={text} />',
+      '          </ListItemButton>',
+      '        </ListItem>',
+      '      ))}',
+      '    </List>',
+      '    <Divider />',
+      '    <List>',
+      "      {['All mail', 'Trash', 'Spam'].map((text, index) => (",
+      '        <ListItem key={text} disablePadding>',
+      '          <ListItemButton>',
+      '            <ListItemIcon>',
+      '              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}',
+      '            </ListItemIcon>',
+      '            <ListItemText primary={text} />',
+      '          </ListItemButton>',
+      '        </ListItem>',
+      '      ))}',
+      '    </List>',
+      '  </Box>',
+      ')\n'
+    ],
+    defaultProps: ['open={open} onClose={toggleDrawer(false)}'],
+    propOptions: [
+      'anchor',
+      'children',
+      'classes',
+      'elevation',
+      'hideBackdrop',
+      'ModalProps',
+      'onClose',
+      'open',
+      'PaperProps',
+      'SlideProps',
+      'sx',
+      'transitionDuration',
+      'variant'
+    ],
+    jsx: [
+      '<div>',
+      '  <Button onClick={toggleDrawer(true)}>Open drawer</Button>',
+      '  <Drawer >',
+      '    {DrawerList}',
+      '  </Drawer>',
+      '</div>'
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: { width: 250, m: 1 },
+        role: 'presentation',
+        onClick: 'toggleDrawer(false)'
+      },
+      children: [
+        {
+          type: 'List',
+          children: [
+            {
+              type: 'ListItem',
+              props: { disablePadding: true, key: 'Inbox' },
+              children: [
+                {
+                  type: 'ListItemButton',
+                  children: [
+                    {
+                      type: 'ListItemIcon',
+                      children: 'InboxIcon'
+                    },
+                    {
+                      type: 'ListItemText',
+                      props: {
+                        primary: 'Inbox'
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: 'ListItem',
+              props: { disablePadding: true, key: 'Starred' },
+              children: [
+                {
+                  type: 'ListItemButton',
+                  children: [
+                    {
+                      type: 'ListItemIcon',
+                      children: 'MailIcon'
+                    },
+                    {
+                      type: 'ListItemText',
+                      props: {
+                        primary: 'Starred'
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: 'ListItem',
+              props: { disablePadding: true, key: 'Send email' },
+              children: [
+                {
+                  type: 'ListItemButton',
+                  children: [
+                    {
+                      type: 'ListItemIcon',
+                      children: 'InboxIcon'
+                    },
+                    {
+                      type: 'ListItemText',
+                      props: {
+                        primary: 'Send email'
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: 'ListItem',
+              props: { disablePadding: true, key: 'Drafts' },
+              children: [
+                {
+                  type: 'ListItemButton',
+                  children: [
+                    {
+                      type: 'ListItemIcon',
+                      children: 'MailIcon'
+                    },
+                    {
+                      type: 'ListItemText',
+                      props: {
+                        primary: 'Drafts'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          type: 'Divider'
+        },
+        {
+          type: 'List',
+          children: [
+            {
+              type: 'ListItem',
+              props: { disablePadding: true, key: 'All mail' },
+              children: [
+                {
+                  type: 'ListItemButton',
+                  children: [
+                    {
+                      type: 'ListItemIcon',
+                      children: 'InboxIcon'
+                    },
+                    {
+                      type: 'ListItemText',
+                      props: {
+                        primary: 'All mail'
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: 'ListItem',
+              props: { disablePadding: true, key: 'Trash' },
+              children: [
+                {
+                  type: 'ListItemButton',
+                  children: [
+                    {
+                      type: 'ListItemIcon',
+                      children: 'MailIcon'
+                    },
+                    {
+                      type: 'ListItemText',
+                      props: {
+                        primary: 'Trash'
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: 'ListItem',
+              props: { disablePadding: true, key: 'Spam' },
+              children: [
+                {
+                  type: 'ListItemButton',
+                  children: [
+                    {
+                      type: 'ListItemIcon',
+                      children: 'InboxIcon'
+                    },
+                    {
+                      type: 'ListItemText',
+                      props: {
+                        primary: 'Spam'
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 57,
+    tag: 'link',
+    name: 'Link',
+    style: {},
+    placeHolderShort: 'link',
+    placeHolderLong: 'Material UI Link Component Examples',
+    icon: 'Link',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Link from '@mui/material/Link'"
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: ['onClick={preventDefault}'],
+    propOptions: [
+      'children',
+      'classes',
+      'component',
+      'sx',
+      'color',
+      'TypographyClasses',
+      'underline',
+      'variant'
+    ],
+    jsx: [
+      "<Box sx={{ typography: 'body1', '& > :not(style) ~ :not(style)': { ml: 2 } }} onClick={preventDefault}>",
+      "  <Link href='#'>Link</Link>",
+      "  <Link href='#' color='inherit'>{'color=\"inherit\"'}</Link>",
+      "  <Link href='#' variant='body2'>{'variant=\"body2\"'}</Link>",
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: {
+          typography: 'body1',
+          '& > :not(style) ~ :not(style)': {
+            ml: 2
+          },
+          m: 1
+        },
+        onClick: 'preventDefault'
+      },
+      children: [
+        {
+          type: 'Link',
+          props: {
+            href: '#'
+          },
+          children: 'Link'
+        },
+        {
+          type: 'Link',
+          props: {
+            href: '#',
+            color: 'inherit'
+          },
+          children: 'color="inherit"'
+        },
+        {
+          type: 'Link',
+          props: {
+            href: '#',
+            variant: 'body2'
+          },
+          children: 'variant="body2"'
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 58,
+    tag: 'menu',
+    name: 'Menu',
+    style: {},
+    placeHolderShort: 'menu',
+    placeHolderLong: 'Material UI Menu Component',
+    icon: 'Menu',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Button from '@mui/material/Button'",
+      "import Menu from '@mui/material/Menu'",
+      "import MenuItem from '@mui/material/MenuItem'"
+    ],
+    stateAndEventHandlers: [
+      'const [anchorEl, setAnchorEl] = React.useState(null);',
+      'const open = Boolean(anchorEl);',
+      'const handleClick = (event) => { setAnchorEl(event.currentTarget); };',
+      'const handleClose = () => { setAnchorEl(null); };'
+    ],
+    defaultProps: [
+      "anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{'aria-labelledby': 'basic-button'}}"
+    ],
+    propOptions: [
+      'anchorEl',
+      'autoFocus',
+      'children',
+      'classes',
+      'color',
+      'component',
+      'disableAutoFocusItem',
+      'MenuListProps',
+      'onClose',
+      'open',
+      'PopoverClasses',
+      'slotProps',
+      'slots',
+      'sx',
+      'transitionDuration',
+      'TransitionProps',
+      'variant'
+    ],
+    jsx: [
+      '<div>',
+      "  <Button id='basic-button' aria-controls={open ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={open ? 'true' : undefined} onClick={handleClick}>",
+      '    Dashboard',
+      '  </Button>',
+      "  <Menu id='basic-menu' >",
+      '    <MenuItem onClick={handleClose}>Profile</MenuItem>',
+      '    <MenuItem onClick={handleClose}>My account</MenuItem>',
+      '    <MenuItem onClick={handleClose}>Logout</MenuItem>',
+      '  </Menu>',
+      '</div>'
+    ],
+    componentData: {
+      type: 'div',
+      children: [
+        {
+          type: 'Button',
+          props: {
+            id: 'basic-button',
+            'aria-controls': "{open ? 'basic-menu' : undefined}",
+            'aria-haspopup': 'true',
+            'aria-expanded': "{open ? 'true' : undefined}",
+            onClick: 'handleClick',
+            sx: { m: 1 }
+          },
+          children: 'Dashboard'
+        },
+        {
+          type: 'Menu',
+          props: {
+            id: 'basic-menu',
+            anchorEl: '{anchorEl}',
+            open: '{open}',
+            onClose: 'handleClose',
+            MenuListProps: {
+              'aria-labelledby': 'basic-button'
+            }
+          },
+          children: [
+            {
+              type: 'MenuItem',
+              props: {
+                onClick: 'handleClose'
+              },
+              children: 'Profile'
+            },
+            {
+              type: 'MenuItem',
+              props: {
+                onClick: 'handleClose'
+              },
+              children: 'My account'
+            },
+            {
+              type: 'MenuItem',
+              props: {
+                onClick: 'handleClose'
+              },
+              children: 'Logout'
+            }
+          ]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 59,
+    tag: 'pagination',
+    name: 'Pagination',
+    style: {},
+    placeHolderShort: 'pagination',
+    placeHolderLong: 'Material UI Pagination Component',
+    icon: 'LastPage',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Pagination from '@mui/material/Pagination'",
+      "import Stack from '@mui/material/Stack'"
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: ["count={10} color='secondary'"],
+    propOptions: [
+      'boundaryCount',
+      'classes',
+      'color',
+      'count',
+      'defaultPage',
+      'disabled',
+      'getItemAriaLabel',
+      'hideNextButton',
+      'hidePrevButton',
+      'onChange',
+      'page',
+      'renderItem',
+      'shape',
+      'showFirstButton',
+      'showLastButton',
+      'siblingCount',
+      'size',
+      'sx',
+      'transitionDuration',
+      'TransitionProps',
+      'variant'
+    ],
+    jsx: ['<Pagination />'],
+    componentData: {
+      type: 'Stack',
+      props: {
+        direction: 'row',
+        spacing: 2,
+        sx: { m: 1 }
+      },
+      children: [
+        {
+          type: 'Pagination',
+          props: {
+            count: 10,
+            color: 'secondary'
+          }
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 60,
+    tag: 'speedDial',
+    name: 'Speed Dial',
+    style: {},
+    placeHolderShort: 'speedDial',
+    placeHolderLong: 'Material UI Speed Dial Component',
+    icon: 'Speed',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import SpeedDial from '@mui/material/SpeedDial'",
+      "import SpeedDialIcon from '@mui/material/SpeedDialIcon'",
+      "import SpeedDialAction from '@mui/material/SpeedDialAction'",
+      "import FileCopyIcon from '@mui/icons-material/FileCopyOutlined'",
+      "import SaveIcon from '@mui/icons-material/Save'",
+      "import PrintIcon from '@mui/icons-material/Print'",
+      "import ShareIcon from '@mui/icons-material/Share'",
+      '\nconst actions = [',
+      "  { icon: <FileCopyIcon />, name: 'Copy' },",
+      "  { icon: <SaveIcon />, name: 'Save' },",
+      "  { icon: <PrintIcon />, name: 'Print' },",
+      "  { icon: <ShareIcon />, name: 'Share' },",
+      ']'
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: [
+      'ariaLabel="SpeedDial basic example" sx={{ position: "absolute", bottom: 16, right: 16 }} icon={<SpeedDialIcon />}'
+    ],
+    propOptions: [
+      'ariaLabel',
+      'children',
+      'classes',
+      'direction',
+      'FabProps',
+      'hidden',
+      'icon',
+      'onClose',
+      'onOpen',
+      'open',
+      'openIcon',
+      'sx',
+      'TransitionComponent',
+      'transitionDuration',
+      'TransitionProps',
+      'variant'
+    ],
+    jsx: [
+      "<Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>",
+      '  <SpeedDial >',
+      "    <SpeedDialAction icon={<FileCopyIcon />} tooltipTitle='Copy' />",
+      "    <SpeedDialAction icon={<SaveIcon />} tooltipTitle='Save' />",
+      "    <SpeedDialAction icon={<PrintIcon />} tooltipTitle='Print' />",
+      "    <SpeedDialAction icon={<ShareIcon />} tooltipTitle='Share' />",
+      '  </SpeedDial>',
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: {
+          height: 320,
+          transform: 'translateZ(0px)',
+          flexGrow: 1
+        }
+      },
+      children: [
+        {
+          type: 'SpeedDial',
+          props: {
+            ariaLabel: 'SpeedDial basic example',
+            sx: { position: 'absolute', bottom: 16, right: 16 },
+            icon: '<SpeedDialIcon />'
+          },
+          children: [
+            {
+              type: 'SpeedDialAction',
+              props: {
+                icon: '<FileCopyIcon />',
+                tooltipTitle: 'Copy'
+              }
+            },
+            {
+              type: 'SpeedDialAction',
+              props: {
+                icon: '<SaveIcon />',
+                tooltipTitle: 'Save'
+              }
+            },
+            {
+              type: 'SpeedDialAction',
+              props: {
+                icon: '<PrintIcon />',
+                tooltipTitle: 'Print'
+              }
+            },
+            {
+              type: 'SpeedDialAction',
+              props: {
+                icon: '<ShareIcon />',
+                tooltipTitle: 'Share'
+              }
+            }
+          ]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 61,
+    tag: 'stepper',
+    name: 'Stepper',
+    style: {},
+    placeHolderShort: 'stepper',
+    placeHolderLong: 'Material UI Stepper Component',
+    icon: 'ClearAll',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Stepper from '@mui/material/Stepper'",
+      "import Step from '@mui/material/Step'",
+      "import StepLabel from '@mui/material/StepLabel'",
+      "import StepContent from '@mui/material/StepContent'",
+      "import Button from '@mui/material/Button'",
+      "import Paper from '@mui/material/Paper'",
+      "import Typography from '@mui/material/Typography'",
+      '\nconst steps = [',
+      "  { label: 'Select campaign settings', description: `For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.` },",
+      "  { label: 'Create an ad group', description: 'An ad group contains one or more ads which target a shared set of keywords.' },",
+      "  { label: 'Create an ad', description: `Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.` }",
+      ']'
+    ],
+    stateAndEventHandlers: [
+      'const [activeStep, setActiveStep] = React.useState(0);',
+      '\nconst handleNext = () => {',
+      '  setActiveStep((prevActiveStep) => prevActiveStep + 1);',
+      '};',
+      '\nconst handleBack = () => {',
+      '  setActiveStep((prevActiveStep) => prevActiveStep - 1);\n};',
+      '\nconst handleReset = () => {',
+      'setActiveStep(0);\n};\n'
+    ],
+    defaultProps: ['activeStep={activeStep} orientation="vertical"'],
+    propOptions: [
+      'activeStep',
+      'alternativeLabel',
+      'children',
+      'classes',
+      'component',
+      'connector',
+      'nonLinear',
+      'orientation',
+      'sx',
+      'TransitionComponent',
+      'transitionDuration',
+      'TransitionProps'
+    ],
+    jsx: [
+      '<Box sx={{ maxWidth: 400 }}>',
+      '  <Stepper >',
+      '    {steps.map((step, index) => (',
+      '      <Step key={step.label}>',
+      "        <StepLabel optional={index === 2 ? <Typography variant='caption'>Last step</Typography> : null}>{step.label}</StepLabel>",
+      '        <StepContent>',
+      '          <Typography>{step.description}</Typography>',
+      '          <Box sx={{ mb: 2 }}>',
+      '            <div>',
+      "              <Button variant='contained' onClick={handleNext} sx={{ mt: 1, mr: 1 }}>{index === steps.length - 1 ? 'Finish' : 'Continue'}</Button>",
+      '              <Button disabled={index === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>Back</Button>',
+      '            </div>',
+      '          </Box>',
+      '        </StepContent>',
+      '      </Step>',
+      '    ))}',
+      '  </Stepper>',
+      '  {activeStep === steps.length && (',
+      '    <Paper square elevation={0} sx={{ p: 3 }}>',
+      "      <Typography>All steps completed - you're finished</Typography>",
+      '      <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>Reset</Button>',
+      '    </Paper>',
+      '  )}',
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: {
+          maxWidth: 400
+        }
+      },
+      children: [
+        {
+          type: 'Stepper',
+          props: {
+            activeStep: '{activeStep}',
+            orientation: 'vertical'
+          },
+          children: 'Dynamic children mapping based on steps array'
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 62,
+    tag: 'tabs',
+    name: 'Tabs',
+    style: {},
+    placeHolderShort: 'tabs',
+    placeHolderLong: 'Material UI Tabs Component',
+    icon: 'Tab',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import PropTypes from 'prop-types'",
+      "import Tabs from '@mui/material/Tabs'",
+      "import Tab from '@mui/material/Tab'",
+      "import Typography from '@mui/material/Typography'",
+      "import Box from '@mui/material/Box'",
+      '\nfunction CustomTabPanel(props) {',
+      '  const { children, value, index, ...other } = props;',
+      '  return (',
+      '    <div',
+      "      role='tabpanel'",
+      '      hidden={value !== index}',
+      '      id={`simple-tabpanel-${index}`}',
+      '      aria-labelledby={`simple-tab-${index}`}',
+      '      {...other}',
+      '    >',
+      '      {value === index && (',
+      '        <Box sx={{ p: 3 }}>',
+      '          <Typography>{children}</Typography>',
+      '        </Box>',
+      '      )}',
+      '    </div>',
+      '  );',
+      '}',
+      '\nCustomTabPanel.propTypes = {',
+      '  children: PropTypes.node,',
+      '  index: PropTypes.number.isRequired,',
+      '  value: PropTypes.number.isRequired',
+      '};',
+      '\nfunction a11yProps(index) {',
+      '  return {',
+      '    id: `simple-tab-${index}`,',
+      "    'aria-controls': `simple-tabpanel-${index}`",
+      '  };',
+      '}'
+    ],
+    stateAndEventHandlers: [
+      'const [value, setValue] = React.useState(0);',
+      'const handleChange = (event, newValue) => { setValue(newValue); };\n'
+    ],
+    defaultProps: [],
+    propOptions: [
+      'children',
+      'classes',
+      'component',
+      'disabled',
+      'disableFocusRipple',
+      'disableRipple',
+      'icon',
+      'iconPosition',
+      'label',
+      'sx',
+      'value',
+      'wrapped'
+    ],
+    jsx: [
+      "<Box sx={{ width: '100%' }}>",
+      "  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>",
+      '    <Tabs >',
+      "      <Tab label='Item One' {...a11yProps(0)} />",
+      "      <Tab label='Item Two' {...a11yProps(1)} />",
+      "      <Tab label='Item Three' {...a11yProps(2)} />",
+      '    </Tabs>',
+      '  </Box>',
+      '  <CustomTabPanel value={value} index={0}>',
+      '    Item One',
+      '  </CustomTabPanel>',
+      '  <CustomTabPanel value={value} index={1}>',
+      '    Item Two',
+      '  </CustomTabPanel>',
+      '  <CustomTabPanel value={value} index={2}>',
+      '    Item Three',
+      '  </CustomTabPanel>',
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: { width: '100%' }
+      },
+      children: [
+        {
+          type: 'Box',
+          props: {
+            sx: { borderBottom: 1, borderColor: 'divider' }
+          },
+          children: [
+            {
+              type: 'Tabs',
+              props: {
+                value: '{value}',
+                onChange: 'handleChange',
+                'aria-label': 'basic tabs example'
+              },
+              children: [
+                {
+                  type: 'Tab',
+                  props: {
+                    label: 'Item One',
+                    '...': 'a11yProps(0)'
+                  }
+                },
+                {
+                  type: 'Tab',
+                  props: {
+                    label: 'Item Two',
+                    '...': 'a11yProps(1)'
+                  }
+                },
+                {
+                  type: 'Tab',
+                  props: {
+                    label: 'Item Three',
+                    '...': 'a11yProps(2)'
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          type: 'CustomTabPanel',
+          props: {
+            value: '{value}',
+            index: 0
+          },
+          children: 'Item One'
+        },
+        {
+          type: 'CustomTabPanel',
+          props: {
+            value: '{value}',
+            index: 1
+          },
+          children: 'Item Two'
+        },
+        {
+          type: 'CustomTabPanel',
+          props: {
+            value: '{value}',
+            index: 2
+          },
+          children: 'Item Three'
+        }
+      ]
+    },
+    children: []
+  },
+  {
     id: 63,
     tag: 'box',
     name: 'Box',
@@ -2787,6 +3762,571 @@ const MUITypes: MUIType[] = [
         sx: { p: 2, border: '1px dashed grey', m: 1 }
       },
       children: ['This Box renders as an HTML section element.']
+    },
+    children: []
+  },
+  {
+    id: 64,
+    tag: 'container',
+    name: 'Container',
+    style: {},
+    placeHolderShort: 'container',
+    placeHolderLong: 'Material UI Container Component',
+    icon: 'Storage',
+    framework: 'reactClassic',
+    nestable: true,
+    imports: [
+      "import CssBaseline from '@mui/material/CssBaseline'",
+      "import Box from '@mui/material/Box'",
+      "import Container from '@mui/material/Container'"
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: ['maxWidth="sm"'],
+    propOptions: [
+      'classes',
+      'component',
+      'disableGutters',
+      'fixed',
+      'maxWidth',
+      'sx'
+    ],
+    jsx: [
+      '<React.Fragment>',
+      '  <CssBaseline />',
+      '  <Container >',
+      "    <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} />",
+      '  </Container>',
+      '</React.Fragment>'
+    ],
+    componentData: {
+      type: 'Container',
+      props: { maxWidth: 'sm' },
+      children: [
+        {
+          type: 'Box',
+          props: { sx: { bgcolor: '#cfe8fc', height: '100vh' } }
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 65,
+    tag: 'grid',
+    name: 'Grid',
+    style: {},
+    placeHolderShort: 'grid',
+    placeHolderLong: 'Material UI Grid Component',
+    icon: 'GridOn', // Using 'GridOn' icon to represent grid
+    framework: 'reactClassic',
+    nestable: true,
+    imports: [
+      "import { styled } from '@mui/material/styles'",
+      "import Box from '@mui/material/Box'",
+      "import Paper from '@mui/material/Paper'",
+      "import Grid from '@mui/material/Grid'"
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: ['container spacing={2}'],
+    propOptions: [
+      'children',
+      'classes',
+      'columns',
+      'columnSpacing',
+      'component',
+      'container',
+      'direction',
+      'item',
+      'lg',
+      'md',
+      'rowSpacing',
+      'sm',
+      'spacing',
+      'sx',
+      'wrap',
+      'xl',
+      'xs',
+      'zeroMinWidth'
+    ],
+    jsx: [
+      '<Box sx={{ flexGrow: 1 }}>',
+      '  <Grid >',
+      '    <Grid item xs={8}>',
+      '      <Item>xs=8</Item>',
+      '    </Grid>',
+      '    <Grid item xs={4}>',
+      '      <Item>xs=4</Item>',
+      '    </Grid>',
+      '    <Grid item xs={4}>',
+      '      <Item>xs=4</Item>',
+      '    </Grid>',
+      '    <Grid item xs={8}>',
+      '      <Item>xs=8</Item>',
+      '    </Grid>',
+      '  </Grid>',
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Grid',
+      props: { container: true, spacing: 2 },
+      children: [
+        {
+          type: 'Grid',
+          props: { item: true, xs: 8 },
+          children: [{ type: 'Item', props: {}, children: 'xs=8' }]
+        },
+        {
+          type: 'Grid',
+          props: { item: true, xs: 4 },
+          children: [{ type: 'Item', props: {}, children: 'xs=4' }]
+        },
+        {
+          type: 'Grid',
+          props: { item: true, xs: 4 },
+          children: [{ type: 'Item', props: {}, children: 'xs=4' }]
+        },
+        {
+          type: 'Grid',
+          props: { item: true, xs: 8 },
+          children: [{ type: 'Item', props: {}, children: 'xs=8' }]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 68,
+    tag: 'stack',
+    name: 'Stack',
+    style: {},
+    placeHolderShort: 'stack',
+    placeHolderLong: 'Material UI Stack Component',
+    icon: 'ViewArray',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Paper from '@mui/material/Paper'",
+      "import Stack from '@mui/material/Stack'",
+      "import { styled } from '@mui/material/styles'"
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: ['spacing={2}'],
+    propOptions: [
+      'children',
+      'component',
+      'direction',
+      'divider',
+      'spacing',
+      'sx',
+      'useFlexGap'
+    ],
+    jsx: [
+      '<Box sx={{ width: "100%" }}>',
+      '  <Stack ',
+      '    <Item>Item 1</Item>',
+      '    <Item>Item 2</Item>',
+      '    <Item>Item 3</Item>',
+      '  </Stack>',
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Stack',
+      props: { spacing: 2 },
+      children: [
+        { type: 'Item', props: {}, children: 'Item 1' },
+        { type: 'Item', props: {}, children: 'Item 2' },
+        { type: 'Item', props: {}, children: 'Item 3' }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 69,
+    tag: 'image-list',
+    name: 'ImageList',
+    icon: 'ArtTrack',
+    nestable: false,
+    props: {
+      children: {
+        type: 'node',
+        description: 'The content of the component, normally ImageListItems.'
+      },
+      classes: {
+        type: 'object',
+        description: 'Override or extend the styles applied to the component.'
+      },
+      cols: {
+        type: 'integer',
+        default: 2,
+        description: 'Number of columns.'
+      },
+      component: {
+        type: 'elementType',
+        description: 'The component used for the root node.'
+      },
+      gap: {
+        type: 'number',
+        default: 4,
+        description: 'The gap between items in px.'
+      },
+      rowHeight: {
+        type: 'string | number',
+        default: 'auto',
+        description: 'The height of one row in px.'
+      },
+      sx: {
+        type: 'array | func | object | bool',
+        description:
+          'The system prop that allows defining system overrides as well as additional CSS styles.'
+      },
+      variant: {
+        type: "'masonry' | 'quilted' | 'standard' | 'woven' | string",
+        default: 'standard',
+        description: 'The variant to use.'
+      }
+    }
+  },
+  {
+    id: 73,
+    tag: 'modal',
+    name: 'Modal',
+    style: {},
+    placeHolderShort: 'modal',
+    placeHolderLong: 'Material UI Modal Component',
+    icon: 'ZoomOutMap',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Button from '@mui/material/Button'",
+      "import Typography from '@mui/material/Typography'",
+      "import Modal from '@mui/material/Modal'"
+    ],
+    stateAndEventHandlers: [
+      'const [open, setOpen] = React.useState(false);',
+      'const handleOpen = () => setOpen(true);',
+      'const handleClose = () => setOpen(false);\n'
+    ],
+    defaultProps: [
+      'open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"'
+    ],
+    propOptions: [
+      'children',
+      'open',
+      'BackdropComponent',
+      'BackdropProps',
+      'closeAfterTransition',
+      'component',
+      'components',
+      'componentsProps',
+      'container',
+      'disableAutoFocus',
+      'disableEnforceFocus',
+      'disableEscapeKeyDown',
+      'disablePortal',
+      'disableRestoreFocus',
+      'disableScrollLock',
+      'hideBackdrop',
+      'keepMounted',
+      'onBackdropClick',
+      'onClose',
+      'onTransitionEnter',
+      'onTransitionExited',
+      'slotProps',
+      'slots',
+      'sx'
+    ],
+    jsx: [
+      '<div>',
+      '  <Button onClick={handleOpen}>Open modal</Button>',
+      '  <Modal >',
+      '    <Box sx={style}>',
+      '      <Typography id="modal-modal-title" variant="h6" component="h2">',
+      '        Text in a modal',
+      '      </Typography>',
+      '      <Typography id="modal-modal-description" sx={{ mt: 2 }}>',
+      '        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.',
+      '      </Typography>',
+      '    </Box>',
+      '  </Modal>',
+      '</div>'
+    ],
+    componentData: {
+      type: 'div',
+      props: {},
+      children: [
+        {
+          type: 'Button',
+          props: {
+            onClick: 'handleOpen'
+          },
+          children: 'Open modal'
+        },
+        {
+          type: 'Modal',
+          props: {
+            open: '{open}',
+            onClose: 'handleClose',
+            'aria-labelledby': 'modal-modal-title',
+            'aria-describedby': 'modal-modal-description'
+          },
+          children: [
+            {
+              type: 'Box',
+              props: {
+                sx: '{style}'
+              },
+              children: [
+                {
+                  type: 'Typography',
+                  props: {
+                    id: 'modal-modal-title',
+                    variant: 'h6',
+                    component: 'h2'
+                  },
+                  children: 'Text in a modal'
+                },
+                {
+                  type: 'Typography',
+                  props: {
+                    id: 'modal-modal-description',
+                    sx: '{mt: 2}'
+                  },
+                  children:
+                    'Duis mollis, est non commodo luctus, nisi erat porttitor ligula.'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 75,
+    tag: 'popover',
+    name: 'Popover',
+    style: {},
+    placeHolderShort: 'popover',
+    placeHolderLong: 'Material UI Popover Component',
+    icon: 'Layers',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Popover from '@mui/material/Popover'",
+      "import Typography from '@mui/material/Typography'",
+      "import Button from '@mui/material/Button'"
+    ],
+    stateAndEventHandlers: [
+      'const [anchorEl, setAnchorEl] = React.useState(null);',
+      'const handleClick = (event) => { setAnchorEl(event.currentTarget); };',
+      '\nconst handleClose = () => { setAnchorEl(null); };',
+      '\nconst open = Boolean(anchorEl);',
+      "\nconst id = open ? 'simple-popover' : undefined;\n"
+    ],
+    defaultProps: [
+      "id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}"
+    ],
+    propOptions: [
+      'open',
+      'anchorEl',
+      'anchorOrigin',
+      'anchorPosition',
+      'anchorReference',
+      'children',
+      'classes',
+      'container',
+      'disableScrollLock',
+      'elevation',
+      'marginThreshold',
+      'onClose',
+      'PaperProps',
+      'slotProps',
+      'slots',
+      'sx',
+      'transformOrigin',
+      'TransitionComponent',
+      'transitionDuration',
+      'TransitionProps'
+    ],
+    jsx: [
+      '<div>',
+      "  <Button aria-describedby={id} variant='contained' onClick={handleClick}>",
+      '    Open Popover',
+      '  </Button>',
+      '  <Popover >',
+      '    <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>',
+      '  </Popover>',
+      '</div>'
+    ],
+    componentData: {
+      type: 'div',
+      props: {},
+      children: [
+        {
+          type: 'Button',
+          props: {
+            'aria-describedby': '{id}',
+            variant: 'contained',
+            onClick: 'handleClick'
+          },
+          children: 'Open Popover'
+        },
+        {
+          type: 'Popover',
+          props: {
+            id: '{id}',
+            open: '{open}',
+            anchorEl: '{anchorEl}',
+            onClose: 'handleClose',
+            anchorOrigin: {
+              vertical: 'bottom',
+              horizontal: 'left'
+            }
+          },
+          children: [
+            {
+              type: 'Typography',
+              props: {
+                sx: { p: 2 }
+              },
+              children: 'The content of the Popover.'
+            }
+          ]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 76,
+    tag: 'popper',
+    name: 'Popper',
+    style: {},
+    placeHolderShort: 'popper',
+    placeHolderLong: 'Material UI Popper Component',
+    icon: 'ViewArray',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Popper from '@mui/material/Popper'"
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: [],
+    propOptions: [
+      'open',
+      'anchorEl',
+      'children',
+      'component',
+      'components',
+      'componentsProps',
+      'container',
+      'disablePortal',
+      'keepMounted',
+      'modifiers',
+      'placement',
+      'popperOptions',
+      'popperRef',
+      'slotProps',
+      'slots',
+      'sx',
+      'transition'
+    ],
+    jsx: [
+      `<div>`,
+      `  <button aria-describedby={id} type="button" onClick={handleClick}>`,
+      `    Toggle Popper`,
+      `  </button>`,
+      `  <Popper id={id} open={open} anchorEl={anchorEl}>`,
+      `    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>`,
+      `      The content of the Popper.`,
+      `    </Box>`,
+      `  </Popper>`,
+      `</div>`
+    ],
+    componentData: {
+      type: 'Popper',
+      props: {},
+      children: [
+        {
+          type: 'Box',
+          props: { sx: { border: 1, p: 1, bgcolor: 'background.paper' } },
+          children: 'The content of the Popper.'
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 79,
+    tag: 'transition',
+    name: 'Transition',
+    style: {},
+    placeHolderShort: 'transition',
+    placeHolderLong: 'Material UI Transition Component',
+    icon: 'Transform',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Collapse from '@mui/material/Collapse'",
+      "import FormControlLabel from '@mui/material/FormControlLabel'",
+      "import Box from '@mui/material/Box'",
+      "import Switch from '@mui/material/Switch'",
+      "import Paper from '@mui/material/Paper'"
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: [],
+    propOptions: [
+      'addEndListener',
+      'children',
+      'classes',
+      'collapsedSize',
+      'component',
+      'easing',
+      'in',
+      'orientation',
+      'sx',
+      'timeout'
+    ],
+    jsx: [
+      '<Box sx={{ height: 300 }}>',
+      '  <FormControlLabel control={<Switch checked={checked} onChange={handleChange} />} label="Show" />',
+      '  <Box sx={{',
+      '      "& > :not(style)": {',
+      '        display: "flex",',
+      '        justifyContent: "space-around",',
+      '        height: 120,',
+      '        width: 250,',
+      '      },',
+      '    }}>',
+      '    <div>',
+      '      <Collapse in={checked}>{icon}</Collapse>',
+      '      <Collapse in={checked} collapsedSize={40}>',
+      '        {icon}',
+      '      </Collapse>',
+      '    </div>',
+      '    <div>',
+      '      <Box sx={{ width: "50%" }}>',
+      '        <Collapse orientation="horizontal" in={checked}>',
+      '          {icon}',
+      '        </Collapse>',
+      '      </Box>',
+      '      <Box sx={{ width: "50%" }}>',
+      '        <Collapse orientation="horizontal" in={checked} collapsedSize={40}>',
+      '          {icon}',
+      '        </Collapse>',
+      '      </Box>',
+      '    </div>',
+      '  </Box>',
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Transition',
+      props: {},
+      children: null
     },
     children: []
   }

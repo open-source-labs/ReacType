@@ -36,154 +36,372 @@ const DemoRender = (): JSX.Element => {
   };
 
   const html = `
-<html>
-<head>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <script defer src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
-  <script defer src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
-  <script defer src="https://unpkg.com/react-router-dom@5/umd/react-router-dom.min.js"></script>
-  <script defer src="https://unpkg.com/@mui/material@5.15.15/umd/material-ui.production.min.js"></script>
-  <style id="mui-styles"></style>
-</head>
-<body>
-  <div id="app";"></div>
-  <script>
+  <html>
+  <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script defer src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script defer src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script defer src="https://unpkg.com/react-router-dom@5/umd/react-router-dom.min.js"></script>
+    <script defer src="https://unpkg.com/@mui/material@5.15.15/umd/material-ui.production.min.js"></script>
+    <style id="mui-styles"></style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
 
-    document.addEventListener('DOMContentLoaded', function() {
-      function logToParentConsole(...args) {
-        const cache = new Set(); // Set to keep track of all objects being stringified
-        const payload = args.map(arg => {
-          if (typeof arg === 'object' && arg !== null) {
-            return JSON.stringify(arg, (key, value) => {
-              if (typeof value === 'object' && value !== null) {
-                if (cache.has(value)) {
-                  // Duplicate reference found, discard key
-                  return;
+        function logToParentConsole(...args) {
+          const cache = new Set(); // Set to keep track of all objects being stringified
+          const payload = args.map(arg => {
+            if (typeof arg === 'object' && arg !== null) {
+              return JSON.stringify(arg, (key, value) => {
+                if (typeof value === 'object' && value !== null) {
+                  if (cache.has(value)) {
+                    // Duplicate reference found, discard key
+                    return;
+                  }
+                  // Store value in our collection
+                  cache.add(value);
                 }
-                // Store value in our collection
-                cache.add(value);
-              }
-              return value;
-            });
-          }
-          return arg;
-        });
-        window.parent.postMessage({ type: 'log', data: payload }, '*');
-        cache.clear(); // Clear cache after serialization
-      }
-      console.log = logToParentConsole;
+                return value;
+              });
+            }
+            return arg;
+          });
+          window.parent.postMessage({ type: 'log', data: payload }, '*');
+          cache.clear(); // Clear cache after serialization
+        }
+        console.log = logToParentConsole;
 
-      const MaterialUI = window.MaterialUI;
+        const top100Films = [
+          { label: 'The Shawshank Redemption', year: 1994 },
+          { label: 'The Godfather', year: 1972 },
+          { label: 'The Godfather: Part II', year: 1974 },
+          { label: 'The Dark Knight', year: 2008 },
+          { label: '12 Angry Men', year: 1957 },
+        ];
+  
+        function createData(name, calories, fat, carbs, protein) {
+          return { name, calories, fat, carbs, protein };
+        }
+  
+        const rows = [
+          createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+          createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+          createData('Eclair', 262, 16.0, 24, 6.0),
+          createData('Cupcake', 305, 3.7, 67, 4.3),
+          createData('Gingerbread', 356, 16.0, 49, 3.9),
+        ];
+  
+        const MaterialUI = window.MaterialUI;
         const ReactRouterDOM = window.ReactRouterDOM;
         const React = window.React;
         const ReactDOM = window.ReactDOM;
 
         console.log('MaterialUI:', MaterialUI);
-
+  
         if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
-          console.log('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
+          console.error('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
           return;
         }
-
-      const specialComponents = {
-        'br': () => React.createElement('br', {})
-      };
-
-      const isJsonString = (str) => {
-        try {
-          JSON.parse(str);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      };
-
-      const createComponentFromData = (data) => {
-        const { type, props, children } = data;
-        const Component = MaterialUI[type] || 'div'; // Default to div if component is not found
-      
-        const processChildren = (child) => {
-          if (typeof child === 'string') {
-            if (isJsonString(child)) {
-              return createComponentFromData(JSON.parse(child));
-            }
-            return specialComponents[child] ? specialComponents[child]() : child;
-          } else if (typeof child === 'object' && child !== null) {
-            return createComponentFromData(child);
+  
+        const isJsonString = (str) => {
+          try {
+            return JSON.parse(str);
+          } catch (e) {
+            return false;
           }
-          return null;
         };
-      
-        // Handling single and multiple children uniformly
-        const processedChildren = Array.isArray(children) ?
-          children.map(processChildren) : 
-          [processChildren(children)]; // Wrap non-array children in an array
-      
-        // Spreading children into createElement function
-        return React.createElement(Component, props, ...processedChildren);
-      };      
-      
-      window.addEventListener('message', (event) => {
-        // console.log('event', event);
-        const dataArr = event.data.replace(/}{/g, '}|||{').replace(/}</g, '}|||<').replace(/>{/g, '>|||{').split('|||');
-        // console.log('dataArr', dataArr);
-        const container = document.getElementById('app');
-        container.innerHTML = '';
-        dataArr.forEach(segment => {
-          // console.log('segment', segment)
-          if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
-            try {
-              const jsonData = JSON.parse(segment);
-              // console.log('jsonData', jsonData);
-              if (jsonData.props && jsonData.props.children) {
-                jsonData.children = jsonData.children || [];
-                // console.log('jsonData.props.children', jsonData.props.children);
-                jsonData.children = [...jsonData.children, ...jsonData.props.children];
-              }
-              
-              const componentContainer = document.createElement('div');
-              container.appendChild(componentContainer);
-              const component = createComponentFromData(jsonData);
-              console.log('component', component);
-              ReactDOM.render(component, componentContainer);
-            } catch (err) {
-              console.error("Error parsing JSON:", err);
-            }
-          } else {
-            container.insertAdjacentHTML('beforeend', segment);
-            container.querySelectorAll('a').forEach(element => {
-              element.addEventListener('click', (event) => {
-                event.preventDefault();
-                window.top.postMessage(event.currentTarget.href, '*');
-              });
+  
+        const createComponentFromData = (data) => {
+          const { type, props } = data;
+          let { children } = data;
+          const Component = MaterialUI[type] || 'div'; 
+  
+          let newProps = { ...props };
+          if (Component === undefined) {
+            console.error(\`Component type \${type} is undefined.\`);
+            return null;
+          }
+  
+          if (type === 'Autocomplete' && props.renderInput && typeof props.renderInput === 'string') {
+            newProps.renderInput = (params) => React.createElement(MaterialUI.TextField, {...params, label: 'Movie'});
+            newProps.options = top100Films;
+          }
+        
+          if (type === 'FormControlLabel' && props.control && props.control.type === 'Radio') {
+            newProps.control = React.createElement(MaterialUI.Radio);
+          }
+        
+          if (type === 'TableBody') {
+            console.log('Processing TableBody with rows:', rows);
+            children = rows.map(row => {
+              console.log('Processing row:', row);
+              return {
+                type: 'TableRow',
+                props: { key: row.name },
+                children: [
+                  { type: 'TableCell', props: { component: 'th', scope: 'row' }, children: row.name },
+                  { type: 'TableCell', props: { align: 'right' }, children: String(row.calories) },
+                  { type: 'TableCell', props: { align: 'right' }, children: String(row.fat) },
+                  { type: 'TableCell', props: { align: 'right' }, children: String(row.carbs) },
+                  { type: 'TableCell', props: { align: 'right' }, children: String(row.protein) },
+                ]
+              };
             });
           }
+          console.log('post tableBody check', children);
+
+          const processChildren = (child) => {
+            if (typeof child === 'string') {
+              if (isJsonString(child)) {
+                return createComponentFromData(JSON.parse(child));
+              }
+              return child;
+            } else if (typeof child === 'object' && child !== null) {
+              return createComponentFromData(child);
+            }
+            return null;
+          };
+  
+          const processedChildren = Array.isArray(children) ?
+            children.map(processChildren) :
+            [processChildren(children)];
+  
+          return React.createElement(Component, newProps, ...processedChildren);
+        };
+        
+        window.addEventListener('message', (event) => {
+          const dataArr = event.data.replace(/}{/g, '}|||{').replace(/}</g, '}|||<').replace(/>{/g, '>|||{').split('|||');
+          const container = document.getElementById('app');
+          container.innerHTML = '';
+          dataArr.forEach(segment => {
+            if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
+              try {
+                const jsonData = JSON.parse(segment);
+                const componentContainer = document.createElement('div');
+                container.appendChild(componentContainer);
+                const component = createComponentFromData(jsonData);
+                ReactDOM.render(component, componentContainer);
+              } catch (err) {
+                console.error("Error parsing JSON:", err);
+              }
+            } else {
+              container.insertAdjacentHTML('beforeend', segment);
+            }
+          });
         });
       });
+    </script>
+  </body>
+  </html>
+  `;
 
-      const handleClickInsideIframe = () => {
-        window.parent.postMessage('iframeClicked', '*');
-      };
-      const handleMouseUpInsideIframe = () => {
-        window.parent.postMessage('iframeMouseUp', '*');
-      };
-      const handleMouseMoveInsideIframe = (e) => {
-        const msgData = {
-          type: 'iframeMouseMove',
-          clientY: e.clientY + 70 // Adjust according to your needs
-        };
-        window.parent.postMessage(msgData, '*');
-      };
+  //   const html = `
+  // <html>
+  // <head>
+  //   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  //   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  //   <script defer src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+  //   <script defer src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+  //   <script defer src="https://unpkg.com/react-router-dom@5/umd/react-router-dom.min.js"></script>
+  //   <script defer src="https://unpkg.com/@mui/material@5.15.15/umd/material-ui.production.min.js"></script>
+  //   <style id="mui-styles"></style>
+  // </head>
+  // <body>
+  //   <div id="app";"></div>
+  //   <script>
 
-      window.addEventListener('click', handleClickInsideIframe);
-      window.addEventListener('mouseup', handleMouseUpInsideIframe);
-      window.addEventListener('mousemove', handleMouseMoveInsideIframe);
-    });
-  </script>
-</body>
-</html>
-`;
+  //     document.addEventListener('DOMContentLoaded', function() {
+  //       const top100Films = [
+  //         { label: 'The Shawshank Redemption', year: 1994 },
+  //         { label: 'The Godfather', year: 1972 },
+  //         { label: 'The Godfather: Part II', year: 1974 },
+  //         { label: 'The Dark Knight', year: 2008 },
+  //         { label: '12 Angry Men', year: 1957 },
+  //       ];
+
+  //       function createData(name, calories, fat, carbs, protein) {
+  //         return { name, calories, fat, carbs, protein };
+  //       }
+
+  //       const rows = [
+  //         createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  //         createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+  //         createData('Eclair', 262, 16.0, 24, 6.0),
+  //         createData('Cupcake', 305, 3.7, 67, 4.3),
+  //         createData('Gingerbread', 356, 16.0, 49, 3.9),
+  //       ];
+
+  //       console.log('rows', rows)
+
+  //       function logToParentConsole(...args) {
+  //         const cache = new Set(); // Set to keep track of all objects being stringified
+  //         const payload = args.map(arg => {
+  //           if (typeof arg === 'object' && arg !== null) {
+  //             return JSON.stringify(arg, (key, value) => {
+  //               if (typeof value === 'object' && value !== null) {
+  //                 if (cache.has(value)) {
+  //                   // Duplicate reference found, discard key
+  //                   return;
+  //                 }
+  //                 // Store value in our collection
+  //                 cache.add(value);
+  //               }
+  //               return value;
+  //             });
+  //           }
+  //           return arg;
+  //         });
+  //         window.parent.postMessage({ type: 'log', data: payload }, '*');
+  //         cache.clear(); // Clear cache after serialization
+  //       }
+  //       console.log = logToParentConsole;
+
+  //       const MaterialUI = window.MaterialUI;
+  //         const ReactRouterDOM = window.ReactRouterDOM;
+  //         const React = window.React;
+  //         const ReactDOM = window.ReactDOM;
+
+  //         console.log('MaterialUI:', MaterialUI);
+
+  //         if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
+  //           console.log('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
+  //           return;
+  //         }
+
+  //       const specialComponents = {
+  //         'br': () => React.createElement('br', {})
+  //       };
+
+  //       const isJsonString = (str) => {
+  //         try {
+  //           JSON.parse(str);
+  //           return true;
+  //         } catch (e) {
+  //           return false;
+  //         }
+  //       };
+
+  //       const createComponentFromData = (data) => {
+  //         const { type, props } = data;
+  //         let { children } = data;
+  //         const Component = MaterialUI[type] || 'div'; // Default to div if component is not found
+  //         console.log('type', 'Creating component of type: ' + type);
+  //         // Check if props need special handling (for functions like renderInput)
+  //         let newProps = { ...props };
+  //         if (Component === undefined) {
+  //           console.error('Component type ' + type + ' is undefined.');
+  //           return null; // Avoid attempting to create an undefined component
+  //         }
+
+  //         if (type === 'Autocomplete' && props.renderInput && typeof props.renderInput === 'string') {
+  //           // Directly using React.createElement to avoid JSX in strings
+  //           newProps.renderInput = (params) => React.createElement(MaterialUI.TextField, {...params, label: 'Movie'});
+  //           newProps = {...newProps, options: top100Films}
+  //         }
+
+  //         if (type === 'FormControlLabel' && props.control && props.control.type === 'Radio') {
+  //           // Directly using React.createElement to avoid JSX in strings
+  //           newProps.control = React.createElement(MaterialUI.Radio);
+  //         }
+
+  //         if (type === 'TableBody' && children) {
+  //           console.log('Processing TableBody');
+  //           children = rows.map(row => ({
+  //               type: 'TableRow',
+  //               props: { key: row.name },
+  //               children: [
+  //                   { type: 'TableCell', props: { component: 'th', scope: 'row' }, children: row.name },
+  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.calories) },
+  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.fat) },
+  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.carbs) },
+  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.protein) },
+  //               ]
+  //           }));
+
+  //         const processChildren = (child) => {
+  //           if (typeof child === 'string') {
+  //             if (isJsonString(child)) {
+  //               return createComponentFromData(JSON.parse(child));
+  //             }
+  //             return specialComponents[child] ? specialComponents[child]() : child;
+  //           } else if (typeof child === 'object' && child !== null) {
+  //             return createComponentFromData(child);
+  //           }
+  //           return null;
+  //         };
+
+  //         // Handling single and multiple children uniformly
+  //         const processedChildren = Array.isArray(children) ?
+  //           children.map(processChildren) :
+  //           [processChildren(children)]; // Wrap non-array children in an array
+
+  //         // Spreading children into createElement function
+  //         return React.createElement(Component, newProps, ...processedChildren);
+  //       };
+
+  //       window.addEventListener('message', (event) => {
+  //         // console.log('event', event);
+  //         const dataArr = event.data.replace(/}{/g, '}|||{').replace(/}</g, '}|||<').replace(/>{/g, '>|||{').split('|||');
+  //         // console.log('dataArr', dataArr);
+  //         const container = document.getElementById('app');
+  //         container.innerHTML = '';
+  //         dataArr.forEach(segment => {
+  //           // console.log('segment', segment)
+  //           if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
+  //             try {
+  //               const jsonData = JSON.parse(segment);
+  //               // console.log('jsonData', jsonData);
+  //               if (jsonData.props && jsonData.props.children) {
+  //                 jsonData.children = jsonData.children || [];
+  //                 // console.log('jsonData.props.children', jsonData.props.children);
+  //                 jsonData.children = [...jsonData.children, ...jsonData.props.children];
+  //               }
+
+  //               const componentContainer = document.createElement('div');
+  //               container.appendChild(componentContainer);
+  //               const component = createComponentFromData(jsonData);
+  //               console.log('component', component);
+  //               ReactDOM.render(component, componentContainer);
+  //             } catch (err) {
+  //               console.error("Error parsing JSON:", err);
+  //             }
+  //           } else {
+  //             container.insertAdjacentHTML('beforeend', segment);
+  //             container.querySelectorAll('a').forEach(element => {
+  //               element.addEventListener('click', (event) => {
+  //                 event.preventDefault();
+  //                 window.top.postMessage(event.currentTarget.href, '*');
+  //               });
+  //             });
+  //           }
+  //         });
+  //       });
+
+  //       const handleClickInsideIframe = () => {
+  //         window.parent.postMessage('iframeClicked', '*');
+  //       };
+  //       const handleMouseUpInsideIframe = () => {
+  //         window.parent.postMessage('iframeMouseUp', '*');
+  //       };
+  //       const handleMouseMoveInsideIframe = (e) => {
+  //         const msgData = {
+  //           type: 'iframeMouseMove',
+  //           clientY: e.clientY + 70 // Adjust according to your needs
+  //         };
+  //         window.parent.postMessage(msgData, '*');
+  //       };
+
+  //       window.addEventListener('click', handleClickInsideIframe);
+  //       window.addEventListener('mouseup', handleMouseUpInsideIframe);
+  //       window.addEventListener('mousemove', handleMouseMoveInsideIframe);
+  //     });
+  //   </script>
+  // </body>
+  // </html>
+  // `;
 
   window.onmessage = (event) => {
     // If event.data or event.data.data is undefined, return early
