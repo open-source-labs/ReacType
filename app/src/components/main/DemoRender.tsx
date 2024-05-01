@@ -134,24 +134,24 @@ const DemoRender = (): JSX.Element => {
             newProps.control = React.createElement(MaterialUI.Radio);
           }
         
-          if (type === 'TableBody') {
-            console.log('Processing TableBody with rows:', rows);
-            children = rows.map(row => {
-              console.log('Processing row:', row);
-              return {
-                type: 'TableRow',
-                props: { key: row.name },
-                children: [
-                  { type: 'TableCell', props: { component: 'th', scope: 'row' }, children: row.name },
-                  { type: 'TableCell', props: { align: 'right' }, children: String(row.calories) },
-                  { type: 'TableCell', props: { align: 'right' }, children: String(row.fat) },
-                  { type: 'TableCell', props: { align: 'right' }, children: String(row.carbs) },
-                  { type: 'TableCell', props: { align: 'right' }, children: String(row.protein) },
-                ]
-              };
-            });
-          }
-          console.log('post tableBody check', children);
+          // if (type === 'TableBody') {
+          //   console.log('Processing TableBody with rows:', rows);
+          //   children = rows.map(row => {
+          //     console.log('Processing row:', row);
+          //     return {
+          //       type: 'TableRow',
+          //       props: { key: row.name },
+          //       children: [
+          //         { type: 'TableCell', props: { component: 'th', scope: 'row' }, children: row.name },
+          //         { type: 'TableCell', props: { align: 'right' }, children: String(row.calories) },
+          //         { type: 'TableCell', props: { align: 'right' }, children: String(row.fat) },
+          //         { type: 'TableCell', props: { align: 'right' }, children: String(row.carbs) },
+          //         { type: 'TableCell', props: { align: 'right' }, children: String(row.protein) },
+          //       ]
+          //     };
+          //   });
+          // }
+          // console.log('post tableBody check', children);
 
           const processChildren = (child) => {
             if (typeof child === 'string') {
@@ -180,6 +180,12 @@ const DemoRender = (): JSX.Element => {
             if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
               try {
                 const jsonData = JSON.parse(segment);
+                // console.log('jsonData', jsonData);
+                if (jsonData.props && jsonData.props.children) {
+                  jsonData.children = jsonData.children || [];
+                  // console.log('jsonData.props.children', jsonData.props.children);
+                  jsonData.children = [...jsonData.children, ...jsonData.props.children];
+                }
                 const componentContainer = document.createElement('div');
                 container.appendChild(componentContainer);
                 const component = createComponentFromData(jsonData);
