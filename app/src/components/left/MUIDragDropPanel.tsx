@@ -75,7 +75,157 @@ const MUIDragDropPanel = (props): JSX.Element => {
             id="panel2a-header"
             className={classes.accordionSummary}
           >
-            <h3>MUI Components</h3>
+            <h3>Inputs</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {muiTypesToRender.map((option) => {
+                return (
+                  <MUIItem
+                    name={option.name}
+                    key={`mui-${option.name}`}
+                    id={option.id}
+                    icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>Data Display</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {muiTypesToRender.map((option) => {
+                return (
+                  <MUIItem
+                    name={option.name}
+                    key={`mui-${option.name}`}
+                    id={option.id}
+                    icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>Feedback</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {muiTypesToRender.map((option) => {
+                return (
+                  <MUIItem
+                    name={option.name}
+                    key={`mui-${option.name}`}
+                    id={option.id}
+                    icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>Surfaces</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {muiTypesToRender.map((option) => {
+                return (
+                  <MUIItem
+                    name={option.name}
+                    key={`mui-${option.name}`}
+                    id={option.id}
+                    icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>Navigation</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {muiTypesToRender.map((option) => {
+                return (
+                  <MUIItem
+                    name={option.name}
+                    key={`mui-${option.name}`}
+                    id={option.id}
+                    icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>Layout</h3>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container justifyContent="center">
+              {muiTypesToRender.map((option) => {
+                return (
+                  <MUIItem
+                    name={option.name}
+                    key={`mui-${option.name}`}
+                    id={option.id}
+                    icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                );
+              })}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            className={classes.accordionSummary}
+          >
+            <h3>Utils</h3>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container justifyContent="center">

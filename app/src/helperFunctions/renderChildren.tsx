@@ -122,7 +122,14 @@ const renderChildren = (children: ChildElement[]) => {
           passedInProps={[]}
         />
       );
-    } else if (type === 'MUI Component' && typeId === 31) {
+    } else if (
+      type === 'MUI Component' &&
+      (typeId === 31 ||
+        typeId === 61 ||
+        typeId === 81 ||
+        typeId === 111 ||
+        typeId === 121)
+    ) {
       return (
         <DirectChildMUI
           childId={childId}
@@ -141,7 +148,12 @@ const renderChildren = (children: ChildElement[]) => {
     // child is a nestable type of HTML element (divs, forms, OrderedLists, UnorderedLists, menus)
     else if (
       type === 'MUI Component' &&
-      (typeId === 21 || typeId === 41 || typeId === 51)
+      (typeId === 21 ||
+        typeId === 41 ||
+        typeId === 51 ||
+        typeId === 71 ||
+        typeId === 91 ||
+        typeId === 101)
     ) {
       return (
         <DirectChildMUINestable

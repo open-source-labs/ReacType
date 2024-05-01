@@ -1,5 +1,6 @@
 import { MUIType } from '../interfaces/Interfaces';
 import { TroubleshootSharp } from '@mui/icons-material';
+import React from 'react';
 
 const MUITypes: MUIType[] = [
   {
@@ -32,6 +33,15 @@ const MUITypes: MUIType[] = [
       'variant'
     ],
     jsx: [`<Button >Contained</Button>`],
+    componentData: {
+      type: 'Button',
+      props: {
+        variant: 'contained',
+        color: 'primary',
+        sx: { m: 1 }
+      },
+      children: 'Click Me'
+    },
     children: []
   },
   // do not move this separator element out of index 1 in this array
@@ -50,6 +60,7 @@ const MUITypes: MUIType[] = [
     propOptions: [],
     defaultProps: [],
     jsx: [],
+    componentData: {},
     children: []
   },
   {
@@ -106,6 +117,17 @@ const MUITypes: MUIType[] = [
       `  <TextField id="outlined-basic" label="Outlined" />`,
       `</Box>`
     ],
+    componentData: {
+      type: 'TextField',
+      props: {
+        variant: 'outlined',
+        label: 'Enter Text',
+        helperText: 'Please enter your text here',
+        fullWidth: false,
+        sx: { m: 1 }
+      },
+      children: []
+    },
     children: []
   },
   {
@@ -151,6 +173,59 @@ const MUITypes: MUIType[] = [
       `  </CardActions>`,
       `</Card>`
     ],
+    componentData: {
+      type: 'Card',
+      props: { sx: { m: 1 } },
+      children: [
+        {
+          type: 'CardContent',
+          props: {},
+          children: [
+            {
+              type: 'Typography',
+              props: {
+                sx: { fontSize: 14 },
+                color: 'text.secondary',
+                gutterBottom: true
+              },
+              children: 'Word of the Day'
+            },
+            {
+              type: 'Typography',
+              props: { variant: 'h5', component: 'div' },
+              children: 'benevolent'
+            },
+            {
+              type: 'Typography',
+              props: { sx: { mb: 1.5 }, color: 'text.secondary' },
+              children: 'adjective'
+            },
+            {
+              type: 'Typography',
+              props: { variant: 'body2' },
+              children: [
+                'well meaning and kindly.',
+                'br',
+                '"a benevolent smile"'
+              ]
+            }
+          ]
+        },
+        {
+          type: 'CardActions',
+          props: {},
+          children: [
+            {
+              type: 'Button',
+              props: {
+                size: 'small'
+              },
+              children: 'Learn More'
+            }
+          ]
+        }
+      ]
+    },
     children: []
   },
   {
@@ -167,7 +242,7 @@ const MUITypes: MUIType[] = [
       "import Box from '@mui/material/Box'",
       "import Typography from '@mui/material/Typography'"
     ],
-    defaultProps: ['variant="h1"'],
+    defaultProps: ['variant="h3"'],
     propOptions: [
       'align',
       'children',
@@ -180,7 +255,608 @@ const MUITypes: MUIType[] = [
       'variant',
       'variantMapping'
     ],
-    jsx: [`<Typography gutterBottom> h1. Heading </Typography>`],
+    jsx: [`<Typography gutterBottom> h3. Heading </Typography>`],
+    componentData: {
+      type: 'Typography',
+      props: {
+        variant: 'h3',
+        gutterBottom: true,
+        sx: { m: 1 }
+      },
+      children: 'h3. Heading'
+    },
+    children: []
+  },
+  {
+    id: 61,
+    tag: 'autocomplete',
+    name: 'Autocomplete',
+    style: {},
+    placeHolderShort: 'autocomplete',
+    placeHolderLong: 'Material UI Autocomplete Component',
+    icon: 'EditAttributes',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import TextField from '@mui/material/TextField'",
+      "import Autocomplete from '@mui/material/Autocomplete'",
+      '\nconst top100Films = [',
+      "\t{ label: 'The Shawshank Redemption', year: 1994 },",
+      "\t{ label: 'The Godfather', year: 1972 },",
+      "\t{ label: 'The Godfather: Part II', year: 1974 },",
+      "\t{ label: 'The Dark Knight', year: 2008 },",
+      "\t{ label: '12 Angry Men', year: 1957 },",
+      '];\n'
+    ],
+    defaultProps: [
+      'disablePortal options={top100Films} sx={{ width: 300 }} renderInput={(params) => <TextField {...params} label="Movie" />}'
+    ],
+    propOptions: [
+      'options',
+      'renderInput',
+      'autoComplete',
+      'autoHighlight',
+      'autoSelect',
+      'blurOnSelect',
+      'ChipProps',
+      'classes',
+      'clearIcon',
+      'clearOnBlur',
+      'clearOnEscape',
+      'clearText',
+      'closeText',
+      'componentsProps',
+      'defaultValue',
+      'disableClearable',
+      'disableCloseOnSelect',
+      'disabled',
+      'disabledItemsFocusable',
+      'disableListWrap',
+      'disablePortal',
+      'filterOptions',
+      'filterSelectedOptions',
+      'forcePopupIcon',
+      'freeSolo',
+      'fullWidth',
+      'getLimitTagsText',
+      'getOptionDisabled',
+      'getOptionKey',
+      'getOptionLabel',
+      'groupBy',
+      'handleHomeEndKeys',
+      'id',
+      'includeInputInList',
+      'inputValue',
+      'isOptionEqualToValue',
+      'limitTags',
+      'ListboxComponent',
+      'ListboxProps',
+      'loading',
+      'loadingText',
+      'multiple',
+      'noOptionsText',
+      'onChange',
+      'onClose',
+      'onHighlightChange',
+      'onInputChange',
+      'onOpen',
+      'open',
+      'openOnFocus',
+      'openText',
+      'PaperComponent',
+      'PopperComponent',
+      'popupIcon',
+      'readOnly',
+      'renderGroup',
+      'renderOption',
+      'renderTags',
+      'selectOnFocus',
+      'size',
+      'slotProps',
+      'sx',
+      'value'
+    ],
+    jsx: [`<Autocomplete id="combo-box-demo" />`],
+    componentData: {
+      type: 'Autocomplete',
+      props: {
+        disablePortal: true,
+        id: 'combo-box-demo',
+        options: 'top100Films',
+        sx: { width: 300, m: 1 },
+        renderInput: "params => <TextField {...params} label='Movie' />"
+      },
+      children: []
+    },
+    children: []
+  },
+  {
+    id: 71,
+    tag: 'btn group',
+    name: 'ButtonGroup',
+    style: {},
+    placeHolderShort: 'btn group',
+    placeHolderLong: 'Material UI ButtonGroup Component',
+    icon: 'TableRows',
+    framework: 'reactClassic',
+    nestable: true,
+    imports: [
+      "import Button from '@mui/material/Button",
+      "import ButtonGroup from '@mui/material/ButtonGroup'"
+    ],
+    defaultProps: ['variant="contained"'],
+    propOptions: [
+      'children',
+      'classes',
+      'color',
+      'component',
+      'disabled',
+      'disableElevation',
+      'disableFocusRipple',
+      'disableRipple',
+      'fullWidth',
+      'orientation',
+      'size',
+      'sx',
+      'variant'
+    ],
+    jsx: [
+      `<ButtonGroup aria-label="Basic button group">`,
+      `  <Button>One</Button>`,
+      `  <Button>Two</Button>`,
+      `  <Button>Three</Button>`,
+      `</ButtonGroup>`
+    ],
+    componentData: {
+      type: 'ButtonGroup',
+      props: {
+        variant: 'contained',
+        'aria-label': 'Basic button group',
+        sx: { m: 1 }
+      },
+      children: [
+        { type: 'Button', children: 'One' },
+        { type: 'Button', children: 'Two' },
+        { type: 'Button', children: 'Three' }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 81,
+    tag: 'checkbox',
+    name: 'Checkbox',
+    style: {},
+    placeHolderShort: 'checkbox',
+    placeHolderLong: 'Material UI Checkbox Component',
+    icon: 'CheckBoxOutlineBlank',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: ["import Checkbox from '@mui/material/Checkbox'"],
+    defaultProps: ['defaultChecked'],
+    propOptions: [
+      'checked',
+      'checkedIcon',
+      'classes',
+      'color',
+      'defaultChecked',
+      'disabled',
+      'disableRipple',
+      'icon',
+      'id',
+      'indeterminate',
+      'indeterminateIcon',
+      'inputProps',
+      'inputRef',
+      'onChange',
+      'required',
+      'size',
+      'sx',
+      'value'
+    ],
+    jsx: [
+      `<div>`,
+      `  <Checkbox {...{ inputProps: { 'aria-label': 'Checkbox demo' } }} />`,
+      `</div>`
+    ],
+    componentData: {
+      type: 'div',
+      props: { sx: { m: 1 } },
+      children: [
+        {
+          type: 'Checkbox',
+          props: {
+            inputProps: { 'aria-label': 'Checkbox demo' },
+            defaultChecked: true
+          }
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 91,
+    tag: 'fab',
+    name: 'Fab',
+    style: {},
+    placeHolderShort: 'fab',
+    placeHolderLong: 'Material UI Floating Action Button Component',
+    icon: 'Add',
+    framework: 'reactClassic',
+    nestable: true,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Fab from '@mui/material/Fab'",
+      "import AddIcon from '@mui/icons-material/Add'"
+    ],
+    defaultProps: ['color="primary" variant="circular"'],
+    propOptions: [
+      'children',
+      'classes',
+      'color',
+      'component',
+      'disabled',
+      'disableFocusRipple',
+      'disableRipple',
+      'href',
+      'size',
+      'sx',
+      'variant'
+    ],
+    jsx: [
+      `<Box sx={{ '& > :not(style)': { m: 1 } }}>`,
+      `  <Fab aria-label="add">`,
+      `    <AddIcon />`,
+      `  </Fab>`,
+      `</Box>`
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: { m: 1, '& > :not(style)': { m: 1 } }
+      },
+      children: [
+        {
+          type: 'Fab',
+          props: {
+            color: 'primary',
+            'aria-label': 'add',
+            sx: { fontSize: 24 }
+          },
+          children: '+'
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 101,
+    tag: 'radio group',
+    name: 'RadioGroup',
+    style: {},
+    placeHolderShort: 'radio group',
+    placeHolderLong: 'Material UI Radio Buttons Group Component',
+    icon: 'RadioButtonChecked',
+    framework: 'reactClassic',
+    nestable: true,
+    imports: [
+      "import Radio from '@mui/material/Radio'",
+      "import RadioGroup from '@mui/material/RadioGroup'",
+      "import FormControlLabel from '@mui/material/FormControlLabel'",
+      "import FormControl from '@mui/material/FormControl'",
+      "import FormLabel from '@mui/material/FormLabel'"
+    ],
+    defaultProps: ['defaultValue="female" name="radio-buttons-group"'],
+    propOptions: ['children', 'defaultValue', 'name', 'onChange', 'value'],
+    jsx: [
+      `<FormControl>`,
+      `  <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>`,
+      `  <RadioGroup aria-labelledby="demo-radio-buttons-group-label" >`,
+      `    <FormControlLabel value="female" control={<Radio />} label="Female" />`,
+      `    <FormControlLabel value="male" control={<Radio />} label="Male" />`,
+      `    <FormControlLabel value="other" control={<Radio />} label="Other" />`,
+      `  </RadioGroup>`,
+      `</FormControl>`
+    ],
+    componentData: {
+      type: 'FormControl',
+      props: { sx: { m: 1 } },
+      children: [
+        {
+          type: 'FormLabel',
+          props: {
+            id: 'demo-radio-buttons-group-label'
+          },
+          children: 'Gender'
+        },
+        {
+          type: 'RadioGroup',
+          props: {
+            'aria-labelledby': 'demo-radio-buttons-group-label',
+            defaultValue: 'female',
+            name: 'radio-buttons-group'
+          },
+          children: [
+            {
+              type: 'FormControlLabel',
+              props: {
+                value: 'female',
+                control: { type: 'Radio' },
+                label: 'Female'
+              }
+            },
+            {
+              type: 'FormControlLabel',
+              props: {
+                value: 'male',
+                control: { type: 'Radio' },
+                label: 'Male'
+              }
+            },
+            {
+              type: 'FormControlLabel',
+              props: {
+                value: 'other',
+                control: { type: 'Radio' },
+                label: 'Other'
+              }
+            }
+          ]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 111,
+    tag: 'rating',
+    name: 'Rating',
+    style: {},
+    placeHolderShort: 'rating',
+    placeHolderLong: 'Material UI Rating Component',
+    icon: 'StarBorder',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Rating from '@mui/material/Rating'",
+      "import Typography from '@mui/material/Typography'",
+      "import React from 'react'"
+    ],
+    defaultProps: ['value="2"'],
+    propOptions: [
+      'defaultValue',
+      'disabled',
+      'emptyIcon',
+      'emptyLabelText',
+      'getLabelText',
+      'highlightSelectedOnly',
+      'icon',
+      'IconContainerComponent',
+      'max',
+      'name',
+      'onChange',
+      'onChangeActive',
+      'precision',
+      'readOnly',
+      'size',
+      'sx',
+      'value'
+    ],
+    jsx: [
+      `<Box sx={{ '& > legend': { mt: 2 } }}>`,
+      `  <Typography component="legend">Controlled</Typography>`,
+      `  <Rating name="simple-controlled" onChange={(event, newValue) => { setValue(newValue); }} />`,
+      `</Box>`
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: { m: 1, '& > legend': { mt: 2 } }
+      },
+      children: [
+        {
+          type: 'Typography',
+          props: {
+            component: 'legend'
+          },
+          children: 'Controlled'
+        },
+        {
+          type: 'Rating',
+          props: {
+            name: 'simple-controlled',
+            value: 2,
+            onChange: 'setValue(newValue)'
+          }
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 121,
+    tag: 'select',
+    name: 'Select',
+    style: {},
+    placeHolderShort: 'select',
+    placeHolderLong: 'Material UI Select Component',
+    icon: 'ExpandMore',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import InputLabel from '@mui/material/InputLabel'",
+      "import MenuItem from '@mui/material/MenuItem'",
+      "import FormControl from '@mui/material/FormControl'",
+      "import Select from '@mui/material/Select'",
+      "import React from 'react'"
+    ],
+    defaultProps: [],
+    propOptions: [
+      'autoWidth',
+      'children',
+      'classes',
+      'defaultOpen',
+      'defaultValue',
+      'displayEmpty',
+      'IconComponent',
+      'id',
+      'input',
+      'inputProps',
+      'label',
+      'labelId',
+      'MenuProps',
+      'multiple',
+      'native',
+      'onChange',
+      'onClose',
+      'onOpen',
+      'open',
+      'renderValue',
+      'SelectDisplayProps',
+      'sx',
+      'value',
+      'variant'
+    ],
+    jsx: [
+      '<Box sx={{ minWidth: 120 }}>',
+      '  <FormControl fullWidth>',
+      '    <InputLabel id="demo-simple-select-label">Age</InputLabel>',
+      '    <Select labelId="demo-simple-select-label" id="demo-simple-selec" value={age} label="Age" onChange={handleChange}>',
+      '      <MenuItem value={10}>Ten</MenuItem>',
+      '      <MenuItem value={20}>Twenty</MenuItem>',
+      '      <MenuItem value={30}>Thirty</MenuItem>',
+      '    </Select>',
+      '  </FormControl>',
+      '</Box>'
+    ],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: { width: 250, m: 1, mt: 2, mb: 2 }
+      },
+      children: [
+        {
+          type: 'FormControl',
+          props: {
+            sx: { width: 250 }
+          },
+          children: [
+            {
+              type: 'InputLabel',
+              props: {
+                id: 'demo-simple-select-label'
+              },
+              children: 'Age'
+            },
+            {
+              type: 'Select',
+              props: {
+                labelId: 'demo-simple-select-label',
+                id: 'demo-simple-select',
+                value: '{age}',
+                label: 'Age',
+                onChange: '{handleChange}'
+              },
+              children: [
+                {
+                  type: 'MenuItem',
+                  props: {
+                    value: 10
+                  },
+                  children: 'Ten'
+                },
+                {
+                  type: 'MenuItem',
+                  props: {
+                    value: 20
+                  },
+                  children: 'Twenty'
+                },
+                {
+                  type: 'MenuItem',
+                  props: {
+                    value: 30
+                  },
+                  children: 'Thirty'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    children: []
+  },
+  {
+    id: 131,
+    tag: 'slider',
+    name: 'Slider',
+    style: {},
+    placeHolderShort: 'slider',
+    placeHolderLong: 'Material UI Slider Component',
+    icon: 'Tune',
+    framework: 'reactClassic',
+    nestable: false,
+    imports: [
+      "import Box from '@mui/material/Box'",
+      "import Slider from '@mui/material/Slider'",
+      "import React from 'react'",
+      '\nconst initialSliderValue = 30;\n'
+    ],
+    defaultProps: [
+      "defaultValue={initialSliderValue} sx={{ width: 200 }} aria-label='slider'"
+    ],
+    propOptions: [
+      'aria-label',
+      'aria-labelledby',
+      'aria-valuetext',
+      'classes',
+      'color',
+      'components',
+      'componentsProps',
+      'defaultValue',
+      'disabled',
+      'disableSwap',
+      'getAriaLabel',
+      'getAriaValueText',
+      'marks',
+      'max',
+      'min',
+      'name',
+      'onChange',
+      'onChangeCommitted',
+      'orientation',
+      'scale',
+      'shiftStep',
+      'size',
+      'slotProps',
+      'slots',
+      'step',
+      'sx',
+      'tabIndex',
+      'track',
+      'value',
+      'valueLabelDisplay',
+      'valueLabelFormat'
+    ],
+    jsx: ['<Box sx={{ width: 200 }}>', '  <Slider />', '</Box>'],
+    componentData: {
+      type: 'Box',
+      props: {
+        sx: { width: 200, m: 1 }
+      },
+      children: [
+        {
+          type: 'Slider',
+          props: {
+            disabled: true,
+            defaultValue: 33
+          }
+        }
+      ]
+    },
     children: []
   }
 ];

@@ -38,7 +38,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     backgroundSize: '8px 8px',
     backgroundPosition: '-19px -19px',
     borderBottom: 'none',
-    overflow: 'auto'
+    overflow: 'auto',
   };
 
   //containerRef references the container that will ultimately have the scroll functionality
