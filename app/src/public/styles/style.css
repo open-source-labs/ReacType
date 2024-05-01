@@ -232,6 +232,9 @@ span.material-symbols-outlined {
 }
 
 #MUIItem {
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
