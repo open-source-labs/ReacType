@@ -102,7 +102,7 @@ const DragDropPanel = (props): JSX.Element => {
         </Accordion>
 
         {/* MUI Components */}
-        <Accordion className={classes.accordion}>
+        {/* <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -126,7 +126,7 @@ const DragDropPanel = (props): JSX.Element => {
               })}
             </Grid>
           </AccordionDetails>
-        </Accordion>
+        </Accordion> */}
 
         {/* React Router */}
         <Accordion className={classes.accordion}>
