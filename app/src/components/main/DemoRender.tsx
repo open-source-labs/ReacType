@@ -35,161 +35,6 @@ const DemoRender = (): JSX.Element => {
     overflow: 'auto'
   };
 
-  // const html = `
-  //   <html>
-  //   <head>
-  //     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  //     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  //     <script defer src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
-  //     <script defer src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
-  //     <script defer src="https://unpkg.com/react-router-dom@5/umd/react-router-dom.min.js"></script>
-  //     <script defer src="https://unpkg.com/@mui/material@5.15.15/umd/material-ui.production.min.js"></script>
-  //     </script>
-  //     <style id="mui-styles"></style>
-  //   </head>
-  //   <body>
-  //     <div id="app"></div>
-  //     <script>
-  //     document.addEventListener('DOMContentLoaded', function() {
-
-  //       function logToParentConsole(...args) {
-  //       const cache = new Set(); // Set to keep track of all objects being stringified
-
-  //       const payload = args.map(arg => {
-  //         if (typeof arg === 'object' && arg !== null) {
-  //           return JSON.stringify(arg, (key, value) => {
-  //             if (typeof value === 'object' && value !== null) {
-  //               if (cache.has(value)) {
-  //                 // Duplicate reference found, discard key
-  //                 return;
-  //               }
-  //               // Store value in our collection
-  //               cache.add(value);
-  //             }
-  //             return value;
-  //           });
-  //         }
-  //         return arg;
-  //       });
-
-  //       window.parent.postMessage({ type: 'log', data: payload }, '*');
-  //       cache.clear(); // Clear cache after serialization
-  //     }
-  //     console.log = logToParentConsole;
-
-  //       const MaterialUI = window.MaterialUI;
-  //       const ReactRouterDOM = window.ReactRouterDOM;
-  //       const React = window.React;
-  //       const ReactDOM = window.ReactDOM;
-
-  //       console.log('MaterialUI.ButtonGroup:', MaterialUI.ButtonGroup);  // Check if the Autocomplete component is properly referenced
-
-  //       if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
-  //         console.log('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
-  //         return;
-  //       }
-
-  //       console.log('MaterialUI:', MaterialUI);
-  //       console.log('ReactRouterDOM:', ReactRouterDOM);
-  //       const componentMap = {
-  //         Box: MaterialUI?.Box,
-  //         Button: MaterialUI?.Button,
-  //         Link: ReactRouterDOM?.Link,
-  //         TextField: MaterialUI?.TextField,
-  //         Card: MaterialUI?.Card,
-  //         CardContent: MaterialUI?.CardContent,
-  //         Typography: MaterialUI?.Typography,
-  //         CardActions: MaterialUI?.CardActions,
-  //         ButtonGroup: MaterialUI?.ButtonGroup,
-  //         Autocomplete: MaterialUI?.AutoComplete
-
-  //       };
-  //       const specialComponents = {
-  //         'br': React.createElement('br', {})
-  //       };
-  //       const createComponentFromData = (data) => {
-  //         console.log('data', data);
-  //         const { type, props, children } = data;
-  //         const Component = componentMap[type] || 'div';
-  //         const processChildren = (child) => {
-  //           if (typeof child === 'string') {
-  //             if (specialComponents[child]) {
-  //               return specialComponents[child];
-  //             } else {
-  //               return child;
-  //             }
-  //           } else if (typeof child === 'object' && child !== null) {
-  //             return createComponentFromData(child);
-  //           } else {
-  //             return null;
-  //           }
-  //         };
-
-  //         if (typeof children === 'string' || children === null) {
-  //           return React.createElement(Component, props, children);
-  //         } else if (Array.isArray(children)) {
-  //           const processedChildren = children.map(processChildren);
-  //           return React.createElement(Component, props, ...processedChildren);
-  //         } else if (typeof children === 'object') {
-  //           return React.createElement(Component, props, createComponentFromData(children));
-  //         }
-  //         return React.createElement(Component, props);
-  //       };
-  //       window.addEventListener('message', (event) => {
-  //         console.log('event', event);
-  //         const dataArr = event.data.replace(/}{/g, '},,{').replace(/}</g, '},,<').replace(/>{/g, '>,,{').split(',,');
-  //         console.log('dataArr', dataArr);
-  //         const container = document.getElementById('app');
-  //         container.innerHTML = '';
-  //         dataArr.forEach(segment => {
-  //           if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
-  //             try {
-  //               const jsonData = JSON.parse(segment);
-  //               console.log('jsonData', jsonData);
-  //               const componentContainer = document.createElement('div');
-  //               container.appendChild(componentContainer);
-  //               const component = createComponentFromData(jsonData);
-  //               console.log('component', component);
-  //               ReactDOM.render(component, componentContainer);
-  //             } catch (err) {
-  //               console.error("Error parsing JSON:", err);
-  //             }
-  //           } else {
-  //             container.insertAdjacentHTML('beforeend', segment);
-  //             container.querySelectorAll('a').forEach(element => {
-  //               element.addEventListener('click', (event) => {
-  //                 event.preventDefault();
-  //                 window.top.postMessage(event.currentTarget.href, '*');
-  //               });
-  //             });
-  //           }
-  //         });
-  //       });
-
-  //       const handleClickInsideIframe = () => {
-  //         window.parent.postMessage('iframeClicked', '*');
-  //       };
-  //       const handleMouseUpInsideIframe = () => {
-  //         window.parent.postMessage('iframeMouseUp', '*');
-  //       };
-  //       const handleMouseMoveInsideIframe = (e) => {
-  //         const msgData = {
-  //           type: 'iframeMouseMove',
-  //           clientY: e.clientY + 70 // Adjust according to your needs
-  //         };
-  //         window.parent.postMessage(msgData, '*');
-  //       };
-
-  //       window.addEventListener('click', handleClickInsideIframe);
-  //       window.addEventListener('mouseup', handleMouseUpInsideIframe);
-  //       window.addEventListener('mousemove', handleMouseMoveInsideIframe);
-  //     });
-
-  //     </script>
-  //   </body>
-  // </html>
-  // `;
-
   const html = `
 <html>
 <head>
@@ -204,13 +49,6 @@ const DemoRender = (): JSX.Element => {
 <body>
   <div id="app";"></div>
   <script>
-    const top100Films = [
-      { label: 'The Shawshank Redemption', year: 1994 },
-      { label: 'The Godfather', year: 1972 },
-      { label: 'The Godfather: Part II', year: 1974 },
-      { label: 'The Dark Knight', year: 2008 },
-      { label: '12 Angry Men', year: 1957 },
-    ];
 
     document.addEventListener('DOMContentLoaded', function() {
       function logToParentConsole(...args) {
@@ -241,37 +79,12 @@ const DemoRender = (): JSX.Element => {
         const React = window.React;
         const ReactDOM = window.ReactDOM;
 
-        console.log('MaterialUI:', MaterialUI);  // Check if the Autocomplete component is properly referenced
+        console.log('MaterialUI:', MaterialUI);
 
         if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
           console.log('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
           return;
         }
-
-        const componentMap = {
-          Box: MaterialUI?.Box,
-          Button: MaterialUI?.Button,
-          Link: ReactRouterDOM?.Link,
-          TextField: MaterialUI?.TextField,
-          Card: MaterialUI?.Card,
-          CardContent: MaterialUI?.CardContent,
-          Typography: MaterialUI?.Typography,
-          CardActions: MaterialUI?.CardActions,
-          ButtonGroup: MaterialUI?.ButtonGroup,
-          Autocomplete: MaterialUI?.AutoComplete,
-          Checkbox: MaterialUI?.Checkbox,
-          Fab: MaterialUI?.Fab,
-          Radio: MaterialUI?.Radio,
-          RadioGroup: MaterialUI?.RadioGroup,
-          FormControlLabel: MaterialUI?.FormControlLabel,
-          FormControl: MaterialUI?.FormControl,
-          FormLabel: MaterialUI?.FormLabel,
-          Rating: MaterialUI?.Rating,
-          MenuItem: MaterialUI?.MenuItem,
-          Select: MaterialUI?.Select,
-          InputLabel: MaterialUI?.InputLabel,
-          Slider: MaterialUI?.Slider,
-        };
 
       const specialComponents = {
         'br': () => React.createElement('br', {})
@@ -288,7 +101,7 @@ const DemoRender = (): JSX.Element => {
 
       const createComponentFromData = (data) => {
         const { type, props, children } = data;
-        const Component = componentMap[type] || 'div'; // Default to div if component is not found
+        const Component = MaterialUI[type] || 'div'; // Default to div if component is not found
       
         const processChildren = (child) => {
           if (typeof child === 'string') {
@@ -312,19 +125,20 @@ const DemoRender = (): JSX.Element => {
       };      
       
       window.addEventListener('message', (event) => {
-        console.log('event', event);
-        const dataArr = event.data.replace(/}{/g, '},,{').replace(/}</g, '},,<').replace(/>{/g, '>,,{').split(',,');
-        console.log('dataArr', dataArr);
+        // console.log('event', event);
+        const dataArr = event.data.replace(/}{/g, '}|||{').replace(/}</g, '}|||<').replace(/>{/g, '>|||{').split('|||');
+        // console.log('dataArr', dataArr);
         const container = document.getElementById('app');
         container.innerHTML = '';
         dataArr.forEach(segment => {
-          console.log('segment', segment)
+          // console.log('segment', segment)
           if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
             try {
               const jsonData = JSON.parse(segment);
-              console.log('jsonData', jsonData);
-              if (jsonData.props.children) {
-                console.log('jsonData.props.children', jsonData.props.children);
+              // console.log('jsonData', jsonData);
+              if (jsonData.props && jsonData.props.children) {
+                jsonData.children = jsonData.children || [];
+                // console.log('jsonData.props.children', jsonData.props.children);
                 jsonData.children = [...jsonData.children, ...jsonData.props.children];
               }
               
@@ -435,7 +249,7 @@ const DemoRender = (): JSX.Element => {
         const baseData = MUITypes.find(
           (m) => m.tag === elementType
         ).componentData;
-        console.log('baseData', baseData);
+        // console.log('baseData', baseData);
         if (!baseData) return null;
         const componentData = {
           ...baseData,
@@ -500,7 +314,7 @@ const DemoRender = (): JSX.Element => {
       }
       key++;
     }
-    console.log('componentsToRender', componentsToRender);
+    // console.log('componentsToRender', componentsToRender);
     return componentsToRender;
   };
   //initializes our 'code' which will be whats actually in the iframe in the demo render
@@ -510,7 +324,7 @@ const DemoRender = (): JSX.Element => {
   const currComponent = state.components.find(
     (element) => element.id === state.canvasFocus.componentId
   );
-  console.log('currComponent', currComponent);
+  // console.log('currComponent', currComponent);
 
   componentBuilder2(currComponent.children).forEach((element) => {
     if (typeof element === 'string') {
