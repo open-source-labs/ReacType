@@ -5,7 +5,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import ComponentPanelItem from '../right/ComponentPanelItem';
 
-
 const useStyles = makeStyles({
   panelWrapper: {
     display: 'flex',
@@ -21,7 +20,7 @@ const useStyles = makeStyles({
     color: '#fff'
   },
   darkThemeFontColor: {
-    color: '#fff'
+    color: '#00008B,'
   }
 });
 
@@ -70,4 +69,3 @@ const ComponentDrag = ({ isVisible, isThemeLight }): JSX.Element | null => {
 };
 
 export default ComponentDrag;
-

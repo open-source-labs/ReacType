@@ -53,6 +53,7 @@ const generateUnformattedCode = (
   // find the unique components that we need to import into this component file
   let imports: any = [];
   let muiImports = new Set();
+  let muiStateAndEventHandlers = new Set();
   let providers: string = '';
   let context: string = '';
   let links: boolean = false;
@@ -60,7 +61,7 @@ const generateUnformattedCode = (
   const isRoot = rootComponents.includes(componentId);
   let importReactRouter = false;
 
-  // returns an array of objects which may include components, html elements, and/or route links
+  // returns an array of objects which may include components, html elements, MaterialUI components, and/or route links
   const getEnrichedChildren = (currentComponent) => {
     const enrichedChildren = [];
 
@@ -125,14 +126,66 @@ const generateUnformattedCode = (
           if (muiComponent) {
             // Recursively process MUI components that can have children
             if (
-              ['mui button', 'card', 'typography', 'textfield'].includes(
-                muiComponent.tag
-              )
+              [
+                'autocomplete',
+                'mui button',
+                'btn group',
+                'checkbox',
+                'fab',
+                'radio group',
+                'rating',
+                'select',
+                'slider',
+                'switch',
+                'textfield',
+                'transfer-list',
+                'toggle-button',
+                'avatar',
+                'badge',
+                'chip',
+                'list',
+                'table',
+                'tooltip',
+                'typography',
+                'alert',
+                'backdrop',
+                'dialog',
+                'progress',
+                'skeleton',
+                'snackbar',
+                'accordion',
+                'appbar',
+                'card',
+                'paper',
+                'bottomNavigation',
+                'breadcrumbs',
+                'drawer',
+                'link',
+                'menu',
+                'pagination',
+                'speedDial',
+                'stepper',
+                'tabs',
+                'box',
+                'container',
+                'grid',
+                'stack',
+                'image-list',
+                'modal',
+                'popover',
+                'popper',
+                'transition'
+              ].includes(muiComponent.tag)
             ) {
               newChild.children = getEnrichedChildren({
                 children: child.children
               });
               collectMUIImports(child, MUITypes, muiImports);
+              collectStateAndEventHandlers(
+                child,
+                MUITypes,
+                muiStateAndEventHandlers
+              );
             }
           }
           break;
@@ -347,7 +400,7 @@ const generateUnformattedCode = (
     ].join('\n');
   }
 
-  function modifyAndIndentJsx(jsxAry, newProps, childId, name) {
+  function modifyAndIndentJsx(jsxAry, newProps, childId, name, key) {
     // Define a regular expression to match the start tag of the specified child element
     const tagRegExp = new RegExp(`^<${name}(\\s|>)`);
 
@@ -370,8 +423,15 @@ const generateUnformattedCode = (
             )} ${childId}${trimmedLine.substring(insertIndex)}`;
             // Adjust insertIndex for the next insertion
             insertIndex += childId.length + 1;
+          } else if (trimmedLine.includes(`id=`) && childId) {
+            // Define the insertion point for "{key} " right after `id="`
+            let idInsertIndex = trimmedLine.indexOf(`id="`) + 4;
+            // Insert "{key} " at the identified position within the existing id value
+            line = `${trimmedLine.substring(
+              0,
+              idInsertIndex
+            )}${key} ${trimmedLine.substring(idInsertIndex)}`;
           }
-
           // Insert newProps at the updated insertion index
           if (newProps) {
             line = `${line.substring(
@@ -413,6 +473,7 @@ const generateUnformattedCode = (
   const muiGenerator = (child, level = 0) => {
     let childId = '';
     let passedInPropsString = '';
+    let key = 0;
 
     const MUIComp = MUITypes.find((el) => el.tag === child.name);
     const MUIName = MUIComp.name;
@@ -427,6 +488,7 @@ const generateUnformattedCode = (
 
     if (child.childId) {
       childId = `id="${+child.childId}"`;
+      key = +child.childId;
     }
 
     // Indent the JSX generated for MUI components based on the provided level
@@ -437,7 +499,8 @@ const generateUnformattedCode = (
       indentedJSX,
       passedInPropsString,
       childId,
-      MUIName
+      MUIName,
+      key
     );
 
     // Handle nested components, if any
@@ -519,6 +582,46 @@ const generateUnformattedCode = (
   // Generate MUI import strings from a set of import statements
   function generateMUIImportStatements(muiImports) {
     return Array.from(muiImports).join('\n');
+  }
+
+  // Function to collect state and event handler snippets from components
+  function collectStateAndEventHandlers(
+    component,
+    MUITypes,
+    handlersCollection
+  ) {
+    console.log('collectStateAndEventHandlers invoked');
+    if (component.type === 'MUI Component') {
+      console.log('collectStateAndEventHandlers MUI check');
+      const muiComponent = MUITypes.find((m) => m.id === component.typeId);
+
+      console.log('muiComponent found:', JSON.stringify(muiComponent)); // Check what muiComponent is found
+      console.log(
+        'StateAndEventHandlers:',
+        muiComponent?.stateAndEventHandlers
+      ); // Direct check
+
+      if (muiComponent && Array.isArray(muiComponent.stateAndEventHandlers)) {
+        console.log('collectStateAndEventHandlers hasState');
+        muiComponent.stateAndEventHandlers.forEach((handlerSnippet) => {
+          handlersCollection.add(handlerSnippet);
+        });
+      } else {
+        console.log('No stateAndEventHandlers found or not an array');
+      }
+    }
+
+    // Recursively collect handlers from child components if they exist
+    if (component.children) {
+      component.children.forEach((child) =>
+        collectStateAndEventHandlers(child, MUITypes, handlersCollection)
+      );
+    }
+  }
+
+  // Function to generate code for state and event handlers
+  function generateStateAndEventHandlerCode(handlersCollection) {
+    return Array.from(handlersCollection).join('\n');
   }
 
   const writeNestedElements = (enrichedChildren, level = 0) => {
@@ -660,6 +763,10 @@ const generateUnformattedCode = (
       return importStr;
     };
     const muiImportStatements = generateMUIImportStatements(muiImports);
+    const stateAndEventHandlers = generateStateAndEventHandlerCode(
+      muiStateAndEventHandlers
+    );
+    console.log('stateAndEventHandlers', stateAndEventHandlers);
     let generatedCode =
       "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'App' ? contextImports : '';
@@ -671,6 +778,7 @@ const generateUnformattedCode = (
     generatedCode += muiImportStatements ? `${muiImportStatements}\n\n` : '';
     // below is the return statement of the codepreview
     generatedCode += `const ${currComponent.name} = (props) => {\n`;
+    generatedCode += stateAndEventHandlers ? `${stateAndEventHandlers}` : '';
     generatedCode += writeStateProps(currComponent.useStateCodes)
       ? `\t${writeStateProps(currComponent.useStateCodes)}\n`
       : '';

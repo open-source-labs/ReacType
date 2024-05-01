@@ -114,10 +114,12 @@ export interface MUIType {
   icon?: any;
   framework: string;
   nestable: boolean;
-  imports: any[];
-  propOptions: any[];
-  defaultProps: any[];
-  jsx: any[];
+  stateAndEventHandlers: string[];
+  imports: string[];
+  propOptions: string[];
+  defaultProps: string[];
+  jsx: string[];
+  componentData: object;
   children: [];
 }
 export interface DragItem extends DragObjectWithType {

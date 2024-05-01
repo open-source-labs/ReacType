@@ -4,6 +4,7 @@ const router = express.Router();
 
 // save new css file
 router.post('/save', userStylesController.saveCssFile, (req: Request, res: Response) => {
+  console.log("I am here in the styles Router.")
   res.status(200).json({});
 });
 export default router;
