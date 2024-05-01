@@ -152,14 +152,29 @@ const generateUnformattedCode = (
                 'dialog',
                 'progress',
                 'skeleton',
-                'simplesnackbar',
+                'snackbar',
                 'accordion',
                 'appbar',
                 'card',
                 'paper',
                 'bottomNavigation',
                 'breadcrumbs',
-                'box'
+                'drawer',
+                'link',
+                'menu',
+                'pagination',
+                'speedDial',
+                'stepper',
+                'tabs',
+                'box',
+                'container',
+                'grid',
+                'stack',
+                'image-list',
+                'modal',
+                'popover',
+                'popper',
+                'transition'
               ].includes(muiComponent.tag)
             ) {
               newChild.children = getEnrichedChildren({
