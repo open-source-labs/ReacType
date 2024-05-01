@@ -124,11 +124,31 @@ const renderChildren = (children: ChildElement[]) => {
       );
     } else if (
       type === 'MUI Component' &&
-      (typeId === 31 ||
-        typeId === 61 ||
-        typeId === 81 ||
-        typeId === 111 ||
-        typeId === 121)
+      (typeId === 21 ||
+        typeId === 22 ||
+        typeId === 24 ||
+        typeId === 27 ||
+        typeId === 28 ||
+        typeId === 29 ||
+        typeId === 30 ||
+        typeId === 31 ||
+        typeId === 33 ||
+        typeId === 32 ||
+        typeId === 34 ||
+        typeId === 35 ||
+        typeId === 36 ||
+        typeId === 37 ||
+        typeId === 40 ||
+        typeId === 41 ||
+        typeId === 42 ||
+        typeId === 44 ||
+        typeId === 46 ||
+        typeId === 47 ||
+        typeId === 50 ||
+        typeId === 51 ||
+        typeId === 53 ||
+        typeId === 54 ||
+        typeId === 55)
     ) {
       return (
         <DirectChildMUI
@@ -148,12 +168,15 @@ const renderChildren = (children: ChildElement[]) => {
     // child is a nestable type of HTML element (divs, forms, OrderedLists, UnorderedLists, menus)
     else if (
       type === 'MUI Component' &&
-      (typeId === 21 ||
-        typeId === 41 ||
-        typeId === 51 ||
-        typeId === 71 ||
-        typeId === 91 ||
-        typeId === 101)
+      (typeId ===  23 ||
+        typeId === 25 ||
+        typeId === 26 ||
+        typeId === 43 ||
+        typeId === 45 ||
+        typeId === 48 ||
+        typeId === 49 ||
+        typeId === 52 ||
+        typeId === 63)
     ) {
       return (
         <DirectChildMUINestable

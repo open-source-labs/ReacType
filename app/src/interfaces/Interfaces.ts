@@ -114,6 +114,7 @@ export interface MUIType {
   icon?: any;
   framework: string;
   nestable: boolean;
+  stateAndEventHandlers: string[];
   imports: string[];
   propOptions: string[];
   defaultProps: string[];
