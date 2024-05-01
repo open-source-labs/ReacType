@@ -231,6 +231,7 @@ span.material-symbols-outlined {
   color: #8ca8ff;
 }
 
+/* placeholder until button resizing */
 #MUIItem {
   overflow: hidden;
   text-overflow: clip;
