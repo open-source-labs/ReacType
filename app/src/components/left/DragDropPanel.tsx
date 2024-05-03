@@ -101,33 +101,6 @@ const DragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* MUI Components */}
-        {/* <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-            className={classes.accordionSummary}
-          >
-            <h3>MUI Components</h3>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
-                return (
-                  <MUIItem
-                    name={option.name}
-                    key={`mui-${option.name}`}
-                    id={option.id}
-                    icon={option.icon}
-                    handleDelete={handleDelete}
-                  />
-                );
-              })}
-            </Grid>
-          </AccordionDetails>
-        </Accordion> */}
-
         {/* React Router */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
