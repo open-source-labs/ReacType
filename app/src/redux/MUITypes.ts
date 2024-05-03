@@ -3947,7 +3947,8 @@ const MUITypes: MUIType[] = [
     name: 'ImageList',
     icon: 'ArtTrack',
     nestable: false,
-    props: {
+    props: 
+    {
       children: {
         type: 'node',
         description: 'The content of the component, normally ImageListItems.'
