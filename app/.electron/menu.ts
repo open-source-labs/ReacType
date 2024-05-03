@@ -1,6 +1,6 @@
 import { Menu, BrowserWindow, Shell } from 'electron';
 const isMac = process.platform === 'darwin';
-import Protocol from './protocol';
+import {scheme, requestHandler } from './protocol';
 /* 
 DESCRIPTION: This file generates an array containing a menu based on the operating system the user is running.
 menuBuilder: The entire file is encompassed in menuBuilder. Ultimately, menuBuilder returns a function called
@@ -31,29 +31,28 @@ var MenuBuilder = function (mainWindow, appName) {
   // you can also create custom menu items with their own "on click" functionality if you need to
   // different roles are available between mac and windows
 
-  function openTutorial(): void {
-    const tutorial = new BrowserWindow({
-      width: 1180,
-      height: 900,
-      minWidth: 665,
-      title: 'Tutorial',
-      webPreferences: {
-        nodeIntegration: true,
-        nodeIntegrationInWorker: false,
-        nodeIntegrationInSubFrames: false,
-        contextIsolation: true,
-        enableRemoteModule: true,
-        zoomFactor: 1.0,
-        devTools: false
-      }
-    });
-    if (import.meta.env.NODE_ENV === 'development') {
-      tutorial.loadURL(`http://localhost:8080/#/tutorial`);
-    } else {
-      tutorial.loadURL(`${Protocol.scheme}://rse/index-prod.html#/tutorial`);
-    }
-    tutorial.show();
-  }
+  // function openTutorial(): void {
+  //   const tutorial = new BrowserWindow({
+  //     width: 1180,
+  //     height: 900,
+  //     minWidth: 665,
+  //     title: 'Tutorial',
+  //     webPreferences: {
+  //       nodeIntegration: true,
+  //       nodeIntegrationInWorker: false,
+  //       nodeIntegrationInSubFrames: false,
+  //       contextIsolation: true,
+  //       zoomFactor: 1.0,
+  //       devTools: false
+  //     }
+  //   });
+  //   if (import.meta.env.NODE_ENV === 'development') {
+  //     tutorial.loadURL(`http://localhost:8080/#/tutorial`);
+  //   } else {
+  //     tutorial.loadURL(`${scheme}://rse/index-prod.html#/tutorial`);
+  //   }
+  //   tutorial.show();
+  // }
 
   const defaultTemplate= (): Electron.MenuItemConstructorOptions[] => [
       ...(isMac
@@ -223,10 +222,10 @@ var MenuBuilder = function (mainWindow, appName) {
               );
             }
           },
-          {
-            label: 'Tutorial',
-            click: () => openTutorial()
-          }
+          // {
+          //   label: 'Tutorial',
+          //   click: () => openTutorial()
+          // }
         ]
       }
     ];
@@ -243,6 +242,5 @@ var MenuBuilder = function (mainWindow, appName) {
       return menu;
     }
   };
-};
 
 export { MenuBuilder };

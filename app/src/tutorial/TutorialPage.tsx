@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Pages from './Pages';
@@ -89,7 +89,7 @@ const tutorialPageStyle = {
   }
 };
 
-const TutorialPage: React.FC<RouteComponentProps> = (props) => {
+const TutorialPage: React.FC<RouteComponentProps<{ learn: string }>> = (props) => {
   const classes = useStyles();
   const [page, setPage] = useState(props.match.params.learn);
 
@@ -221,4 +221,4 @@ const TutorialPage: React.FC<RouteComponentProps> = (props) => {
   );
 };
 
-export default withRouter(TutorialPage);
+export default TutorialPage;
