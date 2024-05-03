@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import StylesEditor from './StylesEditor';
-import CustomizationPanel from '../../containers/CustomizationPanel';
-import CreationPanel from './CreationPanel';
-import ContextManager from '../ContextAPIManager/ContextManager';
-import StateManager from '../StateManagement/StateManagement';
-import Chatroom from './ChatRoom';
-import Box from '@mui/material/Box';
-import Tree from '../../tree/TreeChart';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import arrow from '../main/Arrow';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { MeetingProvider } from '@videosdk.live/react-sdk';
 const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
+import Chatroom from './ChatRoom';
+import CreationPanel from './CreationPanel';
+import CustomizationPanel from '../../containers/CustomizationPanel';
+import StylesEditor from './StylesEditor';
+import Tree from '../../tree/TreeChart';
+import ContextManager from '../ContextAPIManager/ContextManager';
+import StateManager from '../StateManagement/StateManagement';
+import MUIProps from './MUIProps';
+import makeStyles from '@mui/styles/makeStyles';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import arrow from '../main/Arrow';
+
 
 const BottomTabs = (props): JSX.Element => {
   const { setBottomShow, isThemeLight } = props;
@@ -73,52 +75,50 @@ const BottomTabs = (props): JSX.Element => {
               indicator: classes.tabsIndicator
             }}
             variant="scrollable"
-            scrollButtons="auto"
+            scrollButtons="auto" 
           >
-            <Tab
-              disableRipple
+            <Tab 
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Live Chat"
               onClick={showBottomPanel}
               sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
-              disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Creation Panel"
               onClick={showBottomPanel}
               sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
-              disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Customization"
               onClick={showBottomPanel}
               sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
-              disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="CSS Editor"
               onClick={showBottomPanel}
               sx={{ borderTop: '2px solid #191919' }}
             />
             <Tab
-              disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Component Tree"
               onClick={showBottomPanel}
             />
             <Tab
-              disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Context Manager"
               onClick={showBottomPanel}
             />
             <Tab
-              disableRipple
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="State Manager"
+              onClick={showBottomPanel}
+            />
+            <Tab
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="MUI Props"
               onClick={showBottomPanel}
             />
           </Tabs>
@@ -161,13 +161,8 @@ const BottomTabs = (props): JSX.Element => {
           {tab === 3 && <StylesEditor theme={theme} setTheme={setTheme} />}
           {tab === 4 && <Tree data={components} />}
           {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-          {tab === 6 && (
-            <StateManager
-              theme={theme}
-              setTheme={setTheme}
-              isThemeLight={isThemeLight}
-            />
-          )}
+          {tab === 6 && (<StateManager theme={theme} setTheme={setTheme} isThemeLight={isThemeLight} />)}
+          {tab === 7 && <MUIProps theme={theme} setTheme={setTheme} />}  
         </div>
       </div>
     </MeetingProvider>

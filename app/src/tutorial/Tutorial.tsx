@@ -117,12 +117,6 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     <KeyboardIcon className={classes.icons} />
   ];
 
-  useEffect(()=>{
-    console.log('Tutorial component mounted');
-    console.log('Topics:', topics);
-    console.log('Icons:', icons);
-  }, []);
-
   const body = document.querySelector('body');
   body.style.overflowY = 'auto';
   body.style.backgroundColor = Styling.tutorialGray;

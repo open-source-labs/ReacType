@@ -90,15 +90,8 @@ const tutorialPageStyle = {
 };
 
 const TutorialPage: React.FC<RouteComponentProps<{ learn: string }>> = (props) => {
-  console.log('TutorialPage component is rendered');
   const classes = useStyles();
   const [page, setPage] = useState(props.match.params.learn);
-  console.log(props.match.params.learn)
-  console.log('TutorialPage rendered with page:', page);
-
-  useEffect(() => {
-    console.log('Page:', page);
-  }, [page]);
 
   return (
     <div style={tutorialPageStyle.tutorial_page}>

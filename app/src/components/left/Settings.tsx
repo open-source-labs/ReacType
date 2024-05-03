@@ -2,18 +2,15 @@ import React from 'react';
 import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
+import MUIDragDropPanel from './MUIDragDropPanel';
 
 const ProfilePage = () => {
   const classes = useStyles();
 
   return (
     <div>
-      <div className={classes.panelWrapper}>
-        <div className={classes.panelWrapperList}>
-          <h4 className={classes.darkThemeFontColor}>Settings</h4>
-        </div>
+        <MUIDragDropPanel />
       </div>
-    </div>
   );
 };
 

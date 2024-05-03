@@ -6,7 +6,6 @@ import {
   Route,
   HashRouter as Router,
   Switch,
-  Link
 } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -29,7 +28,6 @@ const client = new ApolloClient({
 
 const isDev = import.meta.env.NODE_ENV === 'development';
 import serverConfig from './serverConfig.js';
-import { error } from 'console';
 
 const { DEV_PORT, API_BASE_URL } = serverConfig;
 let serverURL = API_BASE_URL;

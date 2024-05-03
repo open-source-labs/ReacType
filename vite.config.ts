@@ -23,5 +23,12 @@ export default defineConfig({
         // ...svgr options (https://react-svgr.com/docs/options/)
       }
     })
-  ]
+  ],
+  optimizeDeps: {
+    include: [
+      '@mui/material',
+      '@mui/icons-material' // Assuming you use icons too
+      // Any other specific parts of MUI or related dependencies
+    ]
+  }
 });
