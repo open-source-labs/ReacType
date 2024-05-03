@@ -54,33 +54,40 @@ const DemoRender = (): JSX.Element => {
         function logToParentConsole(...args) {
           const cache = new Set(); // Set to keep track of all objects being stringified
           const payload = args.map(arg => {
-            if (typeof arg === 'object' && arg !== null) {
-              return JSON.stringify(arg, (key, value) => {
-                if (typeof value === 'object' && value !== null) {
-                  if (cache.has(value)) {
-                    // Duplicate reference found, discard key
-                    return;
-                  }
-                  // Store value in our collection
-                  cache.add(value);
-                }
-                return value;
-              });
-            }
-            return arg;
+              if (typeof arg === 'function') {
+                  return arg.toString(); // Serialize function as its source code
+              } else if (typeof arg === 'object' && arg !== null) {
+                  return JSON.stringify(arg, (key, value) => {
+                      if (typeof value === 'object' && value !== null) {
+                          if (cache.has(value)) {
+                              // Duplicate reference found, discard key
+                              return;
+                          }
+                          // Store value in our collection
+                          cache.add(value);
+                      }
+                      return value;
+                  });
+              }
+              return arg;
           });
           window.parent.postMessage({ type: 'log', data: payload }, '*');
           cache.clear(); // Clear cache after serialization
-        }
+      }
         console.log = logToParentConsole;
 
-        const top100Films = [
-          { label: 'The Shawshank Redemption', year: 1994 },
-          { label: 'The Godfather', year: 1972 },
-          { label: 'The Godfather: Part II', year: 1974 },
-          { label: 'The Dark Knight', year: 2008 },
-          { label: '12 Angry Men', year: 1957 },
-        ];
+        const MaterialUI = window.MaterialUI;
+        const ReactRouterDOM = window.ReactRouterDOM;
+        const React = window.React;
+        const { useState, createContext, useContext } = React;
+        const ReactDOM = window.ReactDOM;
+
+        console.log('MaterialUI:', MaterialUI);
+  
+        if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
+          console.error('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
+          return;
+        }
   
         function createData(name, calories, fat, carbs, protein) {
           return { name, calories, fat, carbs, protein };
@@ -93,48 +100,8 @@ const DemoRender = (): JSX.Element => {
           createData('Cupcake', 305, 3.7, 67, 4.3),
           createData('Gingerbread', 356, 16.0, 49, 3.9),
         ];
-  
-        const MaterialUI = window.MaterialUI;
-        const ReactRouterDOM = window.ReactRouterDOM;
-        const React = window.React;
-        const ReactDOM = window.ReactDOM;
 
-        console.log('MaterialUI:', MaterialUI);
-  
-        if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
-          console.error('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
-          return;
-        }
-  
-        const isJsonString = (str) => {
-          try {
-            return JSON.parse(str);
-          } catch (e) {
-            return false;
-          }
-        };
-  
-        const createComponentFromData = (data) => {
-          const { type, props } = data;
-          let { children } = data;
-          const Component = MaterialUI[type] || 'div'; 
-  
-          let newProps = { ...props };
-          if (Component === undefined) {
-            console.error(\`Component type \${type} is undefined.\`);
-            return null;
-          }
-  
-          if (type === 'Autocomplete' && props.renderInput && typeof props.renderInput === 'string') {
-            newProps.renderInput = (params) => React.createElement(MaterialUI.TextField, {...params, label: 'Movie'});
-            newProps.options = top100Films;
-          }
-        
-          if (type === 'FormControlLabel' && props.control && props.control.type === 'Radio') {
-            newProps.control = React.createElement(MaterialUI.Radio);
-          }
-        
-          // if (type === 'TableBody') {
+        // if (type === 'TableBody') {
           //   console.log('Processing TableBody with rows:', rows);
           //   children = rows.map(row => {
           //     console.log('Processing row:', row);
@@ -153,24 +120,466 @@ const DemoRender = (): JSX.Element => {
           // }
           // console.log('post tableBody check', children);
 
-          const processChildren = (child) => {
-            if (typeof child === 'string') {
-              if (isJsonString(child)) {
-                return createComponentFromData(JSON.parse(child));
-              }
-              return child;
-            } else if (typeof child === 'object' && child !== null) {
-              return createComponentFromData(child);
-            }
-            return null;
-          };
-  
-          const processedChildren = Array.isArray(children) ?
-            children.map(processChildren) :
-            [processChildren(children)];
-  
-          return React.createElement(Component, newProps, ...processedChildren);
+          const PopoverContext = createContext();
+
+          const PopoverProvider = ({ children }) => {
+            const [anchorEl, setAnchorEl] = useState(null);
+        
+            const handleOpen = (event) => setAnchorEl(event.currentTarget);
+            const handleClose = () => setAnchorEl(null);
+        
+            const value = {
+                anchorEl,
+                handleOpen,
+                handleClose
+            };
+            
+            const providerCheck = React.createElement(
+              PopoverContext.Provider,
+              { value: value },
+              children
+          );
+            return providerCheck;
         };
+        
+        const usePopover = () => useContext(PopoverContext);
+
+        const PopperContext = createContext();
+
+        const PopperProvider = ({ children }) => {
+            const [anchorEl, setAnchorEl] = useState(null);
+            const handleClick = (event) => {
+                setAnchorEl(anchorEl ? null : event.currentTarget);
+            };
+
+            const value = {
+                anchorEl,
+                handleClick
+            };
+
+            const providerCheck = React.createElement(
+              PopperContext.Provider,
+              { value: value },
+              children
+          );
+            return providerCheck;
+        };
+
+        const usePopper = () => useContext(PopperContext);
+
+        const ModalContext = createContext();
+
+        const ModalProvider = ({ children }) => {
+          const [open, setOpen] = React.useState(false);
+      
+          const handleOpen = () => setOpen(true);
+          const handleClose = () => setOpen(false);
+      
+          const value = {
+              open,
+              handleOpen,
+              handleClose
+          };
+          
+          const providerCheck = React.createElement(
+            ModalContext.Provider,
+            { value: value },
+            children
+        );
+          return providerCheck;
+      };
+      
+      const useModal = () => useContext(ModalContext);
+
+      const TransferListContext = createContext();
+
+      const TransferListProvider = ({ children }) => {
+        const [checked, setChecked] = React.useState([]);
+        const [left, setLeft] = React.useState([0, 1, 2, 3]);
+        const [right, setRight] = React.useState([4, 5, 6, 7]);
+      
+        const handleToggle = (value) => () => {
+          const currentIndex = checked.indexOf(value);
+          const newChecked = [...checked];
+      
+          if (currentIndex === -1) {
+            newChecked.push(value);
+          } else {
+            newChecked.splice(currentIndex, 1);
+          }
+      
+          setChecked(newChecked);
+        };
+      
+        const handleCheckedRight = () => {
+          setRight(right.concat(leftChecked(checked, left)));
+          setLeft(not(left, leftChecked(checked, left)));
+          setChecked(not(checked, leftChecked(checked, left)));
+        };
+      
+        const handleCheckedLeft = () => {
+          setLeft(left.concat(rightChecked(checked, right)));
+          setRight(not(right, rightChecked(checked, right)));
+          setChecked(not(checked, rightChecked(checked, right)));
+        };
+      
+        const handleAllLeft = () => {
+          setLeft(left.concat(right));
+          setRight([]);
+        };
+      
+        const handleAllRight = () => {
+          setRight(right.concat(left));
+          setLeft([]);
+        };
+      
+        const value = {
+          checked,
+          setChecked,
+          left,
+          setLeft,
+          right,
+          setRight,
+          handleToggle,
+          handleAllRight,
+          handleCheckedRight,
+          handleCheckedLeft,
+          handleAllLeft,
+        };
+      
+        const providerCheck = React.createElement(
+          TransferListContext.Provider,
+          { value: value },
+          children
+        );
+        return providerCheck;
+      };
+
+      const useTransferList = () => useContext(TransferListContext);
+
+      const TransitionContext = createContext();
+
+      // Provider for Transition
+      const TransitionProvider = ({ children }) => {
+        const [checked, setChecked] = useState(false);
+
+        const handleChange = () => {
+          setChecked((prev) => !prev);
+        };
+
+        const value = {
+          checked,
+          handleChange,
+        };
+
+        const providerCheck = React.createElement(
+          TransitionContext.Provider,
+          { value: value },
+          children
+        );
+        return providerCheck;
+      };
+
+      const useTransition = () => useContext(TransitionContext);
+
+        const componentConfigs = {
+          Backdrop: (props, useState, useContext) => {
+            if (props.role === 'backDrop') {
+              const { open, handleClose } = useModal();
+    
+              return {
+                  ...props,
+                  open: Boolean(open),
+                  onClick: handleClose,
+              };
+            }
+          },
+          Box: (props, useState, useContext) => {
+            if (props.role === 'modalTrigger') {
+                const style = {
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    bgcolor: 'background.paper',
+                    border: '2px solid #000',
+                    boxShadow: 24,
+                    p: 4,
+                };
+                return {
+                    ...props,
+                    sx: style
+                };
+            }
+            // Check if the role is 'collapseBox' and apply it to the children if needed
+            if (props.role === 'collapseBox') {
+                const updatedChildren = Array.isArray(props.children) ? props.children.map(child => {
+                    // Check if the child is a div with the role 'collapseDiv'
+                    if (child.type === 'div' && child.props && child.props.role === 'collapseDiv') {
+                        // Replace 'icon' children with the SVG icon
+                        const updatedChildChildren = Array.isArray(child.children) ? child.children.map(grandChild => {
+                            if (grandChild.type === 'Collapse' && grandChild.children === 'icon') {
+                                const icon = React.createElement(
+                                    'svg',
+                                    null,
+                                    React.createElement(
+                                        'polygon',
+                                        {
+                                            points: '0,100 50,0 100,100',
+                                            fill: 'white',
+                                            stroke: 'black',
+                                            strokeWidth: '1'
+                                        }
+                                    )
+                                );
+                                return icon;
+                            }
+                            return grandChild;
+                        }) : child.children;
+        
+                        return {
+                            ...child,
+                            children: updatedChildChildren
+                        };
+                    }
+                    return child;
+                }) : props.children;
+        
+                return {
+                    ...props,
+                    children: updatedChildren
+                };
+            }
+        
+            // If the role is not 'collapseBox', return the original props
+            return props;
+          },
+          Button: (props, useState, useContext) => {
+                   
+              if (props.role === 'popoverTrigger') {
+                const { handleOpen } = usePopover();
+                  return {
+                      ...props,
+                      onClick: handleOpen
+                  };
+              }
+              if (props.role === 'popperTrigger') {
+                const { handleClick } = usePopper();
+                return {
+                    ...props,
+                    onClick: handleClick
+                };
+              }
+              if (props.role === 'modalTrigger') {
+                const { handleOpen } = useModal();
+                return {
+                    ...props,
+                    onClick: handleOpen
+                };
+              }
+              if (props.role === 'dialog') {
+                const { handleClose } = useModal();
+                return {
+                    ...props,
+                    onClick: handleClose
+                };
+              }
+              if (props.role === 'rightAll') {
+                return {
+                  ...props,
+                  onClick: handleAllRight,
+                  disabled: left.length === 0
+                };
+              } 
+              if (props.role === 'right') {
+                return {
+                  ...props,
+                  onClick: handleCheckedRight,
+                  disabled: left.filter(item => checked.includes(item)).length === 0
+                };
+              }
+              
+              if (props.role === 'left') {
+                return {
+                  ...props,
+                  onClick: handleCheckedLeft,
+                  disabled: right.filter(item => checked.includes(item)).length === 0
+                };
+              }
+              
+              if (props.role === 'leftAll') {
+                return {
+                  ...props,
+                  onClick: handleAllLeft,
+                  disabled: right.length === 0
+                };
+              }    
+              return props;
+          },
+          Dialog: (props, useState, useContext) => {
+            if (props.role === 'dialog') {
+              const { open, handleClose } = useModal();
+    
+              return {
+                  ...props,
+                  open: Boolean(open),
+                  onClose: handleClose,
+              };
+            }
+          },
+          Modal: (props, useState, useContext) => {
+            const { open, handleClose } = useModal();
+    
+            return {
+                ...props,
+                open: Boolean(open),
+                onClose: handleClose,
+            };
+          },
+          Popover: (props, useState, useContext) => {
+              const { anchorEl, handleClose } = usePopover();
+      
+              return {
+                  ...props,
+                  open: Boolean(anchorEl),
+                  anchorEl: anchorEl,
+                  onClose: handleClose,
+                  id: anchorEl ? 'simple-popover' : undefined,
+              };
+          },
+          Popper: (props) => {
+            const { anchorEl } = usePopper();
+    
+            return {
+                ...props,
+                open: Boolean(anchorEl),
+                anchorEl: anchorEl,
+                id: open ? "simple-popper" : undefined,
+            };
+          },
+          Autocomplete: (props, useState) => {
+              // Assuming renderInput needs to be a function creating a TextField with specific props
+              if (typeof props.renderInput === 'string') {
+                  props.renderInput = (params) => React.createElement(MaterialUI.TextField, {
+                      ...params,
+                      label: props.renderInput  // Use the string as label, or customize as needed
+                  });
+              }
+              props.options = [
+                  { label: 'The Shawshank Redemption', year: 1994 },
+                  { label: 'The Godfather', year: 1972 },
+                  { label: 'The Godfather: Part II', year: 1974 },
+                  { label: 'The Dark Knight', year: 2008 },
+                  { label: '12 Angry Men', year: 1957 },
+              ];
+      
+              return props;
+          },
+          FormControlLabel: (props, useState) => {
+              // Handle the case where the control needs to be a specific MUI component
+              if (props.control && props.control.type === 'Radio') {
+                props.control = React.createElement(MaterialUI.Radio);
+            }
+            if (props.role === 'transition') {
+                const { checked, handleChange } = useTransition();
+
+                const switchComponent = React.createElement(MaterialUI.Switch, { checked: checked, onChange: handleChange });
+                return {
+                    ...props,
+                    control: switchComponent
+                };
+            }
+            return props;
+          },
+          TransferList: (props, useState, useContext) => {
+            // Access context values and functions from the TransferListProvider
+            const { checked, left, right, handleToggle, handleAllRight, handleCheckedRight, handleCheckedLeft, handleAllLeft } = useTransferList();
+          
+            // Modify props accordingly based on context values and functions
+            const modifiedProps = {
+              ...props,
+              checked,
+              left,
+              right,
+              handleToggle,
+              handleAllRight,
+              handleCheckedRight,
+              handleCheckedLeft,
+              handleAllLeft
+            }
+          
+            return modifiedProps;
+          },
+          Collapse: (props, useState, useContext) => {
+            const { checked } = useTransition();
+            if (props.role === 'collapse') {
+
+              return {
+                ...props,
+                in: Boolean(checked) 
+              };
+            }
+            return props;
+          }
+          // Additional components can be configured similarly
+        };
+  
+        const isJsonString = (str) => {
+          try {
+            return JSON.parse(str);
+          } catch (e) {
+            return false;
+          }
+        };
+  
+        const createComponentFromData = (data) => {
+          const { type, props } = data;
+          let { children } = data;
+          const Component = MaterialUI[type] || 'div';
+          
+          console.log('createComponentFromData Component', Component)
+  
+          if (Component === undefined) {
+            console.error(\`Component type \${type} is undefined.\`);
+            return null;
+          }
+
+          // Dynamic component using configurations
+          const DynamicComponent = () => {
+              let configuredProps = {...props};
+
+              // Apply specific configuration if exists
+              if (componentConfigs[type]) {
+                  configuredProps = componentConfigs[type](configuredProps, useState);
+                  console.log('configuredProps', configuredProps)
+              }
+
+              // Process children components recursively
+              const processChildren = (child) => {
+                  if (typeof child === 'string') {
+                      // Check if child is a JSON string to parse and create a component
+                      if (/^\s*\{.*\}\s*$/.test(child)) {
+                          return createComponentFromData(JSON.parse(child));
+                      }
+                      return child;
+                  } else if (typeof child === 'object' && child !== null) {
+                      return createComponentFromData(child);
+                  }
+                  return null;
+              };
+
+              console.log('Final props for component:', type, configuredProps);
+
+              const processedChildren = Array.isArray(children) ?
+              children.map(processChildren) :
+                  [processChildren(children)].filter(child => child !== null);
+
+              return React.createElement(Component, configuredProps, ...processedChildren);
+            };
+
+          return React.createElement(DynamicComponent);
+      };
         
         window.addEventListener('message', (event) => {
           const dataArr = event.data.replace(/}{/g, '}|||{').replace(/}</g, '}|||<').replace(/>{/g, '>|||{').split('|||');
@@ -180,7 +589,7 @@ const DemoRender = (): JSX.Element => {
             if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
               try {
                 const jsonData = JSON.parse(segment);
-                // console.log('jsonData', jsonData);
+                console.log('jsonData', jsonData);
                 if (jsonData.props && jsonData.props.children) {
                   jsonData.children = jsonData.children || [];
                   // console.log('jsonData.props.children', jsonData.props.children);
@@ -189,7 +598,54 @@ const DemoRender = (): JSX.Element => {
                 const componentContainer = document.createElement('div');
                 container.appendChild(componentContainer);
                 const component = createComponentFromData(jsonData);
-                ReactDOM.render(component, componentContainer);
+                console.log('component', component)
+                let correctProvider;
+                // variable to hold the correct provider
+                if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Modal' || child.type === 'Backdrop' || child.type === 'Dialog')) {
+                  correctProvider = ModalProvider
+                  console.log('correctProvider', correctProvider)
+                }
+                if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Popover')) {
+                  correctProvider = PopoverProvider
+                  console.log('correctProvider', correctProvider)
+                }
+                if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Popper')) {
+                  correctProvider = PopperProvider
+                  console.log('correctProvider', correctProvider)
+                }
+                if (
+                  jsonData.children &&
+                  Array.isArray(jsonData.children) &&
+                  jsonData.children.length > 0 &&
+                  jsonData.children[0].type === 'FormControlLabel' &&
+                  jsonData.children[0].props &&
+                  jsonData.children[0].props.role === 'transition'
+                ) {
+                  correctProvider = TransitionProvider
+                  console.log('correctProvider', correctProvider)
+                }
+              
+                if (jsonData.type === 'Grid' &&
+                Array.isArray(jsonData.children) &&
+                jsonData.children.some(child => 
+                    child.type === 'customList' && 
+                    child.props.items &&
+                    (child.props.items === 'left' || child.props.items === 'right')
+                )
+                ) {
+                    correctProvider = TransferListProvider;
+                    console.log('correctProvider', correctProvider);
+                }
+                
+                if(!correctProvider) {
+                  console.log('div check')
+                  ReactDOM.render(component, componentContainer);
+                } else {
+                  ReactDOM.render(
+                  React.createElement(correctProvider, null, component), // Wrap the component with the correctProvider
+                  componentContainer
+                );
+                }
               } catch (err) {
                 console.error("Error parsing JSON:", err);
               }
@@ -203,211 +659,6 @@ const DemoRender = (): JSX.Element => {
   </body>
   </html>
   `;
-
-  //   const html = `
-  // <html>
-  // <head>
-  //   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  //   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  //   <script defer src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
-  //   <script defer src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
-  //   <script defer src="https://unpkg.com/react-router-dom@5/umd/react-router-dom.min.js"></script>
-  //   <script defer src="https://unpkg.com/@mui/material@5.15.15/umd/material-ui.production.min.js"></script>
-  //   <style id="mui-styles"></style>
-  // </head>
-  // <body>
-  //   <div id="app";"></div>
-  //   <script>
-
-  //     document.addEventListener('DOMContentLoaded', function() {
-  //       const top100Films = [
-  //         { label: 'The Shawshank Redemption', year: 1994 },
-  //         { label: 'The Godfather', year: 1972 },
-  //         { label: 'The Godfather: Part II', year: 1974 },
-  //         { label: 'The Dark Knight', year: 2008 },
-  //         { label: '12 Angry Men', year: 1957 },
-  //       ];
-
-  //       function createData(name, calories, fat, carbs, protein) {
-  //         return { name, calories, fat, carbs, protein };
-  //       }
-
-  //       const rows = [
-  //         createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  //         createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  //         createData('Eclair', 262, 16.0, 24, 6.0),
-  //         createData('Cupcake', 305, 3.7, 67, 4.3),
-  //         createData('Gingerbread', 356, 16.0, 49, 3.9),
-  //       ];
-
-  //       console.log('rows', rows)
-
-  //       function logToParentConsole(...args) {
-  //         const cache = new Set(); // Set to keep track of all objects being stringified
-  //         const payload = args.map(arg => {
-  //           if (typeof arg === 'object' && arg !== null) {
-  //             return JSON.stringify(arg, (key, value) => {
-  //               if (typeof value === 'object' && value !== null) {
-  //                 if (cache.has(value)) {
-  //                   // Duplicate reference found, discard key
-  //                   return;
-  //                 }
-  //                 // Store value in our collection
-  //                 cache.add(value);
-  //               }
-  //               return value;
-  //             });
-  //           }
-  //           return arg;
-  //         });
-  //         window.parent.postMessage({ type: 'log', data: payload }, '*');
-  //         cache.clear(); // Clear cache after serialization
-  //       }
-  //       console.log = logToParentConsole;
-
-  //       const MaterialUI = window.MaterialUI;
-  //         const ReactRouterDOM = window.ReactRouterDOM;
-  //         const React = window.React;
-  //         const ReactDOM = window.ReactDOM;
-
-  //         console.log('MaterialUI:', MaterialUI);
-
-  //         if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
-  //           console.log('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
-  //           return;
-  //         }
-
-  //       const specialComponents = {
-  //         'br': () => React.createElement('br', {})
-  //       };
-
-  //       const isJsonString = (str) => {
-  //         try {
-  //           JSON.parse(str);
-  //           return true;
-  //         } catch (e) {
-  //           return false;
-  //         }
-  //       };
-
-  //       const createComponentFromData = (data) => {
-  //         const { type, props } = data;
-  //         let { children } = data;
-  //         const Component = MaterialUI[type] || 'div'; // Default to div if component is not found
-  //         console.log('type', 'Creating component of type: ' + type);
-  //         // Check if props need special handling (for functions like renderInput)
-  //         let newProps = { ...props };
-  //         if (Component === undefined) {
-  //           console.error('Component type ' + type + ' is undefined.');
-  //           return null; // Avoid attempting to create an undefined component
-  //         }
-
-  //         if (type === 'Autocomplete' && props.renderInput && typeof props.renderInput === 'string') {
-  //           // Directly using React.createElement to avoid JSX in strings
-  //           newProps.renderInput = (params) => React.createElement(MaterialUI.TextField, {...params, label: 'Movie'});
-  //           newProps = {...newProps, options: top100Films}
-  //         }
-
-  //         if (type === 'FormControlLabel' && props.control && props.control.type === 'Radio') {
-  //           // Directly using React.createElement to avoid JSX in strings
-  //           newProps.control = React.createElement(MaterialUI.Radio);
-  //         }
-
-  //         if (type === 'TableBody' && children) {
-  //           console.log('Processing TableBody');
-  //           children = rows.map(row => ({
-  //               type: 'TableRow',
-  //               props: { key: row.name },
-  //               children: [
-  //                   { type: 'TableCell', props: { component: 'th', scope: 'row' }, children: row.name },
-  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.calories) },
-  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.fat) },
-  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.carbs) },
-  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.protein) },
-  //               ]
-  //           }));
-
-  //         const processChildren = (child) => {
-  //           if (typeof child === 'string') {
-  //             if (isJsonString(child)) {
-  //               return createComponentFromData(JSON.parse(child));
-  //             }
-  //             return specialComponents[child] ? specialComponents[child]() : child;
-  //           } else if (typeof child === 'object' && child !== null) {
-  //             return createComponentFromData(child);
-  //           }
-  //           return null;
-  //         };
-
-  //         // Handling single and multiple children uniformly
-  //         const processedChildren = Array.isArray(children) ?
-  //           children.map(processChildren) :
-  //           [processChildren(children)]; // Wrap non-array children in an array
-
-  //         // Spreading children into createElement function
-  //         return React.createElement(Component, newProps, ...processedChildren);
-  //       };
-
-  //       window.addEventListener('message', (event) => {
-  //         // console.log('event', event);
-  //         const dataArr = event.data.replace(/}{/g, '}|||{').replace(/}</g, '}|||<').replace(/>{/g, '>|||{').split('|||');
-  //         // console.log('dataArr', dataArr);
-  //         const container = document.getElementById('app');
-  //         container.innerHTML = '';
-  //         dataArr.forEach(segment => {
-  //           // console.log('segment', segment)
-  //           if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
-  //             try {
-  //               const jsonData = JSON.parse(segment);
-  //               // console.log('jsonData', jsonData);
-  //               if (jsonData.props && jsonData.props.children) {
-  //                 jsonData.children = jsonData.children || [];
-  //                 // console.log('jsonData.props.children', jsonData.props.children);
-  //                 jsonData.children = [...jsonData.children, ...jsonData.props.children];
-  //               }
-
-  //               const componentContainer = document.createElement('div');
-  //               container.appendChild(componentContainer);
-  //               const component = createComponentFromData(jsonData);
-  //               console.log('component', component);
-  //               ReactDOM.render(component, componentContainer);
-  //             } catch (err) {
-  //               console.error("Error parsing JSON:", err);
-  //             }
-  //           } else {
-  //             container.insertAdjacentHTML('beforeend', segment);
-  //             container.querySelectorAll('a').forEach(element => {
-  //               element.addEventListener('click', (event) => {
-  //                 event.preventDefault();
-  //                 window.top.postMessage(event.currentTarget.href, '*');
-  //               });
-  //             });
-  //           }
-  //         });
-  //       });
-
-  //       const handleClickInsideIframe = () => {
-  //         window.parent.postMessage('iframeClicked', '*');
-  //       };
-  //       const handleMouseUpInsideIframe = () => {
-  //         window.parent.postMessage('iframeMouseUp', '*');
-  //       };
-  //       const handleMouseMoveInsideIframe = (e) => {
-  //         const msgData = {
-  //           type: 'iframeMouseMove',
-  //           clientY: e.clientY + 70 // Adjust according to your needs
-  //         };
-  //         window.parent.postMessage(msgData, '*');
-  //       };
-
-  //       window.addEventListener('click', handleClickInsideIframe);
-  //       window.addEventListener('mouseup', handleMouseUpInsideIframe);
-  //       window.addEventListener('mousemove', handleMouseMoveInsideIframe);
-  //     });
-  //   </script>
-  // </body>
-  // </html>
-  // `;
 
   window.onmessage = (event) => {
     // If event.data or event.data.data is undefined, return early

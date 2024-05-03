@@ -24,14 +24,14 @@ DATA DISPLAY
 38. Icons
 39. Material Icons
 40. List
-41. Table //not working
-42. Tooltip
+41. Table // is working now. how?
+42. Tooltip // not working
 43. Typography
 
 FEEDBACK
 44. Alert //working but icon needed 
-45. Backdrop //not working
-46. Dialog //not working
+45. Backdrop 
+46. Dialog 
 47. Progress //not working
 48. Skeleton //not working
 49. Snackbar //not working
@@ -65,14 +65,14 @@ LAYOUT
 UTILS
 71. Click-Away Listener - not included 
 72. CSS Baseline - not included
-73. Modal //not working
+73. Modal 
 74. No SSR - not included 
-75. Popover - //not working
+75. Popover
 76. Popper //not working (no state)
-77. Portal - //not working 
-78. Textarea Autosize
-79. Transitions //not working 
-80. useMediaQuery */
+77. Portal - not included 
+78. Textarea Autosize - not included 
+79. Transitions // not working 
+80. useMediaQuery - not included */
 
 const MUITypes: MUIType[] = [
   {
@@ -1033,29 +1033,88 @@ const MUITypes: MUIType[] = [
         {
           type: 'Grid',
           props: { item: true },
-          children: 'customList(left)' // Placeholder for dynamic list function
+          children: {
+            type: 'customList',
+            props: { items: 'left' },
+            children: null // No children for customList
+          }
         },
         {
           type: 'Grid',
           props: { item: true },
-          children: [
-            {
-              type: 'Grid',
-              props: {
-                container: true,
-                direction: 'column',
-                alignItems: 'center'
+          children: {
+            type: 'Grid',
+            props: {
+              container: true,
+              direction: 'column',
+              alignItems: 'center'
+            },
+            children: [
+              {
+                type: 'Button',
+                props: {
+                  sx: { my: 0.5 },
+                  variant: 'outlined',
+                  size: 'small',
+                  onClick: '{handleAllRight}',
+                  disabled: '{left.length === 0}',
+                  'aria-label': 'move all right',
+                  role: 'rightAll'
+                },
+                children: '≫' // Moves all items from left to right
               },
-              children: [
-                // Detailed button components here with onClick handlers etc.
-              ]
-            }
-          ]
+              {
+                type: 'Button',
+                props: {
+                  sx: { my: 0.5 },
+                  variant: 'outlined',
+                  size: 'small',
+                  onClick: '{handleCheckedRight}',
+                  disabled:
+                    '{left.filter(item => checked.includes(item)).length === 0}',
+                  'aria-label': 'move selected right',
+                  role: 'right'
+                },
+                children: '&gt;' // Moves selected items from left to right
+              },
+              {
+                type: 'Button',
+                props: {
+                  sx: { my: 0.5 },
+                  variant: 'outlined',
+                  size: 'small',
+                  onClick: '{handleCheckedLeft}',
+                  disabled:
+                    '{right.filter(item => checked.includes(item)).length === 0}',
+                  'aria-label': 'move selected left',
+                  role: 'left'
+                },
+                children: '&lt;' // Moves selected items from right to left
+              },
+              {
+                type: 'Button',
+                props: {
+                  sx: { my: 0.5 },
+                  variant: 'outlined',
+                  size: 'small',
+                  onClick: '{handleAllLeft}',
+                  disabled: '{right.length === 0}',
+                  'aria-label': 'move all left',
+                  role: 'leftAll'
+                },
+                children: '≪' // Moves all items from right to left
+              }
+            ]
+          }
         },
         {
           type: 'Grid',
           props: { item: true },
-          children: 'customList(right)' // Placeholder for dynamic list function
+          children: {
+            type: 'customList',
+            props: { items: 'right' },
+            children: null // No children for customList
+          }
         }
       ]
     },
@@ -1515,7 +1574,7 @@ const MUITypes: MUIType[] = [
                 props: { disablePadding: true },
                 children: {
                   type: 'ListItemButton',
-                  props: { component: 'a', href: '#simple-list' },
+                  props: {},
                   children: [
                     { type: 'ListItemText', props: { primary: 'Spam' } }
                   ]
@@ -1867,9 +1926,8 @@ const MUITypes: MUIType[] = [
         {
           type: 'Button',
           props: {
-            color: 'primary', // This sets the button color to the primary theme color
             sx: {
-              bgcolor: 'primary.main', // This sets the background color to the primary color
+              backgroundColor: 'primary.main', // This sets the background color to the primary color
               color: 'white', // This sets the text color to white
               m: 1
             }
@@ -1984,8 +2042,18 @@ const MUITypes: MUIType[] = [
       "import CircularProgress from '@mui/material/CircularProgress'",
       "import Button from '@mui/material/Button'"
     ],
-    stateAndEventHandlers: [],
-    defaultProps: ['open={open}'],
+    stateAndEventHandlers: [
+      'const [open, setOpen] = React.useState(false);',
+      '\nconst handleClose = () => {',
+      '  setOpen(false);',
+      '};',
+      '\nconst handleOpen = () => {',
+      '  setOpen(true);',
+      '};\n'
+    ],
+    defaultProps: [
+      'sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open} onClick={handleClose}'
+    ],
     propOptions: [
       'children',
       'classes',
@@ -2000,22 +2068,38 @@ const MUITypes: MUIType[] = [
       'transitionDuration'
     ],
     jsx: [
-      '<Backdrop',
-      '  sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}',
-      '  open={open}',
-      '  onClick={handleClose}',
-      '>',
-      '  <CircularProgress color="inherit" />',
-      '</Backdrop>'
+      '<div>',
+      '  <Button onClick={handleOpen}>Show backdrop</Button>',
+      '  <Backdrop >',
+      '    <CircularProgress color="inherit" />',
+      '  </Backdrop>',
+      '</div>'
     ],
+
     componentData: {
-      type: 'Backdrop',
-      props: {
-        sx: { color: '#fff', zIndex: '(theme) => theme.zIndex.drawer + 1' },
-        open: '{open}',
-        onClick: '{handleClose}'
-      },
-      children: '<CircularProgress color="inherit" />'
+      type: 'div',
+      props: {},
+      children: [
+        {
+          type: 'Button',
+          props: { onClick: '{handleOpen}', role: 'modalTrigger' }, //used 'modalTrigger' here because it is requires the same handleOpen function already created
+          children: 'Show backdrop'
+        },
+        {
+          type: 'Backdrop',
+          props: {
+            sx: { color: '#fff', zIndex: '(theme) => theme.zIndex.drawer + 1' },
+            open: '{open}',
+            onClick: '{handleClose}',
+            role: 'backDrop'
+          },
+          children: {
+            type: 'CircularProgress',
+            props: { color: 'inherit' },
+            children: []
+          }
+        }
+      ]
     },
     children: []
   },
@@ -2030,22 +2114,25 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Dialog from '@mui/material/Dialog'",
       "import Button from '@mui/material/Button'",
-      "import Avatar from '@mui/material/Avatar'",
-      "import List from '@mui/material/List'",
-      "import ListItem from '@mui/material/ListItem'",
-      "import ListItemAvatar from '@mui/material/ListItemAvatar'",
-      "import ListItemButton from '@mui/material/ListItemButton'",
-      "import ListItemText from '@mui/material/ListItemText'",
-      "import DialogTitle from '@mui/material/DialogTitle'",
-      "import PersonIcon from '@mui/icons-material/Person'",
-      "import AddIcon from '@mui/icons-material/Add'",
-      "import Typography from '@mui/material/Typography'",
-      "{ blue } from '@mui/material/colors'"
+      "import Dialog from '@mui/material/Dialog'",
+      "import DialogActions from '@mui/material/DialogActions'",
+      "import DialogContent from '@mui/material/DialogContent'",
+      "import DialogContentText from '@mui/material/DialogContentText'",
+      "import DialogTitle from '@mui/material/DialogTitle'"
     ],
-    stateAndEventHandlers: [],
-    defaultProps: ['open={open}'],
+    stateAndEventHandlers: [
+      'const [open, setOpen] = React.useState(false);',
+      '\nconst handleClickOpen = () => {',
+      '  setOpen(true);',
+      '};',
+      '\nconst handleClose = () => {',
+      '  setOpen(false);',
+      '};\n'
+    ],
+    defaultProps: [
+      'open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description"'
+    ],
     propOptions: [
       'aria-describedby',
       'aria-labelledby',
@@ -2067,71 +2154,90 @@ const MUITypes: MUIType[] = [
       'TransitionProps'
     ],
     jsx: [
-      '<Dialog onClose={handleClose} open={open}>',
-      '  <DialogTitle>Set backup account</DialogTitle>',
-      '  <List sx={{ pt: 0 }}>',
-      '    {emails.map((email) => (',
-      '      <ListItem disableGutters key={email}>',
-      '        <ListItemButton onClick={() => handleListItemClick(email)}>',
-      '          <ListItemAvatar>',
-      '            <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>',
-      '              <PersonIcon />',
-      '            </Avatar>',
-      '          </ListItemAvatar>',
-      '          <ListItemText primary={email} />',
-      '        </ListItemButton>',
-      '      </ListItem>',
-      '    ))}',
-      '    <ListItem disableGutters>',
-      '      <ListItemButton autoFocus onClick={() => handleListItemClick("addAccount")}>',
-      '        <ListItemAvatar>',
-      '          <Avatar>',
-      '            <AddIcon />',
-      '          </Avatar>',
-      '        </ListItemAvatar>',
-      '        <ListItemText primary="Add account" />',
-      '      </ListItemButton>',
-      '    </ListItem>',
-      '  </List>',
-      '</Dialog>'
+      '<React.Fragment>',
+      '  <Button variant="outlined" onClick={handleClickOpen}>',
+      '    Open alert dialog',
+      '  </Button>',
+      '  <Dialog >',
+      '    <DialogTitle id="alert-dialog-title">',
+      '      {"Use Google\'s location service?"}',
+      '    </DialogTitle>',
+      '    <DialogContent>',
+      '      <DialogContentText id="alert-dialog-description">',
+      '        Let Google help apps determine location. This means sending anonymous',
+      '        location data to Google, even when no apps are running.',
+      '      </DialogContentText>',
+      '    </DialogContent>',
+      '    <DialogActions>',
+      '      <Button onClick={handleClose}>Disagree</Button>',
+      '      <Button onClick={handleClose} autoFocus>',
+      '        Agree',
+      '      </Button>',
+      '    </DialogActions>',
+      '  </Dialog>',
+      '</React.Fragment>'
     ],
+
     componentData: {
-      type: 'Dialog',
-      props: {
-        onClose: '{handleClose}',
-        open: '{open}'
-      },
+      type: 'React.Fragment',
+      props: {},
       children: [
         {
-          type: 'DialogTitle',
-          children: 'Set backup account'
+          type: 'Button',
+          props: {
+            variant: 'outlined',
+            onClick: '{handleClickOpen}',
+            role: 'modalTrigger' //used 'modalTrigger' here because it is requires the same handleOpen function already created
+          },
+          children: 'Open alert dialog'
         },
         {
-          type: 'List',
-          props: { sx: { pt: 0 } },
+          type: 'Dialog',
+          props: {
+            open: '{open}',
+            onClose: '{handleClose}',
+            'aria-labelledby': '"alert-dialog-title"',
+            'aria-describedby': '"alert-dialog-description"',
+            role: 'dialog'
+          },
           children: [
-            '{emails.map((email) => (',
-            '  <ListItem disableGutters key={email}>',
-            '    <ListItemButton onClick={() => handleListItemClick(email)}>',
-            '      <ListItemAvatar>',
-            '        <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>',
-            '          <PersonIcon />',
-            '        </Avatar>',
-            '      </ListItemAvatar>',
-            '      <ListItemText primary={email} />',
-            '    </ListItemButton>',
-            '  </ListItem>',
-            '))}',
-            '  <ListItem disableGutters>',
-            '    <ListItemButton autoFocus onClick={() => handleListItemClick("addAccount")}>',
-            '      <ListItemAvatar>',
-            '        <Avatar>',
-            '          <AddIcon />',
-            '        </Avatar>',
-            '      </ListItemAvatar>',
-            '      <ListItemText primary="Add account" />',
-            '    </ListItemButton>',
-            '  </ListItem>'
+            {
+              type: 'DialogTitle',
+              props: { id: '"alert-dialog-title"' },
+              children: '"Use Google\'s location service?"'
+            },
+            {
+              type: 'DialogContent',
+              props: {},
+              children: [
+                {
+                  type: 'DialogContentText',
+                  props: { id: '"alert-dialog-description"' },
+                  children:
+                    'Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.'
+                }
+              ]
+            },
+            {
+              type: 'DialogActions',
+              props: {},
+              children: [
+                {
+                  type: 'Button',
+                  props: { onClick: '{handleClose}', role: 'dialog' },
+                  children: 'Disagree'
+                },
+                {
+                  type: 'Button',
+                  props: {
+                    onClick: '{handleClose}',
+                    autoFocus: true,
+                    role: 'dialog'
+                  },
+                  children: 'Agree'
+                }
+              ]
+            }
           ]
         }
       ]
@@ -2808,7 +2914,7 @@ const MUITypes: MUIType[] = [
       '  console.info("You clicked a breadcrumb.");',
       '}; \n'
     ],
-    defaultProps: [],
+    defaultProps: ['aria-label="breadcrumb"'],
     propOptions: [
       'children',
       'classes',
@@ -2824,10 +2930,10 @@ const MUITypes: MUIType[] = [
     ],
     jsx: [
       "<div role='presentation' onClick={handleClick}>",
-      "  <Breadcrumbs aria-label='breadcrumb'>",
-      "    <Link underline='hover' color='inherit' href='/'>MUI</Link>",
-      "    <Link underline='hover' color='inherit' href='/material-ui/getting-started/installation/'>Core</Link>",
-      "    <Link underline='hover' color='text.primary' href='/material-ui/react-breadcrumbs/' aria-current='page'>Breadcrumbs</Link>",
+      '  <Breadcrumbs >',
+      "    <Link underline='hover' color='inherit' href='#'>MUI</Link>",
+      "    <Link underline='hover' color='inherit' href='#'>Core</Link>",
+      "    <Link underline='hover' color='text.primary' href='#' aria-current='page'>Breadcrumbs</Link>",
       '  </Breadcrumbs>',
       '</div>'
     ],
@@ -2850,7 +2956,7 @@ const MUITypes: MUIType[] = [
               props: {
                 underline: 'hover',
                 color: 'inherit',
-                href: '/'
+                onClick: 'event => event.preventDefault()'
               },
               children: 'MUI'
             },
@@ -2859,7 +2965,7 @@ const MUITypes: MUIType[] = [
               props: {
                 underline: 'hover',
                 color: 'inherit',
-                href: '/material-ui/getting-started/installation/'
+                onClick: 'event => event.preventDefault()'
               },
               children: 'Core'
             },
@@ -2868,7 +2974,7 @@ const MUITypes: MUIType[] = [
               props: {
                 underline: 'hover',
                 color: 'text.primary',
-                href: '/material-ui/react-breadcrumbs/',
+                onClick: 'event => event.preventDefault()',
                 'aria-current': 'page'
               },
               children: 'Breadcrumbs'
@@ -3161,7 +3267,7 @@ const MUITypes: MUIType[] = [
     ],
     jsx: [
       "<Box sx={{ typography: 'body1', '& > :not(style) ~ :not(style)': { ml: 2 } }} onClick={preventDefault}>",
-      "  <Link href='#'>Link</Link>",
+      "  <Link href='#' >Link</Link>",
       "  <Link href='#' color='inherit'>{'color=\"inherit\"'}</Link>",
       "  <Link href='#' variant='body2'>{'variant=\"body2\"'}</Link>",
       '</Box>'
@@ -3181,15 +3287,12 @@ const MUITypes: MUIType[] = [
       children: [
         {
           type: 'Link',
-          props: {
-            href: '#'
-          },
+          props: {},
           children: 'Link'
         },
         {
           type: 'Link',
           props: {
-            href: '#',
             color: 'inherit'
           },
           children: 'color="inherit"'
@@ -3197,7 +3300,6 @@ const MUITypes: MUIType[] = [
         {
           type: 'Link',
           props: {
-            href: '#',
             variant: 'body2'
           },
           children: 'variant="body2"'
@@ -4054,12 +4156,13 @@ const MUITypes: MUIType[] = [
     ],
     componentData: {
       type: 'div',
-      props: {},
+      props: { sx: { m: 1 } },
       children: [
         {
           type: 'Button',
           props: {
-            onClick: 'handleOpen'
+            onClick: 'handleOpen',
+            role: 'modalTrigger'
           },
           children: 'Open modal'
         },
@@ -4075,7 +4178,8 @@ const MUITypes: MUIType[] = [
             {
               type: 'Box',
               props: {
-                sx: '{style}'
+                sx: '{style}',
+                role: 'modalTrigger'
               },
               children: [
                 {
@@ -4121,8 +4225,8 @@ const MUITypes: MUIType[] = [
     ],
     stateAndEventHandlers: [
       'const [anchorEl, setAnchorEl] = React.useState(null);',
-      'const handleClick = (event) => { setAnchorEl(event.currentTarget); };',
-      '\nconst handleClose = () => { setAnchorEl(null); };',
+      'const handleClick = (event) => { setAnchorEl(event.currentTarget) };',
+      '\nconst handleClose = () => { setAnchorEl(null) };',
       '\nconst open = Boolean(anchorEl);',
       "\nconst id = open ? 'simple-popover' : undefined;\n"
     ],
@@ -4163,12 +4267,13 @@ const MUITypes: MUIType[] = [
     ],
     componentData: {
       type: 'div',
-      props: {},
+      props: { sx: { m: 1 } },
       children: [
         {
           type: 'Button',
           props: {
             'aria-describedby': '{id}',
+            role: 'popoverTrigger', // added to differentiate from other buttons
             variant: 'contained',
             onClick: 'handleClick'
           },
@@ -4214,8 +4319,15 @@ const MUITypes: MUIType[] = [
       "import Box from '@mui/material/Box'",
       "import Popper from '@mui/material/Popper'"
     ],
-    stateAndEventHandlers: [],
-    defaultProps: [],
+    stateAndEventHandlers: [
+      'const [anchorEl, setAnchorEl] = React.useState(null);',
+      '\nconst handleClick = (event) => {',
+      '  setAnchorEl(anchorEl ? null : event.currentTarget);',
+      '};',
+      '\nconst open = Boolean(anchorEl);',
+      '\nconst id = open ? "simple-popper" : undefined;\n'
+    ],
+    defaultProps: ['id={id} open={open} anchorEl={anchorEl}'],
     propOptions: [
       'open',
       'anchorEl',
@@ -4240,7 +4352,7 @@ const MUITypes: MUIType[] = [
       `  <button aria-describedby={id} type="button" onClick={handleClick}>`,
       `    Toggle Popper`,
       `  </button>`,
-      `  <Popper id={id} open={open} anchorEl={anchorEl}>`,
+      `  <Popper >`,
       `    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>`,
       `      The content of the Popper.`,
       `    </Box>`,
@@ -4248,13 +4360,30 @@ const MUITypes: MUIType[] = [
       `</div>`
     ],
     componentData: {
-      type: 'Popper',
-      props: {},
+      type: 'div',
+      props: { sx: { m: 1 } },
       children: [
         {
-          type: 'Box',
-          props: { sx: { border: 1, p: 1, bgcolor: 'background.paper' } },
-          children: 'The content of the Popper.'
+          type: 'Button',
+          props: {
+            'aria-describedby': '{id}',
+            type: 'button',
+            onClick: '{handleClick}',
+            role: 'popperTrigger'
+          },
+          children: 'Toggle Popper'
+        },
+        {
+          type: 'Popper',
+          children: [
+            {
+              type: 'Box',
+              props: {
+                sx: { border: 1, p: 1, bgcolor: 'background.paper' }
+              },
+              children: 'The content of the Popper.'
+            }
+          ]
         }
       ]
     },
@@ -4275,9 +4404,29 @@ const MUITypes: MUIType[] = [
       "import FormControlLabel from '@mui/material/FormControlLabel'",
       "import Box from '@mui/material/Box'",
       "import Switch from '@mui/material/Switch'",
-      "import Paper from '@mui/material/Paper'"
+      "import Paper from '@mui/material/Paper'",
+      '\nconst icon = (',
+      '  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>',
+      '   <svg>',
+      '      <Box',
+      '        component="polygon"',
+      '        points="0,100 50,00, 100,100"',
+      '        sx={{',
+      '          fill: (theme) => theme.palette.common.white,',
+      '          stroke: (theme) => theme.palette.divider,',
+      '          strokeWidth: 1,',
+      '        }}',
+      '      />',
+      '    </svg>',
+      '  </Paper>',
+      ');'
     ],
-    stateAndEventHandlers: [],
+    stateAndEventHandlers: [
+      'const [checked, setChecked] = React.useState(false);',
+      '\nconst handleChange = () => {',
+      '  setChecked((prev) => !prev);',
+      '  };'
+    ],
     defaultProps: [],
     propOptions: [
       'addEndListener',
@@ -4324,9 +4473,94 @@ const MUITypes: MUIType[] = [
       '</Box>'
     ],
     componentData: {
-      type: 'Transition',
-      props: {},
-      children: null
+      type: 'Box',
+      props: {
+        sx: { height: 300 }
+      },
+      children: [
+        {
+          type: 'FormControlLabel',
+          props: {
+            control: {
+              type: 'Switch',
+              props: {},
+              children: []
+            },
+            label: 'Show',
+            role: 'transition'
+          }
+        },
+        {
+          type: 'Box',
+          props: {
+            sx: {
+              '& > :not(style)': {
+                display: 'flex',
+                justifyContent: 'space-around',
+                height: 120,
+                width: 250
+              }
+            },
+            role: 'collapseBox'
+          },
+          children: [
+            {
+              type: 'div',
+              children: [
+                {
+                  type: 'Collapse',
+                  props: {
+                    in: '{checked}',
+                    role: 'collapse'
+                  },
+                  children: 'icon'
+                },
+                {
+                  type: 'Collapse',
+                  props: {
+                    in: '{checked}',
+                    collapsedSize: 40,
+                    role: 'collapse'
+                  },
+                  children: 'icon'
+                }
+              ]
+            },
+            {
+              type: 'div',
+              children: [
+                {
+                  type: 'Box',
+                  props: { sx: { width: '50%' } },
+                  children: {
+                    type: 'Collapse',
+                    props: {
+                      orientation: 'horizontal',
+                      in: '{checked}',
+                      role: 'collapse'
+                    },
+                    children: 'icon'
+                  }
+                },
+                {
+                  type: 'Box',
+                  props: { sx: { width: '50%' } },
+                  children: {
+                    type: 'Collapse',
+                    props: {
+                      orientation: 'horizontal',
+                      in: '{checked}',
+                      collapsedSize: 40,
+                      role: 'collapse'
+                    },
+                    children: 'icon'
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     children: []
   }
