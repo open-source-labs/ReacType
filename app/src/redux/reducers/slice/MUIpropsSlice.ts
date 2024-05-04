@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import MUITypes from '../../MUITypes';
 
-const initialState = 
+export const initialState = 
   {
     color: '',
     disabled: false,
