@@ -10,6 +10,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import MUIPropsSlice, { initialState } from '../../redux/reducers/slice/MUIpropsSlice';
 
 
+
 const MUIProps = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const dispatch = useDispatch();
@@ -112,7 +113,7 @@ const arrayOfState = Object.keys(initialState);
 
 // console.log(arrayOfState);
 // const arrayOfState = ['color'];
-// console.log('arrayofstate', arrayOfState);
+console.log('arrayofstate', arrayOfState);
 
   return (
     <div>

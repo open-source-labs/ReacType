@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import MUITypes from '../../MUITypes';
 
+/**
+ * Represents the initial state of the MUIpropsSlice reducer.
+ */
 export const initialState = 
   {
     color: '',
