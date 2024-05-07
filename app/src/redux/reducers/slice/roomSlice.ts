@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
+/**
+ * Represents the initial state of the MUIpropsSlice reducer.
+ */
 const initialState = {
   roomCode: '',
   meetingId: '',

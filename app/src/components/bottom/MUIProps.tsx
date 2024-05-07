@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Button, TextField } from '@mui/material';
 import { Send } from '@mui/icons-material';
 import MUITypes from '../../redux/MUITypes';
@@ -7,9 +7,12 @@ import { emitEvent } from '../../helperFunctions/socket';
 import { RootState } from '../../redux/store';
 import { useSelector, useDispatch } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
-import MUIPropsSlice, { initialState } from '../../redux/reducers/slice/MUIpropsSlice';
-
-
+import FormSelector from '../../components/form/Selector';
+import MUIPropsSlice, {
+  initialState
+} from '../../redux/reducers/slice/MUIpropsSlice';
+import { setSize, setColor } from '../../redux/reducers/slice/MUIpropsSlice';
+import FormControl from '@mui/material/FormControl';
 
 const MUIProps = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
@@ -17,6 +20,7 @@ const MUIProps = ({ isThemeLight }): JSX.Element => {
   const propState = useSelector((store: RootState) => store.MUIpropsSlice);
   const state = useSelector((store: RootState) => store.appState);
   const currFocus = getFocus().child;
+  const style = useSelector((store: RootState) => store.styleSlice);
 
   function getFocus() {
     // find and store component's name based on canvasFocus.componentId
@@ -67,7 +71,7 @@ const MUIProps = ({ isThemeLight }): JSX.Element => {
       }
     }
     return focusTarget;
-  };
+  }
 
   // let configTarget;
 
@@ -99,25 +103,52 @@ const MUIProps = ({ isThemeLight }): JSX.Element => {
     return isLinked;
   };
 
-  console.log(configTarget.child.name);
-  console.log(configTarget.child)
-// console.log('config whatever', )
-// console.log('configTarget', configTarget);
-// console.log('muiComponent?', configTarget.children[1].typeId); // give the ID of the MUI component
-// set a variable to equal the index value of the component in the MUITypes array
-const propsIndex = MUITypes.findIndex(item => item.name === configTarget.child.name);
+  const arrayOfState = Object.keys(initialState);
+  console.log('arrayofstate', arrayOfState);
 
-const arrayOfState = Object.keys(initialState);
-// console.log(arrayOfState)
-// const matchedState = arrayOfState.filter((state) => MUITypes[propsIndex].propOptions.includes(state));
+  const handleMUIChange = (selectedValue: string) => {
+    // Dispatch an action to set the size state
+    dispatch(setSize(selectedValue));
+  };
 
-// console.log(arrayOfState);
-// const arrayOfState = ['color'];
-console.log('arrayofstate', arrayOfState);
+  // null or undefined when no focus, render this:
+  if (!currFocus) {
+    return (
+      <div className="column right" id="rightContainer" style={style.style}>
+        <div className="rightPanelWrapper">
+          <div>
+            <div className={classes.rootConfigHeader}>
+              <h4
+                className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+              >
+                Parent MUI Component:
+                <br />
+                <br />
+                <span className={classes.rootCompName}>
+                  {configTarget.name}
+                </span>
+                <p style={{ fontSize: '16px' }}>
+                  Drag or click an MUI Component to the canvas to see what
+                  happens!
+                </p>
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
+  const propsIndex = MUITypes.findIndex(
+    (item) => item.name === configTarget.child.name
+  );
+  // focused on customize tab
   return (
     <div>
-      
       <div className={classes.configHeader}>
         <h4
           className={
@@ -134,26 +165,181 @@ console.log('arrayofstate', arrayOfState);
         </h4>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-  {MUITypes[propsIndex].propOptions
-    .filter(propOption => arrayOfState.includes(propOption)) // Add this filter method
-    .map((propOption) => (
-      <Button
-        key={propOption}
-        // onClick={() => handleComponentSelect(propOption)}
-        sx={{ marginBottom: '0.5rem' }}
-      >
-        {propOption}
-      </Button>
-    ))}
-</div>
-      <Button
-        onClick={() => console.log('Save button clicked')}
-        variant="contained"
-        endIcon={<Send />}
-        sx={{ marginTop: '1rem' }}
-      >
-        Save
-      </Button>
+        {MUITypes[propsIndex].propOptions
+          .filter((propOption) => arrayOfState.includes(propOption)) // Add this filter method
+          .map((propOption) => {
+            if (propOption === 'size') {
+              return (
+                <FormSelector
+                  key={propOption}
+                  classes={classes}
+                  selectValue={setSize}
+                  onSelect={handleMUIChange}
+                  title="Size:"
+                  name="size"
+                  items={[
+                    { value: '', text: 'default' },
+                    { value: 'small', text: 'small' },
+                    { value: 'medium', text: 'medium' },
+                    { value: 'large', text: 'large' }
+                  ]}
+                />
+              );
+            } else if (propOption === 'color') {
+              return (
+                <FormSelector
+                  key={propOption}
+                  classes={classes}
+                  selectValue={setColor}
+                  onSelect={handleMUIChange}
+                  title="Color:"
+                  name="color"
+                  items={[
+                    { value: '', text: 'default' },
+                    { value: 'primary', text: 'primary' },
+                    { value: 'secondary', text: 'secondary' },
+                    { value: 'error', text: 'error' },
+                    { value: 'info', text: 'info' },
+                    { value: 'success', text: 'success' },
+                    { value: 'warning', text: 'warning' }
+                  ]}
+                />
+              );
+            } else if (propOption === 'disabled') {
+              return (
+                <FormSelector
+                  key={propOption}
+                  classes={classes}
+                  selectValue={setColor}
+                  onSelect={handleMUIChange}
+                  title="Disabled:"
+                  name="disabled"
+                  items={[
+                    { value: 'false', text: 'false' },
+                    { value: 'true', text: 'true' }
+                  ]}
+                />
+              );
+            } else if (propOption === 'disableElevation') {
+              return (
+                <FormSelector
+                  key={propOption}
+                  classes={classes}
+                  selectValue={setColor}
+                  onSelect={handleMUIChange}
+                  title="Disabled Elevation:"
+                  name="disableElevation"
+                  items={[
+                    { value: 'false', text: 'false' },
+                    { value: 'true', text: 'true' }
+                  ]}
+                />
+              );
+            } else if (propOption === 'disableFocusRipple') {
+              return (
+                <FormSelector
+                  key={propOption}
+                  classes={classes}
+                  selectValue={setColor}
+                  onSelect={handleMUIChange}
+                  title="Disabled Focus Ripple:"
+                  name="disableFocusRipple"
+                  items={[
+                    { value: 'false', text: 'false' },
+                    { value: 'true', text: 'true' }
+                  ]}
+                />
+              );
+            } else if (propOption === 'disableRipple') {
+              return (
+                <FormSelector
+                  key={propOption}
+                  classes={classes}
+                  selectValue={setColor}
+                  onSelect={handleMUIChange}
+                  title="Disabled Ripple:"
+                  name="disableRipple"
+                  items={[
+                    { value: 'false', text: 'false' },
+                    { value: 'true', text: 'true' }
+                  ]}
+                />
+              );
+            } else if (propOption === 'fullWidth') {
+              return (
+                <FormSelector
+                  key={propOption}
+                  classes={classes}
+                  selectValue={setColor}
+                  onSelect={handleMUIChange}
+                  title="Full Width:"
+                  name="fullWidth"
+                  items={[
+                    { value: 'false', text: 'false' },
+                    { value: 'true', text: 'true' }
+                  ]}
+                />
+              );
+            } else if (propOption === 'href') {
+              return (
+                <div className={classes.configRow}>
+                <div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                >
+                  <h3>href:</h3>
+                </div>
+                <div className={classes.configValue}>
+                  <FormControl className={classes.formControl}>
+                    <TextField
+                      name="href"
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      // value={BGColor}
+                      // onChange={handleChange}
+                      placeholder="www.reactype.dev"
+                    />
+                  </FormControl>
+                </div>
+              </div>
+              );
+            } else if (propOption === 'variant') {
+              return (
+                <FormSelector
+                  key={propOption}
+                  classes={classes}
+                  selectValue={setColor}
+                  onSelect={handleMUIChange}
+                  title="Variant:"
+                  name="variant"
+                  items={[
+                    { value: 'false', text: 'false' },
+                    { value: 'true', text: 'true' }
+                  ]}
+                />
+              );
+            } else {
+              return (
+                <Button
+                // key={propOption}
+                // onClick={() => console.log('Save button clicked')}
+                // variant="contained"
+                // endIcon={<Send />}
+                // sx={{ marginTop: '1rem' }}
+                >
+                  {propOption}
+                </Button>
+              );
+            }
+          })}
+      </div>
     </div>
   );
 };
@@ -165,6 +351,10 @@ const useStyles = makeStyles({
     '> .MuiSelect-icon': {
       color: '#C6C6C6'
     }
+  },
+  selectFieldWidth: {
+    width: '200px',
+    paddingLeft: '100px', 
   },
   selectInput: {
     paddingTop: '15px',
@@ -244,4 +434,18 @@ const useStyles = makeStyles({
 
 export default MUIProps;
 
+// console.log(configTarget.child.name);
+// console.log(configTarget.child);
+// console.log('config whatever', )
+// console.log('configTarget', configTarget);
+// console.log('muiComponent?', configTarget.children[1].typeId); // give the ID of the MUI component
+// set a variable to equal the index value of the component in the MUITypes array
+// const propsIndex = MUITypes.findIndex(
+//   (item) => item.name === configTarget.child.name
+// );
+// const childInstanceId = useSelector(state => state.canvasFocus.childId);
+// console.log(arrayOfState)
+// const matchedState = arrayOfState.filter((state) => MUITypes[propsIndex].propOptions.includes(state));
 
+// console.log(arrayOfState);
+// const arrayOfState = ['color'];
