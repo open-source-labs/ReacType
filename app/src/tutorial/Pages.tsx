@@ -5,10 +5,18 @@ import deletePage from '../../../resources/pages_images/DeletePage.png';
 import pagesPanel from '../../../resources/pages_images/PagesPanel.png';
 import pageSwapping from '../../../resources/pages_images/PagesSwapping.gif';
 
+/**
+ * Pages component displays tutorial for the functionality related to managing pages.
+ * 
+ * @param {object} props - Component props.
+ * @param {object} props.classes - CSS classes for styling.
+ * @param {Function} props.setPage - Function to set the current page.
+ * @returns {JSX.Element} Pages component JSX.
+ */
 const Pages: React.FC<{
   classes: any;
   setPage: Function;
-}> = ({ classes, setPage }) => {
+}> = ({ classes, setPage }): JSX.Element => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Pages</h1>

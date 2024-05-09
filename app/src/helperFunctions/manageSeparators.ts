@@ -11,9 +11,17 @@ const separator = {
   framework: '',
   nestable: true
 };
+/**
+ * Manages separators within an array of child elements.
+ */
 const manageSeparators: ManageSeparators = {
   nextTopSeparatorId: 1000,
-  // this function checks for two separators in a row or missing separators and adds/removes as needed
+  /**
+   * Checks for two separators in a row or missing separators and adds/removes as needed.
+   * @param arr - Array of child elements.
+   * @param str - String indicating the action performed ('delete' or 'change position').
+   * @returns The ID of the next top separator.
+   */
   handleSeparators: (arr, str) => {
     if (
       (str === 'delete' || str === 'change position') &&

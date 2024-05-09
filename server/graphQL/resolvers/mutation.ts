@@ -9,6 +9,16 @@ import { Projects, Users, Comments } from '../../models/reactypeModels';
  */
 
 const Project = {
+  /**
+   * Resolver function for adding likes to a project.
+   *
+   * @param {object} parent - The parent object.
+   * @param {object} args - The arguments passed to the resolver.
+   * @param {string} args.projId - The ID of the project to add likes to.
+   * @param {number} args.likes - The number of likes to add.
+   * @returns {Promise<object>} The updated project object.
+   * @throws {ApolloServerErrorCode} Throws an error if the project is not found.
+   */
   addLike: async (parent, { projId, likes }) => {
     const filter = { _id: projId };
     const update = { likes };
@@ -32,7 +42,17 @@ const Project = {
       }
     );
   },
-
+  /**
+   * Resolver function for making a copy of a project.
+   *
+   * @param {object} parent - The parent object.
+   * @param {object} args - The arguments passed to the resolver.
+   * @param {string} args.projId - The ID of the project to copy.
+   * @param {string} args.userId - The ID of the user making the copy.
+   * @param {string} args.username - The username of the user making the copy.
+   * @returns {Promise<object>} The copied project object.
+   * @throws {ApolloServerErrorCode} Throws an error if the project or user is not found.
+   */
   makeCopy: async (parent, { projId, userId, username }) => {
     const filter = { _id: projId };
     const target = await Projects.findOne(filter);
@@ -81,7 +101,15 @@ const Project = {
       }
     );
   },
-
+  /**
+   * Resolver function for deleting a project.
+   *
+   * @param {object} parent - The parent object.
+   * @param {object} args - The arguments passed to the resolver.
+   * @param {string} args.projId - The ID of the project to delete.
+   * @returns {Promise<object>} The deleted project object.
+   * @throws {ApolloServerErrorCode} Throws an error if the project is not found.
+   */
   deleteProject: async (parent, { projId }) => {
     const filter = { _id: projId };
     const options = { strict: true };
@@ -105,7 +133,16 @@ const Project = {
       }
     );
   },
-
+  /**
+   * Resolver function for publishing/unpublishing a project.
+   *
+   * @param {object} parent - The parent object.
+   * @param {object} args - The arguments passed to the resolver.
+   * @param {string} args.projId - The ID of the project to publish/unpublish.
+   * @param {boolean} args.published - The status indicating whether the project should be published or unpublished.
+   * @returns {Promise<object>} The updated project object.
+   * @throws {ApolloServerErrorCode} Throws an error if the project is not found.
+   */
   publishProject: async (parent, { projId, published }) => {
     const filter = { _id: projId };
     const update = { published };
@@ -129,7 +166,17 @@ const Project = {
       }
     );
   },
-
+  /**
+   * Resolver function for adding a comment to a project.
+   *
+   * @param {object} parent - The parent object.
+   * @param {object} args - The arguments passed to the resolver.
+   * @param {string} args.projId - The ID of the project to add the comment to.
+   * @param {string} args.comment - The comment text.
+   * @param {string} args.username - The username of the user adding the comment.
+   * @returns {Promise<object>} The updated project object with added comment.
+   * @throws {ApolloServerErrorCode} Throws an error if the project is not found.
+   */
   addComment: async (parent, { projId, comment, username }) => {
     const filter = { _id: projId };
     const options = { new: true };

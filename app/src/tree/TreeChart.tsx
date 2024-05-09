@@ -12,7 +12,26 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function TreeChart({ data }) {
+/**
+ * `TreeChart` is a React component that visualizes a tree structure using D3.js. It is designed to display
+ * hierarchical data related to the application's state components, such as UI elements or nested components.
+ * The component dynamically updates to reflect changes in the data or the component's dimensions.
+ *
+ * The visualization includes nodes represented by circles, connected by lines (links), with labels displaying
+ * the name of each node. It uses the `useResizeObserver` hook to react to changes in the container's size,
+ * ensuring the tree layout adjusts accordingly.
+ *
+ * @param {Object} props - Properties passed to the component.
+ * @param {Array} props.data - The hierarchical data used to generate the tree structure, typically derived from the application's state.
+ * @returns {JSX.Element} A responsive SVG element that renders the tree visualization inside a styled container.
+ *
+ * The component processes the incoming data to remove any unwanted items (like separators) and ensures that
+ * the structure is suitable for visualization. It uses D3's tree layout to calculate the positions of nodes
+ * and links based on the available space. This layout is responsive, adapting to changes in the container's size.
+ * The component integrates with Redux to access relevant parts of the application state and uses local state
+ * to manage modal dialogs and other UI elements.
+ */
+function TreeChart({ data }): JSX.Element {
   // data is components from state - passed in from BottomTabs
   const state = useSelector((store) => store.appState);
 

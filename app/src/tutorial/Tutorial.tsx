@@ -86,7 +86,14 @@ const useStyles = makeStyles({
   }
 });
 
-const Tutorial: React.FC<RouteComponentProps> = () => {
+/**
+ * Tutorial component displaying a list of topics with associated icons.
+ * Each topic is rendered as a card, and clicking on a card navigates to a specific tutorial page.
+ * Includes a close button to close the tutorial window.
+ * @param {RouteComponentProps} props - RouteComponentProps object containing match, location, and history props
+ * @returns {JSX.Element} - JSX element representing the Tutorial component
+ */
+const Tutorial: React.FC<RouteComponentProps> = (): JSX.Element => {
   const classes = useStyles();
   const topics = [
     'Pages',

@@ -9,6 +9,15 @@ import { Projects, Comments } from '../../models/reactypeModels';
 // https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
 
 const Project = {
+  /**
+   * Resolver function for retrieving a single project by ID.
+   *
+   * @param {object} parent - The parent object.
+   * @param {object} args - The arguments passed to the resolver.
+   * @param {string} args.projId - The ID of the project to retrieve.
+   * @returns {Promise<object>} The project object.
+   * @throws {ApolloServerErrorCode} Throws an error if the project is not found.
+   */
   getProject: async (parent, { projId }) => {
     const resp = await Projects.findOne({ _id: projId });
     if (resp) {
@@ -32,7 +41,15 @@ const Project = {
       }
     );
   },
-
+  /**
+   * Resolver function for retrieving all projects, optionally filtered by user ID.
+   *
+   * @param {object} parent - The parent object.
+   * @param {object} args - The arguments passed to the resolver.
+   * @param {string} args.userId - (Optional) The ID of the user to filter projects by.
+   * @returns {Promise<Array<object>>} An array of project objects.
+   * @throws {ApolloServerErrorCode} Throws an error if the user or projects are not found.
+   */
   getAllProjects: async (parent, { userId }) => {
     let resp = await Projects.find({});
     if (userId) {

@@ -14,23 +14,30 @@ import {
   getProjects,
   deleteProject
 } from '../../helperFunctions/projectGetSaveDel';
-import localforage from 'localforage';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setInitialState,
   initialState
 } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 export interface ProjectDialogProps {
   deleteAlert: () => void;
   open: boolean;
   projects: Array<Object>;
   onClose: () => void;
 }
-// The options to be rendered when dialog is open
-function ProjectsDialog(props: ProjectDialogProps) {
+
+/**
+ * Displays a dialog for deleting projects. It lists all user and marketplace projects with the option to delete them.
+ *
+ * @param {Object} props - The component props.
+ * @param {boolean} props.open - Controls if the dialog is open or not.
+ * @param {Array<Object>} props.projects - List of projects to display in the dialog.
+ * @param {Function} props.onClose - Function to call when the dialog needs to be closed.
+ * @param {Function} props.deleteAlert - Function to trigger an alert when a project is deleted.
+ * @returns {JSX.Element} The dialog component for project deletion.
+ */
+function ProjectsDialog(props: ProjectDialogProps): JSX.Element {
   const classes = useStyles();
   const { onClose, open, projects, deleteAlert } = props;
   const state = useSelector((store: RootState) => store.appState);
@@ -115,7 +122,12 @@ function ProjectsDialog(props: ProjectDialogProps) {
   );
 }
 
-export default function ProjectsFolder(props) {
+/**
+ * Manages the state and behavior for deleting projects. It triggers fetching projects and opens a dialog for their deletion.
+ *
+ * @returns {JSX.Element} - A component that provides a button to open the delete projects dialog and the dialog itself.
+ */
+export default function ProjectsFolder(props): JSX.Element {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([{ hello: 'cat' }]);
 

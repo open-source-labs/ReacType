@@ -21,7 +21,20 @@ const bull = (
   </Box>
 );
 
-const ProfilePage = () => {
+/**
+ * The ProfilePage component displays user-related information, such as the username and email,
+ * fetched from the local storage. It also provides links to resources like React documentation,
+ * MongoDB, and AWS SQL. The component is styled to fit a dark theme and includes several
+ * informational sections separated by dividers.
+ *
+ * This component is a part of a larger application that seems to provide users with resources
+ * to build and manage React applications, potentially integrating different databases and
+ * services.
+ *
+ * @returns {JSX.Element} A styled card containing user information, resource links, and
+ *                         descriptions of application capabilities.
+ */
+const ProfilePage = (): JSX.Element => {
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -94,7 +107,7 @@ const ProfilePage = () => {
             textTransform: 'capitalize',
             fontSize: '14px'
           }}
-          href="https://legacy.reactjs.org/tutorial/tutorial.html"
+          href="https://react.dev/learn"
         >
           React docs
         </Button>

@@ -3,7 +3,18 @@ import { Container, Grid } from '@mui/material';
 import MarketplaceCard from './MarketplaceCard';
 import React from 'react';
 
-const MarketplaceCardContainer = ({ displayProjects }) => {
+/**
+ * `MarketplaceCardContainer` is a React component that renders a container for `MarketplaceCard` components.
+ * It organizes project cards into a responsive grid layout. Each project is represented by a `MarketplaceCard` which
+ * displays the project's details and interactions such as cloning and opening.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array<Object>} props.displayProjects - An array of project objects to display. Each object contains details
+ * necessary for the `MarketplaceCard` component to function properly.
+ *
+ * @returns {JSX.Element} - A container that organizes project cards into a grid layout for display in the UI.
+ */
+const MarketplaceCardContainer = ({ displayProjects }): JSX.Element => {
   return (
     <>
       <Container>

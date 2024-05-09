@@ -6,7 +6,26 @@ import { Typography } from '@mui/material';
 // import { useSelector } from 'react-redux';
 // import { RootState } from '../../../../redux/store';
 
-const AddDataForm = ({ handleClickInputData, currentContext }) => {
+/**
+ * Renders a form to add key-value pairs to a specified context. The form includes two text fields for the key and value,
+ * and a button to submit the data. Upon submission, if any field is empty, an alert is shown; otherwise, the data is passed
+ * to the `handleClickInputData` callback function provided by the parent component.
+ *
+ * @param {{ handleClickInputData: Function, currentContext: string }} props
+ * - `handleClickInputData`: A function to handle the submission of key-value pairs. It takes the current context and an object with key and value.
+ * - `currentContext`: The name of the context to which the key-value pairs are being added. This is used when submitting the form.
+ *
+ * @returns {JSX.Element} A form with two text fields for entering a key and a value, and a button to submit the form.
+ *
+ * @example
+ * ```jsx
+ * <AddDataForm
+ *   handleClickInputData={(context, data) => console.log(context, data)}
+ *   currentContext="Example Context"
+ * />
+ * ```
+ */
+const AddDataForm = ({ handleClickInputData, currentContext }): JSX.Element => {
   //const [contextInput, setContextInput] = React.useState(null);
   const defaultInputData = { inputKey: '', inputValue: '' };
   const [dataContext, setDataContext] = React.useState(defaultInputData);

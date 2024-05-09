@@ -2,7 +2,27 @@ import React, { useState, useRef } from 'react';
 import Modal from '@mui/material/Modal';
 import TableStateProps from '../StateManagement/CreateTab/components/TableStateProps';
 
-function UseStateModal({ updateAttributeWithState, attributeToChange }) {
+/**
+ * A React component that provides a modal interface for linking state properties to component attributes.
+ * It displays a list of available state properties in a table format and allows the user to select one to associate
+ * with a specified attribute of a component. The modal can be opened by clicking a button and closed using a dedicated close button.
+ *
+ * @param {Object} props - Component props.
+ * @param {Function} props.updateAttributeWithState - Function to update the component attribute with the selected state property.
+ * @param {string} props.attributeToChange - The name of the attribute in the component to which the state is to be linked.
+ *
+ * State:
+ * - `open`: Boolean to control the visibility of the modal.
+ * - `stateKey`: Stores the key part of the state property being linked.
+ * - `statePropsId`: Stores the ID of the state property being linked.
+ * - `componentProviderId`: Stores the ID of the component that provides the state. Set initially to 1 and can be changed as needed.
+ *
+ * @returns {JSX.Element} A React element that renders a button to open the modal and the modal itself containing the TableStateProps component.
+ */
+function UseStateModal({
+  updateAttributeWithState,
+  attributeToChange
+}): JSX.Element {
   const [open, setOpen] = useState(false);
   const [stateKey, setStateKey] = useState('');
   const [statePropsId, setStatePropsId] = useState(-1);

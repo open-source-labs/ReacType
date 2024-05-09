@@ -24,6 +24,18 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * DragDropPanel is a component that renders a series of accordions each containing different
+ * types of draggable elements that can be used in a project. These include HTML elements, React Router components,
+ * and specific components for frameworks like Next.js if applicable. Each section allows users to interact with
+ * elements by dragging them into a canvas or other designated drop zones.
+ *
+ * Props:
+ * @param {Object} props - Contains properties passed down to the component.
+ * @param {boolean} props.isThemeLight - Indicates if the current theme is light, affecting the visual styling of the component.
+ *
+ * @returns {JSX.Element} A React component that renders various draggable item panels grouped in accordions.
+ */
 const DragDropPanel = (props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch();

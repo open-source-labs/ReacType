@@ -1,9 +1,17 @@
 import React from 'react';
 
+/**
+ * KeyboardShortcuts component displays tutorial for the keyboard shortcuts for Mac and Windows.
+ * 
+ * @param {object} props - Component props.
+ * @param {object} props.classes - CSS classes for styling.
+ * @param {Function} props.setPage - Function to set the current page.
+ * @returns {JSX.Element} KeyboardShortcuts component JSX.
+ */
 const KeyboardShortcuts: React.FC<{
   classes: any;
   setPage: Function;
-}> = ({ classes, setPage }) => {
+}> = ({ classes, setPage }): JSX.Element => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Keyboard Shortcuts</h1>

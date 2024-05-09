@@ -10,23 +10,17 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 
-// ------------------------------------------------
-
-/*
-N.B.: RENDERED ONLY IN NEXT.JS MODE
-
-DESCRIPTION: This is the box beneath the "Navigation" heading. It allows insertion of links
-  ("routing items") between pages (which are listed in the "Pages" menu, located above in the app).
-First, this component gathers all Pages (as listed in the Pages menu) and puts them in an
-  array of names of those Pages (navigableComponents). 
-Next, it sets route (hook state) to the first value in navigableComponents and checks whether
-  that value (referencedComponent) still exists in the app's central state (Redux). If it does,
-  the variable routeId is set to the id property of referencedComponent. If it doesn't,
-  referencedComponent is replaced by index (the only Page guaranteed to exist) in navigableComponents.
-Dragging works in the same manner as in ComponentPanelItem.tsx
-*/
-// a component panel routing item is a Next.js component that allows the user to navigate between pages
-const ComponentPanelRoutingItem: React.FC<{}> = () => {
+/**
+ * `ComponentPanelRoutingItem` represents a routing item in a component panel, specifically for Next.js mode.
+ * It facilitates the creation of navigational links between pages by providing a drag-and-drop interface.
+ * Users can select from a list of root components (pages) to set up navigation routes within the application.
+ *
+ * This component fetches root components from the Redux store, presents them in a dropdown for user selection,
+ * and enables dragging these as route links to be dropped into a design canvas.
+ *
+ * @returns {JSX.Element} A grid item that contains a dropdown of navigable components and supports drag-and-drop.
+ */
+const ComponentPanelRoutingItem: React.FC<{}> = (): JSX.Element => {
   const classes = useStyles();
   ('s there, ');
   const state = useSelector((store: RootState) => store.appState);

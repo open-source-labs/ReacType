@@ -10,6 +10,25 @@ import { Buffer } from 'buffer';
 import { Amplify, Storage } from 'aws-amplify';
 import awsconfig from '../../../src/custom-aws-exports';
 
+/**
+ * `MainContainer` is a React functional component that serves as the primary layout container for a UI application.
+ * It includes a canvas area managed by `CanvasContainer` and `DemoRender` components, and a bottom panel that
+ * can be shown or hidden based on user interactions. This component also handles screenshot capturing of the
+ * canvas area when triggered and uploads the screenshot to AWS S3.
+ *
+ * The component uses `useState` for local state management and `useRef` to reference DOM nodes. It integrates
+ * with Redux for state management across the app, particularly for managing screenshot triggers and application styles.
+ * It uses `html2canvas` for taking screenshots and AWS Amplify's Storage module to handle the upload to S3.
+ *
+ * @param {Object} props - Props passed to the component including `isThemeLight` to indicate the current theme.
+ * @returns {JSX.Element} - Renders the main container including the canvas area, demo renderer, and a dynamically
+ *                          visible bottom panel.
+ *
+ * The component listens for changes in the `screenshotTrigger` from the Redux store to initiate a screenshot,
+ * converts it to a Buffer, and uploads it to an AWS S3 bucket. It also includes an internal hook `useOutsideClick`
+ * to handle clicks outside the bottom panel to potentially close it. The layout style and transitions are managed
+ * based on the state of the `bottomShow` flag.
+ */
 const MainContainer = (props): JSX.Element => {
   const [bottomShow, setBottomShow] = useState(false);
   const dispatch = useDispatch();

@@ -3,10 +3,18 @@ import canvas1 from '../../../resources/canvas_tutorial_images/canvas1.png';
 import drag1 from '../../../resources/canvas_tutorial_images/drag1.gif';
 import undoRedo from '../../../resources/canvas_tutorial_images/undoRedo.gif';
 
+/**
+ * Canvas component displays tutorial for HTML elements, components, MUI Components of the prototype application.
+ * 
+ * @param {object} props - Component props.
+ * @param {object} props.classes - CSS classes for styling.
+ * @param {Function} props.setPage - Function to set the current page.
+ * @returns {JSX.Element} Canvas component JSX.
+ */
 const Canvas: React.FC<{
   classes: any;
   setPage: Function;
-}> = ({ classes, setPage }) => {
+}> = ({ classes, setPage }): JSX.Element => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Canvas</h1>

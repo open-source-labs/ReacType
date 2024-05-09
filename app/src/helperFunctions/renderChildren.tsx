@@ -10,10 +10,14 @@ import RouteLink from '../components/main/RouteLink';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
-// helper method to render all direct children of a component
-// direct children are clickable and draggable
-// direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
-// there are four types of direct children that can be rendered on the screen
+
+/**
+ * Renders all direct children of a component.
+ * Direct children are clickable and draggable.
+ * Direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable.
+ * @param {ChildElement[]} children - The array of child elements to render.
+ * @returns {React.ReactElement[]} - An array of React elements representing the rendered children.
+ */
 const renderChildren = (children: ChildElement[]) => {
   const state = useSelector((store: RootState) => store.appState);
 

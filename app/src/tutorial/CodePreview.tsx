@@ -1,10 +1,18 @@
 import React from 'react';
 import codePreview from '../../../resources/code_preview_images/CodePreview.png';
 
+/**
+ * CodePreview component displays tutorial for the code preview at the bottom center panel of the page.
+ * 
+ * @param {object} props - Component props.
+ * @param {object} props.classes - CSS classes for styling.
+ * @param {Function} props.setPage - Function to set the current page.
+ * @returns {JSX.Element} CodePreview component JSX.
+ */
 const CodePreview: React.FC<{
   classes: any;
   setPage: Function;
-}> = ({ classes, setPage }) => {
+}> = ({ classes, setPage }): JSX.Element => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Code Preview</h1>

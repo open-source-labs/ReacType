@@ -9,7 +9,17 @@ import { RootState } from '../../../../redux/store';
 import { ColumnTab } from '../../../../interfaces/Interfaces';
 import { emitEvent } from '../../../../helperFunctions/socket';
 
-const TablePassedInProps = (props) => {
+/**
+ * `TablePassedInProps` renders a data grid (using Material-UI's DataGrid) displaying properties passed into a component.
+ * It allows for the deletion of these properties through an interactive table interface. The component adapts its style based on the theme.
+ *
+ * @param {Object} props - Properties passed to the component.
+ * @param {boolean} props.isThemeLight - Indicates if the theme is light, affecting the styling of the DataGrid.
+ * @param {boolean} props.canDeleteState - Indicates whether the delete functionality should be enabled for passed-in properties.
+ *
+ * @returns {JSX.Element} A styled DataGrid component containing rows of passed-in properties with functionality to delete them.
+ */
+const TablePassedInProps = (props): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
