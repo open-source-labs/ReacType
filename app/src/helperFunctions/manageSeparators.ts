@@ -38,7 +38,8 @@ const manageSeparators: ManageSeparators = {
         arr.splice(index, 1); // removes extra separator from array
       }
       // check for duplicated separator at the end of array and remove it if separator is at the last index
-      if (arr[arr.length - 1].name === 'separator') arr.splice(arr.length - 1, 1);
+      if (arr[arr.length - 1].name === 'separator')
+        arr.splice(arr.length - 1, 1);
       // check for missing separators // cooment
       if (
         arr[index].name !== 'separator' &&
@@ -56,8 +57,7 @@ const manageSeparators: ManageSeparators = {
           events: {}, // Added
           stateProps: [], // Added
           passedInProps: [], // Added
-          children: [],
-          
+          children: []
         };
         // add a topSeparator before the element that does not have one
         arr.splice(index, 0, topSeparator);
@@ -77,7 +77,6 @@ const manageSeparators: ManageSeparators = {
       }
     }
     return manageSeparators.nextTopSeparatorId;
-
   },
 
   // this function replaces separators onto which an element is dropped with the element itself
@@ -86,20 +85,20 @@ const manageSeparators: ManageSeparators = {
       // Added additional nested types for lists
       if (
         (child.name === 'div' ||
-         child.name === 'form' ||
-         child.name === 'ol' ||
-         child.name === 'ul') &&
-         child?.children?.length
+          child.name === 'form' ||
+          child.name === 'ol' ||
+          child.name === 'ul') &&
+        child?.children?.length
       ) {
         const divContents = manageSeparators.mergeSeparator(
           child.children,
           index
-        )
+        );
         return { ...child, children: divContents };
       } else if (child.name === 'separator' && child?.children?.length) {
         return child.children[index];
       } else return child;
     });
   }
-}
+};
 export default manageSeparators;

@@ -8,11 +8,17 @@ const path = require('path');
 import {
   app,
   protocol,
+  net,
   BrowserWindow,
   session,
   ipcMain,
-  dialog
+  dialog,
+  webContents,
+  WebContents,
+  Event
 } from 'electron';
+import  * as fs  from 'fs'
+const{ default: axios } = require('axios')
 // The splash screen is what appears while the app is loading
 // const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 import { resolve } from 'app-root-path';
@@ -23,15 +29,15 @@ import { resolve } from 'app-root-path';
 // } = require('electron-devtools-installer');
 import debug from 'electron-debug';
 // import custom protocol in protocol.js
-import Protocol from './protocol';
+// import { scheme } from './protocol';
 // menu from another file to modularize the code
-
-import MenuBuilder from './menu';
-
+import { MenuBuilder } from './menu';
+import { string } from 'prop-types';
+import { hostname } from 'os';
+console.log('Main.ts has started');
 // mode that the app is running in
 const isDev =
-  import.meta.env.NODE_ENV === 'development' ||
-  import.meta.env.NODE_ENV === 'test';
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
 
@@ -45,7 +51,6 @@ let menuBuilder: any;
 async function createWindow() {
   // install react dev tools if we are in development mode
   // this will happen before creating the browser window. it returns a Boolean whether the protocol of scheme 'app://' was successfully registered and a file (index-prod.html) was sent as the response
-  protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler);
 
   // Create the browser window.
   win = new BrowserWindow({
@@ -74,10 +79,10 @@ async function createWindow() {
       // Electron API only available from preload, not loaded page
       contextIsolation: true,
       // disables remote module. critical for ensuring that rendering process doesn't have access to node functionality
-      enableRemoteModule: true,
+      // EnableRemoteModule: true is Deprecated
       // path of preload script. preload is how the renderer page will have access to electron functionality
-      preload: path.join(__dirname, 'preload.js'),
-      nativeWindowOpen: true
+      preload: path.join(__dirname, 'preload.js')
+      // nativeWindowOpen: true is Deprecated
     }
   });
 
@@ -101,7 +106,7 @@ async function createWindow() {
     win.loadURL(selfHost);
   } else {
     // load local file if in production
-    win.loadURL(`${Protocol.scheme}://rse/index-prod.html`);
+    win.loadURL(`app://rse/index-prod.html`);
   }
 
   // load page once window is loaded
@@ -159,11 +164,11 @@ async function createWindow() {
     .fromPartition(partition)
     .webRequest.onBeforeRequest(
       { urls: ['http://localhost./*'] },
-      (listener) => {
-        if (listener.url.indexOf('http://') >= 0) {
-          listener.callback({
-            cancel: true
-          });
+      (details, callback) => {
+        if (details.url.indexOf('http://') >= 0) {
+          callback({ cancel: true });
+        } else {
+          callback({});
         }
       }
     );
@@ -175,7 +180,7 @@ async function createWindow() {
 // https://electronjs.org/docs/api/protocol#protocolregisterschemesasprivilegedcustomschemes
 protocol.registerSchemesAsPrivileged([
   {
-    scheme: Protocol.scheme,
+    scheme: 'app',
     privileges: {
       standard: true,
       secure: true,
@@ -185,11 +190,32 @@ protocol.registerSchemesAsPrivileged([
   }
 ]);
 
+const DIST_PATH = path.join(__dirname, '../../app/dist')
+
+protocol.handle('app', (request) => {
+  const url = new URL(request.url);
+  const filePath = url.pathname;
+
+  // Construct the full path using DIST_PATH and requested file path
+  const fullPath = path.join(DIST_PATH, filePath);
+
+  // Fetch the resource and return a promise
+  return new Promise((resolve, reject) => {
+    net.fetch(fullPath)
+      .then((response) => {
+        // Resolve with the fetched response
+        resolve(response);
+      })
+      .catch((error) => {
+        // Reject with the error
+        reject(error);
+      });
+  });
+});
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
-
 // TRYING ELECTRON-WINDOW-MANAGER When the application is ready
 
 // Quit when all windows are closed.
@@ -209,130 +235,143 @@ app.on('activate', () => {
 // redirects are a common attack vector
 
 // after the contents of the webpage are rendered, set up event listeners on the webContents
-app.on('web-contents-created', (event, contents) => {
-  contents.on('will-navigate', (event, navigationUrl) => {
-    const parsedUrl = new URL(navigationUrl);
-    const validOrigins = [
-      selfHost,
-      //'https://reactype-1.herokuapp.com',
-      'https://reactype-caret.herokuapp.com',
-      `http://localhost:${DEV_PORT}`,
-      'https://reactype.herokuapp.com',
-      'https://github.com',
-      'https://nextjs.org',
-      'https://www.facebook.com',
-      'https://developer.mozilla.org',
-      'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com',
-      'null',
-      'app://rse/'
-    ];
-    // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
-    if (!validOrigins.includes(parsedUrl.origin)) {
-      console.error(
-        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted attempt to navigate was blocked.`
-      );
-      // if the requested URL is not in the whitelisted array, then don't navigate there
-      event.preventDefault();
-    }
-  });
+app.on(
+  'web-contents-created',
+  (event: Electron.Event, contents: Electron.WebContents) => {
+    contents.on(
+      'will-navigate',
+      (event: Electron.Event, navigationUrl: string) => {
+        const parsedUrl = new URL(navigationUrl);
+        const validOrigins = [
+          selfHost,
+          //'https://reactype-1.herokuapp.com',
+          'https://reactype-caret.herokuapp.com',
+          `http://localhost:${DEV_PORT}`,
+          'https://reactype.herokuapp.com',
+          'https://github.com',
+          'https://nextjs.org',
+          'https://www.facebook.com',
+          'https://developer.mozilla.org',
+          'https://www.smashingmagazine.com',
+          'https://www.html5rocks.com',
+          'null',
+          'app://rse/'
+        ];
+        // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
+        if (!validOrigins.includes(parsedUrl.origin)) {
+          console.error(
+            `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted attempt to navigate was blocked.`
+          );
+          // if the requested URL is not in the whitelisted array, then don't navigate there
+          event.preventDefault();
+        }
+      }
+    );
 
-  contents.on('will-redirect', (event, navigationUrl) => {
-    const parsedUrl = new URL(navigationUrl);
-    const validOrigins = [
-      selfHost,
-      //'https://reactype-1.herokuapp.com/',
-      'https://reactype-caret.herokuapp.com',
-      `http://localhost:${DEV_PORT}`,
-      'https://reactype.herokuapp.com',
-      'https://github.com',
-      'https://nextjs.org',
-      'https://developer.mozilla.org',
-      'https://www.facebook.com',
-      'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com',
-      'app://rse/',
-      'null'
-    ];
-    // Log and prevent the app from redirecting to a new page
-    if (
-      !validOrigins.includes(parsedUrl.origin) &&
-      !validOrigins.includes(parsedUrl.href)
-    ) {
-      console.error(
-        `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`
-      );
+    contents.on(
+      'will-redirect',
+      (event: Electron.Event, navigationUrl: string) => {
+        const parsedUrl = new URL(navigationUrl);
+        const validOrigins = [
+          selfHost,
+          //'https://reactype-1.herokuapp.com/',
+          'https://reactype-caret.herokuapp.com',
+          `http://localhost:${DEV_PORT}`,
+          'https://reactype.herokuapp.com',
+          'https://github.com',
+          'https://nextjs.org',
+          'https://developer.mozilla.org',
+          'https://www.facebook.com',
+          'https://www.smashingmagazine.com',
+          'https://www.html5rocks.com',
+          'app://rse/',
+          'null'
+        ];
+        // Log and prevent the app from redirecting to a new page
+        if (
+          !validOrigins.includes(parsedUrl.origin) &&
+          !validOrigins.includes(parsedUrl.href)
+        ) {
+          console.error(
+            `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`
+          );
 
-      event.preventDefault();
-    }
-  });
+          event.preventDefault();
+        }
+      }
+    );
 
-  // https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation
-  // The web-view is used to embed guest content in a page
-  // This event listener deletes web-views if they happen to occur in the app
-  // https://www.electronjs.org/docs/api/web-contents#event-will-attach-webview
-  contents.on('will-attach-webview', (event, webPreferences, params) => {
-    // Strip away preload scripts if unused or verify their location is legitimate
-    delete webPreferences.preload;
-    delete webPreferences.preloadURL;
+    // https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation
+    // The web-view is used to embed guest content in a page
+    // This event listener deletes web-views if they happen to occur in the app
+    // https://www.electronjs.org/docs/api/web-contents#event-will-attach-webview
+    contents.on(
+      'will-attach-webview',
+      (event: Electron.Event, webPreferences: Electron.WebPreferences) => {
+        // Strip away preload scripts if unused or verify their location is legitimate
+        delete webPreferences.preload;
 
-    // Disable Node.js integration
-    webPreferences.nodeIntegration = false;
-  });
+        // Disable Node.js integration
+        webPreferences.nodeIntegration = false;
+      }
+    );
 
-  // https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows
-  contents.on('new-window', async (event, navigationUrl) => {
-    // Log and prevent opening up a new window
-    const parsedUrl = new URL(navigationUrl);
-    const validOrigins = [
-      selfHost,
-      //'https://reactype-1.herokuapp.com/',
-      'https://reactype-caret.herokuapp.com',
-      `http://localhost:${DEV_PORT}`,
-      'https://reactype.herokuapp.com',
-      'https://nextjs.org',
-      'https://developer.mozilla.org',
-      'https://github.com',
-      'https://www.facebook.com',
-      'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com',
-      'null',
-      'app://rse/'
-    ];
-    // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
-    if (!validOrigins.includes(parsedUrl.origin)) {
-      console.error(
-        `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`
-      );
-      // if the requested URL is not in the whitelisted array, then don't navigate there
-      event.preventDefault();
-    }
-  });
-});
+    // https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows
+    contents.setWindowOpenHandler(({ url }) => {
+      // Log and prevent opening up a new window
+      const parsedUrl = new URL(url);
+      const validOrigins = [
+        selfHost,
+        //'https://reactype-1.herokuapp.com/',
+        'https://reactype-caret.herokuapp.com',
+        `http://localhost:${DEV_PORT}`,
+        'https://reactype.herokuapp.com',
+        'https://nextjs.org',
+        'https://developer.mozilla.org',
+        'https://github.com',
+        'https://www.facebook.com',
+        'https://www.smashingmagazine.com',
+        'https://www.html5rocks.com',
+        'null',
+        'app://rse/'
+      ];
+      // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
+      if (!validOrigins.includes(parsedUrl.origin)) {
+        console.error(
+          `The application tried to open a new window at the following address: '${url}'. This attempt was blocked.`
+        );
+        // if the requested URL is not in the whitelisted array, then don't navigate there
+        return { action: 'deny' };
+      }
+      return { action: 'allow' };
+    });
+  }
+);
 
 // Filter loading any module via remote;
 // you shouldn't be using remote at all, though
 // https://electronjs.org/docs/tutorial/security#16-filter-the-remote-module
-app.on('remote-require', (event, webContents, moduleName) => {
-  event.preventDefault();
-});
+// commented out due to lack of remote usage / deprecation / all this code does is prevent the usage of remote.
+// app.on('remote-require', (event, webContents, moduleName) => {
+//   event.preventDefault();
+// });
 
-// built-ins are modules such as "app"
-app.on('remote-get-builtin', (event, webContents, moduleName) => {
-  event.preventDefault();
-});
+// // built-ins are modules such as "app"
+// app.on('remote-get-builtin', (event, webContents, moduleName) => {
+//   event.preventDefault();
+// });
 
-app.on('remote-get-global', (event, webContents, globalName) => {
-  event.preventDefault();
-});
+// app.on('remote-get-global', (event, webContents, globalName) => {
+//   event.preventDefault();
+// });
 
-app.on('remote-get-current-window', (event, webContents) => {
-  event.preventDefault();
-});
+// app.on('remote-get-current-window', (event, webContents) => {
+//   event.preventDefault();
+// });
 
-app.on('remote-get-current-web-contents', (event, webContents) => {
-  event.preventDefault();
-});
+// app.on('remote-get-current-web-contents', (event, webContents) => {
+//   event.preventDefault();
+// });
 
 // When a user selects "Export project", a function (chooseAppDir loaded via preload.js)
 // is triggered that sends a "choose_app_dir" message to the main process
@@ -384,128 +423,180 @@ ipcMain.on('delete_cookie', (event) => {
 });
 
 // opens new window for github oauth when button on sign in page is clicked
-ipcMain.on('github', (event) => {
-  const githubURL = isDev
-    ? `http://localhost:${DEV_PORT}/auth/github`
-    : `https://reactype-caret.herokuapp.com/auth/github`;
+// ipcMain.on('github', (event) => {
+//   const githubURL = isDev
+//     ? `http://localhost:${DEV_PORT}/auth/github`
+//     : `https://reactype-caret.herokuapp.com/auth/github`;
+//   const options = {
+//     client_id: process.env.GITHUB_CLIENT,
+//     client_secret: process.env.GITHUB_SECRET,
+//     scopes: ['user:email', 'notifications']
+//   };
+//   // create new browser window object with size, title, security options
+//   const github: BrowserWindow | null = new BrowserWindow({
+//     width: 800,
+//     height: 600,
+//     title: 'Github Oauth',
+//     webPreferences: {
+//       nodeIntegration: true,
+//       nodeIntegrationInWorker: false,
+//       nodeIntegrationInSubFrames: false,
+//       contextIsolation: true,
+//       zoomFactor: 1.0
+//     }
+//   });
+
+//   github.loadURL(githubURL);
+//   github.show();
+//   const handleCallback = (url) => {
+//     const raw_code = /code=([^&]\*)/.exec(url) || null;
+//     const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
+//     const error = /\?error=(.+)\$/.exec(url);
+
+//     if (code || error) {
+//       // Close the browser if code found or error
+//       github.destroy();
+//     }
+
+//     // If there is a code, proceed to get token from github
+//     if (code) {
+//       self.requestGithubToken(options, code);
+//     } else if (error) {
+//       alert(
+//         "Oops! Something went wrong and we couldn't" +
+//           'log you in using Github. Please try again.'
+//       );
+//     }
+//   };
+
+//   github.webContents.on('will-navigate', (e, url) => handleCallback(url));
+
+//   github.webContents.on('did-finish-load', (e, url, a, b) => {
+//     github.webContents.selectAll();
+//   });
+
+//   github.webContents.on(
+//     'will-redirect',
+//     (event: Electron.Event, callbackUrl: string): void =>
+//       handleCallback(callbackUrl)
+//   );
+//   // Reset the authWindow on close
+//   github.on('close', () => {
+//     github = null;
+//   });
+
+//   // if final callback is reached and we get a redirect from server back to our app, close oauth window
+//   github.webContents.on('will-redirect', (e, callbackUrl) => {
+//     const matches = callbackUrl.match(/(?<=\?=).*/);
+//     const ssid = matches ? matches[0] : '';
+//     callbackUrl = callbackUrl.replace(/\?=.*/, '');
+//     let redirectUrl = 'app://rse/';
+//     if (isDev) {
+//       redirectUrl = 'http://localhost:8080/';
+//     }
+
+//     if (callbackUrl === redirectUrl) {
+//       dialog.showMessageBox({
+//         type: 'info',
+//         title: 'ReacType',
+//         icon: resolve('app/src/public/icons/png/256x256.png'),
+//         message: 'Github Oauth Successful!'
+//       });
+//       github.close();
+//       win!.webContents
+//         .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
+//         .then((result) => win!.loadURL(`${redirectUrl}`))
+//         .catch((err) => console.log(err));
+//     }
+//   });
+// });
+// updated github OAuth
+ipcMain.on('github', (event, webContents: WebContents) => {
+  const githubAuthURL = 'https://github.com/login/oauth/authorize';
+  const githubTokenURL = 'https://github.com/login/oauth/access_token';
+
   const options = {
-    client_id: import.meta.env.GITHUB_ID,
-    client_secret: import.meta.env.GITHUB_SECRET,
-    scopes: ['user:email', 'notifications']
+    client_id: process.env.GITHUB_CLIENT,
+    client_secret: process.env.GITHUB_SECRET,
+    redirect_uri: isDev ? 'http://localhost:8080/' : 'app://rse/', // Your redirect URL
+    scopes: ['user:email', 'notifications'],
   };
-  // create new browser window object with size, title, security options
-  const github = new BrowserWindow({
+
+  const authWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    title: 'Github Oauth',
+    title: 'GitHub OAuth',
     webPreferences: {
-      nodeIntegration: true,
-      nodeIntegrationInWorker: false,
-      nodeIntegrationInSubFrames: false,
+      nodeIntegration: false,
       contextIsolation: true,
-      enableRemoteModule: true,
-      zoomFactor: 1.0
-    }
+    },
   });
 
-  github.loadURL(githubURL);
-  github.show();
-  const handleCallback = (url) => {
-    const raw_code = /code=([^&]\*)/.exec(url) || null;
-    const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
-    const error = /\?error=(.+)\$/.exec(url);
+  const authURL = `${githubAuthURL}?client_id=${options.client_id}&scope=${options.scopes.join(',')}`;
+  authWindow.loadURL(authURL);
 
-    if (code || error) {
-      // Close the browser if code found or error
-      github.destroy();
-    }
+  authWindow.webContents.on('will-redirect', async (event, url) => {
+    const rawCode = /code=([^&]*)/.exec(url) || null;
+    const code = rawCode && rawCode.length > 1 ? rawCode[1] : null;
+    const error = /\?error=(.+)$/.exec(url);
 
-    // If there is a code, proceed to get token from github
     if (code) {
-      self.requestGithubToken(options, code);
+      try {
+        const { data } = await axios.post(githubTokenURL, {
+          code,
+          client_id: options.client_id,
+          client_secret: options.client_secret,
+          redirect_uri: options.redirect_uri,
+        });
+
+        const accessToken = data.access_token;
+        // Store accessToken securely
+        webContents.send('github-auth-success', accessToken);
+      } catch (error) {
+        // Handle error
+        console.error('Error exchanging code for token:', error);
+        webContents.send('github-auth-failure');
+      }
     } else if (error) {
-      alert(
-        "Oops! Something went wrong and we couldn't" +
-          'log you in using Github. Please try again.'
-      );
-    }
-  };
-
-  github.webContents.on('will-navigate', (e, url) => handleCallback(url));
-
-  github.webContents.on('did-finish-load', (e, url, a, b) => {
-    github.webContents.selectAll();
-  });
-
-  github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) =>
-    handleCallback(newUrl)
-  );
-
-  // Reset the authWindow on close
-  github.on('close', () => (authWindow = null), false);
-
-  // if final callback is reached and we get a redirect from server back to our app, close oauth window
-  github.webContents.on('will-redirect', (e, callbackUrl) => {
-    const matches = callbackUrl.match(/(?<=\?=).*/);
-    const ssid = matches ? matches[0] : '';
-    callbackUrl = callbackUrl.replace(/\?=.*/, '');
-    let redirectUrl = 'app://rse/';
-    if (isDev) {
-      redirectUrl = 'http://localhost:8080/';
+      // Handle error
+      console.error('Error during GitHub OAuth:', error[1]);
+      webContents.send('github-auth-failure');
     }
 
-    if (callbackUrl === redirectUrl) {
-      dialog.showMessageBox({
-        type: 'info',
-        title: 'ReacType',
-        icon: resolve('app/src/public/icons/png/256x256.png'),
-        message: 'Github Oauth Successful!'
-      });
-      github.close();
-      win!.webContents
-        .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
-        .then((result) => win!.loadURL(`${redirectUrl}`))
-        .catch((err) => console.log(err));
-    }
+    authWindow.close();
   });
 });
 
-ipcMain.on('tutorial', (event) => {
-  // create new browser window object with size, title, security options
-  const tutorial = new BrowserWindow({
-    width: 800,
-    height: 600,
-    minWidth: 661,
-    title: 'Tutorial',
-    webPreferences: {
-      nodeIntegration: true,
-      nodeIntegrationInWorker: false,
-      nodeIntegrationInSubFrames: false,
-      contextIsolation: true,
-      enableRemoteModule: true,
-      zoomFactor: 1.0
-    }
-  });
-  // redirects to relevant server endpoint
-  github.loadURL(`${serverUrl}/github`);
-  // show window
-  tutorial.show();
-  // if final callback is reached and we get a redirect from server back to our app, close oauth window
-  github.webContents.on('will-redirect', (e, callbackUrl) => {
-    let redirectUrl = 'app://rse/';
-    if (isDev) {
-      redirectUrl = 'http://localhost:8080/';
-    }
-    if (callbackUrl === redirectUrl) {
-      dialog.showMessageBox({
-        type: 'info',
-        title: 'ReacType',
-        icon: resolve('app/src/public/icons/png/256x256.png'),
-        message: 'Github Oauth Successful!'
-      });
-      github.close();
-    }
-  });
-});
+// ipcMain.on('openTutorialWindow', (event) => {
+//   // create new browser window object with size, title, security options
+//   const tutorial = new BrowserWindow({
+//     width: 800,
+//     height: 600,
+//     minWidth: 661,
+//     title: 'Tutorial',
+//     webPreferences: {
+//       nodeIntegration: true,
+//       nodeIntegrationInWorker: false,
+//       nodeIntegrationInSubFrames: false,
+//       contextIsolation: true,
+//       zoomFactor: 1.0
+//     }
+//   });
+//   // redirects to relevant server endpoint
+//   tutorial.loadURL(`${serverUrl}/github`);
+//   // show window
+//   tutorial.show();
+//   // if final callback is reached and we get a redirect from server back to our app, close oauth window
+//   tutorial.webContents.on('will-redirect', (e, callbackUrl) => {
+//     let redirectUrl = 'app://rse/';
+//     if (isDev) {
+//       redirectUrl = 'http://localhost:8080/';
+//     }
+//     if (callbackUrl === redirectUrl) {
+//       event.sender.send('showOAuthSuccessMessage');
+//       tutorial.close();
+//     }
+//   });
+// });
 
 module.exports = dialog;

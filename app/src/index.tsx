@@ -5,7 +5,7 @@ import {
   Redirect,
   Route,
   HashRouter as Router,
-  Switch
+  Switch,
 } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -66,11 +66,17 @@ const PrivateRoute = ({ component: Component, ...rest }): React.ReactNode => {
       },
       credentials: 'include'
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(!res.ok){
+          throw new Error('Network Response was not ok')
+        }
+        return res.json();
+      })
       .then((data) => {
         setIsLoggedIn(data);
       })
-      .catch((err) => console.log(`Error getting project ${err}`));
+      .catch((err) => { 
+        console.log(`Error getting project ${err}`)});
   }, []);
 
   return (
@@ -82,7 +88,7 @@ const PrivateRoute = ({ component: Component, ...rest }): React.ReactNode => {
           window.localStorage.getItem('ssid') === 'guest'
         ) {
           return <Component {...props} />;
-        } else if (isLoggedIn !== null) {
+        } else if (isLoggedIn === false || isLoggedIn !== null) {
           return <Redirect to="/login" />;
         }
       }}
@@ -109,9 +115,9 @@ ReactDOM.render(
             <PrivateRoute exact path="/" component={App} />
           </DndProvider>
           <Route exact path="/dashboard" component={ProjectDashboard} />
-          <Route exact path="/tutorial" component={Tutorial} />
-          <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
         </Switch>
+        <Route exact path="/tutorial" component={Tutorial} />
+        <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
       </Router>
     </Provider>
   </ApolloProvider>,

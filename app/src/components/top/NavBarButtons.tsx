@@ -14,7 +14,6 @@ import ProjectsFolder from '../right/OpenProjects';
 import { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import serverConfig from '../../serverConfig.js';
-
 import createModal from '../right/createModal';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -106,7 +105,6 @@ const StyledMenuItem = withStyles((theme) => ({
  */
 const navbarDropDown = (props): JSX.Element => {
   const dispatch = useDispatch();
-
   const [modal, setModal] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
@@ -121,6 +119,8 @@ const navbarDropDown = (props): JSX.Element => {
   const closeModal = () => setModal('');
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+
+    props.setDropDownMenu(true)
   };
 
   const clearWorkspace = () => {
@@ -204,7 +204,7 @@ const navbarDropDown = (props): JSX.Element => {
 
   return (
     <div data-testid="navDropDown" ref={ref} className={showMenu}>
-      <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
+      <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank"> 
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"

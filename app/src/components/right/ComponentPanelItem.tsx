@@ -76,9 +76,9 @@ const ComponentPanelItem: React.FC<{
         borderRadius: '10px',
         borderColor: '#2D313A',
         margin: '5px 0px',
-        width: '10rem', 
-        height: '3rem', 
-        position: 'relative',
+        width: '10rem',
+        height: '3rem',
+        position: 'relative'
       }}
     >
       {isFocus && <div className={classes.focusMark}></div>}
@@ -101,16 +101,16 @@ const ComponentPanelItem: React.FC<{
 const useStyles = makeStyles({
   nameContainer: {
     display: 'flex',
-    alignItems: 'center', 
+    alignItems: 'center'
   },
   focusMark: {
-    border: '2px solid #0671e3', 
-    borderRadius: '5%', 
-    position: 'absolute', 
-    top: '0', 
-    left: '0', 
-    right: '0', 
-    bottom: '0',  
+    border: '2px solid #0671e3',
+    borderRadius: '5%',
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0'
   },
   lightTheme: {
     color: 'rgba (0, 0, 0, 0.54)'

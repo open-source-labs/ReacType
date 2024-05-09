@@ -7,7 +7,7 @@ import pageSwapping from '../../../resources/pages_images/PagesSwapping.gif';
 
 /**
  * Pages component displays tutorial for the functionality related to managing pages.
- * 
+ *
  * @param {object} props - Component props.
  * @param {object} props.classes - CSS classes for styling.
  * @param {Function} props.setPage - Function to set the current page.
@@ -45,10 +45,11 @@ const Pages: React.FC<{
       <div className={classes.imgWrapper}>
         <img src={pageSwapping} className={classes.smallImg} />
       </div>
-      
+
       <hr />
       <p className={classes.text}>
-        Delete the selected page by simply clicking the delete button below the style attribute dropdowns.
+        Delete the selected page by simply clicking the delete button below the
+        style attribute dropdowns.
       </p>
       <div className={classes.imgWrapper}>
         <img src={deletePage} />
