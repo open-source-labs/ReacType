@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime'; // if there is an error with moduleNameMapper, npm -S install regenerator-runtime
+// import 'regenerator-runtime/runtime'; // if there is an error with moduleNameMapper, npm -S install regenerator-runtime
 
 //const { Application } = require('spectron');
 // const electronPath = require('electron');

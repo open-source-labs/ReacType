@@ -1,7 +1,9 @@
-import reducer from '../app/src/redux/reducers/slice/appStateSlice';
-import { initialState } from '../app/src/redux/reducers/slice/appStateSlice';
+/* eslint-disable quotes */
+import { describe, it, expect } from 'vitest';
+// import reducer from '../app/src/redux/reducers/slice/appStateSlice.ts';
+import reducer, { initialState } from '../app/src/redux/reducers/slice/appStateSlice.ts';
 
-//initializing copy of initial state to be used for test suite
+// initializing copy of initial state to be used for test suite
 let state = JSON.parse(JSON.stringify(initialState));
 state.components = [
   {
@@ -17,7 +19,7 @@ state.components = [
         childId: 1000,
         style: { border: 'none' },
         attributes: {},
-        children: []
+        children: [],
       },
       {
         type: 'Component',
@@ -28,16 +30,16 @@ state.components = [
         attributes: {},
         children: [],
         stateProps: [],
-        passedInProps: []
-      }
+        passedInProps: [],
+      },
     ],
     isPage: true,
     past: [[]],
     future: [],
     stateProps: [],
     useStateCodes: [
-      'const [appState, setAppState] = useState<number | undefined>(1)'
-    ]
+      'const [appState, setAppState] = useState<number | undefined>(1)',
+    ],
   },
   {
     id: 2,
@@ -52,13 +54,11 @@ state.components = [
     future: [],
     stateProps: [],
     useStateCodes: [],
-    passedInProps: []
-  }
+    passedInProps: [],
+  },
 ];
 
-const findComponent = (components, componentId) => {
-  return components.find((elem) => elem.id === componentId);
-};
+const findComponent = (c, componentId) => c.find((elem) => elem.id === componentId);
 
 describe('stateManagementReducer test', () => {
   // TEST 'ADD STATE'
@@ -73,23 +73,23 @@ describe('stateManagementReducer test', () => {
           id: 'App-testAppState',
           key: 'testAppState',
           type: 'number',
-          value: 1
+          value: 1,
         },
         setNewState: {
           id: 'App-setTestAppState',
           key: 'setTestAppState',
           type: 'func',
-          value: ''
+          value: '',
         },
         contextParam: {
-          allContext: []
-        }
-      }
+          allContext: [],
+        },
+      },
     };
 
     // setting test state
     state = reducer(state, action1);
-    let currComponent = findComponent(state.components, 1);
+    const currComponent = findComponent(state.components, 1);
 
     it('should add state and its setter function to the stateProps array of the current component', () => {
       expect(currComponent.stateProps.length).toEqual(2);
@@ -126,18 +126,18 @@ describe('stateManagementReducer test', () => {
           id: 'App-testAppState2',
           key: 'isLoggedIn',
           type: 'boolean',
-          value: 'false'
+          value: 'false',
         },
         setNewState: {
           id: 'App-setTestAppState2',
           key: 'setIsLoggedIn',
           type: 'func',
-          value: ''
+          value: '',
         },
         contextParam: {
-          allContext: []
-        }
-      }
+          allContext: [],
+        },
+      },
     };
 
     state = reducer(state, action2);
@@ -166,12 +166,12 @@ describe('stateManagementReducer test', () => {
           id: 'App-testAppState',
           key: 'testAppState',
           type: 'number',
-          value: 1
+          value: 1,
         },
         contextParam: {
-          allContext: []
-        }
-      }
+          allContext: [],
+        },
+      },
     };
 
     // setting test state
@@ -191,18 +191,18 @@ describe('stateManagementReducer test', () => {
     it(`current component should have a state value type: 'number'`, () => {
       expect(currComponent.passedInProps[0].type).toEqual('number');
     });
-    //check parent children array to make sure it is being added here as well
+    // check parent children array to make sure it is being added here as well
     it(`parent component 'passedInProps' array length should be 1`, () => {
       expect(currComponent.passedInProps.length).toEqual(1);
     });
     it(`parent component should have a state id: 'App-testAppState' `, () => {
       expect(parentComponent.children[1].passedInProps[0].id).toEqual(
-        'App-testAppState'
+        'App-testAppState',
       );
     });
     it(`parent component should have a state key: 'testAppState' `, () => {
       expect(parentComponent.children[1].passedInProps[0].key).toEqual(
-        'testAppState'
+        'testAppState',
       );
     });
     it(`parent component should have a state value equal to 1`, () => {
@@ -210,7 +210,7 @@ describe('stateManagementReducer test', () => {
     });
     it(`parent component should have a state value type: 'number'`, () => {
       expect(parentComponent.children[1].passedInProps[0].type).toEqual(
-        'number'
+        'number',
       );
     });
   });
@@ -228,9 +228,9 @@ describe('stateManagementReducer test', () => {
         payload: {
           rowId: 'App-testAppState',
           contextParam: {
-            allContext: []
-          }
-        }
+            allContext: [],
+          },
+        },
       };
 
       // setting test state
@@ -258,9 +258,9 @@ describe('stateManagementReducer test', () => {
           rowId: 'App-appState',
           otherId: 'App-setAppState',
           contextParam: {
-            allContext: []
-          }
-        }
+            allContext: [],
+          },
+        },
       };
 
       // setting intial test state
@@ -270,14 +270,14 @@ describe('stateManagementReducer test', () => {
           id: 'App-appState',
           key: 'appState',
           type: 'number',
-          value: 1
+          value: 1,
         },
         {
           id: 'App-setAppState',
           key: 'setAppState',
           type: 'func',
-          value: ''
-        }
+          value: '',
+        },
       ];
 
       let childComponent = findComponent(state.components, 2);
@@ -286,14 +286,14 @@ describe('stateManagementReducer test', () => {
           id: 'App-appState',
           key: 'appState',
           type: 'number',
-          value: 1
+          value: 1,
         },
         {
           id: 'App-setAppState',
           key: 'setAppState',
           type: 'func',
-          value: ''
-        }
+          value: '',
+        },
       ];
 
       // updating components after state updates
