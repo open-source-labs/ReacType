@@ -74,7 +74,7 @@ if (process.env.NODE_ENV == 'production') {
 // NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
 
 const passport = require('passport');
-const passportSetup = require('./routers/passport-setup');
+// const passportSetup = require('./routers/passport-setup');
 const session = require('express-session');
 import authRoutes from './routers/auth';
 
@@ -569,12 +569,11 @@ app.get(
 //     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
 //   });
 // }
-
-// app.get('/test', (req, res) => {
-//   res.send('test request is working');
-// });
-
-app.use('/*', (req, res) => res.status(404).send('Page not found'));
+if(isTest){
+app.get('/test', (req, res) => {
+  res.send('test request is working');
+});
+};
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -587,6 +586,8 @@ app.use((err, req, res, next) => {
   const errorObj = Object.assign({}, defaultErr, err);
   return res.status(errorObj.status).json(errorObj);
 });
+
+app.use('/*', (req, res) => res.status(404).send('Page not found'));
 
 // starts server on PORT
 if (!isTest) {

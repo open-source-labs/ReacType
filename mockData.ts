@@ -7,7 +7,7 @@ const mockObj = {
     username: 'test',
     email: 'test@gmail.com',
     password: 'password1!',
-    userId: '64f551e5b28d5292975e08c8'
+    userId: '663e974c97c5dfbf7d204e78'
   },
 
   state: {
@@ -35,13 +35,10 @@ const mockObj = {
   },
 
   projectToSave: {
-    _id: '',
     name: 'super test project',
-    userId: '64f551e5b28d5292975e08c8',
-    username: 'test',
     forked: false,
+    likes: 0,
     published: false,
-    isLoggedIn: false,
     project: {
       name: 'test',
       isLoggedIn: false,
@@ -64,7 +61,14 @@ const mockObj = {
       tailwind: false,
       stylesheet: '', 
       codePreview: false, 
-    }
+    },
+    userId: {
+      "$oid": "663e974c97c5dfbf7d204e78"
+    },
+    username: 'test',
+    createdAt: Date.now(),
+    isLoggedIn: false,
+    comments: [],
   },
 //The following is for graphQL
   GET_PROJECTS: `query GetAllProjects($userId: ID) {
