@@ -95,17 +95,14 @@ const DemoRender = (): JSX.Element => {
   const currComponent = state.components.find(
     (element) => element.id === state.canvasFocus.componentId
   );
-  console.log('currComponent', currComponent);
 
   /**
    * Builds the code variable based on the current component's children.
    */
   componentBuilder(currComponent.children).forEach((element) => {
     if (typeof element === 'string') {
-      console.log('element', element);
       code += element;
     } else if (React.isValidElement(element)) {
-      console.log('valid react element', element);
       try {
         const reactDomStringRender = ReactDOMServer.renderToString(element);
         code += reactDomStringRender;
