@@ -10,21 +10,22 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { emitEvent } from '../../helperFunctions/socket';
 
-/*
-DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
-  Elements' header. The boxes containing each HTML element are rendered in
-  HTMLItem, which itself is rendered by this component.
- 
-  !!! TO NAME HTML ELEMENTS in the LEFT panel !!!
-
-Central state contains all available HTML elements (stored in the HTMLTypes property).
-  The data for HTMLTypes is stored in HTMLTypes.tsx and is added to central state in
-  initialState.tsx.
-
-Hook state:
-  -tag: 
-*/
-
+/**
+ * Provides a user interface for creating custom HTML elements in the application. It includes
+ * input fields for the HTML tag and element name, validations for these inputs, and submission handling
+ * to add new elements to the Redux store. It also handles error messages and displays a snackbar for success notifications.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {boolean} props.isThemeLight - Indicates if the theme is light or dark for styling purposes.
+ *
+ * @returns {JSX.Element} The HTMLPanel component.
+ *
+ * @example
+ * ```jsx
+ * <HTMLPanel isThemeLight={true} />
+ * ```
+ */
 const HTMLPanel = (props): JSX.Element => {
   const classes = useStyles();
   const [tag, setTag] = useState('');

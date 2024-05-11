@@ -30,7 +30,24 @@ const styles = (theme: any): any => ({
   }
 });
 
-const SimpleModal = (props) => {
+/**
+ * `SimpleModal` is a customizable modal dialog component styled with Material-UI.
+ * It provides a flexible modal that can be used for messages, forms, or any custom content.
+ *
+ * @param {Object} props - The properties passed to the modal component.
+ * @param {boolean} props.open - Controls the visibility of the modal.
+ * @param {string} props.message - The primary text or content to be displayed in the modal's title area.
+ * @param {React.ReactNode} props.children - The content to be displayed in the body of the modal.
+ * @param {string} [props.primBtnLabel] - The label for the primary action button (optional).
+ * @param {string} [props.secBtnLabel] - The label for the secondary action button (optional).
+ * @param {Function} [props.primBtnAction] - The function to call when the primary button is clicked (optional).
+ * @param {Function} [props.secBtnAction] - The function to call when the secondary button is clicked (optional).
+ * @param {Function} props.closeModal - The function to call to close the modal.
+ * @param {Object} props.classes - The styling classes applied to various parts of the modal, provided by `withStyles`.
+ *
+ * @returns {JSX.Element} The `SimpleModal` component encapsulated in a React Fragment.
+ */
+const SimpleModal = (props): JSX.Element => {
   const {
     classes,
     open,

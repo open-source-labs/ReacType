@@ -21,8 +21,19 @@ export interface ProjectDialogProps {
   projects: Array<Object>;
   onClose: () => void;
 }
-// The options to be rendered when dialog is open
-function ProjectsDialog(props: ProjectDialogProps) {
+
+/**
+ * Displays a dialog listing all available user and marketplace projects with options to open them.
+ * Allows users to select a project to open, which triggers an update in the application's state and possibly an alert.
+ *
+ * @param {Object} props - The component props.
+ * @param {boolean} props.open - Controls if the dialog is open or not.
+ * @param {Array<Object>} props.projects - List of projects to display in the dialog.
+ * @param {Function} props.onClose - Function to call when the dialog needs to be closed.
+ * @param {Function} props.openAlert - Function to trigger an alert when a project is opened.
+ * @returns {JSX.Element} A Dialog component populated with list items representing each project.
+ */
+function ProjectsDialog(props: ProjectDialogProps): JSX.Element {
   const classes = useStyles();
   const { onClose, open, projects, openAlert } = props;
   const state = useSelector((store: RootState) => store.appState);

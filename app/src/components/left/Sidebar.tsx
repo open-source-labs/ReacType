@@ -20,11 +20,35 @@ interface SidebarProps {
 
 let oldValue = 0;
 
+/**
+ * Renders a vertical sidebar with navigational tabs. Each tab can activate a different view in the application.
+ * The `Sidebar` component manages which tab is currently active and can toggle the visibility of associated views.
+ *
+ * Props:
+ * @param {number | null} activeTab - The index of the currently active tab or null if no tab is selected.
+ * @param {(value: number | null) => void} setActiveTab - Function to set the active tab.
+ * @param {(state: boolean) => void} toggleVisibility - Function to toggle the visibility of the sidebar.
+ *
+ * The component uses MUI `Tabs` and `Tab` components to create a vertical sidebar where each tab corresponds
+ * to a section of the application. It handles tab changes and can conditionally render components based on
+ * the active tab. The `handleTabChange` function updates the active tab and ensures the sidebar is visible
+ * when a tab is clicked.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Sidebar
+ *     activeTab={1}
+ *     setActiveTab={setActiveTabFunction}
+ *     toggleVisibility={toggleSidebarVisibility}
+ *   />
+ * )
+ */
 const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
   toggleVisibility
-}) => {
+}): JSX.Element => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(newValue);
     toggleVisibility(true);

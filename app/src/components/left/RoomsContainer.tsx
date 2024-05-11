@@ -59,7 +59,26 @@ import {
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
 
-const RoomsContainer = () => {
+/**
+ * RoomsContainer handles the UI and logic for creating or joining collaboration rooms
+ * within the application. It allows users to enter or leave collaboration rooms, manage
+ * room settings, and handle real-time interactions via websockets.
+ *
+ * The component manages several states like room code, user name, and password, and
+ * displays different UIs based on whether the user is currently in a room or not.
+ * It handles socket connections, emits events to the server, and responds to events
+ * from the server.
+ *
+ * Features:
+ * - Create a new collaboration room.
+ * - Join an existing collaboration room.
+ * - Leave a collaboration room.
+ * - Display a list of current users in the room.
+ * - Handle errors like incorrect room name or password.
+ *
+ * @returns {JSX.Element} The component UI with interactive elements based on the user's state.
+ */
+const RoomsContainer = (): JSX.Element => {
   const [isJoinCallabRoom, setIsJoinCollabRoom] = useState(false);
   const [joinedPasswordAttempt, setJoinedPasswordAttempt] = useState('');
   const [isPasswordAttemptIncorrect, setIsPasswordAttemptIncorrect] =
@@ -74,7 +93,6 @@ const RoomsContainer = () => {
   const roomPassword = useSelector(
     (store: RootState) => store.roomSlice.password
   );
-
 
   const userJoinCollabRoom = useSelector(
     (store: RootState) => store.roomSlice.userJoinCollabRoom
@@ -123,7 +141,6 @@ const RoomsContainer = () => {
 
       socket.on('room does not exist', () => {
         setIsRoomAvailable(false);
-
       });
       //If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {

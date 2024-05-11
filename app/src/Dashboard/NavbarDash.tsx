@@ -74,8 +74,25 @@ const StyledMenuItem = withStyles((theme) => ({
     }
   }
 }))(MenuItem);
-// TO DO: set types of props validation
-export default function NavBar(props) {
+
+/**
+ * NavBar is a component that provides navigation and theming controls for an application.
+ * It includes a logo, navigation links, and buttons for sorting projects and toggling the theme.
+ * The NavBar uses a mix of MUI components styled with custom themes and styles.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Function} props.optionClicked - Callback function called when a sort option is selected.
+ * @param {boolean} props.isThemeLight - Indicates if the light theme is currently active.
+ * @param {Function} props.setTheme - Function to toggle the theme between light and dark.
+ * @returns {JSX.Element} The NavBar component which includes a logo, navigation links, and control buttons.
+ *
+ * The NavBar is styled using `makeStyles` to handle theming and spacing. It features a responsive AppBar
+ * containing an Avatar with the application's logo, a Typography component for the application name,
+ * and various buttons for navigating the application, sorting data, and toggling the theme.
+ * The sorting options are presented in a custom-styled Menu component, `StyledMenu`, with specific
+ * icons indicating the sort method. The theme toggle button changes icon based on the current theme.
+ */
+export default function NavBar(props): JSX.Element {
   // TO DO: import setStyle
   const classes = useStyles();
   const style = useSelector((store) => store.styleSlice);

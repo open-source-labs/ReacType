@@ -1,5 +1,7 @@
-// Removes old link to css and creates a new stylesheet link on demo render
-// this is not currently being used for the website version
+/**
+ * Removes the old link to CSS and creates a new stylesheet link on demo render.
+ * This function is not currently being used for the website version.
+ */
 const cssRefresher = (): void => {
   const oldStylesheet = document.getElementById('stylesheet');
   if (oldStylesheet !== null) oldStylesheet.remove();
@@ -14,5 +16,3 @@ const cssRefresher = (): void => {
   }
 };
 export default cssRefresher;
-
-

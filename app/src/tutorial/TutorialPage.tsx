@@ -89,7 +89,13 @@ const tutorialPageStyle = {
   }
 };
 
-const TutorialPage: React.FC<RouteComponentProps<{ learn: string }>> = (props) => {
+/**
+ * TutorialPage component displaying specific tutorial pages based on the selected topic.
+ * Provides a sidebar with links to navigate between tutorial pages.
+ * @param {RouteComponentProps} props - RouteComponentProps object containing match, location, and history props
+ * @returns {JSX.Element} - JSX element representing the TutorialPage component
+ */
+const TutorialPage: React.FC<RouteComponentProps> = (props): JSX.Element => {
   const classes = useStyles();
   const [page, setPage] = useState(props.match.params.learn);
 

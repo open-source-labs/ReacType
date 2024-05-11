@@ -51,11 +51,14 @@ export interface ChildStyle {
 }
 
 export interface Component {
+  type?: string;
+  typeId?: number;
+  childId?: number;
   id: number;
   name: string;
   style: {};
   icon?: any;
-  attributes?: object;
+  attributes?: Attributes;
   events: object;
   code: string;
   children: ChildElement[];
@@ -120,7 +123,20 @@ export interface MUIType {
   defaultProps: string[];
   jsx: string[];
   componentData: object;
-  children: [];
+  children?: MUIType[];
+  attributes?: Attributes;
+}
+export interface MUIComponent {
+  type: string;
+  typeId: number;
+  name: string;
+  childId: number | null;
+  style: Record<string, any>; // Styles can vary, so using a generic Record<string, any> type
+  attributes: Record<string, any>; // Similarly, attributes can vary
+  events: Record<string, any>; // Events can vary
+  children: MUIComponent[]; // Recursive definition for children
+  stateProps: any[]; // Type for stateProps is not defined in your example, adjust as needed
+  passedInProps: any[]; // Type for passedInProps is not defined in your example, adjust as needed
 }
 export interface DragItem extends DragObjectWithType {
   newInstance: boolean;

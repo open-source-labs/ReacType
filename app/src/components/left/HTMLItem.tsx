@@ -34,12 +34,25 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * Represents a draggable HTML element item in the component panel. This component allows users
+ * to drag HTML element types into the canvas or delete instances of them from the project.
+ * It supports interaction through dragging to add and a button to trigger a deletion modal.
+ *
+ * Props:
+ * @param {string} name - The display name of the HTML element.
+ * @param {number} id - The unique identifier for the HTML element type.
+ * @param {string} icon - The name of the icon from Material-UI icons that represents the element.
+ * @param {Function} handleDelete - Function to handle the deletion of all instances of the element.
+ *
+ * @returns {JSX.Element} The rendered HTML item component.
+ */
 const HTMLItem: React.FC<{
   name: string;
   id: number;
   icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, icon, handleDelete }) => {
+}> = ({ name, id, icon, handleDelete }): JSX.Element => {
   const IconComponent = Icons[icon];
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode); // current roomCode

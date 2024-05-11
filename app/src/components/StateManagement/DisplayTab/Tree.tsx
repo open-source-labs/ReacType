@@ -1,7 +1,5 @@
-import React, { useRef, useEffect} from 'react';
-import {
-  select, hierarchy, tree, linkHorizontal,
-} from 'd3';
+import React, { useRef, useEffect } from 'react';
+import { select, hierarchy, tree, linkHorizontal } from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import { useSelector } from 'react-redux';
@@ -10,14 +8,42 @@ import { RootState } from '../../../redux/store';
 
 function usePrevious(value) {
   const ref = useRef();
-  useEffect(() => ref.current = value);
+  useEffect(() => (ref.current = value));
   return ref.current;
 }
 
-function Tree({
-  data,  setCurrComponentState, setParentProps, setClickedComp,
-}) {
-  const state = useSelector((store:RootState) => store.appState)
+/**
+ * `Tree` is a React component for visualizing the hierarchical structure of components in an application.
+ * It uses D3 to create a tree diagram that users can interact with to understand the relationship between components
+ * and to inspect the state and props of each component. Clicking on a node in the tree diagram updates the state
+ * and props information displayed elsewhere in the application.
+ *
+ * @param {Object} props - The props passed to the component.
+ * @param {Array} props.data - The array of component data from the application's state. Each element represents a component
+ *                             and includes details like the component's name, its child components, and its state and props.
+ * @param {Function} props.setCurrComponentState - Function to set the current component's state in the outer component's state.
+ * @param {Function} props.setParentProps - Function to set the parent props in the outer component's state.
+ * @param {Function} props.setClickedComp - Function to update the currently selected component in the outer component's state.
+ *
+ * This component is designed to be used in applications where understanding the component architecture visually can help
+ * in debugging and development. It leverages Redux to manage global state access and D3 for rendering the tree graph.
+ *
+ * Usage Example:
+ * ```jsx
+ * <Tree
+ *   data={componentData}
+ *   setCurrComponentState={updateComponentState}
+ *   setParentProps={updateParentProps}
+ *   setClickedComp={updateClickedComponent}
+ * />
+ * ```
+ *
+ * Note:
+ * The component uses SVG to render the tree and implements interactive features such as clicking on nodes to trigger state updates.
+ * Ensure that the data passed to this component is correctly formatted to represent the hierarchical structure of components.
+ */
+function Tree({ data, setCurrComponentState, setParentProps, setClickedComp }) {
+  const state = useSelector((store: RootState) => store.appState);
   // Provide types for the refs.
   // In this case HTMLDivElement for the wrapperRef and SVGSVGElement for the svgRef.
   // create mutable ref objects with initial values of null
@@ -40,7 +66,10 @@ function Tree({
       // if element has a children array and that array has length, recursive call
       else if (arr[i].type === 'Component' && arr[i].children.length) {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
-        if (arr[i].type === 'Component') arr[i] = cloneDeep(data.find((component) => component.name === arr[i].name));
+        if (arr[i].type === 'Component')
+          arr[i] = cloneDeep(
+            data.find((component) => component.name === arr[i].name)
+          );
         removeHTMLElements(arr[i].children);
       }
     }
@@ -52,12 +81,15 @@ function Tree({
 
   if (state.projectType === 'Next.js') {
     dataDeepClone.forEach((element) => {
-      element.children = sanitize(element.children).filter((element) => !Array.isArray(element));
+      element.children = sanitize(element.children).filter(
+        (element) => !Array.isArray(element)
+      );
     });
 
     function sanitize(children) {
       return children.map((child) => {
-        if (child.name === 'Switch' || child.name === 'Route') return sanitize(child.children);
+        if (child.name === 'Switch' || child.name === 'Route')
+          return sanitize(child.children);
         return child;
       });
     }
@@ -72,8 +104,9 @@ function Tree({
     // use dimensions from useResizeObserver,
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
-    
-    const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
+
+    const { width, height } =
+      dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
 
     let root;
@@ -90,7 +123,7 @@ function Tree({
         }
       }
     } else {
-    // if no, set root of tree to be app/index
+      // if no, set root of tree to be app/index
       root = hierarchy(dataDeepClone[0]);
       rootName = dataDeepClone[0].name;
     }
@@ -181,7 +214,7 @@ function Tree({
     width: '100%',
     margin: '10px 10px 10px 10px',
     overflow: 'auto',
-    alignItems: 'center',
+    alignItems: 'center'
   };
 
   const wrapperStyles = {

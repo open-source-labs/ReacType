@@ -8,12 +8,12 @@ import { MUIType } from '../interfaces/Interfaces';
 24. Checkbox
 25. Floating Action Button
 26. Radio Group
-27. Rating
+27. Rating // not working
 28. Select
 29. Slider
 30. Switch
 31. Text Field
-32. Transfer List //not working
+32. Transfer List // not working
 33. Toggle Button
 
 DATA DISPLAY
@@ -24,17 +24,17 @@ DATA DISPLAY
 38. Icons
 39. Material Icons
 40. List
-41. Table // is working now. how?
+41. Table
 42. Tooltip // not working
 43. Typography
 
 FEEDBACK
-44. Alert //working but icon needed 
+44. Alert 
 45. Backdrop 
 46. Dialog 
-47. Progress //not working
-48. Skeleton //not working
-49. Snackbar //not working
+47. Progress 
+48. Skeleton 
+49. Snackbar 
 
 SURFACES
 50. Accordion 
@@ -51,16 +51,16 @@ NAVIGATION
 59. Pagination
 60. Speed Dial
 61. Stepper //not working
-62. Tabs //not working (no state)
+62. Tabs 
 
 LAYOUT
 63. Box
-64. Container //not working (odd visual)
-65. Grid //not included
-66. Grid v2 //not working
+64. Container
+65. Grid - not included
+66. Grid v2
 68. Stack
-69. Image List //not working
-70. Hidden - deprecated not working 
+69. Image List
+70. Hidden - deprecated 
 
 UTILS
 71. Click-Away Listener - not included 
@@ -68,10 +68,10 @@ UTILS
 73. Modal 
 74. No SSR - not included 
 75. Popover
-76. Popper //not working (no state)
+76. Popper 
 77. Portal - not included 
 78. Textarea Autosize - not included 
-79. Transitions // not working 
+79. Transitions
 80. useMediaQuery - not included */
 
 const MUITypes: MUIType[] = [
@@ -2021,7 +2021,8 @@ const MUITypes: MUIType[] = [
       type: 'Alert',
       props: {
         icon: '<CheckIcon fontSize="inherit" />',
-        severity: 'success'
+        severity: 'success',
+        sx: { m: 1 }
       },
       children: 'Here is a gentle confirmation that your action was successful.'
     },
@@ -2078,7 +2079,7 @@ const MUITypes: MUIType[] = [
 
     componentData: {
       type: 'div',
-      props: {},
+      props: { sx: { m: 1 } },
       children: [
         {
           type: 'Button',
@@ -2185,6 +2186,7 @@ const MUITypes: MUIType[] = [
         {
           type: 'Button',
           props: {
+            sx: { m: 1 },
             variant: 'outlined',
             onClick: '{handleClickOpen}',
             role: 'modalTrigger' //used 'modalTrigger' here because it is requires the same handleOpen function already created
@@ -2255,67 +2257,29 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import CircularProgress, { CircularProgressProps } from '@mui/material/CircularProgress'",
-      "import Typography from '@mui/material/Typography'",
+      "import CircularProgress from '@mui/material/CircularProgress';",
       "import Box from '@mui/material/Box'"
     ],
     stateAndEventHandlers: [],
-    defaultProps: ['value={progress}'],
-    propOptions: ['value'],
-    jsx: [
-      '<Box sx={{ position: "relative", display: "inline-flex" }}>',
-      '  <CircularProgress variant="determinate" value={progress} />',
-      '  <Box',
-      '    sx={{',
-      '      top: 0,',
-      '      left: 0,',
-      '      bottom: 0,',
-      '      right: 0,',
-      '      position: "absolute",',
-      '      display: "flex",',
-      '      alignItems: "center",',
-      '      justifyContent: "center"',
-      '    }}',
-      '  >',
-      '    <Typography variant="caption" component="div" color="text.secondary">',
-      '      {`${Math.round(progress)}%`}',
-      '    </Typography>',
-      '  </Box>',
-      '</Box>'
+    defaultProps: [],
+    propOptions: [
+      'classes',
+      'color',
+      'disableShrink',
+      'size',
+      'sx',
+      'thickness',
+      'value',
+      'variant'
     ],
+    jsx: ['<Box sx={{ display: "flex" }}>', '  <CircularProgress />', '</Box>'],
     componentData: {
       type: 'Box',
-      props: { sx: { position: 'relative', display: 'inline-flex' } },
+      props: { sx: { display: 'flex', m: 1 } },
       children: [
         {
           type: 'CircularProgress',
-          props: { variant: 'determinate', value: '{progress}' }
-        },
-        {
-          type: 'Box',
-          props: {
-            sx: {
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-              position: 'absolute',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }
-          },
-          children: [
-            {
-              type: 'Typography',
-              props: {
-                variant: 'caption',
-                component: 'div',
-                color: 'text.secondary',
-                children: '{`${Math.round(progress)}%`}'
-              }
-            }
-          ]
+          props: {}
         }
       ]
     },
@@ -2332,9 +2296,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Typography, { TypographyProps } from '@mui/material/Typography'",
       "import Skeleton from '@mui/material/Skeleton'",
-      "import Grid from '@mui/material/Grid'"
+      "import Stack from '@mui/material/Stack'"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['loading'],
@@ -2349,41 +2312,38 @@ const MUITypes: MUIType[] = [
       'width'
     ],
     jsx: [
-      '<Grid container spacing={8}>',
-      '  <Grid item xs>',
-      '    <TypographyDemo loading />',
-      '  </Grid>',
-      '  <Grid item xs>',
-      '    <TypographyDemo />',
-      '  </Grid>',
-      '</Grid>'
+      '<Stack spacing={1}>',
+      '  {/* For variant="text", adjust the height via font-size */}',
+      '  <Skeleton variant="text" sx={{ fontSize: \'1rem\' }} />',
+      '  {/* For other variants, adjust the size with `width` and `height` */}',
+      '  <Skeleton variant="circular" width={40} height={40} />',
+      '  <Skeleton variant="rectangular" width={210} height={60} />',
+      '  <Skeleton variant="rounded" width={210} height={60} />',
+      '</Stack>'
     ],
     componentData: {
       type: 'SkeletonTypography',
       props: {},
       children: [
         {
-          type: 'Grid',
-          props: { container: true, spacing: 8 },
+          type: 'Stack',
+          props: { spacing: 1, m: 1 },
           children: [
             {
-              type: 'Grid',
-              props: { item: true, xs: true },
-              children: [
-                {
-                  type: 'TypographyDemo',
-                  props: { loading: true }
-                }
-              ]
+              type: 'Skeleton',
+              props: { variant: 'text', sx: { fontSize: '1rem' } }
             },
             {
-              type: 'Grid',
-              props: { item: true, xs: true },
-              children: [
-                {
-                  type: 'TypographyDemo'
-                }
-              ]
+              type: 'Skeleton',
+              props: { variant: 'circular', width: 40, height: 40 }
+            },
+            {
+              type: 'Skeleton',
+              props: { variant: 'rectangular', width: 210, height: 60 }
+            },
+            {
+              type: 'Skeleton',
+              props: { variant: 'rounded', width: 210, height: 60 }
             }
           ]
         }
@@ -2407,8 +2367,36 @@ const MUITypes: MUIType[] = [
       "import IconButton from '@mui/material/IconButton'",
       "import CloseIcon from '@mui/icons-material/Close'"
     ],
-    stateAndEventHandlers: [],
-    defaultProps: [],
+    stateAndEventHandlers: [
+      'const [open, setOpen] = React.useState(false);',
+      '\nconst handleClick = () => {',
+      '  setOpen(true);',
+      '};',
+      '\nconst handleClose = (event, reason) => {',
+      "  if (reason === 'clickaway') {",
+      '    return;',
+      '  }',
+      '  setOpen(false);',
+      '};',
+      '\nconst action = (',
+      '    <React.Fragment>',
+      '      <Button color="secondary" size="small" onClick={handleClose}>',
+      '        UNDO',
+      '      </Button>',
+      '      <IconButton',
+      '        size="small"',
+      '        aria-label="close"',
+      '        color="inherit"',
+      '        onClick={handleClose}',
+      '      >',
+      '        <CloseIcon fontSize="small" />',
+      '      </IconButton>',
+      '    </React.Fragment>',
+      '  );'
+    ],
+    defaultProps: [
+      'open={open} autoHideDuration={6000} onClose={handleClose} message="Note archived" action={action}'
+    ],
     propOptions: [
       'action',
       'anchorOrigin',
@@ -2431,22 +2419,16 @@ const MUITypes: MUIType[] = [
     jsx: [
       '<div>',
       '  <Button onClick={handleClick}>Open Snackbar</Button>',
-      '  <Snackbar',
-      '    open={open}',
-      '    autoHideDuration={6000}',
-      '    onClose={handleClose}',
-      '    message="Note archived"',
-      '    action={action}',
-      '  />',
+      '  <Snackbar />',
       '</div>'
     ],
     componentData: {
       type: 'SimpleSnackbar',
-      props: {},
+      props: { sx: { m: 1 } },
       children: [
         {
           type: 'Button',
-          props: { onClick: '{handleClick}' },
+          props: { onClick: '{handleClick}', role: 'modalTrigger' },
           children: 'Open Snackbar'
         },
         {
@@ -3041,7 +3023,7 @@ const MUITypes: MUIType[] = [
       '      ))}',
       '    </List>',
       '  </Box>',
-      ')\n'
+      ');\n'
     ],
     defaultProps: ['open={open} onClose={toggleDrawer(false)}'],
     propOptions: [
@@ -3730,9 +3712,11 @@ const MUITypes: MUIType[] = [
     ],
     stateAndEventHandlers: [
       'const [value, setValue] = React.useState(0);',
-      'const handleChange = (event, newValue) => { setValue(newValue); };\n'
+      '\nconst handleChange = (event, newValue) => { setValue(newValue); };\n'
     ],
-    defaultProps: [],
+    defaultProps: [
+      'value={value} onChange={handleChange} aria-label="basic tabs example"'
+    ],
     propOptions: [
       'children',
       'classes',
@@ -3791,21 +3775,21 @@ const MUITypes: MUIType[] = [
                   type: 'Tab',
                   props: {
                     label: 'Item One',
-                    '...': 'a11yProps(0)'
+                    index: 0
                   }
                 },
                 {
                   type: 'Tab',
                   props: {
                     label: 'Item Two',
-                    '...': 'a11yProps(1)'
+                    index: 1
                   }
                 },
                 {
                   type: 'Tab',
                   props: {
                     label: 'Item Three',
-                    '...': 'a11yProps(2)'
+                    index: 2
                   }
                 }
               ]
@@ -3926,7 +3910,14 @@ const MUITypes: MUIType[] = [
       "import { styled } from '@mui/material/styles'",
       "import Box from '@mui/material/Box'",
       "import Paper from '@mui/material/Paper'",
-      "import Grid from '@mui/material/Grid'"
+      "import Grid from '@mui/material/Grid'",
+      '\nconst Item = styled(Paper)(({ theme }) => ({',
+      '  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",',
+      '  ...theme.typography.body2,',
+      '  padding: theme.spacing(1),',
+      '  textAlign: "center",',
+      ' color: theme.palette.text.secondary,',
+      '}));'
     ],
     stateAndEventHandlers: [],
     defaultProps: ['container spacing={2}'],
@@ -3969,28 +3960,58 @@ const MUITypes: MUIType[] = [
       '</Box>'
     ],
     componentData: {
-      type: 'Grid',
-      props: { container: true, spacing: 2 },
+      type: 'Box',
+      props: { sx: { flexGrow: 1, m: 1 } },
       children: [
         {
           type: 'Grid',
-          props: { item: true, xs: 8 },
-          children: [{ type: 'Item', props: {}, children: 'xs=8' }]
-        },
-        {
-          type: 'Grid',
-          props: { item: true, xs: 4 },
-          children: [{ type: 'Item', props: {}, children: 'xs=4' }]
-        },
-        {
-          type: 'Grid',
-          props: { item: true, xs: 4 },
-          children: [{ type: 'Item', props: {}, children: 'xs=4' }]
-        },
-        {
-          type: 'Grid',
-          props: { item: true, xs: 8 },
-          children: [{ type: 'Item', props: {}, children: 'xs=8' }]
+          props: { container: true },
+          children: [
+            {
+              type: 'Grid',
+              props: { item: true, xs: 7, sx: { m: 1 } },
+              children: [
+                {
+                  type: 'Item',
+                  props: { backgroundColor: '#1A2027', textColor: '#FFFFFF' },
+                  children: 'xs=7'
+                }
+              ]
+            },
+            {
+              type: 'Grid',
+              props: { item: true, xs: 4, role: 'grid-item', sx: { m: 1 } },
+              children: [
+                {
+                  type: 'Item',
+                  props: { backgroundColor: '#1A2027', textColor: '#FFFFFF' },
+                  children: 'xs=4'
+                }
+              ]
+            },
+            {
+              type: 'Grid',
+              props: { item: true, xs: 4, role: 'grid-item', sx: { m: 1 } },
+              children: [
+                {
+                  type: 'Item',
+                  props: { backgroundColor: '#1A2027', textColor: '#FFFFFF' },
+                  children: 'xs=4'
+                }
+              ]
+            },
+            {
+              type: 'Grid',
+              props: { item: true, xs: 7, role: 'grid-item', sx: { m: 1 } },
+              children: [
+                {
+                  type: 'Item',
+                  props: { backgroundColor: '#1A2027', textColor: '#FFFFFF' },
+                  children: 'xs=7'
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -4034,7 +4055,7 @@ const MUITypes: MUIType[] = [
     ],
     componentData: {
       type: 'Stack',
-      props: { spacing: 2 },
+      props: { spacing: 2, sx: { mt: 1, mb: 1 } },
       children: [
         { type: 'Item', props: {}, children: 'Item 1' },
         { type: 'Item', props: {}, children: 'Item 2' },
@@ -4045,49 +4066,99 @@ const MUITypes: MUIType[] = [
   },
   {
     id: 69,
-    tag: 'image-list',
-    name: 'ImageList',
+    tag: 'imageList',
+    name: 'Image List',
+    style: {},
+    placeHolderShort: 'imageList',
+    placeHolderLong: 'Material UI Image List Component',
     icon: 'ArtTrack',
+    framework: 'reactClassic',
     nestable: false,
-    props: {
-      children: {
-        type: 'node',
-        description: 'The content of the component, normally ImageListItems.'
-      },
-      classes: {
-        type: 'object',
-        description: 'Override or extend the styles applied to the component.'
-      },
-      cols: {
-        type: 'integer',
-        default: 2,
-        description: 'Number of columns.'
-      },
-      component: {
-        type: 'elementType',
-        description: 'The component used for the root node.'
-      },
-      gap: {
-        type: 'number',
-        default: 4,
-        description: 'The gap between items in px.'
-      },
-      rowHeight: {
-        type: 'string | number',
-        default: 'auto',
-        description: 'The height of one row in px.'
-      },
-      sx: {
-        type: 'array | func | object | bool',
-        description:
-          'The system prop that allows defining system overrides as well as additional CSS styles.'
-      },
-      variant: {
-        type: "'masonry' | 'quilted' | 'standard' | 'woven' | string",
-        default: 'standard',
-        description: 'The variant to use.'
-      }
-    }
+    imports: [
+      "import ImageList from '@mui/material/ImageList'",
+      "import ImageListItem from '@mui/material/ImageListItem'",
+      '\nconst itemData = [',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',",
+      "    title: 'Breakfast',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',",
+      "    title: 'Burger',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',",
+      "    title: 'Camera',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',",
+      "    title: 'Coffee',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',",
+      "    title: 'Hats',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',",
+      "    title: 'Honey',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',",
+      "    title: 'Basketball',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',",
+      "    title: 'Fern',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',",
+      "    title: 'Mushrooms',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',",
+      "    title: 'Tomato basil',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',",
+      "    title: 'Sea star',",
+      '  },',
+      '  {',
+      "    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',",
+      "    title: 'Bike',",
+      '  },'
+    ],
+    stateAndEventHandlers: [],
+    defaultProps: ['sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}'],
+    propOptions: [
+      'children',
+      'classes',
+      'cols',
+      'component',
+      'gap',
+      'rowHeight',
+      'sx',
+      'variant'
+    ],
+    jsx: [
+      '<ImageList >',
+      '  {itemData.map((item) => (',
+      '    <ImageListItem key={item.img}>',
+      '      <img',
+      '        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}',
+      '        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}',
+      '        alt={item.title}',
+      '        loading="lazy"',
+      '      />',
+      '    </ImageListItem>',
+      '  ))}',
+      '</ImageList>'
+    ],
+    componentData: {
+      type: 'ImageList',
+      props: { sx: { m: 1 } },
+      children: []
+    },
+    children: []
   },
   {
     id: 73,

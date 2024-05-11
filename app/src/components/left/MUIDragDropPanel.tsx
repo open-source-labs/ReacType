@@ -24,6 +24,16 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * Provides a user interface for managing MUI components in the application. It features accordions for different categories
+ * of MUI components like Inputs, Data Display, Feedback, etc. Each category can be expanded to show respective MUI components
+ * that can be dragged onto a canvas or deleted. It uses the `MUIItem` component to render each item and supports deleting items through a centralized method.
+ *
+ * @component
+ * @param {Object} props - Component props, currently unused in the component's body and may be intended for future features or extensions.
+ *
+ * @returns {JSX.Element} The MUIDragDropPanel component, which renders an interactive list of MUI components categorized by function.
+ */
 const MUIDragDropPanel = (props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -61,11 +71,10 @@ const MUIDragDropPanel = (props): JSX.Element => {
   const muiSurfacesToRender = state.MUITypes.filter(
     (type) => type.name !== 'separator' && type.id >= 50 && type.id <= 53
   );
-  
+
   const muiNavigationToRender = state.MUITypes.filter(
     (type) => type.name !== 'separator' && type.id >= 54 && type.id <= 62
   );
-  
 
   const muiLayoutToRender = state.MUITypes.filter(
     (type) => type.name !== 'separator' && type.id >= 63 && type.id <= 70
@@ -78,7 +87,6 @@ const MUIDragDropPanel = (props): JSX.Element => {
   return (
     <div className={'MUIItems'}>
       <div id="MUIItemsPanel">
-
         {/* Root Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
