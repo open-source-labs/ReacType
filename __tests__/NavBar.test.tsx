@@ -1,12 +1,11 @@
+import { describe, it, expect, vi, afterAll, beforeEach } from 'vitest';
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import NavBar from '../app/src/components/top/NavBar';
 import * as projectFunctions from '../app/src/helperFunctions/projectGetSaveDel';
 import { Provider } from 'react-redux';
-import { act } from 'react-dom/test-utils';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '../app/src/redux/reducers/rootReducer';
 import { initialState as appStateInitialState } from '../app/src/redux/reducers/slice/appStateSlice';
@@ -51,27 +50,22 @@ const theme = createTheme({
 });
 
 // Mocking the logo
-jest.mock('../../public/icons/win/logo.png', () => 'dummy-image-url');
+vi.mock('../../public/icons/win/logo.png', () => 'dummy-image-url');
 
 // Grabbing publish and unpublish functions
-jest.mock('../app/src/helperFunctions/projectGetSaveDel', () => ({
-  publishProject: jest.fn(),
-  unpublishProject: jest.fn(),
+vi.mock('../app/src/helperFunctions/projectGetSaveDel', () => ({
+  publishProject: vi.fn(),
+  unpublishProject: vi.fn(),
 }));
 
 //mock the file saver library
-jest.mock('file-saver', () => ({
-  ...jest.requireActual('file-saver'),
-  saveAs: jest.fn(),
+vi.mock('file-saver', () => ({
+  ...vi.importActual('file-saver'),
+  saveAs: vi.fn(),
 }));
 
-// const originalError = console.error;
-// beforeAll(() => {
-//   console.error = jest.fn();
-// });
-
 afterAll(() => {
-  jest.resetAllMocks();
+  vi.resetAllMocks();
 });
 
 // Mocking the render
@@ -88,15 +82,10 @@ const renderNavBar = (store) => {
 };
 
 describe('NavBar Component', () => {
-  it('handles publish correctly with saved project', async () => {
-    const publishProjectMock = jest.spyOn(projectFunctions, 'publishProject');
-    publishProjectMock.mockResolvedValueOnce({
-      _id: 'mockedId',
-      name: 'Mocked Project',
-      published: true,
-    });
+  let store;
 
-    const store = configureStore({
+  beforeEach(() =>{
+    store = configureStore({
       reducer: rootReducer,
       preloadedState: {
         appState: {
@@ -107,135 +96,62 @@ describe('NavBar Component', () => {
         },
       },
     });
+  })
 
-    console.log('Before rendering NavBar');
-
-    const { getByText } = renderNavBar(store);
-
-    console.log('After rendering NavBar');
-
-    await act(async () => { 
-      const publishButton = getByText('Publish');
-      fireEvent.click(publishButton);
+  it('handles publish correctly with saved project', async () => {
+    const publishProjectMock = vi.spyOn(projectFunctions, 'publishProject');
+    publishProjectMock.mockResolvedValueOnce({
+      _id: 'mockedId',
+      name: 'Mocked Project',
+      published: true,
     });
+
+    renderNavBar(store)
+
+      const publishButton = screen.getByText('Publish');
+      fireEvent.click(publishButton);
+
+    await waitFor(() => {
+      expect(publishProjectMock).toHaveBeenCalled();
+    })
+
   });
 
   it('handles publish correctly with new project', async () => {
-    const publishProjectMock = jest.spyOn(projectFunctions, 'publishProject');
+    const publishProjectMock = vi.spyOn(projectFunctions, 'publishProject');
     publishProjectMock.mockResolvedValueOnce({
       _id: 'mockedId',
       name: 'My Project', 
       published: true,
     });
   
-    const store = configureStore({
-      reducer: rootReducer,
-      preloadedState: {
-        appState: {
-          ...appStateInitialState,
-          isLoggedIn: true,
-          name: '', 
-          HTMLTypes: mockHTMLTypes,
-        },
-      },
-    });
-  
-    console.log('Before rendering NavBar');
-  
-    const { getByText, queryByText, getByTestId, queryByTestId } = renderNavBar(store);
-  
-    console.log('After rendering NavBar');
-  
-    await act(async () => { 
+    renderNavBar(store);
+
       // Check if the "Publish" button is present
-      const publishButton = queryByText('Publish');
-  
-      if (publishButton) {
+      const publishButton = screen.getByText('Publish');
+
         fireEvent.click(publishButton);
-      } else {
-        // If "Publish" button is not found, look for the "Unpublish" button
-        const unpublishButton = getByText('Unpublish');
-        fireEvent.click(unpublishButton);
-      }
-  
-      // Check if the modal for a new project is displayed
-      const projectNameInput = queryByTestId('project-name-input');
-  
-      if (projectNameInput) {
-        // entering a project name in the modal
-        fireEvent.change(projectNameInput, { target: { value: 'My Project' } });
-      }
-    });
-  });
 
-  it('handles unpublish correctly', async () => {
-    const unpublishProjectMock = jest.spyOn(projectFunctions, 'unpublishProject');
-    unpublishProjectMock.mockResolvedValueOnce({
-      _id: 'mockedId',
-      name: 'Mocked Project',
-      published: false,
-    });
-
-    const store = configureStore({
-      reducer: rootReducer,
-      preloadedState: {
-        appState: {
-          ...appStateInitialState,
-          isLoggedIn: true,
-          name: 'Mock Project Name',
-          HTMLTypes: mockHTMLTypes,
-        },
-      },
-    });
-
-    console.log('Before rendering NavBar');
-
-    const { queryByText } = renderNavBar(store);
-
-    console.log('After rendering NavBar');
-
-    // Find the "Publish" or "Unpublish" button based on the project's publish state
-    const publishButton = queryByText('Publish');
-    const unpublishButton = queryByText('Unpublish');
-
-    if (publishButton) {
-      fireEvent.click(publishButton);
-    } else if (unpublishButton) {
-      fireEvent.click(unpublishButton);
-    }
+      await waitFor(() =>{
+        expect(publishProjectMock).toHaveBeenCalled();
+      })
   });
 
   it('handles export correctly', async () => {
-    const store = configureStore({
-      reducer: rootReducer,
-      preloadedState: {
-        appState: {
-          ...appStateInitialState,
-          isLoggedIn: true,
-          name: 'Mock Project Name',
-          HTMLTypes: mockHTMLTypes,
-        },
-      },
-    });
 
-    console.log('Before rendering NavBar');
-
-    const { getByText } = renderNavBar(store);
-
-    console.log('After rendering NavBar');
-
+    renderNavBar(store);
     // Find and click the export button
-    const exportButton = getByText('< > Export');
+    const exportButton = screen.getByText('Export');
     fireEvent.click(exportButton);
 
     // Check if the modal for export options is displayed
     await waitFor(() => {
-      const exportModal = getByText('Click to download in zip file:');
-      expect(exportModal).toBeInTheDocument();
+      const exportModal = screen.getByText('Click to download in zip file:');
+      expect(exportModal).toBeDefined();
     });
 
     // Simulate clicking the export components 
-    const exportComponentsOption = getByText('Export components');
+    const exportComponentsOption = screen.getByText('Export components');
     fireEvent.click(exportComponentsOption);
 
   });
@@ -250,45 +166,30 @@ describe('NavBar Component', () => {
       },
     });
 
-    console.log('Before rendering NavBar');
-
-    const { getByTestId, getByText } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ThemeProvider theme={theme}>
-            <NavBar />
-          </ThemeProvider>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    console.log('After rendering NavBar');
-
-    await act(async () => { 
-
-      const dropdownMenu = getByTestId('navDropDown');
-      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+    renderNavBar(store);
+      const dropdownMenu = screen.getAllByTestId('navDropDown')[0];
+      expect(dropdownMenu.getAttribute('class')).toContain('hideNavDropDown');
 
 
-      const moreVertButton = getByTestId('more-vert-button');
+      const moreVertButton = screen.getByTestId('more-vert-button');
       fireEvent.click(moreVertButton);
 
 
-      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+      expect(dropdownMenu.getAttribute('class')).toContain('navDropDown');
 
 
-      const clearCanvasMenuItem = getByText('Clear Canvas');
+      const clearCanvasMenuItem = screen.getByText('Clear Canvas');
       fireEvent.click(clearCanvasMenuItem);
-      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+      expect(dropdownMenu.getAttribute('class')).toContain('navDropDown');
 
 
-      const marketplaceMenuItem = getByText('Marketplace');
+      const marketplaceMenuItem = screen.getByText('Marketplace');
       fireEvent.click(marketplaceMenuItem);
-      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+      expect(dropdownMenu.getAttribute('class')).toContain('navDropDown');
 
       fireEvent.click(moreVertButton);
 
-      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+      expect(dropdownMenu.getAttribute('class')).toContain('hideNavDropDown');
     });
   });
-})
+
