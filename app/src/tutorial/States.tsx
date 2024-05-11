@@ -8,10 +8,18 @@ import deleteState2 from '../../../resources/state_tutorial_images/delete.gif';
 import display from '../../../resources/state_tutorial_images/display.gif';
 import codePreview2 from '../../../resources/state_tutorial_images/CodePreview2.png';
 
+/**
+ * States component provides a tutorial on state management in ReacType.
+ * 
+ * @param {object} props - Component props.
+ * @param {object} props.classes - CSS classes for styling.
+ * @param {Function} props.setPage - Function to set the current page.
+ * @returns {JSX.Element} States component JSX.
+ */
 const States: React.FC<{
   classes: any;
   setPage: Function;
-}> = ({ classes, setPage }) => {
+}> = ({ classes, setPage }): JSX.Element => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>State Management</h1>

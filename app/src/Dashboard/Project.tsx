@@ -32,6 +32,26 @@ type props = {
 const currUserSSID = window.localStorage.getItem('ssid') || 'unavailable';
 const currUsername = window.localStorage.getItem('username') || 'unavailable';
 
+/**
+ * `Project` is a React component that displays information about a specific project, such as its name,
+ * author, and the number of likes it has received. It provides functionality for liking, copying, publishing,
+ * commenting on, and deleting projects. The component integrates several mutations using Apollo Client to interact
+ * with a GraphQL backend.
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.name - The name of the project.
+ * @param {string} props.id - The unique identifier for the project.
+ * @param {string} props.userId - The user ID of the project owner.
+ * @param {string} props.username - The username of the project owner.
+ * @param {number} props.likes - The number of likes the project has received.
+ * @param {boolean} props.published - Indicates if the project is currently published.
+ * @param {Array} props.comments - An array of comment objects associated with the project.
+ * @returns {JSX.Element} The rendered component which allows interaction with project data and includes
+ *                         buttons for different actions depending on the user and project status.
+ *
+ * Each button in the component is associated with a specific action (like, copy, publish, comment, delete) and
+ * uses GraphQL mutations to perform these actions. The component also manages local state for handling comments,
+ * modals, and toggling UI elements based on the user's interaction.
+ */
 const Project = ({
   name,
   likes,

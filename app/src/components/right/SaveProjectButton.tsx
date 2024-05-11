@@ -7,20 +7,30 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
-import {useDispatch, useSelector} from 'react-redux'
-import {updateProjectName, updateProjectId} from '../../redux/reducers/slice/appStateSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  updateProjectName,
+  updateProjectId
+} from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { State } from '../../interfaces/Interfaces';
 
-export default function FormDialog() {
+/**
+ * A form dialog component that allows users to save projects under a specific name.
+ * It handles project name validation, interacts with the Redux store to update state,
+ * and communicates with the server to save the project.
+ *
+ * @returns {JSX.Element} A React component that provides a form inside a dialog for entering a project name,
+ * with validation feedback and options to either save or cancel the operation.
+ */
+export default function FormDialog(): JSX.Element {
   const [open, setOpen] = useState(false);
-const state = useSelector((store:RootState) => store.appState);
-const dispatch = useDispatch();
+  const state = useSelector((store: RootState) => store.appState);
+  const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
-  const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState(
-    ''
-  );
+  const [invalidProjectNameMessage, setInvalidProjectNameMessage] =
+    useState('');
 
   const handleClickOpen = () => {
     setInvalidProjectName(false);
@@ -34,8 +44,10 @@ const dispatch = useDispatch();
       // Switch to Thunk
       // If errors occur on the backend, the project name still gets updated
 
-      dispatch(updateProjectName(projectName))
-      saveProject(projectName, state).then((project: State) => dispatch(updateProjectId(project._id)))//updates the slice with new _id from mongo
+      dispatch(updateProjectName(projectName));
+      saveProject(projectName, state).then((project: State) =>
+        dispatch(updateProjectId(project._id))
+      ); //updates the slice with new _id from mongo
       setOpen(false);
     } else {
       setInvalidProjectName(true);
@@ -52,35 +64,41 @@ const dispatch = useDispatch();
   };
   const saveKeyBind = useCallback((e) => {
     //Save Project As, the || is for Mac or Windows
-    (e.key === 's' && e.metaKey && !e.shiftKey || e.key === 's' && e.ctrlKey && !e.shiftKey) ? handleClickOpen() : '';
+    (e.key === 's' && e.metaKey && !e.shiftKey) ||
+    (e.key === 's' && e.ctrlKey && !e.shiftKey)
+      ? handleClickOpen()
+      : '';
   }, []);
 
   useEffect(() => {
     document.addEventListener('keydown', saveKeyBind);
     return () => {
-      document.removeEventListener('keydown', saveKeyBind)
-    }
+      document.removeEventListener('keydown', saveKeyBind);
+    };
   }, []);
   return (
     <div>
       <Button
         color="primary"
         onClick={handleClickOpen}
-        endIcon={<SaveOutlinedIcon />} sx={{fontSize: '9px'}}
+        endIcon={<SaveOutlinedIcon />}
+        sx={{ fontSize: '9px' }}
       >
         SAVE PROJECT AS
       </Button>
       <Dialog
-        style={{ color: "#000" }}
+        style={{ color: '#000' }}
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle style={{ color: "#000" }} id="form-dialog-title">Save Project</DialogTitle>
+        <DialogTitle style={{ color: '#000' }} id="form-dialog-title">
+          Save Project
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
-            inputProps={{ style: { color: "black" } }}
+            inputProps={{ style: { color: 'black' } }}
             margin="dense"
             id="name"
             label="Project Name"
@@ -94,10 +112,10 @@ const dispatch = useDispatch();
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='primary'>
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSave} color='primary'>
+          <Button onClick={handleSave} color="primary">
             Save
           </Button>
         </DialogActions>
@@ -105,4 +123,3 @@ const dispatch = useDispatch();
     </div>
   );
 }
-

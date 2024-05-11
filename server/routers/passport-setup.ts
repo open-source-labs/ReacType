@@ -17,6 +17,14 @@ passport.deserializeUser((id, done) => {
   });
 });
 
+/**
+ * Passport strategy for GitHub OAuth authentication.
+ * 
+ * @param {string} accessToken - Access token provided by GitHub for authentication.
+ * @param {string} refreshToken - Refresh token provided by GitHub for authentication.
+ * @param {object} profile - User profile data retrieved from GitHub.
+ * @param {Function} done - Callback function to be called when authentication process is completed.
+ */
 passport.use(
   new GitHubStrategy(
     {
@@ -55,6 +63,14 @@ passport.use(
   )
 );
 
+/**
+ * Passport strategy for Google OAuth authentication.
+ * 
+ * @param {string} accessToken - Access token provided by Google for authentication.
+ * @param {string} refreshToken - Refresh token provided by Google for authentication.
+ * @param {object} profile - User profile data retrieved from Google.
+ * @param {Function} done - Callback function to be called when authentication process is completed.
+ */
 passport.use(
   new GoogleStrategy(
     {

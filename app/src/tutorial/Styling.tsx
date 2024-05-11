@@ -3,10 +3,18 @@ import lighting from '../../../resources/customizing_elements_images/Lighting.pn
 import resize from '../../../resources/customizing_elements_images/Resize.gif';
 import codeChange from '../../../resources/customizing_elements_images/CodeChange.png';
 
+/**
+ * Styling component provides information about styling features in ReacType.
+ * 
+ * @param {object} props - Component props.
+ * @param {object} props.classes - CSS classes for styling.
+ * @param {Function} props.setPage - Function to set the current page.
+ * @returns {JSX.Element} Styling component JSX.
+ */
 const Styling: React.FC<{
   classes: any;
   setPage: Function;
-}> = ({ classes, setPage }) => {
+}> = ({ classes, setPage }): JSX.Element => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Styling Features</h1>

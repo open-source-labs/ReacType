@@ -773,6 +773,16 @@ CANVAS WINDOW
   height: 100%;
 }
 
+#renderFocus {
+  position: relative; 
+  min-width: 50px;
+  max-width: 1200px; 
+  width: calc(100% - 280px); 
+  height: 100%;
+  resize: horizontal;
+  overflow: auto;
+}
+
 /* Material-UI */
 /* Sortable tree sorting */
 .sortable-tree {

@@ -13,6 +13,10 @@ if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
 
+/**
+ * Retrieves projects from the server.
+ * @returns {Promise<any>} - A promise that resolves to an array of projects.
+ */
 export const getProjects = (): Promise<any> => {
   const projects = fetch(`${serverURL}/getProjects`, {
     method: 'POST',
@@ -30,6 +34,12 @@ export const getProjects = (): Promise<any> => {
   return projects; //returns an array of projects with _id, name, project
 };
 
+/**
+ * Saves a project to the server.
+ * @param {string} name - The name of the project.
+ * @param {State} workspace - The state of the workspace to be saved.
+ * @returns {Promise<Object>} - A promise that resolves to the saved project object.
+ */
 export const saveProject = (
   name: string,
   workspace: State
@@ -63,6 +73,12 @@ export const saveProject = (
   return project; //returns _id in addition to the project object from the document
 };
 
+/**
+ * Publishes a project on the server.
+ * @param {string} name - The name of the project.
+ * @param {State} workspace - The state of the workspace to be published.
+ * @returns {Promise<Object>} - A promise that resolves to the published project object.
+ */
 export const publishProject = (
   name: string,
   workspace: State
@@ -103,6 +119,11 @@ export const publishProject = (
   return publishedProject;
 };
 
+/**
+ * Unpublishes a project on the server.
+ * @param {State} projectData - The data of the project to be unpublished.
+ * @returns {Promise<Object>} - A promise that resolves to the unpublished project object.
+ */
 export const unpublishProject = (projectData: State): Promise<Object> => {
   const body = JSON.stringify({
     _id: projectData._id
@@ -135,6 +156,11 @@ export const unpublishProject = (projectData: State): Promise<Object> => {
   return unpublishedProject;
 };
 
+/**
+ * Deletes a project from the server.
+ * @param {State} project - The project to be deleted.
+ * @returns {Promise<Object>} - A promise that resolves to the deleted project object.
+ */
 export const deleteProject = (project: any): Promise<Object> => {
   const body = JSON.stringify({
     _id: project._id

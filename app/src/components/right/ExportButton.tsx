@@ -11,7 +11,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import zipFiles from '../../helperFunctions/zipFiles';
 
-export default function ExportButton() {
+/**
+ * Renders an export button that triggers a modal for selecting export options.
+ * The button and modal allow users to export project components in various formats.
+ *
+ * @returns {JSX.Element} A button that opens a modal dialogue for exporting project components.
+ */
+export default function ExportButton(): JSX.Element {
   const [modal, setModal] = useState(null);
   const state = useSelector((store: RootState) => store.appState);
 

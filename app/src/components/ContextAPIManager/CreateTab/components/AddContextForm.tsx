@@ -10,6 +10,27 @@ import { InputLabel, MenuItem, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 
+/**
+ * Provides a form interface for creating new contexts or selecting existing ones within an application.
+ * Users can input a new context name and submit it for creation or select from a list of existing contexts.
+ * This component also displays feedback through a Snackbar when a new context is successfully created,
+ * and handles the error messaging related to context creation.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.contextStore - Contains the state slice from Redux store that holds context data.
+ * @param {Function} props.handleClickSelectContext - Function to call when submitting a new context.
+ * @param {Function} props.handleDeleteContextClick - Function to call when a context is selected for deletion.
+ * @param {string} props.contextInput - The current input value for the new context name.
+ * @param {Function} props.setContextInput - Function to update the contextInput state.
+ * @param {string} props.currentContext - The currently selected context.
+ * @param {Function} props.setCurrentContext - Function to update the currentContext state.
+ * @param {string} props.errorMsg - Error message to display in the text field helper text if there's an error.
+ * @param {boolean} props.errorStatus - Boolean indicating if an error exists.
+ * @param {Function} props.setErrorStatus - Function to update the errorStatus state.
+ *
+ * @returns {JSX.Element} The component returns a set of React elements that include input fields, buttons, and a snackbar for feedback.
+ *
+ */
 const AddContextForm = ({
   contextStore,
   handleClickSelectContext,

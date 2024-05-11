@@ -21,12 +21,23 @@ import Tutorial from './tutorial/Tutorial';
 import TutorialPage from './tutorial/TutorialPage';
 import store from './redux/store';
 
+/**
+ * Initializes an Apollo Client for interacting with a GraphQL API.
+ * The client is configured to use an in-memory cache.
+ * @type {ApolloClient}
+ */
 const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
 
 const isDev = import.meta.env.NODE_ENV === 'development';
+
+/**
+ * Configuration for server URLs, importing development port and API base URL from a server config file.
+ * Adjusts the server URL based on whether the application is running in development mode.
+ * @type {string}
+ */
 import serverConfig from './serverConfig.js';
 
 const { DEV_PORT, API_BASE_URL } = serverConfig;
@@ -36,7 +47,15 @@ if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+/**
+ * A private route component that only renders the specified component if the user is logged in.
+ * If not logged in, it redirects the user to the login page. It checks both a server session and a guest login state
+ * stored in localStorage.
+ * @param {{component: React.ComponentType<any>, [x:string]: any}} props - The component to render and any additional route props.
+ * @returns {React.ReactNode} - Either the specified component if the user is authenticated, a redirect component to the login page,
+ * or null while waiting to verify user authentication.
+ */
+const PrivateRoute = ({ component: Component, ...rest }): React.ReactNode => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
@@ -77,6 +96,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   );
 };
 
+/**
+ * Initializes and renders the root component of the React application. It sets up the Apollo client with GraphQL,
+ * the Redux store for state management, and the React Router for handling routing. It includes both protected and unprotected routes.
+ * The application is wrapped with necessary providers for state management and data fetching.
+ * @returns {void}
+ */
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>

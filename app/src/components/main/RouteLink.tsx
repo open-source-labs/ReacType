@@ -8,6 +8,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
+/**
+ * Renders a RouteLink component that allows navigation within the application by changing the focus
+ * to the component associated with the route. The component is draggable and interactive,
+ * highlighting when focused.
+ *
+ * @param {Object} props - The component properties.
+ * @param {number} props.childId - Unique identifier for the child component.
+ * @param {string} props.type - The type of the component (always "RouteLink" here).
+ * @param {number} props.typeId - Identifier for the type of the linked component.
+ * @param {Object} props.style - Custom styles applied to the RouteLink.
+ * @returns {JSX.Element} A styled, interactive RouteLink that changes the focus in the application canvas.
+ */
+
 function RouteLink({
   childId,
   type,

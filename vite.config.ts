@@ -9,9 +9,6 @@ export default defineConfig({
   build: {
     outDir: 'build'
   },
-  optimizeDeps: {
-    exclude: [ 'electron', 'fs' ]
-  },
   assetsInclude: ['**/*.png'],
   server: { port: 8080 },
   plugins: [
