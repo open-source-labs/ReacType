@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Button, TextField } from '@mui/material';
 import { Send } from '@mui/icons-material';
 import MUITypes from '../../redux/MUITypes';
@@ -8,9 +8,7 @@ import { RootState } from '../../redux/store';
 import { useSelector, useDispatch } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
 import FormSelector from '../../components/form/Selector';
-import MUIPropsSlice, {
-  initialState
-} from '../../redux/reducers/slice/MUIpropsSlice';
+import MUIPropsSlice, { initialState } from '../../redux/reducers/slice/MUIpropsSlice';
 import { setSize, setColor } from '../../redux/reducers/slice/MUIpropsSlice';
 import FormControl from '@mui/material/FormControl';
 
@@ -434,18 +432,3 @@ const useStyles = makeStyles({
 
 export default MUIProps;
 
-// console.log(configTarget.child.name);
-// console.log(configTarget.child);
-// console.log('config whatever', )
-// console.log('configTarget', configTarget);
-// console.log('muiComponent?', configTarget.children[1].typeId); // give the ID of the MUI component
-// set a variable to equal the index value of the component in the MUITypes array
-// const propsIndex = MUITypes.findIndex(
-//   (item) => item.name === configTarget.child.name
-// );
-// const childInstanceId = useSelector(state => state.canvasFocus.childId);
-// console.log(arrayOfState)
-// const matchedState = arrayOfState.filter((state) => MUITypes[propsIndex].propOptions.includes(state));
-
-// console.log(arrayOfState);
-// const arrayOfState = ['color'];
