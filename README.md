@@ -51,7 +51,7 @@
 **ReacType** is a React prototyping tool that allows users _visualize_ their application architecture dynamically, employing an interactive drop and drag display with real-time component code preview and a collaboration room that features live video and chat functionality. Generated code can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
 
 <p align="center">
-  <img width="1000" src="./resources/v21 empty canvas.png">
+  <img width="1000" src="./resources/v21 MUI Canvas.png">
 </p>
 
 Visit [reactype.dev](https://reactype.dev) to learn more about the product.
@@ -76,7 +76,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 Get a glimpse of how ReacType works!
 
 <p align="center">
-  <img width="1000" src="./resources/"> // update w/ gif previewing MUI components
+  <img width="1000" src="./resources/v21 Preview.gif"> 
 </p>
 
 <!-- NEED TO REPLACE THE TUTORIAL LINK -->
@@ -86,7 +86,7 @@ Get a glimpse of how ReacType works!
 Here is the main file structure:
 
 <p align="center">
-  <img width="1000" src="./resources/v19filestructure.png"> // update with updated file structure
+  <img width="1000" src="./resources/v21 File Structure.png">
 </p>
 
 Given to us courtesy of our friends over at React Relay
