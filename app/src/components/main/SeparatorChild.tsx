@@ -111,10 +111,6 @@ function SeparatorChild({
               childId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit addChildAction event is triggered in SeparatorChild'
-            // );
           }
         }
       }
@@ -135,10 +131,6 @@ function SeparatorChild({
               newParentChildId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit changePosition event is triggered in SeparatorChild'
-            // );
           }
         }
       }

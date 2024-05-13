@@ -58,7 +58,6 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildMUI');
     }
   };
 

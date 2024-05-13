@@ -130,10 +130,6 @@ function DirectChildMUINestable({
               childId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit addChildAction event is triggered in DirectChildMUINestable'
-            // );
           }
         }
       }
@@ -154,10 +150,6 @@ function DirectChildMUINestable({
               newParentChildId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit changePosition event is triggered in DirectChildMUINestable'
-            // );
           }
         }
       }
@@ -177,7 +169,6 @@ function DirectChildMUINestable({
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildMUINestable');
     }
   };
 

@@ -35,10 +35,6 @@ function DeleteButton({
         id,
         contextParam
       });
-
-      // console.log(
-      //   'emit deleteChildAction event is triggered in DeleteButton.tsx'
-      // );
     }
   };
 

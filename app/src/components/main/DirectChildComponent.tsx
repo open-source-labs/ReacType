@@ -58,7 +58,6 @@ function DirectChildComponent({
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildComponent');
     }
   };
 

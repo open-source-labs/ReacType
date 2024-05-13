@@ -442,9 +442,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         style: styleObj,
         events: eventsObj
       });
-      // console.log(
-      //   'emit updateChildAction event is triggered in CustomizationPanel.tsx'
-      // );
     }
 
     return styleObj;
@@ -474,9 +471,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         id: {},
         contextParam: contextParam
       });
-      // console.log(
-      //   'emit deleteChildAction event is triggered in CustomizationPanel.tsx'
-      // );
     }
   };
 

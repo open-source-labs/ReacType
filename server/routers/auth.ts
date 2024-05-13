@@ -38,8 +38,6 @@ router.get(
   passport.authenticate('github'),
   sessionController.startSession,
   (req: UserReq, res) => {
-    console.log('github authenticate function is being run');
-    console.log(req.user.id);
     res.cookie('ssid', req.user.id, {
       httpOnly: true,
       sameSite: 'none',
@@ -77,7 +75,6 @@ router.get(
   passport.authenticate('google'),
   sessionController.startSession,
   (req: UserReq, res) => {
-    console.log('google authenicate function being run');
     res.cookie('ssid', req.user.id, {
       httpOnly: true,
       sameSite: 'none',

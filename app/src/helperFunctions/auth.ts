@@ -136,7 +136,6 @@ export const updatePassword = async (
         }
       }
     );
-    console.log('Profile updated successfully:', response.data);
     return response.data.message; // Returning response data directly
   } catch (err) {
     console.error('Error updating password:', err);

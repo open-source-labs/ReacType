@@ -151,7 +151,6 @@ const RoomsContainer = (): JSX.Element => {
       //If you are the new user: receive the state from the host
       socket.on('server emitting state from host', (state, callback) => {
         //dispatching new state to change user current state
-        // console.log('state received by new join:', state);
         store.dispatch(allCooperativeState(state.appState));
         store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
         store.dispatch(cooperativeStyle(state.styleSlice));
@@ -160,7 +159,6 @@ const RoomsContainer = (): JSX.Element => {
 
       // update user list when there's a change: new join or leave the room
       socket.on('update room information', (messageData) => {
-        //console.log('user list received from server');
         if (messageData.userList) dispatch(setUserList(messageData.userList));
         if (messageData.meetingId)
           dispatch(setMeetingId(messageData.meetingId));
@@ -177,19 +175,16 @@ const RoomsContainer = (): JSX.Element => {
 
       // dispatch add child to local state when element has been added by another user
       socket.on('child data from server', (childData: object) => {
-        // console.log('child data received by users', childData);
         store.dispatch(addChild(childData));
       });
 
       // dispatch changeFocus to local state when another user has changed focus by selecting element on canvas
       socket.on('focus data from server', (focusData: object) => {
-        // console.log('focus data received from server', focusData);
         store.dispatch(changeFocus(focusData));
       });
 
       // dispatch deleteChild to local state when another user has deleted an element
       socket.on('delete data from server', (deleteData: object) => {
-        // console.log('delete data received from server', deleteData);
         store.dispatch(deleteChild(deleteData));
       });
 
@@ -197,7 +192,6 @@ const RoomsContainer = (): JSX.Element => {
       socket.on(
         'delete element data from server',
         (deleteElementData: object) => {
-          // console.log('delete element data received from server', deleteElementData);
           store.dispatch(deleteElement(deleteElementData));
         }
       );
@@ -209,7 +203,6 @@ const RoomsContainer = (): JSX.Element => {
 
       // dispatch all updates to local state when another user has saved from Bottom Panel
       socket.on('update data from server', (updateData: BottomPanelObj) => {
-        // console.log('update data received from server', updateData);
         store.dispatch(
           updateStateUsed({
             stateUsedObj: updateData.stateUsedObj,
@@ -244,7 +237,6 @@ const RoomsContainer = (): JSX.Element => {
 
       // dispatch update style in local state when CSS panel is updated on their side
       socket.on('update css data from server', (cssData: object) => {
-        // console.log('CSS data received from server', cssData);
         store.dispatch(updateStylesheet(cssData));
       });
 
@@ -252,10 +244,6 @@ const RoomsContainer = (): JSX.Element => {
       socket.on(
         'item position data from server',
         (itemPositionData: object) => {
-          // console.log(
-          //   'item position data received from server',
-          //   itemPositionData
-          // );
           store.dispatch(changePosition(itemPositionData));
         }
       );

@@ -131,10 +131,6 @@ function DirectChildHTMLNestable({
               childId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit addChildAction event is triggered in DirectChildHTMLNestable'
-            // );
           }
         }
       }
@@ -155,10 +151,6 @@ function DirectChildHTMLNestable({
               newParentChildId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit changePosition event is triggered in DirectChildHTMLNestable'
-            // );
           }
         }
       }
@@ -178,7 +170,6 @@ function DirectChildHTMLNestable({
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildHTMLNestable');
     }
   };
 

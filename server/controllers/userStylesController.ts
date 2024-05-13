@@ -13,7 +13,6 @@ const userStylesController: UserStylesController = {
    * @returns {void} This function does not return anything directly but calls the next middleware function.
    */
   saveCssFile: (req, res, next): void => {
-    console.log('I am here in the cstylesController.');
     const newText = req.body.data;
     fs.writeFile(
       path.join(__dirname, '../assets/renderDemo.css'),

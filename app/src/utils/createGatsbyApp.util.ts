@@ -146,7 +146,7 @@ export const createDefaultCSS = (
     font-family: Helvetica, Arial;
   }
   `;
-  console.log(components);
+
   components.forEach((comp) => {
     data += compToCSS(comp);
   });

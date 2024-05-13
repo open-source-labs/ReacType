@@ -285,7 +285,6 @@ io.on('connection', (client) => {
     }
   });
   client.on('addChildAction', (roomCode: string, childData: object) => {
-    // console.log('child data received on server:', childData);
     if (roomCode) {
       //server send the data to everyone in the room
       client.to(roomCode).emit('child data from server', childData);
@@ -293,7 +292,6 @@ io.on('connection', (client) => {
   });
 
   client.on('changeFocusAction', (roomCode: string, focusData: object) => {
-    //console.log('focus data received on server', focusData);
     if (roomCode) {
       //server send the focus data to everyone in room
       client.to(roomCode).emit('focus data from server', focusData);
@@ -301,7 +299,6 @@ io.on('connection', (client) => {
   });
 
   client.on('deleteChildAction', (roomCode: string, deleteData: object) => {
-    //console.log('delete data received on server', deleteData);
     if (roomCode) {
       // server send delete data to everyone in room
       client.to(roomCode).emit('delete data from server', deleteData);

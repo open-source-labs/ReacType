@@ -1,4 +1,4 @@
-import HTMLTypes from "./app/src/redux/HTMLTypes";
+import HTMLTypes from './app/src/redux/HTMLTypes';
 
 const mockObj = {
   //these user credentials were created via the signup page
@@ -7,7 +7,7 @@ const mockObj = {
     username: 'test',
     email: 'test@gmail.com',
     password: 'password1!',
-    userId: '663e974c97c5dfbf7d204e78'
+    userId: '664247b09df40d692fb7fdef'
   },
 
   state: {
@@ -30,8 +30,8 @@ const mockObj = {
     nextTopSeparatorId: 1000,
     HTMLTypes: HTMLTypes, // left as is for now
     tailwind: false,
-    stylesheet: '', 
-    codePreview: false, 
+    stylesheet: '',
+    codePreview: false
   },
 
   projectToSave: {
@@ -59,18 +59,18 @@ const mockObj = {
       nextTopSeparatorId: 1000,
       HTMLTypes: HTMLTypes, // left as is for now
       tailwind: false,
-      stylesheet: '', 
-      codePreview: false, 
+      stylesheet: '',
+      codePreview: false
     },
     userId: {
-      "$oid": "663e974c97c5dfbf7d204e78"
+      $oid: '664247b09df40d692fb7fdef'
     },
     username: 'test',
     createdAt: Date.now(),
     isLoggedIn: false,
-    comments: [],
+    comments: []
   },
-//The following is for graphQL
+  //The following is for graphQL
   GET_PROJECTS: `query GetAllProjects($userId: ID) {
     getAllProjects(userId: $userId) { 
       name 

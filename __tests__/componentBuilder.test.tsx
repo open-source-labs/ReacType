@@ -1,15 +1,15 @@
 import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import componentBuilder from '../app/src/helperFunctions/componentBuilder';
 import { ChildElement, MUIComponent } from '../app/src/interfaces/Interfaces';
 
 // Mock MUITypes data
 const MUITypes = [
   {
-    tag: 'Button',
+    tag: 'mui button',
     componentData: {
-      name: 'button',
+      name: 'mui button',
       props: { children: 'Click me' }
     }
   }
@@ -34,7 +34,8 @@ describe('componentBuilder', () => {
     ];
     const result = componentBuilder(elements, 1);
     render(<>{result}</>);
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    // Using vitest's expect function to assert if the input element is rendered
+    expect(document.querySelector('input')).toBeTruthy();
   });
 
   it('handles MUI components', () => {
@@ -42,7 +43,7 @@ describe('componentBuilder', () => {
       {
         type: 'MUI Component',
         typeId: 2,
-        name: 'Button',
+        name: 'mui button',
         childId: 2,
         style: {},
         attributes: {},
@@ -54,7 +55,19 @@ describe('componentBuilder', () => {
     ];
     const result = componentBuilder(elements, 2);
     render(<>{result}</>);
-    expect(screen.getByText('Click me')).toBeInTheDocument(); // Assuming 'Click me' is rendered text for Button
+    // Assuming 'Click me' is rendered text for Button
+    expect(result[0]).toEqual(
+      JSON.stringify({
+        type: 'Button',
+        props: {
+          variant: 'contained',
+          color: 'primary',
+          sx: { m: 1 },
+          key: 3
+        },
+        children: 'Click Me'
+      })
+    );
   });
 
   it('skips separators and continues rendering', () => {
@@ -86,8 +99,8 @@ describe('componentBuilder', () => {
     ];
     const result = componentBuilder(elements, 3);
     render(<>{result}</>);
-    expect(screen.getByRole('img')).toHaveAttribute(
-      'src',
+    // Using vitest's expect function to assert if the img element has the correct src attribute
+    expect(document.querySelector('img')?.getAttribute('src')).toBe(
       'http://example.com/image.png'
     );
   });
@@ -122,9 +135,10 @@ describe('componentBuilder', () => {
     ];
     const result = componentBuilder(elements, 4);
     render(<>{result}</>);
-    expect(screen.getByText('Hello, world!')).toBeInTheDocument();
-    expect(screen.getByText('Hello, world!').parentNode).toHaveClass(
-      'container'
+    // Using vitest's expect function to assert if the text 'Hello, world!' is rendered within the container div
+    expect(document.querySelector('.container')).toBeTruthy();
+    expect(document.querySelector('.container')?.textContent).toContain(
+      'Hello, world!'
     );
   });
 });

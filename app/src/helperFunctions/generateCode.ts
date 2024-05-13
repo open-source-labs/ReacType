@@ -114,143 +114,51 @@ const generateUnformattedCode = (
    * @returns {Array<ChildElement | MUIComponent>} - An array of objects representing enriched children, including components, HTML elements,
    * Material UI components, and route links.
    */
-  getEnrichedChildren = (
-    currentComponent: Component | ChildElement | MUIComponent
-  ): Array<ChildElement | MUIComponent> => {
+  getEnrichedChildren = (currentComponent) => {
     const enrichedChildren = [];
 
-    currentComponent.children?.forEach((child) => {
-      const newChild = { ...child }; // Copy to avoid mutating original data
-
+    currentComponent.children.forEach((child) => {
+      const newChild = { ...child };
       switch (child.type) {
         case 'Component':
           const component = components.find((c) => c.id === child.typeId);
-          if (component && !imports.includes(component.name)) {
-            imports.push(component.name); // Track imports to avoid duplicates
-          }
-          newChild.name = component?.name; // Assign the name for rendering
-          break;
-
-        case 'HTML Element':
-          const htmlElement = HTMLTypes.find((h) => h.id === child.typeId);
-          newChild.tag = htmlElement?.tag;
-          if (htmlElement) {
-            // If this HTML element can contain children, process them recursively
-            if (
-              [
-                'h1',
-                'h2',
-                'a',
-                'p',
-                'button',
-                'span',
-                'div',
-                'form',
-                'ul',
-                'ol',
-                'menu',
-                'li',
-                'Link',
-                'Switch',
-                'Route'
-              ].includes(htmlElement.tag)
-            ) {
-              newChild.children = getEnrichedChildren(child.children);
-            }
-
-            // Additional flags for special types
-            if (
-              ['Switch', 'Route'].includes(htmlElement.tag) &&
-              projectType === 'Classic React'
-            ) {
-              importReactRouter = true;
-            } else if (htmlElement.tag === 'Link') {
-              links = true;
-            } else if (htmlElement.tag === 'Image') {
-              images = true;
-            }
+          if (component) {
+            newChild.name = component.name;
+            newChild.children = getEnrichedChildren(component); // Ensure recursion
           }
           break;
 
         case 'MUI Component':
           const muiComponent = MUITypes.find((m) => m.id === child.typeId);
-          newChild.tag = muiComponent?.tag;
           if (muiComponent) {
-            // Recursively process MUI components that can have children
-            if (
-              [
-                'autocomplete',
-                'mui button',
-                'btn group',
-                'checkbox',
-                'fab',
-                'radio group',
-                'rating',
-                'select',
-                'slider',
-                'switch',
-                'textfield',
-                'transfer-list',
-                'toggle-button',
-                'avatar',
-                'badge',
-                'chip',
-                'divider',
-                'list',
-                'table',
-                'tooltip',
-                'typography',
-                'alert',
-                'backdrop',
-                'dialog',
-                'progress',
-                'skeleton',
-                'snackbar',
-                'accordion',
-                'appbar',
-                'card',
-                'paper',
-                'bottomNavigation',
-                'breadcrumbs',
-                'drawer',
-                'link',
-                'menu',
-                'pagination',
-                'speedDial',
-                'stepper',
-                'tabs',
-                'box',
-                'container',
-                'grid',
-                'stack',
-                'imageList',
-                'modal',
-                'popover',
-                'popper',
-                'transition'
-              ].includes(muiComponent.tag)
-            ) {
-              newChild.children = getEnrichedChildren(child.children);
-              collectMUIImports(child, MUITypes, muiImports);
-              collectStateAndEventHandlers(
-                child,
-                MUITypes,
-                muiStateAndEventHandlers
-              );
+            newChild.tag = muiComponent.tag;
+            // Always process children if they exist, even if the current MUI component is not typically container-like
+            if (child.children && child.children.length > 0) {
+              newChild.children = getEnrichedChildren(child);
             }
+            collectMUIImports(child, MUITypes, muiImports);
+            collectStateAndEventHandlers(
+              child,
+              MUITypes,
+              muiStateAndEventHandlers
+            );
           }
           break;
 
-        case 'Route Link':
-          links = true;
-          newChild.name = components.find((c) => c.id === child.typeId)?.name;
+        case 'HTML Element':
+          const htmlElement = HTMLTypes.find((h) => h.id === child.typeId);
+          newChild.tag = htmlElement.tag;
+          if (child.children && child.children.length > 0) {
+            newChild.children = getEnrichedChildren(child);
+          }
           break;
 
         default:
-          // Handle other types or add error handling
+          console.warn('Unhandled component type: ', child.type);
           break;
       }
-      enrichedChildren.push(newChild); // Add the processed child to the list
+
+      enrichedChildren.push(newChild);
     });
 
     return enrichedChildren;
@@ -510,11 +418,9 @@ const generateUnformattedCode = (
     attribute: string
   ): string => {
     const before = line.substring(0, index);
-    console.log('before', before);
 
     // Remove only leading spaces from `after`, not the '>'
     const after = line.substring(index).replace(/^\s+/, '');
-    console.log('after', after);
 
     // Ensure there is exactly one space before and after the inserted attribute, without removing '>'
     return `${before} ${attribute.trim()} ${after}`;
@@ -641,7 +547,7 @@ const generateUnformattedCode = (
       modifiedJSx = insertNestedJsxBeforeClosingTag(
         modifiedJSx.join('\n'),
         nestedJsx,
-        level + 1
+        level
       ).split('\n');
     }
 
@@ -837,7 +743,7 @@ const generateUnformattedCode = (
   if (projectType === 'Classic React') {
     //string to store all imports string for context
     let contextImports = '';
-    const { allContext } = contextParam;
+    let allContext = contextParam.allContext || []; // Set a default value if allContext is not present or falsy
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
