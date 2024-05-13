@@ -1,5 +1,5 @@
 // /**
-//  * @jest-environment node
+//  * @vitest environment node
 //  */
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import Mongoose from 'mongoose';

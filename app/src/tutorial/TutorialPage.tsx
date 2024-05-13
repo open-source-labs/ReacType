@@ -1,11 +1,11 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Pages from './Pages';
 import Customization from './Customization';
 import Canvas from './Canvas';
 import Styling from './Styling';
-import RouteLinks from './RouteLinks';
+// import RouteLinks from './RouteLinks';
 import ReusableComponents from './ReusableComponents';
 import ComponentTree from './ComponentTree';
 import HTMLElements from './HtmlElements';

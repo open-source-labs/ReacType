@@ -14,7 +14,6 @@ const componentBuilder = (
 ): React.ReactNode[] => {
   const componentsToRender = [];
   for (const element of array) {
-    console.log('componentBuilder element', element);
     if (element.name === 'separator') continue;
     const elementType = element.name;
     const childId = element.childId;
@@ -32,7 +31,6 @@ const componentBuilder = (
       const baseData = MUITypes.find(
         (m) => m.tag === elementType
       ).componentData;
-      console.log('baseData', baseData);
       if (!baseData) return null;
       const componentData = {
         ...baseData,

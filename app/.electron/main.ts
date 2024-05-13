@@ -34,7 +34,6 @@ import debug from 'electron-debug';
 import { MenuBuilder } from './menu';
 import { string } from 'prop-types';
 import { hostname } from 'os';
-console.log('Main.ts has started');
 // mode that the app is running in
 const isDev =
   process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';

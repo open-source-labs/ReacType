@@ -13,6 +13,28 @@ declare global {
   }
 }
 
+let muiGenerator;
+let handleRouteLink;
+let insertNestedJsxBeforeClosingTag;
+let modifyAndIndentJsx;
+let insertAttribute;
+let writeStateProps;
+let createRender;
+let indentLinesExceptFirst;
+let createContextImport;
+let createEventHandler;
+let getEnrichedChildren;
+let formatStyles;
+let elementTagDetails;
+let writeNestedElements;
+let generateMUIImportStatements;
+let generateStateAndEventHandlerCode;
+let tabSpacer;
+let levelSpacer;
+let elementGenerator;
+let collectMUIImports;
+let collectStateAndEventHandlers;
+
 /**
  * Generates code based on the component hierarchy and returns the rendered code.
  * @param {Component[]} components - Array of components in the hierarchy.
@@ -92,142 +114,51 @@ const generateUnformattedCode = (
    * @returns {Array<ChildElement | MUIComponent>} - An array of objects representing enriched children, including components, HTML elements,
    * Material UI components, and route links.
    */
-  const getEnrichedChildren = (
-    currentComponent: Component | ChildElement | MUIComponent
-  ): Array<ChildElement | MUIComponent> => {
+  getEnrichedChildren = (currentComponent) => {
     const enrichedChildren = [];
 
-    currentComponent.children?.forEach((child) => {
-      const newChild = { ...child }; // Copy to avoid mutating original data
-
+    currentComponent.children.forEach((child) => {
+      const newChild = { ...child };
       switch (child.type) {
         case 'Component':
           const component = components.find((c) => c.id === child.typeId);
-          if (component && !imports.includes(component.name)) {
-            imports.push(component.name); // Track imports to avoid duplicates
-          }
-          newChild.name = component?.name; // Assign the name for rendering
-          break;
-
-        case 'HTML Element':
-          const htmlElement = HTMLTypes.find((h) => h.id === child.typeId);
-          newChild.tag = htmlElement?.tag;
-          if (htmlElement) {
-            // If this HTML element can contain children, process them recursively
-            if (
-              [
-                'h1',
-                'h2',
-                'a',
-                'p',
-                'button',
-                'span',
-                'div',
-                'form',
-                'ul',
-                'ol',
-                'menu',
-                'li',
-                'Link',
-                'Switch',
-                'Route'
-              ].includes(htmlElement.tag)
-            ) {
-              newChild.children = getEnrichedChildren(child.children);
-            }
-
-            // Additional flags for special types
-            if (
-              ['Switch', 'Route'].includes(htmlElement.tag) &&
-              projectType === 'Classic React'
-            ) {
-              importReactRouter = true;
-            } else if (htmlElement.tag === 'Link') {
-              links = true;
-            } else if (htmlElement.tag === 'Image') {
-              images = true;
-            }
+          if (component) {
+            newChild.name = component.name;
+            newChild.children = getEnrichedChildren(component); // Ensure recursion
           }
           break;
 
         case 'MUI Component':
           const muiComponent = MUITypes.find((m) => m.id === child.typeId);
-          newChild.tag = muiComponent?.tag;
           if (muiComponent) {
-            // Recursively process MUI components that can have children
-            if (
-              [
-                'autocomplete',
-                'mui button',
-                'btn group',
-                'checkbox',
-                'fab',
-                'radio group',
-                'rating',
-                'select',
-                'slider',
-                'switch',
-                'textfield',
-                'transfer-list',
-                'toggle-button',
-                'avatar',
-                'badge',
-                'chip',
-                'list',
-                'table',
-                'tooltip',
-                'typography',
-                'alert',
-                'backdrop',
-                'dialog',
-                'progress',
-                'skeleton',
-                'snackbar',
-                'accordion',
-                'appbar',
-                'card',
-                'paper',
-                'bottomNavigation',
-                'breadcrumbs',
-                'drawer',
-                'link',
-                'menu',
-                'pagination',
-                'speedDial',
-                'stepper',
-                'tabs',
-                'box',
-                'container',
-                'grid',
-                'stack',
-                'imageList',
-                'modal',
-                'popover',
-                'popper',
-                'transition'
-              ].includes(muiComponent.tag)
-            ) {
-              newChild.children = getEnrichedChildren(child.children);
-              collectMUIImports(child, MUITypes, muiImports);
-              collectStateAndEventHandlers(
-                child,
-                MUITypes,
-                muiStateAndEventHandlers
-              );
+            newChild.tag = muiComponent.tag;
+            // Always process children if they exist, even if the current MUI component is not typically container-like
+            if (child.children && child.children.length > 0) {
+              newChild.children = getEnrichedChildren(child);
             }
+            collectMUIImports(child, MUITypes, muiImports);
+            collectStateAndEventHandlers(
+              child,
+              MUITypes,
+              muiStateAndEventHandlers
+            );
           }
           break;
 
-        case 'Route Link':
-          links = true;
-          newChild.name = components.find((c) => c.id === child.typeId)?.name;
+        case 'HTML Element':
+          const htmlElement = HTMLTypes.find((h) => h.id === child.typeId);
+          newChild.tag = htmlElement.tag;
+          if (child.children && child.children.length > 0) {
+            newChild.children = getEnrichedChildren(child);
+          }
           break;
 
         default:
-          // Handle other types or add error handling
+          console.warn('Unhandled component type: ', child.type);
           break;
       }
-      enrichedChildren.push(newChild); // Add the processed child to the list
+
+      enrichedChildren.push(newChild);
     });
 
     return enrichedChildren;
@@ -238,7 +169,7 @@ const generateUnformattedCode = (
    * @param {object} styleObj - The object containing styles to format.
    * @returns {string} - The formatted styles in React inline style format.
    */
-  const formatStyles = (styleObj): string => {
+  formatStyles = (styleObj): string => {
     // check if the style object is empty
     if (Object.keys(styleObj).length === 0) return '';
     // Convert the style object to a string in React inline style format
@@ -253,7 +184,7 @@ const generateUnformattedCode = (
    * @param {ChildElement} childElement - The child element to generate details for.
    * @returns {string} - The generated details as a string.
    */
-  const elementTagDetails = (childElement): string => {
+  elementTagDetails = (childElement): string => {
     const details = [];
     // Add id attribute if childId exists and the element is not a Route
     if (childElement.childId && childElement.tag !== 'Route') {
@@ -350,14 +281,14 @@ const generateUnformattedCode = (
    * @param {number} level - The level of indentation.
    * @returns {string} - The string representing the indentation.
    */
-  const tabSpacer = (level: number): string => '  '.repeat(level);
+  tabSpacer = (level: number): string => '  '.repeat(level);
 
   /**
    * Generates a string consisting of new lines and indentation to represent spacing for a given level.
    * @param {number} level - The level of spacing.
    * @returns {string} - The string representing the spacing.
    */
-  const levelSpacer = (level: number): string => `\n${tabSpacer(level)}`;
+  levelSpacer = (level: number): string => `\n${tabSpacer(level)}`;
 
   /**
    * Generates JSX elements based on the provided child element.
@@ -365,7 +296,7 @@ const generateUnformattedCode = (
    * @param {number} [level=0] - The nesting level of the element. Default is 0.
    * @returns {string[]} - An array of strings representing JSX elements.
    */
-  const elementGenerator = (
+  elementGenerator = (
     childElement: ChildElement,
     level: number = 0
   ): string[] => {
@@ -438,7 +369,7 @@ const generateUnformattedCode = (
    * @param {number} indentationLevel The level of indentation for the nested JSX.
    * @returns {string} The updated JSX string with nested elements inserted.
    */
-  const insertNestedJsxBeforeClosingTag = (
+  insertNestedJsxBeforeClosingTag = (
     parentJsx: string,
     nestedJsx: string[],
     indentationLevel: number
@@ -464,87 +395,99 @@ const generateUnformattedCode = (
   };
 
   /**
-   * Modifies JSX elements by adding new props and indenting them properly.
-   * @param {string[]} jsxAry - The array of JSX elements to modify.
-   * @param {string} newProps - The new props to add to the JSX elements.
-   * @param {string} childId - The ID of the child element.
-   * @param {string} name - The name of the child element.
-   * @param {string} key - The key to insert into the JSX.
-   * @returns {string[]} - The modified JSX elements with added props and proper indentation.
+   * Inserts a specified attribute into a JSX string at a given index. This function ensures
+   * correct formatting by maintaining exactly one space before and after the inserted attribute.
+   * It effectively manages whitespace to prevent issues such as double spaces or missing spaces
+   * around the newly inserted attribute. This function specifically preserves the structural integrity
+   * of JSX tags, avoiding alterations to the closing '>' or unintended removal of critical syntax elements.
+   *
+   * @param {string} line - The original JSX string where the attribute will be inserted. This string
+   *                        should already include the opening tag of a JSX element.
+   * @param {number} index - The position within the string to insert the attribute. This index should
+   *                         ideally be placed right after the component name or the last attribute before
+   *                         the closing '>' of the tag.
+   * @param {string} attribute - The attribute to insert into the JSX string. This parameter should include
+   *                             both the attribute name and its value (e.g., `type="button"`), and must be
+   *                             properly formatted as it would appear in JSX.
+   * @returns {string} - The modified JSX string with the new attribute inserted at the specified position,
+   *                     ensuring correct formatting and spacing are maintained.
    */
-  const modifyAndIndentJsx = (
+  insertAttribute = (
+    line: string,
+    index: number,
+    attribute: string
+  ): string => {
+    const before = line.substring(0, index);
+
+    // Remove only leading spaces from `after`, not the '>'
+    const after = line.substring(index).replace(/^\s+/, '');
+
+    // Ensure there is exactly one space before and after the inserted attribute, without removing '>'
+    return `${before} ${attribute.trim()} ${after}`;
+  };
+
+  /**
+   * Modifies JSX array by inserting 'id' and 'newProps' attributes into the specified component.
+   * The function ensures that each attribute is added with correct formatting and spacing,
+   * preserving the original indentation of each line for consistent layout.
+   *
+   * @param {string[]} jsxAry - The array of JSX strings to be modified.
+   * @param {string} newProps - The new properties to add, formatted as a single string.
+   * @param {string} childId - The ID value to be used in the 'id' attribute, should not include 'id='.
+   * @param {string} name - The name of the component to which the 'id' and 'newProps' are added.
+   * @param {string} key - A unique key for the 'id' attribute, typically the same as 'childId'.
+   * @returns {string[]} - The modified array of JSX strings with the new attributes added.
+   */
+  modifyAndIndentJsx = (
     jsxAry: string[],
     newProps: string,
     childId: string,
     name: string,
     key: string
   ): string[] => {
-    // Define a regular expression to match the start tag of the specified child element
     const tagRegExp = new RegExp(`^<${name}(\\s|>)`);
 
-    // Iterate through each line of JSX code
     const modifiedJsx = jsxAry.map((line, index) => {
-      // Capture the original indentation by extracting leading spaces
       const originalIndent = line.match(/^[\s]*/)[0];
       const trimmedLine = line.trim();
-      // Find the position right after the component name to insert id and newProps
-      let insertIndex = trimmedLine.indexOf(`<${name}`) + `<${name}`.length;
-      // Condition for the first line (index 0)
-      if (index === 0) {
-        // Check if the line contains the start tag of the specified child element
-        if (tagRegExp.test(trimmedLine)) {
-          // Check and insert id if not already present
-          if (!trimmedLine.includes(`id=`) && childId) {
-            line = `${trimmedLine.substring(
-              0,
-              insertIndex
-            )} ${childId}${trimmedLine.substring(insertIndex)}`;
-            // Adjust insertIndex for the next insertion
-            insertIndex += childId.length + 1;
-          } else if (trimmedLine.includes(`id=`) && childId) {
-            // Define the insertion point for "{key} " right after `id="`
-            let idInsertIndex = trimmedLine.indexOf(`id="`) + 4;
-            // Insert "{key} " at the identified position within the existing id value
-            line = `${trimmedLine.substring(
-              0,
-              idInsertIndex
-            )}${key} ${trimmedLine.substring(idInsertIndex)}`;
-          }
-          // Insert newProps at the updated insertion index
-          if (newProps) {
-            line = `${line.substring(
-              0,
-              insertIndex
-            )} ${newProps}${line.substring(insertIndex)}`;
-          }
-        } else {
-          // If the regex test fails but it's the first line, just add the id
-          if (!trimmedLine.includes(`id=`) && childId) {
-            let spaceIndex = trimmedLine.indexOf(' ');
-            if (spaceIndex === -1) {
-              // If no space found, use position before '>'
-              spaceIndex = trimmedLine.indexOf('>');
-            }
-            line = `${trimmedLine.substring(
-              0,
-              spaceIndex
-            )} ${childId} ${trimmedLine.substring(spaceIndex)}`;
-          }
+
+      // Only modify lines that contain the start tag of the specified child element
+      if (tagRegExp.test(trimmedLine)) {
+        let modifiedLine = trimmedLine;
+
+        // Position to insert id and newProps, right after the component name
+        let insertIndex = trimmedLine.indexOf(name) + name.length;
+
+        // Check if 'id' is present and modify or insert accordingly
+        const idRegex = /id="[^"]*"/;
+        const idMatch = trimmedLine.match(idRegex);
+        if (idMatch) {
+          // If an 'id' attribute is already present, append the key to its value
+          const idContent = idMatch[0].slice(0, -1) + ` ${key}"`; // Assumes existing id does not end with a space
+          modifiedLine = modifiedLine.replace(idRegex, idContent);
+        } else if (childId) {
+          // Insert 'id' attribute if it's not present and a childId is provided
+          modifiedLine = insertAttribute(
+            modifiedLine,
+            insertIndex,
+            `id="${key}"`
+          );
+          insertIndex += ` id="${key}"`.length; // Update index to account for added id length
         }
-      } else if (index > 0 && tagRegExp.test(trimmedLine)) {
-        insertIndex = line.indexOf(`<${name}`) + `<${name}`.length;
+
+        // Insert newProps at the updated insertion index
         if (newProps) {
-          line = `${line.substring(0, insertIndex)} ${newProps}${line.substring(
-            insertIndex
-          )}`;
+          modifiedLine = insertAttribute(modifiedLine, insertIndex, newProps);
         }
-      } else {
-        // For other lines, no changes are made
-        line = trimmedLine;
+
+        // Return the modified line with original indentation preserved
+        return originalIndent + modifiedLine;
       }
-      // Return the line with its original indentation preserved
-      return originalIndent + line; // Avoid trimming here as line may already include necessary spaces
+
+      // Return the line unchanged if it doesn't contain the start tag
+      return line;
     });
+
     return modifiedJsx;
   };
 
@@ -554,7 +497,7 @@ const generateUnformattedCode = (
    * @param {number} [level=0] - The indentation level.
    * @returns {string} - The generated JSX for the Material UI component.
    */
-  const muiGenerator = (child: ChildElement, level: number = 0): string => {
+  muiGenerator = (child: ChildElement, level: number = 0): string => {
     let childId = '';
     let passedInPropsString = '';
     let key = '';
@@ -604,7 +547,7 @@ const generateUnformattedCode = (
       modifiedJSx = insertNestedJsxBeforeClosingTag(
         modifiedJSx.join('\n'),
         nestedJsx,
-        level + 1
+        level
       ).split('\n');
     }
 
@@ -617,7 +560,7 @@ const generateUnformattedCode = (
    * @param {number} level - The indentation level.
    * @returns {string} - The generated JSX for the route link.
    */
-  const handleRouteLink = (child, level) => {
+  handleRouteLink = (child, level) => {
     const jsxArray = [];
     const indentation = '  '.repeat(level);
 
@@ -663,7 +606,7 @@ const generateUnformattedCode = (
    * @param {MUIType[]} MUITypes - The array of Material UI component types.
    * @param {Set<string>} muiImports - The set to store collected Material UI imports.
    */
-  const collectMUIImports = (
+  collectMUIImports = (
     component: ChildElement | MUIComponent,
     MUITypes: MUIType[],
     muiImports: Set<string>
@@ -693,10 +636,11 @@ const generateUnformattedCode = (
 
   /**
    * Generates Material UI import statements from a set of import statements.
+   * This version of the function preserves the original formatting, including comments.
    * @param {Set<string>} muiImports - The set of Material UI import statements.
-   * @returns {string} - The generated import statements as a single string.
+   * @returns {string} - The generated import statements as a single string, preserving initial spaces and comments.
    */
-  const generateMUIImportStatements = (muiImports: Set<string>): string =>
+  generateMUIImportStatements = (muiImports: Set<string>): string =>
     Array.from(muiImports).join('\n');
 
   /**
@@ -705,7 +649,7 @@ const generateUnformattedCode = (
    * @param {MUIType[]} MUITypes - The array of Material UI component types.
    * @param {Set<string>} handlersCollection - The set to store collected state and event handler snippets.
    */
-  const collectStateAndEventHandlers = (
+  collectStateAndEventHandlers = (
     component: ChildElement | MUIComponent,
     MUITypes: MUIType[],
     handlersCollection: Set<string>
@@ -730,13 +674,17 @@ const generateUnformattedCode = (
   };
 
   /**
-   * Generates Material UI import statements from a set of import statements.
-   * @param {Set<string>} handlersCollection - The set of Material UI import statements.
-   * @returns {string} - The generated import statements as a single string.
+   * Generates Material UI state and event handler code from a set of statements,
+   * preserving indentation and removing comments.
+   * @param {Set<string>} handlersCollection - The set of handler statements.
+   * @returns {string} - The generated handler statements as a single, clean string, with preserved indentation.
    */
-  const generateStateAndEventHandlerCode = (
+  generateStateAndEventHandlerCode = (
     handlersCollection: Set<string>
-  ): string => Array.from(handlersCollection).join('\n');
+  ): string =>
+    Array.from(handlersCollection)
+      .map((line) => line.replace(/\/\/.*$/, '')) // Remove only the comment, preserve everything before //
+      .join('\n');
 
   /**
    * Writes nested elements based on the provided enriched children.
@@ -744,7 +692,7 @@ const generateUnformattedCode = (
    * @param {number} [level=0] - The nesting level of the elements. 0 by default.
    * @returns {string[]} - An array of strings representing the nested elements.
    */
-  const writeNestedElements = (enrichedChildren, level = 0) => {
+  writeNestedElements = (enrichedChildren, level = 0) => {
     return enrichedChildren.flatMap((child) => {
       if (child.type === 'Component') {
         return [`<${child.name} ${elementTagDetails(child)} />`];
@@ -764,7 +712,7 @@ const generateUnformattedCode = (
    * @param {string[]} stateArray - Array of strings representing the user-created state.
    * @returns {string} - A string containing code to incorporate the user-created state.
    */
-  const writeStateProps = (stateArray: string[]): string => {
+  writeStateProps = (stateArray: string[]): string => {
     let stateToRender: string = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2) + element + ';';
@@ -795,7 +743,7 @@ const generateUnformattedCode = (
   if (projectType === 'Classic React') {
     //string to store all imports string for context
     let contextImports = '';
-    const { allContext } = contextParam;
+    let allContext = contextParam.allContext || []; // Set a default value if allContext is not present or falsy
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
@@ -814,7 +762,7 @@ const generateUnformattedCode = (
      * Creates a JSX string representing the rendered output of enriched children.
      * @returns {string} - The JSX string representing the rendered output.
      */
-    const createRender = (): string => {
+    createRender = (): string => {
       const jsxElements = writeNestedElements(enrichedChildren);
 
       let jsxString = jsxElements.join('\n');
@@ -852,7 +800,7 @@ const generateUnformattedCode = (
      * @param {number} level - The level of indentation (number of spaces).
      * @returns {string} - The indented text.
      */
-    const indentLinesExceptFirst = (text: string, level: number): string => {
+    indentLinesExceptFirst = (text: string, level: number): string => {
       const lines = text.split('\n');
       const firstLine = lines.shift(); // Remove the first line
       const indentation = '  '.repeat(level);
@@ -864,7 +812,7 @@ const generateUnformattedCode = (
      * Generates import statements for the components based on their contexts.
      * @returns {string} - The import statements as a string.
      */
-    const createContextImport = (): string => {
+    createContextImport = (): string => {
       if (!(currComponent.name in componentContext)) return '';
 
       let importStr = '';
@@ -880,7 +828,7 @@ const generateUnformattedCode = (
      * @param {ChildElement[]} children - The array of children elements.
      * @returns {string}- The event handler functions as a string.
      */
-    const createEventHandler = (children: ChildElement[]): string => {
+    createEventHandler = (children: ChildElement[]): string => {
       let importStr = '';
       children.map((child) => {
         if (child.type === 'HTML Element') {
@@ -1013,4 +961,29 @@ const formatCode = (code: string): string => {
     return code;
   }
 };
-export default generateCode;
+export {
+  muiGenerator,
+  handleRouteLink,
+  insertNestedJsxBeforeClosingTag,
+  modifyAndIndentJsx,
+  insertAttribute,
+  writeStateProps,
+  createRender,
+  indentLinesExceptFirst,
+  createContextImport,
+  createEventHandler,
+  generateUnformattedCode,
+  getEnrichedChildren,
+  formatStyles,
+  elementTagDetails,
+  writeNestedElements,
+  generateMUIImportStatements,
+  generateStateAndEventHandlerCode,
+  tabSpacer,
+  levelSpacer,
+  elementGenerator,
+  collectMUIImports,
+  collectStateAndEventHandlers,
+  formatCode,
+  generateCode as default // Maintaining generateCode as default export
+};

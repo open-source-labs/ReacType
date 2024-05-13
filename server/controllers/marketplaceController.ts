@@ -4,7 +4,7 @@ import { Projects, Users } from '../models/reactypeModels';
 import mongoose from 'mongoose';
 
 // array of objects, objects inside
-type Projects = { project: {} }[];
+// type Projects = { project: {} }[];
 
 const marketplaceController: MarketplaceController = {
   /**
@@ -16,17 +16,9 @@ const marketplaceController: MarketplaceController = {
    * @param {Function} next - The next middleware function in the stack.
    * @returns {void}
    */
-  getPublishedProjects: (req, res, next): void => {
-    Projects.find({ published: true }, (err, projects) => {
-      //removed the typing for now for projects: since its the mongodb doc
-      if (err) {
-        return next({
-          log: `Error in marketplaceController.getPublishedProjects: ${err}`,
-          message: {
-            err: 'Error in marketplaceController.getPublishedProjects, check server logs for details'
-          }
-        });
-      }
+  getPublishedProjects: async (req, res, next) => {
+    try {
+      const projects = await Projects.find({ published: true }).exec();
       // returns the entire project document as an array
       // need to convert each project document to an object
       const convertedProjects = projects.map((project) => {
@@ -34,7 +26,14 @@ const marketplaceController: MarketplaceController = {
       });
       res.locals.publishedProjects = convertedProjects;
       return next();
-    });
+    } catch (err) {
+      return next({
+        log: `Error in marketplaceController.getPublishedProjects: ${err}`,
+        message: {
+          err: 'Error in marketplaceController.getPublishedProjects, check server logs for details'
+        }
+      });
+    }
   },
 
   /**

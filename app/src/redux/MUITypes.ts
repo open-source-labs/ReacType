@@ -8,12 +8,12 @@ import { MUIType } from '../interfaces/Interfaces';
 24. Checkbox
 25. Floating Action Button
 26. Radio Group
-27. Rating // not working
+27. Rating
 28. Select
 29. Slider
 30. Switch
 31. Text Field
-32. Transfer List // not working
+32. Transfer List // displays but checkboxes are not clickable
 33. Toggle Button
 
 DATA DISPLAY
@@ -25,7 +25,7 @@ DATA DISPLAY
 39. Material Icons
 40. List
 41. Table
-42. Tooltip // not working
+42. Tooltip
 43. Typography
 
 FEEDBACK
@@ -45,12 +45,12 @@ SURFACES
 NAVIGATION
 54. Bottom Navigation
 55. Breadcrumbs
-56. Drawer //not working
+56. Drawer
 57. Link 
-58. Menu //not working (no state)
+58. Menu
 59. Pagination
 60. Speed Dial
-61. Stepper //not working
+61. Stepper
 62. Tabs 
 
 LAYOUT
@@ -86,8 +86,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import TextField from '@mui/material/TextField'",
-      "import Autocomplete from '@mui/material/Autocomplete'",
+      "import TextField from '@mui/material/TextField';",
+      "import Autocomplete from '@mui/material/Autocomplete';",
       '\nconst top100Films = [',
       "\t{ label: 'The Shawshank Redemption', year: 1994 },",
       "\t{ label: 'The Godfather', year: 1972 },",
@@ -209,7 +209,7 @@ const MUITypes: MUIType[] = [
     icon: 'EditAttributes',
     framework: 'reactClassic',
     nestable: true,
-    imports: ["import Button from '@mui/material/Button'"],
+    imports: ["import Button from '@mui/material/Button';"],
     stateAndEventHandlers: [],
     defaultProps: ['variant="contained"'],
     propOptions: [
@@ -229,7 +229,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'variant'
     ],
-    jsx: [`<Button >Contained</Button>`],
+    jsx: [`<Button >Click Me</Button>`],
     componentData: {
       type: 'Button',
       props: {
@@ -252,8 +252,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Button from '@mui/material/Button",
-      "import ButtonGroup from '@mui/material/ButtonGroup'"
+      "import Button from '@mui/material/Button';",
+      "import ButtonGroup from '@mui/material/ButtonGroup';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['variant="contained"'],
@@ -304,7 +304,7 @@ const MUITypes: MUIType[] = [
     icon: 'CheckBoxOutlineBlank',
     framework: 'reactClassic',
     nestable: false,
-    imports: ["import Checkbox from '@mui/material/Checkbox'"],
+    imports: ["import Checkbox from '@mui/material/Checkbox';"],
     stateAndEventHandlers: [],
     defaultProps: ['defaultChecked'],
     propOptions: [
@@ -329,7 +329,7 @@ const MUITypes: MUIType[] = [
     ],
     jsx: [
       `<div>`,
-      `  <Checkbox {...{ inputProps: { 'aria-label': 'Checkbox demo' } }} />`,
+      `  <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />`,
       `</div>`
     ],
     componentData: {
@@ -358,9 +358,9 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Fab from '@mui/material/Fab'",
-      "import AddIcon from '@mui/icons-material/Add'"
+      "import Box from '@mui/material/Box';",
+      "import Fab from '@mui/material/Fab';",
+      "import AddIcon from '@mui/icons-material/Add';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['color="primary" variant="circular"'],
@@ -414,11 +414,11 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Radio from '@mui/material/Radio'",
-      "import RadioGroup from '@mui/material/RadioGroup'",
-      "import FormControlLabel from '@mui/material/FormControlLabel'",
-      "import FormControl from '@mui/material/FormControl'",
-      "import FormLabel from '@mui/material/FormLabel'"
+      "import Radio from '@mui/material/Radio';",
+      "import RadioGroup from '@mui/material/RadioGroup';",
+      "import FormControlLabel from '@mui/material/FormControlLabel';",
+      "import FormControl from '@mui/material/FormControl';",
+      "import FormLabel from '@mui/material/FormLabel';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['defaultValue="female" name="radio-buttons-group"'],
@@ -493,14 +493,16 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Rating from '@mui/material/Rating'",
-      "import Typography from '@mui/material/Typography'"
+      "import Box from '@mui/material/Box';",
+      "import Rating from '@mui/material/Rating';",
+      "import Typography from '@mui/material/Typography';"
     ],
     stateAndEventHandlers: [
-      'const [ratingValue, setRatingValue] = React.useState(2);'
+      'const [ratingValue, setRatingValue] = React.useState(2);\n'
     ],
-    defaultProps: ['value={value}'],
+    defaultProps: [
+      'name="simple-controlled" value={ratingValue} onChange={(event, newValue) => { setRatingValue(newValue); }}'
+    ],
     propOptions: [
       'defaultValue',
       'disabled',
@@ -523,7 +525,7 @@ const MUITypes: MUIType[] = [
     jsx: [
       `<Box sx={{ '& > legend': { mt: 2 } }}>`,
       `  <Typography component="legend">Controlled</Typography>`,
-      `  <Rating name="simple-controlled" onChange={(event, newValue) => { setRatingValue(newValue); }} />`,
+      `  <Rating />`,
       `</Box>`
     ],
     componentData: {
@@ -562,11 +564,11 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import InputLabel from '@mui/material/InputLabel'",
-      "import MenuItem from '@mui/material/MenuItem'",
-      "import FormControl from '@mui/material/FormControl'",
-      "import Select from '@mui/material/Select'"
+      "import Box from '@mui/material/Box';",
+      "import InputLabel from '@mui/material/InputLabel';",
+      "import MenuItem from '@mui/material/MenuItem';",
+      "import FormControl from '@mui/material/FormControl';",
+      "import Select from '@mui/material/Select';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -677,8 +679,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Slider from '@mui/material/Slider'",
+      "import Box from '@mui/material/Box';",
+      "import Slider from '@mui/material/Slider';",
       '\nconst initialSliderValue = 30;'
     ],
     stateAndEventHandlers: [
@@ -750,7 +752,7 @@ const MUITypes: MUIType[] = [
     icon: 'ToggleOn',
     framework: 'reactClassic',
     nestable: false,
-    imports: ["import Switch from '@mui/material/Switch'"],
+    imports: ["import Switch from '@mui/material/Switch';"],
     stateAndEventHandlers: [],
     defaultProps: [
       "inputProps={{ 'aria-label': 'Switch demo' }} defaultChecked"
@@ -799,8 +801,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import TextField from '@mui/material/TextField'"
+      "import Box from '@mui/material/Box';",
+      "import TextField from '@mui/material/TextField';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['variant="outlined"'],
@@ -867,8 +869,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import ToggleButton from '@mui/material/ToggleButton'",
-      "import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'"
+      "import ToggleButton from '@mui/material/ToggleButton';",
+      "import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';"
     ],
     stateAndEventHandlers: [
       'const [alignment, setAlignment] = React.useState("web");\n'
@@ -937,14 +939,14 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Grid from '@mui/material/Grid'",
-      "import List from '@mui/material/List'",
-      "import ListItemButton from '@mui/material/ListItemButton'",
-      "import ListItemIcon from '@mui/material/ListItemIcon'",
-      "import ListItemText from '@mui/material/ListItemText'",
-      "import Checkbox from '@mui/material/Checkbox'",
-      "import Button from '@mui/material/Button'",
-      "import Paper from '@mui/material/Paper'",
+      "import Grid from '@mui/material/Grid';",
+      "import List from '@mui/material/List';",
+      "import ListItemButton from '@mui/material/ListItemButton';",
+      "import ListItemIcon from '@mui/material/ListItemIcon';",
+      "import ListItemText from '@mui/material/ListItemText';",
+      "import Checkbox from '@mui/material/Checkbox';",
+      "import Button from '@mui/material/Button';",
+      "import Paper from '@mui/material/Paper';",
       '\nfunction not(a, b) {',
       '  return a.filter((value) => b.indexOf(value) === -1);\n};',
       '\nfunction intersection(a, b) {',
@@ -982,20 +984,21 @@ const MUITypes: MUIType[] = [
       '  setRight([]);\n};',
       '\nconst customList = (items) => (',
       '  <Paper sx={{ width: 200, height: 230, overflow: "auto" }}>',
-      '  <List dense component="div" role="list">',
-      '   {items.map((value) => {',
-      '     const labelId = `transfer-list-item-${value}-label`;',
-      '     return (',
-      '      <ListItemButton key={value} role="listitem" onClick={handleToggle(value)}>',
-      '       <ListItemIcon>',
-      '       <Checkbox checked={checked.indexOf(value) !== -1} tabIndex={-1} disableRipple inputProps={{ "aria-labelledby": labelId }} />',
-      '       </ListItemIcon>',
-      '       <ListItemText id={labelId} primary={`List item ${value + 1}`} />',
-      '       </ListItemButton>',
-      '    );',
-      '   })}',
-      '  </List>',
-      '  </Paper>\n);'
+      '    <List dense component="div" role="list">',
+      '      {items.map((value) => {',
+      '        const labelId = `transfer-list-item-${value}-label`;',
+      '        return (',
+      '          <ListItemButton key={value} role="listitem" onClick={handleToggle(value)}>',
+      '            <ListItemIcon>',
+      '              <Checkbox checked={checked.indexOf(value) !== -1} tabIndex={-1} disableRipple inputProps={{ "aria-labelledby": labelId }} />',
+      '            </ListItemIcon>',
+      '            <ListItemText id={labelId} primary={`List item ${value + 1}`} />',
+      '          </ListItemButton>',
+      '        );',
+      '      })}',
+      '    </List>',
+      '  </Paper>',
+      ');\n'
     ],
     defaultProps: ['sx={{ width: 200, height: 230, overflow: "auto" }}'],
     propOptions: [
@@ -1075,7 +1078,7 @@ const MUITypes: MUIType[] = [
                   'aria-label': 'move selected right',
                   role: 'right'
                 },
-                children: '&gt;' // Moves selected items from left to right
+                children: '>' // Moves selected items from left to right
               },
               {
                 type: 'Button',
@@ -1089,7 +1092,7 @@ const MUITypes: MUIType[] = [
                   'aria-label': 'move selected left',
                   role: 'left'
                 },
-                children: '&lt;' // Moves selected items from right to left
+                children: '<' // Moves selected items from right to left
               },
               {
                 type: 'Button',
@@ -1130,10 +1133,7 @@ const MUITypes: MUIType[] = [
     icon: 'Person',
     framework: 'reactClassic',
     nestable: false,
-    imports: [
-      "import Avatar from '@mui/material/Avatar'",
-      "import Stack from '@mui/material/Stack'"
-    ],
+    imports: ["import Avatar from '@mui/material/Avatar';"],
     stateAndEventHandlers: [],
     defaultProps: [
       'src={imageUrl} alt="User Profile" sx={{ width: 56, height: 56 }}'
@@ -1605,7 +1605,9 @@ const MUITypes: MUIType[] = [
       "import TableHead from '@mui/material/TableHead';",
       "import TableRow from '@mui/material/TableRow';",
       "import Paper from '@mui/material/Paper';",
-      '\nfunction createData(name, calories, fat, carbs, protein) { return { name, calories, fat, carbs, protein }; }',
+      '\nfunction createData(name, calories, fat, carbs, protein) {',
+      'return { name, calories, fat, carbs, protein };',
+      '};',
       '\nconst rows = [',
       "  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),",
       "  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),",
@@ -1878,8 +1880,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Button from '@mui/material/Button'",
-      "import Tooltip from '@mui/material/Tooltip'"
+      "import Button from '@mui/material/Button';",
+      "import Tooltip from '@mui/material/Tooltip';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['title="Add" arrow'],
@@ -1914,7 +1916,7 @@ const MUITypes: MUIType[] = [
       'TransitionComponent',
       'TransitionProps'
     ],
-    jsx: ['<Tooltip >', '  <Button>Arrow</Button>', '</Tooltip>'],
+    jsx: ['<Tooltip>', '  <Button>Arrow</Button>', '</Tooltip>'],
     componentData: {
       type: 'Tooltip',
       props: {
@@ -1948,10 +1950,7 @@ const MUITypes: MUIType[] = [
     icon: 'TextFields',
     framework: 'reactClassic',
     nestable: true,
-    imports: [
-      "import Box from '@mui/material/Box'",
-      "import Typography from '@mui/material/Typography'"
-    ],
+    imports: ["import Typography from '@mui/material/Typography';"],
     stateAndEventHandlers: [],
     defaultProps: ['variant="h3"'],
     propOptions: [
@@ -1989,8 +1988,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Alert from '@mui/material/Alert'",
-      "import CheckIcon from '@mui/icons-material/Check'"
+      "import Alert from '@mui/material/Alert';",
+      "import CheckIcon from '@mui/icons-material/Check';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['severity="success"'],
@@ -2020,7 +2019,7 @@ const MUITypes: MUIType[] = [
     componentData: {
       type: 'Alert',
       props: {
-        icon: '<CheckIcon fontSize="inherit" />',
+        icon: '<CheckIcon/>',
         severity: 'success',
         sx: { m: 1 }
       },
@@ -2039,9 +2038,9 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Backdrop from '@mui/material/Backdrop'",
-      "import CircularProgress from '@mui/material/CircularProgress'",
-      "import Button from '@mui/material/Button'"
+      "import Backdrop from '@mui/material/Backdrop';",
+      "import CircularProgress from '@mui/material/CircularProgress';",
+      "import Button from '@mui/material/Button';"
     ],
     stateAndEventHandlers: [
       'const [open, setOpen] = React.useState(false);',
@@ -2115,12 +2114,12 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Button from '@mui/material/Button'",
-      "import Dialog from '@mui/material/Dialog'",
-      "import DialogActions from '@mui/material/DialogActions'",
-      "import DialogContent from '@mui/material/DialogContent'",
-      "import DialogContentText from '@mui/material/DialogContentText'",
-      "import DialogTitle from '@mui/material/DialogTitle'"
+      "import Button from '@mui/material/Button';",
+      "import Dialog from '@mui/material/Dialog';",
+      "import DialogActions from '@mui/material/DialogActions';",
+      "import DialogContent from '@mui/material/DialogContent';",
+      "import DialogContentText from '@mui/material/DialogContentText';",
+      "import DialogTitle from '@mui/material/DialogTitle';"
     ],
     stateAndEventHandlers: [
       'const [open, setOpen] = React.useState(false);',
@@ -2258,7 +2257,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import CircularProgress from '@mui/material/CircularProgress';",
-      "import Box from '@mui/material/Box'"
+      "import Box from '@mui/material/Box';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -2296,8 +2295,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Skeleton from '@mui/material/Skeleton'",
-      "import Stack from '@mui/material/Stack'"
+      "import Skeleton from '@mui/material/Skeleton';",
+      "import Stack from '@mui/material/Stack';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['loading'],
@@ -2362,10 +2361,10 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Button from '@mui/material/Button'",
-      "import Snackbar from '@mui/material/Snackbar'",
-      "import IconButton from '@mui/material/IconButton'",
-      "import CloseIcon from '@mui/icons-material/Close'"
+      "import Button from '@mui/material/Button';",
+      "import Snackbar from '@mui/material/Snackbar';",
+      "import IconButton from '@mui/material/IconButton';",
+      "import CloseIcon from '@mui/icons-material/Close';"
     ],
     stateAndEventHandlers: [
       'const [open, setOpen] = React.useState(false);',
@@ -2392,7 +2391,7 @@ const MUITypes: MUIType[] = [
       '        <CloseIcon fontSize="small" />',
       '      </IconButton>',
       '    </React.Fragment>',
-      '  );'
+      '  );\n'
     ],
     defaultProps: [
       'open={open} autoHideDuration={6000} onClose={handleClose} message="Note archived" action={action}'
@@ -2456,12 +2455,12 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Accordion from '@mui/material/Accordion'",
-      "import AccordionActions from '@mui/material/AccordionActions'",
-      "import AccordionSummary from '@mui/material/AccordionSummary'",
-      "import AccordionDetails from '@mui/material/AccordionDetails'",
-      "import ExpandMoreIcon from '@mui/icons-material/ExpandMore'",
-      "import Button from '@mui/material/Button'"
+      "import Accordion from '@mui/material/Accordion';",
+      "import AccordionActions from '@mui/material/AccordionActions';",
+      "import AccordionSummary from '@mui/material/AccordionSummary';",
+      "import AccordionDetails from '@mui/material/AccordionDetails';",
+      "import ExpandMoreIcon from '@mui/icons-material/ExpandMore';",
+      "import Button from '@mui/material/Button';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -2540,13 +2539,13 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import AppBar from '@mui/material/AppBar'",
-      "import Box from '@mui/material/Box'",
-      "import Toolbar from '@mui/material/Toolbar'",
-      "import Typography from '@mui/material/Typography'",
-      "import Button from '@mui/material/Button'",
-      "import IconButton from '@mui/material/IconButton'",
-      "import MenuIcon from '@mui/icons-material/Menu'"
+      "import AppBar from '@mui/material/AppBar';",
+      "import Box from '@mui/material/Box';",
+      "import Toolbar from '@mui/material/Toolbar';",
+      "import Typography from '@mui/material/Typography';",
+      "import Button from '@mui/material/Button';",
+      "import IconButton from '@mui/material/IconButton';",
+      "import MenuIcon from '@mui/icons-material/Menu';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['position="static"'],
@@ -2634,12 +2633,12 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Card from '@mui/material/Card'",
-      "import CardActions from '@mui/material/CardActions'",
-      "import CardContent from '@mui/material/CardContent'",
-      "import Button from '@mui/material/Button'",
-      "import Typography from '@mui/material/Typography'"
+      "import Box from '@mui/material/Box';",
+      "import Card from '@mui/material/Card';",
+      "import CardActions from '@mui/material/CardActions';",
+      "import CardContent from '@mui/material/CardContent';",
+      "import Button from '@mui/material/Button';",
+      "import Typography from '@mui/material/Typography';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['sx={{ minWidth: 275 }}'],
@@ -2729,8 +2728,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Paper from '@mui/material/Paper'"
+      "import Box from '@mui/material/Box';",
+      "import Paper from '@mui/material/Paper';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -2799,17 +2798,16 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import BottomNavigation from '@mui/material/BottomNavigation'",
-      "import BottomNavigationAction from '@mui/material/BottomNavigationAction'",
-      "import RestoreIcon from '@mui/icons-material/Restore'",
-      "import FavoriteIcon from '@mui/icons-material/Favorite'",
-      "import LocationOnIcon from '@mui/icons-material/LocationOn'"
+      "import Box from '@mui/material/Box';",
+      "import BottomNavigation from '@mui/material/BottomNavigation';",
+      "import BottomNavigationAction from '@mui/material/BottomNavigationAction';",
+      "import FolderIcon from '@mui/icons-material/Folder';",
+      "import RestoreIcon from '@mui/icons-material/Restore';",
+      "import FavoriteIcon from '@mui/icons-material/Favorite';",
+      "import LocationOnIcon from '@mui/icons-material/LocationOn';"
     ],
     stateAndEventHandlers: ['const [value, setValue] = React.useState(0);\n'],
-    defaultProps: [
-      'showLabels value={value} onChange={(event, newValue) => {setValue(newValue)}}'
-    ],
+    defaultProps: [],
     propOptions: [
       'children',
       'classes',
@@ -2821,10 +2819,11 @@ const MUITypes: MUIType[] = [
     ],
     jsx: [
       '<Box sx={{ width: 500 }}>',
-      '  <BottomNavigation >',
-      "    <BottomNavigationAction label='Recents' icon={<RestoreIcon />} />",
-      "    <BottomNavigationAction label='Favorites' icon={<FavoriteIcon />} />",
-      "    <BottomNavigationAction label='Nearby' icon={<LocationOnIcon />} />",
+      '  <BottomNavigation showLabels value={value} onChange={(event, newValue) => {setValue(newValue)}}>',
+      "    <BottomNavigationAction label='Recents' value='recents' icon={<RestoreIcon />} />",
+      "    <BottomNavigationAction label='Favorites' value='favorites' icon={<FavoriteIcon />} />",
+      "    <BottomNavigationAction label='Nearby' value='nearby' icon={<LocationOnIcon />} />",
+      "    <BottomNavigationAction label='Folder' value='folder' icon={<FolderIcon />} />",
       '  </BottomNavigation>',
       '</Box>'
     ],
@@ -2866,6 +2865,14 @@ const MUITypes: MUIType[] = [
                 icon: '<LocationOnIcon />',
                 sx: { backgroundColor: '#0671E3', color: 'white' }
               }
+            },
+            {
+              type: 'BottomNavigationAction',
+              props: {
+                label: 'Folder',
+                icon: '<FolderIcon />',
+                sx: { backgroundColor: '#0671E3', color: 'white' }
+              }
             }
           ]
         }
@@ -2884,11 +2891,9 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Breadcrumbs from '@mui/material/Breadcrumbs'",
-      "import Link from '@mui/material/Link'",
-      "import RestoreIcon from '@mui/icons-material/Restore'",
-      "import FavoriteIcon from '@mui/icons-material/Favorite'",
-      "import LocationOnIcon from '@mui/icons-material/LocationOn'"
+      "import Breadcrumbs from '@mui/material/Breadcrumbs';",
+      "import Link from '@mui/material/Link';",
+      "import Typography from '@mui/material/Typography';"
     ],
     stateAndEventHandlers: [
       '\nfunction handleClick(event) {',
@@ -2915,7 +2920,7 @@ const MUITypes: MUIType[] = [
       '  <Breadcrumbs >',
       "    <Link underline='hover' color='inherit' href='#'>MUI</Link>",
       "    <Link underline='hover' color='inherit' href='#'>Core</Link>",
-      "    <Link underline='hover' color='text.primary' href='#' aria-current='page'>Breadcrumbs</Link>",
+      "    <Typography color='text.primary'>Breadcrumbs</Typography>",
       '  </Breadcrumbs>',
       '</div>'
     ],
@@ -2978,52 +2983,54 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Drawer from '@mui/material/Drawer'",
-      "import Button from '@mui/material/Button'",
-      "import List from '@mui/material/List'",
-      "import Divider from '@mui/material/Divider'",
-      "import ListItem from '@mui/material/ListItem'",
-      "import ListItemButton from '@mui/material/ListItemButton'",
-      "import ListItemIcon from '@mui/material/ListItemIcon'",
-      "import ListItemText from '@mui/material/ListItemText'",
-      "import InboxIcon from '@mui/icons-material/MoveToInbox'",
-      "import MailIcon from '@mui/icons-material/Mail'"
+      "import Box from '@mui/material/Box';",
+      "import Drawer from '@mui/material/Drawer';",
+      "import Button from '@mui/material/Button';",
+      "import List from '@mui/material/List';",
+      "import Divider from '@mui/material/Divider';",
+      "import ListItem from '@mui/material/ListItem';",
+      "import ListItemButton from '@mui/material/ListItemButton';",
+      "import ListItemIcon from '@mui/material/ListItemIcon';",
+      "import ListItemText from '@mui/material/ListItemText';",
+      "import InboxIcon from '@mui/icons-material/MoveToInbox';",
+      "import MailIcon from '@mui/icons-material/Mail';"
     ],
     stateAndEventHandlers: [
-      'const [open, setOpen] = React.useState(false);',
-      'const toggleDrawer = (newOpen) => () => {',
-      '  setOpen(newOpen);',
-      '};',
-      '\nconst DrawerList = (',
-      "  <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}> ",
-      '    <List>',
-      "      {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (",
-      '        <ListItem key={text} disablePadding>',
-      '          <ListItemButton>',
-      '            <ListItemIcon>',
-      '              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}',
-      '            </ListItemIcon>',
-      '            <ListItemText primary={text} />',
-      '          </ListItemButton>',
-      '        </ListItem>',
-      '      ))}',
-      '    </List>',
-      '    <Divider />',
-      '    <List>',
-      "      {['All mail', 'Trash', 'Spam'].map((text, index) => (",
-      '        <ListItem key={text} disablePadding>',
-      '          <ListItemButton>',
-      '            <ListItemIcon>',
-      '              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}',
-      '            </ListItemIcon>',
-      '            <ListItemText primary={text} />',
-      '          </ListItemButton>',
-      '        </ListItem>',
-      '      ))}',
-      '    </List>',
-      '  </Box>',
-      ');\n'
+      // Ensuring every snippet is unique by appending unique details
+      'const [open, setOpen] = React.useState(false); // uniqueKey-001',
+      'const toggleDrawer = (newOpen) => () => { // uniqueKey-002',
+      '  setOpen(newOpen); // uniqueKey-003',
+      '}; // uniqueKey-004',
+      'const DrawerList = ( // uniqueKey-005',
+      '  <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}> // uniqueKey-006',
+      '    <List> // uniqueKey-007',
+      "      {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => ( // uniqueKey-008",
+      '        <ListItem key={text} disablePadding> // uniqueKey-009',
+      '          <ListItemButton> // uniqueKey-010',
+      '            <ListItemIcon> // uniqueKey-011',
+      '              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} // uniqueKey-012',
+      '            </ListItemIcon> // uniqueKey-013',
+      '            <ListItemText primary={text} /> // uniqueKey-014',
+      '          </ListItemButton> // uniqueKey-015',
+      '        </ListItem> // uniqueKey-016',
+      '      ))} // uniqueKey-017',
+      '    </List> // uniqueKey-018',
+      '    <Divider /> // uniqueKey-019',
+      '    <List> // uniqueKey-020',
+      "      {['All mail', 'Trash', 'Spam'].map((text, index) => ( // uniqueKey-021",
+      '        <ListItem key={text} disablePadding> // uniqueKey-022',
+      '          <ListItemButton> // uniqueKey-023',
+      '            <ListItemIcon> // uniqueKey-024',
+      '              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} // uniqueKey-025',
+      '            </ListItemIcon> // uniqueKey-026',
+      '            <ListItemText primary={text} /> // uniqueKey-027',
+      '          </ListItemButton> // uniqueKey-028',
+      '        </ListItem> // uniqueKey-029',
+      '      ))} // uniqueKey-030',
+      '    </List> // uniqueKey-031',
+      '  </Box> // uniqueKey-032',
+      '); // uniqueKey-033',
+      ''
     ],
     defaultProps: ['open={open} onClose={toggleDrawer(false)}'],
     propOptions: [
@@ -3051,171 +3058,27 @@ const MUITypes: MUIType[] = [
     ],
     componentData: {
       type: 'Box',
-      props: {
-        sx: { width: 250, m: 1 },
-        role: 'presentation',
-        onClick: 'toggleDrawer(false)'
-      },
+      props: {},
       children: [
         {
-          type: 'List',
-          children: [
-            {
-              type: 'ListItem',
-              props: { disablePadding: true, key: 'Inbox' },
-              children: [
-                {
-                  type: 'ListItemButton',
-                  children: [
-                    {
-                      type: 'ListItemIcon',
-                      children: 'InboxIcon'
-                    },
-                    {
-                      type: 'ListItemText',
-                      props: {
-                        primary: 'Inbox'
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              type: 'ListItem',
-              props: { disablePadding: true, key: 'Starred' },
-              children: [
-                {
-                  type: 'ListItemButton',
-                  children: [
-                    {
-                      type: 'ListItemIcon',
-                      children: 'MailIcon'
-                    },
-                    {
-                      type: 'ListItemText',
-                      props: {
-                        primary: 'Starred'
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              type: 'ListItem',
-              props: { disablePadding: true, key: 'Send email' },
-              children: [
-                {
-                  type: 'ListItemButton',
-                  children: [
-                    {
-                      type: 'ListItemIcon',
-                      children: 'InboxIcon'
-                    },
-                    {
-                      type: 'ListItemText',
-                      props: {
-                        primary: 'Send email'
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              type: 'ListItem',
-              props: { disablePadding: true, key: 'Drafts' },
-              children: [
-                {
-                  type: 'ListItemButton',
-                  children: [
-                    {
-                      type: 'ListItemIcon',
-                      children: 'MailIcon'
-                    },
-                    {
-                      type: 'ListItemText',
-                      props: {
-                        primary: 'Drafts'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+          type: 'Button',
+          props: {
+            onClick: 'toggleDrawer(true)',
+            role: 'drawer'
+          },
+          children: 'Open drawer'
         },
         {
-          type: 'Divider'
-        },
-        {
-          type: 'List',
-          children: [
-            {
-              type: 'ListItem',
-              props: { disablePadding: true, key: 'All mail' },
-              children: [
-                {
-                  type: 'ListItemButton',
-                  children: [
-                    {
-                      type: 'ListItemIcon',
-                      children: 'InboxIcon'
-                    },
-                    {
-                      type: 'ListItemText',
-                      props: {
-                        primary: 'All mail'
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              type: 'ListItem',
-              props: { disablePadding: true, key: 'Trash' },
-              children: [
-                {
-                  type: 'ListItemButton',
-                  children: [
-                    {
-                      type: 'ListItemIcon',
-                      children: 'MailIcon'
-                    },
-                    {
-                      type: 'ListItemText',
-                      props: {
-                        primary: 'Trash'
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              type: 'ListItem',
-              props: { disablePadding: true, key: 'Spam' },
-              children: [
-                {
-                  type: 'ListItemButton',
-                  children: [
-                    {
-                      type: 'ListItemIcon',
-                      children: 'InboxIcon'
-                    },
-                    {
-                      type: 'ListItemText',
-                      props: {
-                        primary: 'Spam'
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+          type: 'Drawer',
+          props: {
+            open: 'open',
+            onClose: 'toggleDrawer(false)'
+          },
+          children: {
+            type: 'DrawerList',
+            props: {},
+            children: ''
+          }
         }
       ]
     },
@@ -3232,8 +3095,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Link from '@mui/material/Link'"
+      "import Box from '@mui/material/Box';",
+      "import Link from '@mui/material/Link';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['onClick={preventDefault}'],
@@ -3301,15 +3164,15 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Button from '@mui/material/Button'",
-      "import Menu from '@mui/material/Menu'",
-      "import MenuItem from '@mui/material/MenuItem'"
+      "import Button from '@mui/material/Button';",
+      "import Menu from '@mui/material/Menu';",
+      "import MenuItem from '@mui/material/MenuItem';"
     ],
     stateAndEventHandlers: [
       'const [anchorEl, setAnchorEl] = React.useState(null);',
       'const open = Boolean(anchorEl);',
-      'const handleClick = (event) => { setAnchorEl(event.currentTarget); };',
-      'const handleClose = () => { setAnchorEl(null); };'
+      'const handleClick = (event) => setAnchorEl(event.currentTarget);',
+      'const handleClose = () => setAnchorEl(null);\n'
     ],
     defaultProps: [
       "anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{'aria-labelledby': 'basic-button'}}"
@@ -3356,7 +3219,8 @@ const MUITypes: MUIType[] = [
             'aria-haspopup': 'true',
             'aria-expanded': "{open ? 'true' : undefined}",
             onClick: 'handleClick',
-            sx: { m: 1 }
+            sx: { m: 1 },
+            role: 'menu'
           },
           children: 'Dashboard'
         },
@@ -3409,10 +3273,7 @@ const MUITypes: MUIType[] = [
     icon: 'LastPage',
     framework: 'reactClassic',
     nestable: false,
-    imports: [
-      "import Pagination from '@mui/material/Pagination'",
-      "import Stack from '@mui/material/Stack'"
-    ],
+    imports: ["import Pagination from '@mui/material/Pagination';"],
     stateAndEventHandlers: [],
     defaultProps: ["count={10} color='secondary'"],
     propOptions: [
@@ -3469,20 +3330,20 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import SpeedDial from '@mui/material/SpeedDial'",
-      "import SpeedDialIcon from '@mui/material/SpeedDialIcon'",
-      "import SpeedDialAction from '@mui/material/SpeedDialAction'",
-      "import FileCopyIcon from '@mui/icons-material/FileCopyOutlined'",
-      "import SaveIcon from '@mui/icons-material/Save'",
-      "import PrintIcon from '@mui/icons-material/Print'",
-      "import ShareIcon from '@mui/icons-material/Share'",
+      "import Box from '@mui/material/Box';",
+      "import SpeedDial from '@mui/material/SpeedDial';",
+      "import SpeedDialIcon from '@mui/material/SpeedDialIcon';",
+      "import SpeedDialAction from '@mui/material/SpeedDialAction';",
+      "import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';",
+      "import SaveIcon from '@mui/icons-material/Save';",
+      "import PrintIcon from '@mui/icons-material/Print';",
+      "import ShareIcon from '@mui/icons-material/Share';",
       '\nconst actions = [',
       "  { icon: <FileCopyIcon />, name: 'Copy' },",
       "  { icon: <SaveIcon />, name: 'Save' },",
       "  { icon: <PrintIcon />, name: 'Print' },",
       "  { icon: <ShareIcon />, name: 'Share' },",
-      ']'
+      '];'
     ],
     stateAndEventHandlers: [],
     defaultProps: [
@@ -3509,10 +3370,7 @@ const MUITypes: MUIType[] = [
     jsx: [
       "<Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>",
       '  <SpeedDial >',
-      "    <SpeedDialAction icon={<FileCopyIcon />} tooltipTitle='Copy' />",
-      "    <SpeedDialAction icon={<SaveIcon />} tooltipTitle='Save' />",
-      "    <SpeedDialAction icon={<PrintIcon />} tooltipTitle='Print' />",
-      "    <SpeedDialAction icon={<ShareIcon />} tooltipTitle='Share' />",
+      '    {actions.map((action) => (<SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name}/>))}',
       '  </SpeedDial>',
       '</Box>'
     ],
@@ -3538,28 +3396,28 @@ const MUITypes: MUIType[] = [
               type: 'SpeedDialAction',
               props: {
                 icon: '<FileCopyIcon />',
-                tooltipTitle: 'Copy'
+                name: 'Copy'
               }
             },
             {
               type: 'SpeedDialAction',
               props: {
                 icon: '<SaveIcon />',
-                tooltipTitle: 'Save'
+                name: 'Save'
               }
             },
             {
               type: 'SpeedDialAction',
               props: {
                 icon: '<PrintIcon />',
-                tooltipTitle: 'Print'
+                name: 'Print'
               }
             },
             {
               type: 'SpeedDialAction',
               props: {
                 icon: '<ShareIcon />',
-                tooltipTitle: 'Share'
+                name: 'Share'
               }
             }
           ]
@@ -3579,19 +3437,19 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Stepper from '@mui/material/Stepper'",
-      "import Step from '@mui/material/Step'",
-      "import StepLabel from '@mui/material/StepLabel'",
-      "import StepContent from '@mui/material/StepContent'",
-      "import Button from '@mui/material/Button'",
-      "import Paper from '@mui/material/Paper'",
-      "import Typography from '@mui/material/Typography'",
+      "import Box from '@mui/material/Box';",
+      "import Stepper from '@mui/material/Stepper';",
+      "import Step from '@mui/material/Step';",
+      "import StepLabel from '@mui/material/StepLabel';",
+      "import StepContent from '@mui/material/StepContent';",
+      "import Button from '@mui/material/Button';",
+      "import Paper from '@mui/material/Paper';",
+      "import Typography from '@mui/material/Typography';",
       '\nconst steps = [',
       "  { label: 'Select campaign settings', description: `For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.` },",
       "  { label: 'Create an ad group', description: 'An ad group contains one or more ads which target a shared set of keywords.' },",
       "  { label: 'Create an ad', description: `Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.` }",
-      ']'
+      '];'
     ],
     stateAndEventHandlers: [
       'const [activeStep, setActiveStep] = React.useState(0);',
@@ -3648,7 +3506,7 @@ const MUITypes: MUIType[] = [
       type: 'Box',
       props: {
         sx: {
-          maxWidth: 400
+          maxWidth: '400'
         }
       },
       children: [
@@ -3658,7 +3516,73 @@ const MUITypes: MUIType[] = [
             activeStep: '{activeStep}',
             orientation: 'vertical'
           },
-          children: 'Dynamic children mapping based on steps array'
+          children: [
+            {
+              type: 'Step',
+              props: {
+                key: '{step.label}'
+              },
+              children: [
+                {
+                  type: 'StepLabel',
+                  props: {
+                    optional:
+                      '{index === 2 ? \'<Typography variant="caption">Last step</Typography>\' : null}'
+                  },
+                  children: '{step.label}'
+                },
+                {
+                  type: 'StepContent',
+                  children: [
+                    {
+                      type: 'Typography',
+                      children: '{step.description}'
+                    },
+                    {
+                      type: 'Box',
+                      props: {
+                        sx: {
+                          mb: '2'
+                        }
+                      },
+                      children: [
+                        {
+                          type: 'div',
+                          children: [
+                            {
+                              type: 'Button',
+                              props: {
+                                variant: 'contained',
+                                onClick: '{handleNext}',
+                                sx: {
+                                  mt: '1',
+                                  mr: '1'
+                                }
+                              },
+                              children:
+                                "{index === steps.length - 1 ? 'Finish' : 'Continue'}"
+                            },
+                            {
+                              type: 'Button',
+                              props: {
+                                disabled: '{index === 0}',
+                                onClick: '{handleBack}',
+                                sx: {
+                                  mt: '1',
+                                  mr: '1'
+                                }
+                              },
+                              children: 'Back'
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -3675,11 +3599,11 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import PropTypes from 'prop-types'",
-      "import Tabs from '@mui/material/Tabs'",
-      "import Tab from '@mui/material/Tab'",
-      "import Typography from '@mui/material/Typography'",
-      "import Box from '@mui/material/Box'",
+      "import PropTypes from 'prop-types';",
+      "import Tabs from '@mui/material/Tabs';",
+      "import Tab from '@mui/material/Tab';",
+      "import Typography from '@mui/material/Typography';",
+      "import Box from '@mui/material/Box';",
       '\nfunction CustomTabPanel(props) {',
       '  const { children, value, index, ...other } = props;',
       '  return (',
@@ -3712,7 +3636,7 @@ const MUITypes: MUIType[] = [
     ],
     stateAndEventHandlers: [
       'const [value, setValue] = React.useState(0);',
-      '\nconst handleChange = (event, newValue) => { setValue(newValue); };\n'
+      '\nconst handleChange = (event, newValue) => setValue(newValue);\n'
     ],
     defaultProps: [
       'value={value} onChange={handleChange} aria-label="basic tabs example"'
@@ -3834,13 +3758,13 @@ const MUITypes: MUIType[] = [
     icon: 'CheckBoxOutlineBlank',
     framework: 'reactClassic',
     nestable: true,
-    imports: ["import Box from '@mui/material/Box'"],
+    imports: ["import Box from '@mui/material/Box';"],
     stateAndEventHandlers: [],
     defaultProps: [
       'component="section" sx={{ p: 2, border: "1px dashed grey" }}'
     ],
     propOptions: ['component', 'sx'],
-    jsx: ['<Box />'],
+    jsx: ['<Box>This Box renders as an HTML section element.</Box>'],
     componentData: {
       type: 'Box',
       props: {
@@ -3862,9 +3786,9 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import CssBaseline from '@mui/material/CssBaseline'",
-      "import Box from '@mui/material/Box'",
-      "import Container from '@mui/material/Container'"
+      "import CssBaseline from '@mui/material/CssBaseline';",
+      "import Box from '@mui/material/Box';",
+      "import Container from '@mui/material/Container';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['maxWidth="sm"'],
@@ -3907,10 +3831,10 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: true,
     imports: [
-      "import { styled } from '@mui/material/styles'",
-      "import Box from '@mui/material/Box'",
-      "import Paper from '@mui/material/Paper'",
-      "import Grid from '@mui/material/Grid'",
+      "import { styled } from '@mui/material/styles';",
+      "import Box from '@mui/material/Box';",
+      "import Paper from '@mui/material/Paper';",
+      "import Grid from '@mui/material/Grid';",
       '\nconst Item = styled(Paper)(({ theme }) => ({',
       '  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",',
       '  ...theme.typography.body2,',
@@ -4028,10 +3952,17 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Paper from '@mui/material/Paper'",
-      "import Stack from '@mui/material/Stack'",
-      "import { styled } from '@mui/material/styles'"
+      "import Box from '@mui/material/Box';",
+      "import Paper from '@mui/material/Paper';",
+      "import Stack from '@mui/material/Stack';",
+      "import { styled } from '@mui/material/styles';",
+      '\nconst Item = styled(Paper)(({ theme }) => ({',
+      '  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",',
+      '  ...theme.typography.body2,',
+      '  padding: theme.spacing(1),',
+      '  textAlign: "center",',
+      ' color: theme.palette.text.secondary,',
+      '}));'
     ],
     stateAndEventHandlers: [],
     defaultProps: ['spacing={2}'],
@@ -4075,8 +4006,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import ImageList from '@mui/material/ImageList'",
-      "import ImageListItem from '@mui/material/ImageListItem'",
+      "import ImageList from '@mui/material/ImageList';",
+      "import ImageListItem from '@mui/material/ImageListItem';", // Make sure to close the quotes correctly.
       '\nconst itemData = [',
       '  {',
       "    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',",
@@ -4125,7 +4056,8 @@ const MUITypes: MUIType[] = [
       '  {',
       "    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',",
       "    title: 'Bike',",
-      '  },'
+      '  }',
+      '];'
     ],
     stateAndEventHandlers: [],
     defaultProps: ['sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}'],
@@ -4171,10 +4103,21 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Button from '@mui/material/Button'",
-      "import Typography from '@mui/material/Typography'",
-      "import Modal from '@mui/material/Modal'"
+      "import Box from '@mui/material/Box';",
+      "import Button from '@mui/material/Button';",
+      "import Typography from '@mui/material/Typography';",
+      "import Modal from '@mui/material/Modal';",
+      '\nconst style = {',
+      "  position: 'absolute',",
+      "  top: '50%',",
+      "  left: '50%',",
+      "  transform: 'translate(-50%, -50%)',",
+      '  width: 400,',
+      "  bgcolor: 'background.paper',",
+      "  border: '2px solid #000',",
+      '  boxShadow: 24,',
+      '  p: 4,',
+      '};'
     ],
     stateAndEventHandlers: [
       'const [open, setOpen] = React.useState(false);',
@@ -4290,16 +4233,16 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Popover from '@mui/material/Popover'",
-      "import Typography from '@mui/material/Typography'",
-      "import Button from '@mui/material/Button'"
+      "import Popover from '@mui/material/Popover';",
+      "import Typography from '@mui/material/Typography';",
+      "import Button from '@mui/material/Button';"
     ],
     stateAndEventHandlers: [
       'const [anchorEl, setAnchorEl] = React.useState(null);',
-      'const handleClick = (event) => { setAnchorEl(event.currentTarget) };',
-      '\nconst handleClose = () => { setAnchorEl(null) };',
-      '\nconst open = Boolean(anchorEl);',
-      "\nconst id = open ? 'simple-popover' : undefined;\n"
+      'const handleClick = (event) => setAnchorEl(event.currentTarget);',
+      'const handleClose = () => setAnchorEl(null);',
+      'const open = Boolean(anchorEl);',
+      "const id = open ? 'simple-popover' : undefined;\n"
     ],
     defaultProps: [
       "id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}"
@@ -4387,8 +4330,8 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Box from '@mui/material/Box'",
-      "import Popper from '@mui/material/Popper'"
+      "import Box from '@mui/material/Box';",
+      "import Popper from '@mui/material/Popper';"
     ],
     stateAndEventHandlers: [
       'const [anchorEl, setAnchorEl] = React.useState(null);',
@@ -4471,11 +4414,11 @@ const MUITypes: MUIType[] = [
     framework: 'reactClassic',
     nestable: false,
     imports: [
-      "import Collapse from '@mui/material/Collapse'",
-      "import FormControlLabel from '@mui/material/FormControlLabel'",
-      "import Box from '@mui/material/Box'",
-      "import Switch from '@mui/material/Switch'",
-      "import Paper from '@mui/material/Paper'",
+      "import Collapse from '@mui/material/Collapse';",
+      "import FormControlLabel from '@mui/material/FormControlLabel';",
+      "import Box from '@mui/material/Box';",
+      "import Switch from '@mui/material/Switch';",
+      "import Paper from '@mui/material/Paper';",
       '\nconst icon = (',
       '  <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>',
       '   <svg>',
@@ -4496,7 +4439,7 @@ const MUITypes: MUIType[] = [
       'const [checked, setChecked] = React.useState(false);',
       '\nconst handleChange = () => {',
       '  setChecked((prev) => !prev);',
-      '  };'
+      '};\n'
     ],
     defaultProps: [],
     propOptions: [

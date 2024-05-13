@@ -50,14 +50,92 @@ const html = `
         const React = window.React;
         const { useState, createContext, useContext } = React;
         const ReactDOM = window.ReactDOM;
-
-        console.log('MaterialUI:', MaterialUI);
   
         if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
           console.error('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
           return;
         }
+          
+        const findCustomListInChildren = (children) => {
+          if (!Array.isArray(children)) {
+              children = [children]; // Convert single child object to an array
+          }
+      
+          for (const child of children) {
+              if (child.type === 'customList') {
+                  return true; // Found the customList
+              }
+              // If the current child has children, recursively search through them
+              if (child.children) {
+                  const found = findCustomListInChildren(child.children);
+                  if (found) return true; // If found in the children, return true
+              }
+          }
+          return false; // If not found in any children
+        };
 
+        const customList = (str) => {
+          const { left, right, checked, handleToggle, setChecked } = useTransferList();
+          const items = str === 'left' ? left : right;
+     
+          const paperProps = {
+              sx: { width: 200, height: 230, overflow: 'auto' }
+          };
+      
+          const listProps = {
+              dense: true,
+              component: 'div',
+              role: 'list'
+          };
+      
+          const listItems = items.map((value, index) => {
+              const labelId = 'transfer-list-item-' + value + '-label';
+      
+              const listItemButtonProps = {
+                  key: value,
+                  role: 'listitem',
+                  onClick: () => handleToggle(value)
+              };
+     
+              const checkboxProps = {
+                  checked: checked.indexOf(value) !== -1,
+                  tabIndex: -1,
+                  disableRipple: true,
+                  inputProps: {
+                      'aria-labelledby': labelId
+                  }
+              };
+      
+              const listItemIconProps = {};
+      
+              const listItemTextProps = {
+                  id: labelId,
+                  primary: 'List item' + (value)
+              };
+      
+              return React.createElement(
+                  MaterialUI.ListItemButton,
+                  listItemButtonProps,
+                  React.createElement(
+                      MaterialUI.ListItemIcon,
+                      listItemIconProps,
+                      React.createElement(MaterialUI.Checkbox, checkboxProps)
+                  ),
+                  React.createElement(MaterialUI.ListItemText, listItemTextProps)
+              );
+          });
+      
+          return React.createElement(
+              MaterialUI.Paper,
+              paperProps,
+              React.createElement(
+                  MaterialUI.List,
+                  listProps,
+                  listItems
+              )
+          );
+      };
+      
         const itemData = [
           {
             img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
@@ -142,6 +220,159 @@ const html = `
               imageListItems
           );
         };
+
+        const toggleDrawer = (newOpen) => () => {
+          setOpen(newOpen);
+        };
+
+        const DrawerList = () => {
+          const listItems1 = ['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => {
+              return React.createElement(
+                  MaterialUI.ListItem,
+                  { key: text, disablePadding: true },
+                  React.createElement(
+                      MaterialUI.ListItemButton,
+                      null,
+                      React.createElement(
+                          MaterialUI.ListItemIcon,
+                          null,
+                          index % 2 === 0 ? React.createElement(MaterialUI.SpeedDialIcon) : React.createElement(MaterialUI.SpeedDialIcon)
+                      ),
+                      React.createElement(
+                          MaterialUI.ListItemText,
+                          { primary: text }
+                      )
+                  )
+              );
+          });
+      
+          const listItems2 = ['All mail', 'Trash', 'Spam'].map((text, index) => {
+              return React.createElement(
+                  MaterialUI.ListItem,
+                  { key: text, disablePadding: true },
+                  React.createElement(
+                      MaterialUI.ListItemButton,
+                      null,
+                      React.createElement(
+                          MaterialUI.ListItemIcon,
+                          null,
+                          index % 2 === 0 ? React.createElement(MaterialUI.SpeedDialIcon) : React.createElement(MaterialUI.SpeedDialIcon)
+                      ),
+                      React.createElement(
+                          MaterialUI.ListItemText,
+                          { primary: text }
+                      )
+                  )
+              );
+          });
+      
+          const drawer = React.createElement(
+              MaterialUI.Box,
+              { sx: { width: 250 }, role: "presentation", onClick: toggleDrawer(false) },
+              React.createElement(
+                  MaterialUI.List,
+                  null,
+                  listItems1
+              ),
+              React.createElement(MaterialUI.Divider),
+              React.createElement(
+                  MaterialUI.List,
+                  null,
+                  listItems2
+              )
+          );
+      
+          return drawer;
+        };
+
+        const steps = [
+          {
+            label: 'Select campaign settings',
+            description: "For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.",
+          },
+          {
+            label: 'Create an ad group',
+            description:
+              'An ad group contains one or more ads which target a shared set of keywords.',
+          },
+          {
+            label: 'Create an ad',
+            description: "Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.",
+          },
+        ];
+
+        const VerticalStepper = ({ steps }) => {
+          const { activeStep, handleNext, handleBack, handleReset } = useStepper();
+      
+          return React.createElement(
+              MaterialUI.Box,
+              { sx: { maxWidth: 400 } },
+              React.createElement(
+                  MaterialUI.Stepper,
+                  { activeStep: activeStep, orientation: "vertical" },
+                  steps.map((step, index) =>
+                      React.createElement(
+                          MaterialUI.Step,
+                          { key: step.label },
+                          React.createElement(
+                              MaterialUI.StepLabel,
+                              {
+                                  optional: index === steps.length - 1 ?
+                                      React.createElement(MaterialUI.Typography, { variant: "caption" }, "Last step") :
+                                      null
+                              },
+                              step.label
+                          ),
+                          React.createElement(
+                              MaterialUI.StepContent,
+                              null,
+                              React.createElement(MaterialUI.Typography, null, step.description),
+                              React.createElement(
+                                  MaterialUI.Box,
+                                  { sx: { mb: 2 } },
+                                  React.createElement(
+                                      'div',
+                                      null,
+                                      React.createElement(
+                                          MaterialUI.Button,
+                                          {
+                                              variant: "contained",
+                                              onClick: handleNext,
+                                              sx: { mt: 1, mr: 1 },
+                                          },
+                                          index === steps.length - 1 ? 'Finish' : 'Continue'
+                                      ),
+                                      React.createElement(
+                                          MaterialUI.Button,
+                                          {
+                                              disabled: index === 0,
+                                              onClick: handleBack,
+                                              sx: { mt: 1, mr: 1 },
+                                          },
+                                          'Back'
+                                      )
+                                  )
+                              )
+                          )
+                      )
+                  )
+              ),
+              activeStep === steps.length &&
+              React.createElement(
+                  MaterialUI.Paper,
+                  { square: true, elevation: 0, sx: { p: 3 } },
+                  React.createElement(MaterialUI.Typography, null, "All steps completed - you're finished"),
+                  React.createElement(
+                      MaterialUI.Button,
+                      {
+                          onClick: handleReset,
+                          sx: { mt: 1, mr: 1 },
+                      },
+                      'Reset'
+                  )
+              )
+          );
+      };
           
           function a11yProps(index) {
             const props = {};
@@ -200,6 +431,59 @@ const html = `
 
         const usePopper = () => useContext(PopperContext);
 
+        const DrawerContext = createContext();
+
+        const DrawerProvider = ({ children }) => {
+          const [open, setOpen] = useState(false);
+
+          const toggleDrawer = (newOpen) => () => {
+            setOpen(newOpen);
+          };
+
+            const value = {
+                open,
+                toggleDrawer
+            };
+
+            const providerCheck = React.createElement(
+              DrawerContext.Provider,
+              { value: value },
+              children
+          );
+            return providerCheck;
+        };
+
+        const useDrawer = () => useContext(DrawerContext);
+        
+        const MenuContext = createContext();
+
+        const MenuProvider = ({ children }) => {
+          const [anchorEl, setAnchorEl] = React.useState(null);
+          const open = Boolean(anchorEl);
+          const handleClick = (event) => {
+            setAnchorEl(event.currentTarget);
+          };
+          const handleClose = () => {
+            setAnchorEl(null);
+          };
+
+            const value = {
+                anchorEl, 
+                open,
+                handleClick,
+                handleClose
+            };
+
+            const providerCheck = React.createElement(
+              MenuContext.Provider,
+              { value: value },
+              children
+          );
+            return providerCheck;
+        };
+
+        const useMenu = () => useContext(MenuContext); 
+        
         const ModalContext = createContext();
 
         const ModalProvider = ({ children }) => {
@@ -223,6 +507,65 @@ const html = `
       };
       
       const useModal = () => useContext(ModalContext);
+
+      const RatingContext = createContext();
+
+      const RatingProvider = ({ children }) => {
+        const [ratingValue, setRatingValue] = React.useState(2);
+
+        // Handler for changing the rating
+        const handleRatingChange = (event, newValue) => {
+          setRatingValue(newValue);  // Updates the rating value in the context
+        };
+        
+        const value = {
+          ratingValue, 
+          handleRatingChange
+        };
+
+        const providerCheck = React.createElement(
+          RatingContext.Provider,
+          { value: value },
+          children
+      );
+        return providerCheck;
+      };
+
+      const useRating = () => useContext(RatingContext);
+      
+      const StepperContext = createContext();
+
+      const StepperProvider = ({ children }) => {
+        const [activeStep, setActiveStep] = React.useState(0);
+
+        const handleNext = () => {
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        };
+      
+        const handleBack = () => {
+          setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        };
+    
+        const handleReset = () => {
+          setActiveStep(0);
+        };
+
+        const value = {
+          activeStep, 
+          handleNext,
+          handleBack,
+          handleReset
+        };
+
+        const providerCheck = React.createElement(
+          StepperContext.Provider,
+          { value: value },
+          children
+      );
+        return providerCheck;
+      };
+
+      const useStepper = () => useContext(StepperContext); 
 
       const TabsContext = createContext();
 
@@ -265,44 +608,55 @@ const html = `
 
       const TransferListContext = createContext();
 
+      function not(a, b) {
+        return a.filter((value) => b.indexOf(value) === -1);
+      }
+      
+      function intersection(a, b) {
+        return a.filter((value) => b.indexOf(value) !== -1);
+      }
+
       const TransferListProvider = ({ children }) => {
         const [checked, setChecked] = React.useState([]);
         const [left, setLeft] = React.useState([0, 1, 2, 3]);
         const [right, setRight] = React.useState([4, 5, 6, 7]);
       
+        const leftChecked = intersection(checked, left);
+        const rightChecked = intersection(checked, right);
+      
         const handleToggle = (value) => () => {
           const currentIndex = checked.indexOf(value);
           const newChecked = [...checked];
-      
+        
           if (currentIndex === -1) {
             newChecked.push(value);
           } else {
             newChecked.splice(currentIndex, 1);
           }
-      
+        
           setChecked(newChecked);
-        };
-      
-        const handleCheckedRight = () => {
-          setRight(right.concat(leftChecked(checked, left)));
-          setLeft(not(left, leftChecked(checked, left)));
-          setChecked(not(checked, leftChecked(checked, left)));
-        };
-      
-        const handleCheckedLeft = () => {
-          setLeft(left.concat(rightChecked(checked, right)));
-          setRight(not(right, rightChecked(checked, right)));
-          setChecked(not(checked, rightChecked(checked, right)));
-        };
-      
-        const handleAllLeft = () => {
-          setLeft(left.concat(right));
-          setRight([]);
         };
       
         const handleAllRight = () => {
           setRight(right.concat(left));
           setLeft([]);
+        };
+      
+        const handleCheckedRight = () => {
+          setRight(right.concat(leftChecked));
+          setLeft(not(left, leftChecked));
+          setChecked(not(checked, leftChecked));
+        };
+      
+        const handleCheckedLeft = () => {
+          setLeft(left.concat(rightChecked));
+          setRight(not(right, rightChecked));
+          setChecked(not(checked, rightChecked));
+        };
+      
+        const handleAllLeft = () => {
+          setLeft(left.concat(right));
+          setRight([]);
         };
       
         const value = {
@@ -355,6 +709,24 @@ const html = `
       const useTransition = () => useContext(TransitionContext);
 
         const componentConfigs = {
+          Autocomplete: (props, useState) => {
+            // Assuming renderInput needs to be a function creating a TextField with specific props
+            if (typeof props.renderInput === 'string') {
+                props.renderInput = (params) => React.createElement(MaterialUI.TextField, {
+                    ...params,
+                    label: props.renderInput  // Use the string as label, or customize as needed
+                });
+            }
+            props.options = [
+                { label: 'The Shawshank Redemption', year: 1994 },
+                { label: 'The Godfather', year: 1972 },
+                { label: 'The Godfather: Part II', year: 1974 },
+                { label: 'The Dark Knight', year: 2008 },
+                { label: '12 Angry Men', year: 1957 },
+            ];
+    
+            return props;
+        },
           Backdrop: (props, useState, useContext) => {
             if (props.role === 'backDrop') {
               const { open, handleClose } = useModal();
@@ -428,66 +800,98 @@ const html = `
             return props;
           },
           Button: (props, useState, useContext) => {
-                   
-              if (props.role === 'popoverTrigger') {
-                const { handleOpen } = usePopover();
-                  return {
-                      ...props,
-                      onClick: handleOpen
-                  };
-              }
-              if (props.role === 'popperTrigger') {
-                const { handleClick } = usePopper();
+            if (props.role === 'menu') {
+              const { open, handleClick } = useMenu();
                 return {
                     ...props,
+                    "aria-controls": open ? 'basic-menu' : undefined,
+                    "aria-expanded": open ? 'true' : undefined,
                     onClick: handleClick
                 };
-              }
-              if (props.role === 'modalTrigger') {
-                const { handleOpen } = useModal();
+            }
+
+            if (props.role === 'drawer') {
+              const { toggleDrawer } = useDrawer();
+                return {
+                    ...props,
+                    onClick: toggleDrawer(true)
+                };
+            }
+                  
+            if (props.role === 'popoverTrigger') {
+              const { handleOpen } = usePopover();
                 return {
                     ...props,
                     onClick: handleOpen
                 };
-              }
-              if (props.role === 'dialog') {
-                const { handleClose } = useModal();
-                return {
-                    ...props,
-                    onClick: handleClose
-                };
-              }
-              if (props.role === 'rightAll') {
-                return {
+            }
+            if (props.role === 'popperTrigger') {
+              const { handleClick } = usePopper();
+              return {
                   ...props,
-                  onClick: handleAllRight,
-                  disabled: left.length === 0
-                };
-              } 
-              if (props.role === 'right') {
-                return {
+                  onClick: handleClick
+              };
+            }
+            if (props.role === 'modalTrigger') {
+              const { handleOpen } = useModal();
+              return {
                   ...props,
-                  onClick: handleCheckedRight,
-                  disabled: left.filter(item => checked.includes(item)).length === 0
-                };
-              }
-              
-              if (props.role === 'left') {
-                return {
+                  onClick: handleOpen
+              };
+            }
+            if (props.role === 'dialog') {
+              const { handleClose } = useModal();
+              return {
                   ...props,
-                  onClick: handleCheckedLeft,
-                  disabled: right.filter(item => checked.includes(item)).length === 0
-                };
-              }
-              
-              if (props.role === 'leftAll') {
-                return {
-                  ...props,
-                  onClick: handleAllLeft,
-                  disabled: right.length === 0
-                };
-              }    
-              return props;
+                  onClick: handleClose
+              };
+            }
+            if (props.role === 'rightAll') {
+              const { handleAllRight, left } = useTransferList();
+              return {
+                ...props,
+                onClick: handleAllRight,
+                disabled: left.length === 0
+              };
+            } 
+            if (props.role === 'right') {
+              const { handleCheckedRight, left, checked } = useTransferList();
+              return {
+                ...props,
+                onClick: handleCheckedRight,
+                disabled: left.filter(item => checked.includes(item)).length === 0
+              };
+            }
+            
+            if (props.role === 'left') {
+              const { handleCheckedLeft, right, checked } = useTransferList();
+              return {
+                ...props,
+                onClick: handleCheckedLeft,
+                disabled: right.filter(item => checked.includes(item)).length === 0
+              };
+            }
+            
+            if (props.role === 'leftAll') {
+              const { handleAllLeft, right } = useTransferList();
+              return {
+                ...props,
+                onClick: handleAllLeft,
+                disabled: right.length === 0
+              };
+            }    
+            return props;
+          },
+          Collapse: (props, useState, useContext) => {
+            const { checked } = useTransition();
+            if (props.role === 'collapse') {
+
+              return {
+                ...props,
+                in: Boolean(checked) 
+              };
+            }
+            return props;
           },
           CustomTabPanel: (props, useState, useContext) => {
             // Extract required values using useContext
@@ -520,6 +924,48 @@ const html = `
               };
             }
           },
+          Drawer: (props, useState, useContext) => {
+            const { open, toggleDrawer } = useDrawer();
+            return {
+              ... props,
+              open: open,
+              onClose: toggleDrawer(false)
+            }
+          },
+          FormControlLabel: (props, useState) => {
+            // Handle the case where the control needs to be a specific MUI component
+            if (props.control && props.control.type === 'Radio') {
+              props.control = React.createElement(MaterialUI.Radio);
+          }
+          if (props.role === 'transition') {
+              const { checked, handleChange } = useTransition();
+
+              const switchComponent = React.createElement(MaterialUI.Switch, { checked: checked, onChange: handleChange });
+              return {
+                  ...props,
+                  control: switchComponent
+              };
+          }
+          return props;
+          },
+          Menu: (props, useState, useContext) => {
+            const { anchorEl, open, handleClose } = useMenu();
+    
+            return {
+                ...props,
+                anchorEl: anchorEl,
+                open: open,
+                onClose: handleClose
+            };
+          },
+          MenuItem: (props, useState, useContext) => {
+            const { handleClose } = useMenu();
+    
+            return {
+                ...props,
+                onClick: handleClose
+            };
+          },
           Modal: (props, useState, useContext) => {
             const { open, handleClose } = useModal();
     
@@ -550,39 +996,14 @@ const html = `
                 id: open ? "simple-popper" : undefined,
             };
           },
-          Autocomplete: (props, useState) => {
-              // Assuming renderInput needs to be a function creating a TextField with specific props
-              if (typeof props.renderInput === 'string') {
-                  props.renderInput = (params) => React.createElement(MaterialUI.TextField, {
-                      ...params,
-                      label: props.renderInput  // Use the string as label, or customize as needed
-                  });
-              }
-              props.options = [
-                  { label: 'The Shawshank Redemption', year: 1994 },
-                  { label: 'The Godfather', year: 1972 },
-                  { label: 'The Godfather: Part II', year: 1974 },
-                  { label: 'The Dark Knight', year: 2008 },
-                  { label: '12 Angry Men', year: 1957 },
-              ];
-      
-              return props;
-          },
-          FormControlLabel: (props, useState) => {
-              // Handle the case where the control needs to be a specific MUI component
-              if (props.control && props.control.type === 'Radio') {
-                props.control = React.createElement(MaterialUI.Radio);
-            }
-            if (props.role === 'transition') {
-                const { checked, handleChange } = useTransition();
+          Rating: (props, useState, useContext) => {
+            const { ratingValue, handleRatingChange } = useRating();
 
-                const switchComponent = React.createElement(MaterialUI.Switch, { checked: checked, onChange: handleChange });
-                return {
-                    ...props,
-                    control: switchComponent
-                };
+            return {
+              ...props,
+              value: ratingValue,
+              onChange: handleRatingChange
             }
-            return props;
           },
           Snackbar: (props, useState, useContext) => {
             const { open, handleClose } = useModal();
@@ -608,6 +1029,17 @@ const html = `
                 onClose: handleClose,
                 action: action,
             };
+          },
+          Stepper: (props, useState, useContext) => {
+            const { activeStep, handleNext, handleBack, handleReset } = useStepper();
+           
+            return {
+              ...props,
+              activeStep, 
+              handleNext,
+              handleBack,
+              handleReset
+            }
           },
           Tabs: (props, useState, useContext) => {
             const { value, handleChange } = useTabs ();
@@ -637,18 +1069,6 @@ const html = `
           
             return modifiedProps;
           },
-          Collapse: (props, useState, useContext) => {
-            const { checked } = useTransition();
-            if (props.role === 'collapse') {
-
-              return {
-                ...props,
-                in: Boolean(checked) 
-              };
-            }
-            return props;
-          }
-          // Additional components can be configured similarly
         };
   
         const isJsonString = (str) => {
@@ -664,8 +1084,6 @@ const html = `
           const { type, props } = data;
           let { children } = data;
           const Component = MaterialUI[type] || 'div';
-          
-          console.log('createComponentFromData Component', Component)
   
           if (Component === undefined) {
             console.error(\`Component type \${type} is undefined.\`);
@@ -674,6 +1092,22 @@ const html = `
 
           if (type === 'ImageList') {
             return ImageListComponent();
+          }
+
+          if (type === 'DrawerList') {
+            return DrawerList();
+          }
+
+          // Handle creation of Tooltip component
+          if (type === 'Tooltip') {
+              // Extract props
+              const { title, ...otherProps } = props;
+      
+              // Recursively process children if any
+              const tooltipContent = children ? children.map(createComponentFromData) : null;
+      
+              // Return the Tooltip component with title and other props
+              return React.createElement(MaterialUI.Tooltip, { title, ...otherProps }, tooltipContent);
           }
 
           // Handle creation of Tab component
@@ -695,7 +1129,6 @@ const html = `
               // Apply specific configuration if exists
               if (componentConfigs[type]) {
                   configuredProps = componentConfigs[type](configuredProps, useState);
-                  console.log('configuredProps', configuredProps)
               }
 
               // Process children components recursively
@@ -708,29 +1141,50 @@ const html = `
                     return child;
                 } else if (typeof child === 'object' && child !== null) {
                     // Check if the child is an Item object and create a component accordingly
-                    if (child.type === 'Item') {
-                        // Define the Item component with styled(MaterialUI.Paper)
-                        const Item = styled(MaterialUI.Paper)(({ backgroundColor, textColor }) => ({
-                            backgroundColor: backgroundColor || '#1A2027',
-                            color: textColor || '#FFFFFF',
-                            padding: '8px', // Adjust padding as needed
-                            textAlign: 'center',
-                        }));
-            
-                        // Extract props and children from the child object
-                        const { props, children } = child;
-            
-                        // Return the created Item component with its props and children
-                        return React.createElement(Item, props, children);
-                    } else {
-                        // Recursively process other types of objects
-                        return createComponentFromData(child);
-                    }
+                    if (child.type === 'Stepper') {
+                      return React.createElement(VerticalStepper, { steps: steps });
+                    } else if (child.type === 'SpeedDial') {
+                      // Special handling for the SpeedDial component, including its icon
+                      const newProps = {
+                        ...child.props,
+                        icon: React.createElement(MaterialUI.SpeedDialIcon), // Assuming SpeedDialIcon is correctly referenced
+                      };
+                    
+                      // Recursively process child components if any
+                      const childrenElements = child.children ? child.children.map(processChildren) : [];
+                    
+                      // Return the SpeedDial component with the newProps and processed children
+                      return React.createElement(MaterialUI.SpeedDial, newProps, ...childrenElements);
+                    } else if (child.type === 'SpeedDialAction') {
+                      return React.createElement(MaterialUI.SpeedDialAction, {
+                          key: child.props.name,
+                          icon: React.createElement(MaterialUI.SpeedDialIcon),
+                          tooltipTitle: child.props.name
+                      });
+                    } else if (child.type === 'customList') {
+                      // Creating customList component
+                      return customList(child.props.items);
+                    } else if (child.type === 'Item') {
+                          // Define the Item component with styled(MaterialUI.Paper)
+                          const Item = styled(MaterialUI.Paper)(({ backgroundColor, textColor }) => ({
+                              backgroundColor: backgroundColor || '#1A2027',
+                              color: textColor || '#FFFFFF',
+                              padding: '8px', // Adjust padding as needed
+                              textAlign: 'center',
+                          }));
+              
+                          // Extract props and children from the child object
+                          const { props, children } = child;
+              
+                          // Return the created Item component with its props and children
+                          return React.createElement(Item, props, children);
+                      } else {
+                          // Recursively process other types of objects
+                          return createComponentFromData(child);
+                      }
                 }
                 return null;
               };
-
-              console.log('Final props for component:', type, configuredProps);
 
               // If the component is a Grid with children of type Item, process them
               if (type === 'Grid' && Array.isArray(children)) {
@@ -762,7 +1216,6 @@ const html = `
             if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
               try {
                 const jsonData = JSON.parse(segment);
-                console.log('jsonData', jsonData);
                 if (jsonData.props && jsonData.props.children) {
                   jsonData.children = jsonData.children || [];
                   jsonData.children = [...jsonData.children, ...jsonData.props.children];
@@ -770,7 +1223,7 @@ const html = `
                 const componentContainer = document.createElement('div');
                 container.appendChild(componentContainer);
                 const component = createComponentFromData(jsonData);
-                console.log('component', component)
+       
                 let correctProvider;
                 // variable to hold the correct provider
                 if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Modal' || child.type === 'Backdrop' || child.type === 'Dialog' || child.type === 'Snackbar')) {
@@ -781,6 +1234,18 @@ const html = `
                 }
                 if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Popper')) {
                   correctProvider = PopperProvider;
+                }
+                if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Drawer')) {
+                  correctProvider = DrawerProvider;
+                }
+                if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Menu')) {
+                  correctProvider = MenuProvider;
+                }
+                if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Rating')) {
+                  correctProvider = RatingProvider;
+                }
+                if (Array.isArray(jsonData.children) && jsonData.children.some(child => child.type === 'Stepper')) {
+                  correctProvider = StepperProvider;
                 }
                 if (
                   jsonData.children &&
@@ -800,20 +1265,11 @@ const html = `
                 ) {
                   correctProvider = TransitionProvider;
                 }
-              
-                if (jsonData.type === 'Grid' &&
-                Array.isArray(jsonData.children) &&
-                jsonData.children.some(child => 
-                    child.type === 'customList' && 
-                    child.props.items &&
-                    (child.props.items === 'left' || child.props.items === 'right')
-                )
-                ) {
-                    correctProvider = TransferListProvider;
+                if (jsonData.type === 'Grid' && findCustomListInChildren(jsonData.children)) {
+                  correctProvider = TransferListProvider;
                 }
-                
+
                 if(!correctProvider) {
-                  console.log('div check')
                   ReactDOM.render(component, componentContainer);
                 } else {
                   ReactDOM.render(

@@ -25,10 +25,10 @@ beforeAll(async () => {
 afterAll(async () => {
   await Projects.deleteMany({}); //clear the projects collection after tests are done
   await Users.deleteMany({
-    _id: { $ne: '64f551e5b28d5292975e08c8' }
+    _id: { $ne: '664247b09df40d692fb7fdef' }
   }); //clear the users collection after tests are done except for the mockdata user account
   await Sessions.deleteMany({
-    cookieId: { $ne: '64f551e5b28d5292975e08c8' }
+    cookieId: { $ne: '664247b09df40d692fb7fdef' }
   });
   await mongoose.connection.close();
 });
@@ -310,14 +310,57 @@ describe('Server endpoint tests', () => {
   });
 });
 
+describe('isLoggedIn', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+  // Mock Express request and response objects and next function
+  const mockReq: any = {
+    cookies: {},
+    body: {
+      userId: 'sampleUserId' // Set up a sample userId in the request body
+    }
+  };
+  const mockRes: any = {
+    json: vi.fn(),
+    status: vi.fn(),
+    redirect: vi.fn(),
+    locals: {}
+  };
 
-  describe('isLoggedIn', () => {
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
-    // Mock Express request and response objects and next function
+  const next = vi.fn();
+  it('Assign userId from request body to cookieId', async () => {
+    // Call isLoggedIn
+    await sessionController.isLoggedIn(mockReq, mockRes, next);
+    expect(mockRes.locals.loggedIn).toBe(true);
+    expect(next).toHaveBeenCalled();
+  });
+  it('Trigger a database query error for findOne', async () => {
+    const mockFindOne = vi
+      .spyOn(mongoose.model('Sessions'), 'findOne')
+      .mockImplementation(() => {
+        throw new Error('Database query error');
+      });
+    // Call isLoggedIn
+    await sessionController.isLoggedIn(mockReq, mockRes, next);
+    // Ensure that next() was called with the error
+    expect(next).toHaveBeenCalledWith(
+      expect.objectContaining({
+        log: expect.stringMatching('Database query error') // The 'i' flag makes it case-insensitive
+      })
+    );
+
+    mockFindOne.mockRestore();
+  });
+});
+
+describe('startSession', () => {
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+  it('Trigger a database query error for findOne', async () => {
     const mockReq: any = {
-      cookies: {},
+      cookies: projectToSave.userId, //trying to trigger if cookies was not assigned
       body: {
         userId: 'sampleUserId' // Set up a sample userId in the request body
       }
@@ -326,101 +369,54 @@ describe('Server endpoint tests', () => {
       json: vi.fn(),
       status: vi.fn(),
       redirect: vi.fn(),
-      locals: {}
+      locals: { id: projectToSave.userId }
     };
 
     const next = vi.fn();
-    it('Assign userId from request body to cookieId', async () => {
-      // Call isLoggedIn
-      await sessionController.isLoggedIn(mockReq, mockRes, next);
-      expect(mockRes.locals.loggedIn).toBe(true);
-      expect(next).toHaveBeenCalled();
-    });
-    it('Trigger a database query error for findOne', async () => {
-      const mockFindOne = vi
-        .spyOn(mongoose.model('Sessions'), 'findOne')
-        .mockImplementation(() => {
-          throw new Error('Database query error');
-        });
-      // Call isLoggedIn
-      await sessionController.isLoggedIn(mockReq, mockRes, next);
-      // Ensure that next() was called with the error
-      expect(next).toHaveBeenCalledWith(
-        expect.objectContaining({
-          log: expect.stringMatching('Database query error') // The 'i' flag makes it case-insensitive
-        })
-      );
+    const findOneMock = vi.spyOn(mongoose.model('Sessions'), 'findOne');
+    findOneMock.mockImplementation(
+      (query: any, callback: (err: any, ses: any) => void) => {
+        callback(new Error('Database query error'), null);
+      }
+    );
+    // Call startSession
+    sessionController.startSession(mockReq, mockRes, next);
+    // Check that next() was called with the error
+    expect(next).toHaveBeenCalledWith(
+      expect.objectContaining({
+        log: expect.stringMatching('Database query error') // The 'i' flag makes it case-insensitive
+      })
+    );
 
-      mockFindOne.mockRestore();
-    });
+    vi.restoreAllMocks();
   });
 
-  describe('startSession', () => {
-    afterEach(() => {
-      vi.resetAllMocks();
-    });
-    it('Trigger a database query error for findOne', async () => {
-      const mockReq: any = {
-        cookies: projectToSave.userId, //trying to trigger if cookies was not assigned
-        body: {
-          userId: 'sampleUserId' // Set up a sample userId in the request body
-        }
-      };
-      const mockRes: any = {
-        json: vi.fn(),
-        status: vi.fn(),
-        redirect: vi.fn(),
-        locals: { id: projectToSave.userId }
-      };
+  // it.skip('Check if a new Session is created', async () => {
+  //   //not working for some reason cannot get mocknext() to be called in test?
 
-      const next = vi.fn();
-      const findOneMock = vi.spyOn(mongoose.model('Sessions'), 'findOne');
-      findOneMock.mockImplementation(
-        (query: any, callback: (err: any, ses: any) => void) => {
-          callback(new Error('Database query error'), null);
-        }
-      );
-      // Call startSession
-      sessionController.startSession(mockReq, mockRes, next);
-      // Check that next() was called with the error
-      expect(next).toHaveBeenCalledWith(
-        expect.objectContaining({
-          log: expect.stringMatching('Database query error') // The 'i' flag makes it case-insensitive
-        })
-      );
+  //   const mockReq: any = {
+  //     cookies: projectToSave.userId, //trying to trigger if cookies was not assigned
+  //     body: {
+  //       userId: 'sampleUserId' // Set up a sample userId in the request body
+  //     }
+  //   };
+  //   const mockRes: any = {
+  //     json: vi.fn(),
+  //     status: vi.fn(),
+  //     redirect: vi.fn(),
+  //     locals: { id: 'testID' } //a sesion id that doesnt exist
+  //   };
 
-      vi.restoreAllMocks();
-    });
+  //   const mockNext = vi.fn();
 
-    // it.skip('Check if a new Session is created', async () => {
-    //   //not working for some reason cannot get mocknext() to be called in test?
+  //   //Call startSession
+  //   // Wrap your test logic in an async function
+  //   await sessionController.startSession(mockReq, mockRes, mockNext);
 
-    //   const mockReq: any = {
-    //     cookies: projectToSave.userId, //trying to trigger if cookies was not assigned
-    //     body: {
-    //       userId: 'sampleUserId' // Set up a sample userId in the request body
-    //     }
-    //   };
-    //   const mockRes: any = {
-    //     json: vi.fn(),
-    //     status: vi.fn(),
-    //     redirect: vi.fn(),
-    //     locals: { id: 'testID' } //a sesion id that doesnt exist
-    //   };
-
-    //   const mockNext = vi.fn();
-
-    //   //Call startSession
-    //   // Wrap your test logic in an async function
-    //   await sessionController.startSession(mockReq, mockRes, mockNext);
-
-    //   //check if it reaches next()
-    //   //await expect(mockRes.locals.ssid).toBe('testID');
-    //   expect(mockNext).toHaveBeenCalled();
-    // });
-      
-
- 
+  //   //check if it reaches next()
+  //   //await expect(mockRes.locals.ssid).toBe('testID');
+  //   expect(mockNext).toHaveBeenCalled();
+  // });
 });
 
 // describe('marketplaceController Middleware', () => {
@@ -428,8 +424,7 @@ describe('Server endpoint tests', () => {
 //     it('should add the projects as an array to res.locals', () => {
 //       const req = {};
 //       const res = { locals: {} };
-//       console.log(marketplaceController.getPublishedProjects);
-//       console.log(typeof marketplaceController.getPublishedProjects);
+
 //       marketplaceController.getPublishedProjects(req, res, mockNext);
 //       expect(Array.isArray(res.locals.publishedProjects)).toBe(true);
 //       expect(mockNext).toHaveBeenCalled();

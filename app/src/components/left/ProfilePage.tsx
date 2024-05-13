@@ -42,7 +42,6 @@ const ProfilePage = (): JSX.Element => {
   useEffect(() => {
     const storedUsername = window.localStorage.getItem('username');
     const storedEmail = window.localStorage.getItem('email');
-    console.log(localStorage);
 
     if (storedUsername) {
       setUsername(storedUsername);

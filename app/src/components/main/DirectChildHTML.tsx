@@ -62,7 +62,6 @@ function DirectChildHTML({
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildHTML');
     }
   };
 

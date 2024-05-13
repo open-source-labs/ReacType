@@ -10,7 +10,6 @@ const router = express.Router();
  * @param {express.Response} res - The response object from Express.
  */
 router.post('/save', userStylesController.saveCssFile, (req: Request, res: Response) => {
-  console.log("I am here in the styles Router.")
   res.status(200).json({});
 });
 export default router;

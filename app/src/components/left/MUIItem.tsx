@@ -59,8 +59,6 @@ const MUIItem: React.FC<{
     instanceTypeId: id
   };
 
-  // console.log('draggable item', item);
-
   const [{ isDragging }, drag] = useDrag({
     item,
     collect: (monitor: any) => ({

@@ -8,6 +8,7 @@ export default mergeConfig(viteConfig, defineConfig({
       '**/node_modules/**',
       '**/dist/**',
     ],
+    environment: 'jsdom',
     globals: true,
     environmentMatchGlobs: [
       ['__tests__/**' ,'jsdom'],

@@ -3,6 +3,7 @@ import SearchBar from '../components/marketplace/Searchbar';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CircularProgress } from '@mui/material';
+import serverconfig from '../serverConfig';
 
 /**
  * `MarketplaceContainer` serves as the main container for the marketplace section of the application,
@@ -27,12 +28,15 @@ const MarketplaceContainer = () => {
   useEffect(() => {
     async function marketplaceFetch() {
       try {
-        const response = await axios.get('/getMarketplaceProjects', {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          withCredentials: true
-        });
+        const response = await axios.get(
+          `${serverconfig.API_BASE_URL}/getMarketplaceProjects`,
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            withCredentials: true
+          }
+        );
         setMarketplaceProjects(response.data);
         setDisplayProjects(response.data);
       } catch (error) {

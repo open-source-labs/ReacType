@@ -6,6 +6,10 @@
   "main": "app/.electron/main.js",
   "author": "OS Labs",
   "contributors": [
+    "Sean Ryan",
+    "Austin Alvarez",
+    "Zack Vandiver",
+    "Jesse Wowczuk",
     "Victor Martins",
     "Liam Roh",
     "Denton Wong",
@@ -46,6 +50,7 @@
     "Eliot Nguyen",
     "Evan Crews",
     "Fredo Chen",
+    "Heather Pfeiffer",
     "Jesse Zuniga",
     "Jin Soo Lim",
     "Jonathan Calvo Ramirez",

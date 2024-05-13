@@ -15,11 +15,11 @@ import ComponentDrag from './ComponentDrag';
 
 const useStyles = makeStyles({
   accordion: {
-    backgroundColor: '#000000', // Set the background color to gray
+    backgroundColor: '#0b0b0b', // Set the background color to gray
     color: '#ffffff' // Set the text color to white
   },
   accordionSummary: {
-    backgroundColor: '#000000', // Set the background color of the summary to gray
+    backgroundColor: '#101012', // Set the background color of the summary to gray
     color: '#ffffff' // Set the text color of the summary to white
   }
 });
@@ -90,8 +90,14 @@ const DragDropPanel = (props): JSX.Element => {
           >
             <h3>HTML Elements</h3>
           </AccordionSummary>
-          <AccordionDetails>
-            <Grid container justifyContent="center">
+          <AccordionDetails
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'space-around'
+            }}
+          >
+            <Grid container justifyContent="space-around" columnSpacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
@@ -123,8 +129,14 @@ const DragDropPanel = (props): JSX.Element => {
           >
             <h3>React Router</h3>
           </AccordionSummary>
-          <AccordionDetails>
-            <Grid container justifyContent="center">
+          <AccordionDetails
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'space-around'
+            }}
+          >
+            <Grid container justifyContent="space-around" columnSpacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   (option.name === 'Switch' ||

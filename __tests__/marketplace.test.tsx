@@ -1,5 +1,4 @@
 // @vitest-enviroment jsdom
-// import '@testing-librar= vi-dom/extend-expect';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
