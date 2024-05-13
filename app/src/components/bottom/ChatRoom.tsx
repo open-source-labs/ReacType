@@ -5,6 +5,40 @@ import { emitEvent } from '../../helperFunctions/socket';
 import Videomeeting from './VideoMeeting';
 import { Send } from '@mui/icons-material';
 
+/**
+ * Chatroom component for handling and displaying chat messages within a collaboration room.
+ * This component integrates with the Redux store to access and manage chat-related states such as user details, room code, and messages.
+ * It also provides a real-time chat interface that allows users to send messages that are displayed in a styled format based on the sender.
+ *
+ * @component
+ * @example
+ * return <Chatroom />
+ *
+ * @returns {JSX.Element} The Chatroom component with interactive chat and video meeting functionalities.
+ *
+ * Props:
+ * - userName (string): The current user's name.
+ * - roomCode (string): The unique code for the current chat room.
+ * - messages (array): An array of message objects that contains details like message type, sender's username, and the message content.
+ * - userJoinCollabRoom (boolean): A boolean state that indicates whether the user has joined a collaborative room.
+ *
+ * Redux State:
+ * - userName (string): The user's name fetched from the Redux store.
+ * - roomCode (string): The room code for the current session.
+ * - messages (array): List of messages in the current chat room.
+ * - userJoinCollabRoom (boolean): Indicates if the user has joined a collaboration room, affecting visibility of certain UI elements.
+ *
+ * Styles:
+ * - wrapperStyles: Styles for the main message container.
+ * - inputContainerStyles: Styles for the input container.
+ * - inputStyles: Styles for the text input where users type their messages.
+ * - buttonStyles: Styles for the send button.
+ *
+ * Functions:
+ * - handleSubmit: Handles the submission of the chat form to send a message.
+ * - handleMessageContainerStyle: Returns styling for message bubbles based on the message type and sender.
+ * - renderMessages: Maps through the `messages` array and renders each message using specific styles.
+ */
 const Chatroom = (props): JSX.Element => {
   const { userName, roomCode, messages, userJoinCollabRoom } = useSelector(
     (store: RootState) => store.roomSlice

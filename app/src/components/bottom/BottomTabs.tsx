@@ -11,7 +11,6 @@ import StylesEditor from './StylesEditor';
 import Tree from '../../tree/TreeChart';
 import ContextManager from '../ContextAPIManager/ContextManager';
 import StateManager from '../StateManagement/StateManagement';
-import MUIProps from './MUIProps';
 import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -91,9 +90,9 @@ const BottomTabs = (props): JSX.Element => {
               indicator: classes.tabsIndicator
             }}
             variant="scrollable"
-            scrollButtons="auto" 
+            scrollButtons="auto"
           >
-            <Tab 
+            <Tab
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Live Chat"
               onClick={showBottomPanel}
@@ -130,11 +129,6 @@ const BottomTabs = (props): JSX.Element => {
             <Tab
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="State Manager"
-              onClick={showBottomPanel}
-            />
-            <Tab
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="MUI Props"
               onClick={showBottomPanel}
             />
           </Tabs>
@@ -177,8 +171,13 @@ const BottomTabs = (props): JSX.Element => {
           {tab === 3 && <StylesEditor theme={theme} setTheme={setTheme} />}
           {tab === 4 && <Tree data={components} />}
           {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-          {tab === 6 && (<StateManager theme={theme} setTheme={setTheme} isThemeLight={isThemeLight} />)}
-          {tab === 7 && <MUIProps theme={theme} setTheme={setTheme} />}  
+          {tab === 6 && (
+            <StateManager
+              theme={theme}
+              setTheme={setTheme}
+              isThemeLight={isThemeLight}
+            />
+          )}
         </div>
       </div>
     </MeetingProvider>

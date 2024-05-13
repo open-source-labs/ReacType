@@ -63,7 +63,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 - **MUI Components**: Material UI can now be used to Create / Style your Applications
 - **UI Updates**: The UI now features a more modern and user friendly experience to reflect the newly added Components.
 - **DX Updates**: Migrated from Jest to Vitest to allow better compatibility, as well as to reduce complexity and streamline the Development Workflow.
-- **JS DOCS**: Added 264 JSDoc comment blocks throughout the codebase.
+- **JS DOCS**: Added 273 JSDoc comment blocks throughout the codebase.
 - **Cleanup**: Removed unused code, fixed bugs, and made major performance improvements.
 - **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
 

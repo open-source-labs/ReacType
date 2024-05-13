@@ -21,6 +21,47 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 import VideoMeetingControl from './VideoMeetingControl';
 
+/**
+ * Videomeeting component that integrates video and audio functionalities for a meeting using VideoSDK.
+ * It handles user interactions such as joining/leaving a meeting, enabling/disabling the microphone, and camera.
+ * It uses the `useMeeting` and `useParticipant` hooks from the VideoSDK to manage meeting states and participant data.
+ *
+ * @component
+ * @example
+ * return <Videomeeting />
+ *
+ * @returns {JSX.Element} The Videomeeting component providing video and audio interaction within a meeting environment.
+ *
+ * Redux State:
+ * - meetingId (string): The unique identifier for the current meeting.
+ * - userJoinCollabRoom (boolean): Indicates if the user has joined a collaborative room.
+ * - userJoinMeetingStatus (string | null): Represents the current user's meeting join status.
+ * - meetingParticipants (array): Array of participant IDs currently in the meeting.
+ * - useMic (boolean): State to track if the user's microphone is active.
+ * - useWebcam (boolean): State to track if the user's webcam is active.
+ *
+ * Props:
+ * - meetingId (string): Unique identifier for the meeting.
+ * - userJoinCollabRoom (boolean): Indicates whether the user has joined a collaboration room.
+ * - userJoinMeetingStatus (string | null): Indicates the user's current status in the meeting.
+ * - meetingParticipants (array): IDs of participants in the meeting.
+ * - useMic (boolean): Indicates if the microphone is being used.
+ * - useWebcam (boolean): Indicates if the webcam is active.
+ *
+ * Functions:
+ * - onMeetingLeave(): Handles actions when leaving a meeting, such as updating Redux states.
+ * - handleUserInfoStyle(isLocalParticipant: boolean): Provides styling for user information based on whether the participant is local.
+ * - ParticipantView({ participantId, isLocalParticipant }): Renders individual participant views including video and audio components.
+ * - MeetingView({ onMeetingLeave }): Manages the entire meeting view, including joining and leaving functionalities, and displaying all participants.
+ * - TurnOffCameraDisplay(): Displays an icon when the camera is turned off.
+ *
+ * Hooks:
+ * - useMemo: Used for memoizing the video stream creation.
+ * - useEffect: Handles side effects related to microphone stream management.
+ * - useRef: References to HTML audio elements for real-time audio playback.
+ * - useDispatch: To dispatch Redux actions.
+ * - useSelector: To access Redux state.
+ */
 const Videomeeting = (props): JSX.Element => {
   const dispatch = useDispatch();
   const {
