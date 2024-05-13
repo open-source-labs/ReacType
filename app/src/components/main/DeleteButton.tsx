@@ -6,7 +6,22 @@ import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 import { Clear } from '@mui/icons-material';
 
-function DeleteButton({ id, name, onClickHandler }: DeleteButtons) {
+/**
+ * `DeleteButton` is a React component that renders a button for deleting a specific HTML element or component within the application.
+ * It uses Redux actions to manage the state and potentially emits events over sockets for collaborative environments.
+ *
+ * @param {Object} props - The component props.
+ * @param {number} props.id - The unique identifier of the component or HTML element to be deleted.
+ * @param {string} props.name - The name of the component or HTML element, used for identification in the UI or logs.
+ * @param {Function} [props.onClickHandler] - An optional function to handle additional or preparatory actions on button click before the deletion occurs.
+ *
+ * @returns {JSX.Element} A button element that triggers the deletion of the specified component or HTML element when clicked.
+ */
+function DeleteButton({
+  id,
+  name,
+  onClickHandler
+}: DeleteButtons): JSX.Element {
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -20,10 +35,6 @@ function DeleteButton({ id, name, onClickHandler }: DeleteButtons) {
         id,
         contextParam
       });
-
-      // console.log(
-      //   'emit deleteChildAction event is triggered in DeleteButton.tsx'
-      // );
     }
   };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -86,7 +86,14 @@ const useStyles = makeStyles({
   }
 });
 
-const Tutorial: React.FC<RouteComponentProps> = () => {
+/**
+ * Tutorial component displaying a list of topics with associated icons.
+ * Each topic is rendered as a card, and clicking on a card navigates to a specific tutorial page.
+ * Includes a close button to close the tutorial window.
+ * @param {RouteComponentProps} props - RouteComponentProps object containing match, location, and history props
+ * @returns {JSX.Element} - JSX element representing the Tutorial component
+ */
+const Tutorial: React.FC<RouteComponentProps<{ learn: string }>> = (props): JSX.Element => {
   const classes = useStyles();
   const topics = [
     'Pages',
@@ -116,6 +123,7 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     <BrushIcon className={classes.icons} />,
     <KeyboardIcon className={classes.icons} />
   ];
+
   const body = document.querySelector('body');
   body.style.overflowY = 'auto';
   body.style.backgroundColor = Styling.tutorialGray;
@@ -138,19 +146,19 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <div>
-        {/* <Link to='/' style={{textDecoration: 'none'}}> */}
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ minWidth: '137.69px' }}
-          className="navbarButton"
-          id="ratingButton"
-          onClick={window.close}
-          endIcon={<CloseIcon />}
-        >
-          Close
-        </Button>
-        {/* </Link> */}
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ minWidth: '137.69px' }}
+            className="navbarButton"
+            id="ratingButton"
+            onClick={window.close}
+            endIcon={<CloseIcon />}
+          >
+            Close
+          </Button>
+        </Link>
       </div>
       <Container maxWidth="xl" className={classes.container}>
         <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
@@ -159,4 +167,5 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     </>
   );
 };
-export default withRouter(Tutorial);
+
+export default Tutorial;

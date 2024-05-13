@@ -1,5 +1,4 @@
-import '@testing-library/jest-dom';
-
+import { describe, it, expect } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import ComponentDrag from '../app/src/components/left/ComponentDrag';
@@ -21,42 +20,42 @@ function TestContext(component) {
 }
 
 describe('Drag and Drop Side Panel', () => {
-  test('Renders all HTML Element choices', () => {
+  it('Renders all HTML Element choices', () => {
     render(TestContext(<DragDropPanel />));
-    expect(screen.getByText('Div')).toBeInTheDocument();
-    expect(screen.getByText('Img')).toBeInTheDocument();
-    expect(screen.getByText('Form')).toBeInTheDocument();
-    expect(screen.getByText('Button')).toBeInTheDocument();
-    expect(screen.getByText('Link')).toBeInTheDocument();
-    expect(screen.getByText('Paragraph')).toBeInTheDocument();
-    expect(screen.getByText('Header 1')).toBeInTheDocument();
-    expect(screen.getByText('Header 2')).toBeInTheDocument();
-    expect(screen.getByText('Span')).toBeInTheDocument();
-    expect(screen.getByText('Input')).toBeInTheDocument();
-    expect(screen.getByText('Label')).toBeInTheDocument();
-    expect(screen.getByText('Ordered List')).toBeInTheDocument();
-    expect(screen.getByText('Unordered List')).toBeInTheDocument();
-    expect(screen.getByText('Menu')).toBeInTheDocument();
-    expect(screen.getByText('List')).toBeInTheDocument();
+    expect(screen.getByText('Div')).toBeDefined();
+    expect(screen.getByText('Img')).toBeDefined();
+    expect(screen.getByText('Form')).toBeDefined();
+    expect(screen.getByText('Button')).toBeDefined();
+    expect(screen.getByText('Link')).toBeDefined();
+    expect(screen.getByText('Paragraph')).toBeDefined();
+    expect(screen.getByText('Header 1')).toBeDefined();
+    expect(screen.getByText('Header 2')).toBeDefined();
+    expect(screen.getByText('Span')).toBeDefined();
+    expect(screen.getByText('Input')).toBeDefined();
+    expect(screen.getByText('Label')).toBeDefined();
+    expect(screen.getByText('Ordered List')).toBeDefined();
+    expect(screen.getByText('Unordered List')).toBeDefined();
+    expect(screen.getByText('Menu')).toBeDefined();
+    expect(screen.getByText('List')).toBeDefined();
     expect(screen.queryByText('separator')).toBe(null);
   });
 
-  test('Renders all React Router Component choices', () => {
+  it('Renders all React Router Component choices', () => {
     render(TestContext(<DragDropPanel />));
 
-    expect(screen.getByText('Switch')).toBeInTheDocument();
-    expect(screen.getByText('Route')).toBeInTheDocument();
-    expect(screen.getByText('LinkTo')).toBeInTheDocument();
+    expect(screen.getAllByText('Switch')[0]).toBeDefined();
+    expect(screen.getAllByText('Route')[0]).toBeDefined();
+    expect(screen.getAllByText('LinkTo')[0]).toBeDefined();
   });
 
-  test.skip('Should render Roots Components and Reusbale components', () => {
-    render(TestContext(<ComponentDrag />));
+  it.skip('Should render Roots Components and Reusbale components', () => {
+    render(TestContext(<ComponentDrag isThemeLight={true} isVisible={true} />));
 
-    expect(screen.getByText('Root Components')).toBeInTheDocument();
-    expect(screen.getByText('Reusable Components')).toBeInTheDocument();
+    expect(screen.getByText('Root Components')).toBeDefined();
+    expect(screen.getByText('Reusable Components')).toBeDefined();
   });
 
-  test('test drag and drop', () => {
+  it('test drag and drop', () => {
     render(
       TestContext(
         <>
@@ -66,13 +65,13 @@ describe('Drag and Drop Side Panel', () => {
       )
     );
     const drop = screen.getByTestId('drop');
-    const div = screen.getByText('Div');
-    expect(drop).toBeInTheDocument();
-    expect(div).toBeInTheDocument();
+    const div = screen.getAllByText('Div')[0];
+    expect(drop).toBeDefined();
+    expect(div).toBeDefined();
     fireEvent.dragStart(div);
     fireEvent.dragEnter(drop);
     fireEvent.dragOver(drop);
     fireEvent.drop(drop);
-    expect(within(drop).getByText('div')).toBeInTheDocument();
+    expect(within(drop).getByText('div')).toBeDefined();
   });
 });

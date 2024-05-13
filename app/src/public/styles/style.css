@@ -211,6 +211,7 @@ span.material-symbols-outlined {
 
 #HTMLgrid {
   margin: 5px;
+  padding: 0;
 }
 
 #HTMLItemsGrid {
@@ -224,6 +225,10 @@ span.material-symbols-outlined {
   padding: 10%;
   border-radius: 10px;
   box-shadow: #191919;
+  width: 120px;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
 }
 
 #HTMLItem:hover {
@@ -242,6 +247,7 @@ span.material-symbols-outlined {
   padding: 10%;
   border-radius: 10px;
   box-shadow: #191919;
+  width: 120px;
 }
 
 #MUIItem:hover {
@@ -771,6 +777,16 @@ CANVAS WINDOW
   align-items: center;
   font-family: 'Roboto', 'Raleway', sans-serif;
   height: 100%;
+}
+
+#renderFocus {
+  position: relative;
+  min-width: 50px;
+  max-width: 1200px;
+  width: calc(100% - 280px);
+  height: 100%;
+  resize: horizontal;
+  overflow: auto;
 }
 
 /* Material-UI */

@@ -8,22 +8,28 @@ import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 import * as Icons from '@mui/icons-material';
-/*
-DESCRIPTION: This component is each box beneath the 'HTML Elements' and
-  'reusable components' (in classic React mode) headings. Drag-and-drop
-  functionality works only for reusable components.
 
-  -root is a boolean reflecting whether a component is a root component (that is, a container)
-  -isFocus is boolean reflecting whether a component is the one currently displayed on the canvas
-*/
-// ComponentPanelItem is a tile that represents a single component
+/**
+ * `ComponentPanelItem` represents an individual component item within the ComponentPanel. It uses
+ * drag-and-drop functionality to allow the user to position components within the canvas. The component can
+ * display a focus state, and restricts dragging when marked as a root component or is currently focused.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.name - The display name of the component, which correlates with an icon in the MUI icons library.
+ * @param {number} props.id - The unique identifier for the component.
+ * @param {boolean} props.root - Indicates if the component is a root component, affecting its draggability.
+ * @param {boolean} props.isFocus - Indicates if the component is currently focused in the UI.
+ * @param {boolean} props.isThemeLight - Indicates if the light theme is active, affecting the text color.
+ *
+ * @returns {JSX.Element} A draggable and clickable item that represents a component in the component panel.
+ */
 const ComponentPanelItem: React.FC<{
   name: string;
   id: number;
   root: boolean;
   isFocus: boolean;
   isThemeLight: boolean;
-}> = ({ name, id, root, isFocus, isThemeLight }) => {
+}> = ({ name, id, root, isFocus, isThemeLight }): JSX.Element => {
   const classes = useStyles({});
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -70,9 +76,9 @@ const ComponentPanelItem: React.FC<{
         borderRadius: '10px',
         borderColor: '#2D313A',
         margin: '5px 0px',
-        width: '10rem', 
-        height: '3rem', 
-        position: 'relative',
+        width: '10rem',
+        height: '3rem',
+        position: 'relative'
       }}
     >
       {isFocus && <div className={classes.focusMark}></div>}
@@ -95,16 +101,16 @@ const ComponentPanelItem: React.FC<{
 const useStyles = makeStyles({
   nameContainer: {
     display: 'flex',
-    alignItems: 'center', 
+    alignItems: 'center'
   },
   focusMark: {
-    border: '2px solid #0671e3', 
-    borderRadius: '5%', 
-    position: 'absolute', 
-    top: '0', 
-    left: '0', 
-    right: '0', 
-    bottom: '0',  
+    border: '2px solid #0671e3',
+    borderRadius: '5%',
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0'
   },
   lightTheme: {
     color: 'rgba (0, 0, 0, 0.54)'

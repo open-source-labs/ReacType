@@ -21,6 +21,23 @@ import {
   snapShotAction
 } from '../../redux/reducers/slice/appStateSlice';
 
+/**
+ * Represents a draggable and nestable HTML element on a visual design canvas, capable of accepting other draggable items.
+ * This component uses React DnD to allow it to be dragged and to accept other draggable components.
+ * It can function as a container that other components can be dragged into. When components are dragged onto it,
+ * it checks if the nesting is valid and then potentially changes the parent of the dragged component.
+ * Additionally, it supports custom route additions and direct child links.
+ *
+ * @param {ChildElement} props - The properties passed to the component, including:
+ * @param {number} props.childId - Unique identifier for the component instance.
+ * @param {string} props.type - The type of the component (e.g., 'HTML Element').
+ * @param {number} props.typeId - The type identifier, linking to the specific HTML type information.
+ * @param {React.CSSProperties} props.style - Custom styles applied to override or complement the default and type-specific styles.
+ * @param {React.ReactNode[]} props.children - Child components of this element.
+ * @param {string} props.name - The name of the component, used for display and reference.
+ * @param {Object} props.attributes - Additional attributes that might influence the rendering or behavior of the component.
+ * @returns {JSX.Element} A styled component that can interact within a drag-and-drop interface, reflecting changes in a collaborative environment via socket events.
+ */
 function DirectChildHTMLNestable({
   childId,
   type,
@@ -114,10 +131,6 @@ function DirectChildHTMLNestable({
               childId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit addChildAction event is triggered in DirectChildHTMLNestable'
-            // );
           }
         }
       }
@@ -138,10 +151,6 @@ function DirectChildHTMLNestable({
               newParentChildId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit changePosition event is triggered in DirectChildHTMLNestable'
-            // );
           }
         }
       }
@@ -161,7 +170,6 @@ function DirectChildHTMLNestable({
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildHTMLNestable');
     }
   };
 
@@ -213,14 +221,15 @@ function DirectChildHTMLNestable({
   return (
     <div
       onClick={onClickHandler}
-      style={{...combinedStyle, backgroundColor: isOver ? '#3c59ba' : '#1E2024'}}
+      style={{
+        ...combinedStyle,
+        backgroundColor: isOver ? '#3c59ba' : '#1E2024'
+      }}
       ref={ref}
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color: 'white' }}>
-          {HTMLType.placeHolderShort}
-        </strong>
+        <strong style={{ color: 'white' }}>{HTMLType.placeHolderShort}</strong>
         <strong style={{ color: '#0671e3' }}>
           {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>

@@ -10,7 +10,18 @@ import createModal from '../right/createModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { resetState } from '../../redux/reducers/slice/appStateSlice';
-// ProjectManager function moved to NavBar.tsx
+
+
+/**
+ * A component that manages project-related actions such as exporting and deleting projects. 
+ * It allows users to export components alone or with additional application files, and provides
+ * an option to clear all project data.
+ * 
+ * The component uses a modal to confirm user actions and to present export options. The export
+ * functionality is tightly coupled with Electron's main process to handle directory selection and file management.
+ *
+ * @returns {JSX.Element} A React component that conditionally renders modals based on user interaction.
+ */
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);

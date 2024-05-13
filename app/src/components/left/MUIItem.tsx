@@ -53,13 +53,11 @@ const MUIItem: React.FC<{
   const item = {
     type: ItemTypes.INSTANCE,
     newInstance: true,
-    instanceType: 'MUI Component', // MUI Element? - we should carefully consider what we call this
+    instanceType: 'MUI Component',
     name,
     icon,
     instanceTypeId: id
   };
-
-  // console.log('draggable item', item);
 
   const [{ isDragging }, drag] = useDrag({
     item,

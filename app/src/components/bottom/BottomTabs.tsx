@@ -11,7 +11,6 @@ import StylesEditor from './StylesEditor';
 import Tree from '../../tree/TreeChart';
 import ContextManager from '../ContextAPIManager/ContextManager';
 import StateManager from '../StateManagement/StateManagement';
-import MUIProps from './MUIProps';
 import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -21,7 +20,23 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import arrow from '../main/Arrow';
 
-
+/**
+ * A central navigation component that provides tabs for switching between various features and functionalities
+ * in the application, such as live chat, creation panels, customization, and more. It handles dynamic tab content
+ * rendering based on the selected tab and allows project type switching through a dropdown menu.
+ * This component also includes integration with a video SDK for collaboration features and manages theme settings.
+ *
+ * @param {Object} props - Component props.
+ * @param {Function} props.setBottomShow - Function to toggle the visibility of the bottom panel.
+ * @param {boolean} props.isThemeLight - Indicates if the light theme is active to adjust the styling appropriately.
+ *
+ * Redux State Dependencies:
+ * - `appState`: Contains the application state including the current project type and components for the tree chart.
+ * - `contextSlice`: Used to pass additional parameters when changing the project type.
+ * - `roomSlice`: Provides meeting ID and user details for video SDK configuration.
+ *
+ * @returns {JSX.Element} A React component that renders a tab interface with content panels corresponding to the selected tab.
+ */
 const BottomTabs = (props): JSX.Element => {
   const { setBottomShow, isThemeLight } = props;
   const dispatch = useDispatch();
@@ -75,9 +90,9 @@ const BottomTabs = (props): JSX.Element => {
               indicator: classes.tabsIndicator
             }}
             variant="scrollable"
-            scrollButtons="auto" 
+            scrollButtons="auto"
           >
-            <Tab 
+            <Tab
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Live Chat"
               onClick={showBottomPanel}
@@ -114,11 +129,6 @@ const BottomTabs = (props): JSX.Element => {
             <Tab
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="State Manager"
-              onClick={showBottomPanel}
-            />
-            <Tab
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="MUI Props"
               onClick={showBottomPanel}
             />
           </Tabs>
@@ -161,8 +171,13 @@ const BottomTabs = (props): JSX.Element => {
           {tab === 3 && <StylesEditor theme={theme} setTheme={setTheme} />}
           {tab === 4 && <Tree data={components} />}
           {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-          {tab === 6 && (<StateManager theme={theme} setTheme={setTheme} isThemeLight={isThemeLight} />)}
-          {tab === 7 && <MUIProps theme={theme} setTheme={setTheme} />}  
+          {tab === 6 && (
+            <StateManager
+              theme={theme}
+              setTheme={setTheme}
+              isThemeLight={isThemeLight}
+            />
+          )}
         </div>
       </div>
     </MeetingProvider>

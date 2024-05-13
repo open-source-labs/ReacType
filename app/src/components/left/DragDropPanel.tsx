@@ -15,15 +15,27 @@ import ComponentDrag from './ComponentDrag';
 
 const useStyles = makeStyles({
   accordion: {
-    backgroundColor: '#000000', // Set the background color to gray
+    backgroundColor: '#0b0b0b', // Set the background color to gray
     color: '#ffffff' // Set the text color to white
   },
   accordionSummary: {
-    backgroundColor: '#000000', // Set the background color of the summary to gray
+    backgroundColor: '#101012', // Set the background color of the summary to gray
     color: '#ffffff' // Set the text color of the summary to white
   }
 });
 
+/**
+ * DragDropPanel is a component that renders a series of accordions each containing different
+ * types of draggable elements that can be used in a project. These include HTML elements, React Router components,
+ * and specific components for frameworks like Next.js if applicable. Each section allows users to interact with
+ * elements by dragging them into a canvas or other designated drop zones.
+ *
+ * Props:
+ * @param {Object} props - Contains properties passed down to the component.
+ * @param {boolean} props.isThemeLight - Indicates if the current theme is light, affecting the visual styling of the component.
+ *
+ * @returns {JSX.Element} A React component that renders various draggable item panels grouped in accordions.
+ */
 const DragDropPanel = (props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -78,8 +90,14 @@ const DragDropPanel = (props): JSX.Element => {
           >
             <h3>HTML Elements</h3>
           </AccordionSummary>
-          <AccordionDetails>
-            <Grid container justifyContent="center">
+          <AccordionDetails
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'space-around'
+            }}
+          >
+            <Grid container justifyContent="space-around" columnSpacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
@@ -101,33 +119,6 @@ const DragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* MUI Components */}
-        {/* <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-            className={classes.accordionSummary}
-          >
-            <h3>MUI Components</h3>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container justifyContent="center">
-              {muiTypesToRender.map((option) => {
-                return (
-                  <MUIItem
-                    name={option.name}
-                    key={`mui-${option.name}`}
-                    id={option.id}
-                    icon={option.icon}
-                    handleDelete={handleDelete}
-                  />
-                );
-              })}
-            </Grid>
-          </AccordionDetails>
-        </Accordion> */}
-
         {/* React Router */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
@@ -138,8 +129,14 @@ const DragDropPanel = (props): JSX.Element => {
           >
             <h3>React Router</h3>
           </AccordionSummary>
-          <AccordionDetails>
-            <Grid container justifyContent="center">
+          <AccordionDetails
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'space-around'
+            }}
+          >
+            <Grid container justifyContent="space-around" columnSpacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   (option.name === 'Switch' ||

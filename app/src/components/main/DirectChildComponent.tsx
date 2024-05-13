@@ -10,7 +10,23 @@ import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
-function DirectChildComponent({ childId, type, typeId, name }: ChildElement) {
+/**
+ * Renders a direct child component within the canvas, allowing for user interaction such as dragging and focusing.
+ * The component displays the name and includes a delete button for removing the component from the canvas.
+ *
+ * @param {Object} props - Component props.
+ * @param {number} props.childId - Unique identifier for the child component.
+ * @param {string} props.type - The type of the component (e.g., HTML element, custom component).
+ * @param {number} props.typeId - The type identifier which corresponds to a specific instance or class of components.
+ * @param {string} props.name - The display name of the component.
+ * @returns {JSX.Element} A draggable and clickable area representing the component with its name and a delete button.
+ */
+function DirectChildComponent({
+  childId,
+  type,
+  typeId,
+  name
+}: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
@@ -42,7 +58,6 @@ function DirectChildComponent({ childId, type, typeId, name }: ChildElement) {
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildComponent');
     }
   };
 

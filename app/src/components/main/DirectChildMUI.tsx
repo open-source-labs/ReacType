@@ -10,7 +10,21 @@ import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
-function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement) {
+/**
+ * A draggable component representing an instance of a Material-UI element. This component allows for interaction
+ * within a design canvas environment, supporting actions such as focus change and element deletion.
+ * The component is styled according to both inherited and directly provided styles, and it communicates with a collaborative
+ * environment via socket connections when changes occur.
+ *
+ * @param {ChildElement} props - The properties passed to the component.
+ * @param {number} props.childId - The unique identifier for this instance of the component.
+ * @param {string} props.name - The display name of the component.
+ * @param {string} props.type - The type of the component as defined in the application's constants.
+ * @param {number} props.typeId - The unique identifier linking this instance to its base type information.
+ * @param {React.CSSProperties} props.style - Custom styles applied to the component to override or complement default and type-specific styles.
+ * @returns {JSX.Element} A draggable, interactable component displayed within the canvas.
+ */
+function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -44,7 +58,6 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement) {
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildMUI');
     }
   };
 

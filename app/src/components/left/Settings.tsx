@@ -4,7 +4,17 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import MUIDragDropPanel from './MUIDragDropPanel';
 
-const ProfilePage = () => {
+/**
+ * A functional component that renders the MUIDragDropPanel within a simple container.
+ * The ProfilePage currently acts as a wrapper for the MUIDragDropPanel.
+ *
+ * @returns {JSX.Element}
+ * @example
+ * return (
+ *   <ProfilePage />
+ * )
+ */
+const ProfilePage = (): JSX.Element => {
   const classes = useStyles();
 
   return (

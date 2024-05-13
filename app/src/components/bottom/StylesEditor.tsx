@@ -14,10 +14,29 @@ import SaveIcon from '@mui/icons-material/Save';
 import { updateStylesheet } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 
+/**
+ * A component that provides a CSS editing interface using the Ace Editor. It is styled with a specific theme and
+ * allows for the live editing and saving of CSS styles. Changes are saved to the Redux state and can be broadcasted
+ * to other users in a collaborative environment using sockets.
+ *
+ * @param {Object} props - Component props.
+ * @param {string|null} props.theme - The theme for the Ace Editor; can be null indicating no specific theme set.
+ * @param {Function|null} props.setTheme - Function to change the theme of the Ace Editor; can be null if theme adjustment is not required.
+ *
+ * Redux State Dependencies:
+ * - `appState.stylesheet`: Holds the current CSS content being edited.
+ * - `roomSlice.roomCode`: The room identifier used for socket communications to broadcast CSS updates.
+ *
+ * @returns {JSX.Element} A styled div containing the Ace Editor configured for CSS editing and a floating action button to save changes.
+ *
+ * Functionalities:
+ * - Edits CSS within a fully featured text editor with syntax highlighting and autocompletion.
+ * - Saves the CSS to the Redux state and broadcasts changes to other users in the same room via socket events.
+ */
 const StylesEditor: React.FC<{
   theme: string | null;
   setTheme: any | null;
-}> = ({ theme, setTheme }) => {
+}> = ({ theme, setTheme }): JSX.Element => {
   const wrapper = useRef();
   const stylesheet = useSelector(
     (state: RootState) => state.appState.stylesheet

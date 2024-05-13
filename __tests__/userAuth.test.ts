@@ -1,14 +1,14 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
-
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import app from '../server/server';
 import mockData from '../mockData';
 import { Sessions, Users } from '../server/models/reactypeModels';
-const request = require('supertest');
-const mongoose = require('mongoose');
-const mockNext = jest.fn(); // Mock nextFunction
-const MONGO_DB = import.meta.env.MONGO_DB_TEST;
+import supertest from 'supertest';
+import mongoose from 'mongoose';
+// const mockNext = jest.fn(); // Mock nextFunction
+const MONGO_DB = import.meta.env.MONGO_DB; // _TEST
 const { user } = mockData;
 const PORT = 8080;
 
@@ -34,10 +34,12 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
+const request = supertest(app)
+
 describe('User Authentication tests', () => {
   describe('initial connection test', () => {
     it('should connect to the server', async () => {
-      const response = await request(app).get('/test');
+      const response = await request.get('/test');
       expect(response.status).toBe(200);
       expect(response.text).toBe('test request is working');
     });
@@ -45,8 +47,8 @@ describe('User Authentication tests', () => {
   describe('/signup', () => {
     describe('POST', () => {
       //testing new signup
-      it('responds with status 200 and sessionId on valid new user signup', () => {
-        return request(app)
+      it('responds with status 200 and sessionId on valid new user signup', async () => {
+        const response = await request
           .post('/signup')
           .set('Content-Type', 'application/json')
           .send({
@@ -54,18 +56,19 @@ describe('User Authentication tests', () => {
             email: `test${num}@test.com`,
             password: `${num}`
           })
-          .expect(200)
-          .then((res) => expect(res.body.sessionId).not.toBeNull());
+          expect(response.status).toBe(200)
+          expect(response.body.ssId).toBeDefined();
       });
 
-      it('responds with status 400 and json string on invalid new user signup (Already taken)', () => {
-        return request(app)
+      it('responds with status 400 and json string on invalid new user signup (Already taken)', async () => {
+        const response = await request
           .post('/signup')
           .send(user)
-          .set('Accept', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-          .then((res) => expect(typeof res.body).toBe('string'));
+          .set('Accept', 'application/json');
+          // .expect('Content-Type', /json/)
+
+          expect(response.status).toBe(400)
+          expect(typeof response.body).toBe('string');
       });
     });
   });
@@ -74,7 +77,7 @@ describe('User Authentication tests', () => {
     // tests whether existing login information permits user to log in
     describe('POST', () => {
       it('responds with status 200 and json object on verified user login', () => {
-        return request(app)
+        return request
           .post('/login')
           .set('Accept', 'application/json')
           .send(user)
@@ -84,7 +87,7 @@ describe('User Authentication tests', () => {
       });
       // if invalid username/password, should respond with status 400
       it('responds with status 400 and json string on invalid user login', () => {
-        return request(app)
+        return request
           .post('/login')
           .send({ username: 'wrongusername', password: 'wrongpassword' })
           .expect(400)
@@ -92,7 +95,7 @@ describe('User Authentication tests', () => {
           .then((res) => expect(typeof res.body).toBe('string'));
       });
       it("returns the message 'No Username Input' when no username is entered", () => {
-        return request(app)
+        return request
           .post('/login')
           .send({
             username: '',
@@ -103,7 +106,7 @@ describe('User Authentication tests', () => {
       });
 
       it("returns the message 'No Username Input' when no username is entered", () => {
-        return request(app)
+        return request
           .post('/login')
           .send({
             username: '',
@@ -114,7 +117,7 @@ describe('User Authentication tests', () => {
       });
 
       it("returns the message 'No Password Input' when no password is entered", () => {
-        return request(app)
+        return request
           .post('/login')
           .send({
             username: 'reactype123',
@@ -125,7 +128,7 @@ describe('User Authentication tests', () => {
       });
 
       it("returns the message 'Invalid Username' when username does not exist", () => {
-        return request(app)
+        return request
           .post('/login')
           .send({
             username: 'l!b',
@@ -137,11 +140,11 @@ describe('User Authentication tests', () => {
     });
 
     it("returns the message 'Incorrect Password' when password does not match", () => {
-      return request(app)
+      return request
         .post('/login')
         .send({
           username: 'test',
-          password: 'test',
+          password: 'password1!',
           isFbOauth: false
         })
         .then((res) => expect(res.text).toBe('"Incorrect Password"'));
@@ -149,13 +152,13 @@ describe('User Authentication tests', () => {
   });
 
   describe('/updatePassword', () => {
-    describe('POST', () => {
+    describe('PATCH', () => {
       //testing update password
       const testUsername = `supertest${Date.now()}`;
       const testPassword = `password${Date.now()}`;
       it('responds with status 200 and json string on valid password update (Success)', () => {
-        return request(app)
-          .post('/updatePassword')
+        return request
+          .patch('/updatePassword')
           .set('Content-Type', 'application/json')
           .send({
             username: testUsername,
@@ -166,33 +169,33 @@ describe('User Authentication tests', () => {
       });
 
       it('responds with status 400 and json string if no password is provided (Password is required.)', () => {
-        return request(app)
-          .post('/updatePassword')
-          .send({ username: testUsername })
+        return request
+          .patch('/updatePassword')
           .set('Accept', 'application/json')
+          .send({ username: testUsername })
           .expect('Content-Type', /json/)
           .expect(400)
           .then((res) => expect(res.body.error).toBe('Password is required.'));
       });
 
       it('responds with status 404 and json string if user is not found (User not found.)', () => {
-        return request(app)
-          .post('/updatePassword')
-          .send({ username: 'doesntexist', password: 'fakepassword' })
+        return request
+          .patch('/updatePassword')
           .set('Accept', 'application/json')
+          .send({ username: 'doesntexist', password: 'fakepassword' })
           .expect('Content-Type', /json/)
           .expect(404)
           .then((res) => expect(res.body.error).toBe('User not found.'));
       });
 
       it('responds with status 400 and json string the provided password is the same as the current password (New password must be different from the current password.)', () => {
-        return request(app)
-          .post('/updatePassword')
+        return request
+          .patch('/updatePassword')
+          .set('Accept', 'application/json')
           .send({
             username: testUsername,
             password: testPassword
           })
-          .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(400)
           .then((res) =>

@@ -42,9 +42,24 @@ import { RootState } from '../redux/store';
 import { emitEvent } from '../helperFunctions/socket';
 import { Number } from 'mongoose';
 
-
-// Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
-// need to pass in props to use the useHistory feature of react router
+/**
+ * `CustomizationPanel` is a complex React component designed to provide a user interface for modifying the attributes,
+ * styles, and event handlers of components or HTML elements within a visual editor. This panel allows users to
+ * adjust CSS properties, bind events, and manage component links and texts. It supports complex conditional rendering
+ * based on the application's state and user interactions, including support for undo/redo actions, deleting instances,
+ * and handling responsive design settings.
+ *
+ * @param {Object} props - Props for `CustomizationPanel`.
+ * @param {boolean} props.isThemeLight - Indicates whether the light theme is currently active.
+ * @returns {JSX.Element} The rendered JSX of the CustomizationPanel, which includes various interactive elements for customization.
+ *
+ * The component uses numerous hooks for managing local state (like `useState` for local variables and `useEffect` for lifecycle management),
+ * and Redux hooks (like `useDispatch` and `useSelector`) to interact with the global state. The component dynamically adjusts its layout and
+ * functionality based on the selected component or HTML element, facilitating extensive customization capabilities. It leverages custom hooks
+ * and functions to compute values dynamically, apply changes through dispatch actions, and handle complex conditions such as the presence
+ * or absence of specific attributes or styles. Additionally, the component includes accessibility features, error handling, and a modal system
+ * for user confirmations and actions.
+ */
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const dispatch = useDispatch();
@@ -427,9 +442,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         style: styleObj,
         events: eventsObj
       });
-      // console.log(
-      //   'emit updateChildAction event is triggered in CustomizationPanel.tsx'
-      // );
     }
 
     return styleObj;
@@ -459,9 +471,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         id: {},
         contextParam: contextParam
       });
-      // console.log(
-      //   'emit deleteChildAction event is triggered in CustomizationPanel.tsx'
-      // );
     }
   };
 

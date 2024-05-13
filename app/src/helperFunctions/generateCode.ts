@@ -3,6 +3,7 @@ import {
   ChildElement,
   HTMLType,
   MUIType,
+  MUIComponent,
   ChildStyle,
   StateProp
 } from '../interfaces/Interfaces';
@@ -12,7 +13,40 @@ declare global {
   }
 }
 
-// generate code based on component hierarchy and then return the rendered code
+let muiGenerator;
+let handleRouteLink;
+let insertNestedJsxBeforeClosingTag;
+let modifyAndIndentJsx;
+let insertAttribute;
+let writeStateProps;
+let createRender;
+let indentLinesExceptFirst;
+let createContextImport;
+let createEventHandler;
+let getEnrichedChildren;
+let formatStyles;
+let elementTagDetails;
+let writeNestedElements;
+let generateMUIImportStatements;
+let generateStateAndEventHandlerCode;
+let tabSpacer;
+let levelSpacer;
+let elementGenerator;
+let collectMUIImports;
+let collectStateAndEventHandlers;
+
+/**
+ * Generates code based on the component hierarchy and returns the rendered code.
+ * @param {Component[]} components - Array of components in the hierarchy.
+ * @param {number} componentId - The ID of the component to generate code for.
+ * @param {number[]} rootComponents - Array of root component IDs.
+ * @param {string} projectType - The type of project (e.g., 'Classic React', 'Next.js', 'Gatsby.js').
+ * @param {HTMLType[]} HTMLTypes - Array of HTML types.
+ * @param {MUIType[]} MUITypes - Array of Material UI types.
+ * @param {boolean} tailwind - Indicates whether Tailwind CSS is used.
+ * @param {any} contextParam - Additional parameters related to context (if any).
+ * @returns {string} - The formatted code.
+ */
 const generateCode = (
   components: Component[],
   componentId: number,
@@ -22,7 +56,7 @@ const generateCode = (
   MUITypes: MUIType[],
   tailwind: boolean,
   contextParam: any
-) => {
+): string => {
   const code = generateUnformattedCode(
     components,
     componentId,
@@ -36,7 +70,18 @@ const generateCode = (
   return formatCode(code);
 };
 
-// generate code based on the component hierarchy
+/**
+ * Generates unformatted code based on the component hierarchy and returns the rendered code.
+ * @param {Component[]} comps - Array of components in the hierarchy.
+ * @param {number} componentId - The ID of the component to generate code for.
+ * @param {number[]} rootComponents - Array of root component IDs.
+ * @param {string} projectType - The type of project (e.g., 'Classic React', 'Next.js', 'Gatsby.js').
+ * @param {HTMLType[]} HTMLTypes - Array of HTML types.
+ * @param {MUIType[]} MUITypes - Array of Material UI types.
+ * @param {boolean} tailwind - Indicates whether Tailwind CSS is used.
+ * @param {any} contextParam - Additional parameters related to context (if any).
+ * @returns {string} - The unformatted code.
+ */
 const generateUnformattedCode = (
   comps: Component[],
   componentId: number,
@@ -46,14 +91,15 @@ const generateUnformattedCode = (
   MUITypes: MUIType[],
   tailwind: boolean,
   contextParam: any
-) => {
+): string => {
   const components = [...comps];
   // find the component that we're going to generate code for
-  const currComponent = components.find((elem) => elem.id === componentId);
+  const currComponent: Component | ChildElement | MUIComponent =
+    components.find((elem) => elem.id === componentId);
   // find the unique components that we need to import into this component file
   let imports: any = [];
-  let muiImports = new Set();
-  let muiStateAndEventHandlers = new Set();
+  let muiImports: Set<string> = new Set();
+  let muiStateAndEventHandlers: Set<string> = new Set();
   let providers: string = '';
   let context: string = '';
   let links: boolean = false;
@@ -61,171 +107,94 @@ const generateUnformattedCode = (
   const isRoot = rootComponents.includes(componentId);
   let importReactRouter = false;
 
-  // returns an array of objects which may include components, html elements, MaterialUI components, and/or route links
-  const getEnrichedChildren = (currentComponent) => {
+  /**
+   * Recursively processes the children of a component, enriching them with additional information.
+   * Differentiates between regular components, HTML elements, Material UI components, and route links.
+   * @param {Component | ChildElement | MUIComponent} currentComponent - The component whose children need to be processed.
+   * @returns {Array<ChildElement | MUIComponent>} - An array of objects representing enriched children, including components, HTML elements,
+   * Material UI components, and route links.
+   */
+  getEnrichedChildren = (currentComponent) => {
     const enrichedChildren = [];
 
-    currentComponent.children?.forEach((child) => {
-      const newChild = { ...child }; // Copy to avoid mutating original data
-
+    currentComponent.children.forEach((child) => {
+      const newChild = { ...child };
       switch (child.type) {
         case 'Component':
           const component = components.find((c) => c.id === child.typeId);
-          if (component && !imports.includes(component.name)) {
-            imports.push(component.name); // Track imports to avoid duplicates
-          }
-          newChild.name = component?.name; // Assign the name for rendering
-          break;
-
-        case 'HTML Element':
-          const htmlElement = HTMLTypes.find((h) => h.id === child.typeId);
-          newChild.tag = htmlElement?.tag;
-          if (htmlElement) {
-            // If this HTML element can contain children, process them recursively
-            if (
-              [
-                'h1',
-                'h2',
-                'a',
-                'p',
-                'button',
-                'span',
-                'div',
-                'form',
-                'ul',
-                'ol',
-                'menu',
-                'li',
-                'Link',
-                'Switch',
-                'Route'
-              ].includes(htmlElement.tag)
-            ) {
-              newChild.children = getEnrichedChildren({
-                children: child.children
-              });
-            }
-
-            // Additional flags for special types
-            if (
-              ['Switch', 'Route'].includes(htmlElement.tag) &&
-              projectType === 'Classic React'
-            ) {
-              importReactRouter = true;
-            } else if (htmlElement.tag === 'Link') {
-              links = true;
-            } else if (htmlElement.tag === 'Image') {
-              images = true;
-            }
+          if (component) {
+            newChild.name = component.name;
+            newChild.children = getEnrichedChildren(component); // Ensure recursion
           }
           break;
 
         case 'MUI Component':
           const muiComponent = MUITypes.find((m) => m.id === child.typeId);
-          newChild.tag = muiComponent?.tag;
           if (muiComponent) {
-            // Recursively process MUI components that can have children
-            if (
-              [
-                'autocomplete',
-                'mui button',
-                'btn group',
-                'checkbox',
-                'fab',
-                'radio group',
-                'rating',
-                'select',
-                'slider',
-                'switch',
-                'textfield',
-                'transfer-list',
-                'toggle-button',
-                'avatar',
-                'badge',
-                'chip',
-                'list',
-                'table',
-                'tooltip',
-                'typography',
-                'alert',
-                'backdrop',
-                'dialog',
-                'progress',
-                'skeleton',
-                'snackbar',
-                'accordion',
-                'appbar',
-                'card',
-                'paper',
-                'bottomNavigation',
-                'breadcrumbs',
-                'drawer',
-                'link',
-                'menu',
-                'pagination',
-                'speedDial',
-                'stepper',
-                'tabs',
-                'box',
-                'container',
-                'grid',
-                'stack',
-                'image-list',
-                'modal',
-                'popover',
-                'popper',
-                'transition'
-              ].includes(muiComponent.tag)
-            ) {
-              newChild.children = getEnrichedChildren({
-                children: child.children
-              });
-              collectMUIImports(child, MUITypes, muiImports);
-              collectStateAndEventHandlers(
-                child,
-                MUITypes,
-                muiStateAndEventHandlers
-              );
+            newChild.tag = muiComponent.tag;
+            // Always process children if they exist, even if the current MUI component is not typically container-like
+            if (child.children && child.children.length > 0) {
+              newChild.children = getEnrichedChildren(child);
             }
+            collectMUIImports(child, MUITypes, muiImports);
+            collectStateAndEventHandlers(
+              child,
+              MUITypes,
+              muiStateAndEventHandlers
+            );
           }
           break;
 
-        case 'Route Link':
-          links = true;
-          newChild.name = components.find((c) => c.id === child.typeId)?.name;
+        case 'HTML Element':
+          const htmlElement = HTMLTypes.find((h) => h.id === child.typeId);
+          newChild.tag = htmlElement.tag;
+          if (child.children && child.children.length > 0) {
+            newChild.children = getEnrichedChildren(child);
+          }
           break;
 
         default:
-          // Handle other types or add error handling
+          console.warn('Unhandled component type: ', child.type);
           break;
       }
-      enrichedChildren.push(newChild); // Add the processed child to the list
+
+      enrichedChildren.push(newChild);
     });
 
     return enrichedChildren;
   };
 
-  // Raised formatStyles so that it is declared before it is referenced. It was backwards.
-  // format styles stored in object to match React inline style format
-  const formatStyles = (styleObj) => {
+  /**
+   * Convert styles stored in an object to React inline style format.
+   * @param {object} styleObj - The object containing styles to format.
+   * @returns {string} - The formatted styles in React inline style format.
+   */
+  formatStyles = (styleObj): string => {
+    // check if the style object is empty
     if (Object.keys(styleObj).length === 0) return '';
+    // Convert the style object to a string in React inline style format
     return `style={{${Object.entries(styleObj)
       .map(([key, value]) => `${key}: '${value}'`)
-      .join(', ')}}}`;
+      .join(', ')}}}`; // Join key-value pairs with commas and enclose in double curly braces
   };
-  // function to dynamically add classes, ids, and styles to an element if it exists.
-  // LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
-  const elementTagDetails = (childElement) => {
-    const details = [];
 
+  // LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
+  /**
+   * Generates details such as classes, ids, styles, and event handlers for a given child element.
+   * @param {ChildElement} childElement - The child element to generate details for.
+   * @returns {string} - The generated details as a string.
+   */
+  elementTagDetails = (childElement): string => {
+    const details = [];
+    // Add id attribute if childId exists and the element is not a Route
     if (childElement.childId && childElement.tag !== 'Route') {
       details.push(`id="${childElement.childId}"`);
     }
-
+    // Add className attribute if cssClasses exist
     if (childElement.attributes && childElement.attributes.cssClasses) {
       details.push(`className="${childElement.attributes.cssClasses}"`);
     }
-
+    // Add styles if they exist
     if (childElement.style && Object.keys(childElement.style).length > 0) {
       if (tailwind) {
         // Assuming 'tailwind' variable is globally available
@@ -297,22 +266,40 @@ const generateUnformattedCode = (
         details.push(formatStyles(childElement.style));
       }
     }
-
+    // Add event handlers if they exist
     if (childElement.events) {
       Object.entries(childElement.events).forEach(([event, funcName]) => {
         details.push(`${event}={${funcName}}`);
       });
     }
-
+    // Join details into a single string and return
     return details.join(' ');
   };
 
-  // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
-  const tabSpacer = (level) => '  '.repeat(level);
-  // function to dynamically generate the appropriate levels for the code preview
-  const levelSpacer = (level) => `\n${tabSpacer(level)}`;
-  // function to dynamically generate a complete html (& also other library type) elements
-  const elementGenerator = (childElement, level = 0) => {
+  /**
+   * Generates a string consisting of spaces to represent indentation for a given level.
+   * @param {number} level - The level of indentation.
+   * @returns {string} - The string representing the indentation.
+   */
+  tabSpacer = (level: number): string => '  '.repeat(level);
+
+  /**
+   * Generates a string consisting of new lines and indentation to represent spacing for a given level.
+   * @param {number} level - The level of spacing.
+   * @returns {string} - The string representing the spacing.
+   */
+  levelSpacer = (level: number): string => `\n${tabSpacer(level)}`;
+
+  /**
+   * Generates JSX elements based on the provided child element.
+   * @param {object} childElement - The child element for which JSX is to be generated.
+   * @param {number} [level=0] - The nesting level of the element. Default is 0.
+   * @returns {string[]} - An array of strings representing JSX elements.
+   */
+  elementGenerator = (
+    childElement: ChildElement,
+    level: number = 0
+  ): string[] => {
     const jsxArray = [];
     const indentation = '  '.repeat(level);
 
@@ -375,11 +362,18 @@ const generateUnformattedCode = (
     return jsxArray;
   };
 
-  function insertNestedJsxBeforeClosingTag(
-    parentJsx,
-    nestedJsx,
-    indentationLevel
-  ) {
+  /**
+   * Inserts nested JSX before the closing tag of a parent JSX element.
+   * @param {string} parentJsx The JSX of the parent element.
+   * @param {string[]} nestedJsx The nested JSX elements to insert.
+   * @param {number} indentationLevel The level of indentation for the nested JSX.
+   * @returns {string} The updated JSX string with nested elements inserted.
+   */
+  insertNestedJsxBeforeClosingTag = (
+    parentJsx: string,
+    nestedJsx: string[],
+    indentationLevel: number
+  ): string => {
     // Find the index of the closing tag of the parent component
     const closingTagIndex = parentJsx.lastIndexOf('</');
     if (closingTagIndex === -1) return parentJsx; // No closing tag found, likely a self-closing tag
@@ -398,108 +392,152 @@ const generateUnformattedCode = (
       indentedNestedJsx,
       parentJsx.slice(closingTagIndex)
     ].join('\n');
-  }
+  };
 
-  function modifyAndIndentJsx(jsxAry, newProps, childId, name, key) {
-    // Define a regular expression to match the start tag of the specified child element
+  /**
+   * Inserts a specified attribute into a JSX string at a given index. This function ensures
+   * correct formatting by maintaining exactly one space before and after the inserted attribute.
+   * It effectively manages whitespace to prevent issues such as double spaces or missing spaces
+   * around the newly inserted attribute. This function specifically preserves the structural integrity
+   * of JSX tags, avoiding alterations to the closing '>' or unintended removal of critical syntax elements.
+   *
+   * @param {string} line - The original JSX string where the attribute will be inserted. This string
+   *                        should already include the opening tag of a JSX element.
+   * @param {number} index - The position within the string to insert the attribute. This index should
+   *                         ideally be placed right after the component name or the last attribute before
+   *                         the closing '>' of the tag.
+   * @param {string} attribute - The attribute to insert into the JSX string. This parameter should include
+   *                             both the attribute name and its value (e.g., `type="button"`), and must be
+   *                             properly formatted as it would appear in JSX.
+   * @returns {string} - The modified JSX string with the new attribute inserted at the specified position,
+   *                     ensuring correct formatting and spacing are maintained.
+   */
+  insertAttribute = (
+    line: string,
+    index: number,
+    attribute: string
+  ): string => {
+    const before = line.substring(0, index);
+
+    // Remove only leading spaces from `after`, not the '>'
+    const after = line.substring(index).replace(/^\s+/, '');
+
+    // Ensure there is exactly one space before and after the inserted attribute, without removing '>'
+    return `${before} ${attribute.trim()} ${after}`;
+  };
+
+  /**
+   * Modifies JSX array by inserting 'id' and 'newProps' attributes into the specified component.
+   * The function ensures that each attribute is added with correct formatting and spacing,
+   * preserving the original indentation of each line for consistent layout.
+   *
+   * @param {string[]} jsxAry - The array of JSX strings to be modified.
+   * @param {string} newProps - The new properties to add, formatted as a single string.
+   * @param {string} childId - The ID value to be used in the 'id' attribute, should not include 'id='.
+   * @param {string} name - The name of the component to which the 'id' and 'newProps' are added.
+   * @param {string} key - A unique key for the 'id' attribute, typically the same as 'childId'.
+   * @returns {string[]} - The modified array of JSX strings with the new attributes added.
+   */
+  modifyAndIndentJsx = (
+    jsxAry: string[],
+    newProps: string,
+    childId: string,
+    name: string,
+    key: string
+  ): string[] => {
     const tagRegExp = new RegExp(`^<${name}(\\s|>)`);
 
-    // Iterate through each line of JSX code
     const modifiedJsx = jsxAry.map((line, index) => {
-      // Capture the original indentation by extracting leading spaces
       const originalIndent = line.match(/^[\s]*/)[0];
       const trimmedLine = line.trim();
-      // Find the position right after the component name to insert id and newProps
-      let insertIndex = trimmedLine.indexOf(`<${name}`) + `<${name}`.length;
-      // Condition for the first line (index 0)
-      if (index === 0) {
-        // Check if the line contains the start tag of the specified child element
-        if (tagRegExp.test(trimmedLine)) {
-          // Check and insert id if not already present
-          if (!trimmedLine.includes(`id=`) && childId) {
-            line = `${trimmedLine.substring(
-              0,
-              insertIndex
-            )} ${childId}${trimmedLine.substring(insertIndex)}`;
-            // Adjust insertIndex for the next insertion
-            insertIndex += childId.length + 1;
-          } else if (trimmedLine.includes(`id=`) && childId) {
-            // Define the insertion point for "{key} " right after `id="`
-            let idInsertIndex = trimmedLine.indexOf(`id="`) + 4;
-            // Insert "{key} " at the identified position within the existing id value
-            line = `${trimmedLine.substring(
-              0,
-              idInsertIndex
-            )}${key} ${trimmedLine.substring(idInsertIndex)}`;
-          }
-          // Insert newProps at the updated insertion index
-          if (newProps) {
-            line = `${line.substring(
-              0,
-              insertIndex
-            )} ${newProps}${line.substring(insertIndex)}`;
-          }
-        } else {
-          // If the regex test fails but it's the first line, just add the id
-          if (!trimmedLine.includes(`id=`) && childId) {
-            let spaceIndex = trimmedLine.indexOf(' ');
-            if (spaceIndex === -1) {
-              // If no space found, use position before '>'
-              spaceIndex = trimmedLine.indexOf('>');
-            }
-            line = `${trimmedLine.substring(
-              0,
-              spaceIndex
-            )} ${childId} ${trimmedLine.substring(spaceIndex)}`;
-          }
-        }
-      } else if (index > 0 && tagRegExp.test(trimmedLine)) {
-        insertIndex = line.indexOf(`<${name}`) + `<${name}`.length;
-        if (newProps) {
-          line = `${line.substring(0, insertIndex)} ${newProps}${line.substring(
-            insertIndex
-          )}`;
-        }
-      } else {
-        // For other lines, no changes are made
-        line = trimmedLine;
-      }
-      // Return the line with its original indentation preserved
-      return originalIndent + line; // Avoid trimming here as line may already include necessary spaces
-    });
-    return modifiedJsx;
-  }
 
-  const muiGenerator = (child, level = 0) => {
+      // Only modify lines that contain the start tag of the specified child element
+      if (tagRegExp.test(trimmedLine)) {
+        let modifiedLine = trimmedLine;
+
+        // Position to insert id and newProps, right after the component name
+        let insertIndex = trimmedLine.indexOf(name) + name.length;
+
+        // Check if 'id' is present and modify or insert accordingly
+        const idRegex = /id="[^"]*"/;
+        const idMatch = trimmedLine.match(idRegex);
+        if (idMatch) {
+          // If an 'id' attribute is already present, append the key to its value
+          const idContent = idMatch[0].slice(0, -1) + ` ${key}"`; // Assumes existing id does not end with a space
+          modifiedLine = modifiedLine.replace(idRegex, idContent);
+        } else if (childId) {
+          // Insert 'id' attribute if it's not present and a childId is provided
+          modifiedLine = insertAttribute(
+            modifiedLine,
+            insertIndex,
+            `id="${key}"`
+          );
+          insertIndex += ` id="${key}"`.length; // Update index to account for added id length
+        }
+
+        // Insert newProps at the updated insertion index
+        if (newProps) {
+          modifiedLine = insertAttribute(modifiedLine, insertIndex, newProps);
+        }
+
+        // Return the modified line with original indentation preserved
+        return originalIndent + modifiedLine;
+      }
+
+      // Return the line unchanged if it doesn't contain the start tag
+      return line;
+    });
+
+    return modifiedJsx;
+  };
+
+  /**
+   * Generates JSX for a Material UI component.
+   * @param {ChildElement} child - The child element representing the Material UI component.
+   * @param {number} [level=0] - The indentation level.
+   * @returns {string} - The generated JSX for the Material UI component.
+   */
+  muiGenerator = (child: ChildElement, level: number = 0): string => {
     let childId = '';
     let passedInPropsString = '';
-    let key = 0;
+    let key = '';
 
-    const MUIComp = MUITypes.find((el) => el.tag === child.name);
-    const MUIName = MUIComp.name;
-    // 'passedInProps' will be where the props from the MUI Props panel will saved
+    const MUIComp: MUIType | undefined = MUITypes.find(
+      (el) => el.tag === child.name
+    );
+    const MUIName: string | undefined = MUIComp?.name;
+
+    if (!MUIComp) {
+      console.error(`MUI component ${child.name} not found.`);
+      return ''; // Return empty string if MUI component not found
+    }
+
+    // Build string for passed-in props
     child.passedInProps.forEach((prop) => {
       passedInPropsString += `${prop.key}={${prop.key}} `;
     });
 
+    // Append default props to the passedInPropsString
     MUIComp.defaultProps.forEach((prop) => {
       passedInPropsString += `${prop}`;
     });
 
     if (child.childId) {
       childId = `id="${+child.childId}"`;
-      key = +child.childId;
+      key = `${+child.childId}`;
     }
 
     // Indent the JSX generated for MUI components based on the provided level
     const indentedJSX = MUIComp.jsx.map(
       (line) => `${'  '.repeat(level)}${line}`
     );
+
+    // Modify and indent JSX
     let modifiedJSx = modifyAndIndentJsx(
       indentedJSX,
       passedInPropsString,
       childId,
-      MUIName,
+      MUIName!,
       key
     );
 
@@ -509,13 +547,20 @@ const generateUnformattedCode = (
       modifiedJSx = insertNestedJsxBeforeClosingTag(
         modifiedJSx.join('\n'),
         nestedJsx,
-        level + 1
+        level
       ).split('\n');
     }
+
     return modifiedJSx.join('\n');
   };
 
-  const handleRouteLink = (child, level) => {
+  /**
+   * Generates JSX for a route link based on the project type.
+   * @param {Object} child - The child object representing the route link.
+   * @param {number} level - The indentation level.
+   * @returns {string} - The generated JSX for the route link.
+   */
+  handleRouteLink = (child, level) => {
     const jsxArray = [];
     const indentation = '  '.repeat(level);
 
@@ -555,8 +600,17 @@ const generateUnformattedCode = (
     return jsxArray.map((line) => `${indentation}${line}`).join('\n');
   };
 
-  // Function to collect MUI imports as components are processed
-  function collectMUIImports(component, MUITypes, muiImports) {
+  /**
+   * Collects Material UI imports as components are processed.
+   * @param {ChildElement | MUIType} component - The component being processed.
+   * @param {MUIType[]} MUITypes - The array of Material UI component types.
+   * @param {Set<string>} muiImports - The set to store collected Material UI imports.
+   */
+  collectMUIImports = (
+    component: ChildElement | MUIComponent,
+    MUITypes: MUIType[],
+    muiImports: Set<string>
+  ): void => {
     if (component.type === 'MUI Component') {
       const muiComponent = MUITypes.find((m) => m.id === component.typeId);
       if (
@@ -578,31 +632,31 @@ const generateUnformattedCode = (
         );
       }
     }
-  }
-  // Generate MUI import strings from a set of import statements
-  function generateMUIImportStatements(muiImports) {
-    return Array.from(muiImports).join('\n');
-  }
+  };
 
-  // Function to collect state and event handler snippets from components
-  function collectStateAndEventHandlers(
-    component,
-    MUITypes,
-    handlersCollection
-  ) {
-    console.log('collectStateAndEventHandlers invoked');
+  /**
+   * Generates Material UI import statements from a set of import statements.
+   * This version of the function preserves the original formatting, including comments.
+   * @param {Set<string>} muiImports - The set of Material UI import statements.
+   * @returns {string} - The generated import statements as a single string, preserving initial spaces and comments.
+   */
+  generateMUIImportStatements = (muiImports: Set<string>): string =>
+    Array.from(muiImports).join('\n');
+
+  /**
+   * Collects state and event handler snippets from components.
+   * @param {ChildElement | MUIType} component - The component being processed.
+   * @param {MUIType[]} MUITypes - The array of Material UI component types.
+   * @param {Set<string>} handlersCollection - The set to store collected state and event handler snippets.
+   */
+  collectStateAndEventHandlers = (
+    component: ChildElement | MUIComponent,
+    MUITypes: MUIType[],
+    handlersCollection: Set<string>
+  ): void => {
     if (component.type === 'MUI Component') {
-      console.log('collectStateAndEventHandlers MUI check');
       const muiComponent = MUITypes.find((m) => m.id === component.typeId);
-
-      console.log('muiComponent found:', JSON.stringify(muiComponent)); // Check what muiComponent is found
-      console.log(
-        'StateAndEventHandlers:',
-        muiComponent?.stateAndEventHandlers
-      ); // Direct check
-
       if (muiComponent && Array.isArray(muiComponent.stateAndEventHandlers)) {
-        console.log('collectStateAndEventHandlers hasState');
         muiComponent.stateAndEventHandlers.forEach((handlerSnippet) => {
           handlersCollection.add(handlerSnippet);
         });
@@ -617,14 +671,28 @@ const generateUnformattedCode = (
         collectStateAndEventHandlers(child, MUITypes, handlersCollection)
       );
     }
-  }
+  };
 
-  // Function to generate code for state and event handlers
-  function generateStateAndEventHandlerCode(handlersCollection) {
-    return Array.from(handlersCollection).join('\n');
-  }
+  /**
+   * Generates Material UI state and event handler code from a set of statements,
+   * preserving indentation and removing comments.
+   * @param {Set<string>} handlersCollection - The set of handler statements.
+   * @returns {string} - The generated handler statements as a single, clean string, with preserved indentation.
+   */
+  generateStateAndEventHandlerCode = (
+    handlersCollection: Set<string>
+  ): string =>
+    Array.from(handlersCollection)
+      .map((line) => line.replace(/\/\/.*$/, '')) // Remove only the comment, preserve everything before //
+      .join('\n');
 
-  const writeNestedElements = (enrichedChildren, level = 0) => {
+  /**
+   * Writes nested elements based on the provided enriched children.
+   * @param {Array<ChildElement | MUIType | Component>} enrichedChildren - The array of enriched children to process.
+   * @param {number} [level=0] - The nesting level of the elements. 0 by default.
+   * @returns {string[]} - An array of strings representing the nested elements.
+   */
+  writeNestedElements = (enrichedChildren, level = 0) => {
     return enrichedChildren.flatMap((child) => {
       if (child.type === 'Component') {
         return [`<${child.name} ${elementTagDetails(child)} />`];
@@ -639,15 +707,20 @@ const generateUnformattedCode = (
     });
   };
 
-  // function to properly incorporate the user created state that is stored in the application state
-  const writeStateProps = (stateArray: String[]) => {
-    let stateToRender: String = '';
+  /**
+   * Generates code to properly incorporate the user-created state stored in the application state.
+   * @param {string[]} stateArray - Array of strings representing the user-created state.
+   * @returns {string} - A string containing code to incorporate the user-created state.
+   */
+  writeStateProps = (stateArray: string[]): string => {
+    let stateToRender: string = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2) + element + ';';
     }
     return stateToRender;
   };
-  const enrichedChildren: ChildElement[] = getEnrichedChildren(currComponent);
+
+  const enrichedChildren = getEnrichedChildren(currComponent);
 
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
@@ -670,7 +743,7 @@ const generateUnformattedCode = (
   if (projectType === 'Classic React') {
     //string to store all imports string for context
     let contextImports = '';
-    const { allContext } = contextParam;
+    let allContext = contextParam.allContext || []; // Set a default value if allContext is not present or falsy
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
@@ -685,7 +758,11 @@ const generateUnformattedCode = (
       return acc;
     }, {});
 
-    const createRender = () => {
+    /**
+     * Creates a JSX string representing the rendered output of enriched children.
+     * @returns {string} - The JSX string representing the rendered output.
+     */
+    createRender = (): string => {
       const jsxElements = writeNestedElements(enrichedChildren);
 
       let jsxString = jsxElements.join('\n');
@@ -717,7 +794,13 @@ const generateUnformattedCode = (
       return jsxString;
     };
 
-    const indentLinesExceptFirst = (text, level) => {
+    /**
+     * Indents all lines in a multi-line text except the first line by a specified level of indentation.
+     * @param {string} text - The text to be indented.
+     * @param {number} level - The level of indentation (number of spaces).
+     * @returns {string} - The indented text.
+     */
+    indentLinesExceptFirst = (text: string, level: number): string => {
       const lines = text.split('\n');
       const firstLine = lines.shift(); // Remove the first line
       const indentation = '  '.repeat(level);
@@ -725,8 +808,11 @@ const generateUnformattedCode = (
       return `${firstLine}\n${indentedLines.join('\n')}`;
     };
 
-    //decide which imports statements to use for which components
-    const createContextImport = () => {
+    /**
+     * Generates import statements for the components based on their contexts.
+     * @returns {string} - The import statements as a string.
+     */
+    createContextImport = (): string => {
       if (!(currComponent.name in componentContext)) return '';
 
       let importStr = '';
@@ -737,7 +823,12 @@ const generateUnformattedCode = (
       return importStr;
     };
 
-    const createEventHandler = (children: ChildElement[]) => {
+    /**
+     * Creates event handler functions based on the events defined in the children elements.
+     * @param {ChildElement[]} children - The array of children elements.
+     * @returns {string}- The event handler functions as a string.
+     */
+    createEventHandler = (children: ChildElement[]): string => {
       let importStr = '';
       children.map((child) => {
         if (child.type === 'HTML Element') {
@@ -762,11 +853,12 @@ const generateUnformattedCode = (
 
       return importStr;
     };
+
     const muiImportStatements = generateMUIImportStatements(muiImports);
     const stateAndEventHandlers = generateStateAndEventHandlerCode(
       muiStateAndEventHandlers
     );
-    console.log('stateAndEventHandlers', stateAndEventHandlers);
+
     let generatedCode =
       "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'App' ? contextImports : '';
@@ -849,8 +941,13 @@ const generateUnformattedCode = (
     `;
   }
 };
-// formats code with prettier linter
-const formatCode = (code: string) => {
+
+/**
+ * Formats code using the Prettier linter.
+ * @param {string} code The code string to be formatted.
+ * @returns {string} - The formatted code string.
+ */
+const formatCode = (code: string): string => {
   if (import.meta.env.NODE_ENV === 'test') {
     const { format } = require('prettier');
     return format(code, {
@@ -864,4 +961,29 @@ const formatCode = (code: string) => {
     return code;
   }
 };
-export default generateCode;
+export {
+  muiGenerator,
+  handleRouteLink,
+  insertNestedJsxBeforeClosingTag,
+  modifyAndIndentJsx,
+  insertAttribute,
+  writeStateProps,
+  createRender,
+  indentLinesExceptFirst,
+  createContextImport,
+  createEventHandler,
+  generateUnformattedCode,
+  getEnrichedChildren,
+  formatStyles,
+  elementTagDetails,
+  writeNestedElements,
+  generateMUIImportStatements,
+  generateStateAndEventHandlerCode,
+  tabSpacer,
+  levelSpacer,
+  elementGenerator,
+  collectMUIImports,
+  collectStateAndEventHandlers,
+  formatCode,
+  generateCode as default // Maintaining generateCode as default export
+};

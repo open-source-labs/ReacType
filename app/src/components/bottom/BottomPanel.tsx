@@ -2,6 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import BottomTabs from './BottomTabs';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
+/**
+ * A resizable bottom panel component that can be toggled and resized using mouse interactions.
+ * The component includes a draggable area that listens for mouse down, move, and up events to adjust the height of the panel.
+ * It also handles iframe messages to synchronize dragging events that occur over an iframe.
+ *
+ * @param {Object} props - Component props.
+ * @param {boolean} props.bottomShow - A boolean indicating if the bottom panel is visible.
+ * @param {Function} props.setBottomShow - Function to toggle the visibility of the bottom panel.
+ * @param {boolean} props.isThemeLight - Theme flag used by the BottomTabs component to determine the styling.
+ *
+ * @returns {JSX.Element} A React element representing the bottom panel which includes a draggable divider that can toggle the panel's visibility and a tabs component.
+ */
 const BottomPanel = (props): JSX.Element => {
   let y: number = 0;
   let h: number = 0;
@@ -35,11 +47,14 @@ const BottomPanel = (props): JSX.Element => {
     const dy = y - e.clientY;
     const newHeight = h + dy;
 
-  const styles = window.getComputedStyle(node.current);
-  const minHeight = parseInt(styles.minHeight, 10);
-  const maxHeight = window.innerHeight * 0.8; // Set a maximum height, e.g., 90% of window height
+    const styles = window.getComputedStyle(node.current);
+    const minHeight = parseInt(styles.minHeight, 10);
+    const maxHeight = window.innerHeight * 0.8; // Set a maximum height, e.g., 90% of window height
 
-  node.current.style.height = `${Math.max(minHeight, Math.min(maxHeight, newHeight))}px`;
+    node.current.style.height = `${Math.max(
+      minHeight,
+      Math.min(maxHeight, newHeight)
+    )}px`;
   };
 
   const mouseUpHandler = function () {
@@ -62,7 +77,7 @@ const BottomPanel = (props): JSX.Element => {
 
   return (
     <>
-      <div className="bottom-panel" id="resize" ref={node} >
+      <div className="bottom-panel" id="resize" ref={node}>
         <div
           id="resize-drag"
           onMouseDown={mouseDownHandler}

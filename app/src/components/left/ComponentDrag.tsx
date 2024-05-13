@@ -24,6 +24,15 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * Displays a panel of components that can be dragged onto a canvas, typically used in designing UI frameworks like Next.js or Gatsby.js.
+ * This panel shows only "root" components which are typically top-level pages in these frameworks.
+ *
+ * @param {{ isVisible: boolean, isThemeLight: boolean }} props The props passed to the component.
+ * @param {boolean} props.isVisible Determines if the component panel should be displayed.
+ * @param {boolean} props.isThemeLight Indicates if the theme is light, affecting the text color styling.
+ * @returns {JSX.Element | null} A styled list of draggable component items if visible, otherwise null.
+ */
 const ComponentDrag = ({ isVisible, isThemeLight }): JSX.Element | null => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);

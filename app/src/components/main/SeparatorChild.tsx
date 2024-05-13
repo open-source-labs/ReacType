@@ -21,6 +21,19 @@ import {
 } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 
+/**
+ * Renders a draggable and droppable separator child component within the canvas. 
+ * This component is capable of being both a drag source and a drop target, allowing nested structures.
+ * It also displays a dynamic style change when being hovered over to indicate it can accept drop items.
+ * 
+ * @param {Object} props - Component props.
+ * @param {number} props.childId - Unique identifier for the child component.
+ * @param {string} props.type - The type of the component (e.g., HTML element, custom component).
+ * @param {number} props.typeId - Identifier for the specific type of component.
+ * @param {Object} props.style - Custom styles applied to the separator.
+ * @param {Object[]} props.children - Child components to be rendered within this separator.
+ * @returns {JSX.Element} A styled, interactive separator that responds to drag and drop operations.
+ */
 function SeparatorChild({
   childId,
   type,
@@ -98,10 +111,6 @@ function SeparatorChild({
               childId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit addChildAction event is triggered in SeparatorChild'
-            // );
           }
         }
       }
@@ -122,10 +131,6 @@ function SeparatorChild({
               newParentChildId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit changePosition event is triggered in SeparatorChild'
-            // );
           }
         }
       }

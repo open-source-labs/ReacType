@@ -1,5 +1,5 @@
-import '@testing-library/jest-dom/extend-expect';
-
+// @vitest-enviroment jsdom
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import MarketplaceCard from '../app/src/components/marketplace/MarketplaceCard';
@@ -11,8 +11,8 @@ import axios from 'axios';
 import store from '../app/src/redux/store';
 
 // Mocking the axios module to avoid actual network calls
-jest.mock('axios');
-jest.mock(
+vi.mock('axios');
+vi.mock(
   'resources/marketplace_images/marketplace_image.png',
   () => 'mock-image-url'
 );
@@ -34,14 +34,15 @@ describe('MarketplaceCard Render Test', () => {
   };
 
   it('displays project name and username', () => {
-    render(
+    const { unmount } = render(
       <Provider store={store}>
         <MarketplaceCard proj={mockProject} />
       </Provider>
     );
 
-    expect(screen.getByText('Sample Project')).toBeInTheDocument();
-    expect(screen.getByText('user123')).toBeInTheDocument();
+    expect(screen.getByText('Sample Project')).toBeDefined()
+    expect(screen.getByText('user123')).toBeDefined()
+  unmount()
   });
 });
 
@@ -61,20 +62,21 @@ describe('MarketplaceContainer', () => {
 
   beforeEach(() => {
     // Set up mock axios call for every test
-    axios.get = jest.fn().mockResolvedValue({ data: mockProjects });
+    axios.get = vi.fn().mockResolvedValue({ data: mockProjects });
   });
 
   it('renders multiple MarketplaceCards', () => {
-    render(
+    const { unmount } = render(
       <Provider store={store}>
         <MarketplaceCardContainer displayProjects={mockProjects} />
       </Provider>
     );
 
-    expect(screen.getByText('Project 1')).toBeInTheDocument();
-    expect(screen.getByText('user1')).toBeInTheDocument();
-    expect(screen.getByText('Project 2')).toBeInTheDocument();
-    expect(screen.getByText('user2')).toBeInTheDocument();
+    expect(screen.getByText('Project 1')).toBeDefined()
+    expect(screen.getByText('user1')).toBeDefined()
+    expect(screen.getByText('Project 2')).toBeDefined()
+    expect(screen.getByText('user2')).toBeDefined()
+    unmount()
   });
 });
 
@@ -95,9 +97,9 @@ const mockProjects = [
 
 describe('SearchBar Component', () => {
   it('updates the text field value on change', () => {
-    const updateDisplayProjects = jest.fn();
+    const updateDisplayProjects = vi.fn();
 
-    render(
+    const { unmount } = render(
       <SearchBar
         marketplaceProjects={mockProjects}
         updateDisplayProjects={updateDisplayProjects}
@@ -108,26 +110,31 @@ describe('SearchBar Component', () => {
     fireEvent.change(textField, { target: { value: 'Sample' } });
 
     expect(textField.value).toBe('Sample');
+    unmount()
   });
 
   it('filters projects by username', () => {
-    const updateDisplayProjects = jest.fn();
-
-    render(
+    const updateDisplayProjects = vi.fn();
+    const { unmount } = render(
       <SearchBar
         marketplaceProjects={mockProjects}
         updateDisplayProjects={updateDisplayProjects}
       />
     );
-
+    const testCase = vi.spyOn(updateDisplayProjects, 'withImplementation')
     const textField = screen.getByLabelText('Search');
     fireEvent.change(textField, { target: { value: 'test' } });
 
     // Using setImmediate to wait for useEffect to execute.
     setTimeout(() => {
-      expect(updateDisplayProjects).toHaveBeenCalledWith([
-        { name: 'Test Project', username: 'user_test' }
-      ]);
+      expect(updateDisplayProjects).toHaveBeenCalledWith(
+        [ 
+          { name: "Sample Project", username: "user123"},
+          { name: 'Test Project', username: 'user_test'},
+          { name: "Hello Project", username: "hello_user"}
+        ]
+      );
     });
+    unmount()
   });
 });

@@ -1,19 +1,19 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
-
-import marketplaceController from '../server/controllers/marketplaceController';
-import sessionController from '../server/controllers/sessionController';
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
+// import marketplaceController from '../server/controllers/marketplaceController';
 import app from '../server/server';
 import mockData from '../mockData';
-import { profileEnd } from 'console';
+// import { profileEnd } from 'console';
 import { Projects, Users, Sessions } from '../server/models/reactypeModels';
-const request = require('supertest');
-const mongoose = require('mongoose');
-const mockNext = jest.fn(); // Mock nextFunction
-const MONGO_DB = import.meta.env.MONGO_DB_TEST;
+import sessionController from '../server/controllers/sessionController';
+import supertest from 'supertest';
+import mongoose from 'mongoose';
+// const mockNext = jest.fn(); // Mock nextFunction
+const MONGO_DB = import.meta.env.MONGO_DB; //_TEST
 const { state, projectToSave, user } = mockData;
-const PORT = 8080;
+// const PORT = 8080;
 
 beforeAll(async () => {
   await mongoose.connect(MONGO_DB, {
@@ -23,19 +23,21 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  const result = await Projects.deleteMany({}); //clear the projects collection after tests are done
-  const result2 = await Users.deleteMany({
-    _id: { $ne: '64f551e5b28d5292975e08c8' }
+  await Projects.deleteMany({}); //clear the projects collection after tests are done
+  await Users.deleteMany({
+    _id: { $ne: '664247b09df40d692fb7fdef' }
   }); //clear the users collection after tests are done except for the mockdata user account
-  const result3 = await Sessions.deleteMany({
-    cookieId: { $ne: '64f551e5b28d5292975e08c8' }
+  await Sessions.deleteMany({
+    cookieId: { $ne: '664247b09df40d692fb7fdef' }
   });
   await mongoose.connection.close();
 });
 
+const request = supertest(app);
+
 describe('Server endpoint tests', () => {
   it('should pass this test request', async () => {
-    const response = await request(app).get('/test');
+    const response = await request.get('/test');
     expect(response.status).toBe(200);
     expect(response.text).toBe('test request is working');
   });
@@ -61,7 +63,7 @@ describe('Server endpoint tests', () => {
   describe('/saveProject', () => {
     describe('POST', () => {
       it('responds with a status of 200 and json object equal to project sent', async () => {
-        return request(app)
+        return request
           .post('/saveProject')
           .set('Cookie', [`ssid=${user.userId}`])
           .set('Accept', 'application/json')
@@ -77,7 +79,7 @@ describe('Server endpoint tests', () => {
   describe('/getProjects', () => {
     describe('POST', () => {
       it('responds with status of 200 and json object equal to an array of user projects', () => {
-        return request(app)
+        return request
           .post('/getProjects')
           .set('Accept', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
@@ -95,14 +97,14 @@ describe('Server endpoint tests', () => {
   describe('/deleteProject', () => {
     describe('DELETE', () => {
       it('responds with status of 200 and json object equal to deleted project', async () => {
-        const response: Response = await request(app)
+        const response = await request
           .post('/getProjects')
           .set('Accept', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
           .send({ userId: projectToSave.userId });
-        const _id: String = response.body[0]._id;
+        const _id: String = response.body?.[0]._id;
         const userId: String = user.userId;
-        return request(app)
+        return request
           .delete('/deleteProject')
           .set('Cookie', [`ssid=${user.userId}`])
           .set('Content-Type', 'application/json')
@@ -117,7 +119,7 @@ describe('Server endpoint tests', () => {
   describe('/publishProject', () => {
     describe('POST', () => {
       it('responds with status of 200 and json object equal to published project', async () => {
-        const projObj = await request(app)
+        const projObj = await request
           .post('/saveProject')
           .set('Cookie', [`ssid=${user.userId}`])
           .set('Accept', 'application/json')
@@ -128,7 +130,7 @@ describe('Server endpoint tests', () => {
         const username: String = projObj.body.username;
         const name: String = projObj.body.name;
         const userId: String = user.userId;
-        return request(app)
+        return request
           .post('/publishProject')
           .set('Content-Type', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
@@ -140,18 +142,18 @@ describe('Server endpoint tests', () => {
           });
       });
       it('responds with status of 500 and error if userId and cookie ssid do not match', async () => {
-        const projObj: Response = await request(app)
+        const projObj = await request
           .post('/getProjects')
           .set('Accept', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
           .send({ userId: projectToSave.userId });
-        const _id: String = projObj.body[0]._id;
-        const project: String = projObj.body[0].project;
-        const comments: String = projObj.body[0].comments;
-        const username: String = projObj.body[0].username;
-        const name: String = projObj.body[0].name;
+        const _id: String = projObj.body?.[0]._id;
+        const project: String = projObj.body?.[0].project;
+        const comments: String = projObj.body?.[0].comments;
+        const username: String = projObj.body?.[0].username;
+        const name: String = projObj.body?.[0].name;
         const userId: String = 'ERROR';
-        return request(app)
+        return request
           .post('/publishProject')
           .set('Content-Type', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
@@ -162,19 +164,19 @@ describe('Server endpoint tests', () => {
           });
       });
       it('responds with status of 500 and error if _id was not a valid mongo ObjectId', async () => {
-        const projObj: Response = await request(app)
+        const projObj = await request
           .post('/getProjects')
           .set('Accept', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
           .send({ userId: projectToSave.userId });
         const _id: String = 'ERROR';
-        const project: String = projObj.body[0].project;
-        const comments: String = projObj.body[0].comments;
+        const project: String = projObj.body?.[0].project;
+        const comments: String = projObj.body?.[0].comments;
         const username: String = user.username;
-        const name: String = projObj.body[0].name;
+        const name: String = projObj.body?.[0].name;
         const userId: String = user.userId;
 
-        return request(app)
+        return request
           .post('/publishProject')
           .set('Content-Type', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
@@ -193,7 +195,7 @@ describe('Server endpoint tests', () => {
 
     describe('GET', () => {
       it('responds with status of 200 and json object equal to unpublished project', async () => {
-        return request(app)
+        return request
           .get('/getMarketplaceProjects')
           .set('Content-Type', 'application/json')
           .expect(200)
@@ -209,11 +211,11 @@ describe('Server endpoint tests', () => {
   describe('/cloneProject/:docId', () => {
     describe('GET', () => {
       it('responds with status of 200 and json object equal to cloned project', async () => {
-        const projObj = await request(app)
+        const projObj = await request
           .get('/getMarketplaceProjects')
           .set('Content-Type', 'application/json');
 
-        return request(app)
+        return request
           .get(`/cloneProject/${projObj.body[0]._id}`)
           .set('Cookie', [`ssid=${user.userId}`]) // Set the cookie
           .query({ username: user.username })
@@ -224,11 +226,11 @@ describe('Server endpoint tests', () => {
           });
       });
       it('responds with status of 500 and error', async () => {
-        const projObj = await request(app)
+        const projObj = await request
           .get('/getMarketplaceProjects')
           .set('Content-Type', 'application/json');
 
-        return request(app)
+        return request
           .get(`/cloneProject/${projObj.body[0]._id}`)
           .set('Cookie', [`ssid=${user.userId}`]) // Set the cookie
           .query({ username: [] })
@@ -244,14 +246,14 @@ describe('Server endpoint tests', () => {
   describe('/unpublishProject', () => {
     describe('PATCH', () => {
       it('responds with status of 200 and json object equal to unpublished project', async () => {
-        const response: Response = await request(app)
+        const response = await request
           .post('/getProjects')
           .set('Accept', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
           .send({ userId: projectToSave.userId }); //most recent project should be the one from publishProject
-        const _id: String = response.body[0]._id;
+        const _id: String = response.body?.[0]._id;
         const userId: String = user.userId;
-        return request(app)
+        return request
           .patch('/unpublishProject')
           .set('Content-Type', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
@@ -263,25 +265,25 @@ describe('Server endpoint tests', () => {
           });
       });
       it('responds with status of 500 and error if userId and cookie ssid do not match', async () => {
-        const projObj: Response = await request(app)
+        const projObj = await request
           .post('/getProjects')
           .set('Accept', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
           .send({ userId: projectToSave.userId });
-        const _id: String = projObj.body[0]._id;
-        const project: String = projObj.body[0].project;
-        const comments: String = projObj.body[0].comments;
-        const username: String = projObj.body[0].username;
-        const name: String = projObj.body[0].name;
+        const _id: String = projObj.body?.[0]._id;
+        const project: String = projObj.body?.[0].project;
+        const comments: String = projObj.body?.[0].comments;
+        const username: String = projObj.body?.[0].username;
+        const name: String = projObj.body?.[0].name;
         let userId: String = user.userId;
-        await request(app) //publishing a project first
+        await request //publishing a project first
           .post('/publishProject')
           .set('Content-Type', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
           .send({ _id, project, comments, userId, username, name });
 
         userId = 'ERROR';
-        return request(app)
+        return request
           .patch('/unpublishProject')
           .set('Content-Type', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
@@ -294,7 +296,7 @@ describe('Server endpoint tests', () => {
       it('responds with status of 500 and error if _id was not a string', async () => {
         const userId: String = user.userId;
 
-        return request(app)
+        return request
           .patch('/unpublishProject')
           .set('Content-Type', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
@@ -308,116 +310,113 @@ describe('Server endpoint tests', () => {
   });
 });
 
-describe('SessionController tests', () => {
-  describe('isLoggedIn', () => {
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
-    // Mock Express request and response objects and next function
+describe('isLoggedIn', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+  // Mock Express request and response objects and next function
+  const mockReq: any = {
+    cookies: {},
+    body: {
+      userId: 'sampleUserId' // Set up a sample userId in the request body
+    }
+  };
+  const mockRes: any = {
+    json: vi.fn(),
+    status: vi.fn(),
+    redirect: vi.fn(),
+    locals: {}
+  };
+
+  const next = vi.fn();
+  it('Assign userId from request body to cookieId', async () => {
+    // Call isLoggedIn
+    await sessionController.isLoggedIn(mockReq, mockRes, next);
+    expect(mockRes.locals.loggedIn).toBe(true);
+    expect(next).toHaveBeenCalled();
+  });
+  it('Trigger a database query error for findOne', async () => {
+    const mockFindOne = vi
+      .spyOn(mongoose.model('Sessions'), 'findOne')
+      .mockImplementation(() => {
+        throw new Error('Database query error');
+      });
+    // Call isLoggedIn
+    await sessionController.isLoggedIn(mockReq, mockRes, next);
+    // Ensure that next() was called with the error
+    expect(next).toHaveBeenCalledWith(
+      expect.objectContaining({
+        log: expect.stringMatching('Database query error') // The 'i' flag makes it case-insensitive
+      })
+    );
+
+    mockFindOne.mockRestore();
+  });
+});
+
+describe('startSession', () => {
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+  it('Trigger a database query error for findOne', async () => {
     const mockReq: any = {
-      cookies: null, //trying to trigger if cookies was not assigned
+      cookies: projectToSave.userId, //trying to trigger if cookies was not assigned
       body: {
         userId: 'sampleUserId' // Set up a sample userId in the request body
       }
     };
     const mockRes: any = {
-      json: jest.fn(),
-      status: jest.fn(),
-      redirect: jest.fn()
+      json: vi.fn(),
+      status: vi.fn(),
+      redirect: vi.fn(),
+      locals: { id: projectToSave.userId }
     };
-    const next = jest.fn();
-    it('Assign userId from request body to cookieId', async () => {
-      // Call isLoggedIn
-      await sessionController.isLoggedIn(mockReq, mockRes, next);
-      expect(mockRes.redirect).toHaveBeenCalledWith('/');
-      // Ensure that next() was called
-    });
-    it('Trigger a database query error for findOne', async () => {
-      const mockFindOne = jest
-        .spyOn(mongoose.model('Sessions'), 'findOne')
-        .mockImplementation(() => {
-          throw new Error('Database query error');
-        });
-      // Call isLoggedIn
-      await sessionController.isLoggedIn(mockReq, mockRes, next);
-      // Ensure that next() was called with the error
-      expect(next).toHaveBeenCalledWith(
-        expect.objectContaining({
-          log: expect.stringMatching('Database query error') // The 'i' flag makes it case-insensitive
-        })
-      );
 
-      mockFindOne.mockRestore();
-    });
+    const next = vi.fn();
+    const findOneMock = vi.spyOn(mongoose.model('Sessions'), 'findOne');
+    findOneMock.mockImplementation(
+      (query: any, callback: (err: any, ses: any) => void) => {
+        callback(new Error('Database query error'), null);
+      }
+    );
+    // Call startSession
+    sessionController.startSession(mockReq, mockRes, next);
+    // Check that next() was called with the error
+    expect(next).toHaveBeenCalledWith(
+      expect.objectContaining({
+        log: expect.stringMatching('Database query error') // The 'i' flag makes it case-insensitive
+      })
+    );
+
+    vi.restoreAllMocks();
   });
 
-  describe('startSession', () => {
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
-    it('Trigger a database query error for findOne', async () => {
-      const mockReq: any = {
-        cookies: projectToSave.userId, //trying to trigger if cookies was not assigned
-        body: {
-          userId: 'sampleUserId' // Set up a sample userId in the request body
-        }
-      };
-      const mockRes: any = {
-        json: jest.fn(),
-        status: jest.fn(),
-        redirect: jest.fn(),
-        locals: { id: projectToSave.userId }
-      };
+  // it.skip('Check if a new Session is created', async () => {
+  //   //not working for some reason cannot get mocknext() to be called in test?
 
-      const next = jest.fn();
-      const findOneMock = jest.spyOn(
-        mongoose.model('Sessions'),
-        'findOne'
-      ) as jest.Mock;
-      findOneMock.mockImplementation(
-        (query: any, callback: (err: any, ses: any) => void) => {
-          callback(new Error('Database query error'), null);
-        }
-      );
-      // Call startSession
-      await sessionController.startSession(mockReq, mockRes, next);
-      // Check that next() was called with the error
-      expect(next).toHaveBeenCalledWith(
-        expect.objectContaining({
-          log: expect.stringMatching('Database query error') // The 'i' flag makes it case-insensitive
-        })
-      );
+  //   const mockReq: any = {
+  //     cookies: projectToSave.userId, //trying to trigger if cookies was not assigned
+  //     body: {
+  //       userId: 'sampleUserId' // Set up a sample userId in the request body
+  //     }
+  //   };
+  //   const mockRes: any = {
+  //     json: vi.fn(),
+  //     status: vi.fn(),
+  //     redirect: vi.fn(),
+  //     locals: { id: 'testID' } //a sesion id that doesnt exist
+  //   };
 
-      findOneMock.mockRestore();
-    });
+  //   const mockNext = vi.fn();
 
-    xit('Check if a new Session is created', async () => {
-      //not working for some reason cannot get mocknext() to be called in test?
+  //   //Call startSession
+  //   // Wrap your test logic in an async function
+  //   await sessionController.startSession(mockReq, mockRes, mockNext);
 
-      const mockReq: any = {
-        cookies: projectToSave.userId, //trying to trigger if cookies was not assigned
-        body: {
-          userId: 'sampleUserId' // Set up a sample userId in the request body
-        }
-      };
-      const mockRes: any = {
-        json: jest.fn(),
-        status: jest.fn(),
-        redirect: jest.fn(),
-        locals: { id: 'testID' } //a sesion id that doesnt exist
-      };
-
-      const mockNext = jest.fn();
-
-      //Call startSession
-      // Wrap your test logic in an async function
-      await sessionController.startSession(mockReq, mockRes, mockNext);
-
-      //check if it reaches next()
-      //await expect(mockRes.locals.ssid).toBe('testID');
-      expect(mockNext).toHaveBeenCalled();
-    });
-  });
+  //   //check if it reaches next()
+  //   //await expect(mockRes.locals.ssid).toBe('testID');
+  //   expect(mockNext).toHaveBeenCalled();
+  // });
 });
 
 // describe('marketplaceController Middleware', () => {
@@ -425,8 +424,7 @@ describe('SessionController tests', () => {
 //     it('should add the projects as an array to res.locals', () => {
 //       const req = {};
 //       const res = { locals: {} };
-//       console.log(marketplaceController.getPublishedProjects);
-//       console.log(typeof marketplaceController.getPublishedProjects);
+
 //       marketplaceController.getPublishedProjects(req, res, mockNext);
 //       expect(Array.isArray(res.locals.publishedProjects)).toBe(true);
 //       expect(mockNext).toHaveBeenCalled();

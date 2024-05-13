@@ -7,7 +7,27 @@ import Tree from './Tree';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
-function DisplayContainer({ data, props }) {
+/**
+ * `DisplayContainer` is a React component that provides an interactive visual representation
+ * of the state architecture of an application using a tree graph. Users can click on nodes
+ * in the tree graph to view detailed state information for each component in a `DataTable`.
+ *
+ * This component uses Redux to access global state to determine which component is currently
+ * in focus and dynamically update the display based on user interactions with the tree graph.
+ * It manages local state for the current component's state details and its parent's props,
+ * which are passed down to child components for further interaction and display.
+ *
+ * @param {Object} props - Properties passed to the component including:
+ * @param {Array} props.data - The hierarchical data used to generate the tree structure, typically derived from the application's state.
+ * @param {Object} props.props - Additional props that might be necessary for child components or additional functionality.
+ * @returns {JSX.Element} A split view containing a `Tree` visualization on the left and a `DataTable` on the right
+ *                        that updates based on the node selected in the `Tree`.
+ *
+ * The `DisplayContainer` is designed to provide a comprehensive overview of the component structure of an application,
+ * allowing developers to navigate and manage the state and props relationships visually. This component is part of a larger
+ * state management feature within an application that may involve complex state logic and architecture.
+ */
+function DisplayContainer({ data, props }): JSX.Element {
   // "data" is referring to components from state - passed in from StateManagement
   // grabbing intialized state from App using UseContext
   const [currComponentState, setCurrComponentState] = useState([]);
@@ -41,7 +61,7 @@ function DisplayContainer({ data, props }) {
         setClickedComp={setClickedComp}
       />
       <Divider orientation="vertical" variant="middle" flexItem />
-      <Grid item style={{margin: '60px 0 0 20px'}}>
+      <Grid item style={{ margin: '60px 0 0 20px' }}>
         <Typography
           style={{ color: 'white', marginBottom: '30px' }}
           variant="subtitle2"

@@ -8,16 +8,21 @@ import {
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MUITypes from '../../redux/MUITypes';
-// import Box from '@mui/material/Box';
-// import { Component } from '../../interfaces/Interfaces';
+import Box from '@mui/material/Box';
+import { Component } from '../../interfaces/Interfaces';
 import ReactDOMServer from 'react-dom/server';
 import { RootState } from '../../redux/store';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 // import { blue } from '@mui/material/colors';
 import serverConfig from '../../serverConfig';
+import componentBuilder from '../../helperFunctions/componentBuilder';
+import html from '../../helperFunctions/DemoRenderHTML';
 
-// DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
-// real react components that utilize hot module reloading to depict the user's prototype application.
+/**
+ * DemoRender is a React component that renders a sandbox demo of custom-built React components.
+ * It constructs real React components based on design specifications stored in state and uses hot module reloading to depict the user's prototype application.
+ * @returns {JSX.Element} JSX Element
+ */
 const DemoRender = (): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const stylesheet = useSelector(
@@ -35,381 +40,13 @@ const DemoRender = (): JSX.Element => {
     overflow: 'auto'
   };
 
-  const html = `
-  <html>
-  <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <script defer src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
-    <script defer src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
-    <script defer src="https://unpkg.com/react-router-dom@5/umd/react-router-dom.min.js"></script>
-    <script defer src="https://unpkg.com/@mui/material@5.15.15/umd/material-ui.production.min.js"></script>
-    <style id="mui-styles"></style>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-
-        function logToParentConsole(...args) {
-          const cache = new Set(); // Set to keep track of all objects being stringified
-          const payload = args.map(arg => {
-            if (typeof arg === 'object' && arg !== null) {
-              return JSON.stringify(arg, (key, value) => {
-                if (typeof value === 'object' && value !== null) {
-                  if (cache.has(value)) {
-                    // Duplicate reference found, discard key
-                    return;
-                  }
-                  // Store value in our collection
-                  cache.add(value);
-                }
-                return value;
-              });
-            }
-            return arg;
-          });
-          window.parent.postMessage({ type: 'log', data: payload }, '*');
-          cache.clear(); // Clear cache after serialization
-        }
-        console.log = logToParentConsole;
-
-        const top100Films = [
-          { label: 'The Shawshank Redemption', year: 1994 },
-          { label: 'The Godfather', year: 1972 },
-          { label: 'The Godfather: Part II', year: 1974 },
-          { label: 'The Dark Knight', year: 2008 },
-          { label: '12 Angry Men', year: 1957 },
-        ];
-  
-        function createData(name, calories, fat, carbs, protein) {
-          return { name, calories, fat, carbs, protein };
-        }
-  
-        const rows = [
-          createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-          createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-          createData('Eclair', 262, 16.0, 24, 6.0),
-          createData('Cupcake', 305, 3.7, 67, 4.3),
-          createData('Gingerbread', 356, 16.0, 49, 3.9),
-        ];
-  
-        const MaterialUI = window.MaterialUI;
-        const ReactRouterDOM = window.ReactRouterDOM;
-        const React = window.React;
-        const ReactDOM = window.ReactDOM;
-
-        console.log('MaterialUI:', MaterialUI);
-  
-        if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
-          console.error('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
-          return;
-        }
-  
-        const isJsonString = (str) => {
-          try {
-            return JSON.parse(str);
-          } catch (e) {
-            return false;
-          }
-        };
-  
-        const createComponentFromData = (data) => {
-          const { type, props } = data;
-          let { children } = data;
-          const Component = MaterialUI[type] || 'div'; 
-  
-          let newProps = { ...props };
-          if (Component === undefined) {
-            console.error(\`Component type \${type} is undefined.\`);
-            return null;
-          }
-  
-          if (type === 'Autocomplete' && props.renderInput && typeof props.renderInput === 'string') {
-            newProps.renderInput = (params) => React.createElement(MaterialUI.TextField, {...params, label: 'Movie'});
-            newProps.options = top100Films;
-          }
-        
-          if (type === 'FormControlLabel' && props.control && props.control.type === 'Radio') {
-            newProps.control = React.createElement(MaterialUI.Radio);
-          }
-        
-          // if (type === 'TableBody') {
-          //   console.log('Processing TableBody with rows:', rows);
-          //   children = rows.map(row => {
-          //     console.log('Processing row:', row);
-          //     return {
-          //       type: 'TableRow',
-          //       props: { key: row.name },
-          //       children: [
-          //         { type: 'TableCell', props: { component: 'th', scope: 'row' }, children: row.name },
-          //         { type: 'TableCell', props: { align: 'right' }, children: String(row.calories) },
-          //         { type: 'TableCell', props: { align: 'right' }, children: String(row.fat) },
-          //         { type: 'TableCell', props: { align: 'right' }, children: String(row.carbs) },
-          //         { type: 'TableCell', props: { align: 'right' }, children: String(row.protein) },
-          //       ]
-          //     };
-          //   });
-          // }
-          // console.log('post tableBody check', children);
-
-          const processChildren = (child) => {
-            if (typeof child === 'string') {
-              if (isJsonString(child)) {
-                return createComponentFromData(JSON.parse(child));
-              }
-              return child;
-            } else if (typeof child === 'object' && child !== null) {
-              return createComponentFromData(child);
-            }
-            return null;
-          };
-  
-          const processedChildren = Array.isArray(children) ?
-            children.map(processChildren) :
-            [processChildren(children)];
-  
-          return React.createElement(Component, newProps, ...processedChildren);
-        };
-        
-        window.addEventListener('message', (event) => {
-          const dataArr = event.data.replace(/}{/g, '}|||{').replace(/}</g, '}|||<').replace(/>{/g, '>|||{').split('|||');
-          const container = document.getElementById('app');
-          container.innerHTML = '';
-          dataArr.forEach(segment => {
-            if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
-              try {
-                const jsonData = JSON.parse(segment);
-                // console.log('jsonData', jsonData);
-                if (jsonData.props && jsonData.props.children) {
-                  jsonData.children = jsonData.children || [];
-                  // console.log('jsonData.props.children', jsonData.props.children);
-                  jsonData.children = [...jsonData.children, ...jsonData.props.children];
-                }
-                const componentContainer = document.createElement('div');
-                container.appendChild(componentContainer);
-                const component = createComponentFromData(jsonData);
-                ReactDOM.render(component, componentContainer);
-              } catch (err) {
-                console.error("Error parsing JSON:", err);
-              }
-            } else {
-              container.insertAdjacentHTML('beforeend', segment);
-            }
-          });
-        });
-      });
-    </script>
-  </body>
-  </html>
-  `;
-
-  //   const html = `
-  // <html>
-  // <head>
-  //   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  //   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  //   <script defer src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
-  //   <script defer src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
-  //   <script defer src="https://unpkg.com/react-router-dom@5/umd/react-router-dom.min.js"></script>
-  //   <script defer src="https://unpkg.com/@mui/material@5.15.15/umd/material-ui.production.min.js"></script>
-  //   <style id="mui-styles"></style>
-  // </head>
-  // <body>
-  //   <div id="app";"></div>
-  //   <script>
-
-  //     document.addEventListener('DOMContentLoaded', function() {
-  //       const top100Films = [
-  //         { label: 'The Shawshank Redemption', year: 1994 },
-  //         { label: 'The Godfather', year: 1972 },
-  //         { label: 'The Godfather: Part II', year: 1974 },
-  //         { label: 'The Dark Knight', year: 2008 },
-  //         { label: '12 Angry Men', year: 1957 },
-  //       ];
-
-  //       function createData(name, calories, fat, carbs, protein) {
-  //         return { name, calories, fat, carbs, protein };
-  //       }
-
-  //       const rows = [
-  //         createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  //         createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  //         createData('Eclair', 262, 16.0, 24, 6.0),
-  //         createData('Cupcake', 305, 3.7, 67, 4.3),
-  //         createData('Gingerbread', 356, 16.0, 49, 3.9),
-  //       ];
-
-  //       console.log('rows', rows)
-
-  //       function logToParentConsole(...args) {
-  //         const cache = new Set(); // Set to keep track of all objects being stringified
-  //         const payload = args.map(arg => {
-  //           if (typeof arg === 'object' && arg !== null) {
-  //             return JSON.stringify(arg, (key, value) => {
-  //               if (typeof value === 'object' && value !== null) {
-  //                 if (cache.has(value)) {
-  //                   // Duplicate reference found, discard key
-  //                   return;
-  //                 }
-  //                 // Store value in our collection
-  //                 cache.add(value);
-  //               }
-  //               return value;
-  //             });
-  //           }
-  //           return arg;
-  //         });
-  //         window.parent.postMessage({ type: 'log', data: payload }, '*');
-  //         cache.clear(); // Clear cache after serialization
-  //       }
-  //       console.log = logToParentConsole;
-
-  //       const MaterialUI = window.MaterialUI;
-  //         const ReactRouterDOM = window.ReactRouterDOM;
-  //         const React = window.React;
-  //         const ReactDOM = window.ReactDOM;
-
-  //         console.log('MaterialUI:', MaterialUI);
-
-  //         if (!MaterialUI || !ReactRouterDOM || !React || !ReactDOM) {
-  //           console.log('Dependency loading failed: MaterialUI, React, or ReactDOM is undefined.');
-  //           return;
-  //         }
-
-  //       const specialComponents = {
-  //         'br': () => React.createElement('br', {})
-  //       };
-
-  //       const isJsonString = (str) => {
-  //         try {
-  //           JSON.parse(str);
-  //           return true;
-  //         } catch (e) {
-  //           return false;
-  //         }
-  //       };
-
-  //       const createComponentFromData = (data) => {
-  //         const { type, props } = data;
-  //         let { children } = data;
-  //         const Component = MaterialUI[type] || 'div'; // Default to div if component is not found
-  //         console.log('type', 'Creating component of type: ' + type);
-  //         // Check if props need special handling (for functions like renderInput)
-  //         let newProps = { ...props };
-  //         if (Component === undefined) {
-  //           console.error('Component type ' + type + ' is undefined.');
-  //           return null; // Avoid attempting to create an undefined component
-  //         }
-
-  //         if (type === 'Autocomplete' && props.renderInput && typeof props.renderInput === 'string') {
-  //           // Directly using React.createElement to avoid JSX in strings
-  //           newProps.renderInput = (params) => React.createElement(MaterialUI.TextField, {...params, label: 'Movie'});
-  //           newProps = {...newProps, options: top100Films}
-  //         }
-
-  //         if (type === 'FormControlLabel' && props.control && props.control.type === 'Radio') {
-  //           // Directly using React.createElement to avoid JSX in strings
-  //           newProps.control = React.createElement(MaterialUI.Radio);
-  //         }
-
-  //         if (type === 'TableBody' && children) {
-  //           console.log('Processing TableBody');
-  //           children = rows.map(row => ({
-  //               type: 'TableRow',
-  //               props: { key: row.name },
-  //               children: [
-  //                   { type: 'TableCell', props: { component: 'th', scope: 'row' }, children: row.name },
-  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.calories) },
-  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.fat) },
-  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.carbs) },
-  //                   { type: 'TableCell', props: { align: 'right' }, children: String(row.protein) },
-  //               ]
-  //           }));
-
-  //         const processChildren = (child) => {
-  //           if (typeof child === 'string') {
-  //             if (isJsonString(child)) {
-  //               return createComponentFromData(JSON.parse(child));
-  //             }
-  //             return specialComponents[child] ? specialComponents[child]() : child;
-  //           } else if (typeof child === 'object' && child !== null) {
-  //             return createComponentFromData(child);
-  //           }
-  //           return null;
-  //         };
-
-  //         // Handling single and multiple children uniformly
-  //         const processedChildren = Array.isArray(children) ?
-  //           children.map(processChildren) :
-  //           [processChildren(children)]; // Wrap non-array children in an array
-
-  //         // Spreading children into createElement function
-  //         return React.createElement(Component, newProps, ...processedChildren);
-  //       };
-
-  //       window.addEventListener('message', (event) => {
-  //         // console.log('event', event);
-  //         const dataArr = event.data.replace(/}{/g, '}|||{').replace(/}</g, '}|||<').replace(/>{/g, '>|||{').split('|||');
-  //         // console.log('dataArr', dataArr);
-  //         const container = document.getElementById('app');
-  //         container.innerHTML = '';
-  //         dataArr.forEach(segment => {
-  //           // console.log('segment', segment)
-  //           if(segment.trim().startsWith('{') && segment.trim().endsWith('}')) {
-  //             try {
-  //               const jsonData = JSON.parse(segment);
-  //               // console.log('jsonData', jsonData);
-  //               if (jsonData.props && jsonData.props.children) {
-  //                 jsonData.children = jsonData.children || [];
-  //                 // console.log('jsonData.props.children', jsonData.props.children);
-  //                 jsonData.children = [...jsonData.children, ...jsonData.props.children];
-  //               }
-
-  //               const componentContainer = document.createElement('div');
-  //               container.appendChild(componentContainer);
-  //               const component = createComponentFromData(jsonData);
-  //               console.log('component', component);
-  //               ReactDOM.render(component, componentContainer);
-  //             } catch (err) {
-  //               console.error("Error parsing JSON:", err);
-  //             }
-  //           } else {
-  //             container.insertAdjacentHTML('beforeend', segment);
-  //             container.querySelectorAll('a').forEach(element => {
-  //               element.addEventListener('click', (event) => {
-  //                 event.preventDefault();
-  //                 window.top.postMessage(event.currentTarget.href, '*');
-  //               });
-  //             });
-  //           }
-  //         });
-  //       });
-
-  //       const handleClickInsideIframe = () => {
-  //         window.parent.postMessage('iframeClicked', '*');
-  //       };
-  //       const handleMouseUpInsideIframe = () => {
-  //         window.parent.postMessage('iframeMouseUp', '*');
-  //       };
-  //       const handleMouseMoveInsideIframe = (e) => {
-  //         const msgData = {
-  //           type: 'iframeMouseMove',
-  //           clientY: e.clientY + 70 // Adjust according to your needs
-  //         };
-  //         window.parent.postMessage(msgData, '*');
-  //       };
-
-  //       window.addEventListener('click', handleClickInsideIframe);
-  //       window.addEventListener('mouseup', handleMouseUpInsideIframe);
-  //       window.addEventListener('mousemove', handleMouseMoveInsideIframe);
-  //     });
-  //   </script>
-  // </body>
-  // </html>
-  // `;
-
-  window.onmessage = (event) => {
+  /**
+   * Handles messages received from the iframe.
+   * Parses the data to identify the component and updates the focus accordingly.
+   * @param {MessageEvent} event - The event containing the message data.
+   * @returns {void}
+   */
+  window.onmessage = (event: MessageEvent): void => {
     // If event.data or event.data.data is undefined, return early
     if (!event.data || typeof event.data.data !== 'string') return;
 
@@ -427,7 +64,12 @@ const DemoRender = (): JSX.Element => {
     dispatch(changeFocus({ componentId: matchedComponent.id, childId: null }));
   };
 
-  window.addEventListener('message', function (event) {
+  /**
+   * Listens for messages from the iframe and logs them if they're of type 'log'.
+   * @param {MessageEvent} event - The event containing the message data.
+   * @returns {void}
+   */
+  window.addEventListener('message', function (event: MessageEvent): void {
     if (event.origin !== serverConfig.API_BASE_URL2) return; // Ensure you replace this with your actual iframe origin
 
     if (event.data.type === 'log') {
@@ -444,118 +86,23 @@ const DemoRender = (): JSX.Element => {
     }
   });
 
-  const componentBuilder2 = (array, key = 0) => {
-    const componentsToRender = [];
-    for (const element of array) {
-      if (element.name === 'separator') continue;
-      const elementType = element.name;
-      const childId = element.childId;
-      const elementStyle = element.style;
-      const innerText = element.attributes.compText;
-      const classRender = element.attributes.cssClasses;
-      const activeLink = element.attributes.compLink;
-
-      let allChildren = [];
-
-      if (element.componentData && element.componentData.children) {
-        allChildren = [...element.componentData.children];
-      }
-      if (element.children && element.children.length > 0) {
-        allChildren = [...allChildren, ...element.children];
-      }
-
-      let renderedChildren =
-        allChildren.length > 0
-          ? componentBuilder2(allChildren, ++key)
-          : undefined;
-
-      if (element.type === 'MUI Component') {
-        const baseData = MUITypes.find(
-          (m) => m.tag === elementType
-        ).componentData;
-        // console.log('baseData', baseData);
-        if (!baseData) return null;
-        const componentData = {
-          ...baseData,
-          props: {
-            ...baseData.props,
-            key: ++key,
-            children: renderedChildren
-          }
-        };
-        componentsToRender.push(JSON.stringify(componentData));
-
-        // const serializedHtmlContent = JSON.stringify(htmlContent);
-      } else {
-        let Component;
-        switch (elementType) {
-          case 'input':
-            Component = 'input';
-            break;
-          case 'img':
-          case 'Image':
-            Component = 'img';
-            break;
-          case 'a':
-            Component = 'a';
-            break;
-          case 'Switch':
-            Component = 'Switch';
-            break;
-          case 'Route':
-            Component = 'Route';
-            break;
-          default:
-            Component = elementType;
-            break;
-        }
-        const childrenContent = [];
-        if (innerText) childrenContent.push(innerText);
-        if (renderedChildren) childrenContent.push(...renderedChildren);
-        const props = {
-          ...element.attributes,
-          className: classRender,
-          style: elementStyle,
-          key: ++key,
-          id: `rend${childId}`,
-          ...(elementType === 'img' || elementType === 'Image'
-            ? { src: activeLink }
-            : {}),
-          ...(elementType === 'a' || elementType === 'Link'
-            ? { href: activeLink }
-            : {})
-        };
-
-        componentsToRender.push(
-          <Component {...props}>
-            {childrenContent.length > 0
-              ? childrenContent.map((child, index) => (
-                  <React.Fragment key={index}>{child}</React.Fragment>
-                ))
-              : null}
-          </Component>
-        );
-      }
-      key++;
-    }
-    // console.log('componentsToRender', componentsToRender);
-    return componentsToRender;
-  };
-  //initializes our 'code' which will be whats actually in the iframe in the demo render
-  //this will reset every time we make a change
+  /**
+   * Initializes the code variable which represents the content to be displayed in the iframe.
+   */
   let code = '';
 
+  // Find the current component in focus
   const currComponent = state.components.find(
     (element) => element.id === state.canvasFocus.componentId
   );
-  // console.log('currComponent', currComponent);
 
-  componentBuilder2(currComponent.children).forEach((element) => {
+  /**
+   * Builds the code variable based on the current component's children.
+   */
+  componentBuilder(currComponent.children).forEach((element) => {
     if (typeof element === 'string') {
-      console.log('element', element);
       code += element;
     } else if (React.isValidElement(element)) {
-      console.log('valid react element', element);
       try {
         const reactDomStringRender = ReactDOMServer.renderToString(element);
         code += reactDomStringRender;
@@ -567,7 +114,10 @@ const DemoRender = (): JSX.Element => {
 
   // writes our stylesheet from state to the code
   code += `<style>${stylesheet}</style>`;
-  // adds the code into the iframe
+
+  /**
+   * Loads the code into the iframe when it is loaded or when the code changes.
+   */
   useEffect(() => {
     //load the current state code when the iframe is loaded and when code changes
     iframe.current.addEventListener('load', () => {

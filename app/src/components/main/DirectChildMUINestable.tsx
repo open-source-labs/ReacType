@@ -21,6 +21,22 @@ import {
   snapShotAction
 } from '../../redux/reducers/slice/appStateSlice';
 
+/**
+ * Renders a Material-UI nestable component within the application's canvas. This component can be dragged and dropped
+ * to reorder or nest within other components. It supports additional functionalities like adding routes or links
+ * if applicable. It integrates deeply with the application's state management and real-time collaboration features.
+ *
+ * @param {Object} props - The component properties.
+ * @param {number} props.childId - Unique identifier for the child component instance.
+ * @param {string} props.type - Type of the child element, typically related to UI framework components.
+ * @param {number} props.typeId - Identifier for the type, linking to specific functionality or styling.
+ * @param {Object} props.style - Custom styles applied to the component instance.
+ * @param {React.ReactNode} props.children - Nested child components or elements.
+ * @param {string} props.name - Display name of the component, used for identification within the UI.
+ * @param {Object} props.attributes - Additional attributes that might affect rendering or behavior, like links.
+ * @returns {JSX.Element} A styled, interactive component that can be focused, rearranged, or nested within other components.
+ */
+
 function DirectChildMUINestable({
   childId,
   type,
@@ -114,10 +130,6 @@ function DirectChildMUINestable({
               childId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit addChildAction event is triggered in DirectChildMUINestable'
-            // );
           }
         }
       }
@@ -138,10 +150,6 @@ function DirectChildMUINestable({
               newParentChildId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit changePosition event is triggered in DirectChildMUINestable'
-            // );
           }
         }
       }
@@ -161,7 +169,6 @@ function DirectChildMUINestable({
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildMUINestable');
     }
   };
 

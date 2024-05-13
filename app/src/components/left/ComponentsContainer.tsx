@@ -5,7 +5,16 @@ import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 
-const ComponentsContainer = () => {
+/**
+ * Displays a panel of reusable components that are not root components.
+ * This panel lists components that can be reused across different parts of the application.
+ * Each component item in the list is capable of being focused, which is visually indicated.
+ *
+ * @returns {JSX.Element} A container that holds a list of `ComponentPanelItem` elements,
+ * each representing a non-root component from the application state. These components are not
+ * designated as top-level pages or structures but are reusable UI elements.
+ */
+const ComponentsContainer = (): JSX.Element => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
 
@@ -45,7 +54,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-     overflow: 'auto'
+    overflow: 'auto'
   },
   panelWrapperList: {
     minHeight: 'auto'

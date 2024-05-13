@@ -1,6 +1,7 @@
+// vitest-enviroment jsdom
+import { describe, it, expect } from 'vitest';
 import TreeChart from '../app/src/tree/TreeChart';
 import React from 'react';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { initialState } from '../app/src/redux/reducers/slice/appStateSlice';
 import { Provider } from 'react-redux';
@@ -97,16 +98,16 @@ state.components = [
 
 // renders a tree of the components in tester
 describe('Component Tree Render Test', () => {
-  test('should render full component tree based on state', () => {
+  it('should render full component tree based on state', () => {
     render(
       <Provider store={store}>
         <TreeChart data={state.components} />
       </Provider>
     );
     // elements that are not separators should appear in the tree
-    expect(screen.getByText('index')).toBeInTheDocument();
-    expect(screen.getByText('A')).toBeInTheDocument();
-    expect(screen.getByText('B')).toBeInTheDocument();
+    expect(screen.getByText('index')).toBeDefined();
+    expect(screen.getByText('A')).toBeDefined();
+    expect(screen.getByText('B')).toBeDefined();
     // tree should not include separators
     expect(screen.queryByText('separator')).toBe(null);
   });
