@@ -6,7 +6,6 @@
   "main": "app/.electron/main.js",
   "author": "OS Labs",
   "contributors": [
-    "Heather Pfieffer",
     "Sean Ryan",
     "Austin Alvarez",
     "Zack Vandiver",
