@@ -19,6 +19,7 @@ import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import arrow from '../main/Arrow';
+import MUIProps from './MUIProps';
 
 /**
  * A central navigation component that provides tabs for switching between various features and functionalities
@@ -130,7 +131,12 @@ const BottomTabs = (props): JSX.Element => {
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="State Manager"
               onClick={showBottomPanel}
-            />
+            /> 
+            <Tab
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="MUI Props"
+            onClick={showBottomPanel}
+          />
           </Tabs>
 
           <div className={classes.projectTypeWrapper}>
@@ -178,6 +184,7 @@ const BottomTabs = (props): JSX.Element => {
               isThemeLight={isThemeLight}
             />
           )}
+          {tab === 7 && <MUIProps theme={theme} setTheme={setTheme} />}  
         </div>
       </div>
     </MeetingProvider>

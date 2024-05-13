@@ -12,6 +12,7 @@ import MUIPropsSlice, { initialState } from '../../redux/reducers/slice/MUIprops
 import { setSize, setColor } from '../../redux/reducers/slice/MUIpropsSlice';
 import FormControl from '@mui/material/FormControl';
 
+
 const MUIProps = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const dispatch = useDispatch();
