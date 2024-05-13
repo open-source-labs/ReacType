@@ -9,7 +9,7 @@
 
 - **Developer Improvement:**
   - Fixed testing suite compatability issues and added 30 new tests for new features
-  - Added 264 JSDoc comment blocks throughout the codebase
+  - Added 273 JSDoc comment blocks throughout the codebase
 - **User Features:**
   - **Material UI Components:**
     - Integrated 49 new, pre-styled Material UI components

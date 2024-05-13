@@ -38,6 +38,37 @@ const initialState: ContextState = {
   allContext: []
 };
 
+/**
+ * The `contextReducerSlice` manages the context states of the application within the Redux store.
+ * It handles a variety of operations including adding, deleting, and updating contexts, each of which
+ * can contain a collection of values and components. This slice is essential for managing app-wide context configurations,
+ * which can include settings and parameters across different components and pages.
+ *
+ * @module contextReducerSlice
+ * @type {Slice}
+ *
+ * @typedef {Object} Context
+ * @property {string} name - Unique name for the context.
+ * @property {Array<{key: string, value: string}>} values - List of key-value pairs associated with the context.
+ * @property {string[]} components - List of component names that are linked to the context.
+ *
+ * @typedef {Object} ContextState
+ * @property {Context[]} allContext - Array containing all context objects.
+ *
+ * Actions:
+ * - addContext: Adds a new context with the specified name.
+ * - addContextValues: Adds key-value pairs to an existing context.
+ * - deleteContext: Removes a context from the state by its name.
+ * - addComponentToContext: Adds a component name to the list of components associated with a context.
+ * - getAllContext: An example action that might fetch or handle contexts in bulk; currently just a stub.
+ * - allContextCooperative: A reducer that merges given payload into the existing context state.
+ *
+ * @example
+ * dispatch(addContext({ name: 'UserSettings' }));
+ * dispatch(addContextValues({ name: 'UserSettings', inputKey: 'Theme', inputValue: 'Dark' }));
+ *
+ * @returns {Reducer<ContextState>} The reducer for this slice of state, handling updates to contexts.
+ */
 const contextReducerSlice = createSlice({
   name: 'context',
   initialState,

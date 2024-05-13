@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'vitest';
 import {
   fireEvent,
   render,
@@ -26,19 +26,18 @@ import store from '../app/src/redux/store';
 
 describe('Bottom Panel Render test', () => {
   it('should render all six tabs', () => {
-   const { unmount } = render(
+    const { unmount } = render(
       <Provider store={store}>
         <BottomTabs />
       </Provider>
     );
-    expect(screen.getAllByRole('tab')).toHaveLength(8);
+    expect(screen.getAllByRole('tab')).toHaveLength(7);
     expect(screen.getByText('Component Tree')).toBeDefined();
     expect(screen.getByText('Creation Panel')).toBeDefined();
     expect(screen.getByText('Customization')).toBeDefined();
     expect(screen.getByText('CSS Editor')).toBeDefined();
     expect(screen.getByText('Context Manager')).toBeDefined();
     expect(screen.getByText('State Manager')).toBeDefined();
-    expect(screen.getByText('MUI Props')).toBeDefined();
     unmount();
   });
 });
@@ -54,9 +53,7 @@ describe('Creation Panel', () => {
     fireEvent.click(screen.getByText('Create'));
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Component name cannot be blank.')
-      ).toBeDefined();
+      expect(screen.getByText('Component name cannot be blank.')).toBeDefined();
     });
     unmount();
   });
@@ -83,7 +80,7 @@ describe('Creation Panel', () => {
     });
     unmount();
   });
-})
+});
 
 describe('HTML Panel', () => {
   it('should invalidate empty field in HTML Tag tag', async () => {
@@ -211,10 +208,14 @@ describe('Customization Panel', () => {
     );
     expect(screen.getByText('Parent Component:')).toBeDefined();
     expect(screen.getByText('App')).toBeDefined();
-    expect(screen.getByText('Drag or click an html element to the canvas to see what happens!')).toBeDefined();
+    expect(
+      screen.getByText(
+        'Drag or click an html element to the canvas to see what happens!'
+      )
+    ).toBeDefined();
     unmount();
   });
-})
+});
 
 describe('Canvas', () => {
   it('Should render all buttons and inputs when Canvas has element', async () => {
@@ -224,7 +225,7 @@ describe('Canvas', () => {
           <DndProvider backend={HTML5Backend}>
             <DragDropPanel />
             <MainContainer />
-            <CustomizationPanel isThemeLight={true}/>
+            <CustomizationPanel isThemeLight={true} />
           </DndProvider>
         </BrowserRouter>
       </Provider>
