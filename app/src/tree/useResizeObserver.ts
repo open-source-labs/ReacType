@@ -1,7 +1,14 @@
-import { useEffect, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 
-const useResizeObserver = (ref) => {
+/**
+ * A custom React hook that observes the resize of a specified DOM element.
+ * @param {RefObject<HTMLElement>} ref - The reference to the DOM element to observe.
+ * @returns {DOMRectReadOnly | null} - The dimensions of the observed element, or null if not available.
+ */
+const useResizeObserver = (
+  ref: RefObject<HTMLElement>
+): DOMRectReadOnly | null => {
   const [dimensions, setDimensions] = useState(null);
   useEffect(() => {
     // the element being observed (div with green border)

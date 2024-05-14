@@ -18,6 +18,17 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * Manages and displays tabs for creating, assigning, and displaying contexts in a React application.
+ * Utilizes Material-UI's TabContext for tab management. This component allows users to switch between
+ * different functionalities related to context manipulation within the application, such as creating or editing,
+ * assigning, and displaying contexts.
+ *
+ * @returns {JSX.Element} - A component structure with tabs managing different context-related containers.
+ *   Each tab switches to a respective panel that loads a specific container for creating/editing contexts,
+ *   assigning contexts, or displaying contexts. The active tab is highlighted, and each tab panel contains
+ *   specific functionalities encapsulated in the respective container components.
+ */
 const ContextManager = (props): JSX.Element => {
   const style = useSelector((store: RootState) => store.styleSlice);
   const classes = useStyles();

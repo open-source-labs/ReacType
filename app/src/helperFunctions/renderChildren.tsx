@@ -3,15 +3,21 @@ import { ChildElement } from '../interfaces/Interfaces';
 import DirectChildComponent from '../components/main/DirectChildComponent';
 import DirectChildHTML from '../components/main/DirectChildHTML';
 import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable';
+import DirectChildMUI from '../components/main/DirectChildMUI';
+import DirectChildMUINestable from '../components/main/DirectChildMUINestable';
 import SeparatorChild from '../components/main/SeparatorChild';
 import RouteLink from '../components/main/RouteLink';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
-// helper method to render all direct children of a component
-// direct children are clickable and draggable
-// direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
-// there are four types of direct children that can be rendered on the screen
+
+/**
+ * Renders all direct children of a component.
+ * Direct children are clickable and draggable.
+ * Direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable.
+ * @param {ChildElement[]} children - The array of child elements to render.
+ * @returns {React.ReactElement[]} - An array of React elements representing the rendered children.
+ */
 const renderChildren = (children: ChildElement[]) => {
   const state = useSelector((store: RootState) => store.appState);
 
@@ -39,7 +45,8 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    // child is a non-nestable type of HTML element (aka NOT divs, forms, OrderedLists, UnorderedLists, menus)
+    // child is a non-nestable type of HTML element
+    // nestable = false -> input(10), img(12), image(20)
     else if (
       type === 'HTML Element' &&
       typeId !== 11 &&
@@ -114,6 +121,113 @@ const renderChildren = (children: ChildElement[]) => {
           name={name}
           attributes={attributes}
           style={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
+        />
+      );
+    } else if (
+      type === 'MUI Component' &&
+      (typeId === 21 ||
+        typeId === 22 ||
+        typeId === 24 ||
+        typeId === 26 ||
+        typeId === 27 ||
+        typeId === 28 ||
+        typeId === 29 ||
+        typeId === 30 ||
+        typeId === 31 ||
+        typeId === 33 ||
+        typeId === 32 ||
+        typeId === 34 ||
+        typeId === 35 ||
+        typeId === 36 ||
+        typeId === 37 ||
+        typeId === 40 ||
+        typeId === 41 ||
+        typeId === 42 ||
+        typeId === 44 ||
+        typeId === 46 ||
+        typeId === 47 ||
+        typeId === 51 ||
+        typeId === 53 ||
+        typeId === 54 ||
+        typeId === 55 ||
+        typeId === 56 ||
+        typeId === 57 ||
+        typeId === 58 ||
+        typeId === 59 ||
+        typeId === 60 ||
+        typeId === 61 ||
+        typeId === 62 ||
+        typeId === 68 ||
+        typeId === 69 ||
+        typeId === 73 ||
+        typeId === 75 ||
+        typeId === 76)
+    ) {
+      return (
+        <DirectChildMUI
+          childId={childId}
+          type={type}
+          typeId={typeId}
+          key={'DirChildMUI' + childId.toString() + name}
+          name={name}
+          style={undefined}
+          attributes={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
+        />
+      );
+    }
+    // child is a nestable type of HTML element (divs, forms, OrderedLists, UnorderedLists, menus)
+    else if (
+      type === 'MUI Component' &&
+      (typeId === 23 ||
+        typeId === 25 ||
+        typeId === 43 ||
+        typeId === 45 ||
+        typeId === 48 ||
+        typeId === 49 ||
+        typeId === 50 ||
+        typeId === 52 ||
+        typeId === 63 ||
+        typeId === 64 ||
+        typeId === 65 ||
+        typeId === 79)
+    ) {
+      return (
+        <DirectChildMUINestable
+          childId={childId}
+          type={type}
+          typeId={typeId}
+          children={children}
+          key={'DirChildMUINest' + childId.toString() + name}
+          name={name}
+          attributes={attributes}
+          style={undefined}
+          events={undefined}
+          stateProps={[]}
+          passedInProps={[]}
+        />
+      );
+    } else if (type === 'MUI Component' && typeId === 1000) {
+      return (
+        <SeparatorChild
+          childId={childId}
+          type={type}
+          typeId={typeId}
+          children={children}
+          key={
+            'SeparatorChild' +
+            childId.toString() +
+            name +
+            (Math.random() * 1000).toString()
+          }
+          name={name}
+          style={undefined}
+          attributes={undefined}
           events={undefined}
           stateProps={[]}
           passedInProps={[]}

@@ -1,9 +1,13 @@
-// This function will evaluate the target destination when moving an element on the canvas
-// If the target destination is actually a nested component within its own children array
-// the new target parent is not a valid parent to change position
-
 import { State, ChildElement } from '../interfaces/Interfaces';
 
+/**
+ * Validates whether the new parent is a valid target destination for moving an element on the canvas.
+ * This function checks if the target destination is a nested component within its own children array, preventing nesting inside its children.
+ * @param {State} state - The state object containing canvas components and focus information.
+ * @param {number} currentChildId - The ID of the child element being moved.
+ * @param {number} toTargetParentId - The ID of the potential new parent element.
+ * @returns {boolean} Returns true if the new parent is a valid target, otherwise false.
+ */
 const validateNewParent = (
   state: State,
   currentChildId: number,

@@ -1,10 +1,23 @@
-// Creates all component files (but not the full application files) and places them in a "components" directory
+/**
+ * Creates TypeScript component files for each component provided in the components array. These files
+ * are placed in a "components" directory within the specified path. The function can differentiate
+ * between exporting files for a full application or just locally within a specified directory, based
+ * on the `exportAppBool` flag. It handles file creation asynchronously and resolves once all files
+ * are successfully written, or rejects upon any error.
+ *
+ * @param {any[]} components - An array of objects representing components, each with a `name` and `code` property.
+ * @param {string} path - The base directory path where component files are to be created.
+ * @param {string} appName - The name of the application, used to structure the directory if exporting as part of an application setup.
+ * @param {boolean} exportAppBool - A boolean flag that indicates whether the components are being exported as part of a full application setup.
+ * @returns {Promise<Array<string>>} - A promise that resolves with an array of paths where files have been created, or rejects with an error message.
+ */
+
 const createFiles = (
   components: any,
   path: string,
   appName: string,
   exportAppBool: boolean
-) => {
+): Promise<Array<string>> => {
   let dir = path;
   if (exportAppBool === false) {
     if (!dir.match(/components|\*$/)) {

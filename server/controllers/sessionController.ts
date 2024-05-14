@@ -6,7 +6,16 @@ import { SessionController, SessionCookie } from '../interfaces';
 dotenv.config();
 // here we are cheching that the user making the request is login in and has a valid cookieId
 const sessionController: SessionController = {
-  isLoggedIn: async (req, res, next) => {
+  /**
+   * Middleware function to check if the user is logged in.
+   *
+   * @callback IsLoggedInMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {Promise<void>}
+   */
+  isLoggedIn: async (req, res, next): Promise<void> => {
     // if (process.env.NODE_ENV === 'test') {
     //   // Skip authentication checks in test environment
     //   return next();
@@ -20,7 +29,6 @@ const sessionController: SessionController = {
         // else it creates a new cookieId for the user based on the userId
         cookieId = req.body.userId;
       }
-
       // find session from request session ID in mongodb
       const session = await Sessions.findOne({ cookieId });
       if (!session) {
@@ -38,8 +46,17 @@ const sessionController: SessionController = {
       });
     }
   },
-  // startSession - create and save a new session into the database
-  startSession: (req, res, next) => {
+
+  /**
+   * Middleware function to create and save a new session into the database.
+   *
+   * @callback StartSessionMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {void}
+   */
+  startSession: (req, res, next): void => {
     // first check if user is logged in already
     Sessions.findOne({ cookieId: res.locals.id || req.user.id }, (err, ses) => {
       if (err) {
@@ -77,7 +94,16 @@ const sessionController: SessionController = {
     });
   },
 
-  endSession: (req, res, next) => {
+  /**
+   * Middleware function to end the current session.
+   *
+   * @callback EndSessionMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {void}
+   */
+  endSession: (req, res, next): void => {
     //finding then deleting the session
     Sessions.findOneAndDelete(
       { cookieId: req.cookies.ssid },

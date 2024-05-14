@@ -1,5 +1,10 @@
 import React, { useRef } from 'react';
-import { ChildElement, HTMLType, DragItem } from '../../interfaces/Interfaces';
+import {
+  ChildElement,
+  HTMLType,
+  MUIType,
+  DragItem
+} from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
@@ -16,6 +21,19 @@ import {
 } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 
+/**
+ * Renders a draggable and droppable separator child component within the canvas. 
+ * This component is capable of being both a drag source and a drop target, allowing nested structures.
+ * It also displays a dynamic style change when being hovered over to indicate it can accept drop items.
+ * 
+ * @param {Object} props - Component props.
+ * @param {number} props.childId - Unique identifier for the child component.
+ * @param {string} props.type - The type of the component (e.g., HTML element, custom component).
+ * @param {number} props.typeId - Identifier for the specific type of component.
+ * @param {Object} props.style - Custom styles applied to the separator.
+ * @param {Object[]} props.children - Child components to be rendered within this separator.
+ * @returns {JSX.Element} A styled, interactive separator that responds to drag and drop operations.
+ */
 function SeparatorChild({
   childId,
   type,
@@ -37,6 +55,9 @@ function SeparatorChild({
     (type: HTMLType) => type.id === typeId
   );
 
+  const MUIType: MUIType = state.MUITypes.find(
+    (type: MUIType) => type.id === typeId
+  );
   // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
     // setting item attributes to be referenced when updating state with new instance of dragged item
@@ -47,7 +68,7 @@ function SeparatorChild({
       instanceType: type,
       instanceTypeId: typeId
     },
-    canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
+    canDrag: HTMLType.id !== 1000 || MUIType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
       return {
         isDragging: !!monitor.isDragging()
@@ -90,10 +111,6 @@ function SeparatorChild({
               childId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit addChildAction event is triggered in SeparatorChild'
-            // );
           }
         }
       }
@@ -114,10 +131,6 @@ function SeparatorChild({
               newParentChildId: childId,
               contextParam: contextParam
             });
-
-            // console.log(
-            //   'emit changePosition event is triggered in SeparatorChild'
-            // );
           }
         }
       }
@@ -144,7 +157,7 @@ function SeparatorChild({
   // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
   const defaultNestableStyle = { ...globalDefaultStyle };
   const separatorStyle = {
-    padding:  isOver ? '40px 10px' : '2px 10px',
+    padding: isOver ? '40px 10px' : '2px 10px',
     margin: '1px 10px',
     transition: 'padding 1s ease-out'
   };

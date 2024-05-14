@@ -1,3 +1,9 @@
+/**
+ * Combines default styles with priority styles, prioritizing the properties from the priority styles.
+ * @param {Object} defaultStyle - The default styles.
+ * @param {Object} priorityStyle - The priority styles.
+ * @returns {Object} Returns the combined styles object.
+ */
 export const combineStyles = (
   defaultStyle: Object,
   priorityStyle: Object

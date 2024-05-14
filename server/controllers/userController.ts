@@ -3,8 +3,12 @@ import { Users } from '../models/reactypeModels';
 import bcrypt from 'bcryptjs';
 import { newUserError, UserController } from '../interfaces';
 
-// random password is subtituted when user uses Oauth and no new password is provided
-const randomPassword = () => {
+/**
+ * Generates a random password.
+ * 
+ * @returns {string} A randomly generated password.
+ */
+const randomPassword = (): string => {
   function getRandomSpecialChar() {
     const code = Math.round(Math.random() * (38 - 37) + 37);
     return String.fromCharCode(code);
@@ -25,7 +29,16 @@ const randomPassword = () => {
 };
 
 const userController: UserController = {
-  getUser: async (req, res, next) => {
+  /**
+   * Middleware function to get user details.
+   *
+   * @callback GetUserMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {Promise<void>}
+   */
+  getUser: async (req, res, next): Promise<void> => {
     try {
       const { username } = req.body;
       const user = await Users.findOne({ username });
@@ -39,7 +52,17 @@ const userController: UserController = {
       });
     }
   },
-  createUser: (req, res, next) => {
+
+  /**
+   * Middleware function to create a new user.
+   *
+   * @callback CreateUserMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {void | import('express').Response} Returns void or an Express Response object.
+   */
+  createUser: (req, res, next): void | import('express').Response => {
     let email, username, password;
     // use this condition for Oauth login
     if (res.locals.signUpType === 'oauth') {
@@ -96,9 +119,18 @@ const userController: UserController = {
     );
   },
 
-  // verifyUser - Obtain username and password from the request body, locate
-  // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
-  verifyUser: (req, res, next) => {
+  /**
+   * Middleware function to verify user credentials.
+   * Obtain username and password from the request body, then locates the appropriate user in the database.
+   * Then authenticates the submitted password against the password stored in the database.
+   *
+   * @callback VerifyUserMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {void | import('express').Response} Returns void or an Express Response object.
+   */
+  verifyUser: (req, res, next): void | import('express').Response => {
     let { username, password, isFbOauth } = req.body;
     // handle Oauth
     if (res.locals.signUpType === 'oauth') {
@@ -140,9 +172,56 @@ const userController: UserController = {
         return res.status(400).json('Invalid Username');
       }
     });
+  },
+
+  /**
+   * Middleware function to update user password.
+   *
+   * @callback UpdatePasswordMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {Promise<void | import('express').Response>} Returns a promise resolving to void or an Express Response object.
+   */
+  updatePassword: async (
+    req,
+    res,
+    next
+  ): Promise<void | import('express').Response> => {
+    try {
+      if (!req.body.password) {
+        return res.status(400).json({ error: 'Password is required.' });
+      }
+      const user = await Users.findOne({ username: res.locals.user.username });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+      const isSame = await bcrypt.compare(req.body.password, user.password);
+      if (isSame) {
+        return res.status(400).json({
+          error: 'New password must be different from the current password.'
+        });
+      }
+      const salt = await bcrypt.genSalt(10); // generate a salt
+      const encryptedPW = await bcrypt.hash(req.body.password, salt); // encrypt the password
+      const updatedUser = await Users.findOneAndUpdate(
+        { username: res.locals.user.username },
+        { password: encryptedPW },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return res.status(404).json({ error: 'User update failed.' });
+      }
+      res.locals.id = updatedUser._id;
+      return next();
+    } catch (err) {
+      return next({
+        log: 'error caught in updatePassword middleware',
+        status: 400,
+        message: { err: 'Cannot update password' }
+      });
+    }
   }
-
-
- };
+};
 
 export default userController;

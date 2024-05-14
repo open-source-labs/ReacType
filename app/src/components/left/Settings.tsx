@@ -2,18 +2,25 @@ import React from 'react';
 import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
+import MUIDragDropPanel from './MUIDragDropPanel';
 
-const ProfilePage = () => {
+/**
+ * A functional component that renders the MUIDragDropPanel within a simple container.
+ * The ProfilePage currently acts as a wrapper for the MUIDragDropPanel.
+ *
+ * @returns {JSX.Element}
+ * @example
+ * return (
+ *   <ProfilePage />
+ * )
+ */
+const ProfilePage = (): JSX.Element => {
   const classes = useStyles();
 
   return (
     <div>
-      <div className={classes.panelWrapper}>
-        <div className={classes.panelWrapperList}>
-          <h4 className={classes.darkThemeFontColor}>Settings</h4>
-        </div>
+        <MUIDragDropPanel />
       </div>
-    </div>
   );
 };
 

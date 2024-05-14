@@ -3,6 +3,53 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+## Version 21.0.0 Changes
+
+### Changes:
+
+- **Developer Improvement:**
+  - Fixed testing suite compatability issues and added 30 new tests for new features
+  - Added 273 JSDoc comment blocks throughout the codebase
+- **User Features:**
+  - **Material UI Components:**
+    - Integrated 49 new, pre-styled Material UI components
+    - Completely overhauled the code preview functionality to manage import statements, state, event handlers, and other essential variables and functions
+    - Revamped iFrame implementation to allow users to interact seamlessly with state-dependent Material UI components
+  - **UI updates to enhance user experience:**
+    - Updated left panel to include Material UI tab
+    - Made additional UI tweaks to accommodate additional components
+    - Introduced UI elements that organized components for easier navigation
+    - Added slider at bottom right-hand corner to allow resize of iframe
+- **Bugs Fixed:**
+  - Forgotten Password - Forgotten Password page now properly renders and enables a user to reset their password
+  - Customization Panel - Fixed numerous rendering issues to establish consistent performance and UI layout
+  - Tutorial Page - Fixed Link / Re-Route to Tutorial  
+
+### Recommendations for Future Enhancements:
+
+- Implement Shadcn/UI or other libraries in addition to MUI so that users have more pre-styled elements
+- Create customizable props for MUI Components (check MUI props branch for foundation)
+- Bug fix for marketplace preview display
+- Allow users to modify code dynamically in the code preview and reflect visual components in real time
+- Add zoom in and zoom out / scroll functionality to code preview and component tree
+- Bug fix: tags which are nested do not display accurate code in code preview
+- Add more functionality to the nav bar
+- Clean up unnecessary code / comments and deprecated libraries
+- Eliminate all Webpack associated files/folders/dependencies/etc... now that we run on Vite
+- Remove the many deprecated dependencies
+- Add additional features to the live chat (Links, reactions, raise hand feature etc)
+- Allow live chat to be a popup and draggable outside of the app
+- List all active meeting rooms to join
+- Make the app mobile responsive. Right now it does not work/look good on mobile
+- Light/Dark mode
+- Update links in the footer of the landing page
+- Update Tutorial Page UI/UX to reflect new changes
+- Fix test's / refactor to not use database rather create a mock database using Vitest
+- Update Electron for use (unknown if it's in use / working, a lot of code is deprecated)
+- Add more Testing
+- Update slider to more user-friendly resize iframe
+- Deny MUI library for gatsby, ensure Next.js works with MUI
+
 ## Version 20.0.0 Changes
 
 ### Changes:

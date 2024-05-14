@@ -1,9 +1,12 @@
 import { saveAs } from 'file-saver';
-import JSZip from'jszip';
+import JSZip from 'jszip';
 import { State } from '../interfaces/Interfaces';
 
-//function to create a zip file for export in web app
-const zipFiles = (state: State) => {
+/**
+ * Creates a zip file containing the project files for export.
+ * @param {State} state - The current state of the project.
+ */
+const zipFiles = (state: State): void => {
   //initializes zip
   var zip = new JSZip();
   let reacTypeApp = zip.folder('ReacTypeApp');

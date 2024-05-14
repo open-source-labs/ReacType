@@ -1,27 +1,34 @@
 import { ProjectController } from '../interfaces';
 import { Projects } from '../models/reactypeModels';
-import { State} from '../../app/src/interfaces/Interfaces'
+import { State } from '../../app/src/interfaces/Interfaces';
 
 // array of objects, objects inside
 type Projects = { project: {} }[];
 
 const projectController: ProjectController = {
-  // saveProject saves current workspace to database
-  saveProject: (req, res, next) => {
-    
+  /**
+   * Middleware function to save the current workspace to the database.
+   *
+   * @callback SaveProjectMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {void}
+   */
+  saveProject: (req, res, next): void => {
     // pull project name and project itself from body
     const { name, project, comments } = req.body;
     const username = req.cookies.username;
     const userId = req.cookies.ssid;
     //deleted published from project
-    const noPub = {...project};
+    const noPub = { ...project };
     delete noPub.published;
     // create createdBy field for the document
     const createdAt = Date.now();
     // pull ssid from cookies for user id
     Projects.findOneAndUpdate(
       // looks in projects collection for project by user and name
-      { name, userId, username},
+      { name, userId, username },
       // update or insert the project
       { project: noPub, createdAt, published: false, comments },
       // Options:
@@ -43,32 +50,60 @@ const projectController: ProjectController = {
     );
   },
 
-  // gets all of current user's projects
-  getProjects: (req, res, next) => {
-    const userId = req.cookies.ssid
-    Projects.find({ userId }, (err, projects: Array<{_id: string; published: boolean; project: object }>) => {
-      if (err) {
-        return next({
-          log: `Error in projectController.getProjects: ${err}`,
-          message: {
-            err: 'Error in projectController.getProjects, check server logs for details'
-          }
-        });
+  /**
+   * Middleware function to retrieve all projects of the current user from the database.
+   *
+   * @callback GetProjectsMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {void}
+   */
+  getProjects: (req, res, next): void => {
+    const userId = req.cookies.ssid;
+    Projects.find(
+      { userId },
+      (
+        err,
+        projects: Array<{ _id: string; published: boolean; project: object }>
+      ) => {
+        if (err) {
+          return next({
+            log: `Error in projectController.getProjects: ${err}`,
+            message: {
+              err: 'Error in projectController.getProjects, check server logs for details'
+            }
+          });
+        }
+        // so it returns each project like it is in state, not the whole object in DB
+        res.locals.projects = projects.map(
+          (elem: {
+            _id: string;
+            name: string;
+            published: boolean;
+            project: object;
+          }) => ({
+            _id: elem._id,
+            name: elem.name,
+            published: elem.published,
+            ...elem.project
+          })
+        );
+        return next();
       }
-      // so it returns each project like it is in state, not the whole object in DB
-      res.locals.projects = projects.map((elem: {_id: string; name: string; published: boolean; project: object } ) =>({
-        _id: elem._id,
-        name: elem.name,
-        published: elem.published,
-        ...elem.project
-      }));
-      return next();
-    });
+    );
   },
 
-  
-  // delete project from database
-  deleteProject: async (req, res, next) => {
+  /**
+   * Middleware function to delete a project from the database.
+   *
+   * @callback DeleteProjectMiddleware
+   * @param {object} req - The request object.
+   * @param {object} res - The response object.
+   * @param {Function} next - The next middleware function in the stack.
+   * @returns {Promise<void>}
+   */
+  deleteProject: async (req, res, next): Promise<void> => {
     // pull project name and userId from req.body
     const { _id } = req.body;
     const userId = req.cookies.ssid;

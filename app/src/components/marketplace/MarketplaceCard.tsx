@@ -44,7 +44,28 @@ interface Project {
 }
 
 const ITEM_HEIGHT = 48;
-const MarketplaceCard = ({ proj }: { proj: Project }) => {
+
+/**
+ * `MarketplaceCard` is a React component that displays a project card in the marketplace. It includes functionality
+ * to clone a project from the marketplace and optionally open it immediately after cloning. The card displays project details,
+ * an image preview fetched from AWS S3, and offers menu options to clone or clone and open the project.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.proj - The project data object containing details to display and operate upon.
+ * @param {string} props.proj.forked - Indicates if the project is forked.
+ * @param {string[]} props.proj.comments - Comments associated with the project.
+ * @param {Date} props.proj.createdAt - The creation date of the project.
+ * @param {number} props.proj.likes - The number of likes the project has received.
+ * @param {string} props.proj.name - The name of the project.
+ * @param {Object} props.proj.project - The project detail and configuration.
+ * @param {boolean} props.proj.published - Indicates if the project is published.
+ * @param {number} props.proj.userId - The user ID of the project's owner.
+ * @param {string} props.proj.username - The username of the project's owner.
+ * @param {number} props.proj._id - The unique identifier for the project.
+ *
+ * @returns {JSX.Element} - A card element that represents a project in the marketplace, with interactions for cloning and opening.
+ */
+const MarketplaceCard = ({ proj }: { proj: Project }): JSX.Element => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -53,7 +74,6 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
   const [guest, setGuest] = React.useState<boolean>(null);
   const state = useSelector((store: RootState) => store.appState);
-
 
   useEffect(() => {
     async function s3ImgFetch() {
@@ -71,13 +91,11 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
     s3ImgFetch();
   }, []);
 
-
-
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClone = async () => {
-    if(state.isLoggedIn){
+    if (state.isLoggedIn) {
       // creates a copy of the project
       const docId = proj._id;
       const response = await axios.get(`/cloneProject/${docId}`); //passing in username as a query param is query params
@@ -95,7 +113,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
   };
 
   const handleCloneOpen = async () => {
-    if(state.isLoggedIn){
+    if (state.isLoggedIn) {
       const project = await handleClone();
       history.push('/');
       dispatch(openProject(project));
@@ -139,7 +157,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: '#0bcaa8' }} aria-label="recipe">
-              {proj.username.slice(0,1).toUpperCase()}
+              {proj.username.slice(0, 1).toUpperCase()}
             </Avatar>
           }
           action={
@@ -193,7 +211,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
         <Snackbar
           open={alertOpen}
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
           <Alert
@@ -207,7 +225,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
         <Snackbar
           open={guest}
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
           <Alert

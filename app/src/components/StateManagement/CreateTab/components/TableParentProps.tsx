@@ -8,7 +8,21 @@ import { addPassedInProps } from '../../../../redux/reducers/slice/appStateSlice
 import { RootState } from '../../../../redux/store';
 import { emitEvent } from '../../../../helperFunctions/socket';
 
-const TableParentProps = (props) => {
+/**
+ * `TableParentProps` is a React component that renders a table displaying properties passed from parent components.
+ * It provides functionality to add these properties to the current component's state using buttons in the table.
+ * The table is rendered using Material-UI's DataGrid component.
+ *
+ * @param {Object} props - Properties passed to the component.
+ * @param {boolean} props.isThemeLight - Indicates if the current theme is light or dark, used to adjust the visual styling of the table.
+ * @param {Array} props.parentProps - Array of properties inherited from the parent component.
+ * @param {Array} props.parentPassedInProps - Additional properties passed to the parent component.
+ * @param {Object} props.parentComponent - The parent component object which includes details like name, type, etc.
+ * @param {boolean} props.canDeleteState - Flag indicating whether deletion of state is allowed.
+ *
+ * @returns {JSX.Element} The `DataGrid` component filled with parent properties and controls to manage them.
+ */
+const TableParentProps = (props): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);

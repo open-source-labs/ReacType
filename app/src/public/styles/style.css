@@ -211,6 +211,7 @@ span.material-symbols-outlined {
 
 #HTMLgrid {
   margin: 5px;
+  padding: 0;
 }
 
 #HTMLItemsGrid {
@@ -224,9 +225,32 @@ span.material-symbols-outlined {
   padding: 10%;
   border-radius: 10px;
   box-shadow: #191919;
+  width: 120px;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
 }
 
 #HTMLItem:hover {
+  background-color: #474545a8;
+  color: #8ca8ff;
+}
+
+/* placeholder until button resizing */
+#MUIItem {
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  transition: 0.3s;
+  border: 1px solid transparent;
+  color: #f2fbf8;
+  padding: 10%;
+  border-radius: 10px;
+  box-shadow: #191919;
+  width: 120px;
+}
+
+#MUIItem:hover {
   background-color: #474545a8;
   color: #8ca8ff;
 }
@@ -589,7 +613,13 @@ BOTTOM PANEL
   transition: 0.3s ease all;
   border-color: transparent;
   background-color: #1e2024;
-  background-image: linear-gradient(180deg, #1e2024 15%, grey 15%, grey 85%, #1e2024 85%);
+  background-image: linear-gradient(
+    180deg,
+    #1e2024 15%,
+    grey 15%,
+    grey 85%,
+    #1e2024 85%
+  );
   border-radius: 10px;
   z-index: 40;
   overflow-y: hidden;
@@ -608,7 +638,13 @@ BOTTOM PANEL
   transition: 0.3s ease all;
   border-color: transparent;
   background-color: #1e2024;
-  background-image: linear-gradient(180deg, #1e2024 15%, #31343A 15%, #31343A 85%, #1e2024 85%);
+  background-image: linear-gradient(
+    180deg,
+    #1e2024 15%,
+    #31343a 15%,
+    #31343a 85%,
+    #1e2024 85%
+  );
   border-radius: 10px;
   z-index: 40;
   overflow-y: hidden;
@@ -741,6 +777,16 @@ CANVAS WINDOW
   align-items: center;
   font-family: 'Roboto', 'Raleway', sans-serif;
   height: 100%;
+}
+
+#renderFocus {
+  position: relative;
+  min-width: 50px;
+  max-width: 1200px;
+  width: calc(100% - 280px);
+  height: 100%;
+  resize: horizontal;
+  overflow: auto;
 }
 
 /* Material-UI */

@@ -16,7 +16,15 @@ if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
 
-export default function LoginButton() {
+/**
+ * Renders a button that toggles between a login and logout state based on the user's authentication status.
+ * When clicked, it will either redirect to the login page or log the user out, clearing local storage and
+ * potentially triggering a re-fetch of certain data based on server response. The button displays
+ * dynamically based on the current authentication state stored in the Redux state.
+ *
+ * @returns {JSX.Element} A button element that allows the user to either log in or log out.
+ */
+export default function LoginButton(): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
 

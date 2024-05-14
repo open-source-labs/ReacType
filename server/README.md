@@ -17,6 +17,6 @@ Redeployment should also be done with only the server subtree and not the entire
 
 If `npm` is your package manager, you just need to run the script `npm run dev` and it will start the server on `http://localhost:${DEV_PORT}` for your development environment.
 DEV_PORT can be defined in the config.js file on the root directory.
-You will also need to define your server address(MONGO_DB_DEV), github OAuth ID (GITHUB_ID) & Secret (GITHUB_SECRET) in a dotenv file in the root directory as well.
+You will also need to define your server address(MONGO_DB_DEV), github OAuth ID (GITHUB_CLIENT) & Secret (GITHUB_SECRET) in a dotenv file in the root directory as well.
 
 Endpoint testing is currently integrated with Jest and Supertest as well and can be run by `npm run test` or `npm run test:watch` for watch mode.

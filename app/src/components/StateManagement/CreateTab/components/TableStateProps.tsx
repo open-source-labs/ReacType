@@ -10,8 +10,19 @@ import { RootState } from '../../../../redux/store';
 import { ColumnTab } from '../../../../interfaces/Interfaces';
 import { emitEvent } from '../../../../helperFunctions/socket';
 
-// updates state mgmt boxes and data grid
-const TableStateProps = (props) => {
+/**
+ * `TableStateProps` is a React component that displays a data grid for managing state properties within an application.
+ * The component allows for the interactive addition, deletion, and modification of state properties directly within a table format.
+ * The component adapts its style and functionality based on the current theme and the ability to delete state entries.
+ *
+ * @param {Object} props - Properties passed to the component.
+ * @param {boolean} props.isThemeLight - Determines the theme of the data grid (light or dark).
+ * @param {boolean} props.canDeleteState - Indicates whether the deletion of state entries is allowed.
+ * @param {Function} props.selectHandler - Function called when a row is clicked, typically used to handle row selection.
+ *
+ * @returns {JSX.Element} A data grid component that displays and allows interaction with state properties of a component.
+ */
+const TableStateProps = (props): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);

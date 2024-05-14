@@ -9,15 +9,23 @@ export default defineConfig({
   build: {
     outDir: 'build'
   },
-  assetsInclude: ['**/*.PNG'],
+  assetsInclude: ['**/*.png'],
   server: { port: 8080 },
   plugins: [
     react(),
     svgr({
+      include: '**/*.svg',
       svgrOptions: {
         icon: true
         // ...svgr options (https://react-svgr.com/docs/options/)
       }
     })
-  ]
+  ],
+  optimizeDeps: {
+    include: [
+      '@mui/material',
+      '@mui/icons-material' // Assuming you use icons too
+      // Any other specific parts of MUI or related dependencies
+    ]
+  }
 });

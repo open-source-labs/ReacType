@@ -17,6 +17,7 @@ export interface State {
   nextBottomSeparatorId?: number;
   nextChildId: number;
   HTMLTypes: HTMLType[];
+  MUITypes: MUIType[];
   tailwind: boolean;
   stylesheet: string;
   codePreview: boolean;
@@ -50,11 +51,14 @@ export interface ChildStyle {
 }
 
 export interface Component {
+  type?: string;
+  typeId?: number;
+  childId?: number;
   id: number;
   name: string;
   style: {};
   icon?: any;
-  attributes?: object;
+  attributes?: Attributes;
   events: object;
   code: string;
   children: ChildElement[];
@@ -100,6 +104,39 @@ export interface HTMLType {
   icon?: any;
   framework: string;
   nestable: boolean;
+}
+export interface MUIType {
+  id: number;
+  tag: string;
+  name: string;
+  style: any;
+  placeHolderShort: string | React.JSX.Element;
+  placeHolderLong: string;
+  // ? == optional type part of icon, cant comment out icon and it works
+  // Icon?: any;
+  icon?: any;
+  framework: string;
+  nestable: boolean;
+  stateAndEventHandlers: string[];
+  imports: string[];
+  propOptions: string[];
+  defaultProps: string[];
+  jsx: string[];
+  componentData: object;
+  children?: MUIType[];
+  attributes?: Attributes;
+}
+export interface MUIComponent {
+  type: string;
+  typeId: number;
+  name: string;
+  childId: number | null;
+  style: Record<string, any>; // Styles can vary, so using a generic Record<string, any> type
+  attributes: Record<string, any>; // Similarly, attributes can vary
+  events: Record<string, any>; // Events can vary
+  children: MUIComponent[]; // Recursive definition for children
+  stateProps: any[]; // Type for stateProps is not defined in your example, adjust as needed
+  passedInProps: any[]; // Type for passedInProps is not defined in your example, adjust as needed
 }
 export interface DragItem extends DragObjectWithType {
   newInstance: boolean;
@@ -201,4 +238,30 @@ export interface BottomPanelObj {
   attributes: object;
   style: object;
   events: object;
+}
+
+export interface IErrorSetters {
+  setInvalidEmail?: (value: boolean) => void;
+  setInvalidEmailMsg?: (message: string) => void;
+  setInvalidUser?: (value: boolean) => void;
+  setInvalidUserMsg?: (message: string) => void;
+  setInvalidPassword?: (value: boolean) => void;
+  setInvalidPasswordMsg?: (message: string) => void;
+  setInvalidVerifyPassword?: (value: boolean) => void;
+  setInvalidVerifyPasswordMsg?: (message: string) => void;
+}
+
+export interface AuthStateSetters {
+  setEmail?: (value: string) => void;
+  setUsername?: (value: string) => void;
+  setPassword?: (value: string) => void;
+  setPasswordVerify?: (value: string) => void;
+}
+
+export interface ValidationParams {
+  email?: string;
+  username?: string;
+  password?: string;
+  passwordVerify?: string;
+  errorSetters: IErrorSetters;
 }

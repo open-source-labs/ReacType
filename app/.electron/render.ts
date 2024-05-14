@@ -1,11 +1,11 @@
 
-import {remote} from 'electron';
-import {BrowserWindow} from 'electron-window-manager';
+// import {remote} from 'electron';
+// import {BrowserWindow} from 'electron-window-manager';
 
-const win2 = browserwindow.createNew('win2', 'Windows #2');
-win2.setURL('/win2.html');
-win2.onReady(() => {...});
-win2.open()
+// const win2 = BrowserWindow.createNew('win2', 'Windows #2');
+// win2.setURL('/win2.html');
+// win2.onReady(() => {...});
+// win2.open()
 
 
 
@@ -15,3 +15,7 @@ win2.open()
   =windowManager.createNew('win2', 'Windows #2'); win2.setURL('/win2.html');
   win2.onReady( ... ); win2.open();
 </script>; */
+
+
+// unnecesary code / file
+// win2 is unused nor needed.

@@ -4,7 +4,35 @@ import { Chart } from 'react-google-charts';
 import Grid from '@mui/material/Grid';
 import { RootState } from '../../../redux/store';
 
-const DisplayContainer = () => {
+/**
+ * A React component that displays a WordTree chart based on context data from a Redux store.
+ * Utilizes the `react-google-charts` library to visualize relationships between components in the application,
+ * fetching data from the `contextSlice.allContext` in the Redux store. The data should include objects with names and components arrays.
+ * 
+ * @component
+ * @example
+ * ```jsx
+ * <DisplayContainer />
+ * ```
+ * 
+ * @param {Object} props - The component does not accept any props.
+ * 
+ * State:
+ * - `contextData`: An array of arrays structured for the WordTree chart, with the initial element being ["Phrases"].
+ *
+ * Redux State Dependencies:
+ * - `allContext`: Retrieved from `contextSlice.allContext`, expected to be an array of objects each containing a `name` and a `components` array.
+ *
+ * Effects:
+ * - On mount, transforms the Redux store data into a format suitable for the WordTree chart by calling `transformData`.
+ *
+ * Methods:
+ * - `transformData`: Transforms raw context data from the Redux store to be usable by the `Chart` component, 
+ *   mapping each context object to phrases connecting the application name with the context name and its components.
+ *
+ * @returns {JSX.Element} A React element containing a Grid layout. If data is available, displays a WordTree chart, otherwise shows a message indicating no data.
+ */
+const DisplayContainer = (): JSX.Element => {
   const allContext = useSelector(
     (store: RootState) => store.contextSlice.allContext
   );

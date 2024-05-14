@@ -18,6 +18,17 @@ import TablePassedInProps from './TablePassedInProps';
 import { RootState } from '../../../../redux/store';
 import { emitEvent } from '../../../../helperFunctions/socket';
 
+/**
+ * `StatePropsPanel` is a React functional component that provides an interface for managing state properties of components within an application.
+ * This component allows users to create, modify, and view state properties, as well as linking properties from parent components.
+ *
+ * @param {Object} props - Properties passed to the component.
+ * @param {boolean} props.isThemeLight - Indicates if the current theme is light, which influences the styling of the UI components.
+ * @param {Array} props.data - The data related to components from which the state properties are derived or linked.
+ * 
+ * @returns {JSX.Element} A `div` element containing various form controls for inputting new state properties, a button for submission,
+ * and tables that display the current state properties, parent props, and props passed in from parent components.
+ */
 const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);

@@ -19,6 +19,28 @@ import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
 import useResizeObserver from '../../tree/useResizeObserver';
 import { initializeEsbuild } from '../../helperFunctions/esbuildService';
 
+/**
+ * A React component that provides an interactive code editor using Ace Editor. It integrates a live code preview
+ * that updates the Redux store with the latest code. The editor can handle JavaScript code, with themes and plugins
+ * to enhance functionality. This component listens to size changes in its container and adjusts its height accordingly.
+ * It also integrates with esbuild to bundle the code with custom plugins for handling package imports and fetch operations.
+ *
+ * @param {Object} props - Component props.
+ * @param {string|null} props.theme - The theme for the Ace Editor. Null if no theme is set.
+ * @param {Function|null} props.setTheme - Function to set the theme of the Ace Editor. Null if not used.
+ * @param {number} [props.zoom] - Zoom level for the editor, affecting its scale.
+ * @param {React.RefObject<HTMLDivElement>} props.containerRef - Reference to the editor's container element.
+ *
+ * @returns {JSX.Element} The CodePreview component, which includes the Ace Editor configured for JavaScript editing.
+ *
+ * Redux State Dependencies:
+ * - `appState`: Uses information about the current component focus to load and manage code.
+ *
+ * Effects:
+ * - Initializes the esbuild service on component mount.
+ * - Updates the editor height and internal state when the container's dimensions change.
+ * - Updates Redux with the current code whenever the code in the editor changes.
+ */
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
@@ -90,7 +112,14 @@ const CodePreview: React.FC<{
         transform: `scale(${zoom})`
       }}
     >
-      <div style={{width: '100%', height: '80px', marginTop: '-70px', backgroundColor: '#191919'}}></div>
+      <div
+        style={{
+          width: '100%',
+          height: '80px',
+          marginTop: '-70px',
+          backgroundColor: '#191919'
+        }}
+      ></div>
       <AceEditor
         mode="javascript"
         theme="clouds_midnight"

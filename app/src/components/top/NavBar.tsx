@@ -23,7 +23,26 @@ import { State } from '../../interfaces/Interfaces';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
-const NavBar: React.FC = () => {
+/**
+ * The `NavBar` component serves as the main navigation bar for the application, providing links,
+ * buttons for various actions like publishing/unpublishing projects, and access to additional options
+ * through a dropdown menu. It manages several UI states for visibility of modal dialogs and alerts,
+ * reacting to user inputs and application state changes.
+ *
+ * The component uses Redux for state management to track application states such as whether the user is
+ * logged in, the current project's publication status, and its name. It also handles triggering alerts
+ * for different application events like successful publication or deletion, and errors such as when a
+ * publish action is attempted without being logged in.
+ *
+ * @returns {JSX.Element} A `div` element containing the navigation bar setup with links, buttons, and
+ *                        conditional rendering logic for showing modals and alerts based on the application state.
+ *
+ * This component integrates closely with the application's Redux store to fetch and manipulate the global
+ * state concerning the current project. It also utilizes local state to manage UI-specific concerns like
+ * dropdown menu visibility and modal dialogs for publishing projects. Additionally, it includes error handling
+ * and feedback mechanisms via MUI `Snackbar` components to enhance user interaction and experience.
+ */
+const NavBar: React.FC = (): JSX.Element => {
   const [dropMenu, setDropMenu] = useState(false);
   const state = useSelector((store: RootState) => store.appState);
   const [publishModalOpen, setPublishModalOpen] = useState(false);
@@ -151,7 +170,7 @@ const NavBar: React.FC = () => {
             <h1 style={{ color: '#1e2024' }}>reactype</h1>
           </div>
         </Link>
-        
+
         <div style={buttonContainerStyle}>
           {isMarketplace ? null : state.published ? (
             <button style={buttonStyle} onClick={handleUnpublish}>
