@@ -13,7 +13,24 @@ import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../redux/store';
 import { emitEvent } from '../../../../src/helperFunctions/socket';
 
-const AssignContainer = () => {
+/**
+ * Provides an interface for assigning components to contexts within an application.
+ * The component allows the selection of contexts and components through dropdown menus,
+ * displays related data in tables, and permits the assignment of components to selected contexts.
+ * It leverages Redux for state management and may trigger socket events for real-time updates across sessions.
+ *
+ * This component integrates several subcomponents:
+ * - `ContextDropDown` for selecting contexts which triggers updates to the data table.
+ * - `DataTable` for displaying key-value pairs related to the selected context.
+ * - `ComponentDropDown` for selecting components which triggers updates to the component table.
+ * - `ComponentTable` for displaying a list of contexts associated with a selected component.
+ * - A button for assigning the selected component to the selected context, potentially emitting socket events if a room code is present.
+ *
+ * The state management involves interaction with the Redux store to fetch state information and dispatch actions related to context and component management.
+ *
+ * @returns {JSX.Element} A React component structured with a Grid layout, integrating forms and tables for managing and viewing context and component assignments.
+ */
+const AssignContainer = (): JSX.Element => {
   const dispatch = useDispatch();
   const defaultTableData = [{ key: 'Key', value: 'Value' }];
   const [tableState, setTableState] = React.useState(defaultTableData);

@@ -23,6 +23,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+console.log('process.env.NODE_ENV check', process.env.NODE_ENV);
 
 const PORT = process.env.PORT || DEV_PORT;
 const isDev = process.env.NODE_ENV === 'development';
@@ -49,6 +50,21 @@ app.use(
   })
 );
 
+/**
+ * Middleware function to log each request received by the server. It constructs the full URL of the request
+ * and logs it with the HTTP method to the console before passing control to the next middleware function.
+ *
+ * @param {Object} req - The request object from Express. Provides information about the HTTP request.
+ * @param {Object} res - The response object from Express. Used to send back the desired HTTP response.
+ * @param {Function} next - Callback argument to the middleware function, called to pass control to the next middleware function.
+ */
+function logRequest(req, res, next) {
+  const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+  console.log(`Received request on ${req.method}: ${fullUrl}`);
+  next();
+}
+app.use(logRequest);
+
 //if in production mode, statically serve everything in the build folder on the route '/dist'
 if (process.env.NODE_ENV == 'production') {
   console.log('currently in port', process.env.PORT);
@@ -66,7 +82,7 @@ if (process.env.NODE_ENV == 'production') {
 // NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
 
 const passport = require('passport');
-const passportSetup = require('./routers/passport-setup');
+// const passportSetup = require('./routers/passport-setup');
 const session = require('express-session');
 import authRoutes from './routers/auth';
 
@@ -98,6 +114,11 @@ const io = new Server(httpServer, {
   }
 });
 
+/**
+ * Asynchronously creates a new meeting room using the Video SDK API.
+ *
+ * @returns {Promise<string>} A Promise that resolves with the ID of the created meeting room.
+ */
 const createMeeting = async () => {
   const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
     method: 'POST',
@@ -115,6 +136,12 @@ const createMeeting = async () => {
 const roomLists = {};
 //server listening to new connections
 
+/**
+ * Event handler for new socket connections. Handles the logic related to creating or joining a room, managing users within the room,
+ * and handling disconnections.
+ *
+ * @param {Socket} client - The socket object representing the newly connected client.
+ */
 io.on('connection', (client) => {
   client.on(
     'creating a room',
@@ -258,7 +285,6 @@ io.on('connection', (client) => {
     }
   });
   client.on('addChildAction', (roomCode: string, childData: object) => {
-    // console.log('child data received on server:', childData);
     if (roomCode) {
       //server send the data to everyone in the room
       client.to(roomCode).emit('child data from server', childData);
@@ -266,7 +292,6 @@ io.on('connection', (client) => {
   });
 
   client.on('changeFocusAction', (roomCode: string, focusData: object) => {
-    //console.log('focus data received on server', focusData);
     if (roomCode) {
       //server send the focus data to everyone in room
       client.to(roomCode).emit('focus data from server', focusData);
@@ -274,7 +299,6 @@ io.on('connection', (client) => {
   });
 
   client.on('deleteChildAction', (roomCode: string, deleteData: object) => {
-    //console.log('delete data received on server', deleteData);
     if (roomCode) {
       // server send delete data to everyone in room
       client.to(roomCode).emit('delete data from server', deleteData);
@@ -451,8 +475,11 @@ const resolvers = {
 // Re-direct to route handlers:
 app.use('/user-styles', stylesRouter);
 
-// schemas used for graphQL
-
+/**
+ * GraphQL schema definition for the server. Combines type definitions and resolvers into a single schema.
+ *
+ * @type {import('graphql').GraphQLSchema} - GraphQL schema object representing the server's schema.
+ */
 import typeDefs from './graphQL/schema/typeDefs';
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
@@ -461,7 +488,7 @@ app.post(
   userController.createUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
-  (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
+  (req, res) => res.status(200).json({ message: 'Success' })
 );
 
 app.post(
@@ -482,6 +509,16 @@ app.get(
   cookieController.deleteCookies,
   sessionController.endSession,
   (req, res) => res.status(200).json(res.locals.deleted)
+);
+
+app.patch(
+  '/updatePassword',
+  userController.getUser,
+  userController.updatePassword,
+  cookieController.setSSIDCookie,
+  sessionController.startSession,
+  (req, res) =>
+    res.status(200).json({ sessionId: res.locals.ssid, message: 'Success' })
 );
 
 // user must be logged in to get or save projects, otherwise they will be redirected to login page
@@ -551,12 +588,11 @@ app.get(
 //     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
 //   });
 // }
-
-// app.get('/test', (req, res) => {
-//   res.send('test request is working');
-// });
-
-app.use('/*', (req, res) => res.status(404).send('Page not found'));
+if(isTest){
+app.get('/test', (req, res) => {
+  res.send('test request is working');
+});
+};
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -569,6 +605,8 @@ app.use((err, req, res, next) => {
   const errorObj = Object.assign({}, defaultErr, err);
   return res.status(errorObj.status).json(errorObj);
 });
+
+app.use('/*', (req, res) => res.status(404).send('Page not found'));
 
 // starts server on PORT
 if (!isTest) {

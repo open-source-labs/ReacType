@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import SignIn from '../app/src/components/login/SignIn';
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
@@ -17,35 +18,35 @@ function TestSignIn() {
 }
 
 describe('sign in page', () => {
-  test('should render a login input', () => {
+  it('should render a login input', () => {
     render(<TestSignIn />);
-    expect(screen.getByTestId('username-input')).toBeInTheDocument();
+    expect(screen.getByTestId('username-input')).toBeDefined();
   });
-  test('should render a password field', () => {
+  it('should render a password field', () => {
     render(<TestSignIn />);
-    expect(screen.getByTestId('password-input')).toBeInTheDocument();
+    expect(screen.getByTestId('password-input')).toBeDefined();
   });
-  test('should render 4 login buttons', () => {
+  it('should render 4 login buttons', () => {
     render(<TestSignIn />);
-    expect(screen.getAllByRole('button')).toHaveLength(4);
+    expect(screen.getAllByRole('button')).toHaveLength(1);
   });
-  test('should invalidate empty username field', () => {
+  it('should invalidate empty username field', () => {
     render(<TestSignIn />);
-    fireEvent.click(screen.getAllByRole('button')[1]);
+    fireEvent.click(screen.getByRole('button'));
     waitFor(() => {
-      expect(screen.getByText('No Username Input')).toBeInTheDocument();
+      expect(screen.getByText('No Username Input')).toBeDefined();
     });
   });
-  test('should invalidate empty password field', () => {
+  it('should invalidate empty password field', () => {
     render(<TestSignIn />);
     fireEvent.change(screen.getByRole('textbox'), {
       target: {
         value: 'username'
       }
     });
-    fireEvent.click(screen.getAllByRole('button')[1]);
+    fireEvent.click(screen.getByRole('button'));
     waitFor(() => {
-      expect(screen.getByText('No Password Input')).toBeInTheDocument();
+      expect(screen.getByText('No Password Input')).toBeDefined();
     });
   });
 });

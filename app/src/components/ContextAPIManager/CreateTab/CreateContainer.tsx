@@ -14,7 +14,41 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { emitEvent } from '../../../../src/helperFunctions/socket';
 
-const CreateContainer = () => {
+/**
+ * A React component that provides an interface for managing contexts and their key-value pairs within a Redux state.
+ * It allows users to add new contexts, delete existing ones, and add key-value pairs to specific contexts. This component also supports
+ * real-time synchronization with other clients through socket events if a room code is present.
+ *
+ * Uses `AddContextForm` and `AddDataForm` components for input forms, and `DataTable` to display the current context's key-value pairs.
+ *
+ * @component
+ * @example
+ * ```jsx
+ * <CreateContainer />
+ * ```
+ *
+ * State:
+ * - `contextInput`: Tracks the user's input for adding a new context.
+ * - `currentContext`: Stores the currently selected context for which data is being displayed or modified.
+ * - `errorMsg`: Contains the error message to display based on validation failure.
+ * - `errorStatus`: Boolean to indicate whether an error is present.
+ *
+ * Redux State Dependencies:
+ * - `contextSlice`: Contains all contexts and their respective key-value pairs.
+ * - `roomSlice`: Contains the current room code which is used to identify the room in socket communications.
+ *
+ * Socket Events:
+ * - Emits events for adding or deleting contexts, and adding key-value pairs to a context, if a room code is present.
+ *
+ * Methods:
+ * - `handleClickSelectContext`: Validates the new context name and dispatches actions to add a context in the Redux state and through socket events.
+ * - `handleClickInputData`: Dispatches actions to add a new key-value pair to the selected context in the Redux state and through socket events.
+ * - `handleDeleteContextClick`: Dispatches actions to delete the selected context from the Redux state and through socket events.
+ * - `triggerError`: Sets error messages based on the type of input validation error.
+ *
+ * @returns {JSX.Element} A React component structured with Grid layout, featuring forms for input and a data table for displaying contexts.
+ */
+const CreateContainer = (): JSX.Element => {
   const state = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 

@@ -7,15 +7,22 @@ import {
 } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import MUITypes from '../../redux/MUITypes';
 import Box from '@mui/material/Box';
 import { Component } from '../../interfaces/Interfaces';
 import ReactDOMServer from 'react-dom/server';
 import { RootState } from '../../redux/store';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+// import { blue } from '@mui/material/colors';
+import serverConfig from '../../serverConfig';
+import componentBuilder from '../../helperFunctions/componentBuilder';
+import html from '../../helperFunctions/DemoRenderHTML';
 
-// DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
-// real react components that utilize hot module reloading to depict the user's prototype application.
+/**
+ * DemoRender is a React component that renders a sandbox demo of custom-built React components.
+ * It constructs real React components based on design specifications stored in state and uses hot module reloading to depict the user's prototype application.
+ * @returns {JSX.Element} JSX Element
+ */
 const DemoRender = (): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const stylesheet = useSelector(
@@ -33,57 +40,17 @@ const DemoRender = (): JSX.Element => {
     overflow: 'auto'
   };
 
-  const html = `
-    <html>
-      <head>
-      </head>
-      <body>
-        <div id="app">
-        </div>
-        <script>
-          window.addEventListener('message', (event) => {
-            try {
-              app.innerHTML = event.data;
-              document.querySelectorAll('a').forEach(element => {
-                element.addEventListener('click', (event) => {
-                  event.preventDefault();
-                  window.top.postMessage(event.currentTarget.href, '*');
-                }, true)
-              });
-            } catch (err) {
-              const app = document.querySelector('#app');
-              app.innerHTML = '<div style="color: red;"><h4>Syntax Error</h4>' + err + '</div>';
-            }
-          }, false);
-          const handleClickInsideIframe = () => {
-            window.parent.postMessage('iframeClicked', '*');
-          };
-          const handleMouseUpInsideIframe = () => {
-            window.parent.postMessage('iframeMouseUp', '*');
-          };
-          const handleMouseMoveInsideIframe = (e) => {
-            const msgData = {
-              type: 'iframeMouseMove',
-              clientY: e.clientY + 70 //change the 70 to the value of the height of the navbar
-            }
-            window.parent.postMessage(msgData, '*');
-          };
-          window.addEventListener('click', handleClickInsideIframe);
-          window.addEventListener('mouseup', handleMouseUpInsideIframe);
-          window.addEventListener('mousemove', handleMouseMoveInsideIframe);
-         
-          
-        </script>
-      </body>
-    </html>
-  `;
-
-  window.onmessage = (event) => {
+  /**
+   * Handles messages received from the iframe.
+   * Parses the data to identify the component and updates the focus accordingly.
+   * @param {MessageEvent} event - The event containing the message data.
+   * @returns {void}
+   */
+  window.onmessage = (event: MessageEvent): void => {
     // If event.data or event.data.data is undefined, return early
     if (!event.data || typeof event.data.data !== 'string') return;
 
     const component: string = event.data.data.split('/').at(-1);
-
     // If components aren't defined or component isn't a string, return early
     if (!state.components || !component) return;
 
@@ -97,121 +64,60 @@ const DemoRender = (): JSX.Element => {
     dispatch(changeFocus({ componentId: matchedComponent.id, childId: null }));
   };
 
-  //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
-  //   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
-  const componentBuilder = (array: any, key: number = 0) => {
-    const componentsToRender = [];
-    for (const element of array) {
-      if (element.name !== 'separator') {
-        const elementType = element.name;
-        const childId = element.childId;
-        const elementStyle = element.style;
-        const innerText = element.attributes.compText;
-        const classRender = element.attributes.cssClasses;
-        const activeLink = element.attributes.compLink;
-        let renderedChildren;
-        if (
-          elementType !== 'input' &&
-          elementType !== 'img' &&
-          elementType !== 'Image' &&
-          element.children.length > 0
-        ) {
-          renderedChildren = componentBuilder(element.children);
-        }
-        if (elementType === 'input')
-          componentsToRender.push(
-            <Box
-              component={elementType}
-              className={classRender}
-              style={elementStyle}
-              key={key}
-              id={`rend${childId}`}
-            ></Box>
-          );
-        else if (elementType === 'img')
-          componentsToRender.push(
-            <Box
-              component={elementType}
-              src={activeLink}
-              className={classRender}
-              style={elementStyle}
-              key={key}
-              id={`rend${childId}`}
-            ></Box>
-          );
-        else if (elementType === 'Image')
-          componentsToRender.push(
-            <Box
-              component="img"
-              src={activeLink}
-              className={classRender}
-              style={elementStyle}
-              key={key}
-              id={`rend${childId}`}
-            ></Box>
-          );
-        else if (elementType === 'a' || elementType === 'Link')
-          componentsToRender.push(
-            <Box
-              component="a"
-              href={activeLink}
-              className={classRender}
-              style={elementStyle}
-              key={key}
-              id={`rend${childId}`}
-            >
-              {innerText}
-              {renderedChildren}
-            </Box>
-          );
-        else if (elementType === 'Switch')
-          componentsToRender.push(<Switch>{renderedChildren}</Switch>);
-        else if (elementType === 'Route')
-          componentsToRender.push(
-            <Route exact path={activeLink}>
-              {renderedChildren}
-            </Route>
-          );
-        else
-          componentsToRender.push(
-            <Box
-              component={elementType}
-              className={classRender}
-              style={elementStyle}
-              key={key}
-              id={`rend${childId}`}
-            >
-              {innerText}
-              {renderedChildren}
-            </Box>
-          );
-        key += 1;
-      }
-    }
-    return componentsToRender;
-  };
+  /**
+   * Listens for messages from the iframe and logs them if they're of type 'log'.
+   * @param {MessageEvent} event - The event containing the message data.
+   * @returns {void}
+   */
+  window.addEventListener('message', function (event: MessageEvent): void {
+    if (event.origin !== serverConfig.API_BASE_URL2) return; // Ensure you replace this with your actual iframe origin
 
-  //initializes our 'code' which will be whats actually in the iframe in the demo render
-  //this will reset every time we make a change
+    if (event.data.type === 'log') {
+      console.log(
+        'Iframe log:',
+        event.data.data.map((item) => {
+          try {
+            return JSON.parse(item); // Try to parse each item in case it is a JSON string
+          } catch {
+            return item; // If not a JSON string, return the original item
+          }
+        })
+      );
+    }
+  });
+
+  /**
+   * Initializes the code variable which represents the content to be displayed in the iframe.
+   */
   let code = '';
 
+  // Find the current component in focus
   const currComponent = state.components.find(
     (element) => element.id === state.canvasFocus.componentId
   );
 
-  //writes each component to the code
+  /**
+   * Builds the code variable based on the current component's children.
+   */
   componentBuilder(currComponent.children).forEach((element) => {
-    try {
-      code += ReactDOMServer.renderToString(element);
-    } catch {
-      return;
+    if (typeof element === 'string') {
+      code += element;
+    } else if (React.isValidElement(element)) {
+      try {
+        const reactDomStringRender = ReactDOMServer.renderToString(element);
+        code += reactDomStringRender;
+      } catch {
+        return;
+      }
     }
   });
 
-  //writes our stylesheet from state to the code
+  // writes our stylesheet from state to the code
   code += `<style>${stylesheet}</style>`;
 
-  //adds the code into the iframe
+  /**
+   * Loads the code into the iframe when it is loaded or when the code changes.
+   */
   useEffect(() => {
     //load the current state code when the iframe is loaded and when code changes
     iframe.current.addEventListener('load', () => {
@@ -225,7 +131,7 @@ const DemoRender = (): JSX.Element => {
       <div id={'renderFocus'} style={demoContainerStyle}>
         <iframe
           ref={iframe}
-          sandbox="allow-scripts"
+          sandbox="allow-scripts allow-forms allow-same-origin"
           srcDoc={html}
           width="100%"
           height="100%"

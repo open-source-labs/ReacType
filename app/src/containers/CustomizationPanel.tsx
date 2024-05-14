@@ -42,8 +42,24 @@ import { RootState } from '../redux/store';
 import { emitEvent } from '../helperFunctions/socket';
 import { Number } from 'mongoose';
 
-// Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
-// need to pass in props to use the useHistory feature of react router
+/**
+ * `CustomizationPanel` is a complex React component designed to provide a user interface for modifying the attributes,
+ * styles, and event handlers of components or HTML elements within a visual editor. This panel allows users to
+ * adjust CSS properties, bind events, and manage component links and texts. It supports complex conditional rendering
+ * based on the application's state and user interactions, including support for undo/redo actions, deleting instances,
+ * and handling responsive design settings.
+ *
+ * @param {Object} props - Props for `CustomizationPanel`.
+ * @param {boolean} props.isThemeLight - Indicates whether the light theme is currently active.
+ * @returns {JSX.Element} The rendered JSX of the CustomizationPanel, which includes various interactive elements for customization.
+ *
+ * The component uses numerous hooks for managing local state (like `useState` for local variables and `useEffect` for lifecycle management),
+ * and Redux hooks (like `useDispatch` and `useSelector`) to interact with the global state. The component dynamically adjusts its layout and
+ * functionality based on the selected component or HTML element, facilitating extensive customization capabilities. It leverages custom hooks
+ * and functions to compute values dynamically, apply changes through dispatch actions, and handle complex conditions such as the presence
+ * or absence of specific attributes or styles. Additionally, the component includes accessibility features, error handling, and a modal system
+ * for user confirmations and actions.
+ */
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const dispatch = useDispatch();
@@ -56,6 +72,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
+  const [flexOptionsVisible, setFlexOptionsVisible] = useState(false);
   const [BGColor, setBGColor] = useState('');
   const [compText, setCompText] = useState('');
   const [compLink, setCompLink] = useState('');
@@ -69,7 +86,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
   const [eventAll, setEventAll] = useState(['', '']);
+  const [eventOptionsVisible, setEventOptionsVisible] = useState(false);
   const [eventRow, setEventRow] = useState([]);
+  const [eventRowsVisible, setEventRowsVisible] = useState(false);
 
   const currFocus = getFocus().child;
 
@@ -85,6 +104,35 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       setEventRow(addedEvent);
     }
   }, [state]);
+
+  useEffect(() => {
+    if (displayMode === 'flex') {
+      return setFlexOptionsVisible(true);
+    }
+    return setFlexOptionsVisible(false);
+  }, [displayMode]);
+
+  useEffect(() => {
+    if (eventAll[0] !== '') {
+      return setEventOptionsVisible(true);
+    }
+    return setEventOptionsVisible(false);
+  }, [eventAll]);
+
+  useEffect(() => {
+    if (eventRow.length) {
+      return setEventRowsVisible(true);
+    }
+    return setEventRowsVisible(false);
+  }, [eventRow]);
+
+  const marginTopAmount = () => {
+    let totalMargin = 0;
+    if (eventOptionsVisible) totalMargin += 90;
+    if (flexOptionsVisible) totalMargin = Math.max(totalMargin, 210);
+    if (eventRowsVisible) totalMargin = Math.max(totalMargin, 335);
+    return `${totalMargin}px`;
+  };
 
   //this function allows properties to persist and appear in nested divs
   function deepIterate(arr) {
@@ -128,7 +176,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     resetFields();
   }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
   // handles all input field changes, with specific updates called based on input's name
-  const handleChange = (e: React.ChangeEvent<{ value: any }>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputVal = e.target.value;
     switch (e.target.name) {
       case 'display':
@@ -394,9 +442,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         style: styleObj,
         events: eventsObj
       });
-      // console.log(
-      //   'emit updateChildAction event is triggered in CustomizationPanel.tsx'
-      // );
     }
 
     return styleObj;
@@ -426,9 +471,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         id: {},
         contextParam: contextParam
       });
-      // console.log(
-      //   'emit deleteChildAction event is triggered in CustomizationPanel.tsx'
-      // );
     }
   };
 
@@ -862,7 +904,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               )}
             </div>
           </section>
-          <div className={classes.buttonRow}>
+          <div
+            className={classes.buttonRow}
+            style={{ marginTop: marginTopAmount() }}
+          >
             <div>
               <Button
                 variant="contained"
@@ -957,7 +1002,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </Button>
               </div>
             )}
-            <div style={{marginLeft: '17px'}}>
+            <div style={{ marginLeft: '17px' }}>
               <Button
                 variant="contained"
                 color="primary"
@@ -1039,6 +1084,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    marginLeft: '15px',
     '& > .MuiButton-textSecondary': {
       color: isThemeLight ? '#808080' : '#ECECEA', // color for delete page
       border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'

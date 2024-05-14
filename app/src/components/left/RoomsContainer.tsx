@@ -59,7 +59,26 @@ import {
   addComponentToContext
 } from '../../../src/redux/reducers/slice/contextReducer';
 
-const RoomsContainer = () => {
+/**
+ * RoomsContainer handles the UI and logic for creating or joining collaboration rooms
+ * within the application. It allows users to enter or leave collaboration rooms, manage
+ * room settings, and handle real-time interactions via websockets.
+ *
+ * The component manages several states like room code, user name, and password, and
+ * displays different UIs based on whether the user is currently in a room or not.
+ * It handles socket connections, emits events to the server, and responds to events
+ * from the server.
+ *
+ * Features:
+ * - Create a new collaboration room.
+ * - Join an existing collaboration room.
+ * - Leave a collaboration room.
+ * - Display a list of current users in the room.
+ * - Handle errors like incorrect room name or password.
+ *
+ * @returns {JSX.Element} The component UI with interactive elements based on the user's state.
+ */
+const RoomsContainer = (): JSX.Element => {
   const [isJoinCallabRoom, setIsJoinCollabRoom] = useState(false);
   const [joinedPasswordAttempt, setJoinedPasswordAttempt] = useState('');
   const [isPasswordAttemptIncorrect, setIsPasswordAttemptIncorrect] =
@@ -74,7 +93,6 @@ const RoomsContainer = () => {
   const roomPassword = useSelector(
     (store: RootState) => store.roomSlice.password
   );
-
 
   const userJoinCollabRoom = useSelector(
     (store: RootState) => store.roomSlice.userJoinCollabRoom
@@ -123,7 +141,6 @@ const RoomsContainer = () => {
 
       socket.on('room does not exist', () => {
         setIsRoomAvailable(false);
-
       });
       //If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {
@@ -134,7 +151,6 @@ const RoomsContainer = () => {
       //If you are the new user: receive the state from the host
       socket.on('server emitting state from host', (state, callback) => {
         //dispatching new state to change user current state
-        // console.log('state received by new join:', state);
         store.dispatch(allCooperativeState(state.appState));
         store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
         store.dispatch(cooperativeStyle(state.styleSlice));
@@ -143,7 +159,6 @@ const RoomsContainer = () => {
 
       // update user list when there's a change: new join or leave the room
       socket.on('update room information', (messageData) => {
-        //console.log('user list received from server');
         if (messageData.userList) dispatch(setUserList(messageData.userList));
         if (messageData.meetingId)
           dispatch(setMeetingId(messageData.meetingId));
@@ -160,19 +175,16 @@ const RoomsContainer = () => {
 
       // dispatch add child to local state when element has been added by another user
       socket.on('child data from server', (childData: object) => {
-        // console.log('child data received by users', childData);
         store.dispatch(addChild(childData));
       });
 
       // dispatch changeFocus to local state when another user has changed focus by selecting element on canvas
       socket.on('focus data from server', (focusData: object) => {
-        // console.log('focus data received from server', focusData);
         store.dispatch(changeFocus(focusData));
       });
 
       // dispatch deleteChild to local state when another user has deleted an element
       socket.on('delete data from server', (deleteData: object) => {
-        // console.log('delete data received from server', deleteData);
         store.dispatch(deleteChild(deleteData));
       });
 
@@ -180,7 +192,6 @@ const RoomsContainer = () => {
       socket.on(
         'delete element data from server',
         (deleteElementData: object) => {
-          // console.log('delete element data received from server', deleteElementData);
           store.dispatch(deleteElement(deleteElementData));
         }
       );
@@ -192,7 +203,6 @@ const RoomsContainer = () => {
 
       // dispatch all updates to local state when another user has saved from Bottom Panel
       socket.on('update data from server', (updateData: BottomPanelObj) => {
-        // console.log('update data received from server', updateData);
         store.dispatch(
           updateStateUsed({
             stateUsedObj: updateData.stateUsedObj,
@@ -227,7 +237,6 @@ const RoomsContainer = () => {
 
       // dispatch update style in local state when CSS panel is updated on their side
       socket.on('update css data from server', (cssData: object) => {
-        // console.log('CSS data received from server', cssData);
         store.dispatch(updateStylesheet(cssData));
       });
 
@@ -235,10 +244,6 @@ const RoomsContainer = () => {
       socket.on(
         'item position data from server',
         (itemPositionData: object) => {
-          // console.log(
-          //   'item position data received from server',
-          //   itemPositionData
-          // );
           store.dispatch(changePosition(itemPositionData));
         }
       );

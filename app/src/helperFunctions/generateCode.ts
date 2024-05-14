@@ -2,6 +2,8 @@ import {
   Component,
   ChildElement,
   HTMLType,
+  MUIType,
+  MUIComponent,
   ChildStyle,
   StateProp
 } from '../interfaces/Interfaces';
@@ -10,392 +12,716 @@ declare global {
     api: any;
   }
 }
-// generate code based on component hierarchy and then return the rendered code
+
+let muiGenerator;
+let handleRouteLink;
+let insertNestedJsxBeforeClosingTag;
+let modifyAndIndentJsx;
+let insertAttribute;
+let writeStateProps;
+let createRender;
+let indentLinesExceptFirst;
+let createContextImport;
+let createEventHandler;
+let getEnrichedChildren;
+let formatStyles;
+let elementTagDetails;
+let writeNestedElements;
+let generateMUIImportStatements;
+let generateStateAndEventHandlerCode;
+let tabSpacer;
+let levelSpacer;
+let elementGenerator;
+let collectMUIImports;
+let collectStateAndEventHandlers;
+
+/**
+ * Generates code based on the component hierarchy and returns the rendered code.
+ * @param {Component[]} components - Array of components in the hierarchy.
+ * @param {number} componentId - The ID of the component to generate code for.
+ * @param {number[]} rootComponents - Array of root component IDs.
+ * @param {string} projectType - The type of project (e.g., 'Classic React', 'Next.js', 'Gatsby.js').
+ * @param {HTMLType[]} HTMLTypes - Array of HTML types.
+ * @param {MUIType[]} MUITypes - Array of Material UI types.
+ * @param {boolean} tailwind - Indicates whether Tailwind CSS is used.
+ * @param {any} contextParam - Additional parameters related to context (if any).
+ * @returns {string} - The formatted code.
+ */
 const generateCode = (
   components: Component[],
   componentId: number,
   rootComponents: number[],
   projectType: string,
   HTMLTypes: HTMLType[],
+  MUITypes: MUIType[],
   tailwind: boolean,
   contextParam: any
-) => {
+): string => {
   const code = generateUnformattedCode(
     components,
     componentId,
     rootComponents,
     projectType,
     HTMLTypes,
+    MUITypes,
     tailwind,
     contextParam
   );
   return formatCode(code);
 };
 
-// generate code based on the component hierarchy
+/**
+ * Generates unformatted code based on the component hierarchy and returns the rendered code.
+ * @param {Component[]} comps - Array of components in the hierarchy.
+ * @param {number} componentId - The ID of the component to generate code for.
+ * @param {number[]} rootComponents - Array of root component IDs.
+ * @param {string} projectType - The type of project (e.g., 'Classic React', 'Next.js', 'Gatsby.js').
+ * @param {HTMLType[]} HTMLTypes - Array of HTML types.
+ * @param {MUIType[]} MUITypes - Array of Material UI types.
+ * @param {boolean} tailwind - Indicates whether Tailwind CSS is used.
+ * @param {any} contextParam - Additional parameters related to context (if any).
+ * @returns {string} - The unformatted code.
+ */
 const generateUnformattedCode = (
   comps: Component[],
   componentId: number,
   rootComponents: number[],
   projectType: string,
   HTMLTypes: HTMLType[],
+  MUITypes: MUIType[],
   tailwind: boolean,
   contextParam: any
-) => {
+): string => {
   const components = [...comps];
   // find the component that we're going to generate code for
-  const currComponent = components.find((elem) => elem.id === componentId);
+  const currComponent: Component | ChildElement | MUIComponent =
+    components.find((elem) => elem.id === componentId);
   // find the unique components that we need to import into this component file
   let imports: any = [];
+  let muiImports: Set<string> = new Set();
+  let muiStateAndEventHandlers: Set<string> = new Set();
   let providers: string = '';
   let context: string = '';
   let links: boolean = false;
   let images: boolean = false;
   const isRoot = rootComponents.includes(componentId);
   let importReactRouter = false;
-  // returns an array of objects which may include components, html elements, and/or route links
-  const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
-    // declare an array of enriched children
-    const enrichedChildren = currentComponent.children?.map((elem: any) => {
-      //enrichedChildren is iterating through the children array
-      const child: ChildElement = { ...elem };
-      // check if child is a component
-      if (child.type === 'Component') {
-        // verify that the child is in the components array in state
-        const referencedComponent = components.find(
-          (elem) => elem.id === child.typeId
-        );
-        // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
-        if (!imports.includes(referencedComponent.name))
-          imports.push(referencedComponent.name);
-        child['name'] = referencedComponent.name;
-        return child;
-      } else if (child.type === 'HTML Element') {
-        const referencedHTML = HTMLTypes.find(
-          (elem) => elem.id === child.typeId
-        );
-        child['tag'] = referencedHTML.tag;
-        if (
-          referencedHTML.tag === 'h1' ||
-          referencedHTML.tag === 'h2' ||
-          referencedHTML.tag === 'a' ||
-          referencedHTML.tag === 'p' ||
-          referencedHTML.tag === 'button' ||
-          referencedHTML.tag === 'span' ||
-          referencedHTML.tag === 'div' ||
-          referencedHTML.tag === 'separator' ||
-          referencedHTML.tag === 'form' ||
-          referencedHTML.tag === 'ul' ||
-          referencedHTML.tag === 'ol' ||
-          referencedHTML.tag === 'menu' ||
-          referencedHTML.tag === 'li' ||
-          referencedHTML.tag === 'Link' ||
-          referencedHTML.tag === 'Switch' ||
-          referencedHTML.tag === 'Route'
-        ) {
-          child.children = getEnrichedChildren(child);
-        }
 
-        // when we see a Switch or LinkTo, import React Router
-        if (
-          (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Route') &&
-          projectType === 'Classic React'
-        )
-          importReactRouter = true;
-        else if (referencedHTML.tag === 'Link') links = true;
-        if (referencedHTML.tag === 'Image') images = true;
-        return child;
-      } else if (child.type === 'Route Link') {
-        links = true;
-        child.name = components.find(
-          (comp: Component) => comp.id === child.typeId
-        ).name;
-        return child;
+  /**
+   * Recursively processes the children of a component, enriching them with additional information.
+   * Differentiates between regular components, HTML elements, Material UI components, and route links.
+   * @param {Component | ChildElement | MUIComponent} currentComponent - The component whose children need to be processed.
+   * @returns {Array<ChildElement | MUIComponent>} - An array of objects representing enriched children, including components, HTML elements,
+   * Material UI components, and route links.
+   */
+  getEnrichedChildren = (currentComponent) => {
+    const enrichedChildren = [];
+
+    currentComponent.children.forEach((child) => {
+      const newChild = { ...child };
+      switch (child.type) {
+        case 'Component':
+          const component = components.find((c) => c.id === child.typeId);
+          if (component) {
+            newChild.name = component.name;
+            newChild.children = getEnrichedChildren(component); // Ensure recursion
+          }
+          break;
+
+        case 'MUI Component':
+          const muiComponent = MUITypes.find((m) => m.id === child.typeId);
+          if (muiComponent) {
+            newChild.tag = muiComponent.tag;
+            // Always process children if they exist, even if the current MUI component is not typically container-like
+            if (child.children && child.children.length > 0) {
+              newChild.children = getEnrichedChildren(child);
+            }
+            collectMUIImports(child, MUITypes, muiImports);
+            collectStateAndEventHandlers(
+              child,
+              MUITypes,
+              muiStateAndEventHandlers
+            );
+          }
+          break;
+
+        case 'HTML Element':
+          const htmlElement = HTMLTypes.find((h) => h.id === child.typeId);
+          newChild.tag = htmlElement.tag;
+          if (child.children && child.children.length > 0) {
+            newChild.children = getEnrichedChildren(child);
+          }
+          break;
+
+        default:
+          console.warn('Unhandled component type: ', child.type);
+          break;
       }
+
+      enrichedChildren.push(newChild);
     });
+
     return enrichedChildren;
   };
-  // Raised formatStyles so that it is declared before it is referenced. It was backwards.
-  // format styles stored in object to match React inline style format
-  const formatStyles = (styleObj: ChildStyle) => {
-    if (Object.keys(styleObj).length === 0) return ``;
-    const formattedStyles: String[] = [];
-    let styleString: String;
-    for (let i in styleObj) {
-      if (i === 'style') {
-        styleString = i + '=' + '{' + JSON.stringify(styleObj[i]) + '}';
-        formattedStyles.push(styleString);
+
+  /**
+   * Convert styles stored in an object to React inline style format.
+   * @param {object} styleObj - The object containing styles to format.
+   * @returns {string} - The formatted styles in React inline style format.
+   */
+  formatStyles = (styleObj): string => {
+    // check if the style object is empty
+    if (Object.keys(styleObj).length === 0) return '';
+    // Convert the style object to a string in React inline style format
+    return `style={{${Object.entries(styleObj)
+      .map(([key, value]) => `${key}: '${value}'`)
+      .join(', ')}}}`; // Join key-value pairs with commas and enclose in double curly braces
+  };
+
+  // LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
+  /**
+   * Generates details such as classes, ids, styles, and event handlers for a given child element.
+   * @param {ChildElement} childElement - The child element to generate details for.
+   * @returns {string} - The generated details as a string.
+   */
+  elementTagDetails = (childElement): string => {
+    const details = [];
+    // Add id attribute if childId exists and the element is not a Route
+    if (childElement.childId && childElement.tag !== 'Route') {
+      details.push(`id="${childElement.childId}"`);
+    }
+    // Add className attribute if cssClasses exist
+    if (childElement.attributes && childElement.attributes.cssClasses) {
+      details.push(`className="${childElement.attributes.cssClasses}"`);
+    }
+    // Add styles if they exist
+    if (childElement.style && Object.keys(childElement.style).length > 0) {
+      if (tailwind) {
+        // Assuming 'tailwind' variable is globally available
+        const {
+          height,
+          alignItems,
+          backgroundColor,
+          display,
+          flexDirection,
+          width,
+          justifyContent
+        } = childElement.style;
+        const classMap = {
+          alignItems: {
+            center: 'items-center',
+            'flex-start': 'items-start',
+            'flex-end': 'items-end',
+            stretch: 'items-stretch'
+          },
+          display: {
+            flex: 'flex',
+            'inline-block': 'inline-block',
+            block: 'block',
+            none: 'hidden'
+          },
+          flexDirection: {
+            column: 'flex-col'
+          },
+          justifyContent: {
+            center: 'justify-center',
+            'flex-start': 'justify-start',
+            'space-between': 'justify-between',
+            'space-around': 'justify-around',
+            'flex-end': 'justify-end',
+            'space-evenly': 'justify-evenly'
+          },
+          height: {
+            '100%': 'h-full',
+            '50%': 'h-1/2',
+            '25%': 'h-1/4',
+            auto: 'auto'
+          },
+          width: {
+            '100%': 'w-full',
+            '50%': 'w-1/2',
+            '25%': 'w-1/4',
+            auto: 'w-auto'
+          }
+        };
+
+        let classes = [
+          classMap.alignItems[alignItems],
+          classMap.display[display],
+          classMap.flexDirection[flexDirection],
+          classMap.height[height],
+          classMap.justifyContent[justifyContent],
+          classMap.width[width],
+          backgroundColor ? `bg-[${backgroundColor}]` : ''
+        ]
+          .filter(Boolean)
+          .join(' ');
+
+        if (childElement.attributes && childElement.attributes.cssClasses) {
+          classes += ` ${childElement.attributes.cssClasses}`;
+        }
+
+        details.push(`className="${classes}"`);
+      } else {
+        details.push(formatStyles(childElement.style));
       }
     }
-    return formattedStyles;
-  };
-  // function to dynamically add classes, ids, and styles to an element if it exists.
-  //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
-  const elementTagDetails = (childElement: ChildElement) => {
-    let customizationDetails = '';
-    let passedInPropsString = '';
-    if (childElement.type === 'Component') {
-      let childComponent: Component;
-      for (let i = 0; i < components.length; i++) {
-        if (childElement.name === components[i].name) {
-          childComponent = components[i];
-        }
-      }
-      childComponent.passedInProps.forEach((prop) => {
-        passedInPropsString += `${prop.key} = {${prop.key}} `;
+    // Add event handlers if they exist
+    if (childElement.events) {
+      Object.entries(childElement.events).forEach(([event, funcName]) => {
+        details.push(`${event}={${funcName}}`);
       });
     }
+    // Join details into a single string and return
+    return details.join(' ');
+  };
 
-    if (childElement.childId && childElement.tag !== 'Route')
-      customizationDetails +=
-        ' ' + `id="${+childElement.childId}" ` + `${passedInPropsString}`;
+  /**
+   * Generates a string consisting of spaces to represent indentation for a given level.
+   * @param {number} level - The level of indentation.
+   * @returns {string} - The string representing the indentation.
+   */
+  tabSpacer = (level: number): string => '  '.repeat(level);
 
-    if (
-      childElement.attributes &&
-      childElement.attributes.cssClasses &&
-      !tailwind
-    ) {
-      customizationDetails +=
-        ' ' + `className="${childElement.attributes.cssClasses}"`;
-    }
-    if (
-      childElement.style &&
-      Object.keys(childElement.style).length > 0 &&
-      tailwind === false
-    )
-      customizationDetails += ' ' + formatStyles(childElement.style);
-    if (
-      childElement.style &&
-      Object.keys(childElement.style).length > 0 &&
-      tailwind === true
-    ) {
-      let {
-        height,
-        alignItems,
-        backgroundColor,
-        display,
-        flexDirection,
-        width,
-        justifyContent
-      } = childElement.style;
-      let w: String,
-        h: String,
-        items: String,
-        bg: String,
-        d: String,
-        flexDir: String,
-        justCon: String,
-        cssClasses: String;
-      if (childElement.style.alignItems) {
-        if (alignItems === 'center') items = 'items-center ';
-        else if (alignItems === 'flex-start') items = 'items-start ';
-        else if (alignItems === 'flex-end') items = 'items-end ';
-        else if (alignItems === 'stretch') items = 'items-stretch ';
-      }
-      if (childElement.style.backgroundColor) {
-        bg = `bg-[${backgroundColor}] `;
-      }
-      if (childElement.style.display) {
-        if (display === 'flex') d = 'flex ';
-        else if (display === 'inline-block') d = 'inline-block ';
-        else if (display === 'block') d = 'block ';
-        else if (display === 'none') d = 'hidden ';
-      }
-      if (childElement.style.flexDirection) {
-        if (flexDirection === 'column') flexDir = 'flex-col ';
-      }
-      if (childElement.style.height) {
-        if (height === '100%') h = 'h-full ';
-        else if (height === '50%') h = 'h-1/2 ';
-        else if (height === '25%') h = 'h-1/4 ';
-        else if (height === 'auto') h = 'auto ';
-      }
-      if (childElement.style.justifyContent) {
-        if (justifyContent === 'center') justCon = 'justify-center ';
-        else if (justifyContent === 'flex-start') justCon = 'justify-start ';
-        else if (justifyContent === 'space-between')
-          justCon = 'justify-between ';
-        else if (justifyContent === 'space-around') justCon = 'justify-around ';
-        else if (justifyContent === 'flex-end') justCon = 'justify-end ';
-        else if (justifyContent === 'space-evenly') justCon = 'justify-evenly ';
-      }
-      if (childElement.style.width) {
-        if (width === '100%') w = 'w-full ';
-        else if (width === '50%') w = 'w-1/2 ';
-        else if (width === '25%') w = 'w-1/4 ';
-        else if (width === 'auto') w = 'w-auto ';
-      }
-      if (childElement.attributes && childElement.attributes.cssClasses) {
-        cssClasses = `${childElement.attributes.cssClasses} `;
-      }
-      customizationDetails +=
-        ' ' +
-        `className = "${cssClasses ? cssClasses : ''} ${w ? w : ''}${
-          h ? h : ''
-        }${justCon ? justCon : ''}${flexDir ? flexDir : ''}${d ? d : ''}${
-          bg ? bg : ''
-        }${items ? items : ''}"`;
+  /**
+   * Generates a string consisting of new lines and indentation to represent spacing for a given level.
+   * @param {number} level - The level of spacing.
+   * @returns {string} - The string representing the spacing.
+   */
+  levelSpacer = (level: number): string => `\n${tabSpacer(level)}`;
+
+  /**
+   * Generates JSX elements based on the provided child element.
+   * @param {object} childElement - The child element for which JSX is to be generated.
+   * @param {number} [level=0] - The nesting level of the element. Default is 0.
+   * @returns {string[]} - An array of strings representing JSX elements.
+   */
+  elementGenerator = (
+    childElement: ChildElement,
+    level: number = 0
+  ): string[] => {
+    const jsxArray = [];
+    const indentation = '  '.repeat(level);
+
+    // Immediately return an empty array if the tag is 'separator'
+    if (childElement.tag === 'separator') {
+      return jsxArray; // Returns empty, adding nothing to output
     }
 
-    if (childElement.events && Object.keys(childElement.events).length > 0) {
-      // SPACE BETWEEN ATTRIBUTE EXPRESSIONS
-      for (const [event, funcName] of Object.entries(childElement.events)) {
-        customizationDetails += ' ' + `${event}={(event) => ${funcName}()}`;
-      }
-    }
-
-    return customizationDetails;
-  };
-  // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
-  const tabSpacer = (level: number) => {
-    let tabs = '  ';
-    for (let i = 0; i < level; i++) tabs += '  ';
-    return tabs;
-  };
-  // function to dynamically generate the appropriate levels for the code preview
-  const levelSpacer = (level: number, spaces: number) => {
-    if (level === 2) return `\n${tabSpacer(spaces)}`;
-    else return '';
-  };
-  // function to dynamically generate a complete html (& also other library type) elements
-  const elementGenerator = (childElement: ChildElement, level: number = 2) => {
     let innerText = '';
     let activeLink = '""';
+
     if (childElement.attributes && childElement.attributes.compText) {
-      if (childElement.stateUsed && childElement.stateUsed.compText) {
-        innerText = '{' + childElement.stateUsed.compText + '}';
-      } else {
-        innerText = childElement.attributes.compText;
-      }
+      innerText =
+        childElement.stateUsed && childElement.stateUsed.compText
+          ? `{${childElement.stateUsed.compText}}`
+          : childElement.attributes.compText;
     }
+
     if (childElement.attributes && childElement.attributes.compLink) {
-      if (childElement.stateUsed && childElement.stateUsed.compLink) {
-        activeLink = '{' + childElement.stateUsed.compLink + '}';
+      activeLink =
+        childElement.stateUsed && childElement.stateUsed.compLink
+          ? `{${childElement.stateUsed.compLink}}`
+          : `"${childElement.attributes.compLink}"`;
+    }
+
+    const nestableTags = [
+      'h1',
+      'h2',
+      'a',
+      'span',
+      'button',
+      'p',
+      'div',
+      'form',
+      'ol',
+      'ul',
+      'menu',
+      'li',
+      'Switch',
+      'Route'
+    ];
+    const isNestable = nestableTags.includes(childElement.tag);
+
+    const tagDetails = elementTagDetails(childElement);
+    if (isNestable) {
+      if (childElement.children) {
+        const childJsx = writeNestedElements(childElement.children, level + 1);
+        jsxArray.push(`${indentation}<${childElement.tag} ${tagDetails}>`);
+        jsxArray.push(...childJsx);
+        jsxArray.push(`${indentation}</${childElement.tag}>`);
       } else {
-        activeLink = '"' + childElement.attributes.compLink + '"';
+        jsxArray.push(`${indentation}<${childElement.tag} ${tagDetails} />`);
       }
+    } else {
+      jsxArray.push(
+        `${indentation}<${childElement.tag} ${tagDetails}>${innerText}</${childElement.tag}>`
+      );
     }
 
-    const nestable =
-      childElement.tag === 'h1' ||
-      childElement.tag === 'h2' ||
-      childElement.tag === 'a' ||
-      childElement.tag === 'span' ||
-      childElement.tag === 'button' ||
-      childElement.tag === 'p' ||
-      childElement.tag === 'div' ||
-      childElement.tag === 'form' ||
-      childElement.tag === 'ol' ||
-      childElement.tag === 'ul' ||
-      childElement.tag === 'menu' ||
-      childElement.tag === 'li' ||
-      childElement.tag === 'Switch' ||
-      childElement.tag === 'Route';
+    return jsxArray;
+  };
 
-    if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(
-        2,
-        3 + level
-      )}`;
-    } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${
-        childElement.tag
-      }>${levelSpacer(2, 3 + level)}`;
-    } else if (childElement.tag === 'input') {
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
-        childElement
-      )}></${childElement.tag}>${levelSpacer(2, 3 + level)}`;
-    } else if (childElement.tag === 'Link' && projectType === 'Classic React') {
-      return `${levelSpacer(level, 5)}<Link to=${activeLink}${elementTagDetails(
-        childElement
-      )}>
-        ${tabSpacer(level)}${writeNestedElements(
-        childElement.children,
-        level + 1
-      )}${innerText}
-        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, 3 + level)}`;
-    } else if (childElement.tag === 'Link' && projectType === 'Next.js') {
-      return `${levelSpacer(
-        level,
-        5
-      )}<Link href=${activeLink}${elementTagDetails(childElement)}>
-        ${tabSpacer(level)}<a>${innerText}${writeNestedElements(
-        childElement.children,
-        level + 1
-      )}</a>
-        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, 3 + level)}`;
-    } else if (childElement.tag === 'Image') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } src=${activeLink} ${elementTagDetails(childElement)}/>`;
-    } else if (nestable) {
+  /**
+   * Inserts nested JSX before the closing tag of a parent JSX element.
+   * @param {string} parentJsx The JSX of the parent element.
+   * @param {string[]} nestedJsx The nested JSX elements to insert.
+   * @param {number} indentationLevel The level of indentation for the nested JSX.
+   * @returns {string} The updated JSX string with nested elements inserted.
+   */
+  insertNestedJsxBeforeClosingTag = (
+    parentJsx: string,
+    nestedJsx: string[],
+    indentationLevel: number
+  ): string => {
+    // Find the index of the closing tag of the parent component
+    const closingTagIndex = parentJsx.lastIndexOf('</');
+    if (closingTagIndex === -1) return parentJsx; // No closing tag found, likely a self-closing tag
+
+    // Generate the indentation string for nested elements
+    const indent = '  '.repeat(indentationLevel);
+
+    // Prepare the nested JSX with proper indentation
+    const indentedNestedJsx = nestedJsx
+      .map((line) => `${indent}${line}`)
+      .join('\n');
+
+    // Insert the nested JSX before the closing tag of the parent component
+    return [
+      parentJsx.slice(0, closingTagIndex),
+      indentedNestedJsx,
+      parentJsx.slice(closingTagIndex)
+    ].join('\n');
+  };
+
+  /**
+   * Inserts a specified attribute into a JSX string at a given index. This function ensures
+   * correct formatting by maintaining exactly one space before and after the inserted attribute.
+   * It effectively manages whitespace to prevent issues such as double spaces or missing spaces
+   * around the newly inserted attribute. This function specifically preserves the structural integrity
+   * of JSX tags, avoiding alterations to the closing '>' or unintended removal of critical syntax elements.
+   *
+   * @param {string} line - The original JSX string where the attribute will be inserted. This string
+   *                        should already include the opening tag of a JSX element.
+   * @param {number} index - The position within the string to insert the attribute. This index should
+   *                         ideally be placed right after the component name or the last attribute before
+   *                         the closing '>' of the tag.
+   * @param {string} attribute - The attribute to insert into the JSX string. This parameter should include
+   *                             both the attribute name and its value (e.g., `type="button"`), and must be
+   *                             properly formatted as it would appear in JSX.
+   * @returns {string} - The modified JSX string with the new attribute inserted at the specified position,
+   *                     ensuring correct formatting and spacing are maintained.
+   */
+  insertAttribute = (
+    line: string,
+    index: number,
+    attribute: string
+  ): string => {
+    const before = line.substring(0, index);
+
+    // Remove only leading spaces from `after`, not the '>'
+    const after = line.substring(index).replace(/^\s+/, '');
+
+    // Ensure there is exactly one space before and after the inserted attribute, without removing '>'
+    return `${before} ${attribute.trim()} ${after}`;
+  };
+
+  /**
+   * Modifies JSX array by inserting 'id' and 'newProps' attributes into the specified component.
+   * The function ensures that each attribute is added with correct formatting and spacing,
+   * preserving the original indentation of each line for consistent layout.
+   *
+   * @param {string[]} jsxAry - The array of JSX strings to be modified.
+   * @param {string} newProps - The new properties to add, formatted as a single string.
+   * @param {string} childId - The ID value to be used in the 'id' attribute, should not include 'id='.
+   * @param {string} name - The name of the component to which the 'id' and 'newProps' are added.
+   * @param {string} key - A unique key for the 'id' attribute, typically the same as 'childId'.
+   * @returns {string[]} - The modified array of JSX strings with the new attributes added.
+   */
+  modifyAndIndentJsx = (
+    jsxAry: string[],
+    newProps: string,
+    childId: string,
+    name: string,
+    key: string
+  ): string[] => {
+    const tagRegExp = new RegExp(`^<${name}(\\s|>)`);
+
+    const modifiedJsx = jsxAry.map((line, index) => {
+      const originalIndent = line.match(/^[\s]*/)[0];
+      const trimmedLine = line.trim();
+
+      // Only modify lines that contain the start tag of the specified child element
+      if (tagRegExp.test(trimmedLine)) {
+        let modifiedLine = trimmedLine;
+
+        // Position to insert id and newProps, right after the component name
+        let insertIndex = trimmedLine.indexOf(name) + name.length;
+
+        // Check if 'id' is present and modify or insert accordingly
+        const idRegex = /id="[^"]*"/;
+        const idMatch = trimmedLine.match(idRegex);
+        if (idMatch) {
+          // If an 'id' attribute is already present, append the key to its value
+          const idContent = idMatch[0].slice(0, -1) + ` ${key}"`; // Assumes existing id does not end with a space
+          modifiedLine = modifiedLine.replace(idRegex, idContent);
+        } else if (childId) {
+          // Insert 'id' attribute if it's not present and a childId is provided
+          modifiedLine = insertAttribute(
+            modifiedLine,
+            insertIndex,
+            `id="${key}"`
+          );
+          insertIndex += ` id="${key}"`.length; // Update index to account for added id length
+        }
+
+        // Insert newProps at the updated insertion index
+        if (newProps) {
+          modifiedLine = insertAttribute(modifiedLine, insertIndex, newProps);
+        }
+
+        // Return the modified line with original indentation preserved
+        return originalIndent + modifiedLine;
+      }
+
+      // Return the line unchanged if it doesn't contain the start tag
+      return line;
+    });
+
+    return modifiedJsx;
+  };
+
+  /**
+   * Generates JSX for a Material UI component.
+   * @param {ChildElement} child - The child element representing the Material UI component.
+   * @param {number} [level=0] - The indentation level.
+   * @returns {string} - The generated JSX for the Material UI component.
+   */
+  muiGenerator = (child: ChildElement, level: number = 0): string => {
+    let childId = '';
+    let passedInPropsString = '';
+    let key = '';
+
+    const MUIComp: MUIType | undefined = MUITypes.find(
+      (el) => el.tag === child.name
+    );
+    const MUIName: string | undefined = MUIComp?.name;
+
+    if (!MUIComp) {
+      console.error(`MUI component ${child.name} not found.`);
+      return ''; // Return empty string if MUI component not found
+    }
+
+    // Build string for passed-in props
+    child.passedInProps.forEach((prop) => {
+      passedInPropsString += `${prop.key}={${prop.key}} `;
+    });
+
+    // Append default props to the passedInPropsString
+    MUIComp.defaultProps.forEach((prop) => {
+      passedInPropsString += `${prop}`;
+    });
+
+    if (child.childId) {
+      childId = `id="${+child.childId}"`;
+      key = `${+child.childId}`;
+    }
+
+    // Indent the JSX generated for MUI components based on the provided level
+    const indentedJSX = MUIComp.jsx.map(
+      (line) => `${'  '.repeat(level)}${line}`
+    );
+
+    // Modify and indent JSX
+    let modifiedJSx = modifyAndIndentJsx(
+      indentedJSX,
+      passedInPropsString,
+      childId,
+      MUIName!,
+      key
+    );
+
+    // Handle nested components, if any
+    if (child.children && child.children.length > 0) {
+      const nestedJsx = writeNestedElements(child.children, level + 1);
+      modifiedJSx = insertNestedJsxBeforeClosingTag(
+        modifiedJSx.join('\n'),
+        nestedJsx,
+        level
+      ).split('\n');
+    }
+
+    return modifiedJSx.join('\n');
+  };
+
+  /**
+   * Generates JSX for a route link based on the project type.
+   * @param {Object} child - The child object representing the route link.
+   * @param {number} level - The indentation level.
+   * @returns {string} - The generated JSX for the route link.
+   */
+  handleRouteLink = (child, level) => {
+    const jsxArray = [];
+    const indentation = '  '.repeat(level);
+
+    if (projectType === 'Next.js') {
+      // Next.js uses Link with the 'href' attribute and requires an <a> tag inside
+      jsxArray.push(
+        `<Link href="/${child.name === 'index' ? '' : child.name}">`
+      );
+      jsxArray.push(
+        `${indentation}  <a>${child.displayName || child.name}</a>`
+      );
+      jsxArray.push(`${indentation}</Link>`);
+    } else if (projectType === 'Gatsby.js') {
+      // Gatsby uses Link with the 'to' attribute
+      jsxArray.push(
+        `<Link to="/${child.name === 'index' ? '' : child.name}">${
+          child.displayName || child.name
+        }</Link>`
+      );
+    } else if (projectType === 'Classic React') {
+      // Classic React might use react-router-dom's Link or another routing method
+      jsxArray.push(
+        `<Link to="/${child.name === 'index' ? '' : child.name}">${
+          child.displayName || child.name
+        }</Link>`
+      );
+    } else {
+      // Fallback or default handling, such as a simple anchor tag
+      jsxArray.push(
+        `<a href="/${child.name === 'index' ? '' : child.name}">${
+          child.displayName || child.name
+        }</a>`
+      );
+    }
+
+    // Apply indentation to each line and join them with new lines
+    return jsxArray.map((line) => `${indentation}${line}`).join('\n');
+  };
+
+  /**
+   * Collects Material UI imports as components are processed.
+   * @param {ChildElement | MUIType} component - The component being processed.
+   * @param {MUIType[]} MUITypes - The array of Material UI component types.
+   * @param {Set<string>} muiImports - The set to store collected Material UI imports.
+   */
+  collectMUIImports = (
+    component: ChildElement | MUIComponent,
+    MUITypes: MUIType[],
+    muiImports: Set<string>
+  ): void => {
+    if (component.type === 'MUI Component') {
+      const muiComponent = MUITypes.find((m) => m.id === component.typeId);
       if (
-        (childElement.tag === 'Route' || childElement.tag === 'Switch') &&
-        projectType === 'Next.js'
+        muiComponent &&
+        muiComponent.imports &&
+        muiComponent.imports.length > 0
       ) {
-        return `${writeNestedElements(childElement.children, level)}`;
+        muiComponent.imports.forEach((importStatement) => {
+          if (!muiImports.has(importStatement)) {
+            muiImports.add(importStatement);
+          }
+        });
       }
-      const routePath =
-        childElement.tag === 'Route' ? ' ' + 'exact path=' + activeLink : '';
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
-        childElement
-      )}${routePath}>
-        ${tabSpacer(level)}${innerText}
-        ${tabSpacer(level)}${writeNestedElements(
-        childElement.children,
-        level + 1
-      )}
-        ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(
-        2,
-        3 + level
-      )}`;
-    } else if (childElement.tag !== 'separator') {
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
-        childElement
-      )}>${innerText}</${childElement.tag}>${levelSpacer(2, 3 + level)}`;
+
+      // Recursively collect imports from child components if they exist
+      if (component.children) {
+        component.children.forEach((child) =>
+          collectMUIImports(child, MUITypes, muiImports)
+        );
+      }
     }
   };
-  // write all code that will be under the "return" of the component
-  const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
-    return `${enrichedChildren
-      .map((child: ChildElement) => {
-        if (child.type === 'Component') {
-          return `<${child.name} ${elementTagDetails(child)}/>`;
-        } else if (child.type === 'HTML Element') {
-          return elementGenerator(child, level);
-        }
-        // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
-        else if (child.type === 'Route Link') {
-          if (projectType === 'Next.js') {
-            // if route link points to index, to go endpoint / rather than /index
-            if (child.name === 'index')
-              return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
-            else
-              return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
-          } else if (projectType === 'Gatsby.js') {
-            if (child.name === 'index')
-              return `<div><Link to="/">${child.name}</Link></div>`;
-            else
-              return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
-          } else return `<div><a>${child.name}</a></div>`;
-        }
-      })
-      .filter((element) => !!element)
-      .join('')}`;
+
+  /**
+   * Generates Material UI import statements from a set of import statements.
+   * This version of the function preserves the original formatting, including comments.
+   * @param {Set<string>} muiImports - The set of Material UI import statements.
+   * @returns {string} - The generated import statements as a single string, preserving initial spaces and comments.
+   */
+  generateMUIImportStatements = (muiImports: Set<string>): string =>
+    Array.from(muiImports).join('\n');
+
+  /**
+   * Collects state and event handler snippets from components.
+   * @param {ChildElement | MUIType} component - The component being processed.
+   * @param {MUIType[]} MUITypes - The array of Material UI component types.
+   * @param {Set<string>} handlersCollection - The set to store collected state and event handler snippets.
+   */
+  collectStateAndEventHandlers = (
+    component: ChildElement | MUIComponent,
+    MUITypes: MUIType[],
+    handlersCollection: Set<string>
+  ): void => {
+    if (component.type === 'MUI Component') {
+      const muiComponent = MUITypes.find((m) => m.id === component.typeId);
+      if (muiComponent && Array.isArray(muiComponent.stateAndEventHandlers)) {
+        muiComponent.stateAndEventHandlers.forEach((handlerSnippet) => {
+          handlersCollection.add(handlerSnippet);
+        });
+      } else {
+        console.log('No stateAndEventHandlers found or not an array');
+      }
+    }
+
+    // Recursively collect handlers from child components if they exist
+    if (component.children) {
+      component.children.forEach((child) =>
+        collectStateAndEventHandlers(child, MUITypes, handlersCollection)
+      );
+    }
   };
-  // function to properly incorporate the user created state that is stored in the application state
-  const writeStateProps = (stateArray: String[]) => {
-    let stateToRender: String = '';
+
+  /**
+   * Generates Material UI state and event handler code from a set of statements,
+   * preserving indentation and removing comments.
+   * @param {Set<string>} handlersCollection - The set of handler statements.
+   * @returns {string} - The generated handler statements as a single, clean string, with preserved indentation.
+   */
+  generateStateAndEventHandlerCode = (
+    handlersCollection: Set<string>
+  ): string =>
+    Array.from(handlersCollection)
+      .map((line) => line.replace(/\/\/.*$/, '')) // Remove only the comment, preserve everything before //
+      .join('\n');
+
+  /**
+   * Writes nested elements based on the provided enriched children.
+   * @param {Array<ChildElement | MUIType | Component>} enrichedChildren - The array of enriched children to process.
+   * @param {number} [level=0] - The nesting level of the elements. 0 by default.
+   * @returns {string[]} - An array of strings representing the nested elements.
+   */
+  writeNestedElements = (enrichedChildren, level = 0) => {
+    return enrichedChildren.flatMap((child) => {
+      if (child.type === 'Component') {
+        return [`<${child.name} ${elementTagDetails(child)} />`];
+      } else if (child.type === 'HTML Element') {
+        return elementGenerator(child, level);
+      } else if (child.type === 'MUI Component') {
+        return muiGenerator(child, level);
+      } else if (child.type === 'Route Link') {
+        return handleRouteLink(child, level);
+      }
+      return []; // Return empty array for unhandled cases
+    });
+  };
+
+  /**
+   * Generates code to properly incorporate the user-created state stored in the application state.
+   * @param {string[]} stateArray - Array of strings representing the user-created state.
+   * @returns {string} - A string containing code to incorporate the user-created state.
+   */
+  writeStateProps = (stateArray: string[]): string => {
+    let stateToRender: string = '';
     for (const element of stateArray) {
-      stateToRender += levelSpacer(2, 2) + element + ';';
+      stateToRender += levelSpacer(2) + element + ';';
     }
     return stateToRender;
   };
-  const enrichedChildren: ChildElement[] = getEnrichedChildren(currComponent);
+
+  const enrichedChildren = getEnrichedChildren(currComponent);
+
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
@@ -411,21 +737,13 @@ const generateUnformattedCode = (
             return `import ${comp} from './${comp}'`;
           })
           .join('\n');
-  const createState = (stateProps: StateProp[]) => {
-    let state = '{';
-    stateProps.forEach((ele) => {
-      state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
-    });
-    state = state.substring(0, state.length - 2) + '}';
-    return state;
-  };
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
     //string to store all imports string for context
     let contextImports = '';
-    const { allContext } = contextParam;
+    let allContext = contextParam.allContext || []; // Set a default value if allContext is not present or falsy
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
@@ -440,30 +758,61 @@ const generateUnformattedCode = (
       return acc;
     }, {});
 
-    //return a string with all contexts provider in component's body
-    const createRender = () => {
-      let result = `${writeNestedElements(enrichedChildren)}`;
-      if (importReactRouter) result = `<Router>\n ${result}\n </Router>`;
-      if (allContext.length < 1) return result;
+    /**
+     * Creates a JSX string representing the rendered output of enriched children.
+     * @returns {string} - The JSX string representing the rendered output.
+     */
+    createRender = (): string => {
+      const jsxElements = writeNestedElements(enrichedChildren);
 
-      if (currComponent.name === 'App') {
-        allContext.reverse().forEach((el, i) => {
-          let tabs = `\t\t`;
-          if (i === allContext.length - 1) {
-            tabs = `\t\t\t`;
-          }
-          result = `${tabs.repeat(allContext.length - i)}<${
-            el.name
-          }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
-            el.name
-          }Provider>`;
-        });
+      let jsxString = jsxElements.join('\n');
+
+      // Adding Router wrapper if necessary
+      if (importReactRouter) {
+        jsxString = `<Router>\n${indentLinesExceptFirst(
+          jsxString,
+          1
+        )}\n</Router>`;
       }
-      return result;
+
+      // Add context providers if the component is 'App' and contexts are defined
+      if (allContext.length > 0 && currComponent.name === 'App') {
+        allContext
+          .slice()
+          .reverse()
+          .forEach((el, index) => {
+            const indent = '  '.repeat(index + 1);
+            jsxString = `${indent}<${
+              el.name
+            }Provider>\n${indentLinesExceptFirst(
+              jsxString,
+              index + 1
+            )}\n${indent}</${el.name}Provider>`;
+          });
+      }
+
+      return jsxString;
     };
 
-    //decide which imports statements to use for which components
-    const createContextImport = () => {
+    /**
+     * Indents all lines in a multi-line text except the first line by a specified level of indentation.
+     * @param {string} text - The text to be indented.
+     * @param {number} level - The level of indentation (number of spaces).
+     * @returns {string} - The indented text.
+     */
+    indentLinesExceptFirst = (text: string, level: number): string => {
+      const lines = text.split('\n');
+      const firstLine = lines.shift(); // Remove the first line
+      const indentation = '  '.repeat(level);
+      const indentedLines = lines.map((line) => `${indentation}${line}`);
+      return `${firstLine}\n${indentedLines.join('\n')}`;
+    };
+
+    /**
+     * Generates import statements for the components based on their contexts.
+     * @returns {string} - The import statements as a string.
+     */
+    createContextImport = (): string => {
       if (!(currComponent.name in componentContext)) return '';
 
       let importStr = '';
@@ -474,23 +823,24 @@ const generateUnformattedCode = (
       return importStr;
     };
 
-    //call use context hooks for components that are consuming contexts
-    //LEGACY PD:
-    const createUseContextHook = () => {
-      if (!(currComponent.name in componentContext)) return '';
-
-      let importStr = '';
-      componentContext[currComponent.name].forEach((context) => {
-        importStr += `  const [${context}Val] = useContext(${context})\n`;
-      });
-
-      return importStr;
-    };
-
-    const createEventHandler = (children: ChildElement[]) => {
+    /**
+     * Creates event handler functions based on the events defined in the children elements.
+     * @param {ChildElement[]} children - The array of children elements.
+     * @returns {string}- The event handler functions as a string.
+     */
+    createEventHandler = (children: ChildElement[]): string => {
       let importStr = '';
       children.map((child) => {
         if (child.type === 'HTML Element') {
+          if (child.events) {
+            for (const [event, funcName] of Object.entries(child.events)) {
+              importStr += `\tconst ${funcName} = () => {};\n`;
+            }
+          }
+          if (child.children.length !== 0)
+            importStr += createEventHandler(child.children);
+        }
+        if (child.type === 'MUI Component') {
           if (child.events) {
             for (const [event, funcName] of Object.entries(child.events)) {
               importStr += `\tconst ${funcName} = () => {};\n`;
@@ -504,6 +854,11 @@ const generateUnformattedCode = (
       return importStr;
     };
 
+    const muiImportStatements = generateMUIImportStatements(muiImports);
+    const stateAndEventHandlers = generateStateAndEventHandlerCode(
+      muiStateAndEventHandlers
+    );
+
     let generatedCode =
       "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'App' ? contextImports : '';
@@ -512,8 +867,10 @@ const generateUnformattedCode = (
       : ``;
     generatedCode += createContextImport() ? `${createContextImport()}\n` : '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
+    generatedCode += muiImportStatements ? `${muiImportStatements}\n\n` : '';
     // below is the return statement of the codepreview
     generatedCode += `const ${currComponent.name} = (props) => {\n`;
+    generatedCode += stateAndEventHandlers ? `${stateAndEventHandlers}` : '';
     generatedCode += writeStateProps(currComponent.useStateCodes)
       ? `\t${writeStateProps(currComponent.useStateCodes)}\n`
       : '';
@@ -523,7 +880,7 @@ const generateUnformattedCode = (
     generatedCode += `
   return(
     <>
-      ${createRender()}
+      ${indentLinesExceptFirst(createRender(), 3)}
     </>
   );`;
     generatedCode += `\n}`;
@@ -584,8 +941,13 @@ const generateUnformattedCode = (
     `;
   }
 };
-// formats code with prettier linter
-const formatCode = (code: string) => {
+
+/**
+ * Formats code using the Prettier linter.
+ * @param {string} code The code string to be formatted.
+ * @returns {string} - The formatted code string.
+ */
+const formatCode = (code: string): string => {
   if (import.meta.env.NODE_ENV === 'test') {
     const { format } = require('prettier');
     return format(code, {
@@ -599,4 +961,29 @@ const formatCode = (code: string) => {
     return code;
   }
 };
-export default generateCode;
+export {
+  muiGenerator,
+  handleRouteLink,
+  insertNestedJsxBeforeClosingTag,
+  modifyAndIndentJsx,
+  insertAttribute,
+  writeStateProps,
+  createRender,
+  indentLinesExceptFirst,
+  createContextImport,
+  createEventHandler,
+  generateUnformattedCode,
+  getEnrichedChildren,
+  formatStyles,
+  elementTagDetails,
+  writeNestedElements,
+  generateMUIImportStatements,
+  generateStateAndEventHandlerCode,
+  tabSpacer,
+  levelSpacer,
+  elementGenerator,
+  collectMUIImports,
+  collectStateAndEventHandlers,
+  formatCode,
+  generateCode as default // Maintaining generateCode as default export
+};

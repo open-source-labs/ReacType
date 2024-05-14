@@ -10,7 +10,25 @@ import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
-function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
+/**
+ * Renders a direct child HTML element within the canvas. This component is draggable and clickable, allowing users to interact with it dynamically.
+ * It displays the placeholder or a short representation of the HTML type and includes a delete button for component management.
+ *
+ * @param {Object} props - Component props.
+ * @param {number} props.childId - Unique identifier for the child component.
+ * @param {string} props.name - The display name of the HTML element.
+ * @param {string} props.type - The type of the component (e.g., HTML element, custom component).
+ * @param {number} props.typeId - Identifier for the specific type of HTML element.
+ * @param {Object} props.style - Custom styles applied to the HTML element.
+ * @returns {JSX.Element} A styled, draggable, and interactive representation of the HTML element on the canvas.
+ */
+function DirectChildHTML({
+  childId,
+  name,
+  type,
+  typeId,
+  style
+}: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -44,7 +62,6 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
         componentId: componentId,
         childId: childId
       });
-      // console.log('emit focus event from DirectChildHTML');
     }
   };
 
@@ -71,7 +88,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   return (
     <div
       onClick={onClickHandler}
-      style={{...combinedStyle, backgroundColor: '#1E2024'}}
+      style={{ ...combinedStyle, backgroundColor: '#1E2024' }}
       ref={drag}
       id={`canv${childId}`}
     >

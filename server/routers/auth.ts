@@ -13,9 +13,12 @@ interface UserReq extends Request {
   };
 }
 
-const { API_BASE_URL } = config;
+const { API_BASE_URL2 } = config;
 const router = express.Router();
 
+/**
+ * Route handler for initiating GitHub OAuth authentication. Redirects the user to GitHub OAuth login page.
+ */
 router.get(
   '/github',
   passport.authenticate('github', {
@@ -23,13 +26,18 @@ router.get(
   })
 );
 
+/**
+ * Route handler for handling GitHub OAuth callback. After successful authentication,
+ * starts a session, sets session cookies, and redirects the user back to the specified base URL.
+ *
+ * @param {UserReq} req - The request object from Express extended with user information.
+ * @param {express.Response} res - The response object from Express.
+ */
 router.get(
   '/github/callback',
   passport.authenticate('github'),
   sessionController.startSession,
   (req: UserReq, res) => {
-    console.log('github authenticate function is being run');
-    console.log(req.user.id);
     res.cookie('ssid', req.user.id, {
       httpOnly: true,
       sameSite: 'none',
@@ -41,10 +49,13 @@ router.get(
       sameSite: 'none',
       secure: true
     });
-    return res.redirect(API_BASE_URL);
+    return res.redirect(API_BASE_URL2);
   }
 );
 
+/**
+ * Route handler for initiating Google OAuth authentication. Redirects the user to Google OAuth login page.
+ */
 router.get(
   '/google',
   passport.authenticate('google', {
@@ -52,12 +63,18 @@ router.get(
   })
 );
 
+/**
+ * Route handler for handling Google OAuth callback. After successful authentication,
+ * starts a session, sets session cookies, and redirects the user back to the specified base URL.
+ *
+ * @param {UserReq} req - The request object from Express extended with user information.
+ * @param {express.Response} res - The response object from Express.
+ */
 router.get(
   '/google/callback',
   passport.authenticate('google'),
   sessionController.startSession,
   (req: UserReq, res) => {
-    console.log('google authenicate function being run');
     res.cookie('ssid', req.user.id, {
       httpOnly: true,
       sameSite: 'none',
@@ -69,7 +86,7 @@ router.get(
       sameSite: 'none',
       secure: true
     });
-    return res.redirect(API_BASE_URL);
+    return res.redirect(API_BASE_URL2);
   }
 );
 

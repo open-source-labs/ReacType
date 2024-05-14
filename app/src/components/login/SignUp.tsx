@@ -2,18 +2,15 @@ import React, { useState } from 'react';
 import {
   RouteComponentProps,
   Link as RouteLink,
-  withRouter
+  withRouter,
+  useHistory
 } from 'react-router-dom';
-import {
-  SigninDark,
-  SigninLight
-} from '../../../../app/src/public/styles/theme';
+import { SigninDark } from '../../../../app/src/public/styles/theme';
 import {
   StyledEngineProvider,
   Theme,
   ThemeProvider
 } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Avatar,
@@ -27,10 +24,15 @@ import {
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { LoginInt } from '../../interfaces/Interfaces';
-import { RootState } from '../../redux/store';
 
 import makeStyles from '@mui/styles/makeStyles';
-import { newUserIsCreated } from '../../helperFunctions/auth';
+import {
+  newUserIsCreated,
+  handleChange,
+  resetErrorValidation,
+  validateInputs,
+  setErrorMessages
+} from '../../helperFunctions/auth';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -66,135 +68,97 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
+const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVerify, setPasswordVerify] = useState('');
   const [invalidEmailMsg, setInvalidEmailMsg] = useState('');
-  const [invalidUsernameMsg, setInvalidUsernameMsg] = useState('');
+  const [invalidUsernameMsg, setInvalidUserMsg] = useState('');
   const [invalidPasswordMsg, setInvalidPasswordMsg] = useState('');
   const [invalidVerifyPasswordMsg, setInvalidVerifyPasswordMsg] = useState('');
   const [invalidEmail, setInvalidEmail] = useState(false);
-  const [invalidUsername, setInvalidUsername] = useState(false);
+  const [invalidUsername, setInvalidUser] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [invalidVerifyPassword, setInvalidVerifyPassword] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let inputVal = e.target.value;
-    switch (e.target.name) {
-      case 'email':
-        setEmail(inputVal);
-        break;
-      case 'username':
-        setUsername(inputVal);
-        break;
-      case 'password':
-        setPassword(inputVal);
-        break;
-      case 'passwordVerify':
-        setPasswordVerify(inputVal);
-        break;
-    }
+  // define error setters to pass to resetErrorValidation function
+  const errorSetters = {
+    setInvalidEmail,
+    setInvalidEmailMsg,
+    setInvalidUser,
+    setInvalidUserMsg,
+    setInvalidPassword,
+    setInvalidPasswordMsg,
+    setInvalidVerifyPassword,
+    setInvalidVerifyPasswordMsg
+  };
+  // define handle change setters to pass to handleChange function
+  const handleChangeSetters = {
+    setEmail,
+    setUsername,
+    setPassword,
+    setPasswordVerify
   };
 
-  const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  /**
+   * Handles input changes for form fields and updates the state accordingly.
+   * This function delegates to the `handleChange` function, passing the event
+   * and the `handleChangeSetters` for updating the specific state tied to the input fields.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The event object that triggered the change.
+   */
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    handleChange(e, handleChangeSetters);
+  };
+
+  /**
+   * Handles the form submission for user registration. Prevents default form behavior,
+   * validates user inputs, and attempts to register a new user. Redirects to home on success,
+   * otherwise displays error messages based on the response.
+   * @param {React.MouseEvent<HTMLButtonElement, MouseEvent>} e - The event object that triggered the submission.
+   */
+  const handleSignUp = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
+    resetErrorValidation(errorSetters); // Reset validation errors before a new signup attempt.
+    const isValid = validateInputs({
+      email,
+      username,
+      password,
+      passwordVerify,
+      errorSetters
+    }); // Validate Inputs using Auth helper function
 
-    // Reset Error Validation
-    setInvalidEmailMsg('');
-    setInvalidUsernameMsg('');
-    setInvalidPasswordMsg('');
-    setInvalidVerifyPasswordMsg('');
-    setInvalidEmail(false);
-    setInvalidUsername(false);
-    setInvalidPassword(false);
-    setInvalidVerifyPassword(false);
-
-    if (email === '') {
-      setInvalidEmail(true);
-      setInvalidEmailMsg('No Email Entered');
+    if (!isValid) {
+      console.log('Validation failed, account not created.');
       return;
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
-      setInvalidEmail(true);
-      setInvalidEmailMsg('Invalid Email Format');
-      return;
-    } else {
-      setInvalidEmail(false);
     }
-
-    if (username === '') {
-      setInvalidUsername(true);
-      setInvalidUsernameMsg('No Username Entered');
-      return;
-    } else if (!/^[\w\s-]{4,15}$/i.test(username)) {
-      setInvalidUsername(true);
-      setInvalidUsernameMsg('Must Be 4 - 15 Characters Long');
-      return;
-    } else if (!/^[\w-]+$/i.test(username)) {
-      setInvalidUsername(true);
-      setInvalidUsernameMsg('Cannot Contain Spaces or Special Characters');
-      return;
-    } else {
-      setInvalidUsername(false);
-    }
-
-    if (password === '') {
-      setInvalidPassword(true);
-      setInvalidPasswordMsg('No Password Entered');
-      return;
-    } else if (password.length < 8) {
-      setInvalidPassword(true);
-      setInvalidPasswordMsg('Minimum 8 Characters');
-      return;
-    } else if (
-      !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(
-        password
-      )
-    ) {
-      setInvalidPassword(true);
-      setInvalidPasswordMsg('Minimum 1 Letter, Number, and Special Character');
-      return;
-    } else if (password !== passwordVerify) {
-      setInvalidPassword(true);
-      setInvalidVerifyPassword(true);
-      setInvalidPasswordMsg('Verification Failed');
-      setInvalidVerifyPasswordMsg('Verification Failed');
-      setPasswordVerify('');
-      return;
-    } else {
-      setInvalidPassword(false);
-    }
-
-    if (password !== passwordVerify) {
-      setInvalidPassword(true);
-      setInvalidVerifyPassword(true);
-      setInvalidPasswordMsg('Verification Failed');
-      setInvalidVerifyPasswordMsg('Verification Failed');
-      setPasswordVerify('');
-      return;
-    } else {
-      setInvalidVerifyPassword(false);
-    }
-
-    newUserIsCreated(username, email, password).then((userCreated) => {
+    try {
+      const userCreated = await newUserIsCreated(username, email, password);
       if (userCreated === 'Success') {
-        props.history.push('/');
+        console.log('Account creation successful, redirecting...');
+        history.push('/');
       } else {
         switch (userCreated) {
           case 'Email Taken':
-            setInvalidEmail(true);
-            setInvalidEmailMsg('Email Taken');
+            setErrorMessages('email', 'Email Taken', errorSetters);
             break;
           case 'Username Taken':
-            setInvalidUsername(true);
-            setInvalidUsernameMsg('Username Taken');
+            setErrorMessages('username', 'Username Taken', errorSetters);
             break;
+          default:
+            console.log(
+              'Signup failed: Unknown or unhandled error',
+              userCreated
+            );
         }
       }
-    });
+    } catch (error) {
+      console.error('Error during signup in handleSignUp:', error);
+    }
   };
 
   return (
@@ -227,15 +191,15 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                     className={classes.root}
                     variant="outlined"
                     required
-                    fullWidth
                     id="email"
                     label="Email"
                     name="email"
                     autoComplete="email"
                     value={email}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     helperText={invalidEmailMsg}
                     error={invalidEmail}
+                    sx={{ width: '100%' }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -243,15 +207,15 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                     className={classes.root}
                     variant="outlined"
                     required
-                    fullWidth
                     id="username"
                     label="Username"
                     name="username"
                     autoComplete="username"
                     value={username}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     helperText={invalidUsernameMsg}
                     error={invalidUsername}
+                    sx={{ width: '100%' }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -259,16 +223,16 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                     className={classes.root}
                     variant="outlined"
                     required
-                    fullWidth
                     name="password"
                     label="Password"
                     type="password"
                     id="password"
                     autoComplete="current-password"
                     value={password}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     helperText={invalidPasswordMsg}
                     error={invalidPassword}
+                    sx={{ width: '100%' }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -276,16 +240,16 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                     className={classes.root}
                     variant="outlined"
                     required
-                    fullWidth
                     name="passwordVerify"
                     label="Verify Password"
                     type="password"
                     id="passwordVerify"
                     autoComplete="verify-password"
                     value={passwordVerify}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     helperText={invalidVerifyPasswordMsg}
                     error={invalidVerifyPassword}
+                    sx={{ width: '100%' }}
                   />
                 </Grid>
               </Grid>
@@ -315,7 +279,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
               </Typography>
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
@@ -328,7 +291,8 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
                   fontSize: '1rem',
                   '$:hover': {
                     cursor: 'pointer'
-                  }
+                  },
+                  width: '100%'
                 }}
               >
                 <svg

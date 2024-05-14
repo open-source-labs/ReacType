@@ -1,5 +1,6 @@
-import '@testing-library/jest-dom';
+// @vitest-environment jsdom
 
+import { describe, it, expect } from 'vitest';
 import {
   fireEvent,
   render,
@@ -23,27 +24,27 @@ import React from 'react';
 import StateManager from '../app/src/components/StateManagement/StateManagement';
 import store from '../app/src/redux/store';
 
-describe('Bottom Panel Render Test', () => {
-  test('should render all six tabs', () => {
-    render(
+describe('Bottom Panel Render test', () => {
+  it('should render all six tabs', () => {
+    const { unmount } = render(
       <Provider store={store}>
         <BottomTabs />
       </Provider>
     );
-    expect(screen.getAllByRole('tab')).toHaveLength(6);
-    // expect(screen.getByText('Code Preview')).toBeInTheDocument();
-    expect(screen.getByText('Component Tree')).toBeInTheDocument();
-    expect(screen.getByText('Creation Panel')).toBeInTheDocument();
-    expect(screen.getByText('Customization')).toBeInTheDocument();
-    expect(screen.getByText('CSS Editor')).toBeInTheDocument();
-    expect(screen.getByText('Context Manager')).toBeInTheDocument();
-    expect(screen.getByText('State Manager')).toBeInTheDocument();
+    expect(screen.getAllByRole('tab')).toHaveLength(7);
+    expect(screen.getByText('Component Tree')).toBeDefined();
+    expect(screen.getByText('Creation Panel')).toBeDefined();
+    expect(screen.getByText('Customization')).toBeDefined();
+    expect(screen.getByText('CSS Editor')).toBeDefined();
+    expect(screen.getByText('Context Manager')).toBeDefined();
+    expect(screen.getByText('State Manager')).toBeDefined();
+    unmount();
   });
 });
 
 describe('Creation Panel', () => {
-  test('should invalidate empty field in New Component name', async () => {
-    render(
+  it('should invalidate empty field in New Component name', async () => {
+    const { unmount } = render(
       <Provider store={store}>
         <ComponentPanel isThemeLight={null} />
       </Provider>
@@ -52,20 +53,19 @@ describe('Creation Panel', () => {
     fireEvent.click(screen.getByText('Create'));
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Component name cannot be blank.')
-      ).toBeInTheDocument();
+      expect(screen.getByText('Component name cannot be blank.')).toBeDefined();
     });
+    unmount();
   });
 
-  test('should invalidate New Component name containing symbols', async () => {
-    render(
+  it('should invalidate New Component name containing symbols', async () => {
+    const { unmount } = render(
       <Provider store={store}>
         <ComponentPanel isThemeLight={null} />
       </Provider>
     );
 
-    fireEvent.change(screen.getByLabelText('Name:'), {
+    fireEvent.change(screen.getByLabelText('Name'), {
       target: {
         value: '!@#'
       }
@@ -76,12 +76,15 @@ describe('Creation Panel', () => {
     await waitFor(() => {
       expect(
         screen.getByText('Component name must start with a letter.')
-      ).toBeInTheDocument();
+      ).toBeDefined();
     });
+    unmount();
   });
+});
 
-  test('should invalidate empty field in HTML Tag tag', async () => {
-    render(
+describe('HTML Panel', () => {
+  it('should invalidate empty field in HTML Tag tag', async () => {
+    const { unmount } = render(
       <Provider store={store}>
         <HTMLPanel isThemeLight={null} />
       </Provider>
@@ -92,22 +95,23 @@ describe('Creation Panel', () => {
     await waitFor(() => {
       expect(screen.getAllByText('* Input cannot be blank. *')).toHaveLength(2);
     });
+    unmount();
   });
 
-  test('should invalidate HTML Element name containing symbols', async () => {
-    render(
+  it('should invalidate HTML Element name containing symbols', async () => {
+    const { unmount } = render(
       <Provider store={store}>
         <HTMLPanel isThemeLight={null} />
       </Provider>
     );
 
-    fireEvent.change(screen.getByLabelText('Element Name:'), {
+    fireEvent.change(screen.getByLabelText('Element Name'), {
       target: {
         value: '!@#'
       }
     });
 
-    fireEvent.change(screen.getByLabelText('Tag:'), {
+    fireEvent.change(screen.getByLabelText('Tag'), {
       target: {
         value: '!@#'
       }
@@ -120,49 +124,53 @@ describe('Creation Panel', () => {
         screen.getAllByText('* Input must start with a letter. *')
       ).toHaveLength(2);
     });
+    unmount();
   });
 });
 
 describe('Context Manager', () => {
-  test('should render Create/Edit, Assign, and Display tabs', () => {
-    render(
+  it('should render Create/Edit, Assign, and Display tabs', () => {
+    const { unmount } = render(
       <Provider store={store}>
         <ContextManager />
       </Provider>
     );
     expect(screen.getAllByRole('tab')).toHaveLength(3);
+    unmount();
   });
-  test('Create/Edit Tab should contain all buttons, inputs field, and a data table', () => {
-    render(
+  it('Create/Edit Tab should contain all buttons, inputs field, and a data table', () => {
+    const { unmount } = render(
       <Provider store={store}>
         <ContextManager />
       </Provider>
     );
     expect(screen.getAllByRole('textbox')).toHaveLength(3);
-    expect(screen.getAllByRole('button')).toHaveLength(4);
-    expect(screen.getByText('Context Name')).toBeInTheDocument();
-    expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getByText('Context Name')).toBeDefined();
+    expect(screen.getByRole('table')).toBeDefined();
+    unmount();
   });
-  test('Assign Tab should contain all buttons and input fields', () => {
-    render(
+  it('Assign Tab should contain all buttons and input fields', () => {
+    const { unmount } = render(
       <Provider store={store}>
         <ContextManager />
       </Provider>
     );
 
     fireEvent.click(screen.getByText('Assign'));
-    expect(screen.getByText('Contexts Consumed')).toBeInTheDocument();
+    expect(screen.getByText('Contexts Consumed')).toBeDefined();
     const dropdown = screen.getByLabelText('Select Component');
-    expect(dropdown).toBeInTheDocument();
+    expect(dropdown).toBeDefined();
     expect(screen.getAllByRole('button')).toHaveLength(1);
     expect(screen.getAllByRole('combobox')).toHaveLength(2);
     expect(screen.getAllByRole('table')).toHaveLength(2);
+    unmount();
   });
 });
 
 describe('State Manager', () => {
-  test('Should render all containers', () => {
-    render(
+  it('Should render all containers', () => {
+    const { unmount } = render(
       <Provider store={store}>
         <StateManager isThemeLight={null} />
       </Provider>
@@ -171,63 +179,70 @@ describe('State Manager', () => {
     expect(screen.getAllByRole('textbox')).toHaveLength(2);
     expect(screen.getAllByRole('grid')).toHaveLength(3);
     expect(screen.getAllByRole('columnheader')).toHaveLength(9);
+    unmount();
   });
 
-  test('Display tab should render correct elements', () => {
-    render(
+  it('Display tab should render correct elements', () => {
+    const { unmount } = render(
       <Provider store={store}>
         <StateManager isThemeLight={null} />
       </Provider>
     );
     fireEvent.click(screen.getByText('Display'));
-    expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.getByRole('table')).toBeDefined();
     expect(
       screen.getByText('State Initialized in Current Component:')
-    ).toBeInTheDocument();
+    ).toBeDefined();
+    unmount();
   });
 });
 
 describe('Customization Panel', () => {
-  test('Should render customization container with no elements in Canvas', () => {
-    render(
+  it('Should render customization container with no elements in Canvas', () => {
+    const { unmount } = render(
       <Provider store={store}>
         <BrowserRouter>
-          <CustomizationPanel />
+          <CustomizationPanel isThemeLight={true} />
         </BrowserRouter>
       </Provider>
     );
-    expect(screen.getByText('Parent Component:')).toBeInTheDocument();
-    expect(screen.getByText('App')).toBeInTheDocument();
+    expect(screen.getByText('Parent Component:')).toBeDefined();
+    expect(screen.getByText('App')).toBeDefined();
     expect(
       screen.getByText(
-        'Drag and drop an html element (or focus one) to see what happens!'
+        'Drag or click an html element to the canvas to see what happens!'
       )
-    ).toBeInTheDocument();
+    ).toBeDefined();
+    unmount();
   });
-  test('Should render all buttons and inputs when Canvas has element', () => {
-    render(
+});
+
+describe('Canvas', () => {
+  it('Should render all buttons and inputs when Canvas has element', async () => {
+    const { unmount } = render(
       <Provider store={store}>
         <BrowserRouter>
           <DndProvider backend={HTML5Backend}>
             <DragDropPanel />
             <MainContainer />
-            <CustomizationPanel />
+            <CustomizationPanel isThemeLight={true} />
           </DndProvider>
         </BrowserRouter>
       </Provider>
     );
     const drop = screen.getByTestId('drop');
     const div = screen.getAllByText('Div')[0];
-    expect(drop).toBeInTheDocument();
-    expect(div).toBeInTheDocument();
+    expect(drop).toBeDefined();
+    expect(div).toBeDefined();
     fireEvent.dragStart(div);
     fireEvent.dragEnter(drop);
     fireEvent.dragOver(drop);
     fireEvent.drop(drop);
     //check if customization panel elements are rendering correctly
-    const panel = screen.getByTestId('customization');
+    const panel = screen.getAllByTestId('customization')[0];
     expect(within(panel).getAllByRole('textbox')).toHaveLength(4);
     // check dropdowns
-    expect(within(panel).getAllByRole('button')).toHaveLength(12);
+    expect(within(panel).getAllByRole('button')).toHaveLength(6);
+    unmount();
   });
 });

@@ -8,26 +8,51 @@ import link from '../../../resources/customizing_elements_images/linkState.png';
 import cssClasses from '../../../resources/customizing_elements_images/CSS.png';
 import textGif from '../../../resources/customizing_elements_images/text.gif';
 
+/**
+ * Customization component displays the tutorial for the features to customize HTML elements on the canvas.
+ *
+ * @param {object} props - Component props.
+ * @param {object} props.classes - CSS classes for styling.
+ * @param {Function} props.setPage - Function to set the current page.
+ * @returns {JSX.Element} Customization component JSX.
+ */
 const Customization: React.FC<{
   classes: any;
   setPage: Function;
-}> = ({ classes, setPage }) => {
+}> = ({ classes, setPage }): JSX.Element => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Customization</h1>
       <hr />
       <p className={classes.text}>
-        Customize your HTML elements on the canvas with the below features. Any changes <br/>
-        made in the <span className={classes.notLink} onClick={() => setPage('Customization')}>
-        customization</span> panel will be reflected immediately in the <span className={classes.notLink} onClick={() => setPage('Code Preview')}> 
-        code preview </span> and demo render panel. See your changes in real time to decide what's best!<br/><br/>
-        To customize an HTML element, drag it onto the canvas and select it on the canvas. Then use the desired customization feature.
-        Once done, press the save button to save your customization changes.
+        Customize your HTML elements on the canvas with the below features. Any
+        changes <br />
+        made in the{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Customization')}
+        >
+          customization
+        </span>{' '}
+        panel will be reflected immediately in the{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Code Preview')}
+        >
+          code preview{' '}
+        </span>{' '}
+        and demo render panel. See your changes in real time to decide what's
+        best!
+        <br />
+        <br />
+        To customize an HTML element, drag it onto the canvas and select it on
+        the canvas. Then use the desired customization feature. Once done, press
+        the save button to save your customization changes.
       </p>
       <hr />
       <h2>Display</h2>
       <div className={classes.imgWrapper}>
-        <img width='1300' src={display} />
+        <img width="1300" src={display} />
       </div>
       <p className={classes.text}>
         After having moved a{' '}
@@ -65,7 +90,7 @@ const Customization: React.FC<{
       <hr />
       <h2>Width</h2>
       <div className={classes.imgWrapper}>
-        <img width='1300' src={width} />
+        <img width="1300" src={width} />
       </div>
       <p className={classes.text}>
         Change the width of each{' '}
@@ -94,7 +119,7 @@ const Customization: React.FC<{
       <hr />
       <h2>Height</h2>
       <div className={classes.imgWrapper}>
-        <img width='1300' src={height} />
+        <img width="1300" src={height} />
       </div>
       <p className={classes.text}>
         Change the height of each{' '}
@@ -123,46 +148,60 @@ const Customization: React.FC<{
       <hr />
       <h2>Background Color</h2>
       <div className={classes.imgWrapper}>
-        <img width='1300' src={backgroundColor} />
+        <img width="1300" src={backgroundColor} />
       </div>
       <p className={classes.text}>
-        Select an element and type in the color you wish to change the background
-        color to and then click save.
+        Select an element and type in the color you wish to change the
+        background color to and then click save.
       </p>
       <hr />
       <h2>Text</h2>
       <div className={classes.imgWrapper}>
-        <img width='1300' src={text} />
+        <img width="1300" src={text} />
       </div>
       <p className={classes.text}>
-        Add HTML text to a selected element on the canvas by typing in the desired text. 
+        Add HTML text to a selected element on the canvas by typing in the
+        desired text.
         <br></br>
         <br></br>
-        You can also add state to the text of your element by clicking the "Use State" button. As shown in the example below, when you click "Use State", a window will pop up, showing all state available in the current component. You can click on any of these state variables and it will applied to the HTML text. When you click "Save", you can see a live Demo Render of your customization changes.
+        You can also add state to the text of your element by clicking the "Use
+        State" button. As shown in the example below, when you click "Use
+        State", a window will pop up, showing all state available in the current
+        component. You can click on any of these state variables and it will
+        applied to the HTML text. When you click "Save", you can see a live Demo
+        Render of your customization changes.
         <br></br>
         <br></br>
         <div className={classes.imgWrapper}>
-        <img width='1000' src={textGif} />
-      </div>
+          <img width="1000" src={textGif} />
+        </div>
       </p>
       <hr />
       <h2>Link</h2>
       <div className={classes.imgWrapper}>
-        <img width='1300' src={link} />
+        <img width="1300" src={link} />
       </div>
       <p className={classes.text}>
-        Add a hyperlink to a selected element on the canvas by typing in the url. 
+        Add a hyperlink to a selected element on the canvas by typing in the
+        url.
       </p>
       <hr />
       <h2>CSS Classes</h2>
       <div className={classes.imgWrapper}>
-        <img width='1300' src={cssClasses} />
+        <img width="1300" src={cssClasses} />
       </div>
       <p className={classes.text}>
-        Change the CSS class of a selected element on the canvas by typing in the class name. <br/>
-        ReactType also comes with a default CSS file that is shown in the <span className={classes.notLink} onClick={() => setPage('CSS Editor')} >CSS editor</span>. 
-        Add your own CSS classes to the <span className={classes.notLink} onClick={() => setPage('CSS Editor')} >CSS editor</span> or make changes to it to use
-        custom CSS classes.
+        Change the CSS class of a selected element on the canvas by typing in
+        the class name. <br />
+        ReactType also comes with a default CSS file that is shown in the{' '}
+        <span className={classes.notLink} onClick={() => setPage('CSS Editor')}>
+          CSS editor
+        </span>
+        . Add your own CSS classes to the{' '}
+        <span className={classes.notLink} onClick={() => setPage('CSS Editor')}>
+          CSS editor
+        </span>{' '}
+        or make changes to it to use custom CSS classes.
       </p>
       <hr />
     </div>

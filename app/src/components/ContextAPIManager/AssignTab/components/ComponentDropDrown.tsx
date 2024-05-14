@@ -7,11 +7,26 @@ import { RootState } from '../../../../redux/store';
 
 const filter = createFilterOptions();
 
+/**
+ * Renders an autocomplete dropdown list that allows the user to select or enter a component.
+ * When a component is selected or entered, this triggers a specified callback to render the component table.
+ * The dropdown uses a custom filter for suggestions, allowing users to add components not already listed in the options.
+ *
+ * @param {Object} props - The props passed to the ComponentDropDown component.
+ * @param {Function} props.renderComponentTable - Callback function that is triggered to render the component table based on the selected component.
+ * @param {Object|null} props.componentInput - The currently selected component object or null if nothing is selected.
+ * @param {Function} props.setComponentInput - Sets the state of the componentInput in the parent component.
+ *
+ * Redux State Dependencies:
+ * - `appState`: Expects `appState.components` from the Redux store to provide the list of available components.
+ *
+ * @returns {JSX.Element} A React Fragment that includes a Box containing the Autocomplete component which provides a dropdown for selecting components.
+ */
 const ComponentDropDown = ({
   renderComponentTable,
   componentInput,
   setComponentInput
-}) => {
+}): JSX.Element => {
   const { state } = useSelector((store: RootState) => ({
     state: store.appState
   }));
@@ -70,7 +85,7 @@ const ComponentDropDown = ({
 
   return (
     <Fragment>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4}}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
         <Autocomplete
           id="autoCompleteContextField"
           value={componentInput}

@@ -7,7 +7,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateAttributes } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
-function AddLink({ id, onClickHandler, linkDisplayed }) {
+/**
+ * `AddLink` is a React component that renders a drop-down menu to select and link to different pages in the app.
+ * It helps manage internal routing by associating selected pages with specific elements within the application.
+ * The component is primarily used to assign navigation targets for components that act as links.
+ *
+ * @param {Object} props - The component props.
+ * @param {number} props.id - The unique identifier for the link.
+ * @param {Function} props.onClickHandler - Function to handle click events on the Select component.
+ * @param {string} props.linkDisplayed - The currently displayed link in the Select component.
+ *
+ * @returns {JSX.Element} A FormControl component containing a Select element with options derived from pages within the application.
+ */
+function AddLink({ id, onClickHandler, linkDisplayed }): JSX.Element {
   const { state, contextParam, isThemeLight } = useSelector(
     (store: RootState) => ({
       state: store.appState,

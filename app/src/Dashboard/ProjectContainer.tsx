@@ -1,5 +1,10 @@
-import React, { useState} from 'react';
-import { ThemeProvider, Theme, StyledEngineProvider, useTheme } from '@mui/material/styles';
+import React, { useState } from 'react';
+import {
+  ThemeProvider,
+  Theme,
+  StyledEngineProvider,
+  useTheme
+} from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useQuery } from '@apollo/client';
 import Tabs from '@mui/material/Tabs';
@@ -11,22 +16,27 @@ import NavBarDash from './NavbarDash';
 import { useSelector } from 'react-redux';
 import { theme1, theme2 } from '../public/styles/theme';
 
-
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
 }
-
 
 // Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
 // 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
 
-
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
 
-const arrToComponent = arr =>
+/**
+ * Transforms an array of project data into an array of <Project> React components.
+ * Each project in the array is passed as props to the <Project> component, creating a list
+ * of these components based on the provided array. Each component is given a unique `key` prop
+ * based on its index in the array to optimize React's rendering process.
+ * @param {Array} arr - An array of project objects, where each object contains project data.
+ * @returns {Array<JSX.Element>} An array of <Project> components populated with data from the input array.
+ */
+const arrToComponent = (arr): Array<JSX.Element> =>
   arr.map((proj, index) => (
     <Project
       key={index}
@@ -41,8 +51,14 @@ const arrToComponent = arr =>
     />
   ));
 
-// Start Pulled from materialUI to create a tab panel
-const a11yProps = (index: any) => ({
+/**
+ * Generates accessibility props for a tab component within a tab panel. These properties help in
+ * linking the tab to its corresponding tab panel, improving accessibility and usability for users
+ * with assistive technologies.
+ * @param {any} index - The index of the tab and its corresponding panel.
+ * @returns {Object} An object containing the `id` and `aria-controls` attributes for accessibility purposes.
+ */
+const a11yProps = (index: any): Object => ({
   id: `vertical-tab-${index}`,
   'aria-controls': `vertical-tabpanel-${index}`
 });
@@ -75,7 +91,7 @@ const TabPanelItem = (props: TabPanelProps): JSX.Element => {
   );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     // backgroundColor: theme.palette.background.paper,
@@ -85,7 +101,31 @@ const useStyles = makeStyles(theme => ({
     // borderRight: `1px solid ${theme.palette.divider}`
   }
 }));
-// End of prefab code to generate a tab panel
+
+/**
+ * `ProjectContainer` is a React component that manages the display and sorting of project data retrieved
+ * from a GraphQL server using the Apollo Client. It provides a user interface with two dashboards:
+ * a shared dashboard that displays all published projects and a private dashboard that shows projects
+ * created by the currently logged-in user. The component includes sorting functionality based on project
+ * rating, creation date, or user.
+ *
+ * @returns {JSX.Element} The ProjectContainer component which provides a tabbed interface for navigating
+ *                        between shared and private dashboards, each displaying a list of projects.
+ *
+ * This component utilizes MUI's Tabs for navigation between the dashboards. It leverages the Apollo Client's
+ * `useQuery` hook to fetch projects data and automatically update the UI upon data changes. Sorting preferences
+ * are managed through local state and applied to the project data based on user interaction. The component
+ * supports theming and uses `ThemeProvider` to switch between light and dark themes based on user settings.
+ *
+ * Dependencies:
+ * - Apollo Client: For data fetching and state management with GraphQL.
+ * - Material-UI: For UI components and theming.
+ * - Redux: For managing application-wide state like theme settings.
+ *
+ * The component is designed to be responsive and accessible, with appropriate ARIA attributes for navigation
+ * and content sections. It includes error handling for data fetching issues and a loading state during data
+ * retrieval.
+ */
 const ProjectContainer = (): JSX.Element => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
@@ -98,26 +138,26 @@ const ProjectContainer = (): JSX.Element => {
   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
   const username = window.localStorage.getItem('username') || 'unavailable';
   const [isThemeLight, setTheme] = useState(true);
-  const style = useSelector(store => store.styleSlice)
+  const style = useSelector((store) => store.styleSlice);
   // hook for sorting menu
   const [selectedOption, setSelectedOption] = useState('RATING');
-  const sortByRating = projects => {
+  const sortByRating = (projects) => {
     // generate a sorted array of public projects based on likes
     const sortedRatings = projects.sort((a, b) => b.likes - a.likes);
     return sortedRatings;
   };
-  const sortByDate = projects => {
+  const sortByDate = (projects) => {
     // generate a sorted array of public projects based on date
     const sortedRatings = projects.sort((a, b) => b.createdAt - a.createdAt);
     return sortedRatings;
   };
-  const sortByUser = projects => {
+  const sortByUser = (projects) => {
     // generate a sorted array of public projects based on username
     const sortedRatings = projects.sort((a, b) => b.username - a.username);
     return sortedRatings;
   };
   // function for selecting drop down sorting menu
-  const optionClicked = value => {
+  const optionClicked = (value) => {
     setSelectedOption(value);
   };
   // useQuery hook abstracts fetch request
@@ -129,12 +169,12 @@ const ProjectContainer = (): JSX.Element => {
   if (error) return <p>Error :{error}</p>;
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-  
+
   //create array to hold the data recieved in the public dashboard the will be conditionally rendered
-  let sortedProjects = projects.filter(proj => {
+  let sortedProjects = projects.filter((proj) => {
     return proj.published;
   });
-  const userProjects = projects.filter(proj => {
+  const userProjects = projects.filter((proj) => {
     return proj.username === username;
   });
   // checking which sorting method was selected from drop down menu and invoking correct sorting function
@@ -156,7 +196,7 @@ const ProjectContainer = (): JSX.Element => {
           <div className={'dashboardContainer'}>
             <NavBarDash
               setTheme={setTheme}
-              // styles={[style]} 
+              // styles={[style]}
               isThemeLight={isThemeLight}
               optionClicked={optionClicked}
             />
