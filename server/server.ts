@@ -82,7 +82,7 @@ if (process.env.NODE_ENV == 'production') {
 // NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
 
 const passport = require('passport');
-// const passportSetup = require('./routers/passport-setup');
+const passportSetup = require('./routers/passport-setup');
 const session = require('express-session');
 import authRoutes from './routers/auth';
 
