@@ -91,6 +91,7 @@
     "John Wage"
   ],
   "scripts": {
+    "prod-build": "echo 'Building those prods... (not actualy doing anything)...'",
     "dev-frontend": "vite",
     "dev-server": "NODE_ENV=development nodemon server/server.ts",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon server/server.ts\" \"vite\"",
