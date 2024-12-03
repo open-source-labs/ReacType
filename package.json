@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "21.0.0 by Austin Alvarez, Heather Pfeiffer, Sean Ryan, Jesse Wowczuk, Zack Vandiver",
+  "version": "22.0.0 by Spencer Lau, Noah Favelo, Ayleen Nazario, Kevin Chandra, Eaming Wu",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/.electron/main.js",

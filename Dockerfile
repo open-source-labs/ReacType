@@ -31,13 +31,19 @@ COPY --from=build /app/package*.json ./
 
 RUN npm install --no-install-recommends --fetch-retry-maxtimeout 500000
 
+# RUN npm run dev-frontend # no, dont just run the app while building
+
 # make a build file?
+
 
 # --only=prod
 # COPY --from=build /app/.env .env
 COPY --from=build /app/config.js ./config.js
 COPY --from=build /app/server ./server
-COPY --from=build /app/build /app
+COPY --from=build /app/build /app/build
+
+
+
 
 EXPOSE 5656
 
@@ -47,6 +53,7 @@ ENV IS_DOCKER=true
 ENV VIDEOSDK='vidsdk'
  ENV NODE_ENV='development'
  ENV DEV_PORT=5656
+ ENV PORT=5656
 
  ENV MONGO_DB='mongodb+srv://NOAH:aAnY8q13q1tCha8e@trialcluster.v4see.mongodb.net/?retryWrites=true&w=majority&appName=TrialCluster'
  ENV GITHUB_CLIENT='github client'

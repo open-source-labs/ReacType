@@ -606,7 +606,9 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj);
 });
 
-app.use('/*', (req, res) => res.status(404).send('Page not found'));
+app.use('/*', (req, res) =>
+  res.status(404).send('You got a 404, thats an error.')
+);
 
 // starts server on PORT
 if (!isTest) {
