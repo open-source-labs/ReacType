@@ -25,7 +25,7 @@ dotenv.config();
 const app = express();
 console.log('process.env.NODE_ENV check', process.env.NODE_ENV);
 
-const PORT = process.env.PORT || DEV_PORT;
+const PORT = 5656; ///process.env.PORT || DEV_PORT;
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
@@ -588,11 +588,11 @@ app.get(
 //     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
 //   });
 // }
-if(isTest){
-app.get('/test', (req, res) => {
-  res.send('test request is working');
-});
-};
+if (isTest) {
+  app.get('/test', (req, res) => {
+    res.send('test request is working');
+  });
+}
 
 // Global error handler
 app.use((err, req, res, next) => {
