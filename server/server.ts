@@ -25,7 +25,7 @@ dotenv.config();
 const app = express();
 console.log('process.env.NODE_ENV check', process.env.NODE_ENV);
 
-const PORT = 5656; ///process.env.PORT || DEV_PORT;
+const PORT = process.env.PORT || DEV_PORT;
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
