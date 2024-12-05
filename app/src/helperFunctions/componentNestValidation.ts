@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ChildElement } from '../interfaces/Interfaces';
 
 /**
@@ -8,12 +9,11 @@ import { ChildElement } from '../interfaces/Interfaces';
  * @param {number} nestId - The ID of the component to check against nesting.
  * @returns {boolean} Returns true if the component is not nested within itself, otherwise returns false.
  */
-const componentNest = (children: ChildElement[], nestId: Number) => {
+const componentNest = (children: ChildElement[], nestId: number) => {
   let notNested = true;
   for (const element of children) {
     if (element.childId === nestId) return false;
-    else if (element.children.length > 0)
-      notNested = componentNest(element.children, nestId);
+    if (element.children.length > 0) notNested = componentNest(element.children, nestId);
   }
   return notNested;
 };

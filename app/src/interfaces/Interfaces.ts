@@ -56,7 +56,7 @@ export interface Component {
   childId?: number;
   id: number;
   name: string;
-  style: {};
+  style: object;
   icon?: any;
   attributes?: Attributes;
   events: object;

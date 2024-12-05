@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { combineReducers } from '@reduxjs/toolkit';
 
 // Need to import each slice which will be combined in the rootReducer

@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
 // import config from '../../../config.js';
 import serverConfig from '../serverConfig';
+
 const { API_BASE_URL } = serverConfig;
 let socket = null;
 
@@ -11,7 +12,7 @@ export const initializeSocket = () => {
   socket = io(API_BASE_URL, {
     transports: ['websocket'],
     // will force new socket connection if re-joining to prevent double emits
-    forceNew: true
+    forceNew: true,
   });
 };
 
@@ -19,9 +20,7 @@ export const initializeSocket = () => {
  * Returns the socket instance.
  * @returns {Socket | null} The socket instance, or null if not initialized.
  */
-export const getSocket = () => {
-  return socket;
-};
+export const getSocket = () => socket;
 
 /**
  * Disconnects the socket if it's currently connected.

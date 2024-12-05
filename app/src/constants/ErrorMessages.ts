@@ -6,5 +6,5 @@ export default {
     'Reusable components inside of a page must be deleted from the page.',
   deleteLinkedPageTitle: 'Delete linked page error.',
   deleteLinkedPageMessage:
-    'Please delete the links to this page before deleting the page.'
+    'Please delete the links to this page before deleting the page.',
 };

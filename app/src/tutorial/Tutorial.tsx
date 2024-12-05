@@ -7,7 +7,6 @@ import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import Styling from '../constants/Styling';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import LinkIcon from '@mui/icons-material/Link';
 import CodeIcon from '@mui/icons-material/Code';
@@ -22,6 +21,7 @@ import KeyboardIcon from '@mui/icons-material/Keyboard';
 import BrushIcon from '@mui/icons-material/Brush';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import Styling from '../constants/Styling';
 
 const useStyles = makeStyles({
   root: {

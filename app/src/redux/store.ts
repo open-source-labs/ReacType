@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './reducers/rootReducer';
 
@@ -15,7 +16,7 @@ import rootReducer from './reducers/rootReducer';
  * @function
  * @example
  * import store from './store';
- * 
+ *
  * console.log(store.getState()); // Logs the current state of the Redux store.
  *
  * @returns {object} The Redux store configured with root reducers and customized middleware.
@@ -38,10 +39,10 @@ const store = configureStore({
 
     return getDefaultMiddleware({
       serializableCheck: {
-        ignoredPaths
-      }
+        ignoredPaths,
+      },
     });
-  }
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

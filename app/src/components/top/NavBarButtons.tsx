@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Ref, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
@@ -29,23 +30,23 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      width: '100%'
+      width: '100%',
     },
     menuButton: {
       marginRight: theme.spacing(1),
-      color: 'white'
+      color: 'white',
     },
     title: {
       flexGrow: 1,
-      color: 'white'
+      color: 'white',
     },
     manageProject: {
       display: 'flex',
       justifyContent: 'center',
       width: '100px',
-      overflow: 'none'
-    }
-  })
+      overflow: 'none',
+    },
+  }),
 );
 
 interface StyledMenuProps extends React.PropsWithChildren<{}> {
@@ -58,18 +59,18 @@ interface StyledMenuProps extends React.PropsWithChildren<{}> {
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
-  }
+    border: '1px solid #d3d4d5',
+  },
 })((props: StyledMenuProps) => (
   <Menu
     elevation={0}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center'
+      horizontal: 'center',
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center'
+      horizontal: 'center',
     }}
     open={true}
     {...props}
@@ -80,10 +81,10 @@ const StyledMenuItem = withStyles((theme) => ({
   root: {
     '&:focus': {
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white
-      }
-    }
-  }
+        color: theme.palette.common.white,
+      },
+    },
+  },
 }))(MenuItem);
 
 /**
@@ -120,7 +121,7 @@ const navbarDropDown = (props): JSX.Element => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
 
-    props.setDropDownMenu(true)
+    props.setDropDownMenu(true);
   };
 
   const clearWorkspace = () => {
@@ -140,7 +141,7 @@ const navbarDropDown = (props): JSX.Element => {
             backgroundColor: '#E12D39',
             borderRadius: '50px',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText
@@ -162,8 +163,8 @@ const navbarDropDown = (props): JSX.Element => {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 
@@ -204,7 +205,7 @@ const navbarDropDown = (props): JSX.Element => {
 
   return (
     <div data-testid="navDropDown" ref={ref} className={showMenu}>
-      <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank"> 
+      <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"

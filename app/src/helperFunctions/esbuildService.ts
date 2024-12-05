@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as esbuild from 'esbuild-wasm';
 
 let isEsbuildInitialized = false;
@@ -10,7 +11,7 @@ export const initializeEsbuild = async () => {
   if (!isEsbuildInitialized) {
     await esbuild.initialize({
       worker: true,
-      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
     });
     isEsbuildInitialized = true;
   }

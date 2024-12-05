@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useCallback, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -39,7 +40,7 @@ export default function NewExportButton(): JSX.Element {
     padding: '8px 15px',
     cursor: 'pointer',
     marginRight: '6px',
-    borderRadius: '10px'
+    borderRadius: '10px',
   };
 
   const showGenerateAppModal = () => {
@@ -53,7 +54,7 @@ export default function NewExportButton(): JSX.Element {
             style={{
               border: '1px solid #3c59ba',
               marginBottom: '2%',
-              marginTop: '5%'
+              marginTop: '5%',
             }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
@@ -76,8 +77,8 @@ export default function NewExportButton(): JSX.Element {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Button,
   Dialog,
@@ -9,7 +10,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  TextField
+  TextField,
 } from '@mui/material';
 import { Redo, Undo } from '@mui/icons-material';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -25,7 +26,7 @@ import {
   updateCss,
   updateEvents,
   updateStateUsed,
-  updateUseContext
+  updateUseContext,
 } from '../redux/reducers/slice/appStateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -151,8 +152,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const childrenArray = deepIterate(configTarget.children);
     for (const element of childrenArray) {
       if (configTarget.child && element.childId === configTarget.child.id) {
-        const attributes = element.attributes;
-        const style = element.style;
+        const { attributes } = element;
+        const { style } = element;
         setCompText(attributes.compText ? attributes.compText : '');
         setCompLink(attributes.compLink ? attributes.compLink : '');
         setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');
@@ -211,7 +212,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         break;
       case 'event':
         setEventAll(
-          inputVal ? [inputVal, `handle${inputVal.slice(2)}`] : ['', '']
+          inputVal ? [inputVal, `handle${inputVal.slice(2)}`] : ['', ''],
         );
         break;
       case 'funcName':
@@ -229,9 +230,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const focusTarget = JSON.parse(
       JSON.stringify(
         state.components.find(
-          (comp) => comp.id === state.canvasFocus.componentId
-        )
-      )
+          (comp) => comp.id === state.canvasFocus.componentId,
+        ),
+      ),
     );
     delete focusTarget.child;
     // checks if canvasFocus references a childId
@@ -253,21 +254,20 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           focusTarget.child.attributes = focusChild.attributes;
           break;
         }
-        if (currentChild.name !== 'input' && currentChild.name !== 'img')
-          currentChild.children.forEach((child) => searchArray.push(child));
+        if (currentChild.name !== 'input' && currentChild.name !== 'img') currentChild.children.forEach((child) => searchArray.push(child));
       }
 
       // if type is Component, use child's typeId to search through state components and find matching component's name
       if (focusChild.type === 'Component') {
         focusTarget.child.type = 'component';
         focusTarget.child.name = state.components.find(
-          (comp) => comp.id === focusChild.typeId
+          (comp) => comp.id === focusChild.typeId,
         ).name;
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
         focusTarget.child.name = state.HTMLTypes.find(
-          (elem) => elem.id === focusChild.typeId
+          (elem) => elem.id === focusChild.typeId,
         ).name;
       }
     }
@@ -276,7 +276,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   // since determining the details of the focused component/child is an expensive operation, only perform this operation if the child/component have changed
   configTarget = useMemo(
     () => getFocus(),
-    [state.canvasFocus.childId, state.canvasFocus.componentId]
+    [state.canvasFocus.childId, state.canvasFocus.componentId],
   );
   const isPage = (configTarget): boolean => {
     const { components, rootComponents } = state;
@@ -307,12 +307,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     componentProviderId,
     statePropsId,
     statePropsRow,
-    stateKey = ''
+    stateKey = '',
   ) => {
     const newInput = statePropsRow.value;
     // get the stateProps of the componentProvider
-    const currentComponent =
-      state.components[state.canvasFocus.componentId - 1];
+    const currentComponent = state.components[state.canvasFocus.componentId - 1];
     let newContextObj = { ...currentComponent.useContext };
     if (!newContextObj) {
       newContextObj = {};
@@ -327,7 +326,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         ...stateUsedObj,
         compText: stateKey,
         compTextProviderId: componentProviderId,
-        compTextPropsId: statePropsId
+        compTextPropsId: statePropsId,
       });
       setCompText(newInput);
       setUseContextObj(newContextObj);
@@ -339,7 +338,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         ...stateUsedObj,
         compLink: stateKey,
         compLinkProviderId: componentProviderId,
-        compLinkPropsId: statePropsId
+        compLinkPropsId: statePropsId,
       });
       setCompLink(newInput);
       setUseContextObj(newContextObj);
@@ -353,7 +352,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       width: '40%',
       editable: false,
       flex: 1,
-      disableColumnMenu: true
+      disableColumnMenu: true,
     },
     {
       field: 'funcName',
@@ -361,7 +360,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       width: '50%',
       editable: false,
       flex: 1,
-      disableColumnMenu: true
+      disableColumnMenu: true,
     },
     {
       field: 'delete',
@@ -382,13 +381,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
             <ClearIcon style={{ width: `${15}px` }} />
           </Button>
         );
-      }
-    }
+      },
+    },
   ];
 
   const deleteEvent = (selectedEvent) => {
     dispatch(
-      deleteEventAction({ event: selectedEvent, contextParam: contextParam })
+      deleteEventAction({ event: selectedEvent, contextParam: contextParam }),
     );
   };
 
@@ -397,15 +396,15 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     dispatch(
       updateStateUsed({
         stateUsedObj: stateUsedObj,
-        contextParam: contextParam
-      })
+        contextParam: contextParam,
+      }),
     );
 
     dispatch(
       updateUseContext({
         useContextObj: useContextObj,
-        contextParam: contextParam
-      })
+        contextParam: contextParam,
+      }),
     );
 
     const styleObj: any = {};
@@ -425,8 +424,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     dispatch(
       updateAttributes({
         attributes: attributesObj,
-        contextParam: contextParam
-      })
+        contextParam: contextParam,
+      }),
     );
 
     const eventsObj: any = {};
@@ -440,7 +439,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         useContextObj: useContextObj,
         attributes: attributesObj,
         style: styleObj,
-        events: eventsObj
+        events: eventsObj,
       });
     }
 
@@ -469,7 +468,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (roomCode) {
       emitEvent('deleteChildAction', roomCode, {
         id: {},
-        contextParam: contextParam
+        contextParam: contextParam,
       });
     }
   };
@@ -508,7 +507,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           style={{
             border: '1px solid #3c59ba',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
@@ -520,7 +519,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           style={{
             border: '1px solid #3c59ba',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText primary={'No'} style={{ textAlign: 'center' }} />
@@ -539,8 +538,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
   const keyBindedFunc = useCallback((e) => {
@@ -644,7 +643,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   { value: 'none', text: 'none' },
                   { value: 'block', text: 'block' },
                   { value: 'inline-block', text: 'inline-block' },
-                  { value: 'flex', text: 'flex' }
+                  { value: 'flex', text: 'flex' },
                 ]}
               />
               {displayMode === 'flex' && (
@@ -659,7 +658,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     items={[
                       { value: '', text: 'default' },
                       { value: 'row', text: 'row' },
-                      { value: 'column', text: 'column' }
+                      { value: 'column', text: 'column' },
                     ]}
                   />
                   <FormSelector
@@ -676,7 +675,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       { value: 'center', text: 'center' },
                       { value: 'space-between', text: 'space-between' },
                       { value: 'space-around', text: 'space-around' },
-                      { value: 'space-evenly', text: 'space-evenly' }
+                      { value: 'space-evenly', text: 'space-evenly' },
                     ]}
                   />
                   <FormSelector
@@ -691,7 +690,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       { value: 'stretch', text: 'stretch' },
                       { value: 'flex-start', text: 'flex-start' },
                       { value: 'flex-end', text: 'flex-end' },
-                      { value: 'center', text: 'center' }
+                      { value: 'center', text: 'center' },
                     ]}
                   />
                 </div>
@@ -708,7 +707,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   { value: 'auto', text: 'auto' },
                   { value: '100%', text: '100%' },
                   { value: '50%', text: '50%' },
-                  { value: '25%', text: '25%' }
+                  { value: '25%', text: '25%' },
                 ]}
               />
               <FormSelector
@@ -723,7 +722,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   { value: 'auto', text: 'auto' },
                   { value: '100%', text: '100%' },
                   { value: '50%', text: '50%' },
-                  { value: '25%', text: '25%' }
+                  { value: '25%', text: '25%' },
                 ]}
               />
               <div className={classes.configRow}>
@@ -744,7 +743,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`,
                       }}
                       value={BGColor}
                       onChange={handleChange}
@@ -773,7 +772,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`,
                       }}
                       value={compText}
                       onChange={handleChange}
@@ -807,7 +806,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`,
                       }}
                       value={compLink}
                       onChange={handleChange}
@@ -841,7 +840,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`,
                       }}
                       value={cssClasses}
                       onChange={handleChange}
@@ -863,7 +862,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     { value: 'onClick', text: 'onClick' },
                     { value: 'onChange', text: 'onChange' },
                     { value: 'onMouseOver', text: 'onMouseOver' },
-                    { value: 'onKeyDown', text: 'onKeyDown' }
+                    { value: 'onKeyDown', text: 'onKeyDown' },
                   ]}
                 />
               </div>
@@ -884,7 +883,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`,
                       }}
                       value={eventAll[1]}
                       onChange={handleChange}
@@ -1056,28 +1055,28 @@ const useStyles = makeStyles({
     fontSize: '1em',
     borderRadius: '10px',
     '> .MuiSelect-icon': {
-      color: '#C6C6C6'
-    }
+      color: '#C6C6C6',
+    },
   },
   selectInput: {
     paddingTop: '15px',
-    paddingLeft: '15px'
+    paddingLeft: '15px',
   },
   formControl: {
-    minWidth: '125px'
+    minWidth: '125px',
   },
   configRow: {
     display: 'flex',
     paddingLeft: '25px',
     paddingRight: '25px',
-    marginTop: '20px'
+    marginTop: '20px',
   },
   configType: {
     minWidth: '185px',
-    fontSize: '85%'
+    fontSize: '85%',
   },
   configValue: {
-    marginLeft: '20px'
+    marginLeft: '20px',
   },
   buttonRow: (isThemeLight) => ({
     display: 'flex',
@@ -1087,27 +1086,27 @@ const useStyles = makeStyles({
     marginLeft: '15px',
     '& > .MuiButton-textSecondary': {
       color: isThemeLight ? '#808080' : '#ECECEA', // color for delete page
-      border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'
-    }
+      border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA',
+    },
   }),
   button: {
     fontSize: '1rem',
     padding: '9px 35px',
     margin: '10px 15px 0 0',
-    borderRadius: '8px'
+    borderRadius: '8px',
   },
   saveButtonLight: {
     border: '1px solid #0671e3',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)'
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   saveButtonDark: {
-    border: '1px solid #3c59ba'
+    border: '1px solid #3c59ba',
   },
   compName: {
-    fontSize: '1rem'
+    fontSize: '1rem',
   },
   rootCompName: {
-    fontSize: '1.75rem'
+    fontSize: '1.75rem',
   },
   // 'Parent Component' font size
   configHeader: {
@@ -1115,8 +1114,8 @@ const useStyles = makeStyles({
       fontSize: '1rem',
       letterSpacing: '0.5px',
       marginBottom: '10px',
-      marginTop: '10px'
-    }
+      marginTop: '10px',
+    },
   },
   rootConfigHeader: {
     height: '70px',
@@ -1124,15 +1123,15 @@ const useStyles = makeStyles({
       fontSize: '1.75rem',
       letterSpacing: '0.5px',
       marginBottom: '0',
-      marginTop: '30px'
-    }
+      marginTop: '30px',
+    },
   },
   lightThemeFontColor: {
-    color: 'white'
+    color: 'white',
   },
   darkThemeFontColor: {
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 });
 
 export default CustomizationPanel;

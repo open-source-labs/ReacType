@@ -9,7 +9,8 @@
     "allowSyntheticDefaultImports": true,
     "strictFunctionTypes": false,
     "esModuleInterop": true,
-    "noEmitOnError": false
+    "noEmitOnError": false,
+    "moduleResolution": "Node16" // explicitly set moduleResolution to Node16
   },
   // Most ts-node options can be specified here using their programmatic names.
   "ts-node": {

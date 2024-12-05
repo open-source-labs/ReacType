@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import {
   StyledEngineProvider,
@@ -44,7 +45,7 @@ const darkTheme = theme2; // dark mode color in theme.ts not reached
  * styles with custom styles defined in the application.
  */
 const AppContainer: React.FC = () => {
-  //useHistory hook to grab the url, if it is /marketplace then selectively render MarketplaceContainer
+  // useHistory hook to grab the url, if it is /marketplace then selectively render MarketplaceContainer
   const urlAdd = useHistory();
   const isMarketplace = urlAdd.location.pathname === '/marketplace';
 

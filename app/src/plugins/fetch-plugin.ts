@@ -6,7 +6,7 @@ import localForage from 'localforage';
  * Creates a file cache instance using localForage.
  */
 const fileCache = localForage.createInstance({
-  name: 'filecache'
+  name: 'filecache',
 });
 
 /**
@@ -25,12 +25,12 @@ export const fetchPlugin = (inputCode: string): esbuild.Plugin => {
       build.onLoad({ filter: /(^index\.js$)/ }, () => {
         return {
           loader: 'jsx',
-          contents: inputCode
+          contents: inputCode,
         };
       });
       build.onLoad({ filter: /.*/ }, async (args: any) => {
         const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
-          args.path
+          args.path,
         );
         if (cachedResult) {
           return cachedResult;
@@ -50,7 +50,7 @@ export const fetchPlugin = (inputCode: string): esbuild.Plugin => {
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents,
-          resolveDir: new URL('./', request.responseURL).pathname
+          resolveDir: new URL('./', request.responseURL).pathname,
         };
         await fileCache.setItem(args.path, result);
         return result;
@@ -58,7 +58,7 @@ export const fetchPlugin = (inputCode: string): esbuild.Plugin => {
 
       build.onLoad({ filter: /.*/ }, async (args: any) => {
         const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
-          args.path
+          args.path,
         );
         if (cachedResult) {
           return cachedResult;
@@ -68,11 +68,11 @@ export const fetchPlugin = (inputCode: string): esbuild.Plugin => {
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents: data,
-          resolveDir: new URL('./', request.responseURL).pathname
+          resolveDir: new URL('./', request.responseURL).pathname,
         };
         await fileCache.setItem(args.path, result);
         return result;
       });
-    }
+    },
   };
 };

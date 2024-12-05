@@ -1,16 +1,16 @@
+/* eslint-disable max-len */
+import axios from 'axios';
+import serverConfig from '../serverConfig.js';
+import {
+  IErrorSetters,
+  AuthStateSetters,
+  ValidationParams,
+} from '../interfaces/Interfaces';
 // const fetch = require('node-fetch');
 const isDev = import.meta.env.NODE_ENV === 'development';
 // const fetch = require('node-fetch');
 // import fetch from 'node-fetch';
-import serverConfig from '../serverConfig.js';
-import axios from 'axios';
 const { DEV_PORT, API_BASE_URL } = serverConfig;
-
-import {
-  IErrorSetters,
-  AuthStateSetters,
-  ValidationParams
-} from '../interfaces/Interfaces';
 
 let serverURL = API_BASE_URL;
 if (isDev) {
@@ -31,29 +31,28 @@ if (isDev) {
 export const sessionIsCreated = async (
   username: string,
   password: string,
-  isFbOauth: boolean
+  isFbOauth: boolean,
 ): Promise<string> => {
   const body = JSON.stringify({
     username,
     password,
-    isFbOauth
+    isFbOauth,
   });
   try {
     const response = await axios.post(`${serverURL}/login`, body, {
       withCredentials: true,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
     const { data } = response;
     if (data.sessionId && typeof data.sessionId === 'string') {
       window.localStorage.setItem('ssid', data.sessionId);
       window.localStorage.setItem('username', username);
       return 'Success';
-    } else {
-      console.error('Session ID missing from response');
-      throw new Error('Login failed: Session ID missing');
     }
+    console.error('Session ID missing from response');
+    throw new Error('Login failed: Session ID missing');
   } catch (err) {
     console.error('Error starting session:', err);
     throw new Error('Login failed: ' + err);
@@ -74,19 +73,19 @@ export const sessionIsCreated = async (
 export const newUserIsCreated = async (
   username: string,
   email: string,
-  password: string
+  password: string,
 ): Promise<string> => {
   const body = JSON.stringify({
     username,
     email,
-    password
+    password,
   });
   try {
     const response = await axios.post(`${serverURL}/signup`, body, {
       withCredentials: true,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
     const { data } = response;
     if (data.sessionId && typeof data.sessionId === 'string') {
@@ -117,7 +116,7 @@ export const newUserIsCreated = async (
  */
 export const updatePassword = async (
   username: string,
-  password: string
+  password: string,
 ): Promise<string> => {
   if (!username || !password) {
     throw new Error('Missing username or password.'); // Initial input validation
@@ -127,14 +126,14 @@ export const updatePassword = async (
       `${serverURL}/updatePassword`,
       {
         username: username,
-        password: password
+        password: password,
       },
       {
         withCredentials: true, // Necessary for including cookies if using sessions
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
+          'Content-Type': 'application/json',
+        },
+      },
     );
     return response.data.message; // Returning response data directly
   } catch (err) {
@@ -161,7 +160,7 @@ export const updatePassword = async (
 export const setErrorMessages = (
   type: string,
   message: string,
-  setters: IErrorSetters
+  setters: IErrorSetters,
 ) => {
   const {
     setInvalidEmail,
@@ -171,7 +170,7 @@ export const setErrorMessages = (
     setInvalidPassword,
     setInvalidPasswordMsg,
     setInvalidVerifyPassword,
-    setInvalidVerifyPasswordMsg
+    setInvalidVerifyPasswordMsg,
   } = setters;
 
   switch (type) {
@@ -209,7 +208,7 @@ export const setErrorMessages = (
  */
 export const handleChange = (
   event: React.ChangeEvent<HTMLInputElement>,
-  setters: AuthStateSetters
+  setters: AuthStateSetters,
 ) => {
   const { setEmail, setUsername, setPassword, setPasswordVerify } = setters;
   const { name, value } = event.target;
@@ -249,7 +248,7 @@ export const resetErrorValidation = (setters: IErrorSetters) => {
     setInvalidPassword,
     setInvalidPasswordMsg,
     setInvalidVerifyPassword,
-    setInvalidVerifyPasswordMsg
+    setInvalidVerifyPasswordMsg,
   } = setters;
 
   if (setInvalidEmailMsg) setInvalidEmailMsg('');
@@ -274,7 +273,7 @@ export const validateInputs = ({
   username = '',
   password = '',
   passwordVerify,
-  errorSetters
+  errorSetters,
 }: ValidationParams) => {
   let isValid = true; // Assume all inputs are valid initially
 
@@ -292,14 +291,14 @@ export const validateInputs = ({
     setErrorMessages(
       'username',
       'Must Be 4 - 15 Characters Long',
-      errorSetters
+      errorSetters,
     );
     isValid = false;
   } else if (!/^[\w-]+$/i.test(username)) {
     setErrorMessages(
       'username',
       'Cannot Contain Spaces or Special Characters',
-      errorSetters
+      errorSetters,
     );
     isValid = false;
   }
@@ -313,13 +312,13 @@ export const validateInputs = ({
     isValid = false;
   } else if (
     !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(
-      password
+      password,
     )
   ) {
     setErrorMessages(
       'password',
       'Minimum 1 Letter, Number, and Special Character',
-      errorSetters
+      errorSetters,
     );
     isValid = false;
   }
@@ -330,14 +329,14 @@ export const validateInputs = ({
       setErrorMessages(
         'verifyPassword',
         'Passwords Do Not Match',
-        errorSetters
+        errorSetters,
       );
       isValid = false;
     } else if (!passwordVerify) {
       setErrorMessages(
         'verifyPassword',
         'Password Verification Required',
-        errorSetters
+        errorSetters,
       );
       isValid = false;
     }

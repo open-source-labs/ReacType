@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Component,
   ChildElement,
@@ -5,8 +6,9 @@ import {
   MUIType,
   MUIComponent,
   ChildStyle,
-  StateProp
+  StateProp,
 } from '../interfaces/Interfaces';
+
 declare global {
   interface Window {
     api: any;
@@ -55,7 +57,7 @@ const generateCode = (
   HTMLTypes: HTMLType[],
   MUITypes: MUIType[],
   tailwind: boolean,
-  contextParam: any
+  contextParam: any,
 ): string => {
   const code = generateUnformattedCode(
     components,
@@ -65,7 +67,7 @@ const generateCode = (
     HTMLTypes,
     MUITypes,
     tailwind,
-    contextParam
+    contextParam,
   );
   return formatCode(code);
 };
@@ -90,22 +92,21 @@ const generateUnformattedCode = (
   HTMLTypes: HTMLType[],
   MUITypes: MUIType[],
   tailwind: boolean,
-  contextParam: any
+  contextParam: any,
 ): string => {
   const components = [...comps];
   // find the component that we're going to generate code for
-  const currComponent: Component | ChildElement | MUIComponent =
-    components.find((elem) => elem.id === componentId);
+  const currComponent: Component | ChildElement | MUIComponent = components.find((elem) => elem.id === componentId);
   // find the unique components that we need to import into this component file
-  let imports: any = [];
-  let muiImports: Set<string> = new Set();
-  let muiStateAndEventHandlers: Set<string> = new Set();
-  let providers: string = '';
-  let context: string = '';
-  let links: boolean = false;
-  let images: boolean = false;
+  const imports: any = [];
+  const muiImports: Set<string> = new Set();
+  const muiStateAndEventHandlers: Set<string> = new Set();
+  const providers = '';
+  const context = '';
+  const links = false;
+  const images = false;
   const isRoot = rootComponents.includes(componentId);
-  let importReactRouter = false;
+  const importReactRouter = false;
 
   /**
    * Recursively processes the children of a component, enriching them with additional information.
@@ -140,7 +141,7 @@ const generateUnformattedCode = (
             collectStateAndEventHandlers(
               child,
               MUITypes,
-              muiStateAndEventHandlers
+              muiStateAndEventHandlers,
             );
           }
           break;
@@ -205,23 +206,23 @@ const generateUnformattedCode = (
           display,
           flexDirection,
           width,
-          justifyContent
+          justifyContent,
         } = childElement.style;
         const classMap = {
           alignItems: {
             center: 'items-center',
             'flex-start': 'items-start',
             'flex-end': 'items-end',
-            stretch: 'items-stretch'
+            stretch: 'items-stretch',
           },
           display: {
             flex: 'flex',
             'inline-block': 'inline-block',
             block: 'block',
-            none: 'hidden'
+            none: 'hidden',
           },
           flexDirection: {
-            column: 'flex-col'
+            column: 'flex-col',
           },
           justifyContent: {
             center: 'justify-center',
@@ -229,20 +230,20 @@ const generateUnformattedCode = (
             'space-between': 'justify-between',
             'space-around': 'justify-around',
             'flex-end': 'justify-end',
-            'space-evenly': 'justify-evenly'
+            'space-evenly': 'justify-evenly',
           },
           height: {
             '100%': 'h-full',
             '50%': 'h-1/2',
             '25%': 'h-1/4',
-            auto: 'auto'
+            auto: 'auto',
           },
           width: {
             '100%': 'w-full',
             '50%': 'w-1/2',
             '25%': 'w-1/4',
-            auto: 'w-auto'
-          }
+            auto: 'w-auto',
+          },
         };
 
         let classes = [
@@ -252,7 +253,7 @@ const generateUnformattedCode = (
           classMap.height[height],
           classMap.justifyContent[justifyContent],
           classMap.width[width],
-          backgroundColor ? `bg-[${backgroundColor}]` : ''
+          backgroundColor ? `bg-[${backgroundColor}]` : '',
         ]
           .filter(Boolean)
           .join(' ');
@@ -298,7 +299,7 @@ const generateUnformattedCode = (
    */
   elementGenerator = (
     childElement: ChildElement,
-    level: number = 0
+    level = 0,
   ): string[] => {
     const jsxArray = [];
     const indentation = '  '.repeat(level);
@@ -312,17 +313,15 @@ const generateUnformattedCode = (
     let activeLink = '""';
 
     if (childElement.attributes && childElement.attributes.compText) {
-      innerText =
-        childElement.stateUsed && childElement.stateUsed.compText
-          ? `{${childElement.stateUsed.compText}}`
-          : childElement.attributes.compText;
+      innerText = childElement.stateUsed && childElement.stateUsed.compText
+        ? `{${childElement.stateUsed.compText}}`
+        : childElement.attributes.compText;
     }
 
     if (childElement.attributes && childElement.attributes.compLink) {
-      activeLink =
-        childElement.stateUsed && childElement.stateUsed.compLink
-          ? `{${childElement.stateUsed.compLink}}`
-          : `"${childElement.attributes.compLink}"`;
+      activeLink = childElement.stateUsed && childElement.stateUsed.compLink
+        ? `{${childElement.stateUsed.compLink}}`
+        : `"${childElement.attributes.compLink}"`;
     }
 
     const nestableTags = [
@@ -339,7 +338,7 @@ const generateUnformattedCode = (
       'menu',
       'li',
       'Switch',
-      'Route'
+      'Route',
     ];
     const isNestable = nestableTags.includes(childElement.tag);
 
@@ -355,7 +354,7 @@ const generateUnformattedCode = (
       }
     } else {
       jsxArray.push(
-        `${indentation}<${childElement.tag} ${tagDetails}>${innerText}</${childElement.tag}>`
+        `${indentation}<${childElement.tag} ${tagDetails}>${innerText}</${childElement.tag}>`,
       );
     }
 
@@ -372,7 +371,7 @@ const generateUnformattedCode = (
   insertNestedJsxBeforeClosingTag = (
     parentJsx: string,
     nestedJsx: string[],
-    indentationLevel: number
+    indentationLevel: number,
   ): string => {
     // Find the index of the closing tag of the parent component
     const closingTagIndex = parentJsx.lastIndexOf('</');
@@ -390,7 +389,7 @@ const generateUnformattedCode = (
     return [
       parentJsx.slice(0, closingTagIndex),
       indentedNestedJsx,
-      parentJsx.slice(closingTagIndex)
+      parentJsx.slice(closingTagIndex),
     ].join('\n');
   };
 
@@ -415,7 +414,7 @@ const generateUnformattedCode = (
   insertAttribute = (
     line: string,
     index: number,
-    attribute: string
+    attribute: string,
   ): string => {
     const before = line.substring(0, index);
 
@@ -443,7 +442,7 @@ const generateUnformattedCode = (
     newProps: string,
     childId: string,
     name: string,
-    key: string
+    key: string,
   ): string[] => {
     const tagRegExp = new RegExp(`^<${name}(\\s|>)`);
 
@@ -470,7 +469,7 @@ const generateUnformattedCode = (
           modifiedLine = insertAttribute(
             modifiedLine,
             insertIndex,
-            `id="${key}"`
+            `id="${key}"`,
           );
           insertIndex += ` id="${key}"`.length; // Update index to account for added id length
         }
@@ -497,13 +496,13 @@ const generateUnformattedCode = (
    * @param {number} [level=0] - The indentation level.
    * @returns {string} - The generated JSX for the Material UI component.
    */
-  muiGenerator = (child: ChildElement, level: number = 0): string => {
+  muiGenerator = (child: ChildElement, level = 0): string => {
     let childId = '';
     let passedInPropsString = '';
     let key = '';
 
     const MUIComp: MUIType | undefined = MUITypes.find(
-      (el) => el.tag === child.name
+      (el) => el.tag === child.name,
     );
     const MUIName: string | undefined = MUIComp?.name;
 
@@ -529,7 +528,7 @@ const generateUnformattedCode = (
 
     // Indent the JSX generated for MUI components based on the provided level
     const indentedJSX = MUIComp.jsx.map(
-      (line) => `${'  '.repeat(level)}${line}`
+      (line) => `${'  '.repeat(level)}${line}`,
     );
 
     // Modify and indent JSX
@@ -538,7 +537,7 @@ const generateUnformattedCode = (
       passedInPropsString,
       childId,
       MUIName!,
-      key
+      key,
     );
 
     // Handle nested components, if any
@@ -547,7 +546,7 @@ const generateUnformattedCode = (
       modifiedJSx = insertNestedJsxBeforeClosingTag(
         modifiedJSx.join('\n'),
         nestedJsx,
-        level
+        level,
       ).split('\n');
     }
 
@@ -567,10 +566,10 @@ const generateUnformattedCode = (
     if (projectType === 'Next.js') {
       // Next.js uses Link with the 'href' attribute and requires an <a> tag inside
       jsxArray.push(
-        `<Link href="/${child.name === 'index' ? '' : child.name}">`
+        `<Link href="/${child.name === 'index' ? '' : child.name}">`,
       );
       jsxArray.push(
-        `${indentation}  <a>${child.displayName || child.name}</a>`
+        `${indentation}  <a>${child.displayName || child.name}</a>`,
       );
       jsxArray.push(`${indentation}</Link>`);
     } else if (projectType === 'Gatsby.js') {
@@ -578,21 +577,21 @@ const generateUnformattedCode = (
       jsxArray.push(
         `<Link to="/${child.name === 'index' ? '' : child.name}">${
           child.displayName || child.name
-        }</Link>`
+        }</Link>`,
       );
     } else if (projectType === 'Classic React') {
       // Classic React might use react-router-dom's Link or another routing method
       jsxArray.push(
         `<Link to="/${child.name === 'index' ? '' : child.name}">${
           child.displayName || child.name
-        }</Link>`
+        }</Link>`,
       );
     } else {
       // Fallback or default handling, such as a simple anchor tag
       jsxArray.push(
         `<a href="/${child.name === 'index' ? '' : child.name}">${
           child.displayName || child.name
-        }</a>`
+        }</a>`,
       );
     }
 
@@ -609,7 +608,7 @@ const generateUnformattedCode = (
   collectMUIImports = (
     component: ChildElement | MUIComponent,
     MUITypes: MUIType[],
-    muiImports: Set<string>
+    muiImports: Set<string>,
   ): void => {
     if (component.type === 'MUI Component') {
       const muiComponent = MUITypes.find((m) => m.id === component.typeId);
@@ -627,9 +626,7 @@ const generateUnformattedCode = (
 
       // Recursively collect imports from child components if they exist
       if (component.children) {
-        component.children.forEach((child) =>
-          collectMUIImports(child, MUITypes, muiImports)
-        );
+        component.children.forEach((child) => collectMUIImports(child, MUITypes, muiImports));
       }
     }
   };
@@ -652,7 +649,7 @@ const generateUnformattedCode = (
   collectStateAndEventHandlers = (
     component: ChildElement | MUIComponent,
     MUITypes: MUIType[],
-    handlersCollection: Set<string>
+    handlersCollection: Set<string>,
   ): void => {
     if (component.type === 'MUI Component') {
       const muiComponent = MUITypes.find((m) => m.id === component.typeId);
@@ -668,7 +665,7 @@ const generateUnformattedCode = (
     // Recursively collect handlers from child components if they exist
     if (component.children) {
       component.children.forEach((child) =>
-        collectStateAndEventHandlers(child, MUITypes, handlersCollection)
+        collectStateAndEventHandlers(child, MUITypes, handlersCollection),
       );
     }
   };
@@ -680,7 +677,7 @@ const generateUnformattedCode = (
    * @returns {string} - The generated handler statements as a single, clean string, with preserved indentation.
    */
   generateStateAndEventHandlerCode = (
-    handlersCollection: Set<string>
+    handlersCollection: Set<string>,
   ): string =>
     Array.from(handlersCollection)
       .map((line) => line.replace(/\/\/.*$/, '')) // Remove only the comment, preserve everything before //
@@ -713,7 +710,7 @@ const generateUnformattedCode = (
    * @returns {string} - A string containing code to incorporate the user-created state.
    */
   writeStateProps = (stateArray: string[]): string => {
-    let stateToRender: string = '';
+    let stateToRender = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2) + element + ';';
     }
@@ -723,33 +720,28 @@ const generateUnformattedCode = (
   const enrichedChildren = getEnrichedChildren(currComponent);
 
   // import statements differ between root (pages) and regular components (components)
-  const importsMapped =
-    projectType === 'Next.js' || projectType === 'Gatsby.js'
-      ? imports
-          .map((comp: string) => {
-            return isRoot
-              ? `import ${comp} from '../components/${comp}'`
-              : `import ${comp} from './${comp}'`;
-          })
-          .join('\n')
-      : imports
-          .map((comp: string) => {
-            return `import ${comp} from './${comp}'`;
-          })
-          .join('\n');
+  const importsMapped = projectType === 'Next.js' || projectType === 'Gatsby.js'
+    ? imports
+      .map((comp: string) => (isRoot
+        ? `import ${comp} from '../components/${comp}'`
+        : `import ${comp} from './${comp}'`))
+      .join('\n')
+    : imports
+      .map((comp: string) => `import ${comp} from './${comp}'`)
+      .join('\n');
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
-    //string to store all imports string for context
+    // string to store all imports string for context
     let contextImports = '';
-    let allContext = contextParam.allContext || []; // Set a default value if allContext is not present or falsy
+    const allContext = contextParam.allContext || []; // Set a default value if allContext is not present or falsy
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
     }
 
-    //build an object with keys representing all components, their values are arrays storing all contexts that those components are consuming
+    // build an object with keys representing all components, their values are arrays storing all contexts that those components are consuming
     const componentContext = allContext.reduce((acc, curr) => {
       for (const component of curr.components) {
         if (acc[component] === undefined) acc[component] = [];
@@ -771,7 +763,7 @@ const generateUnformattedCode = (
       if (importReactRouter) {
         jsxString = `<Router>\n${indentLinesExceptFirst(
           jsxString,
-          1
+          1,
         )}\n</Router>`;
       }
 
@@ -786,7 +778,7 @@ const generateUnformattedCode = (
               el.name
             }Provider>\n${indentLinesExceptFirst(
               jsxString,
-              index + 1
+              index + 1,
             )}\n${indent}</${el.name}Provider>`;
           });
       }
@@ -856,15 +848,15 @@ const generateUnformattedCode = (
 
     const muiImportStatements = generateMUIImportStatements(muiImports);
     const stateAndEventHandlers = generateStateAndEventHandlerCode(
-      muiStateAndEventHandlers
+      muiStateAndEventHandlers,
     );
 
     let generatedCode =
       "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'App' ? contextImports : '';
     generatedCode += importReactRouter
-      ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n`
-      : ``;
+      ? 'import { BrowserRouter as Router, Route, Switch, Link } from \'react-router-dom\';\n'
+      : '';
     generatedCode += createContextImport() ? `${createContextImport()}\n` : '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
     generatedCode += muiImportStatements ? `${muiImportStatements}\n\n` : '';
@@ -883,36 +875,36 @@ const generateUnformattedCode = (
       ${indentLinesExceptFirst(createRender(), 3)}
     </>
   );`;
-    generatedCode += `\n}`;
+    generatedCode += '\n}';
     return generatedCode;
-  } else if (projectType === 'Next.js') {
+  } if (projectType === 'Next.js') {
     return `
     import React, { useState } from 'react';
     ${importsMapped}
     import Head from 'next/head'
-    ${links ? `import Link from 'next/link'` : ``}
-    ${images ? `import Image from 'next/image'` : ``}
+    ${links ? 'import Link from \'next/link\'' : ''}
+    ${images ? 'import Image from \'next/image\'' : ''}
 
     const ${
-      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
-    } = (props): JSX.Element => {
+  currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+} = (props): JSX.Element => {
       return (
           <>
       ${
-        isRoot
-          ? `
+  isRoot
+    ? `
             <Head>
               <title>${currComponent.name}</title>
             </Head>`
-          : ``
-      }
+    : ''
+}
       ${writeNestedElements(enrichedChildren)}
           </>
       );
     }
     export default ${
-      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
-    };
+  currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+};
     `;
   } else {
     // gatsby component code
@@ -920,17 +912,17 @@ const generateUnformattedCode = (
     import React, { useState } from 'react';
     ${importsMapped}
     import { StaticQuery, graphql } from 'gatsby';
-    ${links ? `import { Link } from 'gatsby'` : ``}
+    ${links ? 'import { Link } from \'gatsby\'' : ''}
       const ${currComponent.name} = (props: any): JSX.Element => {
       return (
         <>
         ${
-          isRoot
-            ? `<head>
+  isRoot
+    ? `<head>
               <title>${currComponent.name}</title>
           </head>`
-            : ``
-        }
+    : ''
+}
         <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
@@ -955,11 +947,10 @@ const formatCode = (code: string): string => {
       trailingComma: 'es5',
       bracketSpacing: true,
       jsxBracketSameLine: true,
-      parser: 'babel'
+      parser: 'babel',
     });
-  } else {
-    return code;
   }
+  return code;
 };
 export {
   muiGenerator,
@@ -985,5 +976,5 @@ export {
   collectMUIImports,
   collectStateAndEventHandlers,
   formatCode,
-  generateCode as default // Maintaining generateCode as default export
+  generateCode as default, // Maintaining generateCode as default export
 };

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * HTML content for an iframe.
  * This HTML code is designed to be loaded within an iframe and handles various interactions such as message passing, dependency loading, and component rendering based on incoming data.

@@ -19,21 +19,21 @@ export const unpkgPathPlugin = (): esbuild.Plugin => {
       build.onResolve({ filter: /^\.+\// }, (args: any) => {
         const seeURL = new URL(
           args.path,
-          'https://unpkg.com' + args.resolveDir + '/'
+          'https://unpkg.com' + args.resolveDir + '/',
         ).href;
         return {
           namespace: 'a',
           path: new URL(args.path, 'https://unpkg.com' + args.resolveDir + '/')
-            .href
+            .href,
         };
       });
       // Handle main file of a module
       build.onResolve({ filter: /.*/ }, async (args: any) => {
         return {
           namespace: 'a',
-          path: `https://unpkg.com/${args.path}`
+          path: `https://unpkg.com/${args.path}`,
         };
       });
-    }
+    },
   };
 };
