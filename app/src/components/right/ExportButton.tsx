@@ -2,12 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-//these 3 lines below are for the electron version
+// these 3 lines below are for the electron version
 import GetAppIcon from '@mui/icons-material/GetApp';
 import Button from '@mui/material/Button';
+import { useSelector } from 'react-redux';
 import exportProject from '../../utils/exportProject.util';
 import createModal from './createModal';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import zipFiles from '../../helperFunctions/zipFiles';
 
@@ -37,7 +37,7 @@ export default function ExportButton(): JSX.Element {
             style={{
               border: '1px solid #3c59ba',
               marginBottom: '2%',
-              marginTop: '5%'
+              marginTop: '5%',
             }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
@@ -60,13 +60,13 @@ export default function ExportButton(): JSX.Element {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 
   const exportKeyBind = useCallback((e) => {
-    //Export Project
+    // Export Project
     (e.key === 'e' && e.metaKey) || (e.key === 'e' && e.ctrlKey)
       ? showGenerateAppModal()
       : '';

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import SimpleModal from './SimpleModal';
 
@@ -35,7 +36,7 @@ const createModal = ({
   primBtnAction,
   secBtnAction = null,
   children = null,
-  closeModal
+  closeModal,
 }: Props): JSX.Element => (
   <SimpleModal
     open={open}

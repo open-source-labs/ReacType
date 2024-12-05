@@ -1,11 +1,12 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import DeleteButton from './DeleteButton';
-import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -27,7 +28,7 @@ function DirectChildHTML({
   name,
   type,
   typeId,
-  style
+  style,
 }: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
 
@@ -38,7 +39,7 @@ function DirectChildHTML({
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
   const HTMLType: HTMLType = state.HTMLTypes.find(
-    (type: HTMLType) => type.id === typeId
+    (type: HTMLType) => type.id === typeId,
   );
   // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
@@ -48,11 +49,11 @@ function DirectChildHTML({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId
+      instanceTypeId: typeId,
     },
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging()
-    })
+      isDragging: !!monitor.isDragging(),
+    }),
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
@@ -60,7 +61,7 @@ function DirectChildHTML({
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
-        childId: childId
+        childId: childId,
       });
     }
   };
@@ -77,12 +78,12 @@ function DirectChildHTML({
     border:
       state.canvasFocus.childId === childId
         ? '2px solid #0671e3'
-        : '1px solid #31343A'
+        : '1px solid #31343A',
   };
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
-    interactiveStyle
+    interactiveStyle,
   );
 
   return (

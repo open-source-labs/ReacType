@@ -2,52 +2,49 @@
 import React, { Ref, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
-import DeleteProjects from '../right/DeleteProjects';
-import ExportButton from '../right/ExportButton';
-import { Link } from 'react-router-dom';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
-import LoginButton from '../right/LoginButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import DeleteProjects from '../right/DeleteProjects';
+import ExportButton from '../right/ExportButton';
+import LoginButton from '../right/LoginButton';
 import ProjectsFolder from '../right/OpenProjects';
-import { RootState } from '../../redux/store';
+import store, { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import serverConfig from '../../serverConfig.js';
 import createModal from '../right/createModal';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { setStyle } from '../../redux/reducers/slice/styleSlice';
-import store from '../../redux/store';
-import withStyles from '@mui/styles/withStyles';
 import { emitEvent } from '../../helperFunctions/socket';
 
 const { API_BASE_URL } = serverConfig;
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      width: '100%',
-    },
-    menuButton: {
-      marginRight: theme.spacing(1),
-      color: 'white',
-    },
-    title: {
-      flexGrow: 1,
-      color: 'white',
-    },
-    manageProject: {
-      display: 'flex',
-      justifyContent: 'center',
-      width: '100px',
-      overflow: 'none',
-    },
-  }),
-);
+const useStyles = makeStyles((theme) => createStyles({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+  },
+  menuButton: {
+    marginRight: theme.spacing(1),
+    color: 'white',
+  },
+  title: {
+    flexGrow: 1,
+    color: 'white',
+  },
+  manageProject: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100px',
+    overflow: 'none',
+  },
+}));
 
 interface StyledMenuProps extends React.PropsWithChildren<{}> {
   id: string;
@@ -173,7 +170,7 @@ const navbarDropDown = (props): JSX.Element => {
     props.setDropMenu(false);
   };
 
-  let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
+  const showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
 
   const useOutsideClick = () => {
     const dropdownRef = useRef(null);

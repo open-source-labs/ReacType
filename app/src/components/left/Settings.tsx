@@ -1,7 +1,7 @@
 import React from 'react';
-import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import MUIDragDropPanel from './MUIDragDropPanel';
 
 /**
@@ -30,17 +30,17 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    overflow: 'auto'
+    overflow: 'auto',
   },
   panelWrapperList: {
-    minHeight: '120px'
+    minHeight: '120px',
   },
   lightThemeFontColor: {
-    color: '#fff'
+    color: '#fff',
   },
   darkThemeFontColor: {
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 });
 
 export default ProfilePage;

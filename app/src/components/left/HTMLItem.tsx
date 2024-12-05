@@ -4,12 +4,12 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
 import CodeIcon from '@mui/icons-material/Code';
 import * as Icons from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
+import createModal from '../right/createModal';
 import { addChild } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 import { RootState } from '../../redux/store';
@@ -24,14 +24,14 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     textAlign: 'center',
-    cursor: 'grab'
+    cursor: 'grab',
   },
   lightThemeFontColor: {
-    color: '#8F8F8F'
+    color: '#8F8F8F',
   },
   darkThemeFontColor: {
-    color: '#8F8F8F'
-  }
+    color: '#8F8F8F',
+  },
 });
 
 /**
@@ -66,11 +66,11 @@ const HTMLItem: React.FC<{
       instanceType: 'HTML Element',
       name,
       icon,
-      instanceTypeId: id
+      instanceTypeId: id,
     },
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging()
-    })
+      isDragging: !!monitor.isDragging(),
+    }),
   });
 
   const closeModal = () => setModal(null);
@@ -84,7 +84,7 @@ const HTMLItem: React.FC<{
           style={{
             border: '1px solid #C6C6C6',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText
@@ -100,7 +100,7 @@ const HTMLItem: React.FC<{
           style={{
             border: '1px solid #C6C6C6',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText
@@ -121,8 +121,8 @@ const HTMLItem: React.FC<{
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 
@@ -134,8 +134,8 @@ const HTMLItem: React.FC<{
       typeId: id,
       childId: null,
       contextParam: {
-        allContext: []
-      }
+        allContext: [],
+      },
     };
 
     dispatch(addChild(childData));
@@ -154,7 +154,7 @@ const HTMLItem: React.FC<{
           ref={drag}
           style={{
             backgroundColor: '#2D313A',
-            backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
+            backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)',
           }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"

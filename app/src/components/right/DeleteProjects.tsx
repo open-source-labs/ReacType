@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useCallback, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
@@ -10,20 +11,21 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { blue } from '@mui/material/colors';
-import {
-  getProjects,
-  deleteProject
-} from '../../helperFunctions/projectGetSaveDel';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  getProjects,
+  deleteProject,
+} from '../../helperFunctions/projectGetSaveDel';
+import {
   setInitialState,
-  initialState
+  initialState,
 } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+
 export interface ProjectDialogProps {
   deleteAlert: () => void;
   open: boolean;
-  projects: Array<Object>;
+  projects: Array<object>;
   onClose: () => void;
 }
 
@@ -52,7 +54,7 @@ function ProjectsDialog(props: ProjectDialogProps): JSX.Element {
   // If new project selected, close and set value to new project name
   const handleDelete = (value: string) => {
     const selectedProject = projects.filter(
-      (project: any) => project._id === value
+      (project: any) => project._id === value,
     )[0];
     deleteProject(selectedProject);
     // localforage.removeItem(window.localStorage.getItem('ssid'));
@@ -78,7 +80,7 @@ function ProjectsDialog(props: ProjectDialogProps): JSX.Element {
           {projects
             .filter(
               (project: any) =>
-                project.forked === undefined || project.forked === false
+                project.forked === undefined || project.forked === false,
             )
             .map((project: any, index: number) => (
               <ListItem
@@ -188,10 +190,10 @@ const useStyles = makeStyles({
     fontSize: '1em',
     minWidth: '300px',
     marginTop: '10px',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   avatar: {
     backgroundColor: blue[100],
-    color: blue[600]
-  }
+    color: blue[600],
+  },
 });

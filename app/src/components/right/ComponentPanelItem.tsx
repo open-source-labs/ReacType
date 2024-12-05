@@ -1,13 +1,14 @@
+/* eslint-disable max-len */
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
-import { ItemTypes } from '../../constants/ItemTypes';
 import { useDispatch, useSelector } from 'react-redux';
+import * as Icons from '@mui/icons-material';
+import { ItemTypes } from '../../constants/ItemTypes';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-import * as Icons from '@mui/icons-material';
 
 /**
  * `ComponentPanelItem` represents an individual component item within the ComponentPanel. It uses
@@ -43,12 +44,12 @@ const ComponentPanelItem: React.FC<{
       type: ItemTypes.INSTANCE,
       newInstance: true,
       instanceType: 'Component',
-      instanceTypeId: id
+      instanceTypeId: id,
     },
     canDrag: !root && !isFocus, // dragging not permitted if component is root component or current component
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging() // !! converts an object to a boolean (i.e., if falsy, becomes false => !!0 === false)
-    })
+      isDragging: !!monitor.isDragging(), // !! converts an object to a boolean (i.e., if falsy, becomes false => !!0 === false)
+    }),
   });
 
   // when a component is clicked in the left panel, change canvas focus to that component
@@ -59,7 +60,7 @@ const ComponentPanelItem: React.FC<{
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: id,
-        childId: null
+        childId: null,
       });
     }
   };
@@ -78,7 +79,7 @@ const ComponentPanelItem: React.FC<{
         margin: '5px 0px',
         width: '10rem',
         height: '3rem',
-        position: 'relative'
+        position: 'relative',
       }}
     >
       {isFocus && <div className={classes.focusMark}></div>}
@@ -101,7 +102,7 @@ const ComponentPanelItem: React.FC<{
 const useStyles = makeStyles({
   nameContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   focusMark: {
     border: '2px solid #0671e3',
@@ -110,14 +111,14 @@ const useStyles = makeStyles({
     top: '0',
     left: '0',
     right: '0',
-    bottom: '0'
+    bottom: '0',
   },
   lightTheme: {
-    color: 'rgba (0, 0, 0, 0.54)'
+    color: 'rgba (0, 0, 0, 0.54)',
   },
   darkTheme: {
-    color: '#ffffff'
-  }
+    color: '#ffffff',
+  },
 });
 
 export default ComponentPanelItem;

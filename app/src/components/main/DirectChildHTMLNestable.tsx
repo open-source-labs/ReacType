@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import React, { useRef } from 'react';
-import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
@@ -10,7 +12,6 @@ import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
@@ -18,7 +19,7 @@ import {
   changeFocus,
   changePosition,
   addChild,
-  snapShotAction
+  snapShotAction,
 } from '../../redux/reducers/slice/appStateSlice';
 
 /**
@@ -45,7 +46,7 @@ function DirectChildHTMLNestable({
   style,
   children,
   name,
-  attributes
+  attributes,
 }: ChildElement): React.JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
@@ -57,22 +58,22 @@ function DirectChildHTMLNestable({
 
   // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
   const snapShotFunc = () => {
-    //makes a deep clone of state
+    // makes a deep clone of state
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
-    //pushes the last user action on the canvas into the past array of Component
+    // pushes the last user action on the canvas into the past array of Component
     dispatch(
       snapShotAction({
         focusIndex: focusIndex,
-        deepCopiedState: deepCopiedState
-      })
+        deepCopiedState: deepCopiedState,
+      }),
     );
   };
 
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
   const HTMLType: HTMLType = state.HTMLTypes.find(
-    (type: HTMLType) => type.id === typeId
+    (type: HTMLType) => type.id === typeId,
   );
 
   // hook that allows component to be draggable
@@ -84,14 +85,14 @@ function DirectChildHTMLNestable({
       childId: childId,
       instanceType: type,
       instanceTypeId: typeId,
-      name: name
+      name: name,
     },
     canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
       return {
-        isDragging: !!monitor.isDragging()
+        isDragging: !!monitor.isDragging(),
       };
-    }
+    },
   });
 
   // both useDrop and useDrag used here to allow canvas components to be both a drop target and drag source
@@ -112,7 +113,7 @@ function DirectChildHTMLNestable({
           (item.instanceType === 'Component' &&
             componentNest(
               state.components[item.instanceTypeId - 1].children,
-              childId
+              childId,
             )) ||
           item.instanceType !== 'Component'
         ) {
@@ -121,15 +122,15 @@ function DirectChildHTMLNestable({
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: childId,
-              contextParam: contextParam
-            })
+              contextParam: contextParam,
+            }),
           );
           if (roomCode) {
             emitEvent('addChildAction', roomCode, {
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: childId,
-              contextParam: contextParam
+              contextParam: contextParam,
             });
           }
         }
@@ -142,14 +143,14 @@ function DirectChildHTMLNestable({
             changePosition({
               currentChildId: item.childId,
               newParentChildId: childId,
-              contextParam: contextParam
-            })
+              contextParam: contextParam,
+            }),
           );
           if (roomCode) {
             emitEvent('changePositionAction', roomCode, {
               currentChildId: item.childId,
               newParentChildId: childId,
-              contextParam: contextParam
+              contextParam: contextParam,
             });
           }
         }
@@ -158,9 +159,9 @@ function DirectChildHTMLNestable({
 
     collect: (monitor: any) => {
       return {
-        isOver: !!monitor.isOver({ shallow: true })
+        isOver: !!monitor.isOver({ shallow: true }),
       };
-    }
+    },
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
@@ -168,7 +169,7 @@ function DirectChildHTMLNestable({
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
-        childId: childId
+        childId: childId,
       });
     }
   };
@@ -186,18 +187,18 @@ function DirectChildHTMLNestable({
     border:
       state.canvasFocus.childId === childId
         ? '2px solid #0671e3'
-        : '1px solid #31343A'
+        : '1px solid #31343A',
   };
 
   // interactive style to change color when nested element is hovered over
   if (isOver) defaultNestableStyle['#3c59ba'];
-  defaultNestableStyle['backgroundColor'] = isOver
+  defaultNestableStyle.backgroundColor = isOver
     ? '#3c59ba'
-    : defaultNestableStyle['backgroundColor'];
+    : defaultNestableStyle.backgroundColor;
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
-    interactiveStyle
+    interactiveStyle,
   );
 
   drag(drop(ref));
@@ -214,7 +215,7 @@ function DirectChildHTMLNestable({
         linkDisplayed={
           attributes && attributes.compLink ? `${attributes.compLink}` : null
         }
-      />
+      />,
     );
   }
 
@@ -223,7 +224,7 @@ function DirectChildHTMLNestable({
       onClick={onClickHandler}
       style={{
         ...combinedStyle,
-        backgroundColor: isOver ? '#3c59ba' : '#1E2024'
+        backgroundColor: isOver ? '#3c59ba' : '#1E2024',
       }}
       ref={ref}
       id={`canv${childId}`}

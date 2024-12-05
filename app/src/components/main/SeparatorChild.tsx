@@ -1,31 +1,32 @@
+/* eslint-disable max-len */
 import React, { useRef } from 'react';
+import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   ChildElement,
   HTMLType,
   MUIType,
-  DragItem
+  DragItem,
 } from '../../interfaces/Interfaces';
-import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import {
   changeFocus,
   changePosition,
-  addChild
+  addChild,
 } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 
 /**
- * Renders a draggable and droppable separator child component within the canvas. 
+ * Renders a draggable and droppable separator child component within the canvas.
  * This component is capable of being both a drag source and a drop target, allowing nested structures.
  * It also displays a dynamic style change when being hovered over to indicate it can accept drop items.
- * 
+ *
  * @param {Object} props - Component props.
  * @param {number} props.childId - Unique identifier for the child component.
  * @param {string} props.type - The type of the component (e.g., HTML element, custom component).
@@ -39,7 +40,7 @@ function SeparatorChild({
   type,
   typeId,
   style,
-  children
+  children,
 }: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
@@ -52,11 +53,11 @@ function SeparatorChild({
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
   const HTMLType: HTMLType = state.HTMLTypes.find(
-    (type: HTMLType) => type.id === typeId
+    (type: HTMLType) => type.id === typeId,
   );
 
   const MUIType: MUIType = state.MUITypes.find(
-    (type: MUIType) => type.id === typeId
+    (type: MUIType) => type.id === typeId,
   );
   // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
@@ -66,14 +67,14 @@ function SeparatorChild({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId
+      instanceTypeId: typeId,
     },
     canDrag: HTMLType.id !== 1000 || MUIType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
       return {
-        isDragging: !!monitor.isDragging()
+        isDragging: !!monitor.isDragging(),
       };
-    }
+    },
   });
 
   // both useDrop and useDrag used here to allow canvas components to be both a drop target and drag source
@@ -92,7 +93,7 @@ function SeparatorChild({
           (item.instanceType === 'Component' &&
             componentNest(
               state.components[item.instanceTypeId - 1].children,
-              childId
+              childId,
             )) ||
           item.instanceType !== 'Component'
         ) {
@@ -101,15 +102,15 @@ function SeparatorChild({
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: childId,
-              contextParam: contextParam
-            })
+              contextParam: contextParam,
+            }),
           );
           if (roomCode) {
             emitEvent('addChildAction', roomCode, {
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: childId,
-              contextParam: contextParam
+              contextParam: contextParam,
             });
           }
         }
@@ -122,14 +123,14 @@ function SeparatorChild({
             changePosition({
               currentChildId: item.childId,
               newParentChildId: childId,
-              contextParam: contextParam
-            })
+              contextParam: contextParam,
+            }),
           );
           if (roomCode) {
             emitEvent('changePositionAction', roomCode, {
               currentChildId: item.childId,
               newParentChildId: childId,
-              contextParam: contextParam
+              contextParam: contextParam,
             });
           }
         }
@@ -138,9 +139,9 @@ function SeparatorChild({
 
     collect: (monitor: any) => {
       return {
-        isOver: !!monitor.isOver({ shallow: true })
+        isOver: !!monitor.isOver({ shallow: true }),
       };
-    }
+    },
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
@@ -159,16 +160,16 @@ function SeparatorChild({
   const separatorStyle = {
     padding: isOver ? '40px 10px' : '2px 10px',
     margin: '1px 10px',
-    transition: 'padding 1s ease-out'
+    transition: 'padding 1s ease-out',
   };
 
-  defaultNestableStyle['backgroundColor'] = isOver
+  defaultNestableStyle.backgroundColor = isOver
     ? 'rgb(53, 78, 156)'
     : 'rgba(0, 0, 255, 0.0)';
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
-    separatorStyle
+    separatorStyle,
   );
 
   drag(drop(ref));

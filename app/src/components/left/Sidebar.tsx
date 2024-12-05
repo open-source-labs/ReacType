@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Tab, Tabs } from '@mui/material';
 
 import {
@@ -7,7 +8,7 @@ import {
   Settings,
   Menu,
   Memory,
-  TabOutlined
+  TabOutlined,
 } from '@mui/icons-material';
 import { IoMdCube } from 'react-icons/io';
 import React from 'react';
@@ -47,7 +48,7 @@ let oldValue = 0;
 const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
-  toggleVisibility
+  toggleVisibility,
 }): JSX.Element => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(newValue);
@@ -55,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     oldValue = newValue;
   };
 
-  //the following allows users to click on the left panel to expand and collapse.
+  // the following allows users to click on the left panel to expand and collapse.
   // We decided to freeze so we've commented this and line 41 out
 
   // const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
@@ -75,8 +76,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       // onClick={(e: React.MouseEvent) => handleTabClick(e, oldValue)}
       TabIndicatorProps={{
         style: {
-          backgroundColor: '#4A4A4A'
-        }
+          backgroundColor: '#4A4A4A',
+        },
       }}
       sx={{
         display: 'flex',
@@ -87,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         width: '70px',
         background: '#1e2024',
         marginRight: '2px',
-        height: '100vh'
+        height: '100vh',
       }}
     >
       <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />
@@ -98,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
           fontSize: '11px',
-          textTransform: 'none'
+          textTransform: 'none',
         }}
         icon={<AddBox sx={{ fontSize: '26px' }} />}
         value={0}
@@ -111,7 +112,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
           fontSize: '11px',
-          textTransform: 'none'
+          textTransform: 'none',
         }}
         icon={<TabOutlined sx={{ fontSize: '26px' }} />}
         value={4}
@@ -124,7 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
           fontSize: '11px',
-          textTransform: 'none'
+          textTransform: 'none',
         }}
         icon={<IoMdCube style={{ fontSize: '25px' }} />}
         value={1}
@@ -137,7 +138,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
           fontSize: '11px',
-          textTransform: 'none'
+          textTransform: 'none',
         }}
         icon={<Groups2 sx={{ fontSize: '28px' }} />}
         value={2}
@@ -150,7 +151,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           '&.Mui-selected': { color: '#E4E4E5' },
           '&:hover': { color: '#e9e9e9' },
           fontSize: '11px',
-          textTransform: 'none'
+          textTransform: 'none',
         }}
         icon={<AccountBox sx={{ fontSize: '26px' }} />}
         value={3}

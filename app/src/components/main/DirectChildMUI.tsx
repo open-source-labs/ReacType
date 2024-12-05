@@ -1,11 +1,12 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { ChildElement, MUIType } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChildElement, MUIType } from '../../interfaces/Interfaces';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import DeleteButton from './DeleteButton';
-import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -34,7 +35,7 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
   // find the MUI element corresponding with this instance of an MUI element
   // find the current component to render on the canvas
   const MUIType: MUIType = state.MUITypes.find(
-    (type: MUIType) => type.id === typeId
+    (type: MUIType) => type.id === typeId,
   );
   // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
@@ -44,11 +45,11 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId
+      instanceTypeId: typeId,
     },
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging()
-    })
+      isDragging: !!monitor.isDragging(),
+    }),
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
@@ -56,7 +57,7 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
-        childId: childId
+        childId: childId,
       });
     }
   };
@@ -73,12 +74,12 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
     border:
       state.canvasFocus.childId === childId
         ? '2px solid #0671e3'
-        : '1px solid #31343A'
+        : '1px solid #31343A',
   };
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, MUIType.style), style),
-    interactiveStyle
+    interactiveStyle,
   );
 
   return (

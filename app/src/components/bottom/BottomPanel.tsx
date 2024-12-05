@@ -1,6 +1,7 @@
+/* eslint-disable max-len */
 import React, { useEffect, useRef, useState } from 'react';
-import BottomTabs from './BottomTabs';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import BottomTabs from './BottomTabs';
 
 /**
  * A resizable bottom panel component that can be toggled and resized using mouse interactions.
@@ -15,8 +16,8 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
  * @returns {JSX.Element} A React element representing the bottom panel which includes a draggable divider that can toggle the panel's visibility and a tabs component.
  */
 const BottomPanel = (props): JSX.Element => {
-  let y: number = 0;
-  let h: number = 0;
+  let y = 0;
+  let h = 0;
   const node = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   const [isDragging, setIsDragging] = useState(false);
@@ -29,10 +30,10 @@ const BottomPanel = (props): JSX.Element => {
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
-    window.addEventListener('message', handleIframeMessage); //listens for messages from the iframe when the mouse is over it
+    window.addEventListener('message', handleIframeMessage); // listens for messages from the iframe when the mouse is over it
   };
 
-  //Interpret the messages from the iframe
+  // Interpret the messages from the iframe
   const handleIframeMessage = (e) => {
     if (e.data === 'iframeMouseUp') {
       mouseUpHandler();
@@ -53,7 +54,7 @@ const BottomPanel = (props): JSX.Element => {
 
     node.current.style.height = `${Math.max(
       minHeight,
-      Math.min(maxHeight, newHeight)
+      Math.min(maxHeight, newHeight),
     )}px`;
   };
 

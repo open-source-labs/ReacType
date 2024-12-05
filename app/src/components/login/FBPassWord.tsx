@@ -1,18 +1,11 @@
+/* eslint-disable max-len */
 import React, { useState, MouseEvent } from 'react';
-import { LoginInt } from '../../interfaces/Interfaces';
-import { SigninDark } from '../../../../app/src/public/styles/theme';
 import {
   Link as RouteLink,
   withRouter,
   RouteComponentProps,
-  useHistory
+  useHistory,
 } from 'react-router-dom';
-import {
-  validateInputs,
-  handleChange,
-  resetErrorValidation,
-  updatePassword
-} from '../../helperFunctions/auth';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,14 +13,22 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
+import {
+  styled,
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider,
+} from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import {
-  StyledEngineProvider,
-  Theme,
-  ThemeProvider
-} from '@mui/material/styles';
+  validateInputs,
+  handleChange,
+  resetErrorValidation,
+  updatePassword,
+} from '../../helperFunctions/auth';
+import { SigninDark } from '../../../../app/src/public/styles/theme';
+import { LoginInt } from '../../interfaces/Interfaces';
 
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
@@ -47,27 +48,27 @@ const StyledPaper = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(8),
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center'
+  alignItems: 'center',
 }));
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   margin: theme.spacing(1),
-  backgroundColor: 'white'
+  backgroundColor: 'white',
 }));
 
 const StyledForm = styled('form')(({ theme }) => ({
   width: '100%', // Fix IE 11 issue.
-  marginTop: theme.spacing(3)
+  marginTop: theme.spacing(3),
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  margin: theme.spacing(3, 0, 2)
+  margin: theme.spacing(3, 0, 2),
 }));
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#white'
-  }
+    borderColor: '#white',
+  },
 }));
 
 const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
@@ -91,13 +92,13 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
     setInvalidPassword,
     setInvalidPasswordMsg,
     setInvalidVerifyPassword,
-    setInvalidVerifyPasswordMsg
+    setInvalidVerifyPasswordMsg,
   };
   // define handle change setters to pass to handleChange function
   const handleChangeSetters = {
     setUsername,
     setPassword,
-    setPasswordVerify
+    setPasswordVerify,
   };
 
   /**
@@ -126,7 +127,7 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
       username,
       password,
       passwordVerify,
-      errorSetters
+      errorSetters,
     }); // Validate Inputs using Auth helper function
     if (!isValid) {
       console.log('Validation failed, not updating password.');
@@ -140,13 +141,13 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
       } else {
         console.log(
           'Update password failed: Unknown or unhandled error',
-          isUpdated
+          isUpdated,
         );
       }
     } catch (err) {
       console.error(
         'Error during password updating in handleUpdatePassword:',
-        err
+        err,
       );
     }
   };
@@ -226,9 +227,9 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
                   textTransform: 'none',
                   fontSize: '1rem',
                   '$:hover': {
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                   },
-                  width: '100%'
+                  width: '100%',
                 }}
               >
                 Update Password
@@ -237,7 +238,7 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
                 <Grid item>
                   <RouteLink
                     style={{ color: '#aaaaaa' }}
-                    to={`/login`}
+                    to={'/login'}
                     className="nav_link"
                   >
                     <span>

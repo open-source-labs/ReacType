@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useRef } from 'react';
 import Modal from '@mui/material/Modal';
 import TableStateProps from '../StateManagement/CreateTab/components/TableStateProps';
@@ -21,7 +22,7 @@ import TableStateProps from '../StateManagement/CreateTab/components/TableStateP
  */
 function UseStateModal({
   updateAttributeWithState,
-  attributeToChange
+  attributeToChange,
 }): JSX.Element {
   const [open, setOpen] = useState(false);
   const [stateKey, setStateKey] = useState('');
@@ -55,7 +56,7 @@ function UseStateModal({
                 componentProviderId,
                 statePropsId > 0 ? statePropsId : table.row.id,
                 table.row,
-                stateKey + table.row.key
+                stateKey + table.row.key,
               );
               setStateKey('');
               setStatePropsId(-1);

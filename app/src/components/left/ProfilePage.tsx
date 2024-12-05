@@ -9,7 +9,7 @@ import {
   CardContent,
   Button,
   Typography,
-  Divider
+  Divider,
 } from '@mui/material';
 
 const bull = (
@@ -104,7 +104,7 @@ const ProfilePage = (): JSX.Element => {
           sx={{
             color: '#0671E3',
             textTransform: 'capitalize',
-            fontSize: '14px'
+            fontSize: '14px',
           }}
           href="https://react.dev/learn"
         >
@@ -128,7 +128,7 @@ const ProfilePage = (): JSX.Element => {
           sx={{
             color: '#0671E3',
             textTransform: 'capitalize',
-            fontSize: '14px'
+            fontSize: '14px',
           }}
           href="https://www.mongodb.com/"
         >
@@ -139,7 +139,7 @@ const ProfilePage = (): JSX.Element => {
           sx={{
             color: '#0671E3',
             textTransform: 'capitalize',
-            fontSize: '14px'
+            fontSize: '14px',
           }}
           href="https://aws.amazon.com/what-is/sql/#:~:text=Structured%20query%20language%20(SQL)%20is,relationships%20between%20the%20data%20values."
         >
@@ -157,17 +157,17 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    overflow: 'auto'
+    overflow: 'auto',
   },
   panelWrapperList: {
-    minHeight: '120px'
+    minHeight: '120px',
   },
   lightThemeFontColor: {
-    color: '#fff'
+    color: '#fff',
   },
   darkThemeFontColor: {
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 });
 
 export default ProfilePage;

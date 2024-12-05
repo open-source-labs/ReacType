@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Avatar,
   Card,
@@ -10,28 +11,28 @@ import {
   Menu,
   MenuItem,
   Typography,
-  styled
+  styled,
 } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import React, { useEffect } from 'react';
 import {
   openProject,
-  resetAllState
+  resetAllState,
 } from '../../redux/reducers/slice/appStateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { MoreVert } from '@mui/icons-material';
-import { RootState } from '../../redux/store';
 import Snackbar from '@mui/material/Snackbar';
 import axios from 'axios';
 // import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
-import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useHistory } from 'react-router-dom';
 import { Amplify, Storage } from 'aws-amplify';
+import { saveProject } from '../../helperFunctions/projectGetSaveDel';
+import { RootState } from '../../redux/store';
 import awsconfig from '../../../../src/custom-aws-exports';
 
 interface Project {
-  forked: String;
+  forked: string;
   comments: string[];
   createdAt: Date;
   likes: number;
@@ -106,7 +107,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }): JSX.Element => {
         _id: project._id,
         name: project.name,
         published: project.published,
-        ...project.project
+        ...project.project,
       };
     }
     setGuest(true);
@@ -126,7 +127,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }): JSX.Element => {
 
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
     if (reason === 'clickaway') {
       return;
@@ -137,7 +138,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }): JSX.Element => {
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
-    ref
+    ref,
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -178,7 +179,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }): JSX.Element => {
         <Menu
           id="long-menu"
           MenuListProps={{
-            'aria-labelledby': 'long-button'
+            'aria-labelledby': 'long-button',
           }}
           anchorEl={anchorEl}
           open={open}
@@ -187,14 +188,14 @@ const MarketplaceCard = ({ proj }: { proj: Project }): JSX.Element => {
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
               width: '20ch',
-              backgroundColor: '#1E1E1E'
-            }
+              backgroundColor: '#1E1E1E',
+            },
           }}
         >
           <MenuItem
             onClick={handleClone}
             sx={{
-              color: '#fff'
+              color: '#fff',
             }}
           >
             Clone
@@ -202,7 +203,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }): JSX.Element => {
           <MenuItem
             onClick={handleCloneOpen}
             sx={{
-              color: '#fff'
+              color: '#fff',
             }}
           >
             Clone and open

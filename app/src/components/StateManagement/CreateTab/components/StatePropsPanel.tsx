@@ -1,8 +1,8 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDispatch, useSelector } from 'react-redux';
-import { addState } from '../../../../redux/reducers/slice/appStateSlice';
 import {
   FormControl,
   FormHelperText,
@@ -10,8 +10,9 @@ import {
   InputLabel,
   Select,
   TextField,
-  Button
+  Button,
 } from '@mui/material';
+import { addState } from '../../../../redux/reducers/slice/appStateSlice';
 import TableStateProps from './TableStateProps';
 import TableParentProps from './TableParentProps';
 import TablePassedInProps from './TablePassedInProps';
@@ -25,7 +26,7 @@ import { emitEvent } from '../../../../helperFunctions/socket';
  * @param {Object} props - Properties passed to the component.
  * @param {boolean} props.isThemeLight - Indicates if the current theme is light, which influences the styling of the UI components.
  * @param {Array} props.data - The data related to components from which the state properties are derived or linked.
- * 
+ *
  * @returns {JSX.Element} A `div` element containing various form controls for inputting new state properties, a button for submission,
  * and tables that display the current state properties, parent props, and props passed in from parent components.
  */
@@ -69,7 +70,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       }
       case 'array':
         try {
-          let retVal = JSON.parse(value);
+          const retVal = JSON.parse(value);
           if (Array.isArray(retVal)) {
             setInputTypeError('');
             return retVal;
@@ -82,7 +83,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
         }
       case 'object': {
         try {
-          let retVal = JSON.parse(value);
+          const retVal = JSON.parse(value);
 
           if (typeof retVal === 'object' && !Array.isArray(retVal)) {
             setInputTypeError('');
@@ -125,8 +126,8 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     }
 
     const statesArray = currentComponent.stateProps;
-    //loop though array, access each obj at key property
-    let keyToInt = parseInt(inputKey[0]);
+    // loop though array, access each obj at key property
+    const keyToInt = parseInt(inputKey[0]);
     if (!isNaN(keyToInt)) {
       setErrorStatus(true);
       setErrorMsg('Key name can not start with int.');
@@ -136,7 +137,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     // check here to see if state has already been created with the submitted key
     for (let i = 0; i < state.components.length; i++) {
       for (let j = 0; j < state.components[i].stateProps.length; j++) {
-        if (inputKey === state.components[i].stateProps[j]['key']) {
+        if (inputKey === state.components[i].stateProps[j].key) {
           setErrorStatus(true);
           setErrorMsg('Key name already in use.');
           return;
@@ -152,7 +153,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       id: `${currentComponent.name}-${inputKey}`,
       key: inputKey,
       value: newVal,
-      type: inputType
+      type: inputType,
     };
 
     const setNewState = {
@@ -162,22 +163,22 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
         .toUpperCase()}${inputKey.slice(1)}`,
       key: `set${inputKey.slice(0, 1).toUpperCase()}${inputKey.slice(1)}`,
       value: '',
-      type: 'func'
+      type: 'func',
     };
     if (!inputTypeError) {
       dispatch(
         addState({
           newState: newState,
           setNewState: setNewState,
-          contextParam: contextParam
-        })
+          contextParam: contextParam,
+        }),
       );
 
       if (roomCode) {
         emitEvent('addStateAction', roomCode, {
           newState: newState,
           setNewState: setNewState,
-          contextParam: contextParam
+          contextParam: contextParam,
         });
       }
 
@@ -201,7 +202,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       setInputValue(table.row.value ? JSON.stringify(table.row.value) : '');
     } else clearForm();
   };
-  //use effect to populate parent props table on load and every time canvas focus changes
+  // use effect to populate parent props table on load and every time canvas focus changes
   useEffect(() => {
     const parentInfo = findParent(currentId);
 
@@ -212,12 +213,12 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
   }, [currentId]);
 
   const findParent = (childId) => {
-    let arr = [];
+    const arr = [];
 
     for (let i = 0; i < data.length; i++) {
-      let currComponent = data[i];
+      const currComponent = data[i];
       for (let j = 0; j < currComponent.children.length; j++) {
-        let currChild = currComponent.children[j];
+        const currChild = currComponent.children[j];
         if (currChild.typeId === childId) {
           const currComponentCopy = JSON.parse(JSON.stringify(currComponent));
 
@@ -225,7 +226,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
             parentProps: currComponentCopy.stateProps,
             parentName: currComponentCopy.name,
             parentComponent: currComponentCopy,
-            parentPassedInProps: currComponentCopy.passedInProps
+            parentPassedInProps: currComponentCopy.passedInProps,
           };
         }
       }
@@ -300,7 +301,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
               style={{
                 height: '100%',
                 width: '100%',
-                margin: '0 auto'
+                margin: '0 auto',
               }}
             >
               <MenuItem value="" style={{ color: 'white' }}>
@@ -439,7 +440,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
             flexDirection: 'column',
             width: `${40}px`,
             color: '#0671E3',
-            justifyContent: 'center'
+            justifyContent: 'center',
           }}
         >
           <svg
@@ -487,7 +488,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: '0px 0px 0px 10px',
     width: '140px',
     height: '30px',
-    borderColor: 'white'
+    borderColor: 'white',
   },
   inputWrapper: {
     textAlign: 'center',
@@ -495,27 +496,27 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   addComponentWrapper: {
     padding: 'auto',
     marginLeft: '21px',
     display: 'inline-block',
-    width: '100%'
+    width: '100%',
   },
   rootCheckBox: {
     borderColor: '#0671e3',
-    padding: '0px'
+    padding: '0px',
   },
   rootCheckBoxLabel: {
-    borderColor: '#0671e3'
+    borderColor: '#0671e3',
   },
   panelWrapper: {
     width: '100%',
     marginTop: '15px',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   panelWrapperList: {
     minHeight: '120px',
@@ -524,7 +525,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '300px',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   dragComponents: {
     display: 'flex',
@@ -533,25 +534,25 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: 'center',
     width: '500px',
     backgroundColor: '#0671e3',
-    border: '5px solid #0671e3'
+    border: '5px solid #0671e3',
   },
   panelSubheader: {
     textAlign: 'center',
-    color: '#fff'
+    color: '#fff',
   },
   input: {},
   newComponent: {
     color: '#3c59ba',
     fontSize: '95%',
-    marginBottom: '20px'
+    marginBottom: '20px',
   },
   inputLabel: {
     fontSize: '1em',
-    marginLeft: '10px'
+    marginLeft: '10px',
   },
   btnGroup: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   addComponentButton: {
     height: '42px',
@@ -562,71 +563,71 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: '-20px 0px 5px 150px',
     border: ' 1px solid #0671E3',
     borderRadius: '8px',
-    transition: '0.3s'
+    transition: '0.3s',
   },
   rootToggle: {
     color: '#696969',
-    fontSize: '0.85rem'
+    fontSize: '0.85rem',
   },
   lightThemeFontColor: {
-    color: 'white'
+    color: 'white',
   },
   darkThemeFontColor: {
-    color: '#fff'
+    color: '#fff',
   },
   greyThemeFontColor: {
-    color: 'white'
+    color: 'white',
   },
   formControl: {
     margin: '8px',
-    minWidth: 120
+    minWidth: 120,
   },
   selectEmpty: {
-    marginTop: '16px'
+    marginTop: '16px',
   },
   color: {
-    color: '#fff'
+    color: '#fff',
   },
   rootLight: {
     '& .MuiFormLabel-root': {
-      color: 'white'
+      color: 'white',
     },
-    margin: '5px'
+    margin: '5px',
   },
   rootDark: {
     '& .MuiFormLabel-root': {},
     '& .MuiOutlinedInput-notchedOutline': {},
-    margin: '5px'
+    margin: '5px',
   },
   underlineDark: {
-    borderBottom: '1px solid white'
+    borderBottom: '1px solid white',
   },
   rootUnderlineDark: {
     '& .-icon': {
-      color: '#fff'
+      color: '#fff',
     },
     '&::before': {
-      borderBottom: '1px solid #fff'
-    }
+      borderBottom: '1px solid #fff',
+    },
   },
   rootUnderlineLight: {
     '& .-icon': {
-      color: 'rgba(0,0,0,0.54)'
+      color: 'rgba(0,0,0,0.54)',
     },
     '&::before': {
-      borderBottom: '1px solid rgba(0,0,0,0.54)'
-    }
+      borderBottom: '1px solid rgba(0,0,0,0.54)',
+    },
   },
   inputTextDark: {
     '& .MuiInputBase-input': {
-      color: 'white'
-    }
+      color: 'white',
+    },
   },
   inputTextLight: {
     '& .MuiInputBase-input': {
-      color: 'white'
-    }
-  }
+      color: 'white',
+    },
+  },
 }));
 
 export default StatePropsPanel;

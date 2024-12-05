@@ -1,6 +1,4 @@
-import {
-  describe, it, expect, beforeEach,
-} from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import subject from '../app/src/redux/reducers/slice/contextReducer.ts';
 
 describe('contextReducer test', () => {

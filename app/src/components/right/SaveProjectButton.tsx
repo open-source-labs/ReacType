@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useCallback, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -6,11 +7,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useDispatch, useSelector } from 'react-redux';
+import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import {
   updateProjectName,
-  updateProjectId
+  updateProjectId,
 } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { State } from '../../interfaces/Interfaces';
@@ -29,8 +30,7 @@ export default function FormDialog(): JSX.Element {
   const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
-  const [invalidProjectNameMessage, setInvalidProjectNameMessage] =
-    useState('');
+  const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState('');
 
   const handleClickOpen = () => {
     setInvalidProjectName(false);
@@ -45,9 +45,7 @@ export default function FormDialog(): JSX.Element {
       // If errors occur on the backend, the project name still gets updated
 
       dispatch(updateProjectName(projectName));
-      saveProject(projectName, state).then((project: State) =>
-        dispatch(updateProjectId(project._id))
-      ); //updates the slice with new _id from mongo
+      saveProject(projectName, state).then((project: State) => dispatch(updateProjectId(project._id))); // updates the slice with new _id from mongo
       setOpen(false);
     } else {
       setInvalidProjectName(true);
@@ -63,7 +61,7 @@ export default function FormDialog(): JSX.Element {
     setProjectName(e.target.value);
   };
   const saveKeyBind = useCallback((e) => {
-    //Save Project As, the || is for Mac or Windows
+    // Save Project As, the || is for Mac or Windows
     (e.key === 's' && e.metaKey && !e.shiftKey) ||
     (e.key === 's' && e.ctrlKey && !e.shiftKey)
       ? handleClickOpen()

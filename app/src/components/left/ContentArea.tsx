@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Box } from '@mui/material';
 import ComponentsContainer from './ComponentsContainer';
 import ElementsContainer from './ElementsContainer';
@@ -38,7 +39,7 @@ const panels = [
   <ComponentsContainer />,
   <RoomsContainer />,
   <ProfilePage />,
-  <Settings />
+  <Settings />,
 ];
 
 /**

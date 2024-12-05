@@ -1,6 +1,7 @@
-import { AddRoutes } from '../../interfaces/Interfaces';
+/* eslint-disable max-len */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AddRoutes } from '../../interfaces/Interfaces';
 import { addChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -23,15 +24,15 @@ function AddRoute({ id }: AddRoutes): JSX.Element {
         type: 'HTML Element',
         typeId: -1,
         childId: id, // this is the id of the parent to attach it to
-        contextParam: contextParam
-      })
+        contextParam: contextParam,
+      }),
     );
     if (roomCode) {
       emitEvent('addChildAction', roomCode, {
         type: 'HTML Element',
         typeId: -1,
         childId: id,
-        contextParam: contextParam
+        contextParam: contextParam,
       });
 
       console.log('emit addChildAction event is triggered in AddRoute!');

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import ComponentPanel from '../right/ComponentPanel';
 import HTMLPanel from '../left/HTMLPanel';

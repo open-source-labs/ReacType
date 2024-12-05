@@ -1,17 +1,18 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect, useRef } from 'react';
-import Canvas from './Canvas';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import CodePreview from '../bottom/CodePreview';
-import { toggleCodePreview } from '../../redux/reducers/slice/appStateSlice';
 import { Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   DeveloperMode,
   VerticalAlignBottom,
   VerticalAlignTop,
   ZoomIn,
-  ZoomOut
+  ZoomOut,
 } from '@mui/icons-material';
+import Canvas from './Canvas';
+import { RootState } from '../../redux/store';
+import CodePreview from '../bottom/CodePreview';
+import { toggleCodePreview } from '../../redux/reducers/slice/appStateSlice';
 
 interface CanvasContainerProps {
   zoom: number;
@@ -48,10 +49,10 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     backgroundSize: '8px 8px',
     backgroundPosition: '-19px -19px',
     borderBottom: 'none',
-    overflow: 'auto'
+    overflow: 'auto',
   };
 
-  //containerRef references the container that will ultimately have the scroll functionality
+  // containerRef references the container that will ultimately have the scroll functionality
   const containerRef = useRef<HTMLDivElement>(null);
 
   const container = document.getElementById('canvasContainer');
@@ -67,13 +68,13 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     setZoom(Math.max(zoom - 0.1, 0.1));
   };
 
-  //useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom. Once elements surpass the view of the canvas, scroll to bottom, else, keep scroll bar to the top.
+  // useEffect dependency is the length of the parent components. No changes in children will scroll to the bottom. Once elements surpass the view of the canvas, scroll to bottom, else, keep scroll bar to the top.
   useEffect(() => {
     if (
       container &&
       components &&
       state.components[0].children.length > 0 &&
-      components.scrollHeight == components.clientHeight
+      components.scrollHeight === components.clientHeight
     ) {
       container.scrollTop = 0;
     } else if (container && components) {
@@ -89,19 +90,19 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     whiteSpace: 'nowrap',
     textTransform: 'none',
     padding: '10px',
-    borderRadius: '0'
+    borderRadius: '0',
   } as const;
 
   const codePreviewStyle: React.CSSProperties = {
-    borderRadius: '10px'
+    borderRadius: '10px',
   } as const;
 
   const upArrowStyle: React.CSSProperties = {
-    borderRadius: '10px 0 0 10px'
+    borderRadius: '10px 0 0 10px',
   } as const;
 
   const zoomOutStyle: React.CSSProperties = {
-    borderRadius: '0 10px 10px 0'
+    borderRadius: '0 10px 10px 0',
   } as const;
 
   return (
@@ -113,7 +114,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           display: 'flex',
           justifyContent: 'space-between',
           zIndex: 999,
-          padding: '20px 20px 5px 20px'
+          padding: '20px 20px 5px 20px',
         }}
       >
         <Button
@@ -156,7 +157,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
         <CodePreview
           theme={theme}
           setTheme={setTheme}
-          //zoom={zoom} // This is added if you want the Code Editor to zoom in/out
+          // zoom={zoom} // This is added if you want the Code Editor to zoom in/out
           containerRef={containerRef}
         />
       ) : (

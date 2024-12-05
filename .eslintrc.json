@@ -11,6 +11,11 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true // This will help ESLint resolve `.ts` and `.tsx` files
+      }
     }
   },
   "parser": "@typescript-eslint/parser",
@@ -26,6 +31,16 @@
     "no-unused-vars": "off", // disable the base rule, use the TypeScript version
     "no-console": "off", // "warn": ensure that debugging statements are not left in the final version of the code; "off": disabled
     "prefer-const": "warn", // enforces that variables that are never reassigned should be declared as const
-    "no-undef": "warn" // catch references to variables that have not been declared
+    "no-undef": "warn", // catch references to variables that have not been declared
+    "import/no-extraneous-dependencies": "off", // turns off the import/no-extraneous-dependencies rule
+    "@typescript-eslint/no-explicit-any": "off", // turns off the no-explicit-any rule
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   }
 }

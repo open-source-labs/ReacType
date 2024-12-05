@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import { Component } from '../../interfaces/Interfaces';
 import DeleteButton from './DeleteButton';
-import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
@@ -26,7 +27,7 @@ function IndirectChild({
   placeHolder,
   linkId,
   childId,
-  name
+  name,
 }) {
   const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function IndirectChild({
   // if there's a link in this component, then include a link
   if (linkId) {
     linkName = state.components.find(
-      (comp: Component) => comp.id === linkId
+      (comp: Component) => comp.id === linkId,
     ).name;
     combinedStyle = combineStyles(combinedStyle, { color: 'blue' });
   }
