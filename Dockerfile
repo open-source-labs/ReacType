@@ -42,7 +42,8 @@ COPY --from=build /app/config.js ./config.js
 COPY --from=build /app/server ./server
 COPY --from=build /app/build /app/build
 
-
+COPY .env .env
+#just make the env file go into the docker image?
 
 
 EXPOSE 5656
@@ -51,15 +52,15 @@ ENV IS_DOCKER=true
 
 
 ENV VIDEOSDK='vidsdk'
- ENV NODE_ENV='development'
- ENV DEV_PORT=5656
+ ENV NODE_ENV='production'
+ # productino you dolt!, if we are using docker, its production!
  ENV PORT=5656
 
- ENV MONGO_DB='mongodb+srv://NOAH:aAnY8q13q1tCha8e@trialcluster.v4see.mongodb.net/?retryWrites=true&w=majority&appName=TrialCluster'
- ENV GITHUB_CLIENT='github client'
- ENV GITHUB_SECRET='github secret'
- ENV GOOGLE_CLIENT='gogleclient'
- ENV GOOGLE_SECRET='googlebutitssecret'
- ENV SESSION_SECRET='session,but its secret'
+#  ENV MONGO_DB='mongodb+srv://NOAH:aAnY8q13q1tCha8e@trialcluster.v4see.mongodb.net/?retryWrites=true&w=majority&appName=TrialCluster'
+#  ENV GITHUB_CLIENT='thisisagithubclientrightnow.'
+#  ENV GITHUB_SECRET='github secret'
+#  ENV GOOGLE_CLIENT='gogleclient'
+#  ENV GOOGLE_SECRET='googlebutitssecret'
+#  ENV SESSION_SECRET='session,but its secret'
 
 CMD [ "npm", "start" ]
