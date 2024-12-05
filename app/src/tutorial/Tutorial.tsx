@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
@@ -29,29 +30,29 @@ const useStyles = makeStyles({
     width: 350,
     height: 300,
     margin: 20,
-    border: `1px solid gray`,
+    border: '1px solid gray',
     backgroundColor: Styling.tutorialGray,
     color: 'white',
     borderRadius: '5%',
-    boxShadow: '10px 10px 10px gray'
+    boxShadow: '10px 10px 10px gray',
   },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
-    transform: 'scale(0.8)'
+    transform: 'scale(0.8)',
   },
   title: {
     color: Styling.darkBlue,
     fontSize: 28,
-    fontWeight: 500
+    fontWeight: 500,
   },
   pos: {
     marginBottom: 12,
-    margin: 20
+    margin: 20,
   },
   icons: {
     color: Styling.darkBlue,
-    fontSize: 125
+    fontSize: 125,
   },
   pageTitle: {
     fontSize: 100,
@@ -60,30 +61,30 @@ const useStyles = makeStyles({
     border: `1px solid ${Styling.darkBlue}`,
     padding: '20px',
     backgroundColor: 'white',
-    borderRadius: '10px'
+    borderRadius: '10px',
   },
   container: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: 'lightgray'
+    backgroundColor: 'lightgray',
   },
   wrapper: {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    width: '75%'
+    width: '75%',
   },
   cardWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    flexBasis: '33.333333%'
+    flexBasis: '33.333333%',
   },
   cardActions: {
     alignSelf: 'center',
-    justifySelf: 'center'
-  }
+    justifySelf: 'center',
+  },
 });
 
 /**
@@ -107,7 +108,7 @@ const Tutorial: React.FC<RouteComponentProps<{ learn: string }>> = (props): JSX.
     'Customization',
     'States',
     'CSS Editor',
-    'Keyboard Shortcuts'
+    'Keyboard Shortcuts',
   ];
   const icons = [
     <MenuBookIcon className={classes.icons} />,
@@ -121,7 +122,7 @@ const Tutorial: React.FC<RouteComponentProps<{ learn: string }>> = (props): JSX.
     <ColorLensIcon className={classes.icons} />,
     <SwapVertIcon className={classes.icons} />,
     <BrushIcon className={classes.icons} />,
-    <KeyboardIcon className={classes.icons} />
+    <KeyboardIcon className={classes.icons} />,
   ];
 
   const body = document.querySelector('body');

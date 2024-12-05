@@ -8,6 +8,11 @@
     }
   },
   "plugins": ["@typescript-eslint", "import", "react", "jsx-a11y"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "parser": "@typescript-eslint/parser",
   "env": {
     "browser": true,
@@ -19,7 +24,7 @@
     "linebreak-style": 0,
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "no-unused-vars": "off", // disable the base rule, use the TypeScript version
-    "no-console": "warn", // ensure that debugging statements are not left in the final version of the code
+    "no-console": "off", // "warn": ensure that debugging statements are not left in the final version of the code; "off": disabled
     "prefer-const": "warn", // enforces that variables that are never reassigned should be declared as const
     "no-undef": "warn" // catch references to variables that have not been declared
   }

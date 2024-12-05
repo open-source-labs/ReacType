@@ -5,7 +5,7 @@ import codeChange from '../../../resources/customizing_elements_images/CodeChang
 
 /**
  * Styling component provides information about styling features in ReacType.
- * 
+ *
  * @param {object} props - Component props.
  * @param {object} props.classes - CSS classes for styling.
  * @param {Function} props.setPage - Function to set the current page.
@@ -14,8 +14,7 @@ import codeChange from '../../../resources/customizing_elements_images/CodeChang
 const Styling: React.FC<{
   classes: any;
   setPage: Function;
-}> = ({ classes, setPage }): JSX.Element => {
-  return (
+}> = ({ classes, setPage }): JSX.Element => (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Styling Features</h1>
       <hr />
@@ -47,6 +46,5 @@ const Styling: React.FC<{
       </p>
       <hr />
     </div>
-  );
-};
+);
 export default Styling;

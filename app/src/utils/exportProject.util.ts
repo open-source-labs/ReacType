@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import createApplicationUtil from './createApplication.util';
 import createNextApp from './createNextApp.util';
 import createFiles from './createFiles.util';

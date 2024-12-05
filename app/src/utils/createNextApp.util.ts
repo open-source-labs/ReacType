@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // Create all files necessary to run a next.js application
 import createNextFiles from './createNextFiles.util';
 import { Component } from '../interfaces/Interfaces';
@@ -8,9 +9,7 @@ import createTestSuiteNext from './createTestSuiteNext.util';
  * @param {string} camel - The string in camelCase format.
  * @returns {string} - The string in kebab-case format.
  */
-const camelToKebab = (camel: string): string => {
-  return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
-};
+const camelToKebab = (camel: string): string => camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 
 /**
  * Generates CSS class definitions based on the component's style object.
@@ -18,7 +17,7 @@ const camelToKebab = (camel: string): string => {
  * @returns {string} - CSS class definitions for the component.
  */
 const compToCSS = (component: Component): string => {
-  const name = component.name;
+  const { name } = component;
   const styleObj = component.style;
   let cssClass = `
   .${name} {
@@ -62,12 +61,7 @@ export const createPackage = (path, appName, test): void => {
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"${
-      test
-        ? `,
-    "test": "jest"`
-        : ''
-    }
+    "start": "next start"${test ? ',"test": "jest"' : ''}
   },
   "dependencies": {
     "next": "9.3.5",
@@ -102,8 +96,8 @@ export const createPackage = (path, appName, test): void => {
  */
 export const createTsConfig = (path, appName): void => {
   const filePath = `${path}/${appName}/tsconfig.json`;
-  //running 'next dev' will autopopulate this with default values
-  const data: string = `{
+  // running 'next dev' will autopopulate this with default values
+  const data = `{
   "compileOnSave": false,
   "compilerOptions": {
     "target": "esnext",
@@ -213,8 +207,8 @@ export const initFolders = (path: string, appName: string): void => {
  * @returns {void} - Does not return a value; it performs file writing operations directly.
  */
 export const createBaseTsx = (path, appName): void => {
-  const filePath: string = `${path}/${appName}/pages/_app.tsx`;
-  const data: string = `
+  const filePath = `${path}/${appName}/pages/_app.tsx`;
+  const data = `
   import React from 'react';
   import '../global.css';
   const Base = ({ Component }):JSX.Element => {
@@ -253,7 +247,7 @@ async function createNextAppUtil({
   appName,
   components,
   rootComponents,
-  testchecked
+  testchecked,
 }: {
   path: string;
   appName: string;
@@ -272,7 +266,7 @@ async function createNextAppUtil({
       appName,
       components,
       rootComponents,
-      testchecked
+      testchecked,
     });
   }
   await createNextFiles(components, path, appName, rootComponents);

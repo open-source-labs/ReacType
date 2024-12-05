@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component } from '../interfaces/Interfaces';
 // Create all files necessary to run a classic react application
 import createFiles from './createFiles.util';
@@ -9,9 +10,7 @@ import store from '../redux/store';
  * @param {string} camel - The string in camelCase format.
  * @returns {string} - The string converted to kebab-case.
  */
-const camelToKebab = (camel: string): string => {
-  return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
-};
+const camelToKebab = (camel: string): string => camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 
 /**
  * Converts a component object into CSS string format.
@@ -19,13 +18,13 @@ const camelToKebab = (camel: string): string => {
  * @returns {string} - The CSS string for the component.
  */
 const compToCSS = (component: Component): string => {
-  const name = component.name;
+  const { name } = component;
   const styleObj = component.style;
   let cssClass = `
   .${name} {
     `;
   Object.keys(styleObj).forEach((property) => {
-    let cssStyle = `${camelToKebab(property)}: ${styleObj[property]};
+    const cssStyle = `${camelToKebab(property)}: ${styleObj[property]};
     `;
     cssClass += cssStyle;
   });
@@ -58,13 +57,13 @@ function createIndexHtml(path, appName): void {
       window.api.mkdirSync(dirServer);
       dirComponent = `${dirSrc}/components`;
       window.api.mkdirSync(dirComponent);
-      //create directory for contexts
+      // create directory for contexts
       dirContext = `${dirSrc}/contexts`;
       window.api.mkdirSync(dirContext);
     }
   }
-  const filePath: string = `${dir}/index.html`;
-  const data: string = `<!DOCTYPE html>
+  const filePath = `${dir}/index.html`;
+  const data = `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -156,7 +155,7 @@ export const createDefaultCSS = (path, appName, components): void => {
  */
 export const createPackage = (path, appName, test): void => {
   const filePath = `${path}/${appName}/package.json`;
-  let tsjest = `,
+  const tsjest = `,
     "@types/enzyme": "^3.10.9",
     "@types/jest": "^27.0.1",
     "babel-jest": "^27.2.0",
@@ -175,11 +174,11 @@ export const createPackage = (path, appName, test): void => {
     "start": "node server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack-dev-server"${
-      test
-        ? `,
+  test
+    ? `,
     "test": "jest"`
-        : ''
-    }
+    : ''
+}
   },
   "nodemonConfig": {
     "ignore": [
@@ -499,7 +498,7 @@ async function createApplicationUtil({
   path,
   appName,
   components,
-  testchecked
+  testchecked,
 }: {
   path: string;
   appName: string;
@@ -517,7 +516,9 @@ async function createApplicationUtil({
   await createServer(path, appName);
   await createContext(path, appName);
   if (testchecked) {
-    await createTestSuiteClassic({ path, appName, components, testchecked });
+    await createTestSuiteClassic({
+      path, appName, components, testchecked,
+    });
   }
   await createFiles(components, path, appName, true);
 }
