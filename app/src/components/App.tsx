@@ -6,7 +6,6 @@ import { toggleLoggedIn } from '../redux/reducers/slice/appStateSlice';
 import { useDispatch } from 'react-redux';
 
 import AppContainer from '../containers/AppContainer';
-
 /**
  * The `App` component is the root component of the React application. It performs an initial check
  * to determine if a user is logged in (not a 'guest') by inspecting local storage, and updates the

@@ -120,6 +120,7 @@ const generateUnformattedCode = (
 
     currentComponent.children.forEach((child) => {
       const newChild = { ...child };
+      console.log({ newChild });
       switch (child.type) {
         case 'Component':
           const component = components.find((c) => c.id === child.typeId);
@@ -323,7 +324,7 @@ const generateUnformattedCode = (
         ? `{${childElement.stateUsed.compLink}}`
         : `"${childElement.attributes.compLink}"`;
     }
-
+    // NOTE-NOAH. this is hard coded and will interfere with new elements.
     const nestableTags = [
       'h1',
       'h2',
