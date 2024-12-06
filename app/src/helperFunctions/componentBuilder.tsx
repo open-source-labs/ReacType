@@ -19,7 +19,7 @@ const componentBuilder = (
     const elementType = element.name;
     const { childId } = element;
     const elementStyle = element.style;
-    const innerText = element.attributes.compText;
+    const innerText = element.attributes.comptext;
     const classRender = element.attributes.cssClasses;
     const activeLink = element.attributes.compLink;
 

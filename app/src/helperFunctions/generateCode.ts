@@ -6,7 +6,7 @@ import {
   MUIType,
   MUIComponent,
   ChildStyle,
-  StateProp,
+  StateProp
 } from '../interfaces/Interfaces';
 
 declare global {
@@ -57,7 +57,7 @@ const generateCode = (
   HTMLTypes: HTMLType[],
   MUITypes: MUIType[],
   tailwind: boolean,
-  contextParam: any,
+  contextParam: any
 ): string => {
   const code = generateUnformattedCode(
     components,
@@ -67,7 +67,7 @@ const generateCode = (
     HTMLTypes,
     MUITypes,
     tailwind,
-    contextParam,
+    contextParam
   );
   return formatCode(code);
 };
@@ -92,11 +92,12 @@ const generateUnformattedCode = (
   HTMLTypes: HTMLType[],
   MUITypes: MUIType[],
   tailwind: boolean,
-  contextParam: any,
+  contextParam: any
 ): string => {
   const components = [...comps];
   // find the component that we're going to generate code for
-  const currComponent: Component | ChildElement | MUIComponent = components.find((elem) => elem.id === componentId);
+  const currComponent: Component | ChildElement | MUIComponent =
+    components.find((elem) => elem.id === componentId);
   // find the unique components that we need to import into this component file
   const imports: any = [];
   const muiImports: Set<string> = new Set();
@@ -142,7 +143,7 @@ const generateUnformattedCode = (
             collectStateAndEventHandlers(
               child,
               MUITypes,
-              muiStateAndEventHandlers,
+              muiStateAndEventHandlers
             );
           }
           break;
@@ -207,23 +208,23 @@ const generateUnformattedCode = (
           display,
           flexDirection,
           width,
-          justifyContent,
+          justifyContent
         } = childElement.style;
         const classMap = {
           alignItems: {
             center: 'items-center',
             'flex-start': 'items-start',
             'flex-end': 'items-end',
-            stretch: 'items-stretch',
+            stretch: 'items-stretch'
           },
           display: {
             flex: 'flex',
             'inline-block': 'inline-block',
             block: 'block',
-            none: 'hidden',
+            none: 'hidden'
           },
           flexDirection: {
-            column: 'flex-col',
+            column: 'flex-col'
           },
           justifyContent: {
             center: 'justify-center',
@@ -231,20 +232,20 @@ const generateUnformattedCode = (
             'space-between': 'justify-between',
             'space-around': 'justify-around',
             'flex-end': 'justify-end',
-            'space-evenly': 'justify-evenly',
+            'space-evenly': 'justify-evenly'
           },
           height: {
             '100%': 'h-full',
             '50%': 'h-1/2',
             '25%': 'h-1/4',
-            auto: 'auto',
+            auto: 'auto'
           },
           width: {
             '100%': 'w-full',
             '50%': 'w-1/2',
             '25%': 'w-1/4',
-            auto: 'w-auto',
-          },
+            auto: 'w-auto'
+          }
         };
 
         let classes = [
@@ -254,7 +255,7 @@ const generateUnformattedCode = (
           classMap.height[height],
           classMap.justifyContent[justifyContent],
           classMap.width[width],
-          backgroundColor ? `bg-[${backgroundColor}]` : '',
+          backgroundColor ? `bg-[${backgroundColor}]` : ''
         ]
           .filter(Boolean)
           .join(' ');
@@ -298,10 +299,7 @@ const generateUnformattedCode = (
    * @param {number} [level=0] - The nesting level of the element. Default is 0.
    * @returns {string[]} - An array of strings representing JSX elements.
    */
-  elementGenerator = (
-    childElement: ChildElement,
-    level = 0,
-  ): string[] => {
+  elementGenerator = (childElement: ChildElement, level = 0): string[] => {
     const jsxArray = [];
     const indentation = '  '.repeat(level);
 
@@ -313,16 +311,18 @@ const generateUnformattedCode = (
     let innerText = '';
     let activeLink = '""';
 
-    if (childElement.attributes && childElement.attributes.compText) {
-      innerText = childElement.stateUsed && childElement.stateUsed.compText
-        ? `{${childElement.stateUsed.compText}}`
-        : childElement.attributes.compText;
+    if (childElement.attributes && childElement.attributes.comptext) {
+      innerText =
+        childElement.stateUsed && childElement.stateUsed.comptext
+          ? `{${childElement.stateUsed.comptext}}`
+          : childElement.attributes.comptext;
     }
 
     if (childElement.attributes && childElement.attributes.compLink) {
-      activeLink = childElement.stateUsed && childElement.stateUsed.compLink
-        ? `{${childElement.stateUsed.compLink}}`
-        : `"${childElement.attributes.compLink}"`;
+      activeLink =
+        childElement.stateUsed && childElement.stateUsed.compLink
+          ? `{${childElement.stateUsed.compLink}}`
+          : `"${childElement.attributes.compLink}"`;
     }
     // NOTE-NOAH. this is hard coded and will interfere with new elements.
     const nestableTags = [
@@ -339,25 +339,32 @@ const generateUnformattedCode = (
       'menu',
       'li',
       'Switch',
-      'Route',
+      'Route'
     ];
     const isNestable = nestableTags.includes(childElement.tag);
 
     const tagDetails = elementTagDetails(childElement);
     if (isNestable) {
+      // console.log( // NO, just no...
+      //   'this is a nestable element so we cant put anything inside of it.'
+      // );
       if (childElement.children) {
         const childJsx = writeNestedElements(childElement.children, level + 1);
         jsxArray.push(`${indentation}<${childElement.tag} ${tagDetails}>`);
         jsxArray.push(...childJsx);
+        jsxArray.push(innerText); //NOTE, we are just sticking this on to the end, technically in react you can put it in the middle tho but there is not even a button for setting where the text goes.
+        // we could have an 'empty' element if we wanted to do text.
         jsxArray.push(`${indentation}</${childElement.tag}>`);
       } else {
         jsxArray.push(`${indentation}<${childElement.tag} ${tagDetails} />`);
       }
     } else {
       jsxArray.push(
-        `${indentation}<${childElement.tag} ${tagDetails}>${innerText}</${childElement.tag}>`,
+        `${indentation}<${childElement.tag} ${tagDetails}>${innerText}</${childElement.tag}>`
       );
     }
+
+    // who is the genius who decided that if an element is nestable then it can not have inner text?
 
     return jsxArray;
   };
@@ -372,7 +379,7 @@ const generateUnformattedCode = (
   insertNestedJsxBeforeClosingTag = (
     parentJsx: string,
     nestedJsx: string[],
-    indentationLevel: number,
+    indentationLevel: number
   ): string => {
     // Find the index of the closing tag of the parent component
     const closingTagIndex = parentJsx.lastIndexOf('</');
@@ -390,7 +397,7 @@ const generateUnformattedCode = (
     return [
       parentJsx.slice(0, closingTagIndex),
       indentedNestedJsx,
-      parentJsx.slice(closingTagIndex),
+      parentJsx.slice(closingTagIndex)
     ].join('\n');
   };
 
@@ -415,7 +422,7 @@ const generateUnformattedCode = (
   insertAttribute = (
     line: string,
     index: number,
-    attribute: string,
+    attribute: string
   ): string => {
     const before = line.substring(0, index);
 
@@ -443,7 +450,7 @@ const generateUnformattedCode = (
     newProps: string,
     childId: string,
     name: string,
-    key: string,
+    key: string
   ): string[] => {
     const tagRegExp = new RegExp(`^<${name}(\\s|>)`);
 
@@ -470,7 +477,7 @@ const generateUnformattedCode = (
           modifiedLine = insertAttribute(
             modifiedLine,
             insertIndex,
-            `id="${key}"`,
+            `id="${key}"`
           );
           insertIndex += ` id="${key}"`.length; // Update index to account for added id length
         }
@@ -503,7 +510,7 @@ const generateUnformattedCode = (
     let key = '';
 
     const MUIComp: MUIType | undefined = MUITypes.find(
-      (el) => el.tag === child.name,
+      (el) => el.tag === child.name
     );
     const MUIName: string | undefined = MUIComp?.name;
 
@@ -529,7 +536,7 @@ const generateUnformattedCode = (
 
     // Indent the JSX generated for MUI components based on the provided level
     const indentedJSX = MUIComp.jsx.map(
-      (line) => `${'  '.repeat(level)}${line}`,
+      (line) => `${'  '.repeat(level)}${line}`
     );
 
     // Modify and indent JSX
@@ -538,7 +545,7 @@ const generateUnformattedCode = (
       passedInPropsString,
       childId,
       MUIName!,
-      key,
+      key
     );
 
     // Handle nested components, if any
@@ -547,7 +554,7 @@ const generateUnformattedCode = (
       modifiedJSx = insertNestedJsxBeforeClosingTag(
         modifiedJSx.join('\n'),
         nestedJsx,
-        level,
+        level
       ).split('\n');
     }
 
@@ -567,10 +574,10 @@ const generateUnformattedCode = (
     if (projectType === 'Next.js') {
       // Next.js uses Link with the 'href' attribute and requires an <a> tag inside
       jsxArray.push(
-        `<Link href="/${child.name === 'index' ? '' : child.name}">`,
+        `<Link href="/${child.name === 'index' ? '' : child.name}">`
       );
       jsxArray.push(
-        `${indentation}  <a>${child.displayName || child.name}</a>`,
+        `${indentation}  <a>${child.displayName || child.name}</a>`
       );
       jsxArray.push(`${indentation}</Link>`);
     } else if (projectType === 'Gatsby.js') {
@@ -578,21 +585,21 @@ const generateUnformattedCode = (
       jsxArray.push(
         `<Link to="/${child.name === 'index' ? '' : child.name}">${
           child.displayName || child.name
-        }</Link>`,
+        }</Link>`
       );
     } else if (projectType === 'Classic React') {
       // Classic React might use react-router-dom's Link or another routing method
       jsxArray.push(
         `<Link to="/${child.name === 'index' ? '' : child.name}">${
           child.displayName || child.name
-        }</Link>`,
+        }</Link>`
       );
     } else {
       // Fallback or default handling, such as a simple anchor tag
       jsxArray.push(
         `<a href="/${child.name === 'index' ? '' : child.name}">${
           child.displayName || child.name
-        }</a>`,
+        }</a>`
       );
     }
 
@@ -609,7 +616,7 @@ const generateUnformattedCode = (
   collectMUIImports = (
     component: ChildElement | MUIComponent,
     MUITypes: MUIType[],
-    muiImports: Set<string>,
+    muiImports: Set<string>
   ): void => {
     if (component.type === 'MUI Component') {
       const muiComponent = MUITypes.find((m) => m.id === component.typeId);
@@ -627,7 +634,9 @@ const generateUnformattedCode = (
 
       // Recursively collect imports from child components if they exist
       if (component.children) {
-        component.children.forEach((child) => collectMUIImports(child, MUITypes, muiImports));
+        component.children.forEach((child) =>
+          collectMUIImports(child, MUITypes, muiImports)
+        );
       }
     }
   };
@@ -650,7 +659,7 @@ const generateUnformattedCode = (
   collectStateAndEventHandlers = (
     component: ChildElement | MUIComponent,
     MUITypes: MUIType[],
-    handlersCollection: Set<string>,
+    handlersCollection: Set<string>
   ): void => {
     if (component.type === 'MUI Component') {
       const muiComponent = MUITypes.find((m) => m.id === component.typeId);
@@ -666,7 +675,7 @@ const generateUnformattedCode = (
     // Recursively collect handlers from child components if they exist
     if (component.children) {
       component.children.forEach((child) =>
-        collectStateAndEventHandlers(child, MUITypes, handlersCollection),
+        collectStateAndEventHandlers(child, MUITypes, handlersCollection)
       );
     }
   };
@@ -678,7 +687,7 @@ const generateUnformattedCode = (
    * @returns {string} - The generated handler statements as a single, clean string, with preserved indentation.
    */
   generateStateAndEventHandlerCode = (
-    handlersCollection: Set<string>,
+    handlersCollection: Set<string>
   ): string =>
     Array.from(handlersCollection)
       .map((line) => line.replace(/\/\/.*$/, '')) // Remove only the comment, preserve everything before //
@@ -721,15 +730,18 @@ const generateUnformattedCode = (
   const enrichedChildren = getEnrichedChildren(currComponent);
 
   // import statements differ between root (pages) and regular components (components)
-  const importsMapped = projectType === 'Next.js' || projectType === 'Gatsby.js'
-    ? imports
-      .map((comp: string) => (isRoot
-        ? `import ${comp} from '../components/${comp}'`
-        : `import ${comp} from './${comp}'`))
-      .join('\n')
-    : imports
-      .map((comp: string) => `import ${comp} from './${comp}'`)
-      .join('\n');
+  const importsMapped =
+    projectType === 'Next.js' || projectType === 'Gatsby.js'
+      ? imports
+          .map((comp: string) =>
+            isRoot
+              ? `import ${comp} from '../components/${comp}'`
+              : `import ${comp} from './${comp}'`
+          )
+          .join('\n')
+      : imports
+          .map((comp: string) => `import ${comp} from './${comp}'`)
+          .join('\n');
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
@@ -764,7 +776,7 @@ const generateUnformattedCode = (
       if (importReactRouter) {
         jsxString = `<Router>\n${indentLinesExceptFirst(
           jsxString,
-          1,
+          1
         )}\n</Router>`;
       }
 
@@ -779,7 +791,7 @@ const generateUnformattedCode = (
               el.name
             }Provider>\n${indentLinesExceptFirst(
               jsxString,
-              index + 1,
+              index + 1
             )}\n${indent}</${el.name}Provider>`;
           });
       }
@@ -849,14 +861,14 @@ const generateUnformattedCode = (
 
     const muiImportStatements = generateMUIImportStatements(muiImports);
     const stateAndEventHandlers = generateStateAndEventHandlerCode(
-      muiStateAndEventHandlers,
+      muiStateAndEventHandlers
     );
 
     let generatedCode =
       "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'App' ? contextImports : '';
     generatedCode += importReactRouter
-      ? 'import { BrowserRouter as Router, Route, Switch, Link } from \'react-router-dom\';\n'
+      ? "import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n"
       : '';
     generatedCode += createContextImport() ? `${createContextImport()}\n` : '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
@@ -878,34 +890,35 @@ const generateUnformattedCode = (
   );`;
     generatedCode += '\n}';
     return generatedCode;
-  } if (projectType === 'Next.js') {
+  }
+  if (projectType === 'Next.js') {
     return `
     import React, { useState } from 'react';
     ${importsMapped}
     import Head from 'next/head'
-    ${links ? 'import Link from \'next/link\'' : ''}
-    ${images ? 'import Image from \'next/image\'' : ''}
+    ${links ? "import Link from 'next/link'" : ''}
+    ${images ? "import Image from 'next/image'" : ''}
 
     const ${
-  currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
-} = (props): JSX.Element => {
+      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+    } = (props): JSX.Element => {
       return (
           <>
       ${
-  isRoot
-    ? `
+        isRoot
+          ? `
             <Head>
               <title>${currComponent.name}</title>
             </Head>`
-    : ''
-}
+          : ''
+      }
       ${writeNestedElements(enrichedChildren)}
           </>
       );
     }
     export default ${
-  currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
-};
+      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+    };
     `;
   } else {
     // gatsby component code
@@ -913,17 +926,17 @@ const generateUnformattedCode = (
     import React, { useState } from 'react';
     ${importsMapped}
     import { StaticQuery, graphql } from 'gatsby';
-    ${links ? 'import { Link } from \'gatsby\'' : ''}
+    ${links ? "import { Link } from 'gatsby'" : ''}
       const ${currComponent.name} = (props: any): JSX.Element => {
       return (
         <>
         ${
-  isRoot
-    ? `<head>
+          isRoot
+            ? `<head>
               <title>${currComponent.name}</title>
           </head>`
-    : ''
-}
+            : ''
+        }
         <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
@@ -948,7 +961,7 @@ const formatCode = (code: string): string => {
       trailingComma: 'es5',
       bracketSpacing: true,
       jsxBracketSameLine: true,
-      parser: 'babel',
+      parser: 'babel'
     });
   }
   return code;
@@ -977,5 +990,5 @@ export {
   collectMUIImports,
   collectStateAndEventHandlers,
   formatCode,
-  generateCode as default, // Maintaining generateCode as default export
+  generateCode as default // Maintaining generateCode as default export
 };
