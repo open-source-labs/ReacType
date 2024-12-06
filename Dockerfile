@@ -16,11 +16,14 @@ COPY package*.json ./
 
 
 RUN npm install --no-install-recommends --fetch-retry-maxtimeout 500000
-#RUN npm run prod-build 
+
 # install vite virst
 
 
 COPY . .
+ ENV NODE_ENV='production'
+ # i am hoping the above will make it so that the frontend files will know that it is production.
+RUN npm run prod-build 
 
 # Stage 2: Runtime
 FROM node:21.2.0-alpine AS runtime
@@ -52,7 +55,7 @@ ENV IS_DOCKER=true
 
 
 ENV VIDEOSDK='vidsdk'
- ENV NODE_ENV='production'
+
  # productino you dolt!, if we are using docker, its production!
  ENV PORT=5656
 
