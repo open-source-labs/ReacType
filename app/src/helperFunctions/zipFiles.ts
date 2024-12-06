@@ -7,6 +7,7 @@ import { State } from '../interfaces/Interfaces';
  * @param {State} state - The current state of the project.
  */
 const zipFiles = (state: State): void => {
+  console.log('zipping those files...');
   //initializes zip
   var zip = new JSZip();
   let reacTypeApp = zip.folder('ReacTypeApp');
@@ -19,6 +20,7 @@ const zipFiles = (state: State): void => {
   );
   //writes each component as its own file in the component folder
   for (let i in state.components) {
+    console.log(state.components[i]);
     componentFolder.file(
       `${state.components[i].name}.jsx`,
       state.components[i].code
