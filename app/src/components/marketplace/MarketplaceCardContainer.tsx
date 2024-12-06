@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 import { Container, Grid } from '@mui/material';
 
-import MarketplaceCard from './MarketplaceCard';
 import React from 'react';
+import MarketplaceCard from './MarketplaceCard';
 
 /**
  * `MarketplaceCardContainer` is a React component that renders a container for `MarketplaceCard` components.

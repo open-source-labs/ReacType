@@ -1,27 +1,28 @@
+/* eslint-disable max-len */
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
-import HTMLItem from './HTMLItem';
-import MUIItem from './MUIItem';
 import React from 'react';
-import { RootState } from '../../redux/store';
-import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
-import { emitEvent } from '../../helperFunctions/socket';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { makeStyles } from '@mui/styles';
+import { emitEvent } from '../../helperFunctions/socket';
+import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
+import MUIItem from './MUIItem';
+import HTMLItem from './HTMLItem';
 import ComponentDrag from './ComponentDrag';
 
 const useStyles = makeStyles({
   accordion: {
     backgroundColor: '#0b0b0b', // Set the background color to gray
-    color: '#ffffff' // Set the text color to white
+    color: '#ffffff', // Set the text color to white
   },
   accordionSummary: {
     backgroundColor: '#101012', // Set the background color of the summary to gray
-    color: '#ffffff' // Set the text color of the summary to white
-  }
+    color: '#ffffff', // Set the text color of the summary to white
+  },
 });
 
 /**
@@ -49,17 +50,17 @@ const DragDropPanel = (props): JSX.Element => {
     if (roomCode) {
       emitEvent('deleteElementAction', roomCode, {
         id,
-        contextParam
+        contextParam,
       });
     }
   };
 
   const htmlTypesToRender = state.HTMLTypes.filter(
-    (type) => type.name !== 'separator'
+    (type) => type.name !== 'separator',
   );
 
   const muiTypesToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator'
+    (type) => type.name !== 'separator',
   );
 
   return (
@@ -94,14 +95,14 @@ const DragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
-                    option.name
+                    option.name,
                   )
                 ) {
                   return (
@@ -133,7 +134,7 @@ const DragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -26,7 +27,7 @@ import { Typography } from '@mui/material';
  * ```
  */
 const AddDataForm = ({ handleClickInputData, currentContext }): JSX.Element => {
-  //const [contextInput, setContextInput] = React.useState(null);
+  // const [contextInput, setContextInput] = React.useState(null);
   const defaultInputData = { inputKey: '', inputValue: '' };
   const [dataContext, setDataContext] = React.useState(defaultInputData);
 
@@ -41,12 +42,10 @@ const AddDataForm = ({ handleClickInputData, currentContext }): JSX.Element => {
   const color = 'white';
 
   const handleChange = (e) => {
-    setDataContext((prevDataContext) => {
-      return {
-        ...prevDataContext,
-        [e.target.name]: e.target.value
-      };
-    });
+    setDataContext((prevDataContext) => ({
+      ...prevDataContext,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   return (
@@ -82,7 +81,7 @@ const AddDataForm = ({ handleClickInputData, currentContext }): JSX.Element => {
             textTransform: 'capitalize',
             height: '50px',
             width: '100px',
-            fontSize: '15px'
+            fontSize: '15px',
           }}
         >
           Save

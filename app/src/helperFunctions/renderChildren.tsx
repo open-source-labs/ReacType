@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { ChildElement } from '../interfaces/Interfaces';
 import DirectChildComponent from '../components/main/DirectChildComponent';
@@ -9,7 +10,6 @@ import SeparatorChild from '../components/main/SeparatorChild';
 import RouteLink from '../components/main/RouteLink';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-
 
 /**
  * Renders all direct children of a component.

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -8,17 +9,17 @@ type Props = {
   classes: {
     configRow: any;
     configType: any;
-    lightThemeFontColor: { color: String };
+    lightThemeFontColor: { color: string };
     formControl: any;
     select: any;
     selectInput: any;
-    darkThemeFontColor: { color: String };
+    darkThemeFontColor: { color: string };
   };
-  isThemeLight: Boolean;
-  title: String;
+  isThemeLight: boolean;
+  title: string;
   selectValue: any;
   handleChange: any;
-  name: String;
+  name: string;
 };
 
 /**
@@ -49,7 +50,7 @@ const FormSelector = (props): JSX.Element => {
     items.push(
       <MenuItem style={{ color: 'white' }} value={el.value} key={`menu${key}`}>
         {el.text}
-      </MenuItem>
+      </MenuItem>,
     );
     key++;
   });
@@ -76,7 +77,7 @@ const FormSelector = (props): JSX.Element => {
             inputProps={{
               className: props.isThemeLight
                 ? `${props.classes.selectInput} ${props.classes.lightThemeFontColor}`
-                : `${props.classes.selectInput} ${props.classes.darkThemeFontColor}`
+                : `${props.classes.selectInput} ${props.classes.darkThemeFontColor}`,
             }}
             MenuProps={{ disablePortal: true }}
           >

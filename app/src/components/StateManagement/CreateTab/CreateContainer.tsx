@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import StatePropsPanel from './components/StatePropsPanel';

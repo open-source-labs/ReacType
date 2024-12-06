@@ -1,13 +1,18 @@
-import { Component, DragItem } from '../../interfaces/Interfaces';
+/* eslint-disable max-len */
 import { DropTargetMonitor, useDrop } from 'react-dnd';
 import React, { useEffect, useState, forwardRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { debounce, throttle } from 'lodash';
+import { FaMousePointer } from 'react-icons/fa';
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
+import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { Component, DragItem } from '../../interfaces/Interfaces';
 import {
   addChild,
   changeFocus,
-  snapShotAction
+  snapShotAction,
 } from '../../redux/reducers/slice/appStateSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { debounce, throttle } from 'lodash';
 
 import Arrow from './Arrow';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -15,10 +20,6 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
-import { FaMousePointer } from 'react-icons/fa';
-import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
-import { ZoomIn, ZoomOut } from '@mui/icons-material';
-import { Button } from '@mui/material';
 
 interface CanvasProps {
   zoom: number;
@@ -39,16 +40,16 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
     const state = useSelector((store: RootState) => store.appState);
     const contextParam = useSelector((store: RootState) => store.contextSlice);
     const roomCode = useSelector(
-      (store: RootState) => store.roomSlice.roomCode
+      (store: RootState) => store.roomSlice.roomCode,
     );
     const userName = useSelector(
-      (store: RootState) => store.roomSlice.userName
+      (store: RootState) => store.roomSlice.userName,
     );
     const userList = useSelector(
-      (store: RootState) => store.roomSlice.userList
+      (store: RootState) => store.roomSlice.userList,
     );
 
-    //remote cursor data
+    // remote cursor data
     const [remoteCursors, setRemoteCursors] = useState([]);
 
     // Toggle switch for live cursor tracking
@@ -62,9 +63,8 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
 
     // Prevents lagging and provides smoother user experience got live cursor tracking (milliseconds can be adjusted but 500ms is most optimal)
     const debounceSetPosition = debounce((newX, newY) => {
-      //emit socket event every 300ms when cursor moves
-      if (userList.length > 1)
-        emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
+      // emit socket event every 300ms when cursor moves
+      if (userList.length > 1) emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
     }, 500);
 
     const handleMouseMove = (e) => {
@@ -73,39 +73,39 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
 
     const handleCursorDataFromServer = (remoteData) => {
       setRemoteCursors((prevState) => {
-        //check if received cursor data is from an existing user in the room
+        // check if received cursor data is from an existing user in the room
         const cursorIdx = prevState.findIndex(
-          (cursor) => cursor.remoteUserName === remoteData.userName
+          (cursor) => cursor.remoteUserName === remoteData.userName,
         );
-        //existing user
+        // existing user
         if (cursorIdx >= 0) {
-          //check if cursor position has changed
+          // check if cursor position has changed
           if (
             prevState[cursorIdx].x !== remoteData.x ||
             prevState[cursorIdx].y !== remoteData.y
           ) {
-            //update existing user's cursor position
+            // update existing user's cursor position
             const updatedCursors = [...prevState];
             updatedCursors[cursorIdx] = {
               ...prevState[cursorIdx],
               x: remoteData.x,
-              y: remoteData.y
+              y: remoteData.y,
             };
             return updatedCursors;
           } else {
-            //return previous state if no change
+            // return previous state if no change
             return prevState;
           }
         } else {
-          //new user: add new user's cursor
+          // new user: add new user's cursor
           return [
             ...prevState,
             {
               x: remoteData.x,
               y: remoteData.y,
               remoteUserName: remoteData.userName,
-              isVisible: true
-            }
+              isVisible: true,
+            },
           ];
         }
       });
@@ -116,51 +116,50 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       setRemoteCursors((prevRemoteCursors) =>
         // filter cursors to include only those in the userList
         prevRemoteCursors.filter((cursor) =>
-          userList.includes(cursor.remoteUserName)
-        )
+          userList.includes(cursor.remoteUserName)),
       );
     };
 
     // Function that will turn on/off socket depending on toggle Switch.
     const handleToggleSwitch = () => {
       setToggleSwitch(!toggleSwitch);
-      //checks the state before it's updated so need to check the opposite condition
+      // checks the state before it's updated so need to check the opposite condition
       if (toggleSwitch) {
         socket.off('remote cursor data from server');
-        //make remote cursor invisible
+        // make remote cursor invisible
         setRemoteCursors((prevState) => {
           const newState = prevState.map((cursor) => ({
             ...cursor,
-            isVisible: false
+            isVisible: false,
           }));
           return newState;
         });
       } else {
         socket.on('remote cursor data from server', (remoteData) =>
-          handleCursorDataFromServer(remoteData)
+          handleCursorDataFromServer(remoteData),
         );
-        //make remote cursor visible
+        // make remote cursor visible
         setRemoteCursors((prevState) =>
           prevState.map((cursor) => ({
             ...cursor,
-            isVisible: true
-          }))
+            isVisible: true,
+          })),
         );
       }
     };
 
-    //Function to handle the multiple click events of the toggle button.
+    // Function to handle the multiple click events of the toggle button.
     const multipleClicks = () => {
       handleToggleSwitch();
       toggleButton();
     };
 
     const socket = getSocket();
-    //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
+    // wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
     useEffect(() => {
       if (socket) {
         socket.on('remote cursor data from server', (remoteData) =>
-          handleCursorDataFromServer(remoteData)
+          handleCursorDataFromServer(remoteData),
         );
       }
 
@@ -175,7 +174,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
 
     // find the current component based on the canvasFocus component ID in the state
     const currentComponent: Component = state.components.find(
-      (elem: Component) => elem.id === state.canvasFocus.componentId
+      (elem: Component) => elem.id === state.canvasFocus.componentId,
     );
 
     Arrow.deleteLines();
@@ -184,14 +183,14 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
     // changes focus of the canvas to a new component / child
     const changeFocusFunction = (
       componentId?: number,
-      childId?: number | null
+      childId?: number | null,
     ) => {
       dispatch(changeFocus({ componentId, childId }));
-      //if room exists, send focus dispatch to all users
+      // if room exists, send focus dispatch to all users
       if (roomCode) {
         emitEvent('changeFocusAction', roomCode, {
           componentId: componentId,
-          childId: childId
+          childId: childId,
         });
       }
     };
@@ -210,8 +209,8 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       dispatch(
         snapShotAction({
           focusIndex: focusIndex,
-          deepCopiedState: deepCopiedState
-        })
+          deepCopiedState: deepCopiedState,
+        }),
       );
     };
 
@@ -229,32 +228,32 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
         // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
         if (item.newInstance && item.instanceType !== 'Component') {
           dispatch(
-            //update state
+            // update state
             addChild({
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: null,
-              contextParam: contextParam
-            })
+              contextParam: contextParam,
+            }),
           );
 
-          //emit the socket event
+          // emit the socket event
           if (roomCode) {
             emitEvent('addChildAction', roomCode, {
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: null,
-              contextParam: contextParam
+              contextParam: contextParam,
             });
           }
         } else if (item.newInstance && item.instanceType === 'Component') {
           let hasDiffParent = false;
-          const components = state.components;
+          const { components } = state;
           let newChildName = '';
           // loop over components array
           for (let i = 0; i < components.length; i++) {
             const comp = components[i];
-            //loop over each componenets child
+            // loop over each componenets child
             for (let j = 0; j < comp.children.length; j++) {
               const child = comp.children[j];
               if (child.name === 'separator') continue;
@@ -283,22 +282,22 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: null,
-              contextParam: contextParam
-            })
+              contextParam: contextParam,
+            }),
           );
           if (roomCode) {
             emitEvent('addChildAction', roomCode, {
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: null,
-              contextParam: contextParam
+              contextParam: contextParam,
             });
           }
         }
       },
       collect: (monitor) => ({
-        isOver: !!monitor.isOver()
-      })
+        isOver: !!monitor.isOver(),
+      }),
     });
 
     // Styling for Canvas
@@ -308,7 +307,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       aspectRatio: 'auto 774 / 1200',
       boxSizing: 'border-box',
       transform: `scale(${zoom})`,
-      transformOrigin: 'top center'
+      transformOrigin: 'top center',
     };
 
     // Combine the default styles of the canvas with the custom styles set by the user for that component
@@ -317,7 +316,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
 
     const canvasStyle: React.CSSProperties = combineStyles(
       defaultCanvasStyle,
-      currentComponent.style
+      currentComponent.style,
     );
 
     // Array of colors that color code users as they join the room (In a set order)
@@ -331,7 +330,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       '#f6352b',
       '#1667d1',
       '#1667d1',
-      '#50ed6a'
+      '#50ed6a',
     ];
 
     const buttonStyle: React.CSSProperties = {
@@ -340,7 +339,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       backgroundColor: '#151515',
       zIndex: 0,
       border: '2px solid #0671e3',
-      margin: '8px 0 0 8px'
+      margin: '8px 0 0 8px',
     };
 
     return (
@@ -363,15 +362,15 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
                   position: 'absolute',
                   left: cursor.x + 'px',
                   top: cursor.y - 68 + 'px',
-                  //cursor style
+                  // cursor style
                   fontSize: '1em',
-                  color: userColors[userList.indexOf(cursor.remoteUserName)]
+                  color: userColors[userList.indexOf(cursor.remoteUserName)],
                 }}
               >
                 {<FaMousePointer />}
                 {cursor.remoteUserName}
               </div>
-            )
+            ),
         )}
         <label className="switch">
           {userList.length > 1 && (
@@ -392,7 +391,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
                 border: '2px solid #0671E3',
                 whiteSpace: 'nowrap',
                 cursor: 'pointer',
-                textTransform: 'none'
+                textTransform: 'none',
               }}
             >
               {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
@@ -401,7 +400,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
         </label>
       </div>
     );
-  }
+  },
 );
 
 export default Canvas;

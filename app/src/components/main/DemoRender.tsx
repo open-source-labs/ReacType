@@ -1,16 +1,17 @@
+/* eslint-disable max-len */
 import {
   Link,
   Route,
   BrowserRouter as Router,
   Switch,
-  useHistory
+  useHistory,
 } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import MUITypes from '../../redux/MUITypes';
 import Box from '@mui/material/Box';
-import { Component } from '../../interfaces/Interfaces';
 import ReactDOMServer from 'react-dom/server';
+import MUITypes from '../../redux/MUITypes';
+import { Component } from '../../interfaces/Interfaces';
 import { RootState } from '../../redux/store';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 // import { blue } from '@mui/material/colors';
@@ -26,7 +27,7 @@ import html from '../../helperFunctions/DemoRenderHTML';
 const DemoRender = (): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const stylesheet = useSelector(
-    (store: RootState) => store.appState.stylesheet
+    (store: RootState) => store.appState.stylesheet,
   );
   const backHome = useHistory();
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const DemoRender = (): JSX.Element => {
     width: '100%',
     backgroundColor: '#FBFBFB',
     borderBottom: 'none',
-    overflow: 'auto'
+    overflow: 'auto',
   };
 
   /**
@@ -55,7 +56,7 @@ const DemoRender = (): JSX.Element => {
     if (!state.components || !component) return;
 
     const matchedComponent = state.components.find(
-      (el) => el.name.toLowerCase() === component.toLowerCase()
+      (el) => el.name.toLowerCase() === component.toLowerCase(),
     );
 
     // If matchedComponent is undefined or doesn't have an id, return early
@@ -81,7 +82,7 @@ const DemoRender = (): JSX.Element => {
           } catch {
             return item; // If not a JSON string, return the original item
           }
-        })
+        }),
       );
     }
   });
@@ -93,7 +94,7 @@ const DemoRender = (): JSX.Element => {
 
   // Find the current component in focus
   const currComponent = state.components.find(
-    (element) => element.id === state.canvasFocus.componentId
+    (element) => element.id === state.canvasFocus.componentId,
   );
 
   /**
@@ -119,7 +120,7 @@ const DemoRender = (): JSX.Element => {
    * Loads the code into the iframe when it is loaded or when the code changes.
    */
   useEffect(() => {
-    //load the current state code when the iframe is loaded and when code changes
+    // load the current state code when the iframe is loaded and when code changes
     iframe.current.addEventListener('load', () => {
       iframe.current.contentWindow.postMessage(code, '*');
     });

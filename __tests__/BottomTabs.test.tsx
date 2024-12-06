@@ -1,26 +1,25 @@
 // @vitest-environment jsdom
-
 import { describe, it, expect } from 'vitest';
 import {
   fireEvent,
   render,
   screen,
   waitFor,
-  within
+  within,
 } from '@testing-library/react';
 
-import BottomTabs from '../app/src/components/bottom/BottomTabs';
 import { BrowserRouter } from 'react-router-dom';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Provider } from 'react-redux';
+import React from 'react';
+import BottomTabs from '../app/src/components/bottom/BottomTabs';
 import ComponentPanel from '../app/src/components/right/ComponentPanel';
 import ContextManager from '../app/src/components/ContextAPIManager/ContextManager';
 import CustomizationPanel from '../app/src/containers/CustomizationPanel';
-import { DndProvider } from 'react-dnd';
 import DragDropPanel from '../app/src/components/left/DragDropPanel';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
 import MainContainer from '../app/src/containers/MainContainer';
-import { Provider } from 'react-redux';
-import React from 'react';
 import StateManager from '../app/src/components/StateManagement/StateManagement';
 import store from '../app/src/redux/store';
 
@@ -29,7 +28,7 @@ describe('Bottom Panel Render test', () => {
     const { unmount } = render(
       <Provider store={store}>
         <BottomTabs />
-      </Provider>
+      </Provider>,
     );
     expect(screen.getAllByRole('tab')).toHaveLength(7);
     expect(screen.getByText('Component Tree')).toBeDefined();
@@ -47,7 +46,7 @@ describe('Creation Panel', () => {
     const { unmount } = render(
       <Provider store={store}>
         <ComponentPanel isThemeLight={null} />
-      </Provider>
+      </Provider>,
     );
 
     fireEvent.click(screen.getByText('Create'));
@@ -62,20 +61,20 @@ describe('Creation Panel', () => {
     const { unmount } = render(
       <Provider store={store}>
         <ComponentPanel isThemeLight={null} />
-      </Provider>
+      </Provider>,
     );
 
     fireEvent.change(screen.getByLabelText('Name'), {
       target: {
-        value: '!@#'
-      }
+        value: '!@#',
+      },
     });
 
     fireEvent.click(screen.getByText('Create'));
 
     await waitFor(() => {
       expect(
-        screen.getByText('Component name must start with a letter.')
+        screen.getByText('Component name must start with a letter.'),
       ).toBeDefined();
     });
     unmount();
@@ -87,7 +86,7 @@ describe('HTML Panel', () => {
     const { unmount } = render(
       <Provider store={store}>
         <HTMLPanel isThemeLight={null} />
-      </Provider>
+      </Provider>,
     );
 
     fireEvent.click(screen.getByText('Add Element'));
@@ -102,26 +101,26 @@ describe('HTML Panel', () => {
     const { unmount } = render(
       <Provider store={store}>
         <HTMLPanel isThemeLight={null} />
-      </Provider>
+      </Provider>,
     );
 
     fireEvent.change(screen.getByLabelText('Element Name'), {
       target: {
-        value: '!@#'
-      }
+        value: '!@#',
+      },
     });
 
     fireEvent.change(screen.getByLabelText('Tag'), {
       target: {
-        value: '!@#'
-      }
+        value: '!@#',
+      },
     });
 
     fireEvent.click(screen.getByText('Add Element'));
 
     await waitFor(() => {
       expect(
-        screen.getAllByText('* Input must start with a letter. *')
+        screen.getAllByText('* Input must start with a letter. *'),
       ).toHaveLength(2);
     });
     unmount();
@@ -133,7 +132,7 @@ describe('Context Manager', () => {
     const { unmount } = render(
       <Provider store={store}>
         <ContextManager />
-      </Provider>
+      </Provider>,
     );
     expect(screen.getAllByRole('tab')).toHaveLength(3);
     unmount();
@@ -142,7 +141,7 @@ describe('Context Manager', () => {
     const { unmount } = render(
       <Provider store={store}>
         <ContextManager />
-      </Provider>
+      </Provider>,
     );
     expect(screen.getAllByRole('textbox')).toHaveLength(3);
     expect(screen.getAllByRole('button')).toHaveLength(3);
@@ -154,7 +153,7 @@ describe('Context Manager', () => {
     const { unmount } = render(
       <Provider store={store}>
         <ContextManager />
-      </Provider>
+      </Provider>,
     );
 
     fireEvent.click(screen.getByText('Assign'));
@@ -173,7 +172,7 @@ describe('State Manager', () => {
     const { unmount } = render(
       <Provider store={store}>
         <StateManager isThemeLight={null} />
-      </Provider>
+      </Provider>,
     );
     expect(screen.getAllByRole('heading')).toHaveLength(4);
     expect(screen.getAllByRole('textbox')).toHaveLength(2);
@@ -186,12 +185,12 @@ describe('State Manager', () => {
     const { unmount } = render(
       <Provider store={store}>
         <StateManager isThemeLight={null} />
-      </Provider>
+      </Provider>,
     );
     fireEvent.click(screen.getByText('Display'));
     expect(screen.getByRole('table')).toBeDefined();
     expect(
-      screen.getByText('State Initialized in Current Component:')
+      screen.getByText('State Initialized in Current Component:'),
     ).toBeDefined();
     unmount();
   });
@@ -204,14 +203,14 @@ describe('Customization Panel', () => {
         <BrowserRouter>
           <CustomizationPanel isThemeLight={true} />
         </BrowserRouter>
-      </Provider>
+      </Provider>,
     );
     expect(screen.getByText('Parent Component:')).toBeDefined();
     expect(screen.getByText('App')).toBeDefined();
     expect(
       screen.getByText(
-        'Drag or click an html element to the canvas to see what happens!'
-      )
+        'Drag or click an html element to the canvas to see what happens!',
+      ),
     ).toBeDefined();
     unmount();
   });
@@ -228,7 +227,7 @@ describe('Canvas', () => {
             <CustomizationPanel isThemeLight={true} />
           </DndProvider>
         </BrowserRouter>
-      </Provider>
+      </Provider>,
     );
     const drop = screen.getByTestId('drop');
     const div = screen.getAllByText('Div')[0];
@@ -238,7 +237,7 @@ describe('Canvas', () => {
     fireEvent.dragEnter(drop);
     fireEvent.dragOver(drop);
     fireEvent.drop(drop);
-    //check if customization panel elements are rendering correctly
+    // check if customization panel elements are rendering correctly
     const panel = screen.getAllByTestId('customization')[0];
     expect(within(panel).getAllByRole('textbox')).toHaveLength(4);
     // check dropdowns

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Chart } from 'react-google-charts';
@@ -8,15 +9,15 @@ import { RootState } from '../../../redux/store';
  * A React component that displays a WordTree chart based on context data from a Redux store.
  * Utilizes the `react-google-charts` library to visualize relationships between components in the application,
  * fetching data from the `contextSlice.allContext` in the Redux store. The data should include objects with names and components arrays.
- * 
+ *
  * @component
  * @example
  * ```jsx
  * <DisplayContainer />
  * ```
- * 
+ *
  * @param {Object} props - The component does not accept any props.
- * 
+ *
  * State:
  * - `contextData`: An array of arrays structured for the WordTree chart, with the initial element being ["Phrases"].
  *
@@ -27,14 +28,14 @@ import { RootState } from '../../../redux/store';
  * - On mount, transforms the Redux store data into a format suitable for the WordTree chart by calling `transformData`.
  *
  * Methods:
- * - `transformData`: Transforms raw context data from the Redux store to be usable by the `Chart` component, 
+ * - `transformData`: Transforms raw context data from the Redux store to be usable by the `Chart` component,
  *   mapping each context object to phrases connecting the application name with the context name and its components.
  *
  * @returns {JSX.Element} A React element containing a Grid layout. If data is available, displays a WordTree chart, otherwise shows a message indicating no data.
  */
 const DisplayContainer = (): JSX.Element => {
   const allContext = useSelector(
-    (store: RootState) => store.contextSlice.allContext
+    (store: RootState) => store.contextSlice.allContext,
   );
   const [contextData, setContextData] = useState([]);
 
@@ -42,25 +43,21 @@ const DisplayContainer = (): JSX.Element => {
     transformData();
   }, []);
 
-  //formats context data for use in react google charts
+  // formats context data for use in react google charts
   const transformData = () => {
     const formattedData = allContext
-      .map((obj) => {
-        return obj.components.map((component) => {
-          return [`App ⎯⎯ ${obj.name} ⎯⎯ ${component}`];
-        });
-      })
+      .map((obj) => obj.components.map((component) => [`App ⎯⎯ ${obj.name} ⎯⎯ ${component}`]))
       .flat();
     setContextData([['Phrases'], ...formattedData]);
   };
 
-  //format options for google chart
+  // format options for google chart
   const options = {
     wordtree: {
       format: 'implicit',
-      word: 'App'
+      word: 'App',
     },
-    backgroundColor: '#1E2024'
+    backgroundColor: '#1E2024',
   };
 
   return (

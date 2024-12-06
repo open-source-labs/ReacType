@@ -1,52 +1,50 @@
+/* eslint-disable max-len */
 import React, { Ref, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
-import DeleteProjects from '../right/DeleteProjects';
-import ExportButton from '../right/ExportButton';
-import { Link } from 'react-router-dom';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
-import LoginButton from '../right/LoginButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import DeleteProjects from '../right/DeleteProjects';
+import ExportButton from '../right/ExportButton';
+import LoginButton from '../right/LoginButton';
 import ProjectsFolder from '../right/OpenProjects';
-import { RootState } from '../../redux/store';
+import store, { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import serverConfig from '../../serverConfig.js';
 import createModal from '../right/createModal';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { setStyle } from '../../redux/reducers/slice/styleSlice';
-import store from '../../redux/store';
-import withStyles from '@mui/styles/withStyles';
 import { emitEvent } from '../../helperFunctions/socket';
 
 const { API_BASE_URL } = serverConfig;
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      width: '100%'
-    },
-    menuButton: {
-      marginRight: theme.spacing(1),
-      color: 'white'
-    },
-    title: {
-      flexGrow: 1,
-      color: 'white'
-    },
-    manageProject: {
-      display: 'flex',
-      justifyContent: 'center',
-      width: '100px',
-      overflow: 'none'
-    }
-  })
-);
+const useStyles = makeStyles((theme) => createStyles({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+  },
+  menuButton: {
+    marginRight: theme.spacing(1),
+    color: 'white',
+  },
+  title: {
+    flexGrow: 1,
+    color: 'white',
+  },
+  manageProject: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100px',
+    overflow: 'none',
+  },
+}));
 
 interface StyledMenuProps extends React.PropsWithChildren<{}> {
   id: string;
@@ -58,18 +56,18 @@ interface StyledMenuProps extends React.PropsWithChildren<{}> {
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
-  }
+    border: '1px solid #d3d4d5',
+  },
 })((props: StyledMenuProps) => (
   <Menu
     elevation={0}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center'
+      horizontal: 'center',
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center'
+      horizontal: 'center',
     }}
     open={true}
     {...props}
@@ -80,10 +78,10 @@ const StyledMenuItem = withStyles((theme) => ({
   root: {
     '&:focus': {
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white
-      }
-    }
-  }
+        color: theme.palette.common.white,
+      },
+    },
+  },
 }))(MenuItem);
 
 /**
@@ -120,7 +118,7 @@ const navbarDropDown = (props): JSX.Element => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
 
-    props.setDropDownMenu(true)
+    props.setDropDownMenu(true);
   };
 
   const clearWorkspace = () => {
@@ -140,7 +138,7 @@ const navbarDropDown = (props): JSX.Element => {
             backgroundColor: '#E12D39',
             borderRadius: '50px',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText
@@ -162,8 +160,8 @@ const navbarDropDown = (props): JSX.Element => {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 
@@ -172,7 +170,7 @@ const navbarDropDown = (props): JSX.Element => {
     props.setDropMenu(false);
   };
 
-  let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
+  const showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
 
   const useOutsideClick = () => {
     const dropdownRef = useRef(null);
@@ -204,7 +202,7 @@ const navbarDropDown = (props): JSX.Element => {
 
   return (
     <div data-testid="navDropDown" ref={ref} className={showMenu}>
-      <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank"> 
+      <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"

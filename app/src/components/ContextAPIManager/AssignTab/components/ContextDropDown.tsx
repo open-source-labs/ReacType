@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Fragment, useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
@@ -22,20 +23,20 @@ const ContextDropDown = ({
   contextStore,
   renderTable,
   contextInput,
-  setContextInput
+  setContextInput,
 }): JSX.Element => {
   const { allContext } = contextStore;
 
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setContextInput({
-        name: newValue
+        name: newValue,
       });
     } else if (newValue && newValue.inputValue) {
       // Create a new contextInput from the user input
       setContextInput({
         name: newValue.inputValue,
-        values: []
+        values: [],
       });
       renderTable(newValue);
     } else {
@@ -52,7 +53,7 @@ const ContextDropDown = ({
     if (inputValue !== '' && !isExisting) {
       filtered.push({
         inputValue,
-        name: `Add "${inputValue}"`
+        name: `Add "${inputValue}"`,
       });
     }
 
@@ -99,7 +100,7 @@ const ContextDropDown = ({
               {...params}
               InputProps={{
                 ...params.InputProps,
-                style: { color: 'white' }
+                style: { color: 'white' },
               }}
               label="Select Context"
               variant="outlined"

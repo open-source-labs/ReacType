@@ -1,14 +1,15 @@
+/* eslint-disable max-len */
 import React, { useState, Fragment } from 'react';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import { Button } from '@mui/material';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import { useSelector, useDispatch } from 'react-redux';
 import DataTable from '../CreateTab/components/DataTable';
 import ContextDropDown from './components/ContextDropDown';
 import ComponentDropDown from './components/ComponentDropDrown';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
 import ComponentTable from './components/ComponentTable';
-import { Button } from '@mui/material';
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { addComponentToContext } from '../../../redux/reducers/slice/contextReducer';
-import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../redux/store';
 import { emitEvent } from '../../../../src/helperFunctions/socket';
@@ -39,18 +40,18 @@ const AssignContainer = (): JSX.Element => {
   const [componentTable, setComponentTable] = useState([]);
   const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
-    contextParam: store.contextSlice
+    contextParam: store.contextSlice,
   }));
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
-  //sets table data if it exists
+  // sets table data if it exists
   const renderTable = (targetContext) => {
     targetContext?.values && setTableState(targetContext.values);
   };
 
-  //construct data for table displaying component table
+  // construct data for table displaying component table
   const renderComponentTable = (targetComponent) => {
-    //target Component is main
+    // target Component is main
     const listOfContexts = [];
     if (!Array.isArray(state) && targetComponent?.name) {
       contextParam.allContext.forEach((context) => {
@@ -62,7 +63,7 @@ const AssignContainer = (): JSX.Element => {
     }
   };
 
-  //handling assignment of contexts to components
+  // handling assignment of contexts to components
   const handleAssignment = () => {
     if (
       contextInput === '' ||
@@ -75,10 +76,10 @@ const AssignContainer = (): JSX.Element => {
     dispatch(
       addComponentToContext({
         context: contextInput,
-        component: componentInput
-      })
+        component: componentInput,
+      }),
     );
-    //trigger generateCode(), update code preview tab
+    // trigger generateCode(), update code preview tab
     dispatch(deleteElement({ id: 'FAKE_ID', contextParam: contextParam }));
 
     if (roomCode) {
@@ -86,7 +87,7 @@ const AssignContainer = (): JSX.Element => {
         context: contextInput,
         component: componentInput,
         id: 'FAKE_ID',
-        contextParam: contextParam
+        contextParam: contextParam,
       });
     }
 

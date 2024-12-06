@@ -1,13 +1,14 @@
+/* eslint-disable max-len */
 import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
-import { addComponent } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
 /**
@@ -33,7 +34,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   const dispatch = useDispatch();
 
-  //state hooks for inputted component name, component id and array of components
+  // state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);
   // errorMsg refers to the error message on the new component text field
   const [errorMsg, setErrorMsg] = useState('');
@@ -42,7 +43,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
 
   // function to create error message for component name input
-  const triggerError = (type: String) => {
+  const triggerError = (type: string) => {
     setErrorStatus(true);
     if (type === 'empty') {
       setErrorMsg('Component name cannot be blank.');
@@ -69,27 +70,26 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   };
 
   // Add a new component
-  const createOption = (inputName: String) => {
+  const createOption = (inputName: string) => {
     // format name so first letter is capitalized and there are no white spaces
     let inputNameClean = inputName.replace(/\s+/g, ''); // removes spaces
-    const formattedName =
-      state.projectType === 'Classic React'
-        ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
-        : inputNameClean;
+    const formattedName = state.projectType === 'Classic React'
+      ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
+      : inputNameClean;
     // add new component to state
     dispatch(
       addComponent({
         componentName: formattedName,
         root: isRoot,
-        contextParam: contextParam
-      })
+        contextParam: contextParam,
+      }),
     );
 
     if (roomCode) {
       emitEvent('addComponentAction', roomCode, {
         componentName: formattedName,
         root: isRoot,
-        contextParam: contextParam
+        contextParam: contextParam,
       });
     }
 
@@ -111,7 +111,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
       error = 'symbolsDetected';
     } else if (
       state.components.some(
-        (comp) => comp.name.toLowerCase() === compName.toLowerCase()
+        (comp) => comp.name.toLowerCase() === compName.toLowerCase(),
       )
     ) {
       error = 'dupe';
@@ -145,7 +145,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
     if (reason === 'clickaway') {
       return;
@@ -155,7 +155,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
-    ref
+    ref,
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -163,7 +163,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   return (
     <>
       <div className={`${classes.panelWrapper}`}>
-        {/* Add a new component*/}
+        {/* Add a new component */}
         <div className={classes.addComponentWrapper}>
           <h4
             className={
@@ -182,7 +182,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                 justifyContent: 'center',
                 marginTop: '20px',
                 marginBottom: '20px',
-                alignItems: 'baseline'
+                alignItems: 'baseline',
               }}
             >
               <div style={{ alignSelf: 'center' }}>
@@ -218,8 +218,8 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                     style={{}}
                     InputProps={{
                       style: {
-                        color: isThemeLight ? 'white' : 'white'
-                      }
+                        color: isThemeLight ? 'white' : 'white',
+                      },
                     }}
                     placeholder="name"
                   />
@@ -308,7 +308,7 @@ const useStyles = makeStyles({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     margin: '0px 0px 0px 10px',
-    border: '0px solid grey'
+    border: '0px solid grey',
   },
   inputWrapper: {
     textAlign: 'center',
@@ -316,38 +316,38 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   panelWrapper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    color: '#000000'
+    color: '#000000',
   },
   addComponentWrapper: {
     padding: 'auto',
     margin: '0 auto',
-    display: 'inline-block'
+    display: 'inline-block',
   },
   rootCheckBox: {
     borderColor: '#0671E3',
-    padding: '7px 0'
+    padding: '7px 0',
   },
   rootCheckBoxLabel: {
-    borderColor: '#0671e3'
+    borderColor: '#0671e3',
   },
   newComponent: {
     color: '#C6C6C6',
-    marginBottom: '25px'
+    marginBottom: '25px',
   },
   inputLabel: {
     fontSize: '1em',
-    marginLeft: '10px'
+    marginLeft: '10px',
   },
   btnGroup: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   addComponentButton: {
     backgroundColor: 'transparent',
@@ -359,24 +359,24 @@ const useStyles = makeStyles({
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '25px',
-    marginRight: '65px'
+    marginRight: '65px',
   },
   rootToggle: {
     color: '#696969',
-    fontSize: '0.85rem'
+    fontSize: '0.85rem',
   },
   lightThemeFontColor: {
     color: 'white',
     '& .MuiInputBase-root': {
-      color: 'rgba (0, 0, 0, 0.54)'
-    }
+      color: 'rgba (0, 0, 0, 0.54)',
+    },
   },
   darkThemeFontColor: {
     color: '#fff',
     '& .MuiInputBase-root': {
-      color: '#fff'
-    }
-  }
+      color: '#fff',
+    },
+  },
 });
 
 export default ComponentPanel;

@@ -5,4 +5,4 @@ declare global {
   }
 }
 
-let api = window.api;
+let { api } = window;

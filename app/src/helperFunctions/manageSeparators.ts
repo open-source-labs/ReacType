@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ChildElement, ManageSeparators } from '../interfaces/Interfaces';
 
 const separator = {
@@ -9,7 +10,7 @@ const separator = {
   placeHolderLong: '',
   icon: '',
   framework: '',
-  nestable: true
+  nestable: true,
 };
 /**
  * Manages separators within an array of child elements.
@@ -38,8 +39,7 @@ const manageSeparators: ManageSeparators = {
         arr.splice(index, 1); // removes extra separator from array
       }
       // check for duplicated separator at the end of array and remove it if separator is at the last index
-      if (arr[arr.length - 1].name === 'separator')
-        arr.splice(arr.length - 1, 1);
+      if (arr[arr.length - 1].name === 'separator') arr.splice(arr.length - 1, 1);
       // check for missing separators // cooment
       if (
         arr[index].name !== 'separator' &&
@@ -57,7 +57,7 @@ const manageSeparators: ManageSeparators = {
           events: {}, // Added
           stateProps: [], // Added
           passedInProps: [], // Added
-          children: []
+          children: [],
         };
         // add a topSeparator before the element that does not have one
         arr.splice(index, 0, topSeparator);
@@ -92,13 +92,13 @@ const manageSeparators: ManageSeparators = {
       ) {
         const divContents = manageSeparators.mergeSeparator(
           child.children,
-          index
+          index,
         );
         return { ...child, children: divContents };
       } else if (child.name === 'separator' && child?.children?.length) {
         return child.children[index];
       } else return child;
     });
-  }
+  },
 };
 export default manageSeparators;

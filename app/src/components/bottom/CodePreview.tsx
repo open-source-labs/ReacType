@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-javascript';
@@ -5,13 +6,13 @@ import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/theme-clouds_midnight';
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import {
-  codePreviewInput,
-  codePreviewSave
-} from '../../redux/reducers/slice/codePreviewSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AceEditor from 'react-ace';
+import {
+  codePreviewInput,
+  codePreviewSave,
+} from '../../redux/reducers/slice/codePreviewSlice';
 import { Component } from '../../interfaces/Interfaces';
 import { RootState } from '../../redux/store';
 import { fetchPlugin } from '../../plugins/fetch-plugin';
@@ -57,13 +58,13 @@ const CodePreview: React.FC<{
   const state = useSelector((store: RootState) => store.appState);
   const [, setDivHeight] = useState(0);
   let currentComponent = state.components.find(
-    (elem: Component) => elem.id === state.canvasFocus.componentId
+    (elem: Component) => elem.id === state.canvasFocus.componentId,
   );
 
   const [input, setInput] = useState('');
 
   useEffect(() => {
-    //Starts the Web Assembly service
+    // Starts the Web Assembly service
     initializeEsbuild();
   }, []);
 
@@ -95,8 +96,8 @@ const CodePreview: React.FC<{
       plugins: [unpkgPathPlugin(), fetchPlugin(data)],
       define: {
         'import.meta.env.NODE_ENV': '"production"',
-        global: 'window'
-      }
+        global: 'window',
+      },
     });
     dispatch(codePreviewSave(result.outputFiles[0].text));
   };
@@ -109,7 +110,7 @@ const CodePreview: React.FC<{
         height: '100%',
         maxWidth: '100%',
         justifyContent: 'center',
-        transform: `scale(${zoom})`
+        transform: `scale(${zoom})`,
       }}
     >
       <div
@@ -117,7 +118,7 @@ const CodePreview: React.FC<{
           width: '100%',
           height: '80px',
           marginTop: '-70px',
-          backgroundColor: '#191919'
+          backgroundColor: '#191919',
         }}
       ></div>
       <AceEditor
@@ -133,7 +134,7 @@ const CodePreview: React.FC<{
         tabSize={2}
         wrapEnabled={true}
         setOptions={{
-          useWorker: false
+          useWorker: false,
         }}
       />
     </div>

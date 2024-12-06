@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -34,7 +35,7 @@ const PublishModal = ({
   projectName,
   onChange,
   invalidProjectName,
-  invalidProjectNameMessage
+  invalidProjectNameMessage,
 }): JSX.Element => {
   return (
     <Dialog

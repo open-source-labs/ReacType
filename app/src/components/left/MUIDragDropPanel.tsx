@@ -1,27 +1,28 @@
+/* eslint-disable max-len */
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import MUIItem from './MUIItem';
 import React from 'react';
 import { RootState } from '../../redux/store';
-import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
-import { emitEvent } from '../../helperFunctions/socket';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { makeStyles } from '@mui/styles';
-import ComponentDrag from './ComponentDrag';
 import { Icon } from '@mui/material';
+import ComponentDrag from './ComponentDrag';
+import { emitEvent } from '../../helperFunctions/socket';
+import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 
 const useStyles = makeStyles({
   accordion: {
     backgroundColor: '#0b0b0b', // Set the background color to gray
-    color: '#ffffff' // Set the text color to white
+    color: '#ffffff', // Set the text color to white
   },
   accordionSummary: {
     backgroundColor: '#101012', // Set the background color of the summary to gray
-    color: '#ffffff' // Set the text color of the summary to white
-  }
+    color: '#ffffff', // Set the text color of the summary to white
+  },
 });
 
 /**
@@ -47,41 +48,41 @@ const MUIDragDropPanel = (props): JSX.Element => {
     if (roomCode) {
       emitEvent('deleteElementAction', roomCode, {
         id,
-        contextParam
+        contextParam,
       });
     }
   };
 
   const htmlTypesToRender = state.HTMLTypes.filter(
-    (type) => type.name !== 'separator'
+    (type) => type.name !== 'separator',
   );
 
   const muiInputToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 21 && type.id <= 33
+    (type) => type.name !== 'separator' && type.id >= 21 && type.id <= 33,
   );
 
   const muiDataDisplayToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 34 && type.id <= 43
+    (type) => type.name !== 'separator' && type.id >= 34 && type.id <= 43,
   );
 
   const muiFeedbackToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 44 && type.id <= 49
+    (type) => type.name !== 'separator' && type.id >= 44 && type.id <= 49,
   );
 
   const muiSurfacesToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 50 && type.id <= 53
+    (type) => type.name !== 'separator' && type.id >= 50 && type.id <= 53,
   );
 
   const muiNavigationToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 54 && type.id <= 62
+    (type) => type.name !== 'separator' && type.id >= 54 && type.id <= 62,
   );
 
   const muiLayoutToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 63 && type.id <= 70
+    (type) => type.name !== 'separator' && type.id >= 63 && type.id <= 70,
   );
 
   const muiUtilsToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 71 && type.id <= 80
+    (type) => type.name !== 'separator' && type.id >= 71 && type.id <= 80,
   );
 
   return (
@@ -116,7 +117,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
@@ -135,7 +136,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Data Display Component*/}
+        {/* Data Display Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -149,7 +150,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
@@ -168,7 +169,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Feedback Component*/}
+        {/* Feedback Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -182,7 +183,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
@@ -201,7 +202,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Surfaces Component*/}
+        {/* Surfaces Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -215,7 +216,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
@@ -234,7 +235,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Navigation Component*/}
+        {/* Navigation Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -248,7 +249,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
@@ -267,7 +268,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Layout Component*/}
+        {/* Layout Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -281,7 +282,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
@@ -314,7 +315,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'space-around'
+              alignItems: 'space-around',
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>

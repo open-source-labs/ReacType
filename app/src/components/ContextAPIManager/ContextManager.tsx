@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useContext } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
@@ -6,16 +7,16 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
+import { useSelector } from 'react-redux';
 import CreateContainer from './CreateTab/CreateContainer';
 import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
 const useStyles = makeStyles({
   contextContainer: {
-    height: 'fit-content'
-  }
+    height: 'fit-content',
+  },
 });
 
 /**

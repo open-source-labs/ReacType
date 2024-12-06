@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useRef, useEffect, useState } from 'react';
 import BottomPanel from '../components/bottom/BottomPanel';
 import CanvasContainer from '../components/main/CanvasContainer';
@@ -33,7 +34,7 @@ const MainContainer = (props): JSX.Element => {
   const [bottomShow, setBottomShow] = useState(false);
   const dispatch = useDispatch();
   const screenshotTrigger = useSelector(
-    (store: RootState) => store.appState.screenshotTrigger
+    (store: RootState) => store.appState.screenshotTrigger,
   );
   const id: string = useSelector((store: RootState) => store.appState._id);
   // const { style } = useSelector((store: RootState) => ({
@@ -48,12 +49,12 @@ const MainContainer = (props): JSX.Element => {
       if (screenshotTrigger) {
         try {
           const canvas: HTMLCanvasElement = await html2canvas(
-            containerRef.current
+            containerRef.current,
           );
           const screenshotURL: string = canvas.toDataURL('image/png');
           const imgBuffer: Buffer | void = Buffer.from(
             screenshotURL.replace(/^data:image\/\w+;base64,/, ''),
-            'base64'
+            'base64',
           );
           dispatch(toggleScreenshotTrigger());
           return imgBuffer;
@@ -85,7 +86,7 @@ const MainContainer = (props): JSX.Element => {
     checkStorageConnection();
     try {
       await Storage.put(id, imgBuffer, {
-        contentType: 'image/png'
+        contentType: 'image/png',
       });
     } catch (error) {
       alert('Error uploading screenshot: ' + error);
@@ -131,12 +132,12 @@ const MainContainer = (props): JSX.Element => {
   const hideBottomPanelStyles = {
     maxHeight: '64px',
     boxSizing: 'border-box',
-    transition: 'all 0.5s ease-in-out'
+    transition: 'all 0.5s ease-in-out',
   };
 
   const showBottomPanelStyles = {
     maxHeight: '100%',
-    transition: 'all 0.5s ease-in-out'
+    transition: 'all 0.5s ease-in-out',
   };
 
   return (

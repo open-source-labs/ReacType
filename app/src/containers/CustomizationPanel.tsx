@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Button,
   Dialog,
@@ -151,8 +152,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const childrenArray = deepIterate(configTarget.children);
     for (const element of childrenArray) {
       if (configTarget.child && element.childId === configTarget.child.id) {
-        const attributes = element.attributes;
-        const style = element.style;
+        const { attributes } = element;
+        const { style } = element;
         setcomptext(attributes.comptext ? attributes.comptext : '');
         setCompLink(attributes.compLink ? attributes.compLink : '');
         setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');

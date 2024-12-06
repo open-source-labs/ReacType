@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Component,
   ChildElement,
@@ -7,6 +8,7 @@ import {
   ChildStyle,
   StateProp
 } from '../interfaces/Interfaces';
+
 declare global {
   interface Window {
     api: any;
@@ -97,15 +99,15 @@ const generateUnformattedCode = (
   const currComponent: Component | ChildElement | MUIComponent =
     components.find((elem) => elem.id === componentId);
   // find the unique components that we need to import into this component file
-  let imports: any = [];
-  let muiImports: Set<string> = new Set();
-  let muiStateAndEventHandlers: Set<string> = new Set();
-  let providers: string = '';
-  let context: string = '';
-  let links: boolean = false;
-  let images: boolean = false;
+  const imports: any = [];
+  const muiImports: Set<string> = new Set();
+  const muiStateAndEventHandlers: Set<string> = new Set();
+  const providers = '';
+  const context = '';
+  const links = false;
+  const images = false;
   const isRoot = rootComponents.includes(componentId);
-  let importReactRouter = false;
+  const importReactRouter = false;
 
   /**
    * Recursively processes the children of a component, enriching them with additional information.
@@ -297,10 +299,7 @@ const generateUnformattedCode = (
    * @param {number} [level=0] - The nesting level of the element. Default is 0.
    * @returns {string[]} - An array of strings representing JSX elements.
    */
-  elementGenerator = (
-    childElement: ChildElement,
-    level: number = 0
-  ): string[] => {
+  elementGenerator = (childElement: ChildElement, level = 0): string[] => {
     const jsxArray = [];
     const indentation = '  '.repeat(level);
 
@@ -505,7 +504,7 @@ const generateUnformattedCode = (
    * @param {number} [level=0] - The indentation level.
    * @returns {string} - The generated JSX for the Material UI component.
    */
-  muiGenerator = (child: ChildElement, level: number = 0): string => {
+  muiGenerator = (child: ChildElement, level = 0): string => {
     let childId = '';
     let passedInPropsString = '';
     let key = '';
@@ -721,7 +720,7 @@ const generateUnformattedCode = (
    * @returns {string} - A string containing code to incorporate the user-created state.
    */
   writeStateProps = (stateArray: string[]): string => {
-    let stateToRender: string = '';
+    let stateToRender = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2) + element + ';';
     }
@@ -734,30 +733,28 @@ const generateUnformattedCode = (
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
       ? imports
-          .map((comp: string) => {
-            return isRoot
+          .map((comp: string) =>
+            isRoot
               ? `import ${comp} from '../components/${comp}'`
-              : `import ${comp} from './${comp}'`;
-          })
+              : `import ${comp} from './${comp}'`
+          )
           .join('\n')
       : imports
-          .map((comp: string) => {
-            return `import ${comp} from './${comp}'`;
-          })
+          .map((comp: string) => `import ${comp} from './${comp}'`)
           .join('\n');
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
-    //string to store all imports string for context
+    // string to store all imports string for context
     let contextImports = '';
-    let allContext = contextParam.allContext || []; // Set a default value if allContext is not present or falsy
+    const allContext = contextParam.allContext || []; // Set a default value if allContext is not present or falsy
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
     }
 
-    //build an object with keys representing all components, their values are arrays storing all contexts that those components are consuming
+    // build an object with keys representing all components, their values are arrays storing all contexts that those components are consuming
     const componentContext = allContext.reduce((acc, curr) => {
       for (const component of curr.components) {
         if (acc[component] === undefined) acc[component] = [];
@@ -871,8 +868,8 @@ const generateUnformattedCode = (
       "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'App' ? contextImports : '';
     generatedCode += importReactRouter
-      ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n`
-      : ``;
+      ? "import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n"
+      : '';
     generatedCode += createContextImport() ? `${createContextImport()}\n` : '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
     generatedCode += muiImportStatements ? `${muiImportStatements}\n\n` : '';
@@ -891,15 +888,16 @@ const generateUnformattedCode = (
       ${indentLinesExceptFirst(createRender(), 3)}
     </>
   );`;
-    generatedCode += `\n}`;
+    generatedCode += '\n}';
     return generatedCode;
-  } else if (projectType === 'Next.js') {
+  }
+  if (projectType === 'Next.js') {
     return `
     import React, { useState } from 'react';
     ${importsMapped}
     import Head from 'next/head'
-    ${links ? `import Link from 'next/link'` : ``}
-    ${images ? `import Image from 'next/image'` : ``}
+    ${links ? "import Link from 'next/link'" : ''}
+    ${images ? "import Image from 'next/image'" : ''}
 
     const ${
       currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
@@ -912,7 +910,7 @@ const generateUnformattedCode = (
             <Head>
               <title>${currComponent.name}</title>
             </Head>`
-          : ``
+          : ''
       }
       ${writeNestedElements(enrichedChildren)}
           </>
@@ -928,7 +926,7 @@ const generateUnformattedCode = (
     import React, { useState } from 'react';
     ${importsMapped}
     import { StaticQuery, graphql } from 'gatsby';
-    ${links ? `import { Link } from 'gatsby'` : ``}
+    ${links ? "import { Link } from 'gatsby'" : ''}
       const ${currComponent.name} = (props: any): JSX.Element => {
       return (
         <>
@@ -937,7 +935,7 @@ const generateUnformattedCode = (
             ? `<head>
               <title>${currComponent.name}</title>
           </head>`
-            : ``
+            : ''
         }
         <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
@@ -965,9 +963,8 @@ const formatCode = (code: string): string => {
       jsxBracketSameLine: true,
       parser: 'babel'
     });
-  } else {
-    return code;
   }
+  return code;
 };
 export {
   muiGenerator,

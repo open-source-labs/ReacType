@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import '../public/styles/style.css';
 
 import React, { useEffect } from 'react';

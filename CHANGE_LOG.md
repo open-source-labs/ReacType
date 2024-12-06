@@ -3,6 +3,24 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+## Version 22.0.0 Changes
+
+### Potential Changes:
+
+- Export code does not actually build what it says it does - Bug fix: tags which are nested do not display accurate code in code preview
+- Delete all electron-related files and dependencies
+- Delete all webpack-related files and dependencies
+- Fully retire jest tests
+- Complete Vitest testing suite
+- Adding link for creation panel to reusable components tab
+- Make bottom panel only display context-relevant tabs
+- Moving chat link from bottom panel to upper right (would this require making it into a pop up?)
+- Migrate more state pieces into redux store??
+- Decluttering by adding right click and hover functionality
+- Move elements of tutorial into hover functionality
+- Get OAuth fully functional
+- Add built-in component templates to the marketplace
+
 ## Version 21.0.0 Changes
 
 ### Changes:
@@ -23,7 +41,7 @@
 - **Bugs Fixed:**
   - Forgotten Password - Forgotten Password page now properly renders and enables a user to reset their password
   - Customization Panel - Fixed numerous rendering issues to establish consistent performance and UI layout
-  - Tutorial Page - Fixed Link / Re-Route to Tutorial  
+  - Tutorial Page - Fixed Link / Re-Route to Tutorial
 
 ### Recommendations for Future Enhancements:
 

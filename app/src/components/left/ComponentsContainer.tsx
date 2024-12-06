@@ -1,9 +1,9 @@
-import ComponentPanelItem from '../right/ComponentPanelItem';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import ComponentPanelItem from '../right/ComponentPanelItem';
 
 /**
  * Displays a panel of reusable components that are not root components.
@@ -18,7 +18,7 @@ const ComponentsContainer = (): JSX.Element => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
 
-  const isFocus = (targetId: Number) => {
+  const isFocus = (targetId: number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
   return (
@@ -54,17 +54,17 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    overflow: 'auto'
+    overflow: 'auto',
   },
   panelWrapperList: {
-    minHeight: 'auto'
+    minHeight: 'auto',
   },
   lightThemeFontColor: {
-    color: '#fff'
+    color: '#fff',
   },
   darkThemeFontColor: {
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 });
 
 export default ComponentsContainer;

@@ -1,8 +1,11 @@
+/* eslint-disable max-len */
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import NavBarButtons from './NavBarButtons';
 import NewExportButton from './NewExportButton';
 import { RootState } from '../../redux/store';
@@ -10,18 +13,16 @@ import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   publishProject,
-  unpublishProject
+  unpublishProject,
 } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
 import {
   updateProjectId,
   updateProjectName,
   updateProjectPublished,
-  toggleScreenshotTrigger
+  toggleScreenshotTrigger,
 } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 
 /**
  * The `NavBar` component serves as the main navigation bar for the application, providing links,
@@ -48,8 +49,7 @@ const NavBar: React.FC = (): JSX.Element => {
   const [publishModalOpen, setPublishModalOpen] = useState(false);
   const [projectName, setProjectName] = useState(state.name || '');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
-  const [invalidProjectNameMessage, setInvalidProjectNameMessage] =
-    useState('');
+  const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState('');
   const urlAdd = useHistory();
   const isMarketplace = urlAdd.location.pathname === '/marketplace';
 
@@ -76,7 +76,7 @@ const NavBar: React.FC = (): JSX.Element => {
   const buttonContainerStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   };
 
   const buttonStyle = {
@@ -88,7 +88,7 @@ const NavBar: React.FC = (): JSX.Element => {
     cursor: 'pointer',
     marginRight: '10px',
     marginLeft: '5px',
-    borderRadius: '10px'
+    borderRadius: '10px',
   };
 
   const moreVertButtonStyle = {
@@ -103,7 +103,7 @@ const NavBar: React.FC = (): JSX.Element => {
     minWidth: '20px',
     marginLeft: '0px',
     marginRight: '10px',
-    boxShadow: 'none'
+    boxShadow: 'none',
   };
 
   const handlePublish = () => {
@@ -142,7 +142,7 @@ const NavBar: React.FC = (): JSX.Element => {
 
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
     if (reason === 'clickaway') {
       return;
@@ -156,7 +156,7 @@ const NavBar: React.FC = (): JSX.Element => {
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
-    ref
+    ref,
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });

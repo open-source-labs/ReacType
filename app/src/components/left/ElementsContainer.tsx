@@ -44,8 +44,7 @@ const ElementsContainer = (props): JSX.Element => {
       e.key === 'Backspace' &&
       e.target.tagName !== 'TEXTAREA' &&
       e.target.tagName !== 'INPUT'
-    )
-      handleDelete();
+    ) handleDelete();
   }, []);
 
   useEffect(() => {
@@ -63,7 +62,7 @@ const ElementsContainer = (props): JSX.Element => {
         alignItems: 'center',
         justifyContent: 'top',
         color: '#ffffff',
-        textAlign: 'center'
+        textAlign: 'center',
       }}
     >
       {' '}

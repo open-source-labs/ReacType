@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Fragment, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
@@ -41,7 +42,7 @@ const AddContextForm = ({
   setCurrentContext,
   errorMsg,
   errorStatus,
-  setErrorStatus
+  setErrorStatus,
 }) => {
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
@@ -49,23 +50,23 @@ const AddContextForm = ({
 
   const color = 'white';
 
-  //handler for submitting new context for creation
+  // handler for submitting new context for creation
   const handleSubmit = () => {
     handleClickSelectContext();
     setOpen(true);
   };
 
-  //form control for new context field
+  // form control for new context field
   const handleChange = (e) => {
     setErrorStatus(false);
     setOpen(false);
     setContextInput(e.target.value);
   };
 
-  //event handle for confirmation modal
+  // event handle for confirmation modal
   const handleClose = (
     event: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
     if (reason === 'clickaway') {
       return;
@@ -76,12 +77,12 @@ const AddContextForm = ({
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
-    ref
+    ref,
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  //creating options for context dropdown
+  // creating options for context dropdown
   const contexts = allContext.length ? (
     allContext.map((context, index) => {
       return (
@@ -102,11 +103,11 @@ const AddContextForm = ({
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
         <TextField
           InputProps={{
-            style: { color: color }
+            style: { color: color },
           }}
           onChange={handleChange}
           sx={{
-            width: 425
+            width: 425,
           }}
           label="context"
           value={contextInput}
@@ -137,7 +138,7 @@ const AddContextForm = ({
             textTransform: 'capitalize',
             height: '50px',
             width: '100px',
-            fontSize: '15px'
+            fontSize: '15px',
           }}
         >
           Create
@@ -171,7 +172,7 @@ const AddContextForm = ({
             textTransform: 'capitalize',
             height: '50px',
             width: '100px',
-            fontSize: '15px'
+            fontSize: '15px',
           }}
         >
           Delete

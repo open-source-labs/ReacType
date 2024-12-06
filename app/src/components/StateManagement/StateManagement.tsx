@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
@@ -15,8 +16,8 @@ const useStyles = makeStyles({
     backgroundColor: 'white',
     height: 'fit-content',
     width: 'fit-content',
-    minWidth: '100%'
-  }
+    minWidth: '100%',
+  },
 });
 
 /**

@@ -1,16 +1,17 @@
+/* eslint-disable max-len */
 import React from 'react';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
+import { Typography } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 import DataTable from './components/DataTable';
 import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
-import { Typography } from '@mui/material';
 import {
   addContext,
   deleteContext,
-  addContextValues
+  addContextValues,
 } from '../../../redux/reducers/slice/contextReducer';
-import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { emitEvent } from '../../../../src/helperFunctions/socket';
 
@@ -57,15 +58,15 @@ const CreateContainer = (): JSX.Element => {
   const [errorMsg, setErrorMsg] = React.useState('');
   const [errorStatus, setErrorStatus] = React.useState(false);
   const currentKeyValues = state.allContext.find(
-    (obj) => obj.name === currentContext
+    (obj) => obj.name === currentContext,
   )?.values || [{ key: 'Enter Key', value: 'Enter value' }];
   const dispatch = useDispatch();
 
-  //update data store when user adds a new context
+  // update data store when user adds a new context
   const handleClickSelectContext = () => {
     let letters = /[a-zA-Z]/;
     let error;
-    //checking for input error / setting error type
+    // checking for input error / setting error type
     if (!contextInput || contextInput.trim() === '') {
       error = 'empty';
     } else if (!contextInput.charAt(0).match(letters)) {
@@ -74,7 +75,7 @@ const CreateContainer = (): JSX.Element => {
       error = 'symbolsDetected';
     } else if (
       state.allContext.some(
-        (context) => context.name.toLowerCase() === contextInput.toLowerCase()
+        (context) => context.name.toLowerCase() === contextInput.toLowerCase(),
       )
     ) {
       error = 'dupe';
@@ -94,7 +95,7 @@ const CreateContainer = (): JSX.Element => {
     setContextInput('');
   };
 
-  const triggerError = (type: String) => {
+  const triggerError = (type: string) => {
     setErrorStatus(true);
     switch (type) {
       case 'empty':
@@ -112,7 +113,7 @@ const CreateContainer = (): JSX.Element => {
     }
   };
 
-  //update data store when user add new key-value pair to context
+  // update data store when user add new key-value pair to context
   const handleClickInputData = (name, { inputKey, inputValue }) => {
     dispatch(addContextValues({ name, inputKey, inputValue }));
 
@@ -120,12 +121,12 @@ const CreateContainer = (): JSX.Element => {
       emitEvent('addContextValuesAction', roomCode, {
         name,
         inputKey,
-        inputValue
+        inputValue,
       });
     }
   };
 
-  //update data store when user deletes context
+  // update data store when user deletes context
   const handleDeleteContextClick = () => {
     dispatch(deleteContext({ name: currentContext }));
 

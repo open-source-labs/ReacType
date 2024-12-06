@@ -4,7 +4,7 @@
  * @returns {object | any[]} Returns a deep clone of the input value.
  */
 function cloneDeep(
-  value: { [key: string]: any } | any[]
+  value: { [key: string]: any } | any[],
 ): { [key: string]: any } | any {
   if (Array.isArray(value)) {
     const result: any[] = [];

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useRef, useEffect } from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
@@ -66,10 +67,7 @@ function Tree({ data, setCurrComponentState, setParentProps, setClickedComp }) {
       // if element has a children array and that array has length, recursive call
       else if (arr[i].type === 'Component' && arr[i].children.length) {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
-        if (arr[i].type === 'Component')
-          arr[i] = cloneDeep(
-            data.find((component) => component.name === arr[i].name)
-          );
+        if (arr[i].type === 'Component') arr[i] = cloneDeep(data.find((component) => component.name === arr[i].name));
         removeHTMLElements(arr[i].children);
       }
     }
@@ -82,14 +80,13 @@ function Tree({ data, setCurrComponentState, setParentProps, setClickedComp }) {
   if (state.projectType === 'Next.js') {
     dataDeepClone.forEach((element) => {
       element.children = sanitize(element.children).filter(
-        (element) => !Array.isArray(element)
+        (element) => !Array.isArray(element),
       );
     });
 
     function sanitize(children) {
       return children.map((child) => {
-        if (child.name === 'Switch' || child.name === 'Route')
-          return sanitize(child.children);
+        if (child.name === 'Switch' || child.name === 'Route') return sanitize(child.children);
         return child;
       });
     }
@@ -105,8 +102,7 @@ function Tree({ data, setCurrComponentState, setParentProps, setClickedComp }) {
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
 
-    const { width, height } =
-      dimensions || wrapperRef.current.getBoundingClientRect();
+    const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
 
     let root;
@@ -214,7 +210,7 @@ function Tree({ data, setCurrComponentState, setParentProps, setClickedComp }) {
     width: '100%',
     margin: '10px 10px 10px 10px',
     overflow: 'auto',
-    alignItems: 'center'
+    alignItems: 'center',
   };
 
   const wrapperStyles = {
@@ -223,7 +219,7 @@ function Tree({ data, setCurrComponentState, setParentProps, setClickedComp }) {
     height: '90%',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#1E2024'
+    backgroundColor: '#1E2024',
   };
 
   return (

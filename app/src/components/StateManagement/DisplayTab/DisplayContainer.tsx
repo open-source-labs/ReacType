@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 import DataTable from './DataTable';
 import Tree from './Tree';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
 /**

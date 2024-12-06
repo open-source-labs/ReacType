@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import {
@@ -5,7 +6,7 @@ import {
   MAKE_COPY,
   DELETE_PROJECT,
   PUBLISH_PROJECT,
-  ADD_COMMENT
+  ADD_COMMENT,
 } from './gqlStrings';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCommentIcon from '@mui/icons-material/AddComment';
@@ -58,7 +59,7 @@ const Project = ({
   id,
   username,
   published,
-  comments
+  comments,
 }: props): JSX.Element => {
   // IMPORTANT:
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
@@ -72,53 +73,53 @@ const Project = ({
   const [addComment] = useMutation(ADD_COMMENT);
 
   const noPointer = { cursor: 'default' };
-  //Likes the project when the star icon is clicked
+  // Likes the project when the star icon is clicked
   function handleLike(e) {
     e.preventDefault();
     const myVar = {
       variables: {
         projId: id,
-        likes: likes + 1
-      }
+        likes: likes + 1,
+      },
     };
     addLike(myVar);
   }
-  //Makes a copy of the public project and saves as a user project
+  // Makes a copy of the public project and saves as a user project
   function handleDownload(e) {
     e.preventDefault();
     const myVar = {
       variables: {
         projId: id,
         userId: currUserSSID,
-        username: currUsername
-      }
+        username: currUsername,
+      },
     };
     makeCopy(myVar);
   }
-  //Publishes project from user dashboard to public dashboard
+  // Publishes project from user dashboard to public dashboard
   function handlePublish(e) {
     e.preventDefault();
     const myVar = {
       variables: {
         projId: id,
-        published: !published
-      }
+        published: !published,
+      },
     };
     publishProject(myVar);
   }
-  //Adds the comment to the project
+  // Adds the comment to the project
   function handleComment(e) {
     e.preventDefault();
     const myVar = {
       variables: {
         projId: id,
         comment: commentVal,
-        username: currUsername
-      }
+        username: currUsername,
+      },
     };
     addComment(myVar);
   }
-  //sets state of commentVal to what the user types in to comment
+  // sets state of commentVal to what the user types in to comment
   function handleChange(e) {
     e.preventDefault();
     let commentValue = e.target.value;
@@ -133,7 +134,7 @@ const Project = ({
         <p className="comment">
           <b>{reversedCommentArray[i].username}</b>:
           {reversedCommentArray[i].text}
-        </p>
+        </p>,
       );
     }
   }
@@ -141,13 +142,13 @@ const Project = ({
   const closeModal = () => setModal('');
   // Creates modal that asks if user wants to delete project
   const deleteProjectModal = () => {
-    //Deletes project from the database
+    // Deletes project from the database
     const handleDelete = (e) => {
       e.preventDefault();
       const myVar = {
         variables: {
-          projId: id
-        }
+          projId: id,
+        },
       };
       deleteProject(myVar);
     };
@@ -161,7 +162,7 @@ const Project = ({
           style={{
             border: '1px solid #3c59ba',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText
@@ -183,8 +184,8 @@ const Project = ({
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 

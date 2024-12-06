@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import React, { useRef } from 'react';
-import { ChildElement, MUIType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChildElement, MUIType } from '../../interfaces/Interfaces';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
@@ -10,7 +12,6 @@ import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
@@ -18,7 +19,7 @@ import {
   changeFocus,
   changePosition,
   addChild,
-  snapShotAction
+  snapShotAction,
 } from '../../redux/reducers/slice/appStateSlice';
 
 /**
@@ -44,7 +45,7 @@ function DirectChildMUINestable({
   style,
   children,
   name,
-  attributes
+  attributes,
 }: ChildElement): React.JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
@@ -56,22 +57,22 @@ function DirectChildMUINestable({
 
   // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
   const snapShotFunc = () => {
-    //makes a deep clone of state
+    // makes a deep clone of state
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
-    //pushes the last user action on the canvas into the past array of Component
+    // pushes the last user action on the canvas into the past array of Component
     dispatch(
       snapShotAction({
         focusIndex: focusIndex,
-        deepCopiedState: deepCopiedState
-      })
+        deepCopiedState: deepCopiedState,
+      }),
     );
   };
 
   // find the MUI element corresponding with this instance of an MUI element
   // find the current component to render on the canvas
   const MUIType: MUIType = state.MUITypes.find(
-    (type: MUIType) => type.id === typeId
+    (type: MUIType) => type.id === typeId,
   );
 
   // hook that allows component to be draggable
@@ -83,14 +84,14 @@ function DirectChildMUINestable({
       childId: childId,
       instanceType: type,
       instanceTypeId: typeId,
-      name: name
+      name: name,
     },
     canDrag: MUIType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
       return {
-        isDragging: !!monitor.isDragging()
+        isDragging: !!monitor.isDragging(),
       };
-    }
+    },
   });
 
   // both useDrop and useDrag used here to allow canvas components to be both a drop target and drag source
@@ -111,7 +112,7 @@ function DirectChildMUINestable({
           (item.instanceType === 'Component' &&
             componentNest(
               state.components[item.instanceTypeId - 1].children,
-              childId
+              childId,
             )) ||
           item.instanceType !== 'Component'
         ) {
@@ -120,15 +121,15 @@ function DirectChildMUINestable({
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: childId,
-              contextParam: contextParam
-            })
+              contextParam: contextParam,
+            }),
           );
           if (roomCode) {
             emitEvent('addChildAction', roomCode, {
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: childId,
-              contextParam: contextParam
+              contextParam: contextParam,
             });
           }
         }
@@ -141,14 +142,14 @@ function DirectChildMUINestable({
             changePosition({
               currentChildId: item.childId,
               newParentChildId: childId,
-              contextParam: contextParam
-            })
+              contextParam: contextParam,
+            }),
           );
           if (roomCode) {
             emitEvent('changePositionAction', roomCode, {
               currentChildId: item.childId,
               newParentChildId: childId,
-              contextParam: contextParam
+              contextParam: contextParam,
             });
           }
         }
@@ -157,9 +158,9 @@ function DirectChildMUINestable({
 
     collect: (monitor: any) => {
       return {
-        isOver: !!monitor.isOver({ shallow: true })
+        isOver: !!monitor.isOver({ shallow: true }),
       };
-    }
+    },
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
@@ -167,7 +168,7 @@ function DirectChildMUINestable({
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
-        childId: childId
+        childId: childId,
       });
     }
   };
@@ -185,18 +186,18 @@ function DirectChildMUINestable({
     border:
       state.canvasFocus.childId === childId
         ? '2px solid #0671e3'
-        : '1px solid #31343A'
+        : '1px solid #31343A',
   };
 
   // interactive style to change color when nested element is hovered over
   if (isOver) defaultNestableStyle['#3c59ba'];
-  defaultNestableStyle['backgroundColor'] = isOver
+  defaultNestableStyle.backgroundColor = isOver
     ? '#3c59ba'
-    : defaultNestableStyle['backgroundColor'];
+    : defaultNestableStyle.backgroundColor;
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, MUIType.style), style),
-    interactiveStyle
+    interactiveStyle,
   );
 
   drag(drop(ref));
@@ -213,7 +214,7 @@ function DirectChildMUINestable({
         linkDisplayed={
           attributes && attributes.compLink ? `${attributes.compLink}` : null
         }
-      />
+      />,
     );
   }
 
@@ -222,7 +223,7 @@ function DirectChildMUINestable({
       onClick={onClickHandler}
       style={{
         ...combinedStyle,
-        backgroundColor: isOver ? '#3c59ba' : '#1E2024'
+        backgroundColor: isOver ? '#3c59ba' : '#1E2024',
       }}
       ref={ref}
       id={`canv${childId}`}

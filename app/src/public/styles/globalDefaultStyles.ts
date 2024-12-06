@@ -1,5 +1,3 @@
-import { autoUpdater } from "electron";
-
 const globalDefaultStyle: Object = {
   display: 'flex',
   flexDirection: 'column',

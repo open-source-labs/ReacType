@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component } from '../interfaces/Interfaces';
 
 /**
@@ -7,9 +8,7 @@ import { Component } from '../interfaces/Interfaces';
  * @param {number[]} rootArray An array of IDs that identify root components.
  * @returns {boolean} Returns true if the component is a root component, false otherwise.
  */
-const isRoot = (component: Component, rootArray: number[]): boolean => {
-  return rootArray.includes(component.id) ? true : false;
-};
+const isRoot = (component: Component, rootArray: number[]): boolean => (!!rootArray.includes(component.id));
 
 /**
  * Asynchronously creates TypeScript component files for a Gatsby.js application, organizing them into 'pages' and 'components' directories.
@@ -27,7 +26,7 @@ const createGatsbyFiles = (
   components: Component[],
   path: string,
   appName: string,
-  rootComponents: number[]
+  rootComponents: number[],
 ) => {
   let dir = path;
   dir = `${dir}/${appName}`;

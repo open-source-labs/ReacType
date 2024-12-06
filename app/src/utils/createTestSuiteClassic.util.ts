@@ -9,50 +9,49 @@ const initFolders = (path: string, appName: string) => {
 };
 
 const createJestConfigFile = (path: string, appName: string) => {
-  const filePath: string = `${path}/${appName}/jest.config.js`;
-  const data: String = `
-module.exports = {
-  snapshotSerializers: ["enzyme-to-json/serializer"],
-  transform: {
-    "^.+\\.tsx?$": "ts-jest",
-    "^.+\\.jsx?$": "<rootDir>/jest-preprocess.js",
-  },
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.([tj]sx?)$",
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  testPathIgnorePatterns: ["node_moules", ".cache"],
-  globals: {
-    __PATH_PREFIX__: "",
-  }
-} `;
+  const filePath = `${path}/${appName}/jest.config.js`;
+  const data = `module.exports = {
+    snapshotSerializers: ["enzyme-to-json/serializer"],
+    transform: {
+      "^.+\\.tsx?$": "ts-jest",
+      "^.+\\.jsx?$": "<rootDir>/jest-preprocess.js",
+    },
+    testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.([tj]sx?)$",
+    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+    testPathIgnorePatterns: ["node_moules", ".cache"],
+    globals: {
+      __PATH_PREFIX__: "",
+    }
+  } `;
 
   window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log(
         'createTestSuiteClassic.util createJestConfigFile error:',
-        err.message
+        err.message,
       );
     } else {
       console.log(
-        'createTestSuiteClassic.util createJestConfigFile written successfully'
+        'createTestSuiteClassic.util createJestConfigFile written successfully',
       );
     }
   });
 };
 
 const createJestPreprocessFile = (path: string, appName: string) => {
-  const filePath: string = `${path}/${appName}/jest-preprocess.js`;
-  const data: string = `
+  const filePath = `${path}/${appName}/jest-preprocess.js`;
+  const data = `
   module.exports = require("babel-jest")`;
 
   window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log(
         'createTestSuite.util createJestPreprocessFile error:',
-        err.message
+        err.message,
       );
     } else {
       console.log(
-        'createTestSuit.util createJestPreprocessFile written successfully'
+        'createTestSuit.util createJestPreprocessFile written successfully',
       );
     }
   });
@@ -63,8 +62,8 @@ async function createComponentTests(
   appName: string,
   components: Component[],
 ) {
-  const filePath: string = `${path}/${appName}/__tests__/test.tsx`;
-  let data: string = `
+  const filePath = `${path}/${appName}/__tests__/test.tsx`;
+  let data = `
     import { shallow } from 'enzyme'
     import React from 'react';
 
@@ -77,55 +76,43 @@ async function createComponentTests(
     `;
 
   components.forEach((page) => {
-    let importString = `
+    const importString = `
     import ${capitalize(page.name)} from "../src/components/${page.name}";`;
-    data = data + importString;
+    data += importString;
   });
 
   components.forEach((page) => {
-    data =
-      data +
-      `
-      
-    describe("${capitalize(page.name)}", () => {`;
+    data += `describe("${capitalize(page.name)}", () => {`;
 
-    data =
-      data +
-      `
-    it('renders snapshots, too', () => {
-        const wrapper = shallow(< ${capitalize(page.name)} />)
-        expect(wrapper).toMatchSnapshot()
-      })`;
+    data += `it('renders snapshots, too', () => {
+      const wrapper = shallow(< ${capitalize(page.name)} />)
+      expect(wrapper).toMatchSnapshot()
+    })`;
 
-    data =
-      data +
-      `
-    });`;
+    data += '});';
   });
 
   window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log(
         'createTestSuite.util createComponentTests error:',
-        err.message
+        err.message,
       );
     } else {
       console.log(
-        'createTestSuit.util createComponentTests written successfully'
+        'createTestSuit.util createComponentTests written successfully',
       );
     }
   });
 }
 
-const capitalize = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
+const capitalize = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 async function createTestSuiteClassic({
   path,
   appName,
   components,
-  testchecked
+  testchecked,
 }: {
   path: string;
   appName: string;

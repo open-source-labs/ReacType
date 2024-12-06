@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridEditRowsModel } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
@@ -35,31 +36,31 @@ const TablePassedInProps = (props): JSX.Element => {
       ? currentComponent.passedInProps
       : [];
 
-  //formatting for data grid columns
+  // formatting for data grid columns
   const columnTabs: ColumnTab[] = [
     {
       field: 'id',
       headerName: 'ID',
       width: 30,
-      editable: false
+      editable: false,
     },
     {
       field: 'key',
       headerName: 'Key',
       width: 90,
-      editable: true
+      editable: true,
     },
     {
       field: 'value',
       headerName: 'Initial Value',
       width: 100,
-      editable: true
+      editable: true,
     },
     {
       field: 'type',
       headerName: 'Type',
       width: 90,
-      editable: false
+      editable: false,
     },
     {
       field: 'delete',
@@ -78,8 +79,8 @@ const TablePassedInProps = (props): JSX.Element => {
             <ClearIcon style={{ width: `${15}px` }} />
           </Button>
         );
-      }
-    }
+      },
+    },
   ];
 
   const deleteProps = (rowId) => {
@@ -91,7 +92,7 @@ const TablePassedInProps = (props): JSX.Element => {
     if (roomCode) {
       emitEvent('deletePassedInPropsAction', roomCode, {
         rowId: rowId,
-        contextParam: contextParam
+        contextParam: contextParam,
       });
     }
   };
@@ -109,8 +110,8 @@ const TablePassedInProps = (props): JSX.Element => {
   }, [state.canvasFocus.componentId]);
 
   // fill data grid rows with all of the passed in props from parent component (if there are any)
-  let rows: any = passedInProps?.slice();
-  //let rows: readonly StateProp[] = passedInProps?.slice() || [];
+  const rows: any = passedInProps?.slice();
+  // let rows: readonly StateProp[] = passedInProps?.slice() || [];
 
   return (
     <div className={'state-prop-grid'}>
@@ -131,30 +132,30 @@ const useStyles = makeStyles({
   themeLight: {
     color: 'white',
     '& button:hover': {
-      backgroundColor: 'LightGray'
+      backgroundColor: 'LightGray',
     },
     '& button': {
-      color: 'white'
+      color: 'white',
     },
     '& .MuiTablePagination-root': {
-      color: 'rbga(0,0,0,0.54)'
-    }
+      color: 'rbga(0,0,0,0.54)',
+    },
   },
   themeDark: {
     color: 'white',
     '& .MuiTablePagination-root': {
-      color: 'white'
+      color: 'white',
     },
     '& .MuiIconButton-root': {
-      color: 'white'
+      color: 'white',
     },
     '& .MuiSvgIcon-root': {
-      color: 'white'
+      color: 'white',
     },
     '& .MuiDataGrid-window': {
-      backgroundColor: 'rgba(0,0,0,0.54)'
-    }
-  }
+      backgroundColor: 'rgba(0,0,0,0.54)',
+    },
+  },
 });
 
 export default TablePassedInProps;

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useRef, useEffect, useContext, Children } from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
@@ -72,7 +73,7 @@ function TreeChart({ data }): JSX.Element {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
         if (arr[i].type === 'Component')
           arr[i] = cloneDeep(
-            data.find((component) => component.name === arr[i].name)
+            data.find((component) => component.name === arr[i].name),
           );
         removeSeparators(arr[i].children);
       }
@@ -83,11 +84,11 @@ function TreeChart({ data }): JSX.Element {
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
 
-  //Miko left off
+  // Miko left off
   if (state.projectType === 'Next.js') {
     dataDeepClone.forEach((element) => {
       element.children = sanitize(element.children).filter(
-        (element) => !Array.isArray(element)
+        (element) => !Array.isArray(element),
       );
     });
 
@@ -95,9 +96,8 @@ function TreeChart({ data }): JSX.Element {
       return children.map((child) => {
         if (child.name === 'Switch' || child.name === 'Route') {
           return sanitize(child.children);
-        } else {
-          return child;
         }
+        return child;
       });
     }
   }
@@ -112,8 +112,7 @@ function TreeChart({ data }): JSX.Element {
     // use dimensions from useResizeObserver,
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
-    const { width, height } =
-      dimensions || wrapperRef.current.getBoundingClientRect();
+    const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
     const root = hierarchy(dataDeepClone[canvasId - 1]); // pass in clone here instead of data
     const treeLayout = tree().size([height, width - 125]);
@@ -177,9 +176,9 @@ function TreeChart({ data }): JSX.Element {
   }, [state.components, dimensions, previouslyRenderedData, canvasId]);
   const treeStyles = {
     height: '100%',
-    width: `100%`,
+    width: '100%',
     margin: '10px 10px 10px 10px',
-    overflow: 'auto'
+    overflow: 'auto',
   };
   const wrapperStyles = {
     borderRadius: '10px',
@@ -187,7 +186,7 @@ function TreeChart({ data }): JSX.Element {
     height: '97%',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#1E2024'
+    backgroundColor: '#1E2024',
   };
   return (
     <div ref={wrapperRef} style={wrapperStyles}>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useState } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,8 +7,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
+import store, { RootState } from '../../redux/store';
 import { BottomPanelObj } from '../../interfaces/Interfaces';
 import {
   allCooperativeState,
@@ -29,12 +30,16 @@ import {
   deletePassedInProps,
   deleteElement,
   resetAllState,
-  updateStylesheet
+  updateStylesheet,
 } from '../../redux/reducers/slice/appStateSlice';
 import {
   addContext,
   deleteContext,
-  addContextValues
+  addContextValues,
+  AddContextPayload,
+  AddContextValuesPayload,
+  DeleteContextPayload,
+  addComponentToContext,
 } from '../../redux/reducers/slice/contextReducer';
 import {
   setRoomCode,
@@ -46,18 +51,11 @@ import {
   setEmptyMessages,
   setPassword,
   setUseMic,
-  setUseWebcam
+  setUseWebcam,
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
-import store from '../../redux/store';
 import { initializeSocket, getSocket } from '../../helperFunctions/socket';
-import {
-  AddContextPayload,
-  AddContextValuesPayload,
-  DeleteContextPayload,
-  addComponentToContext
-} from '../../../src/redux/reducers/slice/contextReducer';
 
 /**
  * RoomsContainer handles the UI and logic for creating or joining collaboration rooms
@@ -81,8 +79,7 @@ import {
 const RoomsContainer = (): JSX.Element => {
   const [isJoinCallabRoom, setIsJoinCollabRoom] = useState(false);
   const [joinedPasswordAttempt, setJoinedPasswordAttempt] = useState('');
-  const [isPasswordAttemptIncorrect, setIsPasswordAttemptIncorrect] =
-    useState(true);
+  const [isPasswordAttemptIncorrect, setIsPasswordAttemptIncorrect] = useState(true);
   const [isCollabRoomTaken, setIsCollabRoomTaken] = useState(false);
   const [isRoomAvailable, setIsRoomAvailable] = useState(true);
 
@@ -91,11 +88,11 @@ const RoomsContainer = (): JSX.Element => {
   const userName = useSelector((store: RootState) => store.roomSlice.userName);
   const userList = useSelector((store: RootState) => store.roomSlice.userList);
   const roomPassword = useSelector(
-    (store: RootState) => store.roomSlice.password
+    (store: RootState) => store.roomSlice.password,
   );
 
   const userJoinCollabRoom = useSelector(
-    (store: RootState) => store.roomSlice.userJoinCollabRoom
+    (store: RootState) => store.roomSlice.userJoinCollabRoom,
   );
 
   const messages = useSelector((store: RootState) => store.roomSlice.messages);
@@ -103,7 +100,7 @@ const RoomsContainer = (): JSX.Element => {
   const initSocketConnection = (
     roomCode: string,
     roomPassword: string,
-    method: string
+    method: string,
   ) => {
     // helper function to create socket connection
     initializeSocket();
@@ -111,14 +108,14 @@ const RoomsContainer = (): JSX.Element => {
     const socket = getSocket();
     // if socket was created correctly and exists
     if (socket) {
-      //run everytime when a client connects to server
+      // run everytime when a client connects to server
       socket.on('connect', () => {
         socket.emit(
           'creating a room',
           userName,
           roomCode,
           roomPassword,
-          method
+          method,
         );
       });
 
@@ -142,15 +139,15 @@ const RoomsContainer = (): JSX.Element => {
       socket.on('room does not exist', () => {
         setIsRoomAvailable(false);
       });
-      //If you are the host: send current state to server when a new user joins
+      // If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {
-        const newState = store.getState(); //pull the current state
-        callback(newState); //send it to backend server
+        const newState = store.getState(); // pull the current state
+        callback(newState); // send it to backend server
       });
 
-      //If you are the new user: receive the state from the host
+      // If you are the new user: receive the state from the host
       socket.on('server emitting state from host', (state, callback) => {
-        //dispatching new state to change user current state
+        // dispatching new state to change user current state
         store.dispatch(allCooperativeState(state.appState));
         store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
         store.dispatch(cooperativeStyle(state.styleSlice));
@@ -160,8 +157,7 @@ const RoomsContainer = (): JSX.Element => {
       // update user list when there's a change: new join or leave the room
       socket.on('update room information', (messageData) => {
         if (messageData.userList) dispatch(setUserList(messageData.userList));
-        if (messageData.meetingId)
-          dispatch(setMeetingId(messageData.meetingId));
+        if (messageData.meetingId) dispatch(setMeetingId(messageData.meetingId));
       });
 
       socket.on('new chat message', (messageData) => {
@@ -193,7 +189,7 @@ const RoomsContainer = (): JSX.Element => {
         'delete element data from server',
         (deleteElementData: object) => {
           store.dispatch(deleteElement(deleteElementData));
-        }
+        },
       );
 
       // dispatch clear canvas action to local state when the host of the room has clear canvas
@@ -206,32 +202,32 @@ const RoomsContainer = (): JSX.Element => {
         store.dispatch(
           updateStateUsed({
             stateUsedObj: updateData.stateUsedObj,
-            contextParam: updateData.contextParam
-          })
+            contextParam: updateData.contextParam,
+          }),
         );
         store.dispatch(
           updateUseContext({
             useContextObj: updateData.useContextObj,
-            contextParam: updateData.contextParam
-          })
+            contextParam: updateData.contextParam,
+          }),
         );
         store.dispatch(
           updateCss({
             style: updateData.style,
-            contextParam: updateData.contextParam
-          })
+            contextParam: updateData.contextParam,
+          }),
         );
         store.dispatch(
           updateAttributes({
             attributes: updateData.attributes,
-            contextParam: updateData.contextParam
-          })
+            contextParam: updateData.contextParam,
+          }),
         );
         store.dispatch(
           updateEvents({
             events: updateData.events,
-            contextParam: updateData.contextParam
-          })
+            contextParam: updateData.contextParam,
+          }),
         );
       });
 
@@ -245,7 +241,7 @@ const RoomsContainer = (): JSX.Element => {
         'item position data from server',
         (itemPositionData: object) => {
           store.dispatch(changePosition(itemPositionData));
-        }
+        },
       );
 
       // dispatch addComponent to local state when new component is created by another user
@@ -263,7 +259,7 @@ const RoomsContainer = (): JSX.Element => {
         'new component state data from server',
         (componentState: object) => {
           store.dispatch(addState(componentState));
-        }
+        },
       );
 
       // dispatch deleteState to local state when component state has been deleted by another user
@@ -271,7 +267,7 @@ const RoomsContainer = (): JSX.Element => {
         'delete component state data from server',
         (componentStateDelete: object) => {
           store.dispatch(deleteState(componentStateDelete));
-        }
+        },
       );
 
       // dispatch addPassedInProps to local state when p.I.P have been added by another user
@@ -279,7 +275,7 @@ const RoomsContainer = (): JSX.Element => {
         'new PassedInProps data from server',
         (passedInProps: object) => {
           store.dispatch(addPassedInProps(passedInProps));
-        }
+        },
       );
 
       // dispatch deletePassedInProps to local state when p.I.P have been deleted by another user
@@ -287,7 +283,7 @@ const RoomsContainer = (): JSX.Element => {
         'PassedInProps delete data from server',
         (passedInProps: object) => {
           store.dispatch(deletePassedInProps(passedInProps));
-        }
+        },
       );
 
       // dispatch addContext to local state when context has been changed by another user
@@ -300,7 +296,7 @@ const RoomsContainer = (): JSX.Element => {
         'new context value from server',
         (contextVal: AddContextValuesPayload) => {
           store.dispatch(addContextValues(contextVal));
-        }
+        },
       );
 
       // dispatch deleteContext to local state when context is deleted by another user
@@ -308,7 +304,7 @@ const RoomsContainer = (): JSX.Element => {
         'delete context data from server',
         (context: DeleteContextPayload) => {
           store.dispatch(deleteContext(context));
-        }
+        },
       );
 
       // dispatch addComponentToContext to local state when context is assigned to component by another user
@@ -316,11 +312,11 @@ const RoomsContainer = (): JSX.Element => {
         store.dispatch(
           addComponentToContext({
             context: data.context,
-            component: data.component
-          })
+            component: data.component,
+          }),
         );
         store.dispatch(
-          deleteElement({ id: 'FAKE_ID', contextParam: data.contextParam })
+          deleteElement({ id: 'FAKE_ID', contextParam: data.contextParam }),
         );
       });
     }
@@ -358,7 +354,7 @@ const RoomsContainer = (): JSX.Element => {
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
-    dispatch(setUserJoinCollabRoom(false)); //false: join room UI appear
+    dispatch(setUserJoinCollabRoom(false)); // false: join room UI appear
     dispatch(resetState(''));
     dispatch(setPassword(''));
     dispatch(setEmptyMessages([]));
@@ -392,7 +388,7 @@ const RoomsContainer = (): JSX.Element => {
     '#f6352b',
     '#1667d1',
     '#1667d1',
-    '#50ed6a'
+    '#50ed6a',
   ];
 
   return (
@@ -403,7 +399,7 @@ const RoomsContainer = (): JSX.Element => {
           paddingTop: '20px',
           maxWidth: '230px',
           alignItems: 'center',
-          margin: '0 auto 0 auto'
+          margin: '0 auto 0 auto',
         }}
       >
         <Typography variant="h5" color={'#f2fbf8'}>
@@ -420,7 +416,7 @@ const RoomsContainer = (): JSX.Element => {
             <Typography
               variant="body1"
               sx={{
-                color: '#898a8b'
+                color: '#898a8b',
               }}
             >
               Users: {userList.length}
@@ -435,7 +431,7 @@ const RoomsContainer = (): JSX.Element => {
                 display: 'flex',
                 flexDirection: 'column',
                 overflow: 'auto',
-                color: 'white'
+                color: 'white',
               }}
             >
               <List
@@ -443,7 +439,7 @@ const RoomsContainer = (): JSX.Element => {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  padding: 0
+                  padding: 0,
                 }}
               >
                 {userList.map((user, index) => (
@@ -452,7 +448,7 @@ const RoomsContainer = (): JSX.Element => {
                     sx={{
                       textAlign: 'center',
                       width: '100%',
-                      color: '#f2fbf8'
+                      color: '#f2fbf8',
                     }}
                   >
                     <ListItemText
@@ -473,9 +469,9 @@ const RoomsContainer = (): JSX.Element => {
                 color: '#092a26',
                 '&:hover': {
                   backgroundColor: '#E12D39',
-                  color: 'white'
+                  color: 'white',
                 },
-                textTransform: 'capitalize'
+                textTransform: 'capitalize',
               }}
             >
               Leave Room
@@ -507,7 +503,7 @@ const RoomsContainer = (): JSX.Element => {
                 className="enterRoomInput"
                 onKeyDown={handleKeyDown}
                 helperText={
-                  isRoomAvailable === false ? `Room doesn't exist` : ''
+                  isRoomAvailable === false ? 'Room doesn\'t exist' : ''
                 }
               />
             ) : (
@@ -573,8 +569,8 @@ const RoomsContainer = (): JSX.Element => {
                 backgroundColor: '#e9e9e9',
                 color: '#253b80',
                 '&:hover': {
-                  backgroundColor: '#99d7f2'
-                }
+                  backgroundColor: '#99d7f2',
+                },
               }}
             >
               {isJoinCallabRoom ? 'Join' : 'Start'}
@@ -584,8 +580,8 @@ const RoomsContainer = (): JSX.Element => {
               sx={{
                 color: 'grey',
                 '&:hover': {
-                  textDecoration: 'underline'
-                }
+                  textDecoration: 'underline',
+                },
               }}
             >
               {isJoinCallabRoom ? 'Start a new room' : 'Join a room'}

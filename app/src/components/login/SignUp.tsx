@@ -1,15 +1,15 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import {
   RouteComponentProps,
   Link as RouteLink,
   withRouter,
-  useHistory
+  useHistory,
 } from 'react-router-dom';
-import { SigninDark } from '../../../../app/src/public/styles/theme';
 import {
   StyledEngineProvider,
   Theme,
-  ThemeProvider
+  ThemeProvider,
 } from '@mui/material/styles';
 import {
   Box,
@@ -19,19 +19,20 @@ import {
   CssBaseline,
   Grid,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import makeStyles from '@mui/styles/makeStyles';
 import { LoginInt } from '../../interfaces/Interfaces';
 
-import makeStyles from '@mui/styles/makeStyles';
+import { SigninDark } from '../../../../app/src/public/styles/theme';
 import {
   newUserIsCreated,
   handleChange,
   resetErrorValidation,
   validateInputs,
-  setErrorMessages
+  setErrorMessages,
 } from '../../helperFunctions/auth';
 
 declare module '@mui/styles/defaultTheme' {
@@ -52,20 +53,20 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   form: {
-    width: '100%' // Fix IE 11 issue.
+    width: '100%', // Fix IE 11 issue.
   },
   submit: {},
   root: {
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'white'
-    }
-  }
+      borderColor: 'white',
+    },
+  },
 }));
 
 const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
@@ -93,14 +94,14 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
     setInvalidPassword,
     setInvalidPasswordMsg,
     setInvalidVerifyPassword,
-    setInvalidVerifyPasswordMsg
+    setInvalidVerifyPasswordMsg,
   };
   // define handle change setters to pass to handleChange function
   const handleChangeSetters = {
     setEmail,
     setUsername,
     setPassword,
-    setPasswordVerify
+    setPasswordVerify,
   };
 
   /**
@@ -120,7 +121,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
    * @param {React.MouseEvent<HTMLButtonElement, MouseEvent>} e - The event object that triggered the submission.
    */
   const handleSignUp = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     resetErrorValidation(errorSetters); // Reset validation errors before a new signup attempt.
@@ -129,7 +130,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
       username,
       password,
       passwordVerify,
-      errorSetters
+      errorSetters,
     }); // Validate Inputs using Auth helper function
 
     if (!isValid) {
@@ -152,7 +153,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
           default:
             console.log(
               'Signup failed: Unknown or unhandled error',
-              userCreated
+              userCreated,
             );
         }
       }
@@ -168,7 +169,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
           component="main"
           maxWidth="xs"
           sx={{
-            marginTop: '10vh'
+            marginTop: '10vh',
           }}
         >
           <CssBaseline />
@@ -262,7 +263,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
                   color: '#aaaaaa',
                   margin: '2rem',
                   padding: '0 4rem 0 0',
-                  width: '100%'
+                  width: '100%',
                 }}
               >
                 <span>
@@ -290,9 +291,9 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
                   textTransform: 'none',
                   fontSize: '1rem',
                   '$:hover': {
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                   },
-                  width: '100%'
+                  width: '100%',
                 }}
               >
                 <svg
@@ -312,7 +313,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = () => {
 
               <RouteLink
                 style={{ color: '#aaaaaa' }}
-                to={`/login`}
+                to={'/login'}
                 className="nav_link"
               >
                 <span>
