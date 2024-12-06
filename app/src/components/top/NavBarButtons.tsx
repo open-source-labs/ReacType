@@ -177,6 +177,7 @@ const navbarDropDown = (props): JSX.Element => {
   // handlePublish logic
   const handlePublish = () => {
     if (!state.name) {
+      console.log({state});
       console.error('Project name cannot be empty');
       return;
     }
