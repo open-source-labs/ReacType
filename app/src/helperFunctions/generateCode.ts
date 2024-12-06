@@ -312,11 +312,11 @@ const generateUnformattedCode = (
     let innerText = '';
     let activeLink = '""';
 
-    if (childElement.attributes && childElement.attributes.compText) {
+    if (childElement.attributes && childElement.attributes.comptext) {
       innerText =
-        childElement.stateUsed && childElement.stateUsed.compText
-          ? `{${childElement.stateUsed.compText}}`
-          : childElement.attributes.compText;
+        childElement.stateUsed && childElement.stateUsed.comptext
+          ? `{${childElement.stateUsed.comptext}}`
+          : childElement.attributes.comptext;
     }
 
     if (childElement.attributes && childElement.attributes.compLink) {
@@ -346,10 +346,15 @@ const generateUnformattedCode = (
 
     const tagDetails = elementTagDetails(childElement);
     if (isNestable) {
+      // console.log( // NO, just no...
+      //   'this is a nestable element so we cant put anything inside of it.'
+      // );
       if (childElement.children) {
         const childJsx = writeNestedElements(childElement.children, level + 1);
         jsxArray.push(`${indentation}<${childElement.tag} ${tagDetails}>`);
         jsxArray.push(...childJsx);
+        jsxArray.push(innerText); //NOTE, we are just sticking this on to the end, technically in react you can put it in the middle tho but there is not even a button for setting where the text goes.
+        // we could have an 'empty' element if we wanted to do text.
         jsxArray.push(`${indentation}</${childElement.tag}>`);
       } else {
         jsxArray.push(`${indentation}<${childElement.tag} ${tagDetails} />`);
@@ -359,6 +364,8 @@ const generateUnformattedCode = (
         `${indentation}<${childElement.tag} ${tagDetails}>${innerText}</${childElement.tag}>`
       );
     }
+
+    // who is the genius who decided that if an element is nestable then it can not have inner text?
 
     return jsxArray;
   };

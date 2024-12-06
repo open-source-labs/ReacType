@@ -171,16 +171,16 @@ export interface ManageSeparators {
 }
 
 export interface StateUsed {
-  compTextProviderId: number;
-  compTextPropsId: number;
-  compText: string;
+  comptextProviderId: number;
+  comptextPropsId: number;
+  comptext: string;
   compLinkProviderId: number;
   compLinkPropsId: number;
   compLink: string;
 }
 
 export interface Attributes {
-  compText?: string;
+  comptext?: string;
   compLink?: string;
   cssClasses?: string;
 }
