@@ -59,11 +59,6 @@ ENV VIDEOSDK='vidsdk'
  # productino you dolt!, if we are using docker, its production!
  ENV PORT=5656
 
-#  ENV MONGO_DB='mongodb+srv://NOAH:aAnY8q13q1tCha8e@trialcluster.v4see.mongodb.net/?retryWrites=true&w=majority&appName=TrialCluster'
-#  ENV GITHUB_CLIENT='thisisagithubclientrightnow.'
-#  ENV GITHUB_SECRET='github secret'
-#  ENV GOOGLE_CLIENT='gogleclient'
-#  ENV GOOGLE_SECRET='googlebutitssecret'
-#  ENV SESSION_SECRET='session,but its secret'
+# no longer put the envs here cause we are not dumb.
 
 CMD [ "npm", "start" ]
