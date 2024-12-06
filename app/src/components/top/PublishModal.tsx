@@ -35,9 +35,8 @@ const PublishModal = ({
   projectName,
   onChange,
   invalidProjectName,
-  invalidProjectNameMessage,
-}): JSX.Element => {
-  return (
+  invalidProjectNameMessage
+}): JSX.Element => (
     <Dialog
       style={{ color: '#000' }}
       open={open}
@@ -68,11 +67,10 @@ const PublishModal = ({
           Cancel
         </Button>
         <Button onClick={onSave} color="primary">
-          Publish
+          Import
         </Button>
       </DialogActions>
     </Dialog>
-  );
-};
+);
 
 export default PublishModal;
