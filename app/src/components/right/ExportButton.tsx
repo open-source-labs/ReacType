@@ -11,6 +11,9 @@ import createModal from './createModal';
 import { RootState } from '../../redux/store';
 import zipFiles from '../../helperFunctions/zipFiles';
 
+// NOTE: from the v22 team, this file is unused, if you are editing this and nothing is changing.
+// dont say I did not warn you.
+
 /**
  * Renders an export button that triggers a modal for selecting export options.
  * The button and modal allow users to export project components in various formats.

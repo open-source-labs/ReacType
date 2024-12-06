@@ -15,13 +15,13 @@ const zipFiles = (state: State): void => {
   // writes a file with default index.html code
   reacTypeApp.file(
     'index.html',
-    '<!DOCTYPE html> <html>   <head>     <meta charset="UTF-8" />     <link rel="stylesheet" href="styles.css">     <title>ReacType App</title>   </head>   <body>     <div id="root"></div>   </body> </html>',
+    '<!DOCTYPE html> <html>   <head>     <meta charset="UTF-8" />     <link rel="stylesheet" href="styles.css">     <title>ReacType App</title>   </head>   <body>     <div id="root"></div>   </body> </html>'
   );
   // writes each component as its own file in the component folder
   for (const i in state.components) {
     componentFolder.file(
       `${state.components[i].name}.jsx`,
-      state.components[i].code,
+      state.components[i].code
     );
   }
   // writes our css file
