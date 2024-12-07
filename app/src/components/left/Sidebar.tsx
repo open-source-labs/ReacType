@@ -1,17 +1,9 @@
 /* eslint-disable max-len */
-import { Tab, Tabs } from '@mui/material';
+import { Tab, Tabs, Tooltip } from '@mui/material';
 
-import {
-  AddBox,
-  Groups2,
-  AccountBox,
-  Settings,
-  Menu,
-  Memory,
-  TabOutlined,
-} from '@mui/icons-material';
-import { IoMdCube } from 'react-icons/io';
+import { AddBox, Groups2, Folder } from '@mui/icons-material';
 import React from 'react';
+import TabWithTooltip from './TabWithTooltip';
 
 interface SidebarProps {
   activeTab: number | null;
@@ -51,7 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   toggleVisibility,
 }): JSX.Element => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setActiveTab(newValue);
+    setActiveTab(activeTab === newValue ? null : newValue);
     toggleVisibility(true);
     oldValue = newValue;
   };
@@ -83,80 +75,36 @@ const Sidebar: React.FC<SidebarProps> = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'top',
+        justifyContent: 'flex-start',
         gap: '50px',
         width: '70px',
         background: '#1e2024',
         marginRight: '2px',
         height: '100vh',
+        position: 'relative',
       }}
     >
       <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />
-      <Tab
-        sx={{
-          color: activeTab === 0 ? '#E4E4E5' : '#9C9D9F',
-          backgroundColor: activeTab === 0 && '#2D313A',
-          '&.Mui-selected': { color: '#E4E4E5' },
-          '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px',
-          textTransform: 'none',
-        }}
-        icon={<AddBox sx={{ fontSize: '26px' }} />}
-        value={0}
-        label="Canvas"
-      />
-      <Tab
-        sx={{
-          color: activeTab === 4 ? '#E4E4E5' : '#9C9D9F',
-          backgroundColor: activeTab === 4 && '#2D313A',
-          '&.Mui-selected': { color: '#E4E4E5' },
-          '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px',
-          textTransform: 'none',
-        }}
-        icon={<TabOutlined sx={{ fontSize: '26px' }} />}
-        value={4}
-        label="Material UI"
-      />
-      <Tab
-        sx={{
-          color: activeTab === 1 ? '#E4E4E5' : '#9C9D9F',
-          backgroundColor: activeTab === 1 && '#2D313A',
-          '&.Mui-selected': { color: '#E4E4E5' },
-          '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px',
-          textTransform: 'none',
-        }}
-        icon={<IoMdCube style={{ fontSize: '25px' }} />}
-        value={1}
-        label="Create"
-      />
-      <Tab
-        sx={{
-          color: activeTab === 2 ? '#E4E4E5' : '#9C9D9F',
-          backgroundColor: activeTab === 2 && '#2D313A',
-          '&.Mui-selected': { color: '#E4E4E5' },
-          '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px',
-          textTransform: 'none',
-        }}
-        icon={<Groups2 sx={{ fontSize: '28px' }} />}
-        value={2}
-        label="Collab"
-      />
-      <Tab
-        sx={{
-          color: activeTab === 3 ? '#E4E4E5' : '#9C9D9F',
-          backgroundColor: activeTab === 3 && '#2D313A',
-          '&.Mui-selected': { color: '#E4E4E5' },
-          '&:hover': { color: '#e9e9e9' },
-          fontSize: '11px',
-          textTransform: 'none',
-        }}
-        icon={<AccountBox sx={{ fontSize: '26px' }} />}
-        value={3}
-        label="Profile"
-      />
+      <div>
+        <TabWithTooltip
+          label="Modules"
+          value={0}
+          activeTab={activeTab}
+          handleTabChange={handleTabChange}
+        />
+        <TabWithTooltip
+          label="Create"
+          value={1}
+          activeTab={activeTab}
+          handleTabChange={handleTabChange}
+        />
+        <TabWithTooltip
+          label="Collab"
+          value={2}
+          activeTab={activeTab}
+          handleTabChange={handleTabChange}
+        />
+      </div>
     </Tabs>
   );
 };
