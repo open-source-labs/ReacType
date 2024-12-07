@@ -19,7 +19,7 @@ passport.deserializeUser((id, done) => {
 
 /**
  * Passport strategy for GitHub OAuth authentication.
- * 
+ *
  * @param {string} accessToken - Access token provided by GitHub for authentication.
  * @param {string} refreshToken - Refresh token provided by GitHub for authentication.
  * @param {object} profile - User profile data retrieved from GitHub.
@@ -65,7 +65,7 @@ passport.use(
 
 /**
  * Passport strategy for Google OAuth authentication.
- * 
+ *
  * @param {string} accessToken - Access token provided by Google for authentication.
  * @param {string} refreshToken - Refresh token provided by Google for authentication.
  * @param {object} profile - User profile data retrieved from Google.

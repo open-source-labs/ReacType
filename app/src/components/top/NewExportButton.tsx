@@ -33,7 +33,7 @@ export default function NewExportButton(): JSX.Element {
   const closeModal = () => setModal('');
 
   const buttonStyle = {
-    backgroundColor: '#2D313A',
+    backgroundColor: '#0671E3',
     border: 'none',
     color: 'white',
     fontSize: '12px',

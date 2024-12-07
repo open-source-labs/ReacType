@@ -124,7 +124,7 @@ describe('componentBuilder', () => {
             name: 'p',
             childId: 4,
             style: {},
-            attributes: { compText: 'Hello, world!' },
+            attributes: { comptext: 'Hello, world!' },
             events: {},
             stateProps: [],
             passedInProps: [],

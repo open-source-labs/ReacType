@@ -13,14 +13,14 @@ import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   publishProject,
-  unpublishProject,
+  unpublishProject
 } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
 import {
   updateProjectId,
   updateProjectName,
   updateProjectPublished,
-  toggleScreenshotTrigger,
+  toggleScreenshotTrigger
 } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
 
@@ -49,7 +49,8 @@ const NavBar: React.FC = (): JSX.Element => {
   const [publishModalOpen, setPublishModalOpen] = useState(false);
   const [projectName, setProjectName] = useState(state.name || '');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
-  const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState('');
+  const [invalidProjectNameMessage, setInvalidProjectNameMessage] =
+    useState('');
   const urlAdd = useHistory();
   const isMarketplace = urlAdd.location.pathname === '/marketplace';
 
@@ -76,11 +77,11 @@ const NavBar: React.FC = (): JSX.Element => {
   const buttonContainerStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   };
 
   const buttonStyle = {
-    backgroundColor: '#0671E3',
+    backgroundColor: '#2D313A',
     border: 'none',
     color: 'white',
     fontSize: '12px',
@@ -88,7 +89,7 @@ const NavBar: React.FC = (): JSX.Element => {
     cursor: 'pointer',
     marginRight: '10px',
     marginLeft: '5px',
-    borderRadius: '10px',
+    borderRadius: '10px'
   };
 
   const moreVertButtonStyle = {
@@ -103,7 +104,7 @@ const NavBar: React.FC = (): JSX.Element => {
     minWidth: '20px',
     marginLeft: '0px',
     marginRight: '10px',
-    boxShadow: 'none',
+    boxShadow: 'none'
   };
 
   const handlePublish = () => {
@@ -142,7 +143,7 @@ const NavBar: React.FC = (): JSX.Element => {
 
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
-    reason?: string,
+    reason?: string
   ) => {
     if (reason === 'clickaway') {
       return;
@@ -156,7 +157,7 @@ const NavBar: React.FC = (): JSX.Element => {
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
-    ref,
+    ref
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -178,7 +179,7 @@ const NavBar: React.FC = (): JSX.Element => {
             </button>
           ) : (
             <button style={buttonStyle} onClick={handlePublish}>
-              Publish
+              Import
             </button>
           )}
           <NewExportButton />
