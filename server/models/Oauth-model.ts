@@ -8,11 +8,10 @@ interface UserDocument extends Document {
 
 const userSchema = new mongoose.Schema<UserDocument>({
   username: { type: String },
-  githubId: { type: String, unique: true },
-  googleId: { type: String, unique: true }
+  githubId: { type: String }, // removed unique constraint because you can have null values.
+  googleId: { type: String } // unique:true
 });
 
 const User = mongoose.model<UserDocument>('OauthUsers', userSchema);
-
 
 export default User;
