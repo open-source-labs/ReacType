@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+// THIS IS THE ADD COMPONENT MENU FROM WHERE COMPONENTS ARE CLICKED AND DRAGGED TO BE PLACED ON THE CANVAS
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import React from 'react';
@@ -74,7 +75,7 @@ const DragDropPanel = (props): JSX.Element => {
             id="panel1a-header"
             className={classes.accordionSummary}
           >
-            <h3>Root Components</h3>
+            <h3>Root</h3>
           </AccordionSummary>
           <AccordionDetails>
             <ComponentDrag isVisible={true} isThemeLight={props.isThemeLight} />
@@ -89,16 +90,16 @@ const DragDropPanel = (props): JSX.Element => {
             id="panel1a-header"
             className={classes.accordionSummary}
           >
-            <h3>HTML Elements</h3>
+            <h3>Containers</h3>
           </AccordionSummary>
           <AccordionDetails
             sx={{
               display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'space-around',
+              justifyContent: 'column',
+              alignItems: 'center',
             }}
           >
-            <Grid container justifyContent="space-around" columnSpacing={2}>
+            <Grid container direction="column" spacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
@@ -133,11 +134,11 @@ const DragDropPanel = (props): JSX.Element => {
           <AccordionDetails
             sx={{
               display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'space-around',
+              justifyContent: 'column',
+              alignItems: 'center',
             }}
           >
-            <Grid container justifyContent="space-around" columnSpacing={2}>
+            <Grid container direction="column" spacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   (option.name === 'Switch' ||
