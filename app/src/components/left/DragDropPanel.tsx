@@ -66,21 +66,6 @@ const DragDropPanel = (props): JSX.Element => {
   return (
     <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
-        {/* Root Components */}
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            className={classes.accordionSummary}
-          >
-            <h3>Root Components</h3>
-          </AccordionSummary>
-          <AccordionDetails>
-            <ComponentDrag isVisible={true} isThemeLight={props.isThemeLight} />
-          </AccordionDetails>
-        </Accordion>
-
         {/* HTML Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
