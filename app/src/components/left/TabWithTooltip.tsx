@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tab } from '@mui/material';
 import { AddBox, Folder, Groups2 } from '@mui/icons-material';
 import Tooltip from '../Tooltip';

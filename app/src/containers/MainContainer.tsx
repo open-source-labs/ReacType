@@ -96,7 +96,7 @@ const MainContainer = (props): JSX.Element => {
   //Logic to close the bottompanel when clicking outside of it
   const useOutsideClick = () => {
     const bottomPanelRef = useRef(null);
-
+    
     useEffect(() => {
       const handleClick = (event) => {
         if (

@@ -1,7 +1,5 @@
 /* eslint-disable max-len */
-import { Tab, Tabs, Tooltip } from '@mui/material';
-
-import { AddBox, Groups2, Folder } from '@mui/icons-material';
+import { Tab, Tabs } from '@mui/material';
 import React from 'react';
 import TabWithTooltip from './TabWithTooltip';
 
@@ -11,7 +9,7 @@ interface SidebarProps {
   toggleVisibility: (state: boolean) => void;
 }
 
-let oldValue = 0;
+// let oldValue = 0;
 
 /**
  * Renders a vertical sidebar with navigational tabs. Each tab can activate a different view in the application.
@@ -45,9 +43,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(activeTab === newValue ? null : newValue);
     toggleVisibility(true);
-    oldValue = newValue;
+    // oldValue = newValue;
   };
-
   // the following allows users to click on the left panel to expand and collapse.
   // We decided to freeze so we've commented this and line 41 out
 
@@ -63,9 +60,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       key={activeTab}
       orientation="vertical"
       variant="scrollable"
-      value={activeTab}
+      value={activeTab ?? 0} // default to 0 if activeTab is null
       onChange={handleTabChange}
-      // onClick={(e: React.MouseEvent) => handleTabClick(e, oldValue)}
       TabIndicatorProps={{
         style: {
           backgroundColor: '#4A4A4A'
@@ -86,6 +82,24 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />
 
+      <TabWithTooltip
+        label="Modules"
+        value={0}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
+      <TabWithTooltip
+        label="Create"
+        value={1}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
+      <TabWithTooltip
+        label="Collab"
+        value={2}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
       <TabWithTooltip
         label="Modules"
         value={0}

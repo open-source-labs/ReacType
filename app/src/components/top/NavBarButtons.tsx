@@ -1,10 +1,7 @@
 /* eslint-disable max-len */
 import React, { Ref, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@mui/material';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
+// import { Button } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
@@ -12,25 +9,15 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import withStyles from '@mui/styles/withStyles';
 import DeleteProjects from '../right/DeleteProjects';
-import ExportButton from '../right/ExportButton';
+// import ExportButton from '../right/ExportButton';
 import LoginButton from '../right/LoginButton';
 import ProjectsFolder from '../right/OpenProjects';
 import store, { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import serverConfig from '../../serverConfig.js';
-import createModal from '../right/createModal';
-import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
-import { setStyle } from '../../redux/reducers/slice/styleSlice';
-import { emitEvent } from '../../helperFunctions/socket';
-
 // added imports for publish logic
 import { publishProject } from '../../helperFunctions/projectGetSaveDel';
-import {
-  updateProjectId,
-  updateProjectName,
-  updateProjectPublished,
-  toggleScreenshotTrigger,
-} from '../../redux/reducers/slice/appStateSlice';
+import { updateProjectId, updateProjectName, updateProjectPublished, toggleScreenshotTrigger } from '../../redux/reducers/slice/appStateSlice';
 
 const { API_BASE_URL } = serverConfig;
 
@@ -120,8 +107,8 @@ const navbarDropDown = (props): JSX.Element => {
   //   state: store.appState
   // }));
   const state = useSelector((store: RootState) => store.appState);
-  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-  const userName = useSelector((store: RootState) => store.roomSlice.userName);
+  // const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  // const userName = useSelector((store: RootState) => store.roomSlice.userName);
 
   const closeModal = () => setModal('');
   const handleClick = (event) => {
@@ -130,54 +117,10 @@ const navbarDropDown = (props): JSX.Element => {
     props.setDropDownMenu(true);
   };
 
-  // const clearWorkspace = () => {
-  //   // Reset state for project to initial state
-  //   const resetState = () => {
-  //     if (roomCode) emitEvent('clearCanvasAction', roomCode, userName);
-  //     else dispatch(resetAllState());
-  //   };
-  //   // Set modal options
-  //   const children = (
-  //     <List className="export-preference" style={{ zIndex: '12' }}>
-  //       <ListItem
-  //         key={'clear'}
-  //         button
-  //         onClick={resetState}
-  //         style={{
-  //           backgroundColor: '#E12D39',
-  //           borderRadius: '50px',
-  //           marginBottom: '2%',
-  //           marginTop: '5%',
-  //         }}
-  //       >
-  //         <ListItemText
-  //           primary={'Yes, delete all project data'}
-  //           style={{ textAlign: 'center' }}
-  //           onClick={closeModal}
-  //         />
-  //       </ListItem>
-  //     </List>
-  //   );
-
-  //   // Create modal
-  //   setModal(
-  //     createModal({
-  //       closeModal,
-  //       children,
-  //       message: 'Are you sure you want to delete all data?',
-  //       primBtnLabel: null,
-  //       primBtnAction: null,
-  //       secBtnAction: null,
-  //       secBtnLabel: null,
-  //       open: true,
-  //     }),
-  //   );
-  // };
-
   // handlePublish logic
   const handlePublish = () => {
     if (!state.name) {
-      console.log({state});
+      console.log({ state });
       console.error('Project name cannot be empty');
       return;
     }
@@ -247,33 +190,23 @@ const navbarDropDown = (props): JSX.Element => {
           <span>Tutorial</span>
         </button>
       </Link>
-      <button onClick={handlePublish} style={{ backgroundColor: '#0671E3', color: 'white' }}>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    fill="currentColor"
-    className="bi bi-upload"
-    viewBox="0 0 16 16"
-  >
-    <path d="M.5 9.5a.5.5 0 0 0 .5.5h3v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-5h3a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5H10V1.5a.5.5 0 0 0-1 0v3H7V1.5a.5.5 0 0 0-1 0v3H.5a.5.5 0 0 0-.5.5v4z" />
-    <path d="M7 6v6h2V6H7z" />
-  </svg>
-  <span>Publish</span>
-</button>
-      {/* <button onClick={() => clearWorkspace()}>
+      <button
+        onClick={handlePublish}
+        style={{ textDecoration: 'none' }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
           fill="currentColor"
-          className="bi bi-trash3"
+          className="bi bi-upload"
           viewBox="0 0 16 16"
         >
-          <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+          <path d="M.5 9.5a.5.5 0 0 0 .5.5h3v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-5h3a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5H10V1.5a.5.5 0 0 0-1 0v3H7V1.5a.5.5 0 0 0-1 0v3H.5a.5.5 0 0 0-.5.5v4z" />
+          <path d="M7 6v6h2V6H7z" />
         </svg>
-        <span>Clear Canvas</span>
-      </button> */}
+        <span>Publish</span>
+      </button>
       {state.isLoggedIn && (
         <button onClick={handleClick}>
           <svg
