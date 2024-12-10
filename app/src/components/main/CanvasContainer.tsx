@@ -9,9 +9,8 @@ import { DeveloperMode, ZoomIn, ZoomOut } from '@mui/icons-material';
 import Canvas from './Canvas';
 import { RootState } from '../../redux/store';
 import CodePreview from '../bottom/CodePreview';
-import { toggleCodePreview } from '../../redux/reducers/slice/appStateSlice';
+import { toggleCodePreview, resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import createModal from '../right/createModal';
-import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 
 interface CanvasContainerProps {
@@ -169,8 +168,8 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
             <Button style={{ ...buttonStyle, ...lastButtonStyle }} onClick={() => clearWorkspace()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
+                width="24"
+                height="24"
                 fill="currentColor"
                 className="bi bi-trash3"
                 viewBox="0 0 16 16"
@@ -191,6 +190,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
       ) : (
         <Canvas zoom={zoom} ref={containerRef} />
       )}
+      {modal}
     </div>
   );
 }
