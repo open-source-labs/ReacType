@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
-import React from 'react';
+import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 
 import Menu from '@mui/material/Menu';
@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import Divider from '@mui/material/Divider';
+import makeStyles from '@material-ui/styles/makeStyles';
 /*to be deleted*/
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -18,7 +19,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 /*to be deleted ^*/
 
-import { Icon } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import ComponentDrag from './ComponentDrag';
 import { emitEvent } from '../../helperFunctions/socket';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
@@ -33,8 +34,14 @@ import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
  *
  * @returns {JSX.Element} The MUIDragDropPanel component, which renders an interactive list of MUI components categorized by function.
  */
+// const useStyles = makeStyles({
+//   popOverRoot: {
+//     pointerEvents: 'none'
+//   }
+// });
 const CreateMenu = (props): JSX.Element => {
   const dispatch = useDispatch();
+  //   const styles = useStyles();
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -43,6 +50,7 @@ const CreateMenu = (props): JSX.Element => {
   const [activeCategory, setActiveCategory] = React.useState<string | null>(
     null
   );
+  const [menuLocked, setMenuLocked] = useState(false);
 
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -50,13 +58,22 @@ const CreateMenu = (props): JSX.Element => {
   ) => {
     setActiveCategory(category);
     setMenuAnchor(event.currentTarget);
+    setMenuLocked(false);
   };
 
   const handleMenuClose = () => {
-    setMenuAnchor(null);
-    setActiveCategory(null);
+    if (!menuLocked) {
+      setMenuAnchor(null);
+      setActiveCategory(null);
+    }
   };
 
+  const handleMenuClick = (category: string) => {
+    if (menuLocked && activeCategory === category) {
+      setMenuLocked(false);
+      handleMenuClose();
+    } else setMenuLocked(true);
+  };
   const handleDelete = (id: number): void => {
     dispatch(deleteElement({ id: id, contextParam: contextParam }));
     if (roomCode) {
@@ -114,15 +131,77 @@ const CreateMenu = (props): JSX.Element => {
     'Link'
   ]);
 
+  //create containers - box/container/stack
+
+  const containers = findTypes([
+    'Div',
+    'Box',
+    'Container',
+    'Stack',
+    'Dividers'
+  ]);
+
+  //create buttons -- button/floating button/chips
+
+  const buttons = findTypes(['Button', 'Fab', 'Chip']);
+
+  //create inputs -- textfield, checkbox, switch, rating, sliders
+
+  const inputs = findTypes([
+    'Input',
+    'Form',
+    'TextField',
+    'Checkbox',
+    'Switch',
+    'Rating',
+    'Slider'
+  ]);
+
+  //create lists - OL, UL, LI, TransferList
+
+  const lists = findTypes(['Ordered List', 'Unordered List', 'List']);
+  //create forms -- Form, ButtonGroup, ToggleButtonGroup, Select, AutoComplete
+
+  const forms = findTypes([
+    'Form',
+    'ButtonGroup',
+    'ToggleButtonGroup',
+    'Select',
+    'AutoComplete'
+  ]);
+  //create displays --- Modal, POpover, Popper, Transition
+  const displays = findTypes(['Modal', 'Popover', 'Popper', 'Transition']);
+  //create layouts -- table, accordion, appbar, tabs
+  const layouts = findTypes([
+    'Table',
+    'Grid',
+    'Accordion',
+    'AppBar',
+    'Tabs',
+    'Card',
+    'Paper'
+  ]);
+  //create navigation -- menu, bottomnav, breadcrumbs, drawer, stepper, tabs, speeddial
+  const navComponents = findTypes([
+    'Menu',
+    'Bottom Navigation',
+    'Breadcrumbs',
+    'Drawer',
+    'Stepper',
+    'Speed Dial'
+  ]);
   //*potential function to modularize this code better but it's nto working*/
   const makeMenu = function (typeArray, name) {
     return (
-      <>
+      <div
+        onMouseEnter={(e) => handleMenuOpen(e, name)}
+        onMouseLeave={handleMenuClose}
+      >
         <Button
           id={name + '-button'}
           aria-controls={activeCategory === name ? name : undefined}
           aria-haspopup="true"
-          // aria-expanded={open ? 'true' : undefined}
+          aria-expanded={open ? 'true' : undefined}
           onClick={(e) => handleMenuOpen(e, name)}
         >
           {name}
@@ -143,143 +222,32 @@ const CreateMenu = (props): JSX.Element => {
             <MenuItem key={component.key}>{component}</MenuItem>
           ))}
         </Menu>
-      </>
+      </div>
     );
   };
-
-  //create dividers = div/divider
-
-  //create containers - box/container/stack
-
-  //create buttons -- button/floating button/chips
-
-  //create inputs -- textfield, checkbox, switch, rating, sliders
-
-  //create lists - OL, UL, LI, TransferList
-
-  //create forms -- Form, ButtonGroup, ToggleButtonGroup, Select, AutoComplete
-
-  //create displays --- Modal, POpover, Popper, Transition
-
-  //create layouts -- table, accordion, appbar, tabs
-
-  //create more -- card, paper
-
-  //create navigation -- menu, bottomnav, breadcrumbs, drawer, stepper, tabs, speeddial
-
-  const htmlTypesToRender = state.HTMLTypes.filter(
-    (type) => type.name !== 'separator'
-  );
-  const muiInputToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 21 && type.id <= 33
-  );
-
-  const muiDataDisplayToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 34 && type.id <= 43
-  );
-
-  const muiFeedbackToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 44 && type.id <= 49
-  );
-
-  const muiSurfacesToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 50 && type.id <= 53
-  );
-
-  const muiNavigationToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 54 && type.id <= 62
-  );
-
-  const muiLayoutToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 63 && type.id <= 70
-  );
-
-  const muiUtilsToRender = state.MUITypes.filter(
-    (type) => type.name !== 'separator' && type.id >= 71 && type.id <= 80
-  );
 
   return (
     <div className={'MUIItems'}>
       {makeMenu(visualComponents, 'visual')}
-      {/* <Button
-        id="visual-button"
-        aria-controls={activeCategory === 'visual' ? 'visual-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={(e) => handleMenuOpen(e, 'visual')}
-      >
-        Visual
-      </Button>
-      <Menu
-        id="visual-menu"
-        anchorEl={menuAnchor}
-        open={activeCategory === 'visual'}
-        onClose={handleMenuClose}
-        anchorReference="anchorPosition"
-        anchorPosition={{ top: 40, left: 275 }}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center'
-        }}
-        MenuListProps={{
-          'aria-labelledby': 'visual-button'
-        }}
-      >
-        {visualComponents.map((component) => (
-          <MenuItem key={component.key}>{component}</MenuItem>
-        ))}
-      </Menu> */}
+
       <Divider />
       {makeMenu(textComponents, 'text')}
-      {/* <Button
-        id="text-button"
-        aria-controls={activeCategory === 'text' ? 'text-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={(e) => handleMenuOpen(e, 'text')}
-      >
-        Text
-      </Button>
-      <Menu
-        id="text-menu"
-        anchorEl={menuAnchor}
-        open={activeCategory === 'text'}
-        onClose={handleMenuClose}
-        anchorReference="anchorPosition"
-        anchorPosition={{ top: 40, left: 275 }}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center'
-        }}
-        MenuListProps={{
-          'aria-labelledby': 'text-button'
-        }}
-      >
-        {textComponents.map((component) => (
-          <MenuItem key={component.key}>{component}</MenuItem>
-        ))}
-      </Menu> */}
-      {/* <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-            className={classes.accordionSummary}
-          >
-            <h3>Visual</h3>
-          </AccordionSummary>
-          <AccordionDetails
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'space-around'
-            }}
-          >
-            <Grid container justifyContent="space-around" columnSpacing={2}>
-              {visualComponents}
-            </Grid> */}
-
-      {/* Text Components */}
+      <Divider />
+      {makeMenu(containers, 'containers')}
+      <Divider />
+      {makeMenu(buttons, 'buttons')}
+      <Divider />
+      {makeMenu(inputs, 'inputs')}
+      <Divider />
+      {makeMenu(lists, 'lists')}
+      <Divider />
+      {makeMenu(forms, 'forms')}
+      <Divider />
+      {makeMenu(displays, 'displays')}
+      <Divider />
+      {makeMenu(layouts, 'layouts')}
+      <Divider />
+      {makeMenu(navComponents, 'navigation')}
     </div>
   );
 };
