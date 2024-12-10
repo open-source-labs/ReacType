@@ -21,12 +21,12 @@ import PersonIcon from '@mui/icons-material/Person';
 import BadgeIcon from '@mui/icons-material/Badge';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import TextField from '@mui/material/TextField';
-/*to be deleted*/
+/* to be deleted */
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-/*to be deleted ^*/
+/* to be deleted ^ */
 
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -59,7 +59,7 @@ const CreateMenu = (props): JSX.Element => {
 
   const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
   const [activeCategory, setActiveCategory] = React.useState<string | null>(
-    null
+    null,
   );
   const [menuLocked, setMenuLocked] = useState(false);
 
@@ -67,7 +67,7 @@ const CreateMenu = (props): JSX.Element => {
 
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLButtonElement>,
-    category: string
+    category: string,
   ) => {
     setActiveCategory(category);
     setMenuAnchor(event.currentTarget);
@@ -94,7 +94,7 @@ const CreateMenu = (props): JSX.Element => {
     if (roomCode) {
       emitEvent('deleteElementAction', roomCode, {
         id,
-        contextParam
+        contextParam,
       });
     }
   };
@@ -102,9 +102,15 @@ const CreateMenu = (props): JSX.Element => {
   const handleClickAdd = () => {
     setCreateModule(true);
   };
-  //create a function to which you can pass in an array of strings, search
-  //both state.HTMLTypes and state.MUITypes to see if any of their type.names match
-  //an item in the array and return the item if so, depending on which list it originates from.
+  // create a function to which you can pass in an array of strings, search
+  // both state.HTMLTypes and state.MUITypes to see if any of their type.names match
+  // an item in the array and return the item if so, depending on which list it originates from.
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleClickAdd();
+    }
+  };
 
   const findTypes = function (array) {
     return state.HTMLTypes.filter((type) => array.includes(type.name))
@@ -127,8 +133,8 @@ const CreateMenu = (props): JSX.Element => {
               icon={option.icon}
               handleDelete={handleDelete}
             />
-          )
-        )
+          ),
+        ),
       );
   };
 
@@ -137,7 +143,7 @@ const CreateMenu = (props): JSX.Element => {
     'Icon',
     'Avatar',
     'Badge',
-    'Img'
+    'Img',
   ]);
 
   const textComponents = findTypes([
@@ -146,24 +152,24 @@ const CreateMenu = (props): JSX.Element => {
     'Header 2',
     'Span',
     'Label',
-    'Link'
+    'Link',
   ]);
 
-  //create containers - box/container/stack
+  // create containers - box/container/stack
 
   const containers = findTypes([
     'Div',
     'Box',
     'Container',
     'Stack',
-    'Dividers'
+    'Dividers',
   ]);
 
-  //create buttons -- button/floating button/chips
+  // create buttons -- button/floating button/chips
 
   const buttons = findTypes(['Button', 'Fab', 'Chip']);
 
-  //create inputs -- textfield, checkbox, switch, rating, sliders
+  // create inputs -- textfield, checkbox, switch, rating, sliders
 
   const inputs = findTypes([
     'Input',
@@ -172,24 +178,24 @@ const CreateMenu = (props): JSX.Element => {
     'Checkbox',
     'Switch',
     'Rating',
-    'Slider'
+    'Slider',
   ]);
 
-  //create lists - OL, UL, LI, TransferList
+  // create lists - OL, UL, LI, TransferList
 
   const lists = findTypes(['Ordered List', 'Unordered List', 'List']);
-  //create forms -- Form, ButtonGroup, ToggleButtonGroup, Select, AutoComplete
+  // create forms -- Form, ButtonGroup, ToggleButtonGroup, Select, AutoComplete
 
   const forms = findTypes([
     'Form',
     'ButtonGroup',
     'ToggleButtonGroup',
     'Select',
-    'AutoComplete'
+    'AutoComplete',
   ]);
-  //create displays --- Modal, POpover, Popper, Transition
+  // create displays --- Modal, POpover, Popper, Transition
   const displays = findTypes(['Modal', 'Popover', 'Popper', 'Transition']);
-  //create layouts -- table, accordion, appbar, tabs
+  // create layouts -- table, accordion, appbar, tabs
   const layouts = findTypes([
     'Table',
     'Grid',
@@ -197,16 +203,16 @@ const CreateMenu = (props): JSX.Element => {
     'AppBar',
     'Tabs',
     'Card',
-    'Paper'
+    'Paper',
   ]);
-  //create navigation -- menu, bottomnav, breadcrumbs, drawer, stepper, tabs, speeddial
+  // create navigation -- menu, bottomnav, breadcrumbs, drawer, stepper, tabs, speeddial
   const navComponents = findTypes([
     'Menu',
     'Bottom Navigation',
     'Breadcrumbs',
     'Drawer',
     'Stepper',
-    'Speed Dial'
+    'Speed Dial',
   ]);
 
   const makeMenuCategory = function (typeArray, name) {
@@ -215,7 +221,7 @@ const CreateMenu = (props): JSX.Element => {
         <Box
           sx={{
             fontSize: '2rem',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
           <Button
@@ -239,7 +245,7 @@ const CreateMenu = (props): JSX.Element => {
       </>
     );
   };
-  //*make menu function for menu that hovers on the right*/
+  //* make menu function for menu that hovers on the right*/
   //   const makeMenu = function (typeArray, name) {
   //     return (
   //       <div
@@ -273,12 +279,12 @@ const CreateMenu = (props): JSX.Element => {
           {typeArray.map((component) => (
             <MenuItem key={component.key}>{component}</MenuItem>
           ))}
-    //       </Menu>*/
+    //       </Menu> */
   }
 
   return (
     <div className={'MUIItems'}>
-      <Fab
+      {/* <Fab
         variant="extended"
         color="primary"
         aria-label="add"
@@ -287,16 +293,26 @@ const CreateMenu = (props): JSX.Element => {
       >
         <AddIcon />
         Create Custom
-      </Fab>
-      <TextField
-        id="outlined-basic"
-        label="Component Name"
-        variant="outlined"
-        size="small"
-      />
-      <Fab color="primary" aria-label="add" size="small">
-        <AddIcon />
-      </Fab>
+      </Fab> */}
+      <Box display="flex" alignItems="center">
+        <TextField
+          id="outlined-basic"
+          label="Custom Component Name"
+          variant="outlined"
+          size="small"
+          onKeyDown={handleKeyPress}
+          />
+        <Fab color="primary" aria-label="add" size="small"
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: 1,
+          }}
+          onClick={handleClickAdd}
+        >
+          <AddIcon />
+        </Fab>
+      </Box>
       {[
         [visualComponents, 'visual'],
         [containers, 'containers'],
@@ -306,7 +322,7 @@ const CreateMenu = (props): JSX.Element => {
         [displays, 'displays'],
         [layouts, 'layouts'],
         [forms, 'forms'],
-        [(navComponents, 'navigation')]
+        [navComponents, 'navigation'],
       ].map((item) => makeMenuCategory(item[0], item[1]))}
     </div>
   );
