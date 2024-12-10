@@ -142,8 +142,8 @@ const CreateMenu = (props): JSX.Element => {
 
   const textComponents = findTypes([
     'Paragraph',
-    'Header1',
-    'Header2',
+    'Header 1',
+    'Header 2',
     'Span',
     'Label',
     'Link'
