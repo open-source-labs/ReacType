@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 import React, { Ref, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@mui/material';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
+// import { Button } from '@mui/material';
+// import ListItem from '@mui/material/ListItem';
+// import List from '@mui/material/List';
+// import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
@@ -12,16 +12,16 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import withStyles from '@mui/styles/withStyles';
 import DeleteProjects from '../right/DeleteProjects';
-import ExportButton from '../right/ExportButton';
+// import ExportButton from '../right/ExportButton';
 import LoginButton from '../right/LoginButton';
 import ProjectsFolder from '../right/OpenProjects';
 import store, { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import serverConfig from '../../serverConfig.js';
-import createModal from '../right/createModal';
-import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
-import { setStyle } from '../../redux/reducers/slice/styleSlice';
-import { emitEvent } from '../../helperFunctions/socket';
+// import createModal from '../right/createModal';
+// import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
+// import { setStyle } from '../../redux/reducers/slice/styleSlice';
+// import { emitEvent } from '../../helperFunctions/socket';
 
 // added imports for publish logic
 import { publishProject } from '../../helperFunctions/projectGetSaveDel';
@@ -120,8 +120,8 @@ const navbarDropDown = (props): JSX.Element => {
   //   state: store.appState
   // }));
   const state = useSelector((store: RootState) => store.appState);
-  const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-  const userName = useSelector((store: RootState) => store.roomSlice.userName);
+  // const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
+  // const userName = useSelector((store: RootState) => store.roomSlice.userName);
 
   const closeModal = () => setModal('');
   const handleClick = (event) => {
