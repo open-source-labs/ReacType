@@ -29,31 +29,33 @@ import {
   updateProjectId,
   updateProjectName,
   updateProjectPublished,
-  toggleScreenshotTrigger,
+  toggleScreenshotTrigger
 } from '../../redux/reducers/slice/appStateSlice';
-
+console.log('test');
 const { API_BASE_URL } = serverConfig;
 
-const useStyles = makeStyles((theme) => createStyles({
-  root: {
-    flexGrow: 1,
-    width: '100%',
-  },
-  menuButton: {
-    marginRight: theme.spacing(1),
-    color: 'white',
-  },
-  title: {
-    flexGrow: 1,
-    color: 'white',
-  },
-  manageProject: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100px',
-    overflow: 'none',
-  },
-}));
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      width: '100%'
+    },
+    menuButton: {
+      marginRight: theme.spacing(1),
+      color: 'white'
+    },
+    title: {
+      flexGrow: 1,
+      color: 'white'
+    },
+    manageProject: {
+      display: 'flex',
+      justifyContent: 'center',
+      width: '100px',
+      overflow: 'none'
+    }
+  })
+);
 
 interface StyledMenuProps extends React.PropsWithChildren<{}> {
   id: string;
@@ -65,18 +67,18 @@ interface StyledMenuProps extends React.PropsWithChildren<{}> {
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5',
-  },
+    border: '1px solid #d3d4d5'
+  }
 })((props: StyledMenuProps) => (
   <Menu
     elevation={0}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center',
+      horizontal: 'center'
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center',
+      horizontal: 'center'
     }}
     open={true}
     {...props}
@@ -87,10 +89,10 @@ const StyledMenuItem = withStyles((theme) => ({
   root: {
     '&:focus': {
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
+        color: theme.palette.common.white
+      }
+    }
+  }
 }))(MenuItem);
 
 /**
@@ -177,7 +179,7 @@ const navbarDropDown = (props): JSX.Element => {
   // handlePublish logic
   const handlePublish = () => {
     if (!state.name) {
-      console.log({state});
+      console.log({ state });
       console.error('Project name cannot be empty');
       return;
     }
@@ -247,20 +249,23 @@ const navbarDropDown = (props): JSX.Element => {
           <span>Tutorial</span>
         </button>
       </Link>
-      <button onClick={handlePublish} style={{ backgroundColor: '#0671E3', color: 'white' }}>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    fill="currentColor"
-    className="bi bi-upload"
-    viewBox="0 0 16 16"
-  >
-    <path d="M.5 9.5a.5.5 0 0 0 .5.5h3v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-5h3a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5H10V1.5a.5.5 0 0 0-1 0v3H7V1.5a.5.5 0 0 0-1 0v3H.5a.5.5 0 0 0-.5.5v4z" />
-    <path d="M7 6v6h2V6H7z" />
-  </svg>
-  <span>Publish</span>
-</button>
+      <button
+        onClick={handlePublish}
+        style={{ backgroundColor: '#0671E3', color: 'white' }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          className="bi bi-upload"
+          viewBox="0 0 16 16"
+        >
+          <path d="M.5 9.5a.5.5 0 0 0 .5.5h3v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-5h3a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5H10V1.5a.5.5 0 0 0-1 0v3H7V1.5a.5.5 0 0 0-1 0v3H.5a.5.5 0 0 0-.5.5v4z" />
+          <path d="M7 6v6h2V6H7z" />
+        </svg>
+        <span>Publish</span>
+      </button>
       {/* <button onClick={() => clearWorkspace()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
