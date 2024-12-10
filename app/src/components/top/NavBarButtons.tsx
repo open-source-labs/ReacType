@@ -31,7 +31,7 @@ import {
   updateProjectPublished,
   toggleScreenshotTrigger
 } from '../../redux/reducers/slice/appStateSlice';
-console.log('test');
+
 const { API_BASE_URL } = serverConfig;
 
 const useStyles = makeStyles((theme) =>
