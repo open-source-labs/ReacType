@@ -6,6 +6,7 @@ import React from 'react';
 import RoomsContainer from './RoomsContainer';
 import ProfilePage from './ProfilePage';
 import Settings from './Settings';
+import CreateContainer from './CreateContainer';
 
 interface ContentAreaProps {
   activeTab: number | null;
@@ -36,10 +37,10 @@ const TabPanel: React.FC<{
 
 const panels = [
   <ElementsContainer />,
-  <ComponentsContainer />,
+  <CreateContainer />,
   <RoomsContainer />,
   <ProfilePage />,
-  <Settings />,
+  <Settings />
 ];
 
 /**

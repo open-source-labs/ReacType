@@ -40,7 +40,7 @@ let oldValue = 0;
 const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
-  toggleVisibility,
+  toggleVisibility
 }): JSX.Element => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(activeTab === newValue ? null : newValue);
@@ -68,8 +68,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       // onClick={(e: React.MouseEvent) => handleTabClick(e, oldValue)}
       TabIndicatorProps={{
         style: {
-          backgroundColor: '#4A4A4A',
-        },
+          backgroundColor: '#4A4A4A'
+        }
       }}
       sx={{
         display: 'flex',
@@ -81,30 +81,29 @@ const Sidebar: React.FC<SidebarProps> = ({
         background: '#1e2024',
         marginRight: '2px',
         height: '100vh',
-        position: 'relative',
+        position: 'relative'
       }}
     >
       <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />
-      <div>
-        <TabWithTooltip
-          label="Modules"
-          value={0}
-          activeTab={activeTab}
-          handleTabChange={handleTabChange}
-        />
-        <TabWithTooltip
-          label="Create"
-          value={1}
-          activeTab={activeTab}
-          handleTabChange={handleTabChange}
-        />
-        <TabWithTooltip
-          label="Collab"
-          value={2}
-          activeTab={activeTab}
-          handleTabChange={handleTabChange}
-        />
-      </div>
+
+      <TabWithTooltip
+        label="Modules"
+        value={0}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
+      <TabWithTooltip
+        label="Create"
+        value={1}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
+      <TabWithTooltip
+        label="Collab"
+        value={2}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
     </Tabs>
   );
 };
