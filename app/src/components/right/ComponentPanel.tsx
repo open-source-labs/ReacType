@@ -166,7 +166,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   return (
     <>
       <div className={`${classes.panelWrapper}`}>
-        {/* Close Icon at the Top-Right */}
+        {/* Close Icon */}
         <CloseIcon
           className={classes.closeButton}
           onClick={() => setIsCreatingModule(false)}

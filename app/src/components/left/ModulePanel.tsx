@@ -15,10 +15,7 @@ interface ModulePanelProps {
 }
 
 const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
-  // Instead of using useState, use the Redux store
-  const [modules, setModules] = useState<any[]>(['App']);
   const state = useSelector((store: RootState) => store.appState);
-
   const [isCreatingModule, setIsCreatingModule] = useState(false);
 
   const handleClickAddModule = (event) => {
@@ -30,14 +27,14 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
   // Fix alert pop-up (not showing after module creation due to state change causing re-render) ⭕️
     // May need to move alert functionality to this component & display after setIsCreatingModule is set to false - maybe useEffect ⭕️
   // Fix component creation panel design ⭕️
-  // Add an x button to Module Creator panel ⭕️
-
+  // Add an x button to Module Creator panel ✅
+  // Fix tooltip ⭕️
   // Open Module editor when clicking on a component ❌
-  // should pass prop of the selected module ❌r eer                      
+  // should pass prop of the selected module ❌                    
 
   return (
     <div>
-      {isCreatingModule ? (
+     {isCreatingModule ? (
         <ComponentPanel
           setIsCreatingModule={setIsCreatingModule}
           isThemeLight={false}
