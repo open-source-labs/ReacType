@@ -55,6 +55,7 @@ const ComponentDrag = ({ isVisible, isThemeLight }): JSX.Element | null => {
           direction="row"
           justifyContent="center"
           alignItems="center"
+          width='100vw'
         >
           {state.components
             .filter((comp) => state.rootComponents.includes(comp.id))

@@ -2,6 +2,7 @@
 import { Box } from '@mui/material';
 import ComponentsContainer from './ComponentsContainer';
 import ElementsContainer from './ElementsContainer';
+import ModulePanel from './ModulePanel';
 import React from 'react';
 import RoomsContainer from './RoomsContainer';
 import ProfilePage from './ProfilePage';
@@ -36,6 +37,7 @@ const TabPanel: React.FC<{
 };
 
 const panels = [
+  <ModulePanel/>,
   <ElementsContainer />,
   <CreateContainer />,
   <RoomsContainer />,
