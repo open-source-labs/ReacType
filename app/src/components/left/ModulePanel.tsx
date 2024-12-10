@@ -12,44 +12,61 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ComponentDrag from './ComponentDrag';
 import { AddCircle } from '@mui/icons-material';
 import DragDropPanel from './DragDropPanel';
+import ComponentPanel from '../right/ComponentPanel';
+import { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import ComponentsContainer from './ComponentsContainer';
 
 interface ModulePanelProps {
   isThemeLight: boolean;
 }
 
 const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
+  // Instead of using useState, use the Redux store
   const [modules, setModules] = useState<any[]>(['App']);
-  const [hasCustomModules, setHasCustomModules] = useState(false);
+  const state = useSelector((store: RootState) => store.appState);
 
-  const [editingModule, setEditingModule] = useState<any | null>(null);
+  const [isCreatingModule, setIsCreatingModule] = useState(false);
 
-  // add module
+  const handleClickAddModule = (event) => {
+    setIsCreatingModule(true);
+  };
 
-  // HandleEditingModule
+  // Add an edit icon on the modules 
+        // When edit icon is clicked open up create tab for that module
 
-  // HandleSaveModule
+  // Module editor when clicking on a component ❌
+  // should display the selected module
 
   return (
     <div>
-      <div style={{ display: 'grid', placeItems: 'center', margin: '30px' }}>
-        <Button
-          variant="contained"
-          startIcon={<AddCircleIcon />}
-          style={{
-            backgroundColor: '#f88e16',
-            border: 'none',
-            color: 'white',
-            fontSize: '12px',
-            padding: '2px 15px',
-            cursor: 'pointer',
-            marginRight: '10px',
-            marginLeft: '5px',
-            borderRadius: '10px'
-          }}
-        >
-          Add Custom Module
-        </Button>
-      </div>
+      {isCreatingModule ? (
+        <ComponentPanel
+          setIsCreatingModule={setIsCreatingModule}
+          isThemeLight={false}
+        />
+      ) : (
+        <div style={{ display: 'grid', placeItems: 'center', margin: '30px' }}>
+          <Button
+            variant="contained"
+            startIcon={<AddCircleIcon />}
+            style={{
+              backgroundColor: '#f88e16',
+              border: 'none',
+              color: 'white',
+              fontSize: '12px',
+              padding: '2px 15px',
+              cursor: 'pointer',
+              marginRight: '10px',
+              marginLeft: '5px',
+              borderRadius: '10px'
+            }}
+            onClick={handleClickAddModule}
+          >
+            Add Module
+          </Button>
+        </div>
+      )}
       <div
         style={{
           color: '#f88e16',
@@ -58,75 +75,22 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
           border: '1px solid #101012'
         }}
       >
-        Modules
+        Root Modules
       </div>
-
       <ComponentDrag isVisible={true} isThemeLight={false} />
-      {/* <DragDropPanel /> */}
-
-      {/*
-
-      <ComponentDrag isVisible={true} isThemeLight={isThemeLight} />
-
-      <Accordion
-        sx={{
-          backgroundColor: '#0b0b0b',
-          color: '#ffffff'
+      <div
+        style={{
+          color: '#f88e16',
+          textAlign: 'center',
+          padding: '20px',
+          border: '1px solid #101012'
         }}
       >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          sx={{
-            backgroundColor: '#101012',
-            color: '#ffffff',
-            '&.MuiAccordion-root': { backgroundColor: '#0b0b0b' }
-          }}
-        >
-          <h3>Root Components</h3>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ComponentDrag isVisible={true} isThemeLight={isThemeLight} />
-        </AccordionDetails>
-      </Accordion>
-
-      {hasCustomModules && (
-        <Accordion
-          sx={{
-            backgroundColor: '#0b0b0b',
-            color: '#ffffff'
-          }}
-        >
-          // TODO: Set visibility to true if there are any custom components
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            sx={{
-              backgroundColor: '#101012',
-              color: '#ffffff',
-              '&.MuiAccordion-root': { backgroundColor: '#0b0b0b' }
-            }}
-          >
-            <h3>Custom Components</h3>
-          </AccordionSummary>
-          <AccordionDetails>
-            <ComponentDrag isVisible={true} isThemeLight={isThemeLight} />
-          </AccordionDetails>
-        </Accordion>
-      )}
-       */}
+        Custom Modules
+      </div>
+      <ComponentsContainer />
     </div>
   );
 };
 
 export default ModulePanel;
-
-// Add Module button
-// Accordian style list of modules
-
-// showModuleEditor && <ModuleEditor/>
-
-// create ModuleEditor.tsx
-// this will pull features from the creation panel
