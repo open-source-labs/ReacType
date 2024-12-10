@@ -68,7 +68,7 @@ const CreateContainer = (props): JSX.Element => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'top',
-        color: '#ffffff',
+        color: '#f7f4dc',
         textAlign: 'center'
       }}
     >

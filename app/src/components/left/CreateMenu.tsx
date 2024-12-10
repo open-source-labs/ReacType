@@ -5,6 +5,8 @@ import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
 import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,6 +14,11 @@ import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import Divider from '@mui/material/Divider';
 import makeStyles from '@material-ui/styles/makeStyles';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ImageIcon from '@mui/icons-material/Image';
+import PersonIcon from '@mui/icons-material/Person';
+import BadgeIcon from '@mui/icons-material/Badge';
+import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 /*to be deleted*/
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -19,7 +26,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 /*to be deleted ^*/
 
-import * as Icons from '@mui/icons-material';
+import Paper from '@mui/material/Paper';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InsertPhoto from '@mui/icons-material/InsertPhoto';
 import ComponentDrag from './ComponentDrag';
 import { emitEvent } from '../../helperFunctions/socket';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
@@ -61,10 +70,12 @@ const CreateMenu = (props): JSX.Element => {
     setMenuLocked(false);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = (event: React.onMouseLeave) => {
     if (!menuLocked) {
       setMenuAnchor(null);
       setActiveCategory(null);
+    } else {
+      setMenuAnchor(null);
     }
   };
 
@@ -190,23 +201,49 @@ const CreateMenu = (props): JSX.Element => {
     'Stepper',
     'Speed Dial'
   ]);
-  //*potential function to modularize this code better but it's nto working*/
-  const makeMenu = function (typeArray, name) {
+
+  const makeMenuCategory = function (typeArray, name) {
     return (
-      <div
-        onMouseEnter={(e) => handleMenuOpen(e, name)}
-        onMouseLeave={handleMenuClose}
-      >
-        <Button
-          id={name + '-button'}
-          aria-controls={activeCategory === name ? name : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={(e) => handleMenuOpen(e, name)}
-        >
-          {name}
-        </Button>
-        <Menu
+      <div>
+        <Box>
+          <Button
+            component="label"
+            id={name + '-button'}
+            // aria-controls={activeCategory === name ? name : undefined}
+            // aria-haspopup="true"
+            // endIcon={<ChevronRightIcon />}
+            // aria-expanded={open ? 'true' : undefined}
+            // onClick={(e) => handleMenuOpen(e, name)}
+          >
+            {name}
+          </Button>
+        </Box>
+        <Grid container spacing={2}>
+          {typeArray}
+        </Grid>
+      </div>
+    );
+  };
+  //*make menu function for menu that hovers on the right*/
+  //   const makeMenu = function (typeArray, name) {
+  //     return (
+  //       <div
+  //         onMouseEnter={(e) => handleMenuOpen(e, name)}
+  //         onMouseLeave={(e) => handleMenuClose(e, name)}
+  //       >
+  //         <Button
+  //           component="label"
+  //           id={name + '-button'}
+  //           aria-controls={activeCategory === name ? name : undefined}
+  //           aria-haspopup="true"
+  //           endIcon={<ChevronRightIcon />}
+  //           aria-expanded={open ? 'true' : undefined}
+  //           onClick={(e) => handleMenuOpen(e, name)}
+  //         >
+  //           {name}
+  //         </Button>
+  {
+    /* <Menu
           id={name + '-menu'}
           anchorEl={menuAnchor}
           open={activeCategory === name}
@@ -221,33 +258,21 @@ const CreateMenu = (props): JSX.Element => {
           {typeArray.map((component) => (
             <MenuItem key={component.key}>{component}</MenuItem>
           ))}
-        </Menu>
-      </div>
-    );
-  };
+    //       </Menu>*/
+  }
 
   return (
     <div className={'MUIItems'}>
-      {makeMenu(visualComponents, 'visual')}
-
-      <Divider />
-      {makeMenu(textComponents, 'text')}
-      <Divider />
-      {makeMenu(containers, 'containers')}
-      <Divider />
-      {makeMenu(buttons, 'buttons')}
-      <Divider />
-      {makeMenu(inputs, 'inputs')}
-      <Divider />
-      {makeMenu(lists, 'lists')}
-      <Divider />
-      {makeMenu(forms, 'forms')}
-      <Divider />
-      {makeMenu(displays, 'displays')}
-      <Divider />
-      {makeMenu(layouts, 'layouts')}
-      <Divider />
-      {makeMenu(navComponents, 'navigation')}
+      {[
+        [visualComponents, 'visual'],
+        [containers, 'containers'],
+        [buttons, 'buttons'],
+        [textComponents, 'text'],
+        [lists, 'lists'],
+        [displays, 'displays'],
+        [layouts, 'layouts'],
+        [navComponents, 'navigation']
+      ].map((item) => makeMenuCategory(item[0], item[1]))}
     </div>
   );
 };
