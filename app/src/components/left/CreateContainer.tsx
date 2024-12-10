@@ -54,12 +54,12 @@ const CreateContainer = (props): JSX.Element => {
       handleDelete();
   }, []);
 
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindedFunc);
-    return () => {
-      document.removeEventListener('keydown', keyBindedFunc);
-    };
-  }, []);
+  //   useEffect(() => {
+  //     document.addEventListener('keydown', keyBindedFunc);
+  //     return () => {
+  //       document.removeEventListener('keydown', keyBindedFunc);
+  //     };
+  //   }, []);
 
   return (
     <Box

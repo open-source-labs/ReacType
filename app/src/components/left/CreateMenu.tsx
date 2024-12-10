@@ -111,7 +111,7 @@ const CreateMenu = (props): JSX.Element => {
       .map((option) => (
         <HTMLItem
           name={option.name}
-          key={`html-${option.name}`}
+          key={`html-${option.name}${option.id}`}
           id={option.id}
           icon={option.icon}
           handleDelete={handleDelete}
@@ -122,7 +122,7 @@ const CreateMenu = (props): JSX.Element => {
           (option) => (
             <MUIItem
               name={option.name}
-              key={`html-${option.name}${option.id}`}
+              key={`mui-${option.name}${option.id}`}
               id={option.id}
               icon={option.icon}
               handleDelete={handleDelete}
