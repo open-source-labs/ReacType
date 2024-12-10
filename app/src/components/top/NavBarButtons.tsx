@@ -251,7 +251,7 @@ const navbarDropDown = (props): JSX.Element => {
       </Link>
       <button
         onClick={handlePublish}
-        style={{ backgroundColor: '#0671E3', color: 'white' }}
+        style={{ textDecoration: 'none' }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
