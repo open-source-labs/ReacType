@@ -153,8 +153,8 @@ const HTMLItem: React.FC<{
         <div
           ref={drag}
           style={{
-            backgroundColor: '#2D313A',
-            backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
+            backgroundColor: 'rgb(30, 32, 36)'
+            // backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
           }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"

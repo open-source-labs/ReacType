@@ -10,6 +10,14 @@
   box-sizing: inherit;
 }
 
+.display-on-hover {
+  display: none;
+}
+
+.display-on-hover:hover {
+  display: block;
+}
+
 html {
   box-sizing: border-box;
   overflow: auto;
@@ -121,7 +129,7 @@ span.material-symbols-outlined {
   padding: 0px;
   display: flex;
   height: 100%;
-  width: 200px;
+  width: 240px;
   min-width: 140px;
   flex-direction: column;
   align-content: center;
@@ -220,11 +228,11 @@ span.material-symbols-outlined {
 
 /* THIS IS STYLING THE BUTTONS ON THE CREATE MENU */
 #HTMLItem {
-  justify-content: flex-start; 
+  /* justify-content: flex-start;  */
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
-  padding: 0%;
+  padding: 10%;
   border-radius: 10px;
   box-shadow: #191919;
   width: 110px;
@@ -249,7 +257,7 @@ span.material-symbols-outlined {
   padding: 10%;
   border-radius: 10px;
   box-shadow: #191919;
-  width: 120px;
+  width: 110px;
 }
 
 #MUIItem:hover {

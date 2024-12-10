@@ -7,7 +7,8 @@ import React, { useState } from 'react';
 import { RootState } from '../../redux/store';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
@@ -19,6 +20,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import PersonIcon from '@mui/icons-material/Person';
 import BadgeIcon from '@mui/icons-material/Badge';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
+import TextField from '@mui/material/TextField';
 /*to be deleted*/
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -61,6 +63,8 @@ const CreateMenu = (props): JSX.Element => {
   );
   const [menuLocked, setMenuLocked] = useState(false);
 
+  const [isCreatingModule, setCreateModule] = useState(false);
+
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLButtonElement>,
     category: string
@@ -95,6 +99,9 @@ const CreateMenu = (props): JSX.Element => {
     }
   };
 
+  const handleClickAdd = () => {
+    setCreateModule(true);
+  };
   //create a function to which you can pass in an array of strings, search
   //both state.HTMLTypes and state.MUITypes to see if any of their type.names match
   //an item in the array and return the item if so, depending on which list it originates from.
@@ -115,7 +122,7 @@ const CreateMenu = (props): JSX.Element => {
           (option) => (
             <MUIItem
               name={option.name}
-              key={`html-${option.name}`}
+              key={`html-${option.name}${option.id}`}
               id={option.id}
               icon={option.icon}
               handleDelete={handleDelete}
@@ -204,11 +211,19 @@ const CreateMenu = (props): JSX.Element => {
 
   const makeMenuCategory = function (typeArray, name) {
     return (
-      <div>
-        <Box>
+      <>
+        <Box
+          sx={{
+            fontSize: '2rem',
+            textAlign: 'center'
+          }}
+        >
           <Button
             component="label"
             id={name + '-button'}
+            // sx={{
+            //   fontSize: '1rem'
+            // }}
             // aria-controls={activeCategory === name ? name : undefined}
             // aria-haspopup="true"
             // endIcon={<ChevronRightIcon />}
@@ -221,7 +236,7 @@ const CreateMenu = (props): JSX.Element => {
         <Grid container spacing={2}>
           {typeArray}
         </Grid>
-      </div>
+      </>
     );
   };
   //*make menu function for menu that hovers on the right*/
@@ -263,6 +278,25 @@ const CreateMenu = (props): JSX.Element => {
 
   return (
     <div className={'MUIItems'}>
+      <Fab
+        variant="extended"
+        color="primary"
+        aria-label="add"
+        size="small"
+        onClick={handleClickAdd}
+      >
+        <AddIcon />
+        Create Custom
+      </Fab>
+      <TextField
+        id="outlined-basic"
+        label="Component Name"
+        variant="outlined"
+        size="small"
+      />
+      <Fab color="primary" aria-label="add" size="small">
+        <AddIcon />
+      </Fab>
       {[
         [visualComponents, 'visual'],
         [containers, 'containers'],
@@ -271,7 +305,8 @@ const CreateMenu = (props): JSX.Element => {
         [lists, 'lists'],
         [displays, 'displays'],
         [layouts, 'layouts'],
-        [navComponents, 'navigation']
+        [forms, 'forms'],
+        [(navComponents, 'navigation')]
       ].map((item) => makeMenuCategory(item[0], item[1]))}
     </div>
   );
