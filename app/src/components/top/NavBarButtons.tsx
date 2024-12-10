@@ -2,9 +2,6 @@
 import React, { Ref, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { Button } from '@mui/material';
-// import ListItem from '@mui/material/ListItem';
-// import List from '@mui/material/List';
-// import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
@@ -18,44 +15,32 @@ import ProjectsFolder from '../right/OpenProjects';
 import store, { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import serverConfig from '../../serverConfig.js';
-// import createModal from '../right/createModal';
-// import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
-// import { setStyle } from '../../redux/reducers/slice/styleSlice';
-// import { emitEvent } from '../../helperFunctions/socket';
-
 // added imports for publish logic
 import { publishProject } from '../../helperFunctions/projectGetSaveDel';
-import {
-  updateProjectId,
-  updateProjectName,
-  updateProjectPublished,
-  toggleScreenshotTrigger
-} from '../../redux/reducers/slice/appStateSlice';
+import { updateProjectId, updateProjectName, updateProjectPublished, toggleScreenshotTrigger } from '../../redux/reducers/slice/appStateSlice';
 
 const { API_BASE_URL } = serverConfig;
 
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      width: '100%'
-    },
-    menuButton: {
-      marginRight: theme.spacing(1),
-      color: 'white'
-    },
-    title: {
-      flexGrow: 1,
-      color: 'white'
-    },
-    manageProject: {
-      display: 'flex',
-      justifyContent: 'center',
-      width: '100px',
-      overflow: 'none'
-    }
-  })
-);
+const useStyles = makeStyles((theme) => createStyles({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+  },
+  menuButton: {
+    marginRight: theme.spacing(1),
+    color: 'white',
+  },
+  title: {
+    flexGrow: 1,
+    color: 'white',
+  },
+  manageProject: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100px',
+    overflow: 'none',
+  },
+}));
 
 interface StyledMenuProps extends React.PropsWithChildren<{}> {
   id: string;
@@ -67,18 +52,18 @@ interface StyledMenuProps extends React.PropsWithChildren<{}> {
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
-  }
+    border: '1px solid #d3d4d5',
+  },
 })((props: StyledMenuProps) => (
   <Menu
     elevation={0}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center'
+      horizontal: 'center',
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center'
+      horizontal: 'center',
     }}
     open={true}
     {...props}
@@ -89,10 +74,10 @@ const StyledMenuItem = withStyles((theme) => ({
   root: {
     '&:focus': {
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white
-      }
-    }
-  }
+        color: theme.palette.common.white,
+      },
+    },
+  },
 }))(MenuItem);
 
 /**
@@ -131,50 +116,6 @@ const navbarDropDown = (props): JSX.Element => {
 
     props.setDropDownMenu(true);
   };
-
-  // const clearWorkspace = () => {
-  //   // Reset state for project to initial state
-  //   const resetState = () => {
-  //     if (roomCode) emitEvent('clearCanvasAction', roomCode, userName);
-  //     else dispatch(resetAllState());
-  //   };
-  //   // Set modal options
-  //   const children = (
-  //     <List className="export-preference" style={{ zIndex: '12' }}>
-  //       <ListItem
-  //         key={'clear'}
-  //         button
-  //         onClick={resetState}
-  //         style={{
-  //           backgroundColor: '#E12D39',
-  //           borderRadius: '50px',
-  //           marginBottom: '2%',
-  //           marginTop: '5%',
-  //         }}
-  //       >
-  //         <ListItemText
-  //           primary={'Yes, delete all project data'}
-  //           style={{ textAlign: 'center' }}
-  //           onClick={closeModal}
-  //         />
-  //       </ListItem>
-  //     </List>
-  //   );
-
-  //   // Create modal
-  //   setModal(
-  //     createModal({
-  //       closeModal,
-  //       children,
-  //       message: 'Are you sure you want to delete all data?',
-  //       primBtnLabel: null,
-  //       primBtnAction: null,
-  //       secBtnAction: null,
-  //       secBtnLabel: null,
-  //       open: true,
-  //     }),
-  //   );
-  // };
 
   // handlePublish logic
   const handlePublish = () => {
@@ -266,19 +207,6 @@ const navbarDropDown = (props): JSX.Element => {
         </svg>
         <span>Publish</span>
       </button>
-      {/* <button onClick={() => clearWorkspace()}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          className="bi bi-trash3"
-          viewBox="0 0 16 16"
-        >
-          <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-        </svg>
-        <span>Clear Canvas</span>
-      </button> */}
       {state.isLoggedIn && (
         <button onClick={handleClick}>
           <svg
