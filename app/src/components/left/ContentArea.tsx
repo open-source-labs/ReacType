@@ -37,8 +37,7 @@ const TabPanel: React.FC<{
 };
 
 const panels = [
-  <ModulePanel/>,
-  <ElementsContainer />,
+  <ModulePanel />,
   <CreateContainer />,
   <RoomsContainer />,
   <ProfilePage />,
