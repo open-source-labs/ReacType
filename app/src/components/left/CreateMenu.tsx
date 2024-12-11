@@ -248,7 +248,6 @@ const CreateMenu = (props): JSX.Element => {
             component="label"
             id={name + '-button'}
             key={name + idx}
-            sx={'display: flex'}
             // sx={{
             //   fontSize: '1rem'
             // }}
@@ -328,6 +327,17 @@ const CreateMenu = (props): JSX.Element => {
       <Button aria-label="add" size="small">
         +
       </Button>
+      {makeMenuCategory([
+        state.HTMLTypes.filter((type) => type.id > 20).map((option) => (
+          <HTMLItem
+            name={option.name}
+            key={`html-${option.name}${option.id}`}
+            id={option.id}
+            icon={option.icon}
+            handleDelete={handleDelete}
+          />
+        ))
+      ])}
       <FormGroup>
         <FormControlLabel
           control={
@@ -338,7 +348,7 @@ const CreateMenu = (props): JSX.Element => {
               }
             />
           }
-          label="MUI"
+          label={MUIMode ? 'HTML + MUI' : 'HTML Only'}
         />
       </FormGroup>
       {MUIMode
