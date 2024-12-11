@@ -13,7 +13,6 @@ import arrow from '../main/Arrow';
 import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import Chatroom from './ChatRoom';
-import CreationPanel from './CreationPanel';
 import CustomizationPanel from '../../containers/CustomizationPanel';
 import StylesEditor from './StylesEditor';
 import Tree from '../../tree/TreeChart';
@@ -102,12 +101,6 @@ const BottomTabs = (props): JSX.Element => {
             />
             <Tab
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="Creation Panel"
-              onClick={showBottomPanel}
-              sx={{ borderTop: '2px solid #191919' }}
-            />
-            <Tab
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Customization"
               onClick={showBottomPanel}
               sx={{ borderTop: '2px solid #191919' }}
@@ -168,12 +161,11 @@ const BottomTabs = (props): JSX.Element => {
         </Box>
         <div className="tab-content">
           {tab === 0 && <Chatroom />}
-          {tab === 1 && <CreationPanel isThemeLight={isThemeLight} />}
-          {tab === 2 && <CustomizationPanel isThemeLight={isThemeLight} />}
-          {tab === 3 && <StylesEditor theme={theme} setTheme={setTheme} />}
-          {tab === 4 && <Tree data={components} />}
-          {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-          {tab === 6 && (
+          {tab === 1 && <CustomizationPanel isThemeLight={isThemeLight} />}
+          {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
+          {tab === 3 && <Tree data={components} />}
+          {tab === 4 && <ContextManager theme={theme} setTheme={setTheme} />}
+          {tab === 5 && (
             <StateManager
               theme={theme}
               setTheme={setTheme}

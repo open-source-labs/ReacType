@@ -1,15 +1,16 @@
 /* eslint-disable max-len */
-import { Button, InputLabel } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { RootState } from '../../redux/store';
+import { emitEvent } from '../../helperFunctions/socket';
+import { Button, InputLabel } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
 import TextField from '@mui/material/TextField';
 import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import { emitEvent } from '../../helperFunctions/socket';
 
 /**
  * Provides a user interface for creating custom HTML elements in the application. It includes
@@ -190,32 +191,12 @@ const HTMLPanel = (props): JSX.Element => {
         <div className={classes.addComponentWrapper}>
           <div className={classes.inputWrapper}>
             <form onSubmit={handleSubmit} className="customForm">
-              <h4 className={classes.darkThemeFontColor}>New HTML Tag</h4>
-              <InputLabel
-                htmlFor="tag"
-                className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
-              >
-                Tag
-              </InputLabel>
-              <TextField
-                id="tag"
-                color="primary"
-                variant="outlined"
-                type="text"
-                name="Tag"
+              <TextField id="outlined-basic" label="Custom Tag Name" variant="outlined" size="small"
                 value={tag}
                 autoComplete="off"
                 onChange={handleTagChange}
-                className={`${classes.input} ${classes.darkThemeFontColor}`}
-                style={{ margin: '10px' }}
-                InputProps={{
-                  style: {
-                    color: 'white',
-                  },
-                }}
-                placeholder="tag"
+                placeholder="Custom Tag Name"
               />
-
               {(!tag.charAt(0).match(/[A-Za-z]/)
                 || !alphanumeric(tag)
                 || tag.trim() === ''
@@ -226,31 +207,12 @@ const HTMLPanel = (props): JSX.Element => {
                   <em>{errorMsg}</em>
                 </span>
               )}
-
-              <br></br>
-              <InputLabel
-                htmlFor="elementName"
-                className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
-              >
-                Element Name
-              </InputLabel>
-              <TextField
-                id="elementName"
-                color="primary"
-                variant="outlined"
-                type="text"
-                name="Tag Name"
+              <TextField id="outlined-basic" label="Custom Element Name" variant="outlined" size="small"
                 value={name}
                 onChange={handleNameChange}
                 autoComplete="off"
-                className={`${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ marginTop: '10px' }}
-                InputProps={{
-                  style: {
-                    color: 'white',
-                  },
-                }}
-                placeholder="name"
+                placeholder="Custom Element Name"
               />
               {(!name.charAt(0).match(/[A-Za-z]/)
                 || !alphanumeric(name)
@@ -263,19 +225,12 @@ const HTMLPanel = (props): JSX.Element => {
                   <em>{errorMsg}</em>
                 </span>
               )}
-              <br></br>
-              <Button
+              <Fab id="submitButton" type="submit" color="primary" aria-label="add" size="small" value="Add Element"
+              sx={{ width: 40, height: 40, borderRadius: 1 }}
                 onClick={handleAlertOpen}
-                className={`${classes.addElementButton} ${classes.darkThemeFontColor}`}
-                id="submitButton"
-                type="submit"
-                color="primary"
-                variant="contained"
-                value="Add Element"
-                sx={{ textTransform: 'capitalize' }}
               >
-                Add Element
-              </Button>
+                <AddIcon />
+              </Fab>
             </form>
           </div>
         </div>

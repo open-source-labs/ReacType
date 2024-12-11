@@ -4,15 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
-import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Fab from '@mui/material/Fab';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
-import makeStyles from '@material-ui/styles/makeStyles';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
@@ -24,6 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import InsertPhoto from '@mui/icons-material/InsertPhoto';
 import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
+import HTMLPanel from "./HTMLPanel";
 import ComponentDrag from './ComponentDrag';
 
 /**
@@ -124,7 +121,7 @@ const CreateMenu = (props): JSX.Element => {
                 icon={option.icon}
                 handleDelete={handleDelete}
               />
-            )
+            ),
           )
         );
     else
@@ -137,7 +134,7 @@ const CreateMenu = (props): JSX.Element => {
             icon={option.icon}
             handleDelete={handleDelete}
           />
-        )
+        ),
       );
   };
   const HTMLElements = findTypes([
@@ -147,7 +144,7 @@ const CreateMenu = (props): JSX.Element => {
     'Header 2',
     'Span',
     'Label',
-    'Link'
+    'Link',
   ]);
 
   const InputElements = findTypes(['Input', 'Form', 'Button']);
@@ -202,7 +199,7 @@ const CreateMenu = (props): JSX.Element => {
     'Ordered List',
     'Unordered List',
     'List',
-    'Menu'
+    'Menu',
   ]);
   const forms = findTypes([
     'Form',
@@ -246,23 +243,12 @@ const CreateMenu = (props): JSX.Element => {
             component="label"
             id={name + '-button'}
             key={name + idx}
-            // sx={{
-            //   fontSize: '1rem'
-            // }}
-            // aria-controls={activeCategory === name ? name : undefined}
-            // aria-haspopup="true"
-            // endIcon={<ChevronRightIcon />}
-            // aria-expanded={open ? 'true' : undefined}
-            // onClick={(e) => handleMenuOpen(e, name)}
           >
             {name}
           </Button>
         </Box>
         <Grid container spacing={2}>
           {typeArray}
-          {/* <Button sx="width:130" component="label">
-            +
-          </Button> */}
         </Grid>
       </>
     );
@@ -307,15 +293,7 @@ const CreateMenu = (props): JSX.Element => {
   return (
     <div className={'MUIItems'}>
       <Box display="flex" alignItems="center">
-        <TextField id="outlined-basic" label="Custom Component Name" variant="outlined" size="small"
-          onKeyDown={handleKeyPress}
-          />
-        <Fab color="primary" aria-label="add" size="small"
-          sx={{ width: 40, height: 40, borderRadius: 1 }}
-          onClick={handleClickAdd}
-        >
-          <AddIcon />
-        </Fab>
+        <HTMLPanel isThemeLight={props.isThemeLight} />
       </Box>
       {makeMenuCategory([
         state.HTMLTypes.filter((type) => type.id > 20).map((option) => (
@@ -326,16 +304,14 @@ const CreateMenu = (props): JSX.Element => {
             icon={option.icon}
             handleDelete={handleDelete}
           />
-        ))
+        )),
       ])}
       <FormGroup>
         <FormControlLabel
           control={
             <Switch
               checked={MUIMode}
-              onChange={() =>
-                MUIMode === true ? setMUIMode(false) : setMUIMode(true)
-              }
+              onChange={() => MUIMode === true ? setMUIMode(false) : setMUIMode(true)}
             />
           }
           label={MUIMode ? 'HTML + MUI' : 'HTML Only'}
@@ -343,21 +319,21 @@ const CreateMenu = (props): JSX.Element => {
       </FormGroup>
       {MUIMode
         ? [
-            [visualComponents, 'visual'],
-            [containers, 'containers'],
-            [buttons, 'buttons'],
-            [textComponents, 'text'],
-            [lists, 'lists'],
-            [displays, 'displays'],
-            [layouts, 'layouts'],
-            [forms, 'forms'],
-            [navComponents, 'navigation']
-          ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))
+          [visualComponents, 'visual'],
+          [containers, 'containers'],
+          [buttons, 'buttons'],
+          [textComponents, 'text'],
+          [lists, 'lists'],
+          [displays, 'displays'],
+          [layouts, 'layouts'],
+          [forms, 'forms'],
+          [navComponents, 'navigation'],
+        ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))
         : [
-            [HTMLElements, 'Text and Visual'],
-            [InputElements, 'Forms and Inputs'],
-            [HTMLlists, 'lists']
-          ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))}
+          [HTMLElements, 'Text and Visual'],
+          [InputElements, 'Forms and Inputs'],
+          [HTMLlists, 'lists'],
+        ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))}
     </div>
   );
 };
