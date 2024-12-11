@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
 
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Button,
-  Grid
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ComponentDrag from './ComponentDrag';
-import { AddCircle } from '@mui/icons-material';
-import DragDropPanel from './DragDropPanel';
 import ComponentPanel from '../right/ComponentPanel';
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -22,25 +15,26 @@ interface ModulePanelProps {
 }
 
 const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
-  // Instead of using useState, use the Redux store
-  const [modules, setModules] = useState<any[]>(['App']);
   const state = useSelector((store: RootState) => store.appState);
-
   const [isCreatingModule, setIsCreatingModule] = useState(false);
 
   const handleClickAddModule = (event) => {
     setIsCreatingModule(true);
   };
 
-  // Add an edit icon on the modules 
-        // When edit icon is clicked open up create tab for that module
-
-  // Module editor when clicking on a component ❌
-  // should display the selected module
+  // Add an edit icon on each module ⭕️
+        // When edit icon is clicked open up create tab for that module ⭕️
+  // Fix alert pop-up (not showing after module creation due to state change causing re-render) ⭕️
+    // May need to move alert functionality to this component & display after setIsCreatingModule is set to false - maybe useEffect ⭕️
+  // Fix component creation panel design ⭕️
+  // Add an x button to Module Creator panel ✅
+  // Fix tooltip ⭕️
+  // Open Module editor when clicking on a component ❌
+  // should pass prop of the selected module ❌                    
 
   return (
     <div>
-      {isCreatingModule ? (
+     {isCreatingModule ? (
         <ComponentPanel
           setIsCreatingModule={setIsCreatingModule}
           isThemeLight={false}

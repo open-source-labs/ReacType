@@ -9,7 +9,7 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-
+import CustomEditIcon from '../CustomEditIcon';
 /**
  * `ComponentPanelItem` represents an individual component item within the ComponentPanel. It uses
  * drag-and-drop functionality to allow the user to position components within the canvas. The component can
@@ -94,6 +94,7 @@ const ComponentPanelItem: React.FC<{
             {name}
           </h3>
         </div>
+        <CustomEditIcon/>
       </div>
     </Grid>
   );
@@ -118,7 +119,7 @@ const useStyles = makeStyles({
   },
   darkTheme: {
     color: '#ffffff'
-  }
+  },
 });
 
 export default ComponentPanelItem;

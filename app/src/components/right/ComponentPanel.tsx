@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import TextField from '@mui/material/TextField';
 import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
@@ -124,7 +125,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
     } else {
       createOption(compName);
       setErrorStatus(false);
-      setAlertOpen((true));
+      setAlertOpen(true);
       setIsCreatingModule(false);
       return;
     }
@@ -165,6 +166,12 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   return (
     <>
       <div className={`${classes.panelWrapper}`}>
+        {/* Close Icon */}
+        <CloseIcon
+          className={classes.closeButton}
+          onClick={() => setIsCreatingModule(false)}
+        />
+
         {/* Add a new component */}
         <div
           className={classes.addComponentWrapper}
@@ -314,6 +321,16 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
 };
 
 const useStyles = makeStyles({
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    cursor: 'pointer',
+    color: 'white',
+    '&:hover': {
+      color: 'black'
+    }
+  },
   inputField: {
     width: '100%',
     marginTop: '10px',
