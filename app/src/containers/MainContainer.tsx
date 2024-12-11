@@ -1,14 +1,17 @@
 /* eslint-disable max-len */
 import React, { useRef, useEffect, useState } from 'react';
-import BottomPanel from '../components/bottom/BottomPanel';
-import CanvasContainer from '../components/main/CanvasContainer';
-import DemoRender from '../components/main/DemoRender';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../redux/store';
-import { toggleScreenshotTrigger } from '../redux/reducers/slice/appStateSlice';
 import html2canvas from 'html2canvas';
 import { Buffer } from 'buffer';
 import { Amplify, Storage } from 'aws-amplify';
+import BottomPanel from '../components/bottom/BottomPanel';
+import CanvasContainer from '../components/main/CanvasContainer';
+import DemoRender from '../components/main/DemoRender';
+import ContextMenu from '../components/ContextMenu';
+
+import { RootState } from '../redux/store';
+import { toggleScreenshotTrigger } from '../redux/reducers/slice/appStateSlice';
+
 import awsconfig from '../../../src/custom-aws-exports';
 
 /**
@@ -34,7 +37,7 @@ const MainContainer = (props): JSX.Element => {
   const [bottomShow, setBottomShow] = useState(false);
   const dispatch = useDispatch();
   const screenshotTrigger = useSelector(
-    (store: RootState) => store.appState.screenshotTrigger,
+    (store: RootState) => store.appState.screenshotTrigger
   );
   const id: string = useSelector((store: RootState) => store.appState._id);
   // const { style } = useSelector((store: RootState) => ({
@@ -43,18 +46,31 @@ const MainContainer = (props): JSX.Element => {
   const style = useSelector((store: RootState) => store.styleSlice);
   const containerRef: React.RefObject<HTMLDivElement> = useRef(null);
 
+  // refs and states for contextMenu
+  let [contextMenuOpen, setContextMenuOpen] = useState(false);
+  let [contextMenuColor, setContextMenuColor] = useState('orange');
+
+  const ContextMenuRef = useRef(null);
+
+  const MouseXRef = useRef(0);
+  const MouseYRef = useRef(0);
+
+  const [mouseXState, setMouseXState] = useState(0);
+  const [mouseYState, setMouseYState] = useState(0);
+  //
+
   // useEffect hook to detect and execute changes in screenshotTrigger, taking a screenshot of the canvas when a project is published on NavBar
   useEffect(() => {
     const handleScreenshot = async (): Promise<Buffer | void> => {
       if (screenshotTrigger) {
         try {
           const canvas: HTMLCanvasElement = await html2canvas(
-            containerRef.current,
+            containerRef.current
           );
           const screenshotURL: string = canvas.toDataURL('image/png');
           const imgBuffer: Buffer | void = Buffer.from(
             screenshotURL.replace(/^data:image\/\w+;base64,/, ''),
-            'base64',
+            'base64'
           );
           dispatch(toggleScreenshotTrigger());
           return imgBuffer;
@@ -69,6 +85,44 @@ const MainContainer = (props): JSX.Element => {
       }
     });
   }, [screenshotTrigger]);
+
+  // use effect for contextMenu listeners
+  useEffect(() => {
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault(); // grab that event trigger, or maybe this writes to something, idk
+      if (
+        ContextMenuRef.current != null &&
+        ContextMenuRef.current.contains(e.target)
+      ) {
+        return; // if it is not nul and we are clicking in it.
+      }
+      if (e.target.id === 'clickmeButton') {
+        setContextMenuColor('purple');
+      } else {
+        setContextMenuColor('orange');
+      }
+      setMouseXState(MouseXRef.current);
+      setMouseYState(MouseYRef.current); // now trigger a re-render
+      setContextMenuOpen(true);
+    });
+    onmousemove = function (e) {
+      MouseXRef.current = e.clientX; // this is a use ref, not use state, so we dont trigger a re-render.
+      MouseYRef.current = e.clientY;
+    };
+  }, [contextMenuOpen]);
+
+  // use effect for click events (to check if contextMenu is in need of closing.)
+  useEffect(() => {
+    document.addEventListener('click', (e) => {
+      if (
+        ContextMenuRef.current != null &&
+        !ContextMenuRef.current.contains(e.target) &&
+        contextMenuOpen === true
+      ) {
+        setContextMenuOpen(false); // close on click-out
+      }
+    });
+  }, [ContextMenuRef, contextMenuOpen]);
 
   const uploadScreenshotS3 = async (imgBuffer) => {
     Amplify.configure(awsconfig);
@@ -86,7 +140,7 @@ const MainContainer = (props): JSX.Element => {
     checkStorageConnection();
     try {
       await Storage.put(id, imgBuffer, {
-        contentType: 'image/png',
+        contentType: 'image/png'
       });
     } catch (error) {
       alert('Error uploading screenshot: ' + error);
@@ -96,7 +150,7 @@ const MainContainer = (props): JSX.Element => {
   //Logic to close the bottompanel when clicking outside of it
   const useOutsideClick = () => {
     const bottomPanelRef = useRef(null);
-    
+
     useEffect(() => {
       const handleClick = (event) => {
         if (
@@ -132,12 +186,12 @@ const MainContainer = (props): JSX.Element => {
   const hideBottomPanelStyles = {
     maxHeight: '64px',
     boxSizing: 'border-box',
-    transition: 'all 0.5s ease-in-out',
+    transition: 'all 0.5s ease-in-out'
   };
 
   const showBottomPanelStyles = {
     maxHeight: '100%',
-    transition: 'all 0.5s ease-in-out',
+    transition: 'all 0.5s ease-in-out'
   };
 
   return (
