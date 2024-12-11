@@ -1,38 +1,27 @@
 /* eslint-disable max-len */
-import { useDispatch, useSelector } from 'react-redux';
-import Grid from '@mui/material/Grid';
-import MUIItem from './MUIItem';
-import HTMLItem from './HTMLItem';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
-import Divider from '@mui/material/Divider';
-import makeStyles from '@material-ui/styles/makeStyles';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
-
-/*to be deleted*/
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-/*to be deleted ^*/
-
-import Paper from '@mui/material/Paper';
-import DeleteIcon from '@mui/icons-material/Delete';
-import InsertPhoto from '@mui/icons-material/InsertPhoto';
-import ComponentDrag from './ComponentDrag';
 import { emitEvent } from '../../helperFunctions/socket';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import Popover from '@mui/material/Popover';
+import Switch from '@mui/material/Switch';
+import TextField from '@mui/material/TextField';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InsertPhoto from '@mui/icons-material/InsertPhoto';
+import MUIItem from './MUIItem';
+import HTMLItem from './HTMLItem';
+import HTMLPanel from "./HTMLPanel";
+import ComponentDrag from './ComponentDrag';
 
 /**
  * Provides a user interface for managing MUI components in the application. It features accordions for different categories
@@ -53,7 +42,7 @@ const CreateMenu = (props): JSX.Element => {
 
   const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
   const [activeCategory, setActiveCategory] = React.useState<string | null>(
-    null
+    null,
   );
   const [menuLocked, setMenuLocked] = useState(false);
 
@@ -61,7 +50,7 @@ const CreateMenu = (props): JSX.Element => {
   const [MUIMode, setMUIMode] = useState(false);
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLButtonElement>,
-    category: string
+    category: string,
   ) => {
     setActiveCategory(category);
     setMenuAnchor(event.currentTarget);
@@ -92,7 +81,7 @@ const CreateMenu = (props): JSX.Element => {
     if (roomCode) {
       emitEvent('deleteElementAction', roomCode, {
         id,
-        contextParam
+        contextParam,
       });
     }
   };
@@ -100,9 +89,15 @@ const CreateMenu = (props): JSX.Element => {
   const handleClickAdd = () => {
     setCreateModule(true);
   };
-  //create a function to which you can pass in an array of strings, search
-  //both state.HTMLTypes and state.MUITypes to see if any of their type.names match
-  //an item in the array and return the item if so, depending on which list it originates from.
+  // create a function to which you can pass in an array of strings, search
+  // both state.HTMLTypes and state.MUITypes to see if any of their type.names match
+  // an item in the array and return the item if so, depending on which list it originates from.
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleClickAdd();
+    }
+  };
 
   const findTypes = function (array) {
     if (MUIMode === true)
@@ -126,7 +121,7 @@ const CreateMenu = (props): JSX.Element => {
                 icon={option.icon}
                 handleDelete={handleDelete}
               />
-            )
+            ),
           )
         );
     else
@@ -139,7 +134,7 @@ const CreateMenu = (props): JSX.Element => {
             icon={option.icon}
             handleDelete={handleDelete}
           />
-        )
+        ),
       );
   };
   const HTMLElements = findTypes([
@@ -149,7 +144,7 @@ const CreateMenu = (props): JSX.Element => {
     'Header 2',
     'Span',
     'Label',
-    'Link'
+    'Link',
   ]);
 
   const InputElements = findTypes(['Input', 'Form', 'Button']);
@@ -158,7 +153,7 @@ const CreateMenu = (props): JSX.Element => {
     'Icon',
     'Avatar',
     'Badge',
-    'Img'
+    'Img',
   ]);
 
   const textComponents = findTypes([
@@ -167,24 +162,24 @@ const CreateMenu = (props): JSX.Element => {
     'Header 2',
     'Span',
     'Label',
-    'Link'
+    'Link',
   ]);
 
-  //create containers - box/container/stack
+  // create containers - box/container/stack
 
   const containers = findTypes([
     'Div',
     'Box',
     'Container',
     'Stack',
-    'Dividers'
+    'Dividers',
   ]);
 
-  //create buttons -- button/floating button/chips
+  // create buttons -- button/floating button/chips
 
   const buttons = findTypes(['Button', 'Fab', 'Chip']);
 
-  //create inputs -- textfield, checkbox, switch, rating, sliders
+  // create inputs -- textfield, checkbox, switch, rating, sliders
 
   const inputs = findTypes([
     'Input',
@@ -193,10 +188,10 @@ const CreateMenu = (props): JSX.Element => {
     'Checkbox',
     'Switch',
     'Rating',
-    'Slider'
+    'Slider',
   ]);
 
-  //create lists - OL, UL, LI, TransferList
+  // create lists - OL, UL, LI, TransferList
 
   const lists = findTypes(['Ordered List', 'Unordered List', 'List']);
   //create forms -- Form, ButtonGroup, ToggleButtonGroup, Select, AutoComplete
@@ -204,18 +199,18 @@ const CreateMenu = (props): JSX.Element => {
     'Ordered List',
     'Unordered List',
     'List',
-    'Menu'
+    'Menu',
   ]);
   const forms = findTypes([
     'Form',
     'ButtonGroup',
     'ToggleButtonGroup',
     'Select',
-    'AutoComplete'
+    'AutoComplete',
   ]);
-  //create displays --- Modal, POpover, Popper, Transition
+  // create displays --- Modal, POpover, Popper, Transition
   const displays = findTypes(['Modal', 'Popover', 'Popper', 'Transition']);
-  //create layouts -- table, accordion, appbar, tabs
+  // create layouts -- table, accordion, appbar, tabs
   const layouts = findTypes([
     'Table',
     'Grid',
@@ -223,16 +218,16 @@ const CreateMenu = (props): JSX.Element => {
     'AppBar',
     'Tabs',
     'Card',
-    'Paper'
+    'Paper',
   ]);
-  //create navigation -- menu, bottomnav, breadcrumbs, drawer, stepper, tabs, speeddial
+  // create navigation -- menu, bottomnav, breadcrumbs, drawer, stepper, tabs, speeddial
   const navComponents = findTypes([
     'Menu',
     'Bottom Navigation',
     'Breadcrumbs',
     'Drawer',
     'Stepper',
-    'Speed Dial'
+    'Speed Dial',
   ]);
 
   const makeMenuCategory = function (typeArray, name, idx) {
@@ -241,35 +236,24 @@ const CreateMenu = (props): JSX.Element => {
         <Box
           sx={{
             fontSize: '2rem',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
           <Button
             component="label"
             id={name + '-button'}
             key={name + idx}
-            // sx={{
-            //   fontSize: '1rem'
-            // }}
-            // aria-controls={activeCategory === name ? name : undefined}
-            // aria-haspopup="true"
-            // endIcon={<ChevronRightIcon />}
-            // aria-expanded={open ? 'true' : undefined}
-            // onClick={(e) => handleMenuOpen(e, name)}
           >
             {name}
           </Button>
         </Box>
         <Grid container spacing={2}>
           {typeArray}
-          {/* <Button sx="width:130" component="label">
-            +
-          </Button> */}
         </Grid>
       </>
     );
   };
-  //*make menu function for menu that hovers on the right*/
+  //* make menu function for menu that hovers on the right*/
   //   const makeMenu = function (typeArray, name) {
   //     return (
   //       <div
@@ -303,30 +287,14 @@ const CreateMenu = (props): JSX.Element => {
           {typeArray.map((component) => (
             <MenuItem key={component.key}>{component}</MenuItem>
           ))}
-    //       </Menu>*/
+    //       </Menu> */
   }
 
   return (
     <div className={'MUIItems'}>
-      <Fab
-        variant="extended"
-        color="primary"
-        aria-label="add"
-        size="small"
-        onClick={handleClickAdd}
-      >
-        <AddIcon />
-        Create Custom
-      </Fab>
-      <TextField
-        id="outlined-basic"
-        label="Component Name"
-        variant="outlined"
-        size="small"
-      />
-      <Button aria-label="add" size="small">
-        +
-      </Button>
+      <Box display="flex" alignItems="center">
+        <HTMLPanel isThemeLight={props.isThemeLight} />
+      </Box>
       {makeMenuCategory([
         state.HTMLTypes.filter((type) => type.id > 20).map((option) => (
           <HTMLItem
@@ -336,16 +304,14 @@ const CreateMenu = (props): JSX.Element => {
             icon={option.icon}
             handleDelete={handleDelete}
           />
-        ))
+        )),
       ])}
       <FormGroup>
         <FormControlLabel
           control={
             <Switch
               checked={MUIMode}
-              onChange={() =>
-                MUIMode === true ? setMUIMode(false) : setMUIMode(true)
-              }
+              onChange={() => MUIMode === true ? setMUIMode(false) : setMUIMode(true)}
             />
           }
           label={MUIMode ? 'HTML + MUI' : 'HTML Only'}
@@ -353,21 +319,21 @@ const CreateMenu = (props): JSX.Element => {
       </FormGroup>
       {MUIMode
         ? [
-            [visualComponents, 'visual'],
-            [containers, 'containers'],
-            [buttons, 'buttons'],
-            [textComponents, 'text'],
-            [lists, 'lists'],
-            [displays, 'displays'],
-            [layouts, 'layouts'],
-            [forms, 'forms'],
-            [navComponents, 'navigation']
-          ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))
+          [visualComponents, 'visual'],
+          [containers, 'containers'],
+          [buttons, 'buttons'],
+          [textComponents, 'text'],
+          [lists, 'lists'],
+          [displays, 'displays'],
+          [layouts, 'layouts'],
+          [forms, 'forms'],
+          [navComponents, 'navigation'],
+        ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))
         : [
-            [HTMLElements, 'Text and Visual'],
-            [InputElements, 'Forms and Inputs'],
-            [HTMLlists, 'lists']
-          ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))}
+          [HTMLElements, 'Text and Visual'],
+          [InputElements, 'Forms and Inputs'],
+          [HTMLlists, 'lists'],
+        ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))}
     </div>
   );
 };

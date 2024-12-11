@@ -169,7 +169,7 @@ const HTMLItem: React.FC<{
         </div>
       )}
 
-      {id > 20 && (
+      {id > 20 && id < 1000 && (
         <div
           ref={drag}
           style={{ borderColor: '#C6C6C6' }}
