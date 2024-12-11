@@ -5,7 +5,7 @@ import {
   Redirect,
   Route,
   HashRouter as Router,
-  Switch,
+  Switch
 } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -20,6 +20,10 @@ import SignUp from './components/login/SignUp';
 import Tutorial from './tutorial/Tutorial';
 import TutorialPage from './tutorial/TutorialPage';
 import store from './redux/store';
+
+//
+
+//
 
 /**
  * Initializes an Apollo Client for interacting with a GraphQL API.
@@ -67,16 +71,17 @@ const PrivateRoute = ({ component: Component, ...rest }): React.ReactNode => {
       credentials: 'include'
     })
       .then((res) => {
-        if(!res.ok){
-          throw new Error('Network Response was not ok')
+        if (!res.ok) {
+          throw new Error('Network Response was not ok');
         }
         return res.json();
       })
       .then((data) => {
         setIsLoggedIn(data);
       })
-      .catch((err) => { 
-        console.log(`Error getting project ${err}`)});
+      .catch((err) => {
+        console.log(`Error getting project ${err}`);
+      });
   }, []);
 
   return (
