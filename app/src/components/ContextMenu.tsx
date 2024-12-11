@@ -20,7 +20,7 @@ function ContextMenu(props) {
     // mouseX and mouseY are not use state,
     // so if they change, this will not change unless it rerenders.
 
-    <h1
+    <div
       style={{
         backgroundColor: props.targetColor,
         zIndex: '100080',
@@ -49,7 +49,7 @@ function ContextMenu(props) {
       <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
         d1
       </button>
-    </h1>
+    </div>
   );
 }
 export default ContextMenu;
