@@ -77,7 +77,7 @@ const ComponentPanelItem: React.FC<{
         borderRadius: '10px',
         borderColor: '#2D313A',
         margin: '5px 0px',
-        width: '100vw',
+        width: '100%',
         height: '3rem',
         position: 'relative'
       }}

@@ -30,7 +30,9 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
   // Add an x button to Module Creator panel ✅
   // Fix tooltip ⭕️
   // Open Module editor when clicking on a component ❌
-  // should pass prop of the selected module ❌                    
+  // should pass prop of the selected module ❌    
+  // Make visibility of custom components conditional ⭕️  
+  // Add edit icon to custom components ⭕️              
 
   return (
     <div>
