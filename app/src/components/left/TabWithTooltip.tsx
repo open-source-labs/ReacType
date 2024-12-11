@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tab } from '@mui/material';
 import { AddBox, Folder, Groups2 } from '@mui/icons-material';
 import Tooltip from '../Tooltip';
@@ -28,26 +28,24 @@ const TabWithTooltip: React.FC<TabWithTooltipProps> = ({
   const isCollabTab = label === 'Collab';
 
   return (
-    <div>
-      <Tooltip label={label} isCollabTab={isCollabTab}>
-        <Tab
-          sx={{
-            color: activeTab === value ? '#f88e16' : '#9C9D9F',
-            backgroundColor: activeTab === value && '#2D313A',
-            '&.Mui-selected': { color: '#f88e16' },
-            '&:hover': { color: '#f88e16' },
-            fontSize: '11px',
-            textTransform: 'none',
-            position: isCollabTab ? 'absolute' : 'relative',
-            bottom: isCollabTab ? '80px' : 'auto',
-            opacity: 1,
-          }}
-          icon={iconType}
-          value={value}
-          onClick={(event) => handleTabChange(event, value)}
-        />
-      </Tooltip>
-    </div>
+    <Tooltip label={label} isCollabTab={isCollabTab}>
+      <Tab
+        sx={{
+          color: activeTab === value ? '#f88e16' : '#9C9D9F',
+          backgroundColor: activeTab === value && '#2D313A',
+          '&.Mui-selected': { color: '#f88e16' },
+          '&:hover': { color: '#f88e16' },
+          fontSize: '11px',
+          textTransform: 'none',
+          position: isCollabTab ? 'absolute' : 'relative',
+          bottom: isCollabTab ? '80px' : 'auto',
+          opacity: 1,
+        }}
+        icon={iconType}
+        value={value}
+        onClick={(event) => handleTabChange(event, value)}
+      />
+    </Tooltip>
   );
 };
 

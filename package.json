@@ -90,6 +90,7 @@
     "Zack Vandiver"
   ],
   "scripts": {
+    "prod-build": "vite build",
     "build": "vite build",
     "dev-frontend": "vite",
     "dev-server": "NODE_ENV=development nodemon server/server.ts",
