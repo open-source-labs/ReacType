@@ -40,7 +40,7 @@ const panels = [
   <ModulePanel />,
   <CreateContainer />,
   <RoomsContainer />,
-  <ProfilePage />,
+  <ElementsContainer />,
   <Settings />
 ];
 

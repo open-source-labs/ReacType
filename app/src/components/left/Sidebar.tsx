@@ -100,24 +100,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         activeTab={activeTab}
         handleTabChange={handleTabChange}
       />
-      <TabWithTooltip
-        label="Modules"
-        value={0}
-        activeTab={activeTab}
-        handleTabChange={handleTabChange}
-      />
-      <TabWithTooltip
-        label="Create"
-        value={1}
-        activeTab={activeTab}
-        handleTabChange={handleTabChange}
-      />
-      <TabWithTooltip
-        label="Collab"
-        value={2}
-        activeTab={activeTab}
-        handleTabChange={handleTabChange}
-      />
     </Tabs>
   );
 };

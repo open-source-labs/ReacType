@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RootState } from '../../redux/store';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Menu from '@mui/material/Menu';
@@ -16,11 +15,11 @@ import Popover from '@mui/material/Popover';
 import Divider from '@mui/material/Divider';
 import makeStyles from '@material-ui/styles/makeStyles';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ImageIcon from '@mui/icons-material/Image';
-import PersonIcon from '@mui/icons-material/Person';
-import BadgeIcon from '@mui/icons-material/Badge';
-import ArtTrackIcon from '@mui/icons-material/ArtTrack';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
+
 /*to be deleted*/
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -45,14 +44,9 @@ import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
  *
  * @returns {JSX.Element} The MUIDragDropPanel component, which renders an interactive list of MUI components categorized by function.
  */
-// const useStyles = makeStyles({
-//   popOverRoot: {
-//     pointerEvents: 'none'
-//   }
-// });
+
 const CreateMenu = (props): JSX.Element => {
   const dispatch = useDispatch();
-  //   const styles = useStyles();
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -64,7 +58,7 @@ const CreateMenu = (props): JSX.Element => {
   const [menuLocked, setMenuLocked] = useState(false);
 
   const [isCreatingModule, setCreateModule] = useState(false);
-
+  const [MUIMode, setMUIMode] = useState(false);
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLButtonElement>,
     category: string
@@ -72,6 +66,10 @@ const CreateMenu = (props): JSX.Element => {
     setActiveCategory(category);
     setMenuAnchor(event.currentTarget);
     setMenuLocked(false);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMUIMode(event.target.checked);
   };
 
   const handleMenuClose = (event: React.onMouseLeave) => {
@@ -107,31 +105,54 @@ const CreateMenu = (props): JSX.Element => {
   //an item in the array and return the item if so, depending on which list it originates from.
 
   const findTypes = function (array) {
-    return state.HTMLTypes.filter((type) => array.includes(type.name))
-      .map((option) => (
-        <HTMLItem
-          name={option.name}
-          key={`html-${option.name}${option.id}`}
-          id={option.id}
-          icon={option.icon}
-          handleDelete={handleDelete}
-        />
-      ))
-      .concat(
-        state.MUITypes.filter((type) => array.includes(type.name)).map(
-          (option) => (
-            <MUIItem
-              name={option.name}
-              key={`mui-${option.name}${option.id}`}
-              id={option.id}
-              icon={option.icon}
-              handleDelete={handleDelete}
-            />
+    if (MUIMode === true)
+      return state.HTMLTypes.filter((type) => array.includes(type.name))
+        .map((option) => (
+          <HTMLItem
+            name={option.name}
+            key={`html-${option.name}${option.id}`}
+            id={option.id}
+            icon={option.icon}
+            handleDelete={handleDelete}
+          />
+        ))
+        .concat(
+          state.MUITypes.filter((type) => array.includes(type.name)).map(
+            (option) => (
+              <MUIItem
+                name={option.name}
+                key={`mui-${option.name}${option.id}`}
+                id={option.id}
+                icon={option.icon}
+                handleDelete={handleDelete}
+              />
+            )
           )
+        );
+    else
+      return state.HTMLTypes.filter((type) => array.includes(type.name)).map(
+        (option) => (
+          <HTMLItem
+            name={option.name}
+            key={`html-${option.name}${option.id}`}
+            id={option.id}
+            icon={option.icon}
+            handleDelete={handleDelete}
+          />
         )
       );
   };
+  const HTMLElements = findTypes([
+    'Img',
+    'Paragraph',
+    'Header 1',
+    'Header 2',
+    'Span',
+    'Label',
+    'Link'
+  ]);
 
+  const InputElements = findTypes(['Input', 'Form', 'Button']);
   const visualComponents = findTypes([
     'Image List',
     'Icon',
@@ -179,7 +200,12 @@ const CreateMenu = (props): JSX.Element => {
 
   const lists = findTypes(['Ordered List', 'Unordered List', 'List']);
   //create forms -- Form, ButtonGroup, ToggleButtonGroup, Select, AutoComplete
-
+  const HTMLlists = findTypes([
+    'Ordered List',
+    'Unordered List',
+    'List',
+    'Menu'
+  ]);
   const forms = findTypes([
     'Form',
     'ButtonGroup',
@@ -209,7 +235,7 @@ const CreateMenu = (props): JSX.Element => {
     'Speed Dial'
   ]);
 
-  const makeMenuCategory = function (typeArray, name) {
+  const makeMenuCategory = function (typeArray, name, idx) {
     return (
       <>
         <Box
@@ -221,6 +247,8 @@ const CreateMenu = (props): JSX.Element => {
           <Button
             component="label"
             id={name + '-button'}
+            key={name + idx}
+            sx={'display: flex'}
             // sx={{
             //   fontSize: '1rem'
             // }}
@@ -235,6 +263,9 @@ const CreateMenu = (props): JSX.Element => {
         </Box>
         <Grid container spacing={2}>
           {typeArray}
+          {/* <Button sx="width:130" component="label">
+            +
+          </Button> */}
         </Grid>
       </>
     );
@@ -294,20 +325,39 @@ const CreateMenu = (props): JSX.Element => {
         variant="outlined"
         size="small"
       />
-      <Fab color="primary" aria-label="add" size="small">
-        <AddIcon />
-      </Fab>
-      {[
-        [visualComponents, 'visual'],
-        [containers, 'containers'],
-        [buttons, 'buttons'],
-        [textComponents, 'text'],
-        [lists, 'lists'],
-        [displays, 'displays'],
-        [layouts, 'layouts'],
-        [forms, 'forms'],
-        [(navComponents, 'navigation')]
-      ].map((item) => makeMenuCategory(item[0], item[1]))}
+      <Button aria-label="add" size="small">
+        +
+      </Button>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={MUIMode}
+              onChange={() =>
+                MUIMode === true ? setMUIMode(false) : setMUIMode(true)
+              }
+            />
+          }
+          label="MUI"
+        />
+      </FormGroup>
+      {MUIMode
+        ? [
+            [visualComponents, 'visual'],
+            [containers, 'containers'],
+            [buttons, 'buttons'],
+            [textComponents, 'text'],
+            [lists, 'lists'],
+            [displays, 'displays'],
+            [layouts, 'layouts'],
+            [forms, 'forms'],
+            [navComponents, 'navigation']
+          ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))
+        : [
+            [HTMLElements, 'Text and Visual'],
+            [InputElements, 'Forms and Inputs'],
+            [HTMLlists, 'lists']
+          ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))}
     </div>
   );
 };
