@@ -13,7 +13,7 @@ import { emitEvent } from '../../helperFunctions/socket';
  * ElementsContainer serves as the left-hand side container in the application, primarily responsible
  * for hosting user interaction elements such as `DragDropPanel`. This component handles user inputs
  * related to component selection and arrangement via drag-and-drop interfaces.
- * 
+ *
  * It also includes key bindings to enhance user interaction, such as deleting a child component
  * with the 'Backspace' key when focus is not on text input fields.
  *
@@ -44,7 +44,8 @@ const ElementsContainer = (props): JSX.Element => {
       e.key === 'Backspace' &&
       e.target.tagName !== 'TEXTAREA' &&
       e.target.tagName !== 'INPUT'
-    ) handleDelete();
+    )
+      handleDelete();
   }, []);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const ElementsContainer = (props): JSX.Element => {
         alignItems: 'center',
         justifyContent: 'top',
         color: '#ffffff',
-        textAlign: 'center',
+        textAlign: 'center'
       }}
     >
       {' '}

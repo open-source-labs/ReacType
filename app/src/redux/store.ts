@@ -28,18 +28,18 @@ import rootReducer from './reducers/rootReducer';
  * Defines a type representing the Redux store itself for use in typing contexts where the store object is used.
  */
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: rootReducer, // combine all reducers into one rootReducer
   middleware: (getDefaultMiddleware) => {
     let ignoredPaths: string[] = [];
 
-    for (let i = 0; i < 21; i++) {
+    for (let i = 0; i < 21; i++) { // iterate through paths of the state and ignore specific properties from serializability checks
       ignoredPaths.push(`appState.HTMLTypes.${i}.icon`);
       ignoredPaths.push(`appState.HTMLTypes.${i}.icon.$$typeof`);
     }
 
-    return getDefaultMiddleware({
+    return getDefaultMiddleware({ // return getDefaultMiddleware but with customized serializability check
       serializableCheck: {
-        ignoredPaths,
+        ignoredPaths, // specified paths to be ignored for serializability checks
       },
     });
   },

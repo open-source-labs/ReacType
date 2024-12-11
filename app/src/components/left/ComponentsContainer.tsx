@@ -25,7 +25,7 @@ const ComponentsContainer = (): JSX.Element => {
     <div>
       <div className={classes.panelWrapper}>
         <div className={classes.panelWrapperList}>
-          <h4 className={classes.darkThemeFontColor}>Reusable Components</h4>
+          {/* <h4 className={classes.darkThemeFontColor}>Reusable Components</h4> */}
           <Grid container direction="column" alignContent={'center'}>
             {state.components
               .filter((comp) => !state.rootComponents.includes(comp.id))

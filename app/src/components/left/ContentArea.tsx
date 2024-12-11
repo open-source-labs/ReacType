@@ -2,10 +2,12 @@
 import { Box } from '@mui/material';
 import ComponentsContainer from './ComponentsContainer';
 import ElementsContainer from './ElementsContainer';
+import ModulePanel from './ModulePanel';
 import React from 'react';
 import RoomsContainer from './RoomsContainer';
 import ProfilePage from './ProfilePage';
 import Settings from './Settings';
+import CreateContainer from './CreateContainer';
 
 interface ContentAreaProps {
   activeTab: number | null;
@@ -35,11 +37,11 @@ const TabPanel: React.FC<{
 };
 
 const panels = [
-  <ElementsContainer />,
-  <ComponentsContainer />,
+  <ModulePanel />,
+  <CreateContainer />,
   <RoomsContainer />,
-  <ProfilePage />,
-  <Settings />,
+  <ElementsContainer />,
+  <Settings />
 ];
 
 /**

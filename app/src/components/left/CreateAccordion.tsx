@@ -1,8 +1,10 @@
 /* eslint-disable max-len */
-//TO DO: delete file once done with new createPanel
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import MUIItem from './MUIItem';
+// import HTMLTypes from '../../redux/HTMLTypes';
+// import MUITypes from '../../redux/MUITypes';
+import HTMLItem from './HTMLItem';
 import React from 'react';
 import { RootState } from '../../redux/store';
 import Accordion from '@mui/material/Accordion';
@@ -36,7 +38,7 @@ const useStyles = makeStyles({
  *
  * @returns {JSX.Element} The MUIDragDropPanel component, which renders an interactive list of MUI components categorized by function.
  */
-const MUIDragDropPanel = (props): JSX.Element => {
+const CreateMenu = (props): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -54,10 +56,76 @@ const MUIDragDropPanel = (props): JSX.Element => {
     }
   };
 
+  //create a function to which you can pass in an array of strings, search
+  //both state.HTMLTypes and state.MUITypes to see if any of their type.names match
+  //an item in the array and return the item if so, depending on which list it originates from.
+
+  const findTypes = function (array) {
+    return state.HTMLTypes.filter((type) => array.includes(type.name))
+      .map((option) => (
+        <HTMLItem
+          name={option.name}
+          key={`html-${option.name}`}
+          id={option.id}
+          icon={option.icon}
+          handleDelete={handleDelete}
+        />
+      ))
+      .concat(
+        state.MUITypes.filter((type) => array.includes(type.name)).map(
+          (option) => (
+            <MUIItem
+              name={option.name}
+              key={`html-${option.name}`}
+              id={option.id}
+              icon={option.icon}
+              handleDelete={handleDelete}
+            />
+          )
+        )
+      );
+  };
+
+  const visualComponents = findTypes([
+    'Image List',
+    'Icon',
+    'Avatar',
+    'Badge',
+    'Img'
+  ]);
+
+  const textComponents = findTypes([
+    'Paragraph',
+    'Header1',
+    'Header2',
+    'Span',
+    'Label',
+    'Link'
+  ]);
+
+  //create dividers = div/divider
+
+  //create containers - box/container/stack
+
+  //create buttons -- button/floating button/chips
+
+  //create inputs -- textfield, checkbox, switch, rating, sliders
+
+  //create lists - OL, UL, LI, TransferList
+
+  //create forms -- Form, ButtonGroup, ToggleButtonGroup, Select, AutoComplete
+
+  //create displays --- Modal, POpover, Popper, Transition
+
+  //create layouts -- table, accordion, appbar, tabs
+
+  //create more -- card, paper
+
+  //create navigation -- menu, bottomnav, breadcrumbs, drawer, stepper, tabs, speeddial
+
   const htmlTypesToRender = state.HTMLTypes.filter(
     (type) => type.name !== 'separator'
   );
-
   const muiInputToRender = state.MUITypes.filter(
     (type) => type.name !== 'separator' && type.id >= 21 && type.id <= 33
   );
@@ -122,22 +190,12 @@ const MUIDragDropPanel = (props): JSX.Element => {
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
-              {muiInputToRender.map((option) => {
-                return (
-                  <MUIItem
-                    name={option.name}
-                    key={`mui-${option.name}`}
-                    id={option.id}
-                    icon={option.icon}
-                    handleDelete={handleDelete}
-                  />
-                );
-              })}
+              {visualComponents}
             </Grid>
           </AccordionDetails>
         </Accordion>
 
-        {/* Data Display Component */}
+        {/* Text Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -145,7 +203,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             id="panel3a-header"
             className={classes.accordionSummary}
           >
-            <h3>Data Display</h3>
+            <h3>Text</h3>
           </AccordionSummary>
           <AccordionDetails
             sx={{
@@ -155,17 +213,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             }}
           >
             <Grid container justifyContent="space-around" columnSpacing={2}>
-              {muiDataDisplayToRender.map((option) => {
-                return (
-                  <MUIItem
-                    name={option.name}
-                    key={`mui-${option.name}`}
-                    id={option.id}
-                    icon={option.icon}
-                    handleDelete={handleDelete}
-                  />
-                );
-              })}
+              {textComponents}
             </Grid>
           </AccordionDetails>
         </Accordion>
@@ -340,4 +388,4 @@ const MUIDragDropPanel = (props): JSX.Element => {
   );
 };
 
-export default MUIDragDropPanel;
+export default CreateMenu;

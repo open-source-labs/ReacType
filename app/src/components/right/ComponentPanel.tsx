@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import TextField from '@mui/material/TextField';
 import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
@@ -21,7 +22,7 @@ import { emitEvent } from '../../helperFunctions/socket';
  *
  * @returns {JSX.Element} A panel that allows users to input details for a new component, such as name and root status, and adds it to the project.
  */
-const ComponentPanel = ({ isThemeLight }): JSX.Element => {
+const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   const classes = useStyles();
   // const { state, contextParam } = useSelector((store: RootState) => ({
   //   state: store.appState,
@@ -73,23 +74,24 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const createOption = (inputName: string) => {
     // format name so first letter is capitalized and there are no white spaces
     let inputNameClean = inputName.replace(/\s+/g, ''); // removes spaces
-    const formattedName = state.projectType === 'Classic React'
-      ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
-      : inputNameClean;
+    const formattedName =
+      state.projectType === 'Classic React'
+        ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
+        : inputNameClean;
     // add new component to state
     dispatch(
       addComponent({
         componentName: formattedName,
         root: isRoot,
-        contextParam: contextParam,
-      }),
+        contextParam: contextParam
+      })
     );
 
     if (roomCode) {
       emitEvent('addComponentAction', roomCode, {
         componentName: formattedName,
         root: isRoot,
-        contextParam: contextParam,
+        contextParam: contextParam
       });
     }
 
@@ -111,7 +113,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
       error = 'symbolsDetected';
     } else if (
       state.components.some(
-        (comp) => comp.name.toLowerCase() === compName.toLowerCase(),
+        (comp) => comp.name.toLowerCase() === compName.toLowerCase()
       )
     ) {
       error = 'dupe';
@@ -124,6 +126,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
       createOption(compName);
       setErrorStatus(false);
       setAlertOpen(true);
+      setIsCreatingModule(false);
       return;
     }
     triggerError(error);
@@ -145,7 +148,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
-    reason?: string,
+    reason?: string
   ) => {
     if (reason === 'clickaway') {
       return;
@@ -155,7 +158,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
-    ref,
+    ref
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -163,8 +166,20 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   return (
     <>
       <div className={`${classes.panelWrapper}`}>
+        {/* Close Icon */}
+        <CloseIcon
+          className={classes.closeButton}
+          onClick={() => setIsCreatingModule(false)}
+        />
+
         {/* Add a new component */}
-        <div className={classes.addComponentWrapper}>
+        <div
+          className={classes.addComponentWrapper}
+          style={{
+            border: '2px solid #101012',
+            backgroundColor: '#f88e16'
+          }}
+        >
           <h4
             className={
               isThemeLight
@@ -172,7 +187,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                 : `${classes.newComponent} ${classes.darkThemeFontColor}`
             }
           >
-            New Component
+            Create new module
           </h4>
           {/* input for new component */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -182,10 +197,10 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                 justifyContent: 'center',
                 marginTop: '20px',
                 marginBottom: '20px',
-                alignItems: 'baseline',
+                alignItems: 'baseline'
               }}
             >
-              <div style={{ alignSelf: 'center' }}>
+              <div style={{ alignSelf: 'center', margin: '10px' }}>
                 <InputLabel
                   htmlFor="newcomponentid"
                   className={
@@ -218,8 +233,8 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                     style={{}}
                     InputProps={{
                       style: {
-                        color: isThemeLight ? 'white' : 'white',
-                      },
+                        color: isThemeLight ? 'white' : 'white'
+                      }
                     }}
                     placeholder="name"
                   />
@@ -268,9 +283,14 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                     ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
                     : `${classes.addComponentButton} ${classes.darkThemeFontColor}`
                 }
-                color="primary"
                 variant="contained"
-                sx={{ textTransform: 'capitalize' }}
+                sx={{
+                  textTransform: 'capitalize',
+                  margin: '20px',
+                  backgroundColor: '#f88e16 !important',
+                  color: 'white !important',
+                  border: '2px solid white !important'
+                }}
                 id="addComponentButton"
                 onClick={handleNameSubmit}
               >
@@ -292,7 +312,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
             severity="success"
             sx={{ width: '100%', color: 'white' }}
           >
-            Component Created!
+            Module Created!
           </Alert>
         </Snackbar>
       </>
@@ -301,14 +321,24 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 };
 
 const useStyles = makeStyles({
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    cursor: 'pointer',
+    color: 'white',
+    '&:hover': {
+      color: 'black'
+    }
+  },
   inputField: {
-    width: '500px',
+    width: '100%',
     marginTop: '10px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     margin: '0px 0px 0px 10px',
-    border: '0px solid grey',
+    border: '0px solid grey'
   },
   inputWrapper: {
     textAlign: 'center',
@@ -316,42 +346,42 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: '15px',
+    marginBottom: '15px'
   },
   panelWrapper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    color: '#000000',
+    color: '#000000'
   },
   addComponentWrapper: {
     padding: 'auto',
     margin: '0 auto',
-    display: 'inline-block',
+    display: 'inline-block'
   },
   rootCheckBox: {
     borderColor: '#0671E3',
-    padding: '7px 0',
+    padding: '7px 0'
   },
   rootCheckBoxLabel: {
-    borderColor: '#0671e3',
+    borderColor: '#0671e3'
   },
   newComponent: {
     color: '#C6C6C6',
-    marginBottom: '25px',
+    marginBottom: '25px'
   },
   inputLabel: {
     fontSize: '1em',
-    marginLeft: '10px',
+    marginLeft: '10px'
   },
   btnGroup: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   addComponentButton: {
     backgroundColor: 'transparent',
-    height: '40px',
+    height: '100px',
     width: '100px',
     fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '90%',
@@ -359,24 +389,24 @@ const useStyles = makeStyles({
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '25px',
-    marginRight: '65px',
+    marginRight: '65px'
   },
   rootToggle: {
     color: '#696969',
-    fontSize: '0.85rem',
+    fontSize: '0.85rem'
   },
   lightThemeFontColor: {
     color: 'white',
     '& .MuiInputBase-root': {
-      color: 'rgba (0, 0, 0, 0.54)',
-    },
+      color: 'rgba (0, 0, 0, 0.54)'
+    }
   },
   darkThemeFontColor: {
     color: '#fff',
     '& .MuiInputBase-root': {
-      color: '#fff',
-    },
-  },
+      color: '#fff'
+    }
+  }
 });
 
 export default ComponentPanel;
