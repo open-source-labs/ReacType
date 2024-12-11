@@ -23,10 +23,10 @@ function ContextMenu(props) {
     <h1
       style={{
         backgroundColor: props.targetColor,
-        zIndex: '988',
+        zIndex: '100080',
         margin: '0px',
         padding: '0px',
-        position: 'absolute',
+        position: 'fixed',
         left: `${xOff}px`,
         top: `${yOff}px`,
         width: `${CONTEXT_MENU_WIDTH}px`,

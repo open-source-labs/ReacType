@@ -196,6 +196,16 @@ const MainContainer = (props): JSX.Element => {
 
   return (
     <div className="main-container" style={style} ref={containerRef}>
+      {contextMenuOpen && (
+        <ContextMenu
+          targetColor={contextMenuColor}
+          PanRef={ContextMenuRef}
+          visible={contextMenuOpen}
+          setContextMenuOpen={setContextMenuOpen}
+          mouseXState={mouseXState}
+          mouseYState={mouseYState}
+        />
+      )}
       <div className="main">
         <CanvasContainer isThemeLight={props.isThemeLight} />
         <DemoRender />
