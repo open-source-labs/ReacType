@@ -1,16 +1,15 @@
 /* eslint-disable max-len */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { emitEvent } from '../../helperFunctions/socket';
-import { Button, InputLabel } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import TextField from '@mui/material/TextField';
-import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { addElement } from '../../redux/reducers/slice/appStateSlice';
+import { emitEvent } from '../../helperFunctions/socket';
+import { RootState } from '../../redux/store';
 
 /**
  * Provides a user interface for creating custom HTML elements in the application. It includes
