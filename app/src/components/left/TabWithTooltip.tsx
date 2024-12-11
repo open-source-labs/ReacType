@@ -14,7 +14,7 @@ const TabWithTooltip: React.FC<TabWithTooltipProps> = ({
   label,
   value,
   activeTab,
-  handleTabChange,
+  handleTabChange
 }) => {
   let iconType;
   if (value === 0) {
@@ -39,7 +39,7 @@ const TabWithTooltip: React.FC<TabWithTooltipProps> = ({
           textTransform: 'none',
           position: isCollabTab ? 'absolute' : 'relative',
           bottom: isCollabTab ? '80px' : 'auto',
-          opacity: 1,
+          opacity: 1
         }}
         icon={iconType}
         value={value}
