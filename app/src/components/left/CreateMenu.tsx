@@ -253,42 +253,6 @@ const CreateMenu = (props): JSX.Element => {
       </>
     );
   };
-  //* make menu function for menu that hovers on the right*/
-  //   const makeMenu = function (typeArray, name) {
-  //     return (
-  //       <div
-  //         onMouseEnter={(e) => handleMenuOpen(e, name)}
-  //         onMouseLeave={(e) => handleMenuClose(e, name)}
-  //       >
-  //         <Button
-  //           component="label"
-  //           id={name + '-button'}
-  //           aria-controls={activeCategory === name ? name : undefined}
-  //           aria-haspopup="true"
-  //           endIcon={<ChevronRightIcon />}
-  //           aria-expanded={open ? 'true' : undefined}
-  //           onClick={(e) => handleMenuOpen(e, name)}
-  //         >
-  //           {name}
-  //         </Button>
-  {
-    /* <Menu
-          id={name + '-menu'}
-          anchorEl={menuAnchor}
-          open={activeCategory === name}
-          onClose={handleMenuClose}
-          anchorReference="anchorPosition"
-          anchorPosition={{ top: 40, left: 275 }}
-          anchorOrigin={{
-            vertical: 'center',
-            horizontal: 'center'
-          }}
-        >
-          {typeArray.map((component) => (
-            <MenuItem key={component.key}>{component}</MenuItem>
-          ))}
-    //       </Menu> */
-  }
 
   return (
     <div className={'MUIItems'}>
@@ -296,7 +260,7 @@ const CreateMenu = (props): JSX.Element => {
         <HTMLPanel isThemeLight={props.isThemeLight} />
       </Box>
       {makeMenuCategory([
-        state.HTMLTypes.filter((type) => type.id > 20).map((option) => (
+        state.HTMLTypes.filter((type) => type.id > 10000).map((option) => (
           <HTMLItem
             name={option.name}
             key={`html-${option.name}${option.id}`}
@@ -307,15 +271,25 @@ const CreateMenu = (props): JSX.Element => {
         )),
       ])}
       <FormGroup>
-        <FormControlLabel
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <p style={{ fontSize: '0.8rem' }}>HTML</p>
+          <Switch
+            checked={MUIMode}
+            onChange={() => setMUIMode(!MUIMode)}
+            inputProps={{ 'aria-label': 'HTML + MUI switch' }}
+            sx={{ margin: '0 10px' }} // Adjust spacing between text and switch
+          />
+          <p style={{ fontSize: '0.8rem' }}>HTML + MUI</p>
+        </Box>
+        {/* <FormControlLabel
           control={
             <Switch
               checked={MUIMode}
               onChange={() => MUIMode === true ? setMUIMode(false) : setMUIMode(true)}
             />
           }
-          label={MUIMode ? 'HTML + MUI' : 'HTML Only'}
-        />
+          label={MUIMode ? 'HTML + MUI' : 'HTML'}
+        /> */}
       </FormGroup>
       {MUIMode
         ? [

@@ -24,14 +24,14 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     textAlign: 'center',
-    cursor: 'grab'
+    cursor: 'grab',
   },
   lightThemeFontColor: {
-    color: '#defaf8'
+    color: '#defaf8',
   },
   darkThemeFontColor: {
-    color: '#8F8F8F'
-  }
+    color: '#8F8F8F',
+  },
 });
 
 /**
@@ -66,11 +66,11 @@ const HTMLItem: React.FC<{
       instanceType: 'HTML Element',
       name,
       icon,
-      instanceTypeId: id
+      instanceTypeId: id,
     },
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging()
-    })
+      isDragging: !!monitor.isDragging(),
+    }),
   });
 
   const closeModal = () => setModal(null);
@@ -84,7 +84,7 @@ const HTMLItem: React.FC<{
           style={{
             border: '1px solid #C6C6C6',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText
@@ -100,7 +100,7 @@ const HTMLItem: React.FC<{
           style={{
             border: '1px solid #C6C6C6',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText
@@ -121,8 +121,8 @@ const HTMLItem: React.FC<{
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 
@@ -134,8 +134,8 @@ const HTMLItem: React.FC<{
       typeId: id,
       childId: null,
       contextParam: {
-        allContext: []
-      }
+        allContext: [],
+      },
     };
 
     dispatch(addChild(childData));
@@ -153,7 +153,7 @@ const HTMLItem: React.FC<{
         <div
           ref={drag}
           style={{
-            backgroundColor: 'rgb(30, 32, 36)'
+            backgroundColor: 'rgb(30, 32, 36)',
             // backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
           }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
@@ -169,7 +169,7 @@ const HTMLItem: React.FC<{
         </div>
       )}
 
-      {id > 20 && id < 1000 && (
+      {id > 10000 && (
         <div
           ref={drag}
           style={{ borderColor: '#C6C6C6' }}
