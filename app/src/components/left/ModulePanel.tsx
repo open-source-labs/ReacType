@@ -15,8 +15,16 @@ interface ModulePanelProps {
 
 const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
   const state = useSelector((store: RootState) => store.appState);
+  const [isCreatingModule, setIsCreatingModule] = useState(false);
   const [isEditingModule, setIsEditingModule] = useState(false);
 
+  const customComponents = state.components.filter(
+    (comp) => !state.rootComponents.includes(comp.id)
+  );
+
+  const handleClickAddModule = () => {
+    setIsCreatingModule(true);
+  };
 
   const handleClickEditModule = () => {
     setIsEditingModule(!isEditingModule);
@@ -31,7 +39,10 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
       ) : (
         <div>
           {/* {isCreatingModule ? ( */}
-            <ComponentPanel setIsCreatingModule={setIsCreatingModule} isThemeLight={false}/>
+          <ComponentPanel
+            setIsCreatingModule={setIsCreatingModule}
+            isThemeLight={false}
+          />
           {/* ) : (
             <div style={{ display: 'grid', placeItems: 'center', margin: '30px' }}>
               <Button
@@ -55,32 +66,39 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
             </div>
           )}
             */}
-          <div
+          {/* <div
             style={{
               color: '#f88e16',
               textAlign: 'center',
               padding: '20px',
-              border: '1px solid #101012'
+            //   border: '1px solid #101012'
             }}
           >
             Root Modules
-          </div>
+          </div> */}
           <ComponentDrag
-            isVisible={true} 
+            isVisible={true}
             isThemeLight={false}
             handleClickEditModule={handleClickEditModule}
           />
-          <div
-            style={{
-              color: '#f88e16',
-              textAlign: 'center',
-              padding: '20px',
-              border: '1px solid #101012'
-            }}
-          >
-            Custom Modules
-          </div>
-          <ComponentsContainer handleClickEditModule={handleClickEditModule} />
+
+          {customComponents.length > 0 && (
+            <div>
+              <div
+                style={{
+                  color: '#f88e16',
+                  textAlign: 'center',
+                  padding: '20px',
+                //   border: '1px solid #101012'
+                }}
+              >
+                Other Modules
+              </div>
+              <ComponentsContainer
+                handleClickEditModule={handleClickEditModule}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
