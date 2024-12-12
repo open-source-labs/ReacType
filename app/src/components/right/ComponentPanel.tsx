@@ -167,20 +167,20 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
     <>
       <div className={`${classes.panelWrapper}`}>
         {/* Close Icon */}
-        <CloseIcon
+        {/* <CloseIcon
           className={classes.closeButton}
           onClick={() => setIsCreatingModule(false)}
-        />
+        /> */}
 
         {/* Add a new component */}
         <div
           className={classes.addComponentWrapper}
           style={{
             border: '2px solid #101012',
-            backgroundColor: '#f88e16'
+            backgroundColor: '#f88e16',
           }}
         >
-          <h4
+          {/* <h4
             className={
               isThemeLight
                 ? `${classes.newComponent} ${classes.lightThemeFontColor}`
@@ -188,7 +188,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
             }
           >
             Create new module
-          </h4>
+          </h4> */}
           {/* input for new component */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div
@@ -197,11 +197,11 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                 justifyContent: 'center',
                 marginTop: '20px',
                 marginBottom: '20px',
-                alignItems: 'baseline'
+                alignItems: 'baseline',
               }}
             >
               <div style={{ alignSelf: 'center', margin: '10px' }}>
-                <InputLabel
+                {/* <InputLabel
                   htmlFor="newcomponentid"
                   className={
                     isThemeLight
@@ -210,13 +210,18 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                   }
                 >
                   Name
-                </InputLabel>
+                </InputLabel> */}
                 <div className={classes.inputWrapper}>
                   <TextField
                     // label='New Component Name'
                     id="newcomponentid"
-                    color="primary"
+                    label="Custom Module Name"
                     variant="outlined"
+                    size="small"
+                    value={compName}
+                    autoComplete="off"
+                    placeholder="Custom Module Name"
+                    color="primary"
                     className={
                       isThemeLight
                         ? `${classes.inputField} ${classes.lightThemeFontColor}`
@@ -224,7 +229,6 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                     }
                     // inputprops and helpertext must be lowercase
                     // inputProps={{ className: classes.input }}
-                    value={compName}
                     // Doesn't accept boolean value needs to be a string
                     error={errorStatus}
                     // Updated
@@ -232,11 +236,8 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                     onChange={handleNameInput}
                     style={{}}
                     InputProps={{
-                      style: {
-                        color: isThemeLight ? 'white' : 'white'
-                      }
+                      style: {color: isThemeLight ? 'white' : 'white'}
                     }}
-                    placeholder="name"
                   />
                 </div>
               </div>
@@ -260,12 +261,8 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                       onChange={() => setIsRoot(!isRoot)}
                     />
                   }
-                  label={
-                    state.projectType === 'Next.js' ||
-                    state.projectType === 'Gatsby.js'
-                      ? 'Page'
-                      : 'Root'
-                  } // name varies depending on mode
+                  // name varies depending on mode
+                  label={state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'}
                   className={
                     isThemeLight
                       ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
@@ -289,7 +286,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                   margin: '20px',
                   backgroundColor: '#f88e16 !important',
                   color: 'white !important',
-                  border: '2px solid white !important'
+                  border: '2px solid white !important',
                 }}
                 id="addComponentButton"
                 onClick={handleNameSubmit}

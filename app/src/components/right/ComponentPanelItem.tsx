@@ -30,7 +30,7 @@ const ComponentPanelItem: React.FC<{
   root: boolean;
   isFocus: boolean;
   isThemeLight: boolean;
-}> = ({ name, id, root, isFocus, isThemeLight }): JSX.Element => {
+}> = ({ name, id, root, isFocus, isThemeLight, handleClickEditModule }): JSX.Element => {
   const classes = useStyles({});
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -69,7 +69,6 @@ const ComponentPanelItem: React.FC<{
     <Grid
       item
       ref={drag}
-      xs={8}
       style={{
         fontSize: 'small',
         backgroundColor: '#2D313A', // Set background color
@@ -77,9 +76,11 @@ const ComponentPanelItem: React.FC<{
         borderRadius: '10px',
         borderColor: '#2D313A',
         margin: '5px 0px',
-        width: '100%',
+        width: '100vw',
+        maxWidth: '240px',
         height: '3rem',
-        position: 'relative'
+        boxSizing: 'border-box',
+        position: 'relative',
       }}
     >
       {isFocus && <div className={classes.focusMark}></div>}
@@ -94,7 +95,7 @@ const ComponentPanelItem: React.FC<{
             {name}
           </h3>
         </div>
-        <CustomEditIcon/>
+        <CustomEditIcon handleClickEditModule={handleClickEditModule} />
       </div>
     </Grid>
   );
@@ -103,7 +104,7 @@ const ComponentPanelItem: React.FC<{
 const useStyles = makeStyles({
   nameContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   focusMark: {
     border: '2px solid #0671e3',
@@ -112,14 +113,15 @@ const useStyles = makeStyles({
     top: '0',
     left: '0',
     right: '0',
-    bottom: '0'
+    bottom: '0',
+    width: '100%',
   },
   lightTheme: {
-    color: 'rgba (0, 0, 0, 0.54)'
+    color: 'rgba (0, 0, 0, 0.54)',
   },
   darkTheme: {
-    color: '#ffffff'
-  },
+    color: '#ffffff',
+  }
 });
 
 export default ComponentPanelItem;
