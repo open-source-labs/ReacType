@@ -41,6 +41,7 @@ const panels = [
   <CreateContainer />,
   <RoomsContainer />,
   <ElementsContainer />,
+  <ProfilePage/>,
   <Settings />
 ];
 
