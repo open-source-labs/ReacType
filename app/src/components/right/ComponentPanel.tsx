@@ -235,9 +235,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                     helperText={errorStatus ? errorMsg : ''}
                     onChange={handleNameInput}
                     style={{}}
-                    InputProps={{
-                      style: {color: isThemeLight ? 'white' : 'white'}
-                    }}
+                    InputProps={{ style: { color: isThemeLight ? 'white' : 'white' } }}
                   />
                 </div>
               </div>
