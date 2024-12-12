@@ -15,8 +15,12 @@ interface ModulePanelProps {
 
 const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
   const state = useSelector((store: RootState) => store.appState);
+  const [isCreatingModule, setIsCreatingModule] = useState(false);
   const [isEditingModule, setIsEditingModule] = useState(false);
 
+  const handleClickAddModule = () => {
+    setIsCreatingModule(true);
+  };
 
   const handleClickEditModule = () => {
     setIsEditingModule(!isEditingModule);
