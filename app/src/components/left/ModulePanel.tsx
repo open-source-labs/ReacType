@@ -15,28 +15,14 @@ interface ModulePanelProps {
 
 const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
   const state = useSelector((store: RootState) => store.appState);
-  const [isCreatingModule, setIsCreatingModule] = useState(false);
   const [isEditingModule, setIsEditingModule] = useState(false);
 
-  const handleClickAddModule = () => {
-    setIsCreatingModule(true);
-  };
 
   const handleClickEditModule = () => {
     setIsEditingModule(!isEditingModule);
   };
 
-  // Add an edit icon on each module ✅
-  // When edit icon is clicked open up create tab for that module ⭕️
-  // Fix alert pop-up (not showing after module creation due to state change causing re-render) ⭕️
-  // May need to move alert functionality to this component & display after setIsCreatingModule is set to false - maybe useEffect ⭕️
-  // Fix component creation panel design ⭕️
-  // Add an x button to Module Creator panel ✅
-  // Fix tooltip ⭕️
-  // Open Module editor when clicking on a component ❌
-  // should pass prop of the selected module ❌
   // Make visibility of custom components conditional ⭕️
-  // Add edit icon to custom components ⭕️
 
   return (
     <div>
