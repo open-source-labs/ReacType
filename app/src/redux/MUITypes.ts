@@ -329,7 +329,7 @@ const MUITypes: MUIType[] = [
     ],
     jsx: [
       '<div>',
-      '  <Checkbox inputProps={{ \'aria-label\': \'Checkbox demo\' }} />',
+      "  <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />",
       '</div>',
     ],
     componentData: {
@@ -378,7 +378,7 @@ const MUITypes: MUIType[] = [
       'variant',
     ],
     jsx: [
-      '<Box sx={{ \'& > :not(style)\': { m: 1 } }}>',
+      "<Box sx={{ '& > :not(style)': { m: 1 } }}>",
       '  <Fab aria-label="add">',
       '    <AddIcon />',
       '  </Fab>',
@@ -523,7 +523,7 @@ const MUITypes: MUIType[] = [
       'value',
     ],
     jsx: [
-      '<Box sx={{ \'& > legend\': { mt: 2 } }}>',
+      "<Box sx={{ '& > legend': { mt: 2 } }}>",
       '  <Typography component="legend">Controlled</Typography>',
       '  <Rating />',
       '</Box>',
@@ -4001,7 +4001,7 @@ const MUITypes: MUIType[] = [
     name: 'Image List',
     style: {},
     placeHolderShort: 'imageList',
-    placeHolderLong: 'Material UI Image List Component',
+    placeHolderLong: '  Material UI Image List Component',
     icon: 'ArtTrack',
     framework: 'reactClassic',
     nestable: false,
@@ -4367,7 +4367,7 @@ const MUITypes: MUIType[] = [
       '    Toggle Popper',
       '  </button>',
       '  <Popper >',
-      '    <Box sx={{ border: 1, p: 1, bgcolor: \'background.paper\' }}>',
+      "    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>",
       '      The content of the Popper.',
       '    </Box>',
       '  </Popper>',

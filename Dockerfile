@@ -56,9 +56,8 @@ ENV IS_DOCKER=true
 
 ENV VIDEOSDK='vidsdk'
 
- # productino you dolt!, if we are using docker, its production!
  ENV PORT=5656
 
-# no longer put the envs here cause we are not dumb.
+# no longer put the envs here
 
 CMD [ "npm", "start" ]

@@ -33,7 +33,7 @@ passport.use(
       callbackURL: `${API_BASE_URL}/auth/github/callback`,
       proxy: true
     },
-    function (accessToken, refreshToken, profile, done) {
+    (accessToken, refreshToken, profile, done) => {
       user
         .findOne({
           githubId: profile.id
@@ -42,22 +42,27 @@ passport.use(
           if (currentUser) {
             console.log('user is: ', currentUser);
             return done(null, currentUser);
-          } else {
-            const initials = profile.displayName.match(/\b\w/g).join('');
-            const nums = profile.id.slice(0, 5);
-            user
-              .create({
-                username: initials + nums + '(Github)',
-                githubId: profile.id
-              })
-              .then((data) => {
-                console.log('user added successfully: ', data);
-                return done(null, data);
-              })
-              .catch((data) =>
-                console.log('issue with adding user to database', data)
-              );
           }
+          let initials;
+          if (profile.displayName) {
+            initials = profile.displayName.match(/\b\w/g).join('');
+          } else {
+            initials = profile._json.login.match(/\b\w/g).join('');
+          }
+
+          const nums = profile.id.slice(0, 5);
+          user
+            .create({
+              username: initials + nums + '(Github)',
+              githubId: profile.id
+            })
+            .then((data) => {
+              console.log('user added successfully: ', data);
+              return done(null, data);
+            })
+            .catch((data) =>
+              console.log('issue with adding user to database', data)
+            );
         });
     }
   )

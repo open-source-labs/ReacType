@@ -25,7 +25,6 @@ const Tooltip: React.FC<TooltipProps> = ({ label, isCollabTab, children }) => {
           style={{
             position: 'absolute',
             bottom: isCollabTab ? '120px' : 'none',
-            marginTop: !isCollabTab ? '45px' : 'none',
             left: '50%',
             transform: 'translateX(-50%)',
             padding: '5px 10px',

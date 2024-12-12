@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     height: 'auto',
     width: 'auto',
     fontSize: 'small',
-    alignItems: 'center',
+    alignItems: 'left',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
     cursor: 'grab',
   },
   lightThemeFontColor: {
-    color: '#8F8F8F',
+    color: '#defaf8',
   },
   darkThemeFontColor: {
     color: '#8F8F8F',
@@ -153,8 +153,8 @@ const HTMLItem: React.FC<{
         <div
           ref={drag}
           style={{
-            backgroundColor: '#2D313A',
-            backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)',
+            backgroundColor: 'rgb(30, 32, 36)',
+            // backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
           }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
@@ -169,7 +169,7 @@ const HTMLItem: React.FC<{
         </div>
       )}
 
-      {id > 20 && (
+      {id > 10000 && (
         <div
           ref={drag}
           style={{ borderColor: '#C6C6C6' }}
