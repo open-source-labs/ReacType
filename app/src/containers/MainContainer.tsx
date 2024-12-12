@@ -112,17 +112,11 @@ const MainContainer = (props): JSX.Element => {
   }, [contextMenuOpen]);
 
   // use effect for click events (to check if contextMenu is in need of closing.)
-  useEffect(() => {
-    document.addEventListener('click', (e) => {
-      if (
-        ContextMenuRef.current != null &&
-        !ContextMenuRef.current.contains(e.target) &&
-        contextMenuOpen === true
-      ) {
-        setContextMenuOpen(false); // close on click-out
-      }
-    });
-  }, [ContextMenuRef, contextMenuOpen]);
+  // useEffect(() => {
+  //   document.addEventListener('click', (e) => {
+
+  //   });
+  // }, [ContextMenuRef, contextMenuOpen]);
 
   const uploadScreenshotS3 = async (imgBuffer) => {
     Amplify.configure(awsconfig);
@@ -153,6 +147,16 @@ const MainContainer = (props): JSX.Element => {
 
     useEffect(() => {
       const handleClick = (event) => {
+        console.log('156');
+        console.log(event);
+        if (
+          event.type === 'click' &&
+          ContextMenuRef.current != null &&
+          !ContextMenuRef.current.contains(event.srcElement) &&
+          contextMenuOpen === true
+        ) {
+          setContextMenuOpen(false); // close on click-out
+        }
         if (
           (event.type === 'click' &&
             bottomPanelRef.current &&
@@ -172,7 +176,7 @@ const MainContainer = (props): JSX.Element => {
         window.removeEventListener('click', handleClick, true);
         window.addEventListener('message', handleClick); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
       };
-    }, [bottomPanelRef]);
+    }, [bottomPanelRef, contextMenuOpen]);
 
     return bottomPanelRef;
   };
