@@ -23,7 +23,8 @@ const CreationPanel = (props): JSX.Element => {
   const style = useSelector((store: RootState) => store.styleSlice);
   return (
     <div className="creation-panel" style={style.style}>
-      <ComponentPanel isThemeLight={props.isThemeLight} />
+{/* NOTE: This component has been moved to ModulePanel.tsx
+      <ComponentPanel isThemeLight={props.isThemeLight} /> */}
       <HTMLPanel isThemeLight={props.isThemeLight} />
     </div>
   );
