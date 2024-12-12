@@ -272,14 +272,14 @@ const CreateMenu = (props): JSX.Element => {
       ])}
       <FormGroup>
         <Box display="flex" alignItems="center" justifyContent="center">
-          <p>HTML</p>
+          <p style={{ fontSize: '0.8rem' }}>HTML</p>
           <Switch
             checked={MUIMode}
             onChange={() => setMUIMode(!MUIMode)}
             inputProps={{ 'aria-label': 'HTML + MUI switch' }}
             sx={{ margin: '0 10px' }} // Adjust spacing between text and switch
           />
-          <p>HTML + MUI</p>
+          <p style={{ fontSize: '0.8rem' }}>HTML + MUI</p>
         </Box>
         {/* <FormControlLabel
           control={

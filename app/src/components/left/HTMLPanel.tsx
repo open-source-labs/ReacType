@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import TextField from '@mui/material/TextField';
 import makeStyles from '@mui/styles/makeStyles';
@@ -15,13 +16,10 @@ import { RootState } from '../../redux/store';
  * Provides a user interface for creating custom HTML elements in the application. It includes
  * input fields for the HTML tag and element name, validations for these inputs, and submission handling
  * to add new elements to the Redux store. It also handles error messages and displays a snackbar for success notifications.
- *
  * @component
  * @param {Object} props - Component props.
  * @param {boolean} props.isThemeLight - Indicates if the theme is light or dark for styling purposes.
- *
  * @returns {JSX.Element} The HTMLPanel component.
- *
  * @example
  * ```jsx
  * <HTMLPanel isThemeLight={true} />
@@ -36,9 +34,7 @@ const HTMLPanel = (props): JSX.Element => {
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-  const currentID = useSelector(
-    (store: RootState) => store.appState.customElementId,
-  );
+  const currentID = useSelector((store: RootState) => store.appState.customElementId);
 
   const dispatch = useDispatch();
 
@@ -53,8 +49,7 @@ const HTMLPanel = (props): JSX.Element => {
   };
 
   const checkNameDupe = (inputName: string): boolean => {
-    let checkList = state.HTMLTypes.slice();
-
+    const checkList = state.HTMLTypes.slice();
     // checks to see if inputted comp name already exists
     let dupe = false;
     checkList.forEach((HTMLTag) => {
@@ -70,26 +65,18 @@ const HTMLPanel = (props): JSX.Element => {
 
   const triggerError = (type: string) => {
     setErrorStatus(true);
-    if (type === 'empty') {
-      setErrorMsg('* Input cannot be blank. *');
-    } else if (type === 'dupe') {
-      setErrorMsg('* Input already exists. *');
-    } else if (type === 'letters') {
-      setErrorMsg('* Input must start with a letter. *');
-    } else if (type === 'symbolsDetected') {
-      setErrorMsg('* Input must not contain symbols. *');
-    } else if (type === 'length') {
-      setErrorMsg('* Input cannot exceed 10 characters. *');
-    }
+    if (type === 'empty') setErrorMsg('* Input cannot be blank. *');
+    if (type === 'dupe') setErrorMsg('* Input already exists. *');
+    if (type === 'letters') setErrorMsg('* Input must start with a letter. *');
+    if (type === 'symbolsDetected') setErrorMsg('* Input must not contain symbols. *');
+    if (type === 'length') setErrorMsg('* Input cannot exceed 10 characters. *');
   };
 
-  const resetError = () => {
-    setErrorStatus(false);
-  };
+  const resetError = () => setErrorStatus(false);
 
   const createOption = (inputTag: string, inputName: string) => {
     // format name so first letter is capitalized and there are no whitespaces
-    let inputNameClean = inputName.replace(/\s+/g, '');
+    const inputNameClean = inputName.replace(/\s+/g, '');
     const formattedName = inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
     // add new component to state
     const newElement = {
@@ -104,9 +91,7 @@ const HTMLPanel = (props): JSX.Element => {
 
     dispatch(addElement(newElement));
 
-    if (roomCode) {
-      emitEvent('addElementAction', roomCode, newElement);
-    }
+    if (roomCode) emitEvent('addElementAction', roomCode, newElement);
 
     // setCurrentID(currentID + 1);
     setTag('');
@@ -122,35 +107,17 @@ const HTMLPanel = (props): JSX.Element => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (tag.trim() === '' || name.trim() === '') {
-      triggerError('empty');
-      return;
-    } else if (
-      !tag.charAt(0).match(/[a-zA-Z]/)
-      || !name.charAt(0).match(/[a-zA-Z]/)
-    ) {
-      triggerError('letters');
-      return;
-    } else if (!alphanumeric(tag) || !alphanumeric(name)) {
-      triggerError('symbolsDetected');
-      return;
-    } else if (checkNameDupe(tag) || checkNameDupe(name)) {
-      triggerError('dupe');
-      return;
-    } else if (name.length > 10) {
-      triggerError('length');
-      return;
-    }
+    if (tag.trim() === '' || name.trim() === '') return triggerError('empty');
+    if (!tag.charAt(0).match(/[a-zA-Z]/) || !name.charAt(0).match(/[a-zA-Z]/)) return triggerError('letters');
+    if (!alphanumeric(tag) || !alphanumeric(name)) return triggerError('symbolsDetected');
+    if (checkNameDupe(tag) || checkNameDupe(name)) return triggerError('dupe');
+    if (name.length > 10) return triggerError('length');
     createOption(tag, name);
     resetError();
   };
 
   const handleCreateElement = useCallback((e) => {
-    if (
-      e.key === 'Enter'
-      && e.target.tagName !== 'TEXTAREA'
-      && e.target.id !== 'filled-hidden-label-small'
-    ) {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.id !== 'filled-hidden-label-small') {
       e.preventDefault();
       document.getElementById('submitButton').click();
     }
@@ -163,24 +130,14 @@ const HTMLPanel = (props): JSX.Element => {
     };
   }, []);
 
-  const handleAlertOpen = () => {
-    setAlertOpen(true);
-  };
+  const handleAlertOpen = () => setAlertOpen(true);
 
-  const handleAlertClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+  const handleAlertClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') return;
     setAlertOpen(false);
   };
 
-  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref,
-  ) {
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
@@ -190,46 +147,61 @@ const HTMLPanel = (props): JSX.Element => {
         <div className={classes.addComponentWrapper}>
           <div className={classes.inputWrapper}>
             <form onSubmit={handleSubmit} className="customForm">
-              <TextField id="outlined-basic" label="Custom Tag Name" variant="outlined" size="small"
-                value={tag}
-                autoComplete="off"
-                onChange={handleTagChange}
-                placeholder="Custom Tag Name"
-              />
-              {(!tag.charAt(0).match(/[A-Za-z]/)
-                || !alphanumeric(tag)
-                || tag.trim() === ''
-                || checkNameDupe(tag)) && (
-                <span
-                  className={`${classes.errorMessage} ${classes.errorMessageDark}`}
-                >
-                  <em>{errorMsg}</em>
-                </span>
-              )}
-              <TextField id="outlined-basic" label="Custom Element Name" variant="outlined" size="small"
+              <br></br>
+              <TextField
+                id="outlined-basic"
+                label="Custom Element Name"
+                variant="outlined"
+                size="small"
                 value={name}
-                onChange={handleNameChange}
                 autoComplete="off"
-                style={{ marginTop: '10px' }}
                 placeholder="Custom Element Name"
+                sx={{ flex: 1 }}
+                // style={{ marginTop: '10px' }}
+                onChange={handleNameChange}
               />
               {(!name.charAt(0).match(/[A-Za-z]/)
                 || !alphanumeric(name)
                 || name.trim() === ''
                 || name.length > 10
                 || checkNameDupe(name)) && (
-                <span
-                  className={`${classes.errorMessage} ${classes.errorMessageDark}`}
-                >
+                <span className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}>
                   <em>{errorMsg}</em>
                 </span>
               )}
-              <Fab id="submitButton" type="submit" color="primary" aria-label="add" size="small" value="Add Element"
-              sx={{ width: 40, height: 40, borderRadius: 1 }}
-                onClick={handleAlertOpen}
-              >
-                <AddIcon />
-              </Fab>
+              <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                <TextField
+                  id="outlined-basic"
+                  label="Custom Tag Name"
+                  variant="outlined"
+                  size="small"
+                  value={tag}
+                  autoComplete="off"
+                  placeholder="Custom Tag Name"
+                  sx={{ flex: 1 }}
+                  onChange={handleTagChange}
+                />
+                {(!tag.charAt(0).match(/[A-Za-z]/)
+                  || !alphanumeric(tag)
+                  || tag.trim() === ''
+                  || checkNameDupe(tag)) && (
+                  <span className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}>
+                    <em>{errorMsg}</em>
+                  </span>
+                )}
+                <Fab
+                  id="submitButton"
+                  type="submit"
+                  color="primary"
+                  aria-label="add"
+                  size="small"
+                  value="Add Element"
+                  sx={{ width: 40, height: 40, borderRadius: 1 }}
+                  onClick={handleAlertOpen}
+                >
+                  <AddIcon />
+                </Fab>
+              </div>
             </form>
           </div>
         </div>
@@ -241,11 +213,7 @@ const HTMLPanel = (props): JSX.Element => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: '100%', color: 'white' }}
-          >
+          <Alert onClose={handleAlertClose} severity="success" sx={{ width: '100%', color: 'white' }}>
             HTML Tag Created!
           </Alert>
         </Snackbar>
@@ -263,16 +231,17 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
-    width: '140px',
+    width: '100%',
     height: '30px',
   },
   inputWrapper: {
-    textAlign: 'center',
+    // textAlign: 'center',
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    marginBottom: '15px',
+    flexDirection: 'column',
     width: '100%',
+    marginBottom: '10px',
+    alignItems: 'center',
+    // justifyContent: 'space-evenly',
   },
   addComponentWrapper: {
     width: '100%',
