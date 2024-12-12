@@ -1,13 +1,17 @@
 /* eslint-disable max-len */
-import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import TextField from '@mui/material/TextField';
-import makeStyles from '@mui/styles/makeStyles';
+import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import Fab from '@mui/material/Fab';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import TextField from '@mui/material/TextField';
+import makeStyles from '@mui/styles/makeStyles';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -166,30 +170,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   return (
     <>
       <div className={`${classes.panelWrapper}`}>
-        {/* Close Icon */}
-        {/* <CloseIcon
-          className={classes.closeButton}
-          onClick={() => setIsCreatingModule(false)}
-        /> */}
-
-        {/* Add a new component */}
-        <div
-          className={classes.addComponentWrapper}
-          style={{
-            border: '2px solid #101012',
-            backgroundColor: '#f88e16',
-          }}
-        >
-          {/* <h4
-            className={
-              isThemeLight
-                ? `${classes.newComponent} ${classes.lightThemeFontColor}`
-                : `${classes.newComponent} ${classes.darkThemeFontColor}`
-            }
-          >
-            Create new module
-          </h4> */}
-          {/* input for new component */}
+        <div className={classes.addComponentWrapper}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div
               style={{
@@ -201,16 +182,6 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
               }}
             >
               <div style={{ alignSelf: 'center', margin: '10px' }}>
-                {/* <InputLabel
-                  htmlFor="newcomponentid"
-                  className={
-                    isThemeLight
-                      ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
-                      : `${classes.inputLabel} ${classes.darkThemeFontColor}`
-                  }
-                >
-                  Name
-                </InputLabel> */}
                 <div className={classes.inputWrapper}>
                   <TextField
                     // label='New Component Name'
@@ -221,25 +192,37 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                     value={compName}
                     autoComplete="off"
                     placeholder="Custom Module Name"
-                    color="primary"
-                    className={
-                      isThemeLight
-                        ? `${classes.inputField} ${classes.lightThemeFontColor}`
-                        : `${classes.inputField} ${classes.darkThemeFontColor}`
-                    }
+                    sx={{ width: '80%' }}
+                    // color="primary"
+                    // className={
+                    //   isThemeLight
+                    //     ? `${classes.inputField} ${classes.lightThemeFontColor}`
+                    //     : `${classes.inputField} ${classes.darkThemeFontColor}`
+                    // }
                     // inputprops and helpertext must be lowercase
-                    // inputProps={{ className: classes.input }}
+                    inputProps={{ className: classes.input }}
                     // Doesn't accept boolean value needs to be a string
                     error={errorStatus}
                     // Updated
                     helperText={errorStatus ? errorMsg : ''}
                     onChange={handleNameInput}
-                    style={{}}
-                    InputProps={{ style: { color: isThemeLight ? 'white' : 'white' } }}
+                    // style={{}}
+                    // InputProps={{ style: { color: isThemeLight ? 'white' : 'white' } }}
                   />
+                  <Fab
+                    id="submitButton"
+                    type="submit"
+                    color="primary"
+                    aria-label="add"
+                    size="small"
+                    value="Add Element"
+                    sx={{ width: '15%', height: 40, borderRadius: 1 }}
+                    onClick={handleNameSubmit}
+                  >
+                    <AddIcon />
+                  </Fab>
                 </div>
               </div>
-
               <div
                 className={classes.btnGroup}
                 id="checkboxContainer"
@@ -260,7 +243,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                     />
                   }
                   // name varies depending on mode
-                  label={state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'}
+                  label={state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Page Module' : 'Root Module'}
                   className={
                     isThemeLight
                       ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
@@ -272,7 +255,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
             </div>
             <div style={{ display: 'flex', justifyContent: 'end' }}>
               <br />
-              <Button
+              {/* <Button
                 className={
                   isThemeLight
                     ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
@@ -290,7 +273,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                 onClick={handleNameSubmit}
               >
                 Create
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

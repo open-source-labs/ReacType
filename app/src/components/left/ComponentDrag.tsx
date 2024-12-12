@@ -12,17 +12,17 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    overflow: 'auto',
+    overflow: 'auto'
   },
   panelWrapperList: {
-    minHeight: 'auto',
+    minHeight: 'auto'
   },
   lightThemeFontColor: {
-    color: '#fff',
+    color: '#fff'
   },
   darkThemeFontColor: {
-    color: '#00008B,',
-  },
+    color: '#f88e16,'
+  }
 });
 
 /**
@@ -34,28 +34,33 @@ const useStyles = makeStyles({
  * @param {boolean} props.isThemeLight Indicates if the theme is light, affecting the text color styling.
  * @returns {JSX.Element | null} A styled list of draggable component items if visible, otherwise null.
  */
-const ComponentDrag = ({ handleClickEditModule, isVisible, isThemeLight }): JSX.Element | null => {
+const ComponentDrag = ({
+  handleClickEditModule,
+  isVisible,
+  isThemeLight
+}): JSX.Element | null => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
 
-  const isFocus = (targetId: number) => (state.canvasFocus.componentId === targetId ? true : false);
+  const isFocus = (targetId: number) =>
+    state.canvasFocus.componentId === targetId ? true : false;
 
   if (!isVisible) return null;
 
   return (
     <div className={classes.panelWrapper}>
       <div className={classes.panelWrapperList}>
-        <h4 className={classes.darkThemeFontColor}>
+        <h4 className={classes.darkThemeFontColor} style={{ color: '#f88e16' }}>
           {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
             ? 'Pages'
-            : ''}
+            : 'Root Module(s)'}
         </h4>
         <Grid
           container
           direction="column"
           justifyContent="center"
           alignItems="center"
-          width='100vw'
+          width="100vw"
         >
           {state.components
             .filter((comp) => state.rootComponents.includes(comp.id))
@@ -68,7 +73,7 @@ const ComponentDrag = ({ handleClickEditModule, isVisible, isThemeLight }): JSX.
                   id={comp.id}
                   root={true}
                   isThemeLight={isThemeLight}
-                  handleClickEditModule = {handleClickEditModule}
+                  handleClickEditModule={handleClickEditModule}
                 />
               );
             })}
