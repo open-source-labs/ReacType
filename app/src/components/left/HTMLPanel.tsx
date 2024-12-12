@@ -156,7 +156,7 @@ const HTMLPanel = (props): JSX.Element => {
                 value={name}
                 autoComplete="off"
                 placeholder="Custom Element Name"
-                sx={{ flex: 1 }}
+                sx={{ width: '80%' }}
                 // style={{ marginTop: '10px' }}
                 onChange={handleNameChange}
               />
@@ -178,7 +178,7 @@ const HTMLPanel = (props): JSX.Element => {
                   value={tag}
                   autoComplete="off"
                   placeholder="Custom Tag Name"
-                  sx={{ flex: 1 }}
+                  sx={{ width: '80%' }}
                   onChange={handleTagChange}
                 />
                 {(!tag.charAt(0).match(/[A-Za-z]/)
@@ -196,7 +196,7 @@ const HTMLPanel = (props): JSX.Element => {
                   aria-label="add"
                   size="small"
                   value="Add Element"
-                  sx={{ width: 40, height: 40, borderRadius: 1 }}
+                  sx={{ width: '15%', height: 40, borderRadius: 1 }}
                   onClick={handleAlertOpen}
                 >
                   <AddIcon />
@@ -239,7 +239,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    marginBottom: '10px',
+    marginBottom: '0px', // was originally 10px, decreased to 0 to decrease overall menu height
     alignItems: 'center',
     // justifyContent: 'space-evenly',
   },
@@ -253,21 +253,6 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     margin: '0px 0px 0px 0px',
     alignSelf: 'center',
-  },
-  inputLabel: {
-    fontSize: '1em',
-    marginLeft: '10px',
-  },
-  addElementButton: {
-    height: '50px',
-    width: '150px',
-    fontFamily: 'Roboto, Raleway, sans-serif',
-    fontSize: '15.5px',
-    textAlign: 'center',
-    transition: '0.3s',
-    borderRadius: '10px',
-    alignSelf: 'end',
-    border: '1px solid #0671E3',
   },
   lightThemeFontColor: {
     color: 'white',
