@@ -61,6 +61,7 @@ const ComponentDrag = ({
           justifyContent="center"
           alignItems="center"
           width="100vw"
+          maxWidth='240px'
         >
           {state.components
             .filter((comp) => state.rootComponents.includes(comp.id))
