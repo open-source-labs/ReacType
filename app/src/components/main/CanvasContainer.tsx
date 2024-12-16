@@ -88,7 +88,6 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           key={'clear'}
           button
           onClick={() => {
-            console.log('bafbksjdfalskf');
             resetState();
           }}
           style={{

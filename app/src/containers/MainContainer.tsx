@@ -57,6 +57,9 @@ const MainContainer = (props): JSX.Element => {
 
   const [mouseXState, setMouseXState] = useState(0);
   const [mouseYState, setMouseYState] = useState(0);
+
+  const [contextMenuSelectedElement, setContextMenuSelectedElement] =
+    useState(null);
   //
 
   // useEffect hook to detect and execute changes in screenshotTrigger, taking a screenshot of the canvas when a project is published on NavBar
@@ -96,6 +99,7 @@ const MainContainer = (props): JSX.Element => {
       ) {
         return; // if it is not nul and we are clicking in it.
       }
+      setContextMenuSelectedElement(e.target); // get it set it
       if (e.target.id === 'clickmeButton') {
         setContextMenuColor('purple');
       } else {
@@ -147,8 +151,8 @@ const MainContainer = (props): JSX.Element => {
 
     useEffect(() => {
       const handleClick = (event) => {
-        console.log('156');
-        console.log(event);
+        // console.log('156');
+        // console.log(event);
         if (
           event.type === 'click' &&
           ContextMenuRef.current != null &&
@@ -202,6 +206,7 @@ const MainContainer = (props): JSX.Element => {
     <div className="main-container" style={style} ref={containerRef}>
       {contextMenuOpen && (
         <ContextMenu
+          selectedItem={contextMenuSelectedElement}
           targetColor={contextMenuColor}
           PanRef={ContextMenuRef}
           visible={contextMenuOpen}
