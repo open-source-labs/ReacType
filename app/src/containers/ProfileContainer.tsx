@@ -58,14 +58,34 @@ const ProfileContainer = (): JSX.Element => {
       sx={{ minWidth: 275, color: 'white', backgroundColor: '#1E2024' }}
       variant="outlined"
     >
+      <p
+        onClick={() => window.history.back()}
+        style={{
+          position: 'absolute',
+          right: '50px',
+          border: '1px solid rgba(255, 255, 255, 0.7)',
+          padding: '7px 10px'
+        }}
+      >
+        X
+      </p>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography
+          sx={{ fontSize: 14 }}
+          color="rgba(255, 255, 255, 0.7);
+"
+          gutterBottom
+        >
           Hello,
         </Typography>
         <Typography variant="h5" component="div" sx={{ color: '#0671E3' }}>
           {username ? username : 'Guest'}
         </Typography>
-        <Typography sx={{ mb: 1.5, marginTop: '7px' }} color="text.secondary">
+        <Typography
+          sx={{ mb: 1.5, marginTop: '7px' }}
+          color="rgba(255, 255, 255, 0.7);
+"
+        >
           Welcome to Reactype!
         </Typography>
         {email ? (
@@ -83,7 +103,11 @@ const ProfileContainer = (): JSX.Element => {
         <Typography variant="h6" component="div" sx={{ color: 'white' }}>
           Apps
         </Typography>
-        <Typography sx={{ mb: 1.5, marginTop: '8px' }} color="text.secondary">
+        <Typography
+          sx={{ mb: 1.5, marginTop: '8px' }}
+          color="rgba(255, 255, 255, 0.7);
+"
+        >
           Create a web app or a native mobile app to build a custom internal
           tool for your business.
         </Typography>
@@ -95,7 +119,11 @@ const ProfileContainer = (): JSX.Element => {
         <Typography variant="h6" component="div" sx={{ color: 'white' }}>
           Resources
         </Typography>
-        <Typography sx={{ mb: 1.5, marginTop: '8px' }} color="text.secondary">
+        <Typography
+          sx={{ mb: 1.5, marginTop: '8px' }}
+          color="rgba(255, 255, 255, 0.7);
+"
+        >
           Securely connect your data and display it inside of Reactype apps.
         </Typography>
       </CardContent>
@@ -119,7 +147,11 @@ const ProfileContainer = (): JSX.Element => {
         <Typography variant="h6" component="div" sx={{ color: 'white' }}>
           Database
         </Typography>
-        <Typography sx={{ mb: 1.5, marginTop: '8px' }} color="text.secondary">
+        <Typography
+          sx={{ mb: 1.5, marginTop: '8px' }}
+          color="rgba(255, 255, 255, 0.7);
+"
+        >
           Easily store data in a free SQL database and power your Reactype app.
         </Typography>
       </CardContent>
