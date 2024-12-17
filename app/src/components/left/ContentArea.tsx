@@ -5,9 +5,9 @@ import ElementsContainer from './ElementsContainer';
 import ModulePanel from './ModulePanel';
 import React from 'react';
 import RoomsContainer from './RoomsContainer';
-import ProfilePage from './ProfilePage';
 import Settings from './Settings';
 import CreateContainer from './CreateContainer';
+import ProfileContainer from '../../containers/ProfileContainer';
 
 interface ContentAreaProps {
   activeTab: number | null;
@@ -41,7 +41,7 @@ const panels = [
   <CreateContainer />,
   <RoomsContainer />,
   <ElementsContainer />,
-  <ProfilePage/>,
+  <ProfileContainer/>,
   <Settings />
 ];
 

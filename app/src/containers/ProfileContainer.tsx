@@ -9,7 +9,7 @@ import {
   CardContent,
   Button,
   Typography,
-  Divider,
+  Divider
 } from '@mui/material';
 
 const bull = (
@@ -22,7 +22,8 @@ const bull = (
 );
 
 /**
- * The ProfilePage component displays user-related information, such as the username and email,
+ * The ProfileContainer
+ *  component displays user-related information, such as the username and email,
  * fetched from the local storage. It also provides links to resources like React documentation,
  * MongoDB, and AWS SQL. The component is styled to fit a dark theme and includes several
  * informational sections separated by dividers.
@@ -34,7 +35,7 @@ const bull = (
  * @returns {JSX.Element} A styled card containing user information, resource links, and
  *                         descriptions of application capabilities.
  */
-const ProfilePage = (): JSX.Element => {
+const ProfileContainer = (): JSX.Element => {
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -104,7 +105,7 @@ const ProfilePage = (): JSX.Element => {
           sx={{
             color: '#0671E3',
             textTransform: 'capitalize',
-            fontSize: '14px',
+            fontSize: '14px'
           }}
           href="https://react.dev/learn"
         >
@@ -128,7 +129,7 @@ const ProfilePage = (): JSX.Element => {
           sx={{
             color: '#0671E3',
             textTransform: 'capitalize',
-            fontSize: '14px',
+            fontSize: '14px'
           }}
           href="https://www.mongodb.com/"
         >
@@ -139,7 +140,7 @@ const ProfilePage = (): JSX.Element => {
           sx={{
             color: '#0671E3',
             textTransform: 'capitalize',
-            fontSize: '14px',
+            fontSize: '14px'
           }}
           href="https://aws.amazon.com/what-is/sql/#:~:text=Structured%20query%20language%20(SQL)%20is,relationships%20between%20the%20data%20values."
         >
@@ -157,17 +158,17 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    overflow: 'auto',
+    overflow: 'auto'
   },
   panelWrapperList: {
-    minHeight: '120px',
+    minHeight: '120px'
   },
   lightThemeFontColor: {
-    color: '#fff',
+    color: '#fff'
   },
   darkThemeFontColor: {
-    color: '#fff',
-  },
+    color: '#fff'
+  }
 });
 
-export default ProfilePage;
+export default ProfileContainer;

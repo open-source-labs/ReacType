@@ -241,6 +241,22 @@ const navbarDropDown = (props): JSX.Element => {
           <span>Marketplace</span>
         </button>
       </Link>
+      <Link to="/profile" style={{ textDecoration: 'none' }}>
+        <button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-bag-check"
+            viewBox="0 0 16 16"
+          >
+      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm4-3a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" />
+      <path d="M14 14s-1-1.5-6-1.5S2 14 2 14H1s1-4 7-4 7 4 7 4h-1z" />
+          </svg>
+          <span>Profile</span>
+        </button>
+      </Link>
       <LoginButton />
       <StyledMenu // Dropdown menu connected to Manage Project Button
         id="customized-menu"

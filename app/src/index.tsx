@@ -20,7 +20,7 @@ import SignUp from './components/login/SignUp';
 import Tutorial from './tutorial/Tutorial';
 import TutorialPage from './tutorial/TutorialPage';
 import store from './redux/store';
-
+import ProfileContainer from './containers/ProfileContainer';
 /**
  * Initializes an Apollo Client for interacting with a GraphQL API.
  * The client is configured to use an in-memory cache.
@@ -117,6 +117,7 @@ ReactDOM.render(
           <Route exact path="/dashboard" component={ProjectDashboard} />
         </Switch>
         <Route exact path="/tutorial" component={Tutorial} />
+        <Route exact path="/profile" component={ProfileContainer} />
         <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
       </Router>
     </Provider>

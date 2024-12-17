@@ -307,7 +307,7 @@ const useStyles = makeStyles({
   },
   inputWrapper: {
     // textAlign: 'center',
-    display: 'flex',
+    // display: 'flex',
     flexDirection: 'column',
     width: '100%',
     marginBottom: '0px', // was originally 10px, decreased to 0 to decrease overall height
