@@ -432,7 +432,11 @@ const appStateSlice = createSlice({
       state.tailwind = action.payload;
     },
     changeFocus: (state, action) => {
+      console.log('CHANGING FOCUS!!!!');
+      console.log(state.canvasFocus);
+      console.log(state.components);
       const { componentId, childId } = action.payload;
+
       // makes separators not selectable
       if (childId < 1000) {
         //update componentId and childId in the state

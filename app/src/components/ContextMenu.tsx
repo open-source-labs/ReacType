@@ -1,27 +1,32 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+/* eslint-disable */
 const CONTEXT_MENU_WIDTH = 100;
 const CONTEXT_MENU_HEIGHT = 200;
 
 const ELEMENT_HEIGHT_SIZE = '15px';
 
 function ContextMenu(props) {
+  const dispatch = useDispatch();
   const [editTextOpen, setEditTextOpen] = useState(false);
 
   const [editTextValue, setEditTextValue] = useState('');
 
+  const appState = useSelector((store: RootState) => store.appState);
   const [menuType, setMenuType] = useState('?');
+
+  let selectedItemId = useRef(-1); // dont trigger rerenders cause this shouldent change.
   // attach key listener
 
   function keyStrokeFunction(key) {
-    console.log(key);
     if (editTextOpen === true) {
+      let newEditTextValue;
       if (key.key.length === 1) {
-        setEditTextValue(`${editTextValue}${key.key}`);
+        newEditTextValue = `${editTextValue}${key.key}`;
       } else {
         switch (key.key) {
           case 'Backspace': {
-            setEditTextValue(editTextValue.slice(0, -1));
+            newEditTextValue = editTextValue.slice(0, -1);
             break;
           }
           case 'Enter': {
@@ -33,10 +38,11 @@ function ContextMenu(props) {
           }
         }
       }
+
+      setEditTextValue(newEditTextValue);
     }
   }
   useEffect(() => {
-    console.log('adding');
     document.addEventListener('keydown', keyStrokeFunction);
   }, [editTextOpen, editTextValue]);
 
@@ -44,7 +50,6 @@ function ContextMenu(props) {
   useEffect(
     // the next line is intentional, im not an idiot, do not remove.
     () => () => {
-      console.log('removing');
       document.removeEventListener('keydown', keyStrokeFunction); // remove old one first if we have
     },
     [editTextOpen, editTextValue]
@@ -67,27 +72,43 @@ function ContextMenu(props) {
   function handleEditTextButtonClick() {
     if (editTextOpen === true) return;
     setEditTextOpen(true);
+    console.log('AFSADFSAF');
+    console.log({ selectedItemId });
+    console.log(appState);
+    console.log(appState.components[0].children[selectedItemId.current]);
+
+    let comptext =
+      appState.components[0].children[selectedItemId.current].attributes
+        .comptext;
+    if (comptext === undefined) comptext = '';
+    setEditTextValue(comptext);
   }
 
-  console.log(thing);
+  console.log(appState);
   for (let i = 0; i < 5; i++) {
     console.log(thing.id);
 
     // just things that we want to stop on...
     if (!thing.id.match(/canv/)) {
-      console.log(thing.nodeName);
-      console.log(thing);
       thing = thing.parentElement;
     } else {
       // once were all said and done...
       if (thing.id.match(/^canv[0-9]/) && menuType !== 'CanvasElement') {
         setMenuType('CanvasElement');
+
+        console.log(thing.id.split('canv'));
+        selectedItemId.current = thing.id.split('canv')[1];
+        dispatch({
+          type: 'appState/changeFocus',
+          payload: {
+            componentId: 1,
+            childId: Number(selectedItemId.current)
+          }
+        });
       }
       break;
     }
   }
-
-  console.log(menuType);
 
   return (
     // mouseX and mouseY are not use state,
@@ -127,7 +148,9 @@ function ContextMenu(props) {
             </button>
           )}
           {editTextOpen && (
-            <div
+            <input
+              type="text"
+              value={editTextValue}
               style={{
                 border: 'none',
                 padding: '0px',
@@ -135,11 +158,10 @@ function ContextMenu(props) {
                 marginTop: '1px',
                 width: `${CONTEXT_MENU_WIDTH}px`,
                 height: ELEMENT_HEIGHT_SIZE,
-                backgroundColor: 'purple'
+                backgroundColor: 'purple',
+                overflow: 'hidden'
               }}
-            >
-              {editTextValue}
-            </div>
+            ></input>
           )}
           <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
             d1
