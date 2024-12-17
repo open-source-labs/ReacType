@@ -89,7 +89,7 @@ const HTMLItem: React.FC<{
         >
           <ListItemText
             primary={'Yes, delete all instances'}
-            style={{ textAlign: 'center' }}
+            style={{ textAlign: 'center', color: 'white' }}
             onClick={closeModal}
           />
         </ListItem>
@@ -105,7 +105,7 @@ const HTMLItem: React.FC<{
         >
           <ListItemText
             primary={'No, do not delete element'}
-            style={{ textAlign: 'center' }}
+            style={{ textAlign: 'center', color: 'white'  }}
             onClick={closeModal}
           />
         </ListItem>
@@ -154,7 +154,8 @@ const HTMLItem: React.FC<{
           ref={drag}
           style={{
             backgroundColor: 'rgb(30, 32, 36)',
-            // backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
+            borderColor: 'rgb(100, 100, 115)',
+            width: '100%',
           }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
@@ -172,7 +173,7 @@ const HTMLItem: React.FC<{
       {id > 10000 && (
         <div
           ref={drag}
-          style={{ borderColor: '#C6C6C6' }}
+          style={{ borderColor: '#C6C6C6', width: '100%' }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
           onClick={() => {

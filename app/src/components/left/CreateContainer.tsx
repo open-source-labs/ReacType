@@ -69,7 +69,8 @@ const CreateContainer = (props): JSX.Element => {
         alignItems: 'center',
         justifyContent: 'top',
         color: '#f7f4dc',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginLeft: '15px',
       }}
     >
       <CreateMenu />
