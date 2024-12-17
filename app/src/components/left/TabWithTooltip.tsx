@@ -35,11 +35,10 @@ const TabWithTooltip: React.FC<TabWithTooltipProps> = ({
           backgroundColor: activeTab === value && '#2D313A',
           '&.Mui-selected': { color: '#f88e16' },
           '&:hover': { color: '#f88e16' },
-          fontSize: '11px',
-          textTransform: 'none',
           position: isCollabTab ? 'absolute' : 'relative',
           bottom: isCollabTab ? '80px' : 'auto',
-          opacity: 1
+          opacity: 1,
+          minWidth: '60px',
         }}
         icon={iconType}
         value={value}

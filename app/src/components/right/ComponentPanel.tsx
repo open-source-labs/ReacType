@@ -63,6 +63,20 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
     }
   };
 
+  const handleCreateElement = useCallback((e) => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.id !== 'filled-hidden-label-small') {
+      e.preventDefault();
+      document.getElementById('submitButton').click();
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleCreateElement);
+    return () => {
+      document.removeEventListener('keydown', handleCreateElement);
+    };
+  }, []);
+
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrorStatus(false);
     setCompName(e.target.value);
@@ -172,7 +186,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
       {/* <div className={`${classes.panelWrapper}`}> */}
         <div className={classes.addComponentWrapper}>
           <div className={classes.inputWrapper}>
-            <form onSubmit={handleNameSubmit} className="customForm">
+            <form className="customForm">
               <br></br>
               <TextField
                 // label='New Component Name'
@@ -200,42 +214,46 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
                 // style={{}}
                 // InputProps={{ style: { color: isThemeLight ? 'white' : 'white' } }}
               />
-              <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'flex-end' }}>
-                <FormControlLabel
-                  value="top"
-                  control={
-                    <Checkbox
-                      className={
-                        isThemeLight
-                          ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
-                          : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
-                      }
-                      color="primary"
-                      checked={isRoot}
-                      onChange={() => setIsRoot(!isRoot)}
-                    />
-                  }
-                  // name varies depending on mode
-                  label={state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Page Module' : 'Root Module'}
-                  className={
-                    isThemeLight
-                      ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
-                      : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
-                  }
-                  labelPlacement="right"
-                />
-                <Fab
-                  id="submitButton"
-                  type="submit"
-                  color="primary"
-                  aria-label="add"
-                  size="small"
-                  value="Add Element"
-                  sx={{ width: '15%', height: 40, borderRadius: 1 }}
-                  onClick={handleNameSubmit}
-                >
-                  <AddIcon />
-                </Fab>
+              <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'flex-start' }}>
+                <div style={{ width: '80%' }}>
+                  <FormControlLabel
+                    value="top"
+                    control={
+                      <Checkbox
+                        // className={
+                        //   isThemeLight
+                        //     ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
+                        //     : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
+                        // }
+                        color="primary"
+                        checked={isRoot}
+                        onChange={() => setIsRoot(!isRoot)}
+                      />
+                    }
+                    // name varies depending on mode
+                    label={state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Page Module' : 'Root Module'}
+                    className={
+                      isThemeLight
+                        ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
+                        : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
+                    }
+                    labelPlacement="end"
+                  />
+                </div>
+                <div style={{ width: '20%' }}>
+                  <Fab
+                    id="submitButton"
+                    type="submit"
+                    color="primary"
+                    aria-label="add"
+                    size="small"
+                    value="Add Element"
+                    sx={{ width: 36, height: 40, borderRadius: 1 }}
+                    onClick={handleNameSubmit}
+                  >
+                    <AddIcon />
+                  </Fab>
+                </div>
               </div>
             </form>
             {/* <div style={{ display: 'flex', justifyContent: 'end' }}>
@@ -306,13 +324,9 @@ const useStyles = makeStyles({
     height: '30px',
   },
   inputWrapper: {
-    // textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
     width: '100%',
     marginBottom: '0px', // was originally 10px, decreased to 0 to decrease overall height
     alignItems: 'center',
-    // justifyContent: 'space-between',
   },
   // panelWrapper: {
   //   display: 'flex',

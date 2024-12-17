@@ -59,7 +59,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     <Tabs
       key={activeTab}
       orientation="vertical"
-      variant="scrollable"
       value={activeTab ?? 0} // default to 0 if activeTab is null
       onChange={handleTabChange}
       TabIndicatorProps={{
@@ -77,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         background: '#1e2024',
         marginRight: '2px',
         height: '100vh',
-        position: 'relative'
+        position: 'relative',
       }}
     >
       <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />

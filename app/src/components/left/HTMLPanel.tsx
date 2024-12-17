@@ -235,13 +235,9 @@ const useStyles = makeStyles({
     height: '30px',
   },
   inputWrapper: {
-    // textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
     width: '100%',
     marginBottom: '0px', // was originally 10px, decreased to 0 to decrease overall menu height
     alignItems: 'center',
-    // justifyContent: 'space-evenly',
   },
   addComponentWrapper: {
     width: '100%',
