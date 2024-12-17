@@ -71,7 +71,7 @@ const BottomTabs = (props): JSX.Element => {
         meetingId: `${collaborationRoom.meetingId}`,
         micEnabled: false,
         webcamEnabled: false,
-        name: `${collaborationRoom.userName}`,
+        name: `${collaborationRoom.userName}`
       }}
       token={videoSDKToken}
     >
@@ -79,7 +79,7 @@ const BottomTabs = (props): JSX.Element => {
         className={`${classes.root} ${classes.rootLight}`}
         style={{
           backgroundColor: '#1E2024',
-          zIndex: 1,
+          zIndex: 1
         }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -88,7 +88,7 @@ const BottomTabs = (props): JSX.Element => {
             onChange={handleChange}
             classes={{
               root: classes.tabsRoot,
-              indicator: classes.tabsIndicator,
+              indicator: classes.tabsIndicator
             }}
             variant="scrollable"
             scrollButtons="auto"
@@ -141,8 +141,8 @@ const BottomTabs = (props): JSX.Element => {
                 sx={{
                   color: '#131416',
                   '& .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#131416',
-                  },
+                    borderColor: '#131416'
+                  }
                 }}
                 style={{ color: '#9C9D9F' }}
               >
@@ -182,22 +182,22 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     height: '100%',
-    color: '#E8E8E8',
+    color: '#E8E8E8'
   },
   rootLight: {
-    backgroundColor: '#0671e3',
+    backgroundColor: '#f88e16'
   },
   bottomHeader: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    Width: '200px',
+    Width: '200px'
   },
   tabsRoot: {
-    minHeight: '50%',
+    minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: '#0671E3',
+    backgroundColor: '#f88e16'
   },
   tabRoot: {
     textTransform: 'initial',
@@ -213,42 +213,42 @@ const useStyles = makeStyles((theme) => ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
+      '"Segoe UI Symbol"'
     ].join(','),
     '&:hover': {
       color: 'white',
-      opacity: 1,
+      opacity: 1
     },
     fontWeight: 300,
     '&$tabSelected': {
       color: 'white',
-      backgroundColor: '#2D313A',
+      backgroundColor: '#2D313A'
     },
     '&:focus': {
-      color: 'white',
-    },
+      color: 'white'
+    }
   },
   tabSelected: {},
   typography: {
-    padding: '24px',
+    padding: '24px'
   },
   padding: {
-    padding: '0 16px',
+    padding: '0 16px'
   },
   switch: {
     marginRight: '10px',
-    marginTop: '2px',
+    marginTop: '2px'
   },
   projectTypeWrapper: {
     marginTop: '10px',
     marginBotton: '10px',
-    marginLeft: '10px',
+    marginLeft: '10px'
   },
   projectSelector: {
     backgroundColor: '#131416',
     color: 'white',
-    margin: '0 10px 10px 0',
-  },
+    margin: '0 10px 10px 0'
+  }
 }));
 
 export default BottomTabs;

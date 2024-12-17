@@ -30,7 +30,14 @@ const ComponentPanelItem: React.FC<{
   root: boolean;
   isFocus: boolean;
   isThemeLight: boolean;
-}> = ({ name, id, root, isFocus, isThemeLight, handleClickEditModule }): JSX.Element => {
+}> = ({
+  name,
+  id,
+  root,
+  isFocus,
+  isThemeLight,
+  handleClickEditModule
+}): JSX.Element => {
   const classes = useStyles({});
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -80,7 +87,7 @@ const ComponentPanelItem: React.FC<{
         maxWidth: '240px',
         height: '3rem',
         boxSizing: 'border-box',
-        position: 'relative',
+        position: 'relative'
       }}
     >
       {isFocus && <div className={classes.focusMark}></div>}
@@ -104,23 +111,23 @@ const ComponentPanelItem: React.FC<{
 const useStyles = makeStyles({
   nameContainer: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   focusMark: {
-    border: '2px solid #0671e3',
+    border: '2px solid #f88e16',
     borderRadius: '5%',
     position: 'absolute',
     top: '0',
     left: '0',
     right: '0',
     bottom: '0',
-    width: '100%',
+    width: '100%'
   },
   lightTheme: {
-    color: 'rgba (0, 0, 0, 0.54)',
+    color: 'rgba (0, 0, 0, 0.54)'
   },
   darkTheme: {
-    color: '#ffffff',
+    color: '#ffffff'
   }
 });
 

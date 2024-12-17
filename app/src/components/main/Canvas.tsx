@@ -11,7 +11,7 @@ import { Component, DragItem } from '../../interfaces/Interfaces';
 import {
   addChild,
   changeFocus,
-  snapShotAction,
+  snapShotAction
 } from '../../redux/reducers/slice/appStateSlice';
 
 import Arrow from './Arrow';
@@ -40,13 +40,13 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
     const state = useSelector((store: RootState) => store.appState);
     const contextParam = useSelector((store: RootState) => store.contextSlice);
     const roomCode = useSelector(
-      (store: RootState) => store.roomSlice.roomCode,
+      (store: RootState) => store.roomSlice.roomCode
     );
     const userName = useSelector(
-      (store: RootState) => store.roomSlice.userName,
+      (store: RootState) => store.roomSlice.userName
     );
     const userList = useSelector(
-      (store: RootState) => store.roomSlice.userList,
+      (store: RootState) => store.roomSlice.userList
     );
 
     // remote cursor data
@@ -64,7 +64,8 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
     // Prevents lagging and provides smoother user experience got live cursor tracking (milliseconds can be adjusted but 500ms is most optimal)
     const debounceSetPosition = debounce((newX, newY) => {
       // emit socket event every 300ms when cursor moves
-      if (userList.length > 1) emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
+      if (userList.length > 1)
+        emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
     }, 500);
 
     const handleMouseMove = (e) => {
@@ -75,7 +76,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       setRemoteCursors((prevState) => {
         // check if received cursor data is from an existing user in the room
         const cursorIdx = prevState.findIndex(
-          (cursor) => cursor.remoteUserName === remoteData.userName,
+          (cursor) => cursor.remoteUserName === remoteData.userName
         );
         // existing user
         if (cursorIdx >= 0) {
@@ -89,7 +90,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
             updatedCursors[cursorIdx] = {
               ...prevState[cursorIdx],
               x: remoteData.x,
-              y: remoteData.y,
+              y: remoteData.y
             };
             return updatedCursors;
           } else {
@@ -104,8 +105,8 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
               x: remoteData.x,
               y: remoteData.y,
               remoteUserName: remoteData.userName,
-              isVisible: true,
-            },
+              isVisible: true
+            }
           ];
         }
       });
@@ -116,7 +117,8 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       setRemoteCursors((prevRemoteCursors) =>
         // filter cursors to include only those in the userList
         prevRemoteCursors.filter((cursor) =>
-          userList.includes(cursor.remoteUserName)),
+          userList.includes(cursor.remoteUserName)
+        )
       );
     };
 
@@ -130,20 +132,20 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
         setRemoteCursors((prevState) => {
           const newState = prevState.map((cursor) => ({
             ...cursor,
-            isVisible: false,
+            isVisible: false
           }));
           return newState;
         });
       } else {
         socket.on('remote cursor data from server', (remoteData) =>
-          handleCursorDataFromServer(remoteData),
+          handleCursorDataFromServer(remoteData)
         );
         // make remote cursor visible
         setRemoteCursors((prevState) =>
           prevState.map((cursor) => ({
             ...cursor,
-            isVisible: true,
-          })),
+            isVisible: true
+          }))
         );
       }
     };
@@ -159,7 +161,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
     useEffect(() => {
       if (socket) {
         socket.on('remote cursor data from server', (remoteData) =>
-          handleCursorDataFromServer(remoteData),
+          handleCursorDataFromServer(remoteData)
         );
       }
 
@@ -174,7 +176,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
 
     // find the current component based on the canvasFocus component ID in the state
     const currentComponent: Component = state.components.find(
-      (elem: Component) => elem.id === state.canvasFocus.componentId,
+      (elem: Component) => elem.id === state.canvasFocus.componentId
     );
 
     Arrow.deleteLines();
@@ -183,14 +185,14 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
     // changes focus of the canvas to a new component / child
     const changeFocusFunction = (
       componentId?: number,
-      childId?: number | null,
+      childId?: number | null
     ) => {
       dispatch(changeFocus({ componentId, childId }));
       // if room exists, send focus dispatch to all users
       if (roomCode) {
         emitEvent('changeFocusAction', roomCode, {
           componentId: componentId,
-          childId: childId,
+          childId: childId
         });
       }
     };
@@ -209,8 +211,8 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       dispatch(
         snapShotAction({
           focusIndex: focusIndex,
-          deepCopiedState: deepCopiedState,
-        }),
+          deepCopiedState: deepCopiedState
+        })
       );
     };
 
@@ -233,8 +235,8 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: null,
-              contextParam: contextParam,
-            }),
+              contextParam: contextParam
+            })
           );
 
           // emit the socket event
@@ -243,7 +245,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: null,
-              contextParam: contextParam,
+              contextParam: contextParam
             });
           }
         } else if (item.newInstance && item.instanceType === 'Component') {
@@ -282,22 +284,22 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: null,
-              contextParam: contextParam,
-            }),
+              contextParam: contextParam
+            })
           );
           if (roomCode) {
             emitEvent('addChildAction', roomCode, {
               type: item.instanceType,
               typeId: item.instanceTypeId,
               childId: null,
-              contextParam: contextParam,
+              contextParam: contextParam
             });
           }
         }
       },
       collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
+        isOver: !!monitor.isOver()
+      })
     });
 
     // Styling for Canvas
@@ -307,7 +309,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       aspectRatio: 'auto 774 / 1200',
       boxSizing: 'border-box',
       transform: `scale(${zoom})`,
-      transformOrigin: 'top center',
+      transformOrigin: 'top center'
     };
 
     // Combine the default styles of the canvas with the custom styles set by the user for that component
@@ -316,7 +318,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
 
     const canvasStyle: React.CSSProperties = combineStyles(
       defaultCanvasStyle,
-      currentComponent.style,
+      currentComponent.style
     );
 
     // Array of colors that color code users as they join the room (In a set order)
@@ -330,7 +332,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       '#f6352b',
       '#1667d1',
       '#1667d1',
-      '#50ed6a',
+      '#50ed6a'
     ];
 
     const buttonStyle: React.CSSProperties = {
@@ -338,8 +340,8 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       color: '#ffffff',
       backgroundColor: '#151515',
       zIndex: 0,
-      border: '2px solid #0671e3',
-      margin: '8px 0 0 8px',
+      border: '2px solid #f88e16',
+      margin: '8px 0 0 8px'
     };
 
     return (
@@ -364,13 +366,13 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
                   top: cursor.y - 68 + 'px',
                   // cursor style
                   fontSize: '1em',
-                  color: userColors[userList.indexOf(cursor.remoteUserName)],
+                  color: userColors[userList.indexOf(cursor.remoteUserName)]
                 }}
               >
                 {<FaMousePointer />}
                 {cursor.remoteUserName}
               </div>
-            ),
+            )
         )}
         <label className="switch">
           {userList.length > 1 && (
@@ -388,10 +390,10 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
                 color: '#ffffff',
                 backgroundColor: '#151515',
                 zIndex: 0,
-                border: '2px solid #0671E3',
+                border: '2px solid #f88e16',
                 whiteSpace: 'nowrap',
                 cursor: 'pointer',
-                textTransform: 'none',
+                textTransform: 'none'
               }}
             >
               {toggleText === 'on' ? 'View Cursors' : 'Hide Cursors'}
@@ -400,7 +402,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
         </label>
       </div>
     );
-  },
+  }
 );
 
 export default Canvas;

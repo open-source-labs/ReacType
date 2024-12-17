@@ -68,10 +68,14 @@ const ProfileContainer = (): JSX.Element => {
       </ThemeProvider>
       <CardContent sx={{ textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Typography variant="h5" component="div" sx={{ color: 'white', marginRight: '8px' }}>
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{ color: 'white', marginRight: '8px' }}
+          >
             {'Hello, '}
           </Typography>
-          <Typography variant="h5" component="div" sx={{ color: '#0671E3' }}>
+          <Typography variant="h5" component="div" sx={{ color: '#f88e16' }}>
             {`${username || ' Guest'}`}
           </Typography>
         </div>
@@ -127,7 +131,7 @@ const ProfileContainer = (): JSX.Element => {
             </CardContent>
           </Grid>
 
-          <Divider sx={{ marginBottom: '16px' }}/>
+          <Divider sx={{ marginBottom: '16px' }} />
           <Grid item xs={12} sm={6} md={4}>
             <CardContent>
               <Typography variant="h6" component="div" sx={{ color: 'white' }}>
@@ -146,7 +150,7 @@ const ProfileContainer = (): JSX.Element => {
               <Button
                 size="small"
                 sx={{
-                  color: '#0671E3',
+                  color: '#f88e16',
                   textTransform: 'capitalize',
                   fontSize: '14px'
                 }}
@@ -175,7 +179,7 @@ const ProfileContainer = (): JSX.Element => {
               <Button
                 size="small"
                 sx={{
-                  color: '#0671E3',
+                  color: '#f88e16',
                   textTransform: 'capitalize',
                   fontSize: '14px'
                 }}
@@ -186,7 +190,7 @@ const ProfileContainer = (): JSX.Element => {
               <Button
                 size="small"
                 sx={{
-                  color: '#0671E3',
+                  color: '#f88e16',
                   textTransform: 'capitalize',
                   fontSize: '14px'
                 }}

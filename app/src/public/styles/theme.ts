@@ -56,7 +56,7 @@ export const SigninLight = createTheme({
       main: '#17a2b8'
     },
     background: {
-      paper: '#0671e3'
+      paper: '#f88e16'
     }
   }
 });

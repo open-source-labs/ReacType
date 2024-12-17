@@ -42,7 +42,7 @@ import Videomeeting from './VideoMeeting';
  */
 const Chatroom = (props): JSX.Element => {
   const { userName, roomCode, messages, userJoinCollabRoom } = useSelector(
-    (store: RootState) => store.roomSlice,
+    (store: RootState) => store.roomSlice
   );
 
   const [inputContent, setInputContent] = useState('');
@@ -57,7 +57,7 @@ const Chatroom = (props): JSX.Element => {
     alignSelf: 'center',
     padding: '12px 20px',
     backgroundColor: '#1B1B1B',
-    overflow: 'auto',
+    overflow: 'auto'
   };
 
   const inputContainerStyles = {
@@ -65,7 +65,7 @@ const Chatroom = (props): JSX.Element => {
     paddingLeft: '20px',
     paddingTop: '10px',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'center'
   };
 
   const inputStyles = {
@@ -75,17 +75,17 @@ const Chatroom = (props): JSX.Element => {
     backgroundColor: '#1B1B1B',
     color: 'white',
     border: '1px solid #31343A',
-    marginLeft: '28px',
+    marginLeft: '28px'
   };
 
   const buttonStyles = {
     padding: '5px 7px',
     marginLeft: '10px',
-    backgroundColor: '#0671E3',
+    backgroundColor: '#f88e16',
     color: 'white',
     border: 'none',
     borderRadius: '50%',
-    cursor: 'pointer',
+    cursor: 'pointer'
   };
 
   const handleSubmit = (e) => {
@@ -93,7 +93,7 @@ const Chatroom = (props): JSX.Element => {
     if (inputContent !== '') {
       emitEvent('send-chat-message', roomCode, {
         userName,
-        message: inputContent,
+        message: inputContent
       });
       setInputContent('');
     }
@@ -105,17 +105,17 @@ const Chatroom = (props): JSX.Element => {
         color: '#E8E9EB',
         fontSize: '12px',
         alignSelf: 'center',
-        margin: '3px 0',
+        margin: '3px 0'
       };
     } else {
       if (message.userName === userName)
         return {
           alignSelf: 'end',
           padding: '8px 15px',
-          backgroundColor: '#0671E3',
+          backgroundColor: '#f88e16',
           borderRadius: '15.5px',
           margin: '3px 0',
-          maxWidth: '300px',
+          maxWidth: '300px'
         };
       return {
         color: 'white',
@@ -123,7 +123,7 @@ const Chatroom = (props): JSX.Element => {
         backgroundColor: '#333333',
         borderRadius: '15.5px',
         margin: '3px 0',
-        maxWidth: '300px',
+        maxWidth: '300px'
       };
     }
   };
@@ -179,7 +179,7 @@ const Chatroom = (props): JSX.Element => {
         height: '100%',
         display: 'center',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     >
       <div
@@ -190,7 +190,7 @@ const Chatroom = (props): JSX.Element => {
           height: userJoinCollabRoom ? '100%' : '0%',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <Videomeeting />
@@ -202,7 +202,7 @@ const Chatroom = (props): JSX.Element => {
               display: 'flex',
               flexDirection: 'column',
               height: '90%',
-              width: '60%',
+              width: '60%'
             }}
           >
             <div
@@ -211,7 +211,7 @@ const Chatroom = (props): JSX.Element => {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
-                width: '100%',
+                width: '100%'
               }}
             >
               <div
@@ -241,7 +241,7 @@ const Chatroom = (props): JSX.Element => {
                         width: '20px',
                         height: '20px',
                         marginLeft: '2px',
-                        marginTop: '2px',
+                        marginTop: '2px'
                       }}
                     />
                   </button>
@@ -258,7 +258,7 @@ const Chatroom = (props): JSX.Element => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100%',
+            height: '100%'
           }}
         >
           <p style={{ color: 'white', fontSize: '18px' }}>

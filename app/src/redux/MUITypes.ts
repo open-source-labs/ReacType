@@ -94,11 +94,11 @@ const MUITypes: MUIType[] = [
       "\t{ label: 'The Godfather: Part II', year: 1974 },",
       "\t{ label: 'The Dark Knight', year: 2008 },",
       "\t{ label: '12 Angry Men', year: 1957 },",
-      '];',
+      '];'
     ],
     stateAndEventHandlers: [],
     defaultProps: [
-      "disablePortal options={top100Films} sx={{ width: 300 }} renderInput={(params) => <TextField {...params} label='Movie' />}",
+      "disablePortal options={top100Films} sx={{ width: 300 }} renderInput={(params) => <TextField {...params} label='Movie' />}"
     ],
     propOptions: [
       'options',
@@ -163,7 +163,7 @@ const MUITypes: MUIType[] = [
       'size',
       'slotProps',
       'sx',
-      'value',
+      'value'
     ],
     jsx: ['<Autocomplete id="combo-box-demo"/>'],
     componentData: {
@@ -173,11 +173,11 @@ const MUITypes: MUIType[] = [
         id: 'combo-box-demo',
         options: 'top100Films',
         sx: { width: 300, m: 1 },
-        renderInput: "params => <TextField {...params} label='Movie' />",
+        renderInput: "params => <TextField {...params} label='Movie' />"
       },
-      children: [],
+      children: []
     },
-    children: [],
+    children: []
   },
   // do not move this separator element out of index 1 in this array
   // in componentReducer.ts, separator is referenced as 'initialState.HTMLTypes[1]
@@ -197,7 +197,7 @@ const MUITypes: MUIType[] = [
     defaultProps: [],
     jsx: [],
     componentData: {},
-    children: [],
+    children: []
   },
   {
     id: 22,
@@ -227,7 +227,7 @@ const MUITypes: MUIType[] = [
       'size',
       'startIcon',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: ['<Button >Click Me</Button>'],
     componentData: {
@@ -235,11 +235,11 @@ const MUITypes: MUIType[] = [
       props: {
         variant: 'contained',
         color: 'primary',
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
-      children: 'Click Me',
+      children: 'Click Me'
     },
-    children: [],
+    children: []
   },
   {
     id: 23,
@@ -253,7 +253,7 @@ const MUITypes: MUIType[] = [
     nestable: true,
     imports: [
       "import Button from '@mui/material/Button';",
-      "import ButtonGroup from '@mui/material/ButtonGroup';",
+      "import ButtonGroup from '@mui/material/ButtonGroup';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['variant="contained"'],
@@ -270,29 +270,29 @@ const MUITypes: MUIType[] = [
       'orientation',
       'size',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: [
       '<ButtonGroup aria-label="Basic button group">',
       '  <Button>One</Button>',
       '  <Button>Two</Button>',
       '  <Button>Three</Button>',
-      '</ButtonGroup>',
+      '</ButtonGroup>'
     ],
     componentData: {
       type: 'ButtonGroup',
       props: {
         variant: 'contained',
         'aria-label': 'Basic button group',
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
       children: [
         { type: 'Button', children: 'One' },
         { type: 'Button', children: 'Two' },
-        { type: 'Button', children: 'Three' },
-      ],
+        { type: 'Button', children: 'Three' }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 24,
@@ -325,12 +325,12 @@ const MUITypes: MUIType[] = [
       'required',
       'size',
       'sx',
-      'value',
+      'value'
     ],
     jsx: [
       '<div>',
       "  <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />",
-      '</div>',
+      '</div>'
     ],
     componentData: {
       type: 'div',
@@ -340,12 +340,12 @@ const MUITypes: MUIType[] = [
           type: 'Checkbox',
           props: {
             inputProps: { 'aria-label': 'Checkbox demo' },
-            defaultChecked: true,
-          },
-        },
-      ],
+            defaultChecked: true
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 25,
@@ -360,7 +360,7 @@ const MUITypes: MUIType[] = [
     imports: [
       "import Box from '@mui/material/Box';",
       "import Fab from '@mui/material/Fab';",
-      "import AddIcon from '@mui/icons-material/Add';",
+      "import AddIcon from '@mui/icons-material/Add';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['color="primary" variant="circular"'],
@@ -375,19 +375,19 @@ const MUITypes: MUIType[] = [
       'href',
       'size',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: [
       "<Box sx={{ '& > :not(style)': { m: 1 } }}>",
       '  <Fab aria-label="add">',
       '    <AddIcon />',
       '  </Fab>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
       props: {
-        sx: { m: 1, '& > :not(style)': { m: 1 } },
+        sx: { m: 1, '& > :not(style)': { m: 1 } }
       },
       children: [
         {
@@ -395,13 +395,13 @@ const MUITypes: MUIType[] = [
           props: {
             color: 'primary',
             'aria-label': 'add',
-            sx: { fontSize: 24 },
+            sx: { fontSize: 24 }
           },
-          children: '+',
-        },
-      ],
+          children: '+'
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 26,
@@ -418,7 +418,7 @@ const MUITypes: MUIType[] = [
       "import RadioGroup from '@mui/material/RadioGroup';",
       "import FormControlLabel from '@mui/material/FormControlLabel';",
       "import FormControl from '@mui/material/FormControl';",
-      "import FormLabel from '@mui/material/FormLabel';",
+      "import FormLabel from '@mui/material/FormLabel';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['defaultValue="female" name="radio-buttons-group"'],
@@ -431,7 +431,7 @@ const MUITypes: MUIType[] = [
       '    <FormControlLabel value="male" control={<Radio />} label="Male" />',
       '    <FormControlLabel value="other" control={<Radio />} label="Other" />',
       '  </RadioGroup>',
-      '</FormControl>',
+      '</FormControl>'
     ],
     componentData: {
       type: 'FormControl',
@@ -440,16 +440,16 @@ const MUITypes: MUIType[] = [
         {
           type: 'FormLabel',
           props: {
-            id: 'demo-radio-buttons-group-label',
+            id: 'demo-radio-buttons-group-label'
           },
-          children: 'Gender',
+          children: 'Gender'
         },
         {
           type: 'RadioGroup',
           props: {
             'aria-labelledby': 'demo-radio-buttons-group-label',
             defaultValue: 'female',
-            name: 'radio-buttons-group',
+            name: 'radio-buttons-group'
           },
           children: [
             {
@@ -457,30 +457,30 @@ const MUITypes: MUIType[] = [
               props: {
                 value: 'female',
                 control: { type: 'Radio' },
-                label: 'Female',
-              },
+                label: 'Female'
+              }
             },
             {
               type: 'FormControlLabel',
               props: {
                 value: 'male',
                 control: { type: 'Radio' },
-                label: 'Male',
-              },
+                label: 'Male'
+              }
             },
             {
               type: 'FormControlLabel',
               props: {
                 value: 'other',
                 control: { type: 'Radio' },
-                label: 'Other',
-              },
-            },
-          ],
-        },
-      ],
+                label: 'Other'
+              }
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 27,
@@ -495,13 +495,13 @@ const MUITypes: MUIType[] = [
     imports: [
       "import Box from '@mui/material/Box';",
       "import Rating from '@mui/material/Rating';",
-      "import Typography from '@mui/material/Typography';",
+      "import Typography from '@mui/material/Typography';"
     ],
     stateAndEventHandlers: [
-      'const [ratingValue, setRatingValue] = React.useState(2);\n',
+      'const [ratingValue, setRatingValue] = React.useState(2);\n'
     ],
     defaultProps: [
-      'name="simple-controlled" value={ratingValue} onChange={(event, newValue) => { setRatingValue(newValue); }}',
+      'name="simple-controlled" value={ratingValue} onChange={(event, newValue) => { setRatingValue(newValue); }}'
     ],
     propOptions: [
       'defaultValue',
@@ -520,38 +520,38 @@ const MUITypes: MUIType[] = [
       'readOnly',
       'size',
       'sx',
-      'value',
+      'value'
     ],
     jsx: [
       "<Box sx={{ '& > legend': { mt: 2 } }}>",
       '  <Typography component="legend">Controlled</Typography>',
       '  <Rating />',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
       props: {
-        sx: { m: 1, '& > legend': { mt: 2 } },
+        sx: { m: 1, '& > legend': { mt: 2 } }
       },
       children: [
         {
           type: 'Typography',
           props: {
-            component: 'legend',
+            component: 'legend'
           },
-          children: 'Controlled',
+          children: 'Controlled'
         },
         {
           type: 'Rating',
           props: {
             name: 'simple-controlled',
             value: 2,
-            onChange: 'setRatingValue(newValue)',
-          },
-        },
-      ],
+            onChange: 'setRatingValue(newValue)'
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 28,
@@ -568,7 +568,7 @@ const MUITypes: MUIType[] = [
       "import InputLabel from '@mui/material/InputLabel';",
       "import MenuItem from '@mui/material/MenuItem';",
       "import FormControl from '@mui/material/FormControl';",
-      "import Select from '@mui/material/Select';",
+      "import Select from '@mui/material/Select';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -596,7 +596,7 @@ const MUITypes: MUIType[] = [
       'SelectDisplayProps',
       'sx',
       'value',
-      'variant',
+      'variant'
     ],
     jsx: [
       '<Box sx={{ minWidth: 120 }}>',
@@ -608,26 +608,26 @@ const MUITypes: MUIType[] = [
       '      <MenuItem value={30}>Thirty</MenuItem>',
       '    </Select>',
       '  </FormControl>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
       props: {
-        sx: { width: 250, m: 1, mt: 2, mb: 2 },
+        sx: { width: 250, m: 1, mt: 2, mb: 2 }
       },
       children: [
         {
           type: 'FormControl',
           props: {
-            sx: { width: 250 },
+            sx: { width: 250 }
           },
           children: [
             {
               type: 'InputLabel',
               props: {
-                id: 'demo-simple-select-label',
+                id: 'demo-simple-select-label'
               },
-              children: 'Age',
+              children: 'Age'
             },
             {
               type: 'Select',
@@ -636,37 +636,37 @@ const MUITypes: MUIType[] = [
                 id: 'demo-simple-select',
                 value: '{age}',
                 label: 'Age',
-                onChange: '{handleChange}',
+                onChange: '{handleChange}'
               },
               children: [
                 {
                   type: 'MenuItem',
                   props: {
-                    value: 10,
+                    value: 10
                   },
-                  children: 'Ten',
+                  children: 'Ten'
                 },
                 {
                   type: 'MenuItem',
                   props: {
-                    value: 20,
+                    value: 20
                   },
-                  children: 'Twenty',
+                  children: 'Twenty'
                 },
                 {
                   type: 'MenuItem',
                   props: {
-                    value: 30,
+                    value: 30
                   },
-                  children: 'Thirty',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  children: 'Thirty'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 29,
@@ -681,16 +681,16 @@ const MUITypes: MUIType[] = [
     imports: [
       "import Box from '@mui/material/Box';",
       "import Slider from '@mui/material/Slider';",
-      '\nconst initialSliderValue = 30;',
+      '\nconst initialSliderValue = 30;'
     ],
     stateAndEventHandlers: [
       'const [sliderValue, setSliderValue] = React.useState(30);',
       '\nconst handleChange = (event, newValue) => {',
       '  setSliderValue(newValue);',
-      '};\n',
+      '};\n'
     ],
     defaultProps: [
-      "defaultValue={initialSliderValue} sx={{ width: 200 }} aria-label='slider'",
+      "defaultValue={initialSliderValue} sx={{ width: 200 }} aria-label='slider'"
     ],
     propOptions: [
       'aria-label',
@@ -723,24 +723,24 @@ const MUITypes: MUIType[] = [
       'track',
       'value',
       'valueLabelDisplay',
-      'valueLabelFormat',
+      'valueLabelFormat'
     ],
     jsx: ['<Box sx={{ width: 200 }}>', '  <Slider />', '</Box>'],
     componentData: {
       type: 'Box',
       props: {
-        sx: { width: 200, m: 1 },
+        sx: { width: 200, m: 1 }
       },
       children: [
         {
           type: 'Slider',
           props: {
-            defaultValue: 33,
-          },
-        },
-      ],
+            defaultValue: 33
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 30,
@@ -755,7 +755,7 @@ const MUITypes: MUIType[] = [
     imports: ["import Switch from '@mui/material/Switch';"],
     stateAndEventHandlers: [],
     defaultProps: [
-      "inputProps={{ 'aria-label': 'Switch demo' }} defaultChecked",
+      "inputProps={{ 'aria-label': 'Switch demo' }} defaultChecked"
     ],
     propOptions: [
       'checked',
@@ -772,7 +772,7 @@ const MUITypes: MUIType[] = [
       'required',
       'size',
       'sx',
-      'value',
+      'value'
     ],
     jsx: ['<div >', '  <Switch />', '</div>'],
     componentData: {
@@ -783,12 +783,12 @@ const MUITypes: MUIType[] = [
           type: 'Switch',
           props: {
             inputProps: { 'aria-label': 'Switch demo' },
-            defaultChecked: true,
-          },
-        },
-      ],
+            defaultChecked: true
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 31,
@@ -802,7 +802,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import Box from '@mui/material/Box';",
-      "import TextField from '@mui/material/TextField';",
+      "import TextField from '@mui/material/TextField';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['variant="outlined"'],
@@ -838,12 +838,12 @@ const MUITypes: MUIType[] = [
       'sx',
       'type',
       'value',
-      'variant',
+      'variant'
     ],
     jsx: [
       '<Box component="form" sx={{\'& > :not(style)\': { m: 1, width: \'25ch\' }}} noValidate autoComplete="off">',
       '  <TextField id="outlined-basic" label="Outlined" />',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'TextField',
@@ -852,11 +852,11 @@ const MUITypes: MUIType[] = [
         label: 'Enter Text',
         helperText: 'Please enter your text here',
         fullWidth: false,
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
-      children: [],
+      children: []
     },
-    children: [],
+    children: []
   },
   {
     id: 33,
@@ -870,13 +870,13 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import ToggleButton from '@mui/material/ToggleButton';",
-      "import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';",
+      "import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';"
     ],
     stateAndEventHandlers: [
-      'const [alignment, setAlignment] = React.useState("web");\n',
+      'const [alignment, setAlignment] = React.useState("web");\n'
     ],
     defaultProps: [
-      'value={alignment} exclusive onChange={(event, newAlignment) => setAlignment(newAlignment)} aria-label="Platform"',
+      'value={alignment} exclusive onChange={(event, newAlignment) => setAlignment(newAlignment)} aria-label="Platform"'
     ],
     propOptions: [
       'children',
@@ -889,14 +889,14 @@ const MUITypes: MUIType[] = [
       'orientation',
       'size',
       'sx',
-      'value',
+      'value'
     ],
     jsx: [
       '<ToggleButtonGroup >',
       '  <ToggleButton value="web">Web</ToggleButton>',
       '  <ToggleButton value="android">Android</ToggleButton>',
       '  <ToggleButton value="ios">iOS</ToggleButton>',
-      '</ToggleButtonGroup>',
+      '</ToggleButtonGroup>'
     ],
     componentData: {
       type: 'ToggleButtonGroup',
@@ -906,27 +906,27 @@ const MUITypes: MUIType[] = [
         value: '{alignment}',
         exclusive: true,
         onChange: 'handleChange',
-        'aria-label': 'Platform',
+        'aria-label': 'Platform'
       },
       children: [
         {
           type: 'ToggleButton',
           props: { value: 'web', sx: { color: 'white' } },
-          children: 'Web',
+          children: 'Web'
         },
         {
           type: 'ToggleButton',
           props: { value: 'android', sx: { color: 'white' } },
-          children: 'Android',
+          children: 'Android'
         },
         {
           type: 'ToggleButton',
           props: { value: 'ios', sx: { color: 'white' } },
-          children: 'iOS',
-        },
-      ],
+          children: 'iOS'
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 32,
@@ -950,7 +950,7 @@ const MUITypes: MUIType[] = [
       '\nfunction not(a, b) {',
       '  return a.filter((value) => b.indexOf(value) === -1);\n};',
       '\nfunction intersection(a, b) {',
-      '   return a.filter((value) => b.indexOf(value) !== -1);\n};',
+      '   return a.filter((value) => b.indexOf(value) !== -1);\n};'
     ],
     stateAndEventHandlers: [
       'const [checked, setChecked] = React.useState([]);',
@@ -998,7 +998,7 @@ const MUITypes: MUIType[] = [
       '      })}',
       '    </List>',
       '  </Paper>',
-      ');\n',
+      ');\n'
     ],
     defaultProps: ['sx={{ width: 200, height: 230, overflow: "auto" }}'],
     propOptions: [
@@ -1008,7 +1008,7 @@ const MUITypes: MUIType[] = [
       'dense',
       'disablePadding',
       'subheader',
-      'sx',
+      'sx'
     ],
     jsx: [
       '<Grid container spacing={2} justifyContent="center" alignItems="center">',
@@ -1022,7 +1022,7 @@ const MUITypes: MUIType[] = [
       '    </Grid>',
       '  </Grid>',
       '  <Grid item>{customList(right)}</Grid>',
-      '</Grid>',
+      '</Grid>'
     ],
     componentData: {
       type: 'Grid',
@@ -1030,7 +1030,7 @@ const MUITypes: MUIType[] = [
         container: true,
         spacing: 2,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
       },
       children: [
         {
@@ -1039,8 +1039,8 @@ const MUITypes: MUIType[] = [
           children: {
             type: 'customList',
             props: { items: 'left' },
-            children: null, // No children for customList
-          },
+            children: null // No children for customList
+          }
         },
         {
           type: 'Grid',
@@ -1050,7 +1050,7 @@ const MUITypes: MUIType[] = [
             props: {
               container: true,
               direction: 'column',
-              alignItems: 'center',
+              alignItems: 'center'
             },
             children: [
               {
@@ -1062,9 +1062,9 @@ const MUITypes: MUIType[] = [
                   onClick: '{handleAllRight}',
                   disabled: '{left.length === 0}',
                   'aria-label': 'move all right',
-                  role: 'rightAll',
+                  role: 'rightAll'
                 },
-                children: '≫', // Moves all items from left to right
+                children: '≫' // Moves all items from left to right
               },
               {
                 type: 'Button',
@@ -1076,9 +1076,9 @@ const MUITypes: MUIType[] = [
                   disabled:
                     '{left.filter(item => checked.includes(item)).length === 0}',
                   'aria-label': 'move selected right',
-                  role: 'right',
+                  role: 'right'
                 },
-                children: '>', // Moves selected items from left to right
+                children: '>' // Moves selected items from left to right
               },
               {
                 type: 'Button',
@@ -1090,9 +1090,9 @@ const MUITypes: MUIType[] = [
                   disabled:
                     '{right.filter(item => checked.includes(item)).length === 0}',
                   'aria-label': 'move selected left',
-                  role: 'left',
+                  role: 'left'
                 },
-                children: '<', // Moves selected items from right to left
+                children: '<' // Moves selected items from right to left
               },
               {
                 type: 'Button',
@@ -1103,12 +1103,12 @@ const MUITypes: MUIType[] = [
                   onClick: '{handleAllLeft}',
                   disabled: '{right.length === 0}',
                   'aria-label': 'move all left',
-                  role: 'leftAll',
+                  role: 'leftAll'
                 },
-                children: '≪', // Moves all items from right to left
-              },
-            ],
-          },
+                children: '≪' // Moves all items from right to left
+              }
+            ]
+          }
         },
         {
           type: 'Grid',
@@ -1116,12 +1116,12 @@ const MUITypes: MUIType[] = [
           children: {
             type: 'customList',
             props: { items: 'right' },
-            children: null, // No children for customList
-          },
-        },
-      ],
+            children: null // No children for customList
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 34,
@@ -1136,7 +1136,7 @@ const MUITypes: MUIType[] = [
     imports: ["import Avatar from '@mui/material/Avatar';"],
     stateAndEventHandlers: [],
     defaultProps: [
-      'src={imageUrl} alt="User Profile" sx={{ width: 56, height: 56 }}',
+      'src={imageUrl} alt="User Profile" sx={{ width: 56, height: 56 }}'
     ],
     propOptions: [
       'alt',
@@ -1150,7 +1150,7 @@ const MUITypes: MUIType[] = [
       'src',
       'srcSet',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: ['<Avatar />'],
     componentData: {
@@ -1164,12 +1164,12 @@ const MUITypes: MUIType[] = [
           height: 56,
           border: '2px solid #000', // 1px border
           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Box shadow
-          borderRadius: '50%', // Rounded corners for circular Avatar
-        },
+          borderRadius: '50%' // Rounded corners for circular Avatar
+        }
       },
-      children: [],
+      children: []
     },
-    children: [],
+    children: []
   },
   {
     id: 35,
@@ -1183,7 +1183,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import Badge from '@mui/material/Badge';",
-      "import MailIcon from '@mui/icons-material/Mail';",
+      "import MailIcon from '@mui/icons-material/Mail';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['badgeContent={4} color="primary"'],
@@ -1203,7 +1203,7 @@ const MUITypes: MUIType[] = [
       'slotProps',
       'slots',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: ['<Badge >', '  <MailIcon color="action" />', '</Badge >'],
     componentData: {
@@ -1211,19 +1211,19 @@ const MUITypes: MUIType[] = [
       props: {
         badgeContent: 4,
         color: 'primary',
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
       children: [
         {
           type: 'SpeedDialIcon',
           props: {
-            color: 'action',
+            color: 'action'
           },
-          children: [],
-        },
-      ],
+          children: []
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 36,
@@ -1237,7 +1237,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import Chip from '@mui/material/Chip';",
-      "import Stack from '@mui/material/Stack';",
+      "import Stack from '@mui/material/Stack';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['label="Chip Filled" color="primary"'],
@@ -1256,7 +1256,7 @@ const MUITypes: MUIType[] = [
       'size',
       'skipFocusWhenDisabled',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: ['<Stack direction="row" spacing = {1} >', '  <Chip />', '</Stack>'],
     componentData: {
@@ -1264,12 +1264,12 @@ const MUITypes: MUIType[] = [
       props: {
         label: 'Chip Filled',
         color: 'primary',
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
       children: [],
-      variant: 'filled',
+      variant: 'filled'
     },
-    children: [],
+    children: []
   },
   {
     id: 37,
@@ -1287,7 +1287,7 @@ const MUITypes: MUIType[] = [
       "import Chip from '@mui/material/Chip';",
       "import Stack from '@mui/material/Stack';",
       "import Divider from '@mui/material/Divider';",
-      "import Typography from '@mui/material/Typography';",
+      "import Typography from '@mui/material/Typography';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -1301,7 +1301,7 @@ const MUITypes: MUIType[] = [
       'orientation',
       'sx',
       'textAlign',
-      'variant',
+      'variant'
     ],
     jsx: [
       '<Card variant="outlined" sx={{ maxWidth: 360 }}>',
@@ -1330,19 +1330,19 @@ const MUITypes: MUIType[] = [
       '      <Chip label="Hard" size="small" />',
       '    </Stack>',
       '  </Box>',
-      '</Card>',
+      '</Card>'
     ],
     componentData: {
       type: 'Card',
       props: {
         variant: 'outlined',
-        sx: { maxWidth: 360, m: 1 },
+        sx: { maxWidth: 360, m: 1 }
       },
       children: [
         {
           type: 'Box',
           props: {
-            sx: { p: 2 },
+            sx: { p: 2 }
           },
           children: [
             {
@@ -1350,7 +1350,7 @@ const MUITypes: MUIType[] = [
               props: {
                 direction: 'row',
                 justifyContent: 'space-between',
-                alignItems: 'center',
+                alignItems: 'center'
               },
               children: [
                 {
@@ -1358,54 +1358,54 @@ const MUITypes: MUIType[] = [
                   props: {
                     gutterBottom: true,
                     variant: 'h5',
-                    component: 'div',
+                    component: 'div'
                   },
-                  children: 'Toothbrush',
+                  children: 'Toothbrush'
                 },
                 {
                   type: 'Typography',
                   props: {
                     gutterBottom: true,
                     variant: 'h6',
-                    component: 'div',
+                    component: 'div'
                   },
-                  children: '$4.50',
-                },
-              ],
+                  children: '$4.50'
+                }
+              ]
             },
             {
               type: 'Typography',
               props: {
                 color: 'text.secondary',
-                variant: 'body2',
+                variant: 'body2'
               },
               children:
-                'Pinstriped cornflower blue cotton blouse takes you on a walk to the park or just down the hall.',
-            },
-          ],
+                'Pinstriped cornflower blue cotton blouse takes you on a walk to the park or just down the hall.'
+            }
+          ]
         },
         {
-          type: 'Divider',
+          type: 'Divider'
         },
         {
           type: 'Box',
           props: {
-            sx: { p: 2 },
+            sx: { p: 2 }
           },
           children: [
             {
               type: 'Typography',
               props: {
                 gutterBottom: true,
-                variant: 'body2',
+                variant: 'body2'
               },
-              children: 'Select type',
+              children: 'Select type'
             },
             {
               type: 'Stack',
               props: {
                 direction: 'row',
-                spacing: 1,
+                spacing: 1
               },
               children: [
                 {
@@ -1413,30 +1413,30 @@ const MUITypes: MUIType[] = [
                   props: {
                     color: 'primary',
                     label: 'Soft',
-                    size: 'small',
-                  },
+                    size: 'small'
+                  }
                 },
                 {
                   type: 'Chip',
                   props: {
                     label: 'Medium',
-                    size: 'small',
-                  },
+                    size: 'small'
+                  }
                 },
                 {
                   type: 'Chip',
                   props: {
                     label: 'Hard',
-                    size: 'small',
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                    size: 'small'
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 40,
@@ -1457,7 +1457,7 @@ const MUITypes: MUIType[] = [
       "import ListItemText from '@mui/material/ListItemText';",
       "import Divider from '@mui/material/Divider';",
       "import InboxIcon from '@mui/icons-material/Inbox';",
-      "import DraftsIcon from '@mui/icons-material/Drafts';",
+      "import DraftsIcon from '@mui/icons-material/Drafts';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -1468,7 +1468,7 @@ const MUITypes: MUIType[] = [
       'dense',
       'disablePadding',
       'subheader',
-      'sx',
+      'sx'
     ],
     jsx: [
       "<Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper',  border: '1px #e0e0e0 solid' }}>",
@@ -1507,7 +1507,7 @@ const MUITypes: MUIType[] = [
       '      </ListItem>',
       '    </List>',
       '  </nav>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
@@ -1517,8 +1517,8 @@ const MUITypes: MUIType[] = [
           maxWidth: 360,
           m: 1,
           bgcolor: 'background.paper',
-          border: '1px #e0e0e0 solid',
-        },
+          border: '1px #e0e0e0 solid'
+        }
       },
       children: [
         {
@@ -1534,9 +1534,9 @@ const MUITypes: MUIType[] = [
                   type: 'ListItemButton',
                   children: [
                     { type: 'SpeedDialIcon', children: { type: 'InboxIcon' } },
-                    { type: 'ListItemText', props: { primary: 'Inbox' } },
-                  ],
-                },
+                    { type: 'ListItemText', props: { primary: 'Inbox' } }
+                  ]
+                }
               },
               {
                 type: 'ListItem',
@@ -1545,12 +1545,12 @@ const MUITypes: MUIType[] = [
                   type: 'ListItemButton',
                   children: [
                     { type: 'SpeedDialIcon', children: { type: 'DraftsIcon' } },
-                    { type: 'ListItemText', props: { primary: 'Drafts' } },
-                  ],
-                },
-              },
-            ],
-          },
+                    { type: 'ListItemText', props: { primary: 'Drafts' } }
+                  ]
+                }
+              }
+            ]
+          }
         },
         { type: 'Divider' },
         {
@@ -1565,9 +1565,9 @@ const MUITypes: MUIType[] = [
                 children: {
                   type: 'ListItemButton',
                   children: [
-                    { type: 'ListItemText', props: { primary: 'Trash' } },
-                  ],
-                },
+                    { type: 'ListItemText', props: { primary: 'Trash' } }
+                  ]
+                }
               },
               {
                 type: 'ListItem',
@@ -1576,16 +1576,16 @@ const MUITypes: MUIType[] = [
                   type: 'ListItemButton',
                   props: {},
                   children: [
-                    { type: 'ListItemText', props: { primary: 'Spam' } },
-                  ],
-                },
-              },
-            ],
-          },
-        },
-      ],
+                    { type: 'ListItemText', props: { primary: 'Spam' } }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 41,
@@ -1614,7 +1614,7 @@ const MUITypes: MUIType[] = [
       "  createData('Eclair', 262, 16.0, 24, 6.0),",
       "  createData('Cupcake', 305, 3.7, 67, 4.3),",
       "  createData('Gingerbread', 356, 16.0, 49, 3.9)",
-      '];',
+      '];'
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -1625,7 +1625,7 @@ const MUITypes: MUIType[] = [
       'padding',
       'size',
       'stickyHeader',
-      'sx',
+      'sx'
     ],
     jsx: [
       '<TableContainer component={Paper}>',
@@ -1655,21 +1655,21 @@ const MUITypes: MUIType[] = [
       '      ))}',
       '    </TableBody>',
       '  </Table>',
-      '</TableContainer>',
+      '</TableContainer>'
     ],
     componentData: {
       type: 'TableContainer',
       props: {
-        component: 'Paper',
+        component: 'Paper'
       },
       children: [
         {
           type: 'Table',
           props: {
             sx: {
-              minWidth: 650,
+              minWidth: 650
             },
-            'aria-label': 'simple table',
+            'aria-label': 'simple table'
           },
           children: [
             {
@@ -1682,26 +1682,26 @@ const MUITypes: MUIType[] = [
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: 'Calories',
+                      children: 'Calories'
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: 'Fat (g)',
+                      children: 'Fat (g)'
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: 'Carbs (g)',
+                      children: 'Carbs (g)'
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: 'Protein (g)',
-                    },
-                  ],
-                },
-              ],
+                      children: 'Protein (g)'
+                    }
+                  ]
+                }
+              ]
             },
             {
               type: 'TableBody',
@@ -1713,29 +1713,29 @@ const MUITypes: MUIType[] = [
                     {
                       type: 'TableCell',
                       props: { component: 'th', scope: 'row' },
-                      children: 'Frozen yoghurt',
+                      children: 'Frozen yoghurt'
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['159'],
+                      children: ['159']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['6'],
+                      children: ['6']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['24'],
+                      children: ['24']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['4'],
-                    },
-                  ],
+                      children: ['4']
+                    }
+                  ]
                 },
                 {
                   type: 'TableRow',
@@ -1744,29 +1744,29 @@ const MUITypes: MUIType[] = [
                     {
                       type: 'TableCell',
                       props: { component: 'th', scope: 'row' },
-                      children: 'Ice cream sandwich',
+                      children: 'Ice cream sandwich'
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['237'],
+                      children: ['237']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['9'],
+                      children: ['9']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['37'],
+                      children: ['37']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['4.3'],
-                    },
-                  ],
+                      children: ['4.3']
+                    }
+                  ]
                 },
                 {
                   type: 'TableRow',
@@ -1775,29 +1775,29 @@ const MUITypes: MUIType[] = [
                     {
                       type: 'TableCell',
                       props: { component: 'th', scope: 'row' },
-                      children: 'Eclair',
+                      children: 'Eclair'
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['262'],
+                      children: ['262']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['16'],
+                      children: ['16']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['24'],
+                      children: ['24']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['6'],
-                    },
-                  ],
+                      children: ['6']
+                    }
+                  ]
                 },
                 {
                   type: 'TableRow',
@@ -1806,29 +1806,29 @@ const MUITypes: MUIType[] = [
                     {
                       type: 'TableCell',
                       props: { component: 'th', scope: 'row' },
-                      children: 'Cupcake',
+                      children: 'Cupcake'
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['305'],
+                      children: ['305']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['3.7'],
+                      children: ['3.7']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['67'],
+                      children: ['67']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['4.3'],
-                    },
-                  ],
+                      children: ['4.3']
+                    }
+                  ]
                 },
                 {
                   type: 'TableRow',
@@ -1837,37 +1837,37 @@ const MUITypes: MUIType[] = [
                     {
                       type: 'TableCell',
                       props: { component: 'th', scope: 'row' },
-                      children: 'Gingerbread',
+                      children: 'Gingerbread'
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['356'],
+                      children: ['356']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['16'],
+                      children: ['16']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['49'],
+                      children: ['49']
                     },
                     {
                       type: 'TableCell',
                       props: { align: 'right' },
-                      children: ['3.9'],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                      children: ['3.9']
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 42,
@@ -1881,7 +1881,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import Button from '@mui/material/Button';",
-      "import Tooltip from '@mui/material/Tooltip';",
+      "import Tooltip from '@mui/material/Tooltip';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['title="Add" arrow'],
@@ -1914,7 +1914,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'title',
       'TransitionComponent',
-      'TransitionProps',
+      'TransitionProps'
     ],
     jsx: ['<Tooltip>', '  <Button>Arrow</Button>', '</Tooltip>'],
     componentData: {
@@ -1922,7 +1922,7 @@ const MUITypes: MUIType[] = [
       props: {
         title: 'Add',
         arrow: true,
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
       children: [
         {
@@ -1931,14 +1931,14 @@ const MUITypes: MUIType[] = [
             sx: {
               backgroundColor: 'primary.main', // This sets the background color to the primary color
               color: 'white', // This sets the text color to white
-              m: 1,
-            },
+              m: 1
+            }
           },
-          children: 'Arrow',
-        },
-      ],
+          children: 'Arrow'
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 43,
@@ -1963,7 +1963,7 @@ const MUITypes: MUIType[] = [
       'paragraph',
       'sx',
       'variant',
-      'variantMapping',
+      'variantMapping'
     ],
     jsx: ['<Typography gutterBottom> h3. Heading </Typography>'],
     componentData: {
@@ -1971,11 +1971,11 @@ const MUITypes: MUIType[] = [
       props: {
         variant: 'h3',
         gutterBottom: true,
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
-      children: 'h3. Heading',
+      children: 'h3. Heading'
     },
-    children: [],
+    children: []
   },
   {
     id: 44,
@@ -1989,7 +1989,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import Alert from '@mui/material/Alert';",
-      "import CheckIcon from '@mui/icons-material/Check';",
+      "import CheckIcon from '@mui/icons-material/Check';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['severity="success"'],
@@ -2009,23 +2009,23 @@ const MUITypes: MUIType[] = [
       'slotProps',
       'slots',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: [
       '<Alert icon={<CheckIcon fontSize="inherit" />} severity="success">',
       '  Here is a gentle confirmation that your action was successful.',
-      '</Alert>',
+      '</Alert>'
     ],
     componentData: {
       type: 'Alert',
       props: {
         icon: '<CheckIcon/>',
         severity: 'success',
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
-      children: 'Here is a gentle confirmation that your action was successful.',
+      children: 'Here is a gentle confirmation that your action was successful.'
     },
-    children: [],
+    children: []
   },
   {
     id: 45,
@@ -2040,7 +2040,7 @@ const MUITypes: MUIType[] = [
     imports: [
       "import Backdrop from '@mui/material/Backdrop';",
       "import CircularProgress from '@mui/material/CircularProgress';",
-      "import Button from '@mui/material/Button';",
+      "import Button from '@mui/material/Button';"
     ],
     stateAndEventHandlers: [
       'const [open, setOpen] = React.useState(false);',
@@ -2049,10 +2049,10 @@ const MUITypes: MUIType[] = [
       '};',
       '\nconst handleOpen = () => {',
       '  setOpen(true);',
-      '};\n',
+      '};\n'
     ],
     defaultProps: [
-      'sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open} onClick={handleClose}',
+      'sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open} onClick={handleClose}'
     ],
     propOptions: [
       'children',
@@ -2065,7 +2065,7 @@ const MUITypes: MUIType[] = [
       'slots',
       'sx',
       'TransitionComponent',
-      'transitionDuration',
+      'transitionDuration'
     ],
     jsx: [
       '<div>',
@@ -2073,7 +2073,7 @@ const MUITypes: MUIType[] = [
       '  <Backdrop >',
       '    <CircularProgress color="inherit" />',
       '  </Backdrop>',
-      '</div>',
+      '</div>'
     ],
 
     componentData: {
@@ -2083,7 +2083,7 @@ const MUITypes: MUIType[] = [
         {
           type: 'Button',
           props: { onClick: '{handleOpen}', role: 'modalTrigger' }, // used 'modalTrigger' here because it is requires the same handleOpen function already created
-          children: 'Show backdrop',
+          children: 'Show backdrop'
         },
         {
           type: 'Backdrop',
@@ -2091,17 +2091,17 @@ const MUITypes: MUIType[] = [
             sx: { color: '#fff', zIndex: '(theme) => theme.zIndex.drawer + 1' },
             open: '{open}',
             onClick: '{handleClose}',
-            role: 'backDrop',
+            role: 'backDrop'
           },
           children: {
             type: 'CircularProgress',
             props: { color: 'inherit' },
-            children: [],
-          },
-        },
-      ],
+            children: []
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 46,
@@ -2119,7 +2119,7 @@ const MUITypes: MUIType[] = [
       "import DialogActions from '@mui/material/DialogActions';",
       "import DialogContent from '@mui/material/DialogContent';",
       "import DialogContentText from '@mui/material/DialogContentText';",
-      "import DialogTitle from '@mui/material/DialogTitle';",
+      "import DialogTitle from '@mui/material/DialogTitle';"
     ],
     stateAndEventHandlers: [
       'const [open, setOpen] = React.useState(false);',
@@ -2128,10 +2128,10 @@ const MUITypes: MUIType[] = [
       '};',
       '\nconst handleClose = () => {',
       '  setOpen(false);',
-      '};\n',
+      '};\n'
     ],
     defaultProps: [
-      'open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description"',
+      'open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description"'
     ],
     propOptions: [
       'aria-describedby',
@@ -2151,7 +2151,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'TransitionComponent',
       'transitionDuration',
-      'TransitionProps',
+      'TransitionProps'
     ],
     jsx: [
       '<React.Fragment>',
@@ -2175,7 +2175,7 @@ const MUITypes: MUIType[] = [
       '      </Button>',
       '    </DialogActions>',
       '  </Dialog>',
-      '</React.Fragment>',
+      '</React.Fragment>'
     ],
 
     componentData: {
@@ -2188,9 +2188,9 @@ const MUITypes: MUIType[] = [
             sx: { m: 1 },
             variant: 'outlined',
             onClick: '{handleClickOpen}',
-            role: 'modalTrigger', // used 'modalTrigger' here because it is requires the same handleOpen function already created
+            role: 'modalTrigger' // used 'modalTrigger' here because it is requires the same handleOpen function already created
           },
-          children: 'Open alert dialog',
+          children: 'Open alert dialog'
         },
         {
           type: 'Dialog',
@@ -2199,13 +2199,13 @@ const MUITypes: MUIType[] = [
             onClose: '{handleClose}',
             'aria-labelledby': '"alert-dialog-title"',
             'aria-describedby': '"alert-dialog-description"',
-            role: 'dialog',
+            role: 'dialog'
           },
           children: [
             {
               type: 'DialogTitle',
               props: { id: '"alert-dialog-title"' },
-              children: '"Use Google\'s location service?"',
+              children: '"Use Google\'s location service?"'
             },
             {
               type: 'DialogContent',
@@ -2215,9 +2215,9 @@ const MUITypes: MUIType[] = [
                   type: 'DialogContentText',
                   props: { id: '"alert-dialog-description"' },
                   children:
-                    'Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.',
-                },
-              ],
+                    'Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.'
+                }
+              ]
             },
             {
               type: 'DialogActions',
@@ -2226,24 +2226,24 @@ const MUITypes: MUIType[] = [
                 {
                   type: 'Button',
                   props: { onClick: '{handleClose}', role: 'dialog' },
-                  children: 'Disagree',
+                  children: 'Disagree'
                 },
                 {
                   type: 'Button',
                   props: {
                     onClick: '{handleClose}',
                     autoFocus: true,
-                    role: 'dialog',
+                    role: 'dialog'
                   },
-                  children: 'Agree',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  children: 'Agree'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 47,
@@ -2257,7 +2257,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import CircularProgress from '@mui/material/CircularProgress';",
-      "import Box from '@mui/material/Box';",
+      "import Box from '@mui/material/Box';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -2269,7 +2269,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'thickness',
       'value',
-      'variant',
+      'variant'
     ],
     jsx: ['<Box sx={{ display: "flex" }}>', '  <CircularProgress />', '</Box>'],
     componentData: {
@@ -2278,11 +2278,11 @@ const MUITypes: MUIType[] = [
       children: [
         {
           type: 'CircularProgress',
-          props: {},
-        },
-      ],
+          props: {}
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 48,
@@ -2296,7 +2296,7 @@ const MUITypes: MUIType[] = [
     nestable: true,
     imports: [
       "import Skeleton from '@mui/material/Skeleton';",
-      "import Stack from '@mui/material/Stack';",
+      "import Stack from '@mui/material/Stack';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['loading'],
@@ -2308,7 +2308,7 @@ const MUITypes: MUIType[] = [
       'height',
       'sx',
       'variant',
-      'width',
+      'width'
     ],
     jsx: [
       '<Stack spacing={1}>',
@@ -2318,7 +2318,7 @@ const MUITypes: MUIType[] = [
       '  <Skeleton variant="circular" width={40} height={40} />',
       '  <Skeleton variant="rectangular" width={210} height={60} />',
       '  <Skeleton variant="rounded" width={210} height={60} />',
-      '</Stack>',
+      '</Stack>'
     ],
     componentData: {
       type: 'SkeletonTypography',
@@ -2330,25 +2330,25 @@ const MUITypes: MUIType[] = [
           children: [
             {
               type: 'Skeleton',
-              props: { variant: 'text', sx: { fontSize: '1rem' } },
+              props: { variant: 'text', sx: { fontSize: '1rem' } }
             },
             {
               type: 'Skeleton',
-              props: { variant: 'circular', width: 40, height: 40 },
+              props: { variant: 'circular', width: 40, height: 40 }
             },
             {
               type: 'Skeleton',
-              props: { variant: 'rectangular', width: 210, height: 60 },
+              props: { variant: 'rectangular', width: 210, height: 60 }
             },
             {
               type: 'Skeleton',
-              props: { variant: 'rounded', width: 210, height: 60 },
-            },
-          ],
-        },
-      ],
+              props: { variant: 'rounded', width: 210, height: 60 }
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 49,
@@ -2364,7 +2364,7 @@ const MUITypes: MUIType[] = [
       "import Button from '@mui/material/Button';",
       "import Snackbar from '@mui/material/Snackbar';",
       "import IconButton from '@mui/material/IconButton';",
-      "import CloseIcon from '@mui/icons-material/Close';",
+      "import CloseIcon from '@mui/icons-material/Close';"
     ],
     stateAndEventHandlers: [
       'const [open, setOpen] = React.useState(false);',
@@ -2391,10 +2391,10 @@ const MUITypes: MUIType[] = [
       '        <CloseIcon fontSize="small" />',
       '      </IconButton>',
       '    </React.Fragment>',
-      '  );\n',
+      '  );\n'
     ],
     defaultProps: [
-      'open={open} autoHideDuration={6000} onClose={handleClose} message="Note archived" action={action}',
+      'open={open} autoHideDuration={6000} onClose={handleClose} message="Note archived" action={action}'
     ],
     propOptions: [
       'action',
@@ -2413,13 +2413,13 @@ const MUITypes: MUIType[] = [
       'sx',
       'TransitionComponent',
       'transitionDuration',
-      'TransitionProps',
+      'TransitionProps'
     ],
     jsx: [
       '<div>',
       '  <Button onClick={handleClick}>Open Snackbar</Button>',
       '  <Snackbar />',
-      '</div>',
+      '</div>'
     ],
     componentData: {
       type: 'SimpleSnackbar',
@@ -2428,7 +2428,7 @@ const MUITypes: MUIType[] = [
         {
           type: 'Button',
           props: { onClick: '{handleClick}', role: 'modalTrigger' },
-          children: 'Open Snackbar',
+          children: 'Open Snackbar'
         },
         {
           type: 'Snackbar',
@@ -2437,12 +2437,12 @@ const MUITypes: MUIType[] = [
             autoHideDuration: 6000,
             onClose: '{handleClose}',
             message: 'Note archived',
-            action: '{action}',
-          },
-        },
-      ],
+            action: '{action}'
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 50,
@@ -2460,7 +2460,7 @@ const MUITypes: MUIType[] = [
       "import AccordionSummary from '@mui/material/AccordionSummary';",
       "import AccordionDetails from '@mui/material/AccordionDetails';",
       "import ExpandMoreIcon from '@mui/icons-material/ExpandMore';",
-      "import Button from '@mui/material/Button';",
+      "import Button from '@mui/material/Button';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -2477,7 +2477,7 @@ const MUITypes: MUIType[] = [
       'square',
       'sx',
       'TransitionComponent',
-      'TransitionProps',
+      'TransitionProps'
     ],
     jsx: [
       '<Accordion>',
@@ -2491,7 +2491,7 @@ const MUITypes: MUIType[] = [
       '    <Button>Cancel</Button>',
       '    <Button>Agree</Button>',
       '  </AccordionActions>',
-      '</Accordion>',
+      '</Accordion>'
     ],
     componentData: {
       type: 'Accordion',
@@ -2502,31 +2502,31 @@ const MUITypes: MUIType[] = [
           props: {
             expandIcon: '<ExpandMoreIcon />',
             'aria-controls': 'panel1-content',
-            id: 'panel1-header',
+            id: 'panel1-header'
           },
-          children: 'Accordion 1',
+          children: 'Accordion 1'
         },
         {
           type: 'AccordionDetails',
           children:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
         },
         {
           type: 'AccordionActions',
           children: [
             {
               type: 'Button',
-              children: 'Cancel',
+              children: 'Cancel'
             },
             {
               type: 'Button',
-              children: 'Agree',
-            },
-          ],
-        },
-      ],
+              children: 'Agree'
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 51,
@@ -2545,7 +2545,7 @@ const MUITypes: MUIType[] = [
       "import Typography from '@mui/material/Typography';",
       "import Button from '@mui/material/Button';",
       "import IconButton from '@mui/material/IconButton';",
-      "import MenuIcon from '@mui/icons-material/Menu';",
+      "import MenuIcon from '@mui/icons-material/Menu';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['position="static"'],
@@ -2555,7 +2555,7 @@ const MUITypes: MUIType[] = [
       'color',
       'enableColorOnDark',
       'position',
-      'sx',
+      'sx'
     ],
     jsx: [
       '<Box sx={{ flexGrow: 1 }}>',
@@ -2570,18 +2570,18 @@ const MUITypes: MUIType[] = [
       "      <Button color='inherit'>Login</Button>",
       '    </Toolbar>',
       '  </AppBar>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
       props: {
-        sx: { flexGrow: 1, m: 1 },
+        sx: { flexGrow: 1, m: 1 }
       },
       children: [
         {
           type: 'AppBar',
           props: {
-            position: 'static',
+            position: 'static'
           },
           children: [
             {
@@ -2594,33 +2594,33 @@ const MUITypes: MUIType[] = [
                     edge: 'start',
                     color: 'inherit',
                     'aria-label': 'menu',
-                    sx: { mr: 2 },
+                    sx: { mr: 2 }
                   },
-                  children: '<MenuIcon />',
+                  children: '<MenuIcon />'
                 },
                 {
                   type: 'Typography',
                   props: {
                     variant: 'h6',
                     component: 'div',
-                    sx: { flexGrow: 1 },
+                    sx: { flexGrow: 1 }
                   },
-                  children: 'News',
+                  children: 'News'
                 },
                 {
                   type: 'Button',
                   props: {
-                    color: 'inherit',
+                    color: 'inherit'
                   },
-                  children: 'Login',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  children: 'Login'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 52,
@@ -2638,7 +2638,7 @@ const MUITypes: MUIType[] = [
       "import CardActions from '@mui/material/CardActions';",
       "import CardContent from '@mui/material/CardContent';",
       "import Button from '@mui/material/Button';",
-      "import Typography from '@mui/material/Typography';",
+      "import Typography from '@mui/material/Typography';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['sx={{ minWidth: 275 }}'],
@@ -2664,7 +2664,7 @@ const MUITypes: MUIType[] = [
       '  <CardActions>',
       '    <Button size="small">Learn More</Button>',
       '  </CardActions>',
-      '</Card>',
+      '</Card>'
     ],
     componentData: {
       type: 'Card',
@@ -2679,26 +2679,26 @@ const MUITypes: MUIType[] = [
               props: {
                 sx: { fontSize: 14 },
                 color: 'text.secondary',
-                gutterBottom: true,
+                gutterBottom: true
               },
-              children: 'Word of the Day',
+              children: 'Word of the Day'
             },
             {
               type: 'Typography',
               props: { variant: 'h5', component: 'div' },
-              children: 'benevolent',
+              children: 'benevolent'
             },
             {
               type: 'Typography',
               props: { sx: { mb: 1.5 }, color: 'text.secondary' },
-              children: 'adjective',
+              children: 'adjective'
             },
             {
               type: 'Typography',
               props: { variant: 'body2' },
-              children: ['well meaning and kindly.', '"a benevolent smile"'],
-            },
-          ],
+              children: ['well meaning and kindly.', '"a benevolent smile"']
+            }
+          ]
         },
         {
           type: 'CardActions',
@@ -2707,15 +2707,15 @@ const MUITypes: MUIType[] = [
             {
               type: 'Button',
               props: {
-                size: 'small',
+                size: 'small'
               },
-              children: 'Learn More',
-            },
-          ],
-        },
-      ],
+              children: 'Learn More'
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 53,
@@ -2729,7 +2729,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import Box from '@mui/material/Box';",
-      "import Paper from '@mui/material/Paper';",
+      "import Paper from '@mui/material/Paper';"
     ],
     stateAndEventHandlers: [],
     defaultProps: [],
@@ -2740,14 +2740,14 @@ const MUITypes: MUIType[] = [
       'elevation',
       'square',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: [
       "<Box sx={{ display: 'flex', flexWrap: 'wrap', '& > :not(style)': { m: 1, width: 128, height: 128 } }}>",
       '  <Paper elevation={0} />',
       '  <Paper />',
       '  <Paper elevation={3} />',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
@@ -2758,34 +2758,34 @@ const MUITypes: MUIType[] = [
           '& > :not(style)': {
             m: 1,
             width: 128,
-            height: 128,
-          },
-        },
+            height: 128
+          }
+        }
       },
       children: [
         {
           type: 'Paper',
           props: {
             elevation: 0,
-            sx: { backgroundColor: '#121212' },
-          },
+            sx: { backgroundColor: '#121212' }
+          }
         },
         {
           type: 'Paper',
           props: {
-            sx: { backgroundColor: '#1E1E1E' },
-          },
+            sx: { backgroundColor: '#1E1E1E' }
+          }
         },
         {
           type: 'Paper',
           props: {
             elevation: 3,
-            sx: { backgroundColor: '#252525' },
-          },
-        },
-      ],
+            sx: { backgroundColor: '#252525' }
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 54,
@@ -2804,7 +2804,7 @@ const MUITypes: MUIType[] = [
       "import FolderIcon from '@mui/icons-material/Folder';",
       "import RestoreIcon from '@mui/icons-material/Restore';",
       "import FavoriteIcon from '@mui/icons-material/Favorite';",
-      "import LocationOnIcon from '@mui/icons-material/LocationOn';",
+      "import LocationOnIcon from '@mui/icons-material/LocationOn';"
     ],
     stateAndEventHandlers: ['const [value, setValue] = React.useState(0);\n'],
     defaultProps: [],
@@ -2815,7 +2815,7 @@ const MUITypes: MUIType[] = [
       'onChange',
       'showLabels',
       'sx',
-      'value',
+      'value'
     ],
     jsx: [
       '<Box sx={{ width: 500 }}>',
@@ -2825,12 +2825,12 @@ const MUITypes: MUIType[] = [
       "    <BottomNavigationAction label='Nearby' value='nearby' icon={<LocationOnIcon />} />",
       "    <BottomNavigationAction label='Folder' value='folder' icon={<FolderIcon />} />",
       '  </BottomNavigation>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
       props: {
-        sx: { width: 500, m: 1 },
+        sx: { width: 500, m: 1 }
       },
       children: [
         {
@@ -2839,7 +2839,7 @@ const MUITypes: MUIType[] = [
             value: '{value}',
             onChange: '{(event, newValue) => setValue(newValue)}',
             showLabels: true,
-            sx: { backgroundColor: '#0671E3' },
+            sx: { backgroundColor: '#f88e16' }
           },
           children: [
             {
@@ -2847,38 +2847,38 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Recents',
                 icon: '<RestoreIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' },
-              },
+                sx: { backgroundColor: '#f88e16', color: 'white' }
+              }
             },
             {
               type: 'BottomNavigationAction',
               props: {
                 label: 'Favorites',
                 icon: '<FavoriteIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' },
-              },
+                sx: { backgroundColor: '#f88e16', color: 'white' }
+              }
             },
             {
               type: 'BottomNavigationAction',
               props: {
                 label: 'Nearby',
                 icon: '<LocationOnIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' },
-              },
+                sx: { backgroundColor: '#f88e16', color: 'white' }
+              }
             },
             {
               type: 'BottomNavigationAction',
               props: {
                 label: 'Folder',
                 icon: '<FolderIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' },
-              },
-            },
-          ],
-        },
-      ],
+                sx: { backgroundColor: '#f88e16', color: 'white' }
+              }
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 55,
@@ -2893,13 +2893,13 @@ const MUITypes: MUIType[] = [
     imports: [
       "import Breadcrumbs from '@mui/material/Breadcrumbs';",
       "import Link from '@mui/material/Link';",
-      "import Typography from '@mui/material/Typography';",
+      "import Typography from '@mui/material/Typography';"
     ],
     stateAndEventHandlers: [
       '\nfunction handleClick(event) {',
       '  event.preventDefault();',
       '  console.info("You clicked a breadcrumb.");',
-      '}; \n',
+      '}; \n'
     ],
     defaultProps: ['aria-label="breadcrumb"'],
     propOptions: [
@@ -2913,7 +2913,7 @@ const MUITypes: MUIType[] = [
       'separator',
       'slotProps',
       'slots',
-      'sx',
+      'sx'
     ],
     jsx: [
       "<div role='presentation' onClick={handleClick}>",
@@ -2922,20 +2922,20 @@ const MUITypes: MUIType[] = [
       "    <Link underline='hover' color='inherit' href='#'>Core</Link>",
       "    <Typography color='text.primary'>Breadcrumbs</Typography>",
       '  </Breadcrumbs>',
-      '</div>',
+      '</div>'
     ],
     componentData: {
       type: 'div',
       props: {
         role: 'presentation',
         onClick: '{handleClick}',
-        s: { m: 1 },
+        s: { m: 1 }
       },
       children: [
         {
           type: 'Breadcrumbs',
           props: {
-            'aria-label': 'breadcrumb',
+            'aria-label': 'breadcrumb'
           },
           children: [
             {
@@ -2943,18 +2943,18 @@ const MUITypes: MUIType[] = [
               props: {
                 underline: 'hover',
                 color: 'inherit',
-                onClick: 'event => event.preventDefault()',
+                onClick: 'event => event.preventDefault()'
               },
-              children: 'MUI',
+              children: 'MUI'
             },
             {
               type: 'Link',
               props: {
                 underline: 'hover',
                 color: 'inherit',
-                onClick: 'event => event.preventDefault()',
+                onClick: 'event => event.preventDefault()'
               },
-              children: 'Core',
+              children: 'Core'
             },
             {
               type: 'Link',
@@ -2962,15 +2962,15 @@ const MUITypes: MUIType[] = [
                 underline: 'hover',
                 color: 'text.primary',
                 onClick: 'event => event.preventDefault()',
-                'aria-current': 'page',
+                'aria-current': 'page'
               },
-              children: 'Breadcrumbs',
-            },
-          ],
-        },
-      ],
+              children: 'Breadcrumbs'
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 56,
@@ -2993,7 +2993,7 @@ const MUITypes: MUIType[] = [
       "import ListItemIcon from '@mui/material/ListItemIcon';",
       "import ListItemText from '@mui/material/ListItemText';",
       "import InboxIcon from '@mui/icons-material/MoveToInbox';",
-      "import MailIcon from '@mui/icons-material/Mail';",
+      "import MailIcon from '@mui/icons-material/Mail';"
     ],
     stateAndEventHandlers: [
       // Ensuring every snippet is unique by appending unique details
@@ -3030,7 +3030,7 @@ const MUITypes: MUIType[] = [
       '    </List> // uniqueKey-031',
       '  </Box> // uniqueKey-032',
       '); // uniqueKey-033',
-      '',
+      ''
     ],
     defaultProps: ['open={open} onClose={toggleDrawer(false)}'],
     propOptions: [
@@ -3046,7 +3046,7 @@ const MUITypes: MUIType[] = [
       'SlideProps',
       'sx',
       'transitionDuration',
-      'variant',
+      'variant'
     ],
     jsx: [
       '<div>',
@@ -3054,7 +3054,7 @@ const MUITypes: MUIType[] = [
       '  <Drawer >',
       '    {DrawerList}',
       '  </Drawer>',
-      '</div>',
+      '</div>'
     ],
     componentData: {
       type: 'Box',
@@ -3064,25 +3064,25 @@ const MUITypes: MUIType[] = [
           type: 'Button',
           props: {
             onClick: 'toggleDrawer(true)',
-            role: 'drawer',
+            role: 'drawer'
           },
-          children: 'Open drawer',
+          children: 'Open drawer'
         },
         {
           type: 'Drawer',
           props: {
             open: 'open',
-            onClose: 'toggleDrawer(false)',
+            onClose: 'toggleDrawer(false)'
           },
           children: {
             type: 'DrawerList',
             props: {},
-            children: '',
-          },
-        },
-      ],
+            children: ''
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 57,
@@ -3096,7 +3096,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import Box from '@mui/material/Box';",
-      "import Link from '@mui/material/Link';",
+      "import Link from '@mui/material/Link';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['onClick={preventDefault}'],
@@ -3108,14 +3108,14 @@ const MUITypes: MUIType[] = [
       'color',
       'TypographyClasses',
       'underline',
-      'variant',
+      'variant'
     ],
     jsx: [
       "<Box sx={{ typography: 'body1', '& > :not(style) ~ :not(style)': { ml: 2 } }} onClick={preventDefault}>",
       "  <Link href='#' >Link</Link>",
       "  <Link href='#' color='inherit'>{'color=\"inherit\"'}</Link>",
       "  <Link href='#' variant='body2'>{'variant=\"body2\"'}</Link>",
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
@@ -3123,35 +3123,35 @@ const MUITypes: MUIType[] = [
         sx: {
           typography: 'body1',
           '& > :not(style) ~ :not(style)': {
-            ml: 2,
+            ml: 2
           },
-          m: 1,
+          m: 1
         },
-        onClick: 'preventDefault',
+        onClick: 'preventDefault'
       },
       children: [
         {
           type: 'Link',
           props: {},
-          children: 'Link',
+          children: 'Link'
         },
         {
           type: 'Link',
           props: {
-            color: 'inherit',
+            color: 'inherit'
           },
-          children: 'color="inherit"',
+          children: 'color="inherit"'
         },
         {
           type: 'Link',
           props: {
-            variant: 'body2',
+            variant: 'body2'
           },
-          children: 'variant="body2"',
-        },
-      ],
+          children: 'variant="body2"'
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 58,
@@ -3166,16 +3166,16 @@ const MUITypes: MUIType[] = [
     imports: [
       "import Button from '@mui/material/Button';",
       "import Menu from '@mui/material/Menu';",
-      "import MenuItem from '@mui/material/MenuItem';",
+      "import MenuItem from '@mui/material/MenuItem';"
     ],
     stateAndEventHandlers: [
       'const [anchorEl, setAnchorEl] = React.useState(null);',
       'const open = Boolean(anchorEl);',
       'const handleClick = (event) => setAnchorEl(event.currentTarget);',
-      'const handleClose = () => setAnchorEl(null);\n',
+      'const handleClose = () => setAnchorEl(null);\n'
     ],
     defaultProps: [
-      "anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{'aria-labelledby': 'basic-button'}}",
+      "anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{'aria-labelledby': 'basic-button'}}"
     ],
     propOptions: [
       'anchorEl',
@@ -3194,7 +3194,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'transitionDuration',
       'TransitionProps',
-      'variant',
+      'variant'
     ],
     jsx: [
       '<div>',
@@ -3206,7 +3206,7 @@ const MUITypes: MUIType[] = [
       '    <MenuItem onClick={handleClose}>My account</MenuItem>',
       '    <MenuItem onClick={handleClose}>Logout</MenuItem>',
       '  </Menu>',
-      '</div>',
+      '</div>'
     ],
     componentData: {
       type: 'div',
@@ -3220,9 +3220,9 @@ const MUITypes: MUIType[] = [
             'aria-expanded': "{open ? 'true' : undefined}",
             onClick: 'handleClick',
             sx: { m: 1 },
-            role: 'menu',
+            role: 'menu'
           },
-          children: 'Dashboard',
+          children: 'Dashboard'
         },
         {
           type: 'Menu',
@@ -3232,36 +3232,36 @@ const MUITypes: MUIType[] = [
             open: '{open}',
             onClose: 'handleClose',
             MenuListProps: {
-              'aria-labelledby': 'basic-button',
-            },
+              'aria-labelledby': 'basic-button'
+            }
           },
           children: [
             {
               type: 'MenuItem',
               props: {
-                onClick: 'handleClose',
+                onClick: 'handleClose'
               },
-              children: 'Profile',
+              children: 'Profile'
             },
             {
               type: 'MenuItem',
               props: {
-                onClick: 'handleClose',
+                onClick: 'handleClose'
               },
-              children: 'My account',
+              children: 'My account'
             },
             {
               type: 'MenuItem',
               props: {
-                onClick: 'handleClose',
+                onClick: 'handleClose'
               },
-              children: 'Logout',
-            },
-          ],
-        },
-      ],
+              children: 'Logout'
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 59,
@@ -3297,7 +3297,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'transitionDuration',
       'TransitionProps',
-      'variant',
+      'variant'
     ],
     jsx: ['<Pagination />'],
     componentData: {
@@ -3305,19 +3305,19 @@ const MUITypes: MUIType[] = [
       props: {
         direction: 'row',
         spacing: 2,
-        sx: { m: 1 },
+        sx: { m: 1 }
       },
       children: [
         {
           type: 'Pagination',
           props: {
             count: 10,
-            color: 'secondary',
-          },
-        },
-      ],
+            color: 'secondary'
+          }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 60,
@@ -3343,11 +3343,11 @@ const MUITypes: MUIType[] = [
       "  { icon: <SaveIcon />, name: 'Save' },",
       "  { icon: <PrintIcon />, name: 'Print' },",
       "  { icon: <ShareIcon />, name: 'Share' },",
-      '];',
+      '];'
     ],
     stateAndEventHandlers: [],
     defaultProps: [
-      'ariaLabel="SpeedDial basic example" sx={{ position: "absolute", bottom: 16, right: 16 }} icon={<SpeedDialIcon />}',
+      'ariaLabel="SpeedDial basic example" sx={{ position: "absolute", bottom: 16, right: 16 }} icon={<SpeedDialIcon />}'
     ],
     propOptions: [
       'ariaLabel',
@@ -3365,14 +3365,14 @@ const MUITypes: MUIType[] = [
       'TransitionComponent',
       'transitionDuration',
       'TransitionProps',
-      'variant',
+      'variant'
     ],
     jsx: [
       "<Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1 }}>",
       '  <SpeedDial >',
       '    {actions.map((action) => (<SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name}/>))}',
       '  </SpeedDial>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
@@ -3380,8 +3380,8 @@ const MUITypes: MUIType[] = [
         sx: {
           height: 320,
           transform: 'translateZ(0px)',
-          flexGrow: 1,
-        },
+          flexGrow: 1
+        }
       },
       children: [
         {
@@ -3389,42 +3389,42 @@ const MUITypes: MUIType[] = [
           props: {
             ariaLabel: 'SpeedDial basic example',
             sx: { position: 'absolute', bottom: 16, right: 16 },
-            icon: '<SpeedDialIcon />',
+            icon: '<SpeedDialIcon />'
           },
           children: [
             {
               type: 'SpeedDialAction',
               props: {
                 icon: '<FileCopyIcon />',
-                name: 'Copy',
-              },
+                name: 'Copy'
+              }
             },
             {
               type: 'SpeedDialAction',
               props: {
                 icon: '<SaveIcon />',
-                name: 'Save',
-              },
+                name: 'Save'
+              }
             },
             {
               type: 'SpeedDialAction',
               props: {
                 icon: '<PrintIcon />',
-                name: 'Print',
-              },
+                name: 'Print'
+              }
             },
             {
               type: 'SpeedDialAction',
               props: {
                 icon: '<ShareIcon />',
-                name: 'Share',
-              },
-            },
-          ],
-        },
-      ],
+                name: 'Share'
+              }
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 61,
@@ -3449,7 +3449,7 @@ const MUITypes: MUIType[] = [
       "  { label: 'Select campaign settings', description: `For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.` },",
       "  { label: 'Create an ad group', description: 'An ad group contains one or more ads which target a shared set of keywords.' },",
       "  { label: 'Create an ad', description: `Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.` }",
-      '];',
+      '];'
     ],
     stateAndEventHandlers: [
       'const [activeStep, setActiveStep] = React.useState(0);',
@@ -3459,7 +3459,7 @@ const MUITypes: MUIType[] = [
       '\nconst handleBack = () => {',
       '  setActiveStep((prevActiveStep) => prevActiveStep - 1);\n};',
       '\nconst handleReset = () => {',
-      'setActiveStep(0);\n};\n',
+      'setActiveStep(0);\n};\n'
     ],
     defaultProps: ['activeStep={activeStep} orientation="vertical"'],
     propOptions: [
@@ -3474,7 +3474,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'TransitionComponent',
       'transitionDuration',
-      'TransitionProps',
+      'TransitionProps'
     ],
     jsx: [
       '<Box sx={{ maxWidth: 400 }}>',
@@ -3500,50 +3500,50 @@ const MUITypes: MUIType[] = [
       '      <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>Reset</Button>',
       '    </Paper>',
       '  )}',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
       props: {
         sx: {
-          maxWidth: '400',
-        },
+          maxWidth: '400'
+        }
       },
       children: [
         {
           type: 'Stepper',
           props: {
             activeStep: '{activeStep}',
-            orientation: 'vertical',
+            orientation: 'vertical'
           },
           children: [
             {
               type: 'Step',
               props: {
-                key: '{step.label}',
+                key: '{step.label}'
               },
               children: [
                 {
                   type: 'StepLabel',
                   props: {
                     optional:
-                      '{index === 2 ? \'<Typography variant="caption">Last step</Typography>\' : null}',
+                      '{index === 2 ? \'<Typography variant="caption">Last step</Typography>\' : null}'
                   },
-                  children: '{step.label}',
+                  children: '{step.label}'
                 },
                 {
                   type: 'StepContent',
                   children: [
                     {
                       type: 'Typography',
-                      children: '{step.description}',
+                      children: '{step.description}'
                     },
                     {
                       type: 'Box',
                       props: {
                         sx: {
-                          mb: '2',
-                        },
+                          mb: '2'
+                        }
                       },
                       children: [
                         {
@@ -3556,11 +3556,11 @@ const MUITypes: MUIType[] = [
                                 onClick: '{handleNext}',
                                 sx: {
                                   mt: '1',
-                                  mr: '1',
-                                },
+                                  mr: '1'
+                                }
                               },
                               children:
-                                "{index === steps.length - 1 ? 'Finish' : 'Continue'}",
+                                "{index === steps.length - 1 ? 'Finish' : 'Continue'}"
                             },
                             {
                               type: 'Button',
@@ -3569,24 +3569,24 @@ const MUITypes: MUIType[] = [
                                 onClick: '{handleBack}',
                                 sx: {
                                   mt: '1',
-                                  mr: '1',
-                                },
+                                  mr: '1'
+                                }
                               },
-                              children: 'Back',
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                              children: 'Back'
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 62,
@@ -3632,14 +3632,14 @@ const MUITypes: MUIType[] = [
       '    id: `simple-tab-${index}`,',
       "    'aria-controls': `simple-tabpanel-${index}`",
       '  };',
-      '}',
+      '}'
     ],
     stateAndEventHandlers: [
       'const [value, setValue] = React.useState(0);',
-      '\nconst handleChange = (event, newValue) => setValue(newValue);\n',
+      '\nconst handleChange = (event, newValue) => setValue(newValue);\n'
     ],
     defaultProps: [
-      'value={value} onChange={handleChange} aria-label="basic tabs example"',
+      'value={value} onChange={handleChange} aria-label="basic tabs example"'
     ],
     propOptions: [
       'children',
@@ -3653,7 +3653,7 @@ const MUITypes: MUIType[] = [
       'label',
       'sx',
       'value',
-      'wrapped',
+      'wrapped'
     ],
     jsx: [
       "<Box sx={{ width: '100%' }}>",
@@ -3673,18 +3673,18 @@ const MUITypes: MUIType[] = [
       '  <CustomTabPanel value={value} index={2}>',
       '    Item Three',
       '  </CustomTabPanel>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
       props: {
-        sx: { width: '100%' },
+        sx: { width: '100%' }
       },
       children: [
         {
           type: 'Box',
           props: {
-            sx: { borderBottom: 1, borderColor: 'divider' },
+            sx: { borderBottom: 1, borderColor: 'divider' }
           },
           children: [
             {
@@ -3692,61 +3692,61 @@ const MUITypes: MUIType[] = [
               props: {
                 value: '{value}',
                 onChange: 'handleChange',
-                'aria-label': 'basic tabs example',
+                'aria-label': 'basic tabs example'
               },
               children: [
                 {
                   type: 'Tab',
                   props: {
                     label: 'Item One',
-                    index: 0,
-                  },
+                    index: 0
+                  }
                 },
                 {
                   type: 'Tab',
                   props: {
                     label: 'Item Two',
-                    index: 1,
-                  },
+                    index: 1
+                  }
                 },
                 {
                   type: 'Tab',
                   props: {
                     label: 'Item Three',
-                    index: 2,
-                  },
-                },
-              ],
-            },
-          ],
+                    index: 2
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
           type: 'CustomTabPanel',
           props: {
             value: '{value}',
-            index: 0,
+            index: 0
           },
-          children: 'Item One',
+          children: 'Item One'
         },
         {
           type: 'CustomTabPanel',
           props: {
             value: '{value}',
-            index: 1,
+            index: 1
           },
-          children: 'Item Two',
+          children: 'Item Two'
         },
         {
           type: 'CustomTabPanel',
           props: {
             value: '{value}',
-            index: 2,
+            index: 2
           },
-          children: 'Item Three',
-        },
-      ],
+          children: 'Item Three'
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 63,
@@ -3761,7 +3761,7 @@ const MUITypes: MUIType[] = [
     imports: ["import Box from '@mui/material/Box';"],
     stateAndEventHandlers: [],
     defaultProps: [
-      'component="section" sx={{ p: 2, border: "1px dashed grey" }}',
+      'component="section" sx={{ p: 2, border: "1px dashed grey" }}'
     ],
     propOptions: ['component', 'sx'],
     jsx: ['<Box>This Box renders as an HTML section element.</Box>'],
@@ -3769,11 +3769,11 @@ const MUITypes: MUIType[] = [
       type: 'Box',
       props: {
         component: 'section',
-        sx: { p: 2, border: '1px dashed grey', m: 1 },
+        sx: { p: 2, border: '1px dashed grey', m: 1 }
       },
-      children: ['This Box renders as an HTML section element.'],
+      children: ['This Box renders as an HTML section element.']
     },
-    children: [],
+    children: []
   },
   {
     id: 64,
@@ -3788,7 +3788,7 @@ const MUITypes: MUIType[] = [
     imports: [
       "import CssBaseline from '@mui/material/CssBaseline';",
       "import Box from '@mui/material/Box';",
-      "import Container from '@mui/material/Container';",
+      "import Container from '@mui/material/Container';"
     ],
     stateAndEventHandlers: [],
     defaultProps: ['maxWidth="sm"'],
@@ -3798,7 +3798,7 @@ const MUITypes: MUIType[] = [
       'disableGutters',
       'fixed',
       'maxWidth',
-      'sx',
+      'sx'
     ],
     jsx: [
       '<React.Fragment>',
@@ -3806,7 +3806,7 @@ const MUITypes: MUIType[] = [
       '  <Container >',
       "    <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} />",
       '  </Container>',
-      '</React.Fragment>',
+      '</React.Fragment>'
     ],
     componentData: {
       type: 'Container',
@@ -3814,11 +3814,11 @@ const MUITypes: MUIType[] = [
       children: [
         {
           type: 'Box',
-          props: { sx: { bgcolor: '#cfe8fc', height: '100vh' } },
-        },
-      ],
+          props: { sx: { bgcolor: '#cfe8fc', height: '100vh' } }
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 65,
@@ -3841,7 +3841,7 @@ const MUITypes: MUIType[] = [
       '  padding: theme.spacing(1),',
       '  textAlign: "center",',
       ' color: theme.palette.text.secondary,',
-      '}));',
+      '}));'
     ],
     stateAndEventHandlers: [],
     defaultProps: ['container spacing={2}'],
@@ -3863,7 +3863,7 @@ const MUITypes: MUIType[] = [
       'wrap',
       'xl',
       'xs',
-      'zeroMinWidth',
+      'zeroMinWidth'
     ],
     jsx: [
       '<Box sx={{ flexGrow: 1 }}>',
@@ -3881,7 +3881,7 @@ const MUITypes: MUIType[] = [
       '      <Item>xs=8</Item>',
       '    </Grid>',
       '  </Grid>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
@@ -3898,9 +3898,9 @@ const MUITypes: MUIType[] = [
                 {
                   type: 'Item',
                   props: { backgroundColor: '#1A2027', textColor: '#FFFFFF' },
-                  children: 'xs=7',
-                },
-              ],
+                  children: 'xs=7'
+                }
+              ]
             },
             {
               type: 'Grid',
@@ -3909,9 +3909,9 @@ const MUITypes: MUIType[] = [
                 {
                   type: 'Item',
                   props: { backgroundColor: '#1A2027', textColor: '#FFFFFF' },
-                  children: 'xs=4',
-                },
-              ],
+                  children: 'xs=4'
+                }
+              ]
             },
             {
               type: 'Grid',
@@ -3920,9 +3920,9 @@ const MUITypes: MUIType[] = [
                 {
                   type: 'Item',
                   props: { backgroundColor: '#1A2027', textColor: '#FFFFFF' },
-                  children: 'xs=4',
-                },
-              ],
+                  children: 'xs=4'
+                }
+              ]
             },
             {
               type: 'Grid',
@@ -3931,15 +3931,15 @@ const MUITypes: MUIType[] = [
                 {
                   type: 'Item',
                   props: { backgroundColor: '#1A2027', textColor: '#FFFFFF' },
-                  children: 'xs=7',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  children: 'xs=7'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 68,
@@ -3962,7 +3962,7 @@ const MUITypes: MUIType[] = [
       '  padding: theme.spacing(1),',
       '  textAlign: "center",',
       ' color: theme.palette.text.secondary,',
-      '}));',
+      '}));'
     ],
     stateAndEventHandlers: [],
     defaultProps: ['spacing={2}'],
@@ -3973,7 +3973,7 @@ const MUITypes: MUIType[] = [
       'divider',
       'spacing',
       'sx',
-      'useFlexGap',
+      'useFlexGap'
     ],
     jsx: [
       '<Box sx={{ width: "100%" }}>',
@@ -3982,7 +3982,7 @@ const MUITypes: MUIType[] = [
       '    <Item>Item 2</Item>',
       '    <Item>Item 3</Item>',
       '  </Stack>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Stack',
@@ -3990,10 +3990,10 @@ const MUITypes: MUIType[] = [
       children: [
         { type: 'Item', props: {}, children: 'Item 1' },
         { type: 'Item', props: {}, children: 'Item 2' },
-        { type: 'Item', props: {}, children: 'Item 3' },
-      ],
+        { type: 'Item', props: {}, children: 'Item 3' }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 69,
@@ -4057,7 +4057,7 @@ const MUITypes: MUIType[] = [
       "    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',",
       "    title: 'Bike',",
       '  }',
-      '];',
+      '];'
     ],
     stateAndEventHandlers: [],
     defaultProps: ['sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}'],
@@ -4069,7 +4069,7 @@ const MUITypes: MUIType[] = [
       'gap',
       'rowHeight',
       'sx',
-      'variant',
+      'variant'
     ],
     jsx: [
       '<ImageList >',
@@ -4083,14 +4083,14 @@ const MUITypes: MUIType[] = [
       '      />',
       '    </ImageListItem>',
       '  ))}',
-      '</ImageList>',
+      '</ImageList>'
     ],
     componentData: {
       type: 'ImageList',
       props: { sx: { m: 1 } },
-      children: [],
+      children: []
     },
-    children: [],
+    children: []
   },
   {
     id: 73,
@@ -4117,15 +4117,15 @@ const MUITypes: MUIType[] = [
       "  border: '2px solid #000',",
       '  boxShadow: 24,',
       '  p: 4,',
-      '};',
+      '};'
     ],
     stateAndEventHandlers: [
       'const [open, setOpen] = React.useState(false);',
       'const handleOpen = () => setOpen(true);',
-      'const handleClose = () => setOpen(false);\n',
+      'const handleClose = () => setOpen(false);\n'
     ],
     defaultProps: [
-      'open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"',
+      'open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"'
     ],
     propOptions: [
       'children',
@@ -4151,7 +4151,7 @@ const MUITypes: MUIType[] = [
       'onTransitionExited',
       'slotProps',
       'slots',
-      'sx',
+      'sx'
     ],
     jsx: [
       '<div>',
@@ -4166,7 +4166,7 @@ const MUITypes: MUIType[] = [
       '      </Typography>',
       '    </Box>',
       '  </Modal>',
-      '</div>',
+      '</div>'
     ],
     componentData: {
       type: 'div',
@@ -4176,9 +4176,9 @@ const MUITypes: MUIType[] = [
           type: 'Button',
           props: {
             onClick: 'handleOpen',
-            role: 'modalTrigger',
+            role: 'modalTrigger'
           },
-          children: 'Open modal',
+          children: 'Open modal'
         },
         {
           type: 'Modal',
@@ -4186,14 +4186,14 @@ const MUITypes: MUIType[] = [
             open: '{open}',
             onClose: 'handleClose',
             'aria-labelledby': 'modal-modal-title',
-            'aria-describedby': 'modal-modal-description',
+            'aria-describedby': 'modal-modal-description'
           },
           children: [
             {
               type: 'Box',
               props: {
                 sx: '{style}',
-                role: 'modalTrigger',
+                role: 'modalTrigger'
               },
               children: [
                 {
@@ -4201,26 +4201,26 @@ const MUITypes: MUIType[] = [
                   props: {
                     id: 'modal-modal-title',
                     variant: 'h6',
-                    component: 'h2',
+                    component: 'h2'
                   },
-                  children: 'Text in a modal',
+                  children: 'Text in a modal'
                 },
                 {
                   type: 'Typography',
                   props: {
                     id: 'modal-modal-description',
-                    sx: '{mt: 2}',
+                    sx: '{mt: 2}'
                   },
                   children:
-                    'Duis mollis, est non commodo luctus, nisi erat porttitor ligula.',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                    'Duis mollis, est non commodo luctus, nisi erat porttitor ligula.'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 75,
@@ -4235,17 +4235,17 @@ const MUITypes: MUIType[] = [
     imports: [
       "import Popover from '@mui/material/Popover';",
       "import Typography from '@mui/material/Typography';",
-      "import Button from '@mui/material/Button';",
+      "import Button from '@mui/material/Button';"
     ],
     stateAndEventHandlers: [
       'const [anchorEl, setAnchorEl] = React.useState(null);',
       'const handleClick = (event) => setAnchorEl(event.currentTarget);',
       'const handleClose = () => setAnchorEl(null);',
       'const open = Boolean(anchorEl);',
-      "const id = open ? 'simple-popover' : undefined;\n",
+      "const id = open ? 'simple-popover' : undefined;\n"
     ],
     defaultProps: [
-      "id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}",
+      "id={id} open={open} anchorEl={anchorEl} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}"
     ],
     propOptions: [
       'open',
@@ -4267,7 +4267,7 @@ const MUITypes: MUIType[] = [
       'transformOrigin',
       'TransitionComponent',
       'transitionDuration',
-      'TransitionProps',
+      'TransitionProps'
     ],
     jsx: [
       '<div>',
@@ -4277,7 +4277,7 @@ const MUITypes: MUIType[] = [
       '  <Popover >',
       '    <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>',
       '  </Popover>',
-      '</div>',
+      '</div>'
     ],
     componentData: {
       type: 'div',
@@ -4289,9 +4289,9 @@ const MUITypes: MUIType[] = [
             'aria-describedby': '{id}',
             role: 'popoverTrigger', // added to differentiate from other buttons
             variant: 'contained',
-            onClick: 'handleClick',
+            onClick: 'handleClick'
           },
-          children: 'Open Popover',
+          children: 'Open Popover'
         },
         {
           type: 'Popover',
@@ -4302,22 +4302,22 @@ const MUITypes: MUIType[] = [
             onClose: 'handleClose',
             anchorOrigin: {
               vertical: 'bottom',
-              horizontal: 'left',
-            },
+              horizontal: 'left'
+            }
           },
           children: [
             {
               type: 'Typography',
               props: {
-                sx: { p: 2 },
+                sx: { p: 2 }
               },
-              children: 'The content of the Popover.',
-            },
-          ],
-        },
-      ],
+              children: 'The content of the Popover.'
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 76,
@@ -4331,7 +4331,7 @@ const MUITypes: MUIType[] = [
     nestable: false,
     imports: [
       "import Box from '@mui/material/Box';",
-      "import Popper from '@mui/material/Popper';",
+      "import Popper from '@mui/material/Popper';"
     ],
     stateAndEventHandlers: [
       'const [anchorEl, setAnchorEl] = React.useState(null);',
@@ -4339,7 +4339,7 @@ const MUITypes: MUIType[] = [
       '  setAnchorEl(anchorEl ? null : event.currentTarget);',
       '};',
       '\nconst open = Boolean(anchorEl);',
-      '\nconst id = open ? "simple-popper" : undefined;\n',
+      '\nconst id = open ? "simple-popper" : undefined;\n'
     ],
     defaultProps: ['id={id} open={open} anchorEl={anchorEl}'],
     propOptions: [
@@ -4359,7 +4359,7 @@ const MUITypes: MUIType[] = [
       'slotProps',
       'slots',
       'sx',
-      'transition',
+      'transition'
     ],
     jsx: [
       '<div>',
@@ -4371,7 +4371,7 @@ const MUITypes: MUIType[] = [
       '      The content of the Popper.',
       '    </Box>',
       '  </Popper>',
-      '</div>',
+      '</div>'
     ],
     componentData: {
       type: 'div',
@@ -4383,9 +4383,9 @@ const MUITypes: MUIType[] = [
             'aria-describedby': '{id}',
             type: 'button',
             onClick: '{handleClick}',
-            role: 'popperTrigger',
+            role: 'popperTrigger'
           },
-          children: 'Toggle Popper',
+          children: 'Toggle Popper'
         },
         {
           type: 'Popper',
@@ -4393,15 +4393,15 @@ const MUITypes: MUIType[] = [
             {
               type: 'Box',
               props: {
-                sx: { border: 1, p: 1, bgcolor: 'background.paper' },
+                sx: { border: 1, p: 1, bgcolor: 'background.paper' }
               },
-              children: 'The content of the Popper.',
-            },
-          ],
-        },
-      ],
+              children: 'The content of the Popper.'
+            }
+          ]
+        }
+      ]
     },
-    children: [],
+    children: []
   },
   {
     id: 79,
@@ -4433,13 +4433,13 @@ const MUITypes: MUIType[] = [
       '      />',
       '    </svg>',
       '  </Paper>',
-      ');',
+      ');'
     ],
     stateAndEventHandlers: [
       'const [checked, setChecked] = React.useState(false);',
       '\nconst handleChange = () => {',
       '  setChecked((prev) => !prev);',
-      '};\n',
+      '};\n'
     ],
     defaultProps: [],
     propOptions: [
@@ -4452,7 +4452,7 @@ const MUITypes: MUIType[] = [
       'in',
       'orientation',
       'sx',
-      'timeout',
+      'timeout'
     ],
     jsx: [
       '<Box sx={{ height: 300 }}>',
@@ -4484,12 +4484,12 @@ const MUITypes: MUIType[] = [
       '      </Box>',
       '    </div>',
       '  </Box>',
-      '</Box>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
       props: {
-        sx: { height: 300 },
+        sx: { height: 300 }
       },
       children: [
         {
@@ -4498,11 +4498,11 @@ const MUITypes: MUIType[] = [
             control: {
               type: 'Switch',
               props: {},
-              children: [],
+              children: []
             },
             label: 'Show',
-            role: 'transition',
-          },
+            role: 'transition'
+          }
         },
         {
           type: 'Box',
@@ -4512,10 +4512,10 @@ const MUITypes: MUIType[] = [
                 display: 'flex',
                 justifyContent: 'space-around',
                 height: 120,
-                width: 250,
-              },
+                width: 250
+              }
             },
-            role: 'collapseBox',
+            role: 'collapseBox'
           },
           children: [
             {
@@ -4525,20 +4525,20 @@ const MUITypes: MUIType[] = [
                   type: 'Collapse',
                   props: {
                     in: '{checked}',
-                    role: 'collapse',
+                    role: 'collapse'
                   },
-                  children: 'icon',
+                  children: 'icon'
                 },
                 {
                   type: 'Collapse',
                   props: {
                     in: '{checked}',
                     collapsedSize: 40,
-                    role: 'collapse',
+                    role: 'collapse'
                   },
-                  children: 'icon',
-                },
-              ],
+                  children: 'icon'
+                }
+              ]
             },
             {
               type: 'div',
@@ -4551,10 +4551,10 @@ const MUITypes: MUIType[] = [
                     props: {
                       orientation: 'horizontal',
                       in: '{checked}',
-                      role: 'collapse',
+                      role: 'collapse'
                     },
-                    children: 'icon',
-                  },
+                    children: 'icon'
+                  }
                 },
                 {
                   type: 'Box',
@@ -4565,19 +4565,19 @@ const MUITypes: MUIType[] = [
                       orientation: 'horizontal',
                       in: '{checked}',
                       collapsedSize: 40,
-                      role: 'collapse',
+                      role: 'collapse'
                     },
-                    children: 'icon',
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                    children: 'icon'
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
-    children: [],
-  },
+    children: []
+  }
 ];
 
 export default MUITypes;

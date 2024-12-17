@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   MeetingConsumer,
   useMeeting,
-  useParticipant,
+  useParticipant
 } from '@videosdk.live/react-sdk';
 import ReactPlayer from 'react-player';
 import Button from '@mui/material/Button';
@@ -17,7 +17,7 @@ import {
   setUserJoinMeetingStatus,
   setMeetingParticipants,
   setUseMic,
-  setUseWebcam,
+  setUseWebcam
 } from '../../redux/reducers/slice/roomSlice';
 import { RootState } from '../../redux/store';
 import VideoMeetingControl from './VideoMeetingControl';
@@ -71,7 +71,7 @@ const Videomeeting = (props): JSX.Element => {
     userJoinMeetingStatus,
     meetingParticipants,
     useMic,
-    useWebcam,
+    useWebcam
   } = useSelector((store: RootState) => store.roomSlice);
 
   const micRef = useRef(null);
@@ -90,7 +90,7 @@ const Videomeeting = (props): JSX.Element => {
           alignItems: 'center',
           margin: '29px 0 15px 0',
           paddingLeft: '10px',
-          paddingRight: '10px',
+          paddingRight: '10px'
         }}
       >
         <AccountCircleIcon style={{ fontSize: 100, color: '#9C9D9F' }} />
@@ -105,7 +105,7 @@ const Videomeeting = (props): JSX.Element => {
   };
 
   const handleUserInfoStyle = (isLocalParticipant: boolean) => {
-    if (isLocalParticipant) return { color: '#0671E3', alignItems: 'center' };
+    if (isLocalParticipant) return { color: '#f88e16', alignItems: 'center' };
     else return { color: 'white', alignItems: 'center' };
   };
 
@@ -132,7 +132,7 @@ const Videomeeting = (props): JSX.Element => {
           micRef.current
             .play()
             .catch((error) =>
-              console.error('videoElem.current.play() failed', error),
+              console.error('videoElem.current.play() failed', error)
             );
         } else {
           micRef.current.srcObject = null;
@@ -150,7 +150,7 @@ const Videomeeting = (props): JSX.Element => {
                 display: 'flex',
                 flexDirection: 'column',
                 paddingLeft: '5px',
-                paddingRight: '5px',
+                paddingRight: '5px'
               }}
             >
               <audio ref={micRef} autoPlay muted={isLocal} />
@@ -176,7 +176,7 @@ const Videomeeting = (props): JSX.Element => {
                   ...handleUserInfoStyle(isLocalParticipant),
                   display: 'flex',
                   marginTop: '-50px',
-                  marginLeft: '15px',
+                  marginLeft: '15px'
                 }}
               >
                 <span>{displayName}</span>
@@ -207,7 +207,7 @@ const Videomeeting = (props): JSX.Element => {
       },
       onMeetingLeft: () => {
         onMeetingLeave();
-      },
+      }
     });
 
     const meetingParticipantsId = [...participants.keys()];
@@ -243,7 +243,7 @@ const Videomeeting = (props): JSX.Element => {
           height: '100%',
           position: 'relative',
           overflow: 'auto',
-          paddingBottom: '68px',
+          paddingBottom: '68px'
         }}
       >
         <div className="video-scrollable" style={{ overflow: 'auto' }}>
@@ -261,7 +261,7 @@ const Videomeeting = (props): JSX.Element => {
               flexDirection: 'row',
               flexWrap: 'wrap',
               justifyContent: 'center',
-              alignItems: 'center',
+              alignItems: 'center'
             }}
           >
             {[...meetingParticipantsId].map((participantId, idx) => (
@@ -276,7 +276,7 @@ const Videomeeting = (props): JSX.Element => {
         {userJoinCollabRoom && userJoinMeetingStatus === null && (
           <Button
             variant="contained"
-            style={{ backgroundColor: '#0671E3' }}
+            style={{ backgroundColor: '#f88e16' }}
             onClick={joinMeeting}
             sx={{ textTransform: 'capitalize' }}
           >
