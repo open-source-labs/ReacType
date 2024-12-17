@@ -11,6 +11,9 @@ import {
   Typography,
   Divider
 } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import NavBar from '../components/top/NavBar';
+import { theme1 } from '../public/styles/theme';
 
 const bull = (
   <Box
@@ -53,134 +56,147 @@ const ProfileContainer = (): JSX.Element => {
     }
   }, []);
 
+  const lightTheme = theme1;
+
   return (
-    <Card
-      sx={{ minWidth: 275, color: 'white', backgroundColor: '#1E2024' }}
-      variant="outlined"
-    >
-      <p
-        onClick={() => window.history.back()}
-        style={{
-          position: 'absolute',
-          right: '50px',
-          border: '1px solid rgba(255, 255, 255, 0.7)',
-          padding: '7px 10px'
-        }}
-      >
-        X
-      </p>
-      <CardContent>
-        <Typography
-          sx={{ fontSize: 14 }}
-          color="rgba(255, 255, 255, 0.7);
+    <>
+      <ThemeProvider theme={lightTheme}>
+        <div>
+          <NavBar />
+        </div>
+      </ThemeProvider>
+      <div>
+        <Card
+          sx={{ minWidth: 275, color: 'white', backgroundColor: '#1E2024' }}
+          variant="outlined"
+        >
+          {/* BACK BUTTON
+          <p
+            onClick={() => window.history.back()}
+            style={{
+              position: 'absolute',
+              right: '50px',
+              border: '1px solid rgba(255, 255, 255, 0.7)',
+              padding: '7px 10px'
+            }}
+          >
+            X
+          </p> */}
+          <CardContent>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="rgba(255, 255, 255, 0.7);
 "
-          gutterBottom
-        >
-          Hello,
-        </Typography>
-        <Typography variant="h5" component="div" sx={{ color: '#0671E3' }}>
-          {username ? username : 'Guest'}
-        </Typography>
-        <Typography
-          sx={{ mb: 1.5, marginTop: '7px' }}
-          color="rgba(255, 255, 255, 0.7);
+              gutterBottom
+            >
+              Hello,
+            </Typography>
+            <Typography variant="h5" component="div" sx={{ color: '#0671E3' }}>
+              {username || 'Guest'}
+            </Typography>
+            <Typography
+              sx={{ mb: 1.5, marginTop: '7px' }}
+              color="rgba(255, 255, 255, 0.7);
 "
-        >
-          Welcome to Reactype!
-        </Typography>
-        {email ? (
-          <Typography variant="body2">
-            Email:
-            <br />
-            {email}
-          </Typography>
-        ) : null}
-      </CardContent>
+            >
+              Welcome to Reactype!
+            </Typography>
+            {email ? (
+              <Typography variant="body2">
+                Email:
+                <br />
+                {email}
+              </Typography>
+            ) : null}
+          </CardContent>
 
-      <Divider />
+          <Divider />
 
-      <CardContent>
-        <Typography variant="h6" component="div" sx={{ color: 'white' }}>
-          Apps
-        </Typography>
-        <Typography
-          sx={{ mb: 1.5, marginTop: '8px' }}
-          color="rgba(255, 255, 255, 0.7);
+          <CardContent>
+            <Typography variant="h6" component="div" sx={{ color: 'white' }}>
+              Apps
+            </Typography>
+            <Typography
+              sx={{ mb: 1.5, marginTop: '8px' }}
+              color="rgba(255, 255, 255, 0.7);
 "
-        >
-          Create a web app or a native mobile app to build a custom internal
-          tool for your business.
-        </Typography>
-      </CardContent>
+            >
+              Create a web app or a native mobile app to build a custom internal
+              tool for your business.
+            </Typography>
+          </CardContent>
 
-      <Divider />
+          <Divider />
 
-      <CardContent>
-        <Typography variant="h6" component="div" sx={{ color: 'white' }}>
-          Resources
-        </Typography>
-        <Typography
-          sx={{ mb: 1.5, marginTop: '8px' }}
-          color="rgba(255, 255, 255, 0.7);
+          <CardContent>
+            <Typography variant="h6" component="div" sx={{ color: 'white' }}>
+              Resources
+            </Typography>
+            <Typography
+              sx={{ mb: 1.5, marginTop: '8px' }}
+              color="rgba(255, 255, 255, 0.7);
 "
-        >
-          Securely connect your data and display it inside of Reactype apps.
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button
-          size="small"
-          sx={{
-            color: '#0671E3',
-            textTransform: 'capitalize',
-            fontSize: '14px'
-          }}
-          href="https://react.dev/learn"
-        >
-          React docs
-        </Button>
-      </CardActions>
+            >
+              Securely connect your data and display it inside of Reactype apps.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              size="small"
+              sx={{
+                color: '#0671E3',
+                textTransform: 'capitalize',
+                fontSize: '14px'
+              }}
+              href="https://react.dev/learn"
+            >
+              React docs
+            </Button>
+          </CardActions>
 
-      <Divider />
+          <Divider />
 
-      <CardContent>
-        <Typography variant="h6" component="div" sx={{ color: 'white' }}>
-          Database
-        </Typography>
-        <Typography
-          sx={{ mb: 1.5, marginTop: '8px' }}
-          color="rgba(255, 255, 255, 0.7);
+          <CardContent>
+            <Typography variant="h6" component="div" sx={{ color: 'white' }}>
+              Database
+            </Typography>
+            <Typography
+              sx={{ mb: 1.5, marginTop: '8px' }}
+              color="rgba(255, 255, 255, 0.7);
 "
-        >
-          Easily store data in a free SQL database and power your Reactype app.
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button
-          size="small"
-          sx={{
-            color: '#0671E3',
-            textTransform: 'capitalize',
-            fontSize: '14px'
-          }}
-          href="https://www.mongodb.com/"
-        >
-          MongoDB
-        </Button>
-        <Button
-          size="small"
-          sx={{
-            color: '#0671E3',
-            textTransform: 'capitalize',
-            fontSize: '14px'
-          }}
-          href="https://aws.amazon.com/what-is/sql/#:~:text=Structured%20query%20language%20(SQL)%20is,relationships%20between%20the%20data%20values."
-        >
-          AWS SQL
-        </Button>
-      </CardActions>
-      <Divider />
-    </Card>
+            >
+              Easily store data in a free SQL database and power your Reactype
+              app.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              size="small"
+              sx={{
+                color: '#0671E3',
+                textTransform: 'capitalize',
+                fontSize: '14px'
+              }}
+              href="https://www.mongodb.com/"
+            >
+              MongoDB
+            </Button>
+            <Button
+              size="small"
+              sx={{
+                color: '#0671E3',
+                textTransform: 'capitalize',
+                fontSize: '14px'
+              }}
+              href="https://aws.amazon.com/what-is/sql/#:~:text=Structured%20query%20language%20(SQL)%20is,relationships%20between%20the%20data%20values."
+            >
+              AWS SQL
+            </Button>
+          </CardActions>
+          <Divider />
+        </Card>
+      </div>
+    </>
   );
 };
 

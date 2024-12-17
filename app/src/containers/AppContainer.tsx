@@ -48,7 +48,6 @@ const AppContainer: React.FC = () => {
   // useHistory hook to grab the url, if it is /marketplace then selectively render MarketplaceContainer
   const urlAdd = useHistory();
   const isMarketplace = urlAdd.location.pathname === '/marketplace';
-  const isProfile = urlAdd.location.pathname === '/profile';
 
   return (
     <StyledEngineProvider injectFirst>
