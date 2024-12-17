@@ -66,156 +66,137 @@ const ProfileContainer = (): JSX.Element => {
           <NavBar />
         </div>
       </ThemeProvider>
+      <CardContent sx={{ textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Typography variant="h5" component="div" sx={{ color: 'white', marginRight: '8px' }}>
+            {'Hello, '}
+          </Typography>
+          <Typography variant="h5" component="div" sx={{ color: '#0671E3' }}>
+            {`${username || ' Guest'}`}
+          </Typography>
+        </div>
+        <Typography
+          sx={{ mb: 1.5, marginTop: '7px' }}
+          color="rgba(255, 255, 255, 0.7);"
+        >
+          Welcome to Reactype!
+        </Typography>
+        {email ? (
+          <Typography variant="body2">
+            Email:
+            <br />
+            {email}
+          </Typography>
+        ) : null}
+      </CardContent>
       <div className={classes.gridContainer}>
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={3}
+          sx={{ minWidth: 275, color: 'white', backgroundColor: '#1E2024' }}
+        >
           {/* Card 1 */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Card
-              sx={{ minWidth: 275, color: 'white', backgroundColor: '#1E2024' }}
-              variant="outlined"
+          {/* <Card> */}
+          {/* BACK BUTTON
+            <p
+              onClick={() => window.history.back()}
+              style={{
+                position: 'absolute',
+                right: '50px',
+                border: '1px solid rgba(255, 255, 255, 0.7)',
+                padding: '7px 10px'
+              }}
             >
-              {/* BACK BUTTON
-          <p
-            onClick={() => window.history.back()}
-            style={{
-              position: 'absolute',
-              right: '50px',
-              border: '1px solid rgba(255, 255, 255, 0.7)',
-              padding: '7px 10px'
-            }}
-          >
-            X
-          </p> */}
-              <CardContent>
-                <Typography
-                  sx={{ fontSize: 14 }}
-                  color="rgba(255, 255, 255, 0.7);
+              X
+            </p> */}
+
+          <Divider />
+          <Grid item xs={12} sm={6} md={4}>
+            <CardContent>
+              <Typography variant="h6" component="div" sx={{ color: 'white' }}>
+                Apps
+              </Typography>
+              <Typography
+                sx={{ mb: 1.5, marginTop: '8px' }}
+                color="rgba(255, 255, 255, 0.7);
 "
-                  gutterBottom
-                >
-                  Hello,
-                </Typography>
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{ color: '#0671E3' }}
-                >
-                  {username || 'Guest'}
-                </Typography>
-                <Typography
-                  sx={{ mb: 1.5, marginTop: '7px' }}
-                  color="rgba(255, 255, 255, 0.7);
+              >
+                Create a web app or a native mobile app to build a custom
+                internal tool for your business.
+              </Typography>
+            </CardContent>
+          </Grid>
+
+          <Divider sx={{ marginBottom: '16px' }}/>
+          <Grid item xs={12} sm={6} md={4}>
+            <CardContent>
+              <Typography variant="h6" component="div" sx={{ color: 'white' }}>
+                Resources
+              </Typography>
+              <Typography
+                sx={{ mb: 1.5, marginTop: '8px' }}
+                color="rgba(255, 255, 255, 0.7);
 "
-                >
-                  Welcome to Reactype!
-                </Typography>
-                {email ? (
-                  <Typography variant="body2">
-                    Email:
-                    <br />
-                    {email}
-                  </Typography>
-                ) : null}
-              </CardContent>
-
-              <Divider />
-
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{ color: 'white' }}
-                >
-                  Apps
-                </Typography>
-                <Typography
-                  sx={{ mb: 1.5, marginTop: '8px' }}
-                  color="rgba(255, 255, 255, 0.7);
+              >
+                Securely connect your data and display it inside of Reactype
+                apps.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+                size="small"
+                sx={{
+                  color: '#0671E3',
+                  textTransform: 'capitalize',
+                  fontSize: '14px'
+                }}
+                href="https://react.dev/learn"
+              >
+                React docs
+              </Button>
+            </CardActions>
+          </Grid>
+          <Divider />
+          <Grid item xs={12} sm={6} md={4}>
+            <CardContent>
+              <Typography variant="h6" component="div" sx={{ color: 'white' }}>
+                Database
+              </Typography>
+              <Typography
+                sx={{ mb: 1.5, marginTop: '8px' }}
+                color="rgba(255, 255, 255, 0.7);
 "
-                >
-                  Create a web app or a native mobile app to build a custom
-                  internal tool for your business.
-                </Typography>
-              </CardContent>
-
-              <Divider />
-
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{ color: 'white' }}
-                >
-                  Resources
-                </Typography>
-                <Typography
-                  sx={{ mb: 1.5, marginTop: '8px' }}
-                  color="rgba(255, 255, 255, 0.7);
-"
-                >
-                  Securely connect your data and display it inside of Reactype
-                  apps.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  sx={{
-                    color: '#0671E3',
-                    textTransform: 'capitalize',
-                    fontSize: '14px'
-                  }}
-                  href="https://react.dev/learn"
-                >
-                  React docs
-                </Button>
-              </CardActions>
-
-              <Divider />
-
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{ color: 'white' }}
-                >
-                  Database
-                </Typography>
-                <Typography
-                  sx={{ mb: 1.5, marginTop: '8px' }}
-                  color="rgba(255, 255, 255, 0.7);
-"
-                >
-                  Easily store data in a free SQL database and power your
-                  Reactype app.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  sx={{
-                    color: '#0671E3',
-                    textTransform: 'capitalize',
-                    fontSize: '14px'
-                  }}
-                  href="https://www.mongodb.com/"
-                >
-                  MongoDB
-                </Button>
-                <Button
-                  size="small"
-                  sx={{
-                    color: '#0671E3',
-                    textTransform: 'capitalize',
-                    fontSize: '14px'
-                  }}
-                  href="https://aws.amazon.com/what-is/sql/#:~:text=Structured%20query%20language%20(SQL)%20is,relationships%20between%20the%20data%20values."
-                >
-                  AWS SQL
-                </Button>
-              </CardActions>
-              <Divider />
-            </Card>
+              >
+                Easily store data in a free SQL database and power your Reactype
+                app.
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+                size="small"
+                sx={{
+                  color: '#0671E3',
+                  textTransform: 'capitalize',
+                  fontSize: '14px'
+                }}
+                href="https://www.mongodb.com/"
+              >
+                MongoDB
+              </Button>
+              <Button
+                size="small"
+                sx={{
+                  color: '#0671E3',
+                  textTransform: 'capitalize',
+                  fontSize: '14px'
+                }}
+                href="https://aws.amazon.com/what-is/sql/#:~:text=Structured%20query%20language%20(SQL)%20is,relationships%20between%20the%20data%20values."
+              >
+                AWS SQL
+              </Button>
+            </CardActions>
+            <Divider />
+            {/* </Card> */}
           </Grid>
         </Grid>
       </div>
@@ -228,7 +209,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: '20px',
+    // gap: '20px',
     padding: '20px'
   },
   panelWrapper: {
