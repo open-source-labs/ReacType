@@ -131,8 +131,8 @@ span.material-symbols-outlined {
   padding: 0px;
   display: flex;
   height: 100%;
-  width: 240px;
-  min-width: 140px;
+  width: 282px;
+  min-width: 282px;
   flex-direction: column;
   align-content: center;
   position: relative;
@@ -237,22 +237,19 @@ span.material-symbols-outlined {
   padding: 10%;
   border-radius: 10px;
   box-shadow: #191919;
-  width: 110px;
-  overflow: hidden;
-  text-overflow: clip;
+  width: 120px;
   white-space: nowrap;
 }
 
 #HTMLItem:hover {
   background-color: #474545a8;
   color: #8ca8ff;
+  border-radius: 4px;
 }
 
 /* placeholder until button resizing */
 #MUIItem {
-  overflow: hidden;
-  text-overflow: clip;
-  white-space: nowrap;
+  white-space: wrap;
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
@@ -262,9 +259,20 @@ span.material-symbols-outlined {
   width: 110px;
 }
 
+.smallerText {
+  font-size: 0.8rem;
+}
+
+.blueText {
+  color: #8ca8ff;
+}
+
+.orangeText {
+  color: #f08c00;
+}
 #MUIItem:hover {
   background-color: #474545a8;
-  color: #8ca8ff;
+  color: #f08c00;
 }
 
 #submitButton {

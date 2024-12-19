@@ -20,7 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import InsertPhoto from '@mui/icons-material/InsertPhoto';
 import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
-import HTMLPanel from "./HTMLPanel";
+import HTMLPanel from './HTMLPanel';
 import ComponentDrag from './ComponentDrag';
 
 /**
@@ -42,7 +42,7 @@ const CreateMenu = (props): JSX.Element => {
 
   const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
   const [activeCategory, setActiveCategory] = React.useState<string | null>(
-    null,
+    null
   );
   const [menuLocked, setMenuLocked] = useState(false);
 
@@ -50,7 +50,7 @@ const CreateMenu = (props): JSX.Element => {
   const [MUIMode, setMUIMode] = useState(false);
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLButtonElement>,
-    category: string,
+    category: string
   ) => {
     setActiveCategory(category);
     setMenuAnchor(event.currentTarget);
@@ -81,7 +81,7 @@ const CreateMenu = (props): JSX.Element => {
     if (roomCode) {
       emitEvent('deleteElementAction', roomCode, {
         id,
-        contextParam,
+        contextParam
       });
     }
   };
@@ -89,16 +89,15 @@ const CreateMenu = (props): JSX.Element => {
   const handleClickAdd = () => {
     setCreateModule(true);
   };
-  // create a function to which you can pass in an array of strings, search
-  // both state.HTMLTypes and state.MUITypes to see if any of their type.names match
-  // an item in the array and return the item if so, depending on which list it originates from.
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleClickAdd();
     }
   };
-
+  // create a function to which you can pass in an array of strings, search
+  // both state.HTMLTypes and state.MUITypes to see if any of their type.names match
+  // an item in the array and return the item if so, depending on which list it originates from.
   const findTypes = function (array) {
     if (MUIMode === true)
       return state.HTMLTypes.filter((type) => array.includes(type.name))
@@ -121,7 +120,7 @@ const CreateMenu = (props): JSX.Element => {
                 icon={option.icon}
                 handleDelete={handleDelete}
               />
-            ),
+            )
           )
         );
     else
@@ -134,7 +133,7 @@ const CreateMenu = (props): JSX.Element => {
             icon={option.icon}
             handleDelete={handleDelete}
           />
-        ),
+        )
       );
   };
   const HTMLElements = findTypes([
@@ -144,7 +143,7 @@ const CreateMenu = (props): JSX.Element => {
     'Header 2',
     'Span',
     'Label',
-    'Link',
+    'Link'
   ]);
 
   const InputElements = findTypes(['Input', 'Form', 'Button']);
@@ -153,7 +152,7 @@ const CreateMenu = (props): JSX.Element => {
     'Icon',
     'Avatar',
     'Badge',
-    'Img',
+    'Img'
   ]);
 
   const textComponents = findTypes([
@@ -162,7 +161,7 @@ const CreateMenu = (props): JSX.Element => {
     'Header 2',
     'Span',
     'Label',
-    'Link',
+    'Link'
   ]);
 
   // create containers - box/container/stack
@@ -172,7 +171,7 @@ const CreateMenu = (props): JSX.Element => {
     'Box',
     'Container',
     'Stack',
-    'Dividers',
+    'Dividers'
   ]);
 
   // create buttons -- button/floating button/chips
@@ -188,25 +187,25 @@ const CreateMenu = (props): JSX.Element => {
     'Checkbox',
     'Switch',
     'Rating',
-    'Slider',
+    'Slider'
   ]);
 
   // create lists - OL, UL, LI, TransferList
 
-  const lists = findTypes(['Ordered List', 'Unordered List', 'List']);
+  const lists = findTypes(['Ordered List', 'List', 'Unordered List']);
   //create forms -- Form, ButtonGroup, ToggleButtonGroup, Select, AutoComplete
   const HTMLlists = findTypes([
     'Ordered List',
-    'Unordered List',
     'List',
-    'Menu',
+    'Unordered List',
+    'Menu'
   ]);
   const forms = findTypes([
     'Form',
     'ButtonGroup',
     'ToggleButtonGroup',
     'Select',
-    'AutoComplete',
+    'AutoComplete'
   ]);
   // create displays --- Modal, POpover, Popper, Transition
   const displays = findTypes(['Modal', 'Popover', 'Popper', 'Transition']);
@@ -218,7 +217,7 @@ const CreateMenu = (props): JSX.Element => {
     'AppBar',
     'Tabs',
     'Card',
-    'Paper',
+    'Paper'
   ]);
   // create navigation -- menu, bottomnav, breadcrumbs, drawer, stepper, tabs, speeddial
   const navComponents = findTypes([
@@ -227,7 +226,7 @@ const CreateMenu = (props): JSX.Element => {
     'Breadcrumbs',
     'Drawer',
     'Stepper',
-    'Speed Dial',
+    'Speed Dial'
   ]);
 
   const makeMenuCategory = function (typeArray, name, idx) {
@@ -236,14 +235,10 @@ const CreateMenu = (props): JSX.Element => {
         <Box
           sx={{
             fontSize: '2rem',
-            textAlign: 'center',
+            textAlign: 'center'
           }}
         >
-          <Button
-            component="label"
-            id={name + '-button'}
-            key={name + idx}
-          >
+          <Button component="label" id={name + '-button'} key={name + idx}>
             {name}
           </Button>
         </Box>
@@ -268,46 +263,40 @@ const CreateMenu = (props): JSX.Element => {
             icon={option.icon}
             handleDelete={handleDelete}
           />
-        )),
+        ))
       ])}
       <FormGroup>
         <Box display="flex" alignItems="center" justifyContent="center">
-          <p style={{ fontSize: '0.8rem' }}>HTML</p>
+          <p className="smallerText blueText">HTML</p>
           <Switch
             checked={MUIMode}
             onChange={() => setMUIMode(!MUIMode)}
             inputProps={{ 'aria-label': 'HTML + MUI switch' }}
             sx={{ margin: '0 10px' }} // Adjust spacing between text and switch
           />
-          <p style={{ fontSize: '0.8rem' }}>HTML + MUI</p>
+          <p className="smallerText">
+            <span className="blueText">HTML + </span>
+            <span className="switchText-MUI orangeText"> MUI</span>
+          </p>
         </Box>
-        {/* <FormControlLabel
-          control={
-            <Switch
-              checked={MUIMode}
-              onChange={() => MUIMode === true ? setMUIMode(false) : setMUIMode(true)}
-            />
-          }
-          label={MUIMode ? 'HTML + MUI' : 'HTML'}
-        /> */}
       </FormGroup>
       {MUIMode
         ? [
-          [visualComponents, 'visual'],
-          [containers, 'containers'],
-          [buttons, 'buttons'],
-          [textComponents, 'text'],
-          [lists, 'lists'],
-          [displays, 'displays'],
-          [layouts, 'layouts'],
-          [forms, 'forms'],
-          [navComponents, 'navigation'],
-        ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))
+            [visualComponents, 'visual'],
+            [containers, 'containers'],
+            [buttons, 'buttons'],
+            [textComponents, 'text'],
+            [lists, 'lists'],
+            [displays, 'displays'],
+            [layouts, 'layouts'],
+            [forms, 'forms'],
+            [navComponents, 'navigation']
+          ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))
         : [
-          [HTMLElements, 'Text and Visual'],
-          [InputElements, 'Forms and Inputs'],
-          [HTMLlists, 'lists'],
-        ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))}
+            [HTMLElements, 'Text and Visual'],
+            [InputElements, 'Forms and Inputs'],
+            [HTMLlists, 'lists']
+          ].map((item, idx) => makeMenuCategory(item[0], item[1], idx))}
     </div>
   );
 };
