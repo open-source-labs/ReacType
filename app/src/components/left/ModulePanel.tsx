@@ -33,7 +33,7 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
   // Make visibility of custom components conditional ⭕️
 
   return (
-    <div>
+    <div className="modulePanelContainer">
       {isEditingModule ? (
         <CreateMenu />
       ) : (
@@ -43,39 +43,6 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
             setIsCreatingModule={setIsCreatingModule}
             isThemeLight={false}
           />
-          {/* ) : (
-            <div style={{ display: 'grid', placeItems: 'center', margin: '30px' }}>
-              <Button
-                variant="contained"
-                startIcon={<AddCircleIcon />}
-                style={{
-                  backgroundColor: '#f88e16',
-                  border: 'none',
-                  color: 'white',
-                  fontSize: '12px',
-                  padding: '2px 15px',
-                  cursor: 'pointer',
-                  marginRight: '10px',
-                  marginLeft: '5px',
-                  borderRadius: '10px'
-                }}
-                onClick={handleClickAddModule}
-              >
-                Add Module
-              </Button>
-            </div>
-          )}
-            */}
-          {/* <div
-            style={{
-              color: '#f88e16',
-              textAlign: 'center',
-              padding: '20px',
-            //   border: '1px solid #101012'
-            }}
-          >
-            Root Modules
-          </div> */}
           <ComponentDrag
             isVisible={true}
             isThemeLight={false}
@@ -88,8 +55,8 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
                 style={{
                   color: '#f88e16',
                   textAlign: 'center',
-                  padding: '20px',
-                //   border: '1px solid #101012'
+                  padding: '20px'
+                  //   border: '1px solid #101012'
                 }}
               >
                 Other Modules

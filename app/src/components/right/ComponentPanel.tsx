@@ -202,13 +202,6 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
               autoComplete="off"
               placeholder="Custom Module Name"
               sx={{ width: '80%' }}
-              // color="primary"
-              // className={
-              //   isThemeLight
-              //     ? `${classes.inputField} ${classes.lightThemeFontColor}`
-              //     : `${classes.inputField} ${classes.darkThemeFontColor}`
-              // }
-              // inputprops and helpertext must be lowercase
               inputProps={{ className: classes.input }}
               // Doesn't accept boolean value needs to be a string
               error={errorStatus}
@@ -307,7 +300,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
           <Alert
             onClose={handleAlertClose}
             severity="success"
-            sx={{ width: '100%', color: 'white' }}
+            sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
           >
             Module Created!
           </Alert>

@@ -251,9 +251,8 @@ const CreateMenu = (props): JSX.Element => {
 
   return (
     <div className={'MUIItems'}>
-      <Box display="flex" alignItems="center">
-        <HTMLPanel isThemeLight={props.isThemeLight} />
-      </Box>
+      <HTMLPanel isThemeLight={props.isThemeLight} />
+
       {makeMenuCategory([
         state.HTMLTypes.filter((type) => type.id > 10000).map((option) => (
           <HTMLItem
@@ -267,7 +266,7 @@ const CreateMenu = (props): JSX.Element => {
       ])}
       <FormGroup>
         <Box display="flex" alignItems="center" justifyContent="center">
-          <p className="smallerText blueText">HTML</p>
+          <p className="smallerText">HTML</p>
           <Switch
             checked={MUIMode}
             onChange={() => setMUIMode(!MUIMode)}
@@ -275,8 +274,7 @@ const CreateMenu = (props): JSX.Element => {
             sx={{ margin: '0 10px' }} // Adjust spacing between text and switch
           />
           <p className="smallerText">
-            <span className="blueText">HTML + </span>
-            <span className="switchText-MUI orangeText"> MUI</span>
+            <span className="orangeText">HTML {'+'} MUI</span>
           </p>
         </Box>
       </FormGroup>

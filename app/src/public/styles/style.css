@@ -228,6 +228,9 @@ span.material-symbols-outlined {
   display: flex;
 }
 
+.modulePanelContainer {
+  margin-left: 15px;
+}
 /* THIS IS STYLING THE BUTTONS ON THE CREATE MENU */
 #HTMLItem {
   /* justify-content: flex-start;  */
@@ -243,7 +246,7 @@ span.material-symbols-outlined {
 
 #HTMLItem:hover {
   background-color: #474545a8;
-  color: #8ca8ff;
+  color: #a9a9a9;
   border-radius: 4px;
 }
 
@@ -261,10 +264,6 @@ span.material-symbols-outlined {
 
 .smallerText {
   font-size: 0.8rem;
-}
-
-.blueText {
-  color: #8ca8ff;
 }
 
 .orangeText {
@@ -294,7 +293,6 @@ span.material-symbols-outlined {
 .customForm {
   display: flex;
   flex-direction: column;
-  align-items: start;
   color: white;
   font-size: 95%;
 }
@@ -703,7 +701,7 @@ NAVBAR
   width: 230px;
   border-radius: 8px;
   right: 1vw;
-  z-index: 10;
+  z-index: 1000;
   background-color: #31343a;
   top: 45px;
   padding: 10px 0;
@@ -725,7 +723,7 @@ NAVBAR
 }
 
 .navDropDown span {
-  margin-left: -25px;
+  margin-left: 5px;
 }
 
 .navDropDown p {

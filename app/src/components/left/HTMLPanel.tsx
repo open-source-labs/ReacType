@@ -34,7 +34,9 @@ const HTMLPanel = (props): JSX.Element => {
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-  const currentID = useSelector((store: RootState) => store.appState.customElementId);
+  const currentID = useSelector(
+    (store: RootState) => store.appState.customElementId
+  );
 
   const dispatch = useDispatch();
 
@@ -54,8 +56,8 @@ const HTMLPanel = (props): JSX.Element => {
     let dupe = false;
     checkList.forEach((HTMLTag) => {
       if (
-        HTMLTag.name.toLowerCase() === inputName.toLowerCase()
-        || HTMLTag.tag.toLowerCase() === inputName.toLowerCase()
+        HTMLTag.name.toLowerCase() === inputName.toLowerCase() ||
+        HTMLTag.tag.toLowerCase() === inputName.toLowerCase()
       ) {
         dupe = true;
       }
@@ -65,11 +67,12 @@ const HTMLPanel = (props): JSX.Element => {
 
   const triggerError = (type: string) => {
     setErrorStatus(true);
-    if (type === 'empty') setErrorMsg('* Input cannot be blank. *');
-    if (type === 'dupe') setErrorMsg('* Input already exists. *');
-    if (type === 'letters') setErrorMsg('* Input must start with a letter. *');
-    if (type === 'symbolsDetected') setErrorMsg('* Input must not contain symbols. *');
-    if (type === 'length') setErrorMsg('* Input cannot exceed 10 characters. *');
+    if (type === 'empty') setErrorMsg('Input cannot be blank.');
+    if (type === 'dupe') setErrorMsg('Input already exists.');
+    if (type === 'letters') setErrorMsg('Input must start with a letter.');
+    if (type === 'symbolsDetected')
+      setErrorMsg('Input must not contain symbols.');
+    if (type === 'length') setErrorMsg('Input cannot exceed 10 characters.');
   };
 
   const resetError = () => setErrorStatus(false);
@@ -77,7 +80,8 @@ const HTMLPanel = (props): JSX.Element => {
   const createOption = (inputTag: string, inputName: string) => {
     // format name so first letter is capitalized and there are no whitespaces
     const inputNameClean = inputName.replace(/\s+/g, '');
-    const formattedName = inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
+    const formattedName =
+      inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
     // add new component to state
     const newElement = {
       id: currentID,
@@ -86,7 +90,7 @@ const HTMLPanel = (props): JSX.Element => {
       style: {},
       placeHolderShort: name,
       placeHolderLong: '',
-      icon: null,
+      icon: null
     };
 
     dispatch(addElement(newElement));
@@ -108,8 +112,10 @@ const HTMLPanel = (props): JSX.Element => {
     e.preventDefault();
 
     if (tag.trim() === '' || name.trim() === '') return triggerError('empty');
-    if (!tag.charAt(0).match(/[a-zA-Z]/) || !name.charAt(0).match(/[a-zA-Z]/)) return triggerError('letters');
-    if (!alphanumeric(tag) || !alphanumeric(name)) return triggerError('symbolsDetected');
+    if (!tag.charAt(0).match(/[a-zA-Z]/) || !name.charAt(0).match(/[a-zA-Z]/))
+      return triggerError('letters');
+    if (!alphanumeric(tag) || !alphanumeric(name))
+      return triggerError('symbolsDetected');
     if (checkNameDupe(tag) || checkNameDupe(name)) return triggerError('dupe');
     if (name.length > 10) return triggerError('length');
     createOption(tag, name);
@@ -117,7 +123,11 @@ const HTMLPanel = (props): JSX.Element => {
   };
 
   const handleCreateElement = useCallback((e) => {
-    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.id !== 'filled-hidden-label-small') {
+    if (
+      e.key === 'Enter' &&
+      e.target.tagName !== 'TEXTAREA' &&
+      e.target.id !== 'filled-hidden-label-small'
+    ) {
       e.preventDefault();
       document.getElementById('submitButton').click();
     }
@@ -132,12 +142,18 @@ const HTMLPanel = (props): JSX.Element => {
 
   const handleAlertOpen = () => setAlertOpen(true);
 
-  const handleAlertClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+  const handleAlertClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
     if (reason === 'clickaway') return;
     setAlertOpen(false);
   };
 
-  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
@@ -157,19 +173,22 @@ const HTMLPanel = (props): JSX.Element => {
                 autoComplete="off"
                 placeholder="Custom Element Name"
                 sx={{ width: '80%' }}
-                // style={{ marginTop: '10px' }}
                 onChange={handleNameChange}
               />
-              {(!name.charAt(0).match(/[A-Za-z]/)
-                || !alphanumeric(name)
-                || name.trim() === ''
-                || name.length > 10
-                || checkNameDupe(name)) && (
-                <span className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}>
+              {(!name.charAt(0).match(/[A-Za-z]/) ||
+                !alphanumeric(name) ||
+                name.trim() === '' ||
+                name.length > 10 ||
+                checkNameDupe(name)) && (
+                <span
+                  className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}
+                >
                   <em>{errorMsg}</em>
                 </span>
               )}
-              <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+              <div
+                style={{ display: 'flex', alignItems: 'center', width: '100%' }}
+              >
                 <TextField
                   id="outlined-basic"
                   label="Custom Tag Name"
@@ -181,11 +200,13 @@ const HTMLPanel = (props): JSX.Element => {
                   sx={{ width: '80%' }}
                   onChange={handleTagChange}
                 />
-                {(!tag.charAt(0).match(/[A-Za-z]/)
-                  || !alphanumeric(tag)
-                  || tag.trim() === ''
-                  || checkNameDupe(tag)) && (
-                  <span className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}>
+                {(!tag.charAt(0).match(/[A-Za-z]/) ||
+                  !alphanumeric(tag) ||
+                  tag.trim() === '' ||
+                  checkNameDupe(tag)) && (
+                  <span
+                    className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}
+                  >
                     <em>{errorMsg}</em>
                   </span>
                 )}
@@ -213,7 +234,11 @@ const HTMLPanel = (props): JSX.Element => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           onClose={handleAlertClose}
         >
-          <Alert onClose={handleAlertClose} severity="success" sx={{ width: '100%', color: 'white' }}>
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+          >
             HTML Tag Created!
           </Alert>
         </Snackbar>
@@ -232,15 +257,15 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
     width: '100%',
-    height: '30px',
+    height: '30px'
   },
   inputWrapper: {
     width: '100%',
-    marginBottom: '0px', // was originally 10px, decreased to 0 to decrease overall menu height
-    alignItems: 'center',
+    marginBottom: '10px', // was originally 10px, decreased to 0 to decrease overall menu height
+    alignItems: 'center'
   },
   addComponentWrapper: {
-    width: '100%',
+    width: '100%'
   },
   input: {
     width: '500px',
@@ -248,33 +273,33 @@ const useStyles = makeStyles({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     margin: '0px 0px 0px 0px',
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   lightThemeFontColor: {
     color: 'white',
     '& .MuiInputBase-root': {
-      color: 'rgba (0, 0, 0, 0.54)',
-    },
+      color: 'rgba (0, 0, 0, 0.54)'
+    }
   },
   darkThemeFontColor: {
     color: '#ffffff',
     '& .MuiInputBase-root': {
-      color: '#fff',
-    },
+      color: '#fff'
+    }
   },
   errorMessage: {
     display: 'flex',
     alignSelf: 'center',
     fontSize: '11px',
     marginTop: '10px',
-    width: '150px',
+    width: '150px'
   },
   errorMessageLight: {
-    color: '#6B6B6B',
+    color: '#6B6B6B'
   },
   errorMessageDark: {
-    color: 'white',
-  },
+    color: 'white'
+  }
 });
 
 export default HTMLPanel;
