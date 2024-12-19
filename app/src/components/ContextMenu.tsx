@@ -13,33 +13,23 @@ function ContextMenu(props) {
   const [editTextValue, setEditTextValue] = useState('');
 
   const appState = useSelector((store: RootState) => store.appState);
+  const contextParam = useSelector((store: RootState) => store.contextSlice); // this is literally just passed in on everything else, i have no idea what it does, you can look it up, but other files are literally just taking it and passing it back in.
+
   const [menuType, setMenuType] = useState('?');
 
   let selectedItemId = useRef(-1); // dont trigger rerenders cause this shouldent change.
   // attach key listener
 
+  // The below is for all key events
+
   function keyStrokeFunction(key) {
     if (editTextOpen === true) {
-      let newEditTextValue;
-      if (key.key.length === 1) {
-        newEditTextValue = `${editTextValue}${key.key}`;
-      } else {
-        switch (key.key) {
-          case 'Backspace': {
-            newEditTextValue = editTextValue.slice(0, -1);
-            break;
-          }
-          case 'Enter': {
-            setEditTextOpen(false);
-            break;
-          }
-          default: {
-            break;
-          }
+      switch (key.key) {
+        case 'Enter': {
+          setEditTextOpen(false);
+          break;
         }
       }
-
-      setEditTextValue(newEditTextValue);
     }
   }
   useEffect(() => {
@@ -54,6 +44,22 @@ function ContextMenu(props) {
     },
     [editTextOpen, editTextValue]
   );
+  ////////// the above wonly checks for certan key events, for each type of place in the menu we are in.
+
+  function editTextChange(event) {
+    setEditTextValue(event.target.value);
+    dispatch(
+      dispatch({
+        type: 'appState/updateAttributes',
+        payload: {
+          attributes: {
+            comptext: event.target.value
+          },
+          contextParam: contextParam
+        }
+      })
+    );
+  }
 
   let xOff = props.mouseXState + 2;
   if (props.mouseXState > window.innerWidth - CONTEXT_MENU_WIDTH) {
@@ -72,10 +78,10 @@ function ContextMenu(props) {
   function handleEditTextButtonClick() {
     if (editTextOpen === true) return;
     setEditTextOpen(true);
-    console.log('AFSADFSAF');
-    console.log({ selectedItemId });
-    console.log(appState);
-    console.log(appState.components[0].children[selectedItemId.current]);
+    // console.log('AFSADFSAF');
+    // console.log({ selectedItemId });
+    // console.log(appState);
+    // console.log(appState.components[0].children[selectedItemId.current]);
 
     let comptext =
       appState.components[0].children[selectedItemId.current].attributes
@@ -150,7 +156,9 @@ function ContextMenu(props) {
           {editTextOpen && (
             <input
               type="text"
+              autoFocus
               value={editTextValue}
+              onChange={editTextChange}
               style={{
                 border: 'none',
                 padding: '0px',
