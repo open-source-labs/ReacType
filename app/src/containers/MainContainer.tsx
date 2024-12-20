@@ -128,7 +128,6 @@ const MainContainer = (props): JSX.Element => {
     async function checkStorageConnection() {
       try {
         // await Storage.list(''); // This is just a test operation
-        // console.log('Connected to AWS S3 successfully.');
       } catch (error) {
         console.error('Error connecting to AWS S3:', error);
       }
@@ -151,8 +150,6 @@ const MainContainer = (props): JSX.Element => {
 
     useEffect(() => {
       const handleClick = (event) => {
-        // console.log('156');
-        // console.log(event);
         if (
           event.type === 'click' &&
           ContextMenuRef.current != null &&

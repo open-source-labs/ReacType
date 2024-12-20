@@ -1,3 +1,4 @@
+import { BreakfastDiningOutlined } from '@mui/icons-material';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 /* eslint-disable */
@@ -58,8 +59,6 @@ function ContextMenu({
 
   // set the focus
   useEffect(() => {
-    console.log('WHWHWHWHWHWAWAWAWAWAWAWAWAWAWAWAAWWAAWAWWW');
-    console.log(selectedItemId.current);
     dispatch({
       type: 'appState/changeFocus',
       payload: {
@@ -95,10 +94,16 @@ function ContextMenu({
 
   function editBackgroundColorChange(event) {
     setEditBackgroundColorValue(event.target.value);
+
+    let adjustedSelectItemId = 1 + (selectedItemId.current - 1) * 2;
+    let fullStyle = appState.components[0].children[adjustedSelectItemId].style;
+    if (fullStyle === undefined) fullStyle = '';
+
     dispatch({
       type: 'appState/updateCss',
       payload: {
         style: {
+          ...fullStyle,
           backgroundColor: event.target.value
         },
         contextParam: contextParam
@@ -123,10 +128,13 @@ function ContextMenu({
   function handleEditTextButtonClick() {
     if (openMenu === 'editText') return;
     setOpenMenu('editText'); // by using this, we ensure that other menus that might be open now close.
+    // error here was often caused because of the fact that the indexes were getting mixed up, not in order, so instead now i search for one with the correct child id!
+    let correctChild = searchChildren(
+      appState.components[0].children,
+      selectedItemId.current
+    ); // helper function below
 
-    let adjustedSelectItemId = 1 + (selectedItemId.current - 1) * 2;
-    let comptext =
-      appState.components[0].children[adjustedSelectItemId].attributes.comptext;
+    let comptext = correctChild.attributes.comptext;
     if (comptext === undefined) comptext = '';
     setEditTextValue(comptext);
   }
@@ -135,18 +143,19 @@ function ContextMenu({
     if (openMenu === 'editBackgroundColor') return;
     setOpenMenu('editBackgroundColor');
 
-    let adjustedSelectItemId = 1 + (selectedItemId.current - 1) * 2;
-    let comptext =
-      appState.components[0].children[adjustedSelectItemId].style
-        .backgroundColor;
+    let correctChild = searchChildren(
+      appState.components[0].children,
+      selectedItemId.current
+    ); // helper function below
+
+    let comptext = correctChild.style.backgroundColor;
     if (comptext === undefined) comptext = '';
     setEditBackgroundColorValue(comptext);
   }
 
-  console.log(appState);
   for (let i = 0; i < 5; i++) {
     // just things that we want to stop on...
-    if (!thing.id.match(/canv/)) {
+    if (!thing.id || !thing.id.match(/canv/)) {
       thing = thing.parentElement;
     } else {
       // once were all said and done...
@@ -155,9 +164,8 @@ function ContextMenu({
         MenuTypeRef.current !== 'CanvasElement'
       ) {
         MenuTypeRef.current = 'CanvasElement';
-
-        console.log(thing.id.split('canv'));
       }
+
       selectedItemId.current = Number(thing.id.split('canv')[1]);
       break;
     }
@@ -253,3 +261,19 @@ function ContextMenu({
   );
 }
 export default ContextMenu;
+
+function searchChildren(children, target) {
+  let correctChild;
+  function searchChildrenInner(children, target) {
+    for (let i = 0; i < children.length; i++) {
+      if (children[i].childId === target) {
+        correctChild = children[i];
+        break; // done, only one.
+      } else if (children[i].children) {
+        searchChildrenInner(children[i].children, target); // your grandson and his grandson will continue the quest!
+      }
+    }
+  }
+  searchChildrenInner(children, target);
+  return correctChild;
+}
