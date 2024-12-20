@@ -50,7 +50,7 @@ const FormSelector = (props): JSX.Element => {
     items.push(
       <MenuItem style={{ color: 'white' }} value={el.value} key={`menu${key}`}>
         {el.text}
-      </MenuItem>,
+      </MenuItem>
     );
     key++;
   });
@@ -68,7 +68,7 @@ const FormSelector = (props): JSX.Element => {
       <div className={props.classes.configValue}>
         <FormControl variant="filled" className={props.classes.formControl}>
           <Select
-            style={props.isThemeLight ? { border: '1px solid #0671e3' } : null}
+            style={props.isThemeLight ? { border: '1px solid #f88e16' } : null}
             value={props.selectValue}
             name={props.name}
             onChange={props.handleChange}
@@ -77,7 +77,7 @@ const FormSelector = (props): JSX.Element => {
             inputProps={{
               className: props.isThemeLight
                 ? `${props.classes.selectInput} ${props.classes.lightThemeFontColor}`
-                : `${props.classes.selectInput} ${props.classes.darkThemeFontColor}`,
+                : `${props.classes.selectInput} ${props.classes.darkThemeFontColor}`
             }}
             MenuProps={{ disablePortal: true }}
           >

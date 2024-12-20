@@ -56,7 +56,9 @@ enum ButtonType {
  *
  * @returns {JSX.Element | null} Renders the control bar with microphone, webcam, and call end buttons, or null if the user has not joined.
  */
-const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element | null => {
+const VideoMeetingControl: React.FC<
+  VideoMeetingControlProps
+> = (): JSX.Element | null => {
   const { leave, toggleMic, toggleWebcam } = useMeeting();
 
   const [callEndHovered, setCallEndHovered] = useState(false);
@@ -65,7 +67,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
 
   const dispatch = useDispatch();
   const { userJoinMeetingStatus, useMic, useWebcam } = useSelector(
-    (store: RootState) => store.roomSlice,
+    (store: RootState) => store.roomSlice
   );
 
   const handleButtonHover = useCallback((button: string, hovered: boolean) => {
@@ -98,7 +100,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
           border: '1px solid #31343A',
           borderRadius: '15px',
           backgroundColor: '#1B1B1B',
-          padding: '5px',
+          padding: '5px'
         }}
       >
         {/* Mic Button */}
@@ -106,7 +108,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
           style={{
             transition: 'background-color 0.3s',
             borderRadius: '5px',
-            padding: '5px',
+            padding: '5px'
           }}
           onMouseEnter={() => handleButtonHover(ButtonType.MIC, true)}
           onMouseLeave={() => handleButtonHover(ButtonType.MIC, false)}
@@ -118,7 +120,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
               cursor: 'pointer',
               padding: 0,
               margin: 0,
-              outline: 'none',
+              outline: 'none'
             }}
             onClick={() => {
               toggleMic();
@@ -128,11 +130,21 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
           >
             {useMic ? (
               <MicIcon
-                style={{ fontSize: 36, color: micHovered ? 'white' : '#0671E3', transition: 'color 0.3s', margin: '0 15px' }}
+                style={{
+                  fontSize: 36,
+                  color: micHovered ? 'white' : '#f88e16',
+                  transition: 'color 0.3s',
+                  margin: '0 15px'
+                }}
               />
             ) : (
               <MicOffIcon
-                style={{ fontSize: 36, color: micHovered ? 'white' : '#9C9D9F', transition: 'color 0.3s', margin: '0 15px' }}
+                style={{
+                  fontSize: 36,
+                  color: micHovered ? 'white' : '#9C9D9F',
+                  transition: 'color 0.3s',
+                  margin: '0 15px'
+                }}
               />
             )}
           </button>
@@ -142,7 +154,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
           style={{
             transition: 'background-color 0.3s',
             borderRadius: '5px',
-            padding: '5px',
+            padding: '5px'
           }}
           onMouseEnter={() => handleButtonHover(ButtonType.WEBCAM, true)}
           onMouseLeave={() => handleButtonHover(ButtonType.WEBCAM, false)}
@@ -154,7 +166,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
               cursor: 'pointer',
               padding: 0,
               margin: 0,
-              outline: 'none',
+              outline: 'none'
             }}
             onClick={() => {
               toggleWebcam();
@@ -164,11 +176,21 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
           >
             {useWebcam ? (
               <VideocamIcon
-                style={{ fontSize: 36, color: webcamHovered ? 'white' : '#0671E3', transition: 'color 0.3s', margin: '0 15px' }}
+                style={{
+                  fontSize: 36,
+                  color: webcamHovered ? 'white' : '#f88e16',
+                  transition: 'color 0.3s',
+                  margin: '0 15px'
+                }}
               />
             ) : (
               <VideocamOffIcon
-                style={{ fontSize: 36, color: webcamHovered ? 'white' : '#9C9D9F', transition: 'color 0.3s', margin: '0 15px' }}
+                style={{
+                  fontSize: 36,
+                  color: webcamHovered ? 'white' : '#9C9D9F',
+                  transition: 'color 0.3s',
+                  margin: '0 15px'
+                }}
               />
             )}
           </button>
@@ -178,7 +200,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
           style={{
             transition: 'background-color 0.3s',
             borderRadius: '5px',
-            padding: '5px',
+            padding: '5px'
           }}
           onMouseEnter={() => handleButtonHover(ButtonType.CALL_END, true)}
           onMouseLeave={() => handleButtonHover(ButtonType.CALL_END, false)}
@@ -190,7 +212,7 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
               cursor: 'pointer',
               padding: 0,
               margin: 0,
-              outline: 'none',
+              outline: 'none'
             }}
             onClick={() => {
               leave();
@@ -198,7 +220,12 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
             }}
           >
             <CallEndIcon
-              style={{ fontSize: 36, color: callEndHovered ? 'white' : '#E12D39', transition: 'color 0.3s', margin: '0 15px' }}
+              style={{
+                fontSize: 36,
+                color: callEndHovered ? 'white' : '#E12D39',
+                transition: 'color 0.3s',
+                margin: '0 15px'
+              }}
             />
           </button>
         </div>

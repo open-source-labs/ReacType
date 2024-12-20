@@ -36,6 +36,7 @@ const App = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         toggleVisibility={toggleVisibility}
+        style={{ display: 'flex' }}
       />
       <ContentArea activeTab={activeTab} isVisible={isVisible} />
     </div>

@@ -178,11 +178,9 @@ const NavBar: React.FC = (): JSX.Element => {
               Unpublish
             </button>
           ) : (
-            <button style={buttonStyle} onClick={handlePublish}>
-              Import
-            </button>
+            <NewExportButton />
           )}
-          <NewExportButton />
+
           <Button
             style={moreVertButtonStyle}
             variant="contained"

@@ -9,7 +9,7 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-
+import CustomEditIcon from '../CustomEditIcon';
 /**
  * `ComponentPanelItem` represents an individual component item within the ComponentPanel. It uses
  * drag-and-drop functionality to allow the user to position components within the canvas. The component can
@@ -30,7 +30,14 @@ const ComponentPanelItem: React.FC<{
   root: boolean;
   isFocus: boolean;
   isThemeLight: boolean;
-}> = ({ name, id, root, isFocus, isThemeLight }): JSX.Element => {
+}> = ({
+  name,
+  id,
+  root,
+  isFocus,
+  isThemeLight,
+  handleClickEditModule
+}): JSX.Element => {
   const classes = useStyles({});
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -44,12 +51,12 @@ const ComponentPanelItem: React.FC<{
       type: ItemTypes.INSTANCE,
       newInstance: true,
       instanceType: 'Component',
-      instanceTypeId: id,
+      instanceTypeId: id
     },
     canDrag: !root && !isFocus, // dragging not permitted if component is root component or current component
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging(), // !! converts an object to a boolean (i.e., if falsy, becomes false => !!0 === false)
-    }),
+      isDragging: !!monitor.isDragging() // !! converts an object to a boolean (i.e., if falsy, becomes false => !!0 === false)
+    })
   });
 
   // when a component is clicked in the left panel, change canvas focus to that component
@@ -60,7 +67,7 @@ const ComponentPanelItem: React.FC<{
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: id,
-        childId: null,
+        childId: null
       });
     }
   };
@@ -69,7 +76,6 @@ const ComponentPanelItem: React.FC<{
     <Grid
       item
       ref={drag}
-      xs={8}
       style={{
         fontSize: 'small',
         backgroundColor: '#2D313A', // Set background color
@@ -77,9 +83,11 @@ const ComponentPanelItem: React.FC<{
         borderRadius: '10px',
         borderColor: '#2D313A',
         margin: '5px 0px',
-        width: '10rem',
+        width: '100vw',
+        maxWidth: '240px',
         height: '3rem',
-        position: 'relative',
+        boxSizing: 'border-box',
+        position: 'relative'
       }}
     >
       {isFocus && <div className={classes.focusMark}></div>}
@@ -94,6 +102,7 @@ const ComponentPanelItem: React.FC<{
             {name}
           </h3>
         </div>
+        <CustomEditIcon handleClickEditModule={handleClickEditModule} />
       </div>
     </Grid>
   );
@@ -102,23 +111,24 @@ const ComponentPanelItem: React.FC<{
 const useStyles = makeStyles({
   nameContainer: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   focusMark: {
-    border: '2px solid #0671e3',
+    border: '2px solid #f88e16',
     borderRadius: '5%',
     position: 'absolute',
     top: '0',
     left: '0',
     right: '0',
     bottom: '0',
+    width: '100%'
   },
   lightTheme: {
-    color: 'rgba (0, 0, 0, 0.54)',
+    color: 'rgba (0, 0, 0, 0.54)'
   },
   darkTheme: {
-    color: '#ffffff',
-  },
+    color: '#ffffff'
+  }
 });
 
 export default ComponentPanelItem;

@@ -10,6 +10,14 @@
   box-sizing: inherit;
 }
 
+.display-on-hover {
+  display: none;
+}
+
+.display-on-hover:hover {
+  display: block;
+}
+
 html {
   box-sizing: border-box;
   overflow: auto;
@@ -110,6 +118,8 @@ LEFT COLUMN
 .left-container {
   display: flex;
   z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 span.material-symbols-outlined {
@@ -121,8 +131,8 @@ span.material-symbols-outlined {
   padding: 0px;
   display: flex;
   height: 100%;
-  width: 200px;
-  min-width: 140px;
+  width: 282px;
+  min-width: 282px;
   flex-direction: column;
   align-content: center;
   position: relative;
@@ -218,31 +228,12 @@ span.material-symbols-outlined {
   display: flex;
 }
 
+.modulePanelContainer {
+  margin-left: 15px;
+}
 /* THIS IS STYLING THE BUTTONS ON THE CREATE MENU */
 #HTMLItem {
-  justify-content: flex-start; 
-  transition: 0.3s;
-  border: 1px solid transparent;
-  color: #f2fbf8;
-  padding: 0%;
-  border-radius: 10px;
-  box-shadow: #191919;
-  width: 110px;
-  overflow: hidden;
-  text-overflow: clip;
-  white-space: nowrap;
-}
-
-#HTMLItem:hover {
-  background-color: #474545a8;
-  color: #8ca8ff;
-}
-
-/* placeholder until button resizing */
-#MUIItem {
-  overflow: hidden;
-  text-overflow: clip;
-  white-space: nowrap;
+  /* justify-content: flex-start;  */
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
@@ -250,11 +241,40 @@ span.material-symbols-outlined {
   border-radius: 10px;
   box-shadow: #191919;
   width: 120px;
+  white-space: nowrap;
 }
 
-#MUIItem:hover {
+#HTMLItem:hover {
   background-color: #474545a8;
-  color: #8ca8ff;
+  color: #a9a9a9;
+  border-radius: 4px;
+}
+
+/* placeholder until button resizing */
+#MUIItem {
+  white-space: wrap;
+  transition: 0.3s;
+  border: 1px solid transparent;
+  color: #f2fbf8;
+  padding: 10%;
+  border-radius: 10px;
+  box-shadow: #191919;
+  width: 110px;
+}
+
+.smallerText {
+  font-size: 0.8rem;
+}
+
+.smallerText #HTML-switch {
+  color: #a9a9a9;
+}
+
+.orangeText {
+  color: #f08c00;
+}
+#MUIItem:hover {
+  color: #f08c00;
 }
 
 #submitButton {
@@ -262,7 +282,7 @@ span.material-symbols-outlined {
 }
 
 #submitButton:hover {
-  background-color: #0671e3;
+  background-color: #f88e16;
   color: white;
   border: none;
   cursor: pointer;
@@ -276,7 +296,6 @@ span.material-symbols-outlined {
 .customForm {
   display: flex;
   flex-direction: column;
-  align-items: start;
   color: white;
   font-size: 95%;
 }
@@ -440,15 +459,15 @@ RIGHT COLUMN
 #addComponentButton {
   height: 49px;
   width: 130px;
-  background-color: #0671e3;
-  border: 2px solid #0671e3;
+  background-color: #f88e16;
+  border: 2px solid #f88e16;
   border-radius: 10px;
   font-size: 16.5px;
 }
 
 #addComponentButton:hover {
-  background-color: #25366d;
-  border: 2px solid #354e9c;
+  background-color: #c76e00;
+  border: 2px solid #c76e00;
   color: white;
   cursor: pointer;
 }
@@ -470,7 +489,7 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-  border-color: #0671e3;
+  border-color: #f88e16;
 }
 
 .compPanelItem h3 {
@@ -551,7 +570,7 @@ BOTTOM PANEL
 
 .bottom-panel {
   transition: width 250ms ease-in-out;
-  background-color: #0671e3;
+  background-color: #f88e16;
   width: 100%;
   height: 100%;
   display: flex;
@@ -594,7 +613,7 @@ BOTTOM PANEL
   padding-left: 10px;
   border: rgb(68, 68, 68) solid 1px;
   border-radius: 5px;
-  background-color: #0671e3;
+  background-color: #f88e16;
 }
 
 .event-table {
@@ -685,7 +704,7 @@ NAVBAR
   width: 230px;
   border-radius: 8px;
   right: 1vw;
-  z-index: 10;
+  z-index: 1000;
   background-color: #31343a;
   top: 45px;
   padding: 10px 0;
@@ -707,7 +726,7 @@ NAVBAR
 }
 
 .navDropDown span {
-  margin-left: -25px;
+  margin-left: 5px;
 }
 
 .navDropDown p {
@@ -858,7 +877,7 @@ div.rst__rowContents {
   bottom: 30px;
   right: 30px;
   z-index: 999;
-  background-color: #0671e3;
+  background-color: #f88e16;
   box-shadow: none;
   padding: 32px;
 }
@@ -886,12 +905,12 @@ div.rst__rowContents {
 
 .useState-header {
   font-size: 35px;
-  background-color: #0671e3;
+  background-color: #f88e16;
   color: rgb(241, 240, 240);
   width: 600px;
   border: 3px;
   border-style: solid;
-  border-color: #0671e3;
+  border-color: #f88e16;
   font-family: 'Open Sans', sans-serif;
   border-radius: 15px 15px 0px 0px;
 }

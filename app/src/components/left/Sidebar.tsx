@@ -38,7 +38,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
-  toggleVisibility,
+  toggleVisibility
 }): JSX.Element => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(activeTab === newValue ? null : newValue);
@@ -59,13 +59,12 @@ const Sidebar: React.FC<SidebarProps> = ({
     <Tabs
       key={activeTab}
       orientation="vertical"
-      variant="scrollable"
       value={activeTab ?? 0} // default to 0 if activeTab is null
       onChange={handleTabChange}
       TabIndicatorProps={{
         style: {
-          backgroundColor: '#4A4A4A',
-        },
+          backgroundColor: '#4A4A4A'
+        }
       }}
       sx={{
         display: 'flex',
@@ -81,9 +80,25 @@ const Sidebar: React.FC<SidebarProps> = ({
       }}
     >
       <Tab sx={{ position: 'absolute', visibility: 'hidden' }} value={null} />
-        <TabWithTooltip label="Modules" value={0} activeTab={activeTab} handleTabChange={handleTabChange} />
-        <TabWithTooltip label="Create" value={1} activeTab={activeTab} handleTabChange={handleTabChange} />
-        <TabWithTooltip label="Collab" value={2} activeTab={activeTab} handleTabChange={handleTabChange} />
+
+      <TabWithTooltip
+        label="Modules"
+        value={0}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
+      <TabWithTooltip
+        label="Create"
+        value={1}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
+      <TabWithTooltip
+        label="Collab"
+        value={2}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+      />
     </Tabs>
   );
 };

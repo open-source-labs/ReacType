@@ -38,7 +38,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = (): JSX.Element => {
   let routeId;
   // check if the component in the drop down still references an existing component
   const referencedComponent = state.components.find(
-    (comp) => comp.name === route,
+    (comp) => comp.name === route
   );
   // if so, set the route id for that component to the id of the referenced component
   if (referencedComponent) routeId = referencedComponent.id;
@@ -57,12 +57,12 @@ const ComponentPanelRoutingItem: React.FC<{}> = (): JSX.Element => {
       type: ItemTypes.INSTANCE,
       newInstance: true,
       instanceType: 'Route Link',
-      instanceTypeId: routeId,
+      instanceTypeId: routeId
     },
     canDrag: true,
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
+      isDragging: !!monitor.isDragging()
+    })
   });
 
   return (
@@ -75,8 +75,8 @@ const ComponentPanelRoutingItem: React.FC<{}> = (): JSX.Element => {
         backgroundColor: 'transparent',
         height: '75px',
         marginBottom: '15px',
-        border: '2px dotted #0671e3',
-        borderRadius: '8px',
+        border: '2px dotted #f88e16',
+        borderRadius: '8px'
       }}
     >
       {/* Route Link component */}
@@ -105,7 +105,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = (): JSX.Element => {
 
 const useStyles = makeStyles({
   activeFocus: {
-    backgroundColor: '#808080',
+    backgroundColor: '#808080'
   },
   focusMark: {
     backgroundColor: '#808080',
@@ -114,7 +114,7 @@ const useStyles = makeStyles({
     height: '12px',
     borderRadius: '12px',
     left: '-35px',
-    top: '30px',
+    top: '30px'
   },
   routeSelector: {
     backgroundColor: '#808080',
@@ -122,8 +122,8 @@ const useStyles = makeStyles({
     color: '#fff',
     height: '60%',
     alignSelf: 'center',
-    minWidth: '100px',
-  },
+    minWidth: '100px'
+  }
 });
 
 export default ComponentPanelRoutingItem;
