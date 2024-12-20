@@ -40,6 +40,10 @@ const MainContainer = (props): JSX.Element => {
     (store: RootState) => store.appState.screenshotTrigger
   );
   const id: string = useSelector((store: RootState) => store.appState._id);
+
+  const appState = useSelector((store: RootState) => store.appState);
+  console.log(appState.canvasFocus);
+
   // const { style } = useSelector((store: RootState) => ({
   //   style: store.styleSlice
   // }));

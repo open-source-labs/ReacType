@@ -62,7 +62,7 @@ function ContextMenu({
     dispatch({
       type: 'appState/changeFocus',
       payload: {
-        componentId: 1,
+        componentId: appState.canvasFocus.componentId,
         childId: selectedItemId.current
       }
     });
@@ -95,8 +95,11 @@ function ContextMenu({
   function editBackgroundColorChange(event) {
     setEditBackgroundColorValue(event.target.value);
 
-    let adjustedSelectItemId = 1 + (selectedItemId.current - 1) * 2;
-    let fullStyle = appState.components[0].children[adjustedSelectItemId].style;
+    let correctChild = searchChildren(
+      appState.components[0].children,
+      selectedItemId.current
+    ); // helper function below
+    let fullStyle = correctChild.style;
     if (fullStyle === undefined) fullStyle = '';
 
     dispatch({
