@@ -25,6 +25,8 @@ function ContextMenu({
   // const [editBackgroundColorOpen, setEditBackgroundColorOpen] = useState(false);
   const [editBackgroundColorValue, setEditBackgroundColorValue] = useState('');
 
+  const [editClassnameValue, setEditClassnameValue] = useState('');
+
   const appState = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice); // this is literally just passed in on everything else, i have no idea what it does, you can look it up, but other files are literally just taking it and passing it back in.
 
@@ -76,15 +78,21 @@ function ContextMenu({
     },
     [openMenu, editTextValue]
   );
-  ////////// the above wonly checks for certan key events, for each type of place in the menu we are in.
+  //////////////////// the above ensures we clean up old key listeners to prevent data leak //////////////////////
 
   function editTextChange(event) {
     setEditTextValue(event.target.value);
-
+    let correctChild = searchChildren(
+      appState.components[0].children,
+      selectedItemId.current
+    ); // helper function below
+    let fullAttributes = correctChild.attributes;
+    if (fullAttributes === undefined) fullAttributes = '';
     dispatch({
       type: 'appState/updateAttributes',
       payload: {
         attributes: {
+          ...fullAttributes,
           comptext: event.target.value
         },
         contextParam: contextParam
@@ -114,6 +122,28 @@ function ContextMenu({
     });
   }
 
+  function editClassnameChange(event) {
+    setEditClassnameValue(event.target.value);
+
+    let correctChild = searchChildren(
+      appState.components[0].children,
+      selectedItemId.current
+    ); // helper function below
+    let fullAttributes = correctChild.attributes;
+    if (fullAttributes === undefined) fullAttributes = '';
+
+    dispatch({
+      type: 'appState/updateAttributes',
+      payload: {
+        attributes: {
+          ...fullAttributes,
+          cssClasses: event.target.value
+        },
+        contextParam: contextParam
+      }
+    });
+  }
+
   let xOff = mouseXState + 2;
   if (mouseXState > window.innerWidth - CONTEXT_MENU_WIDTH) {
     xOff -= CONTEXT_MENU_WIDTH; // move it "flip" it back
@@ -137,9 +167,9 @@ function ContextMenu({
       selectedItemId.current
     ); // helper function below
 
-    let comptext = correctChild.attributes.comptext;
-    if (comptext === undefined) comptext = '';
-    setEditTextValue(comptext);
+    let displayText = correctChild.attributes.comptext;
+    if (displayText === undefined) displayText = '';
+    setEditTextValue(displayText);
   }
 
   function handleEditBackgroundColorButtonClick() {
@@ -151,9 +181,23 @@ function ContextMenu({
       selectedItemId.current
     ); // helper function below
 
-    let comptext = correctChild.style.backgroundColor;
-    if (comptext === undefined) comptext = '';
-    setEditBackgroundColorValue(comptext);
+    let displayText = correctChild.style.backgroundColor;
+    if (displayText === undefined) displayText = '';
+    setEditBackgroundColorValue(displayText);
+  }
+
+  function handleEditClassnameButtonClick() {
+    if (openMenu === 'editClassname') return;
+    setOpenMenu('editClassname');
+
+    let correctChild = searchChildren(
+      appState.components[0].children,
+      selectedItemId.current
+    ); // this function is defined below
+
+    let displayText = correctChild.attributes.cssClasses;
+    if (displayText === undefined) displayText = '';
+    setEditTextValue(displayText);
   }
 
   for (let i = 0; i < 5; i++) {
@@ -197,9 +241,32 @@ function ContextMenu({
           <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
             d1
           </button>
-          <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
-            d1
-          </button>
+          {openMenu !== 'editClassname' && (
+            <button
+              onClick={handleEditClassnameButtonClick}
+              style={{ padding: '0px', margin: '0px', width: '100%' }}
+            >
+              edit class list
+            </button>
+          )}
+          {openMenu === 'editClassname' && (
+            <input
+              type="text"
+              autoFocus
+              value={editClassnameValue}
+              onChange={editClassnameChange}
+              style={{
+                border: 'none',
+                padding: '0px',
+                margin: '0px',
+                marginTop: '1px',
+                width: `${CONTEXT_MENU_WIDTH - CONTEXT_MENU_PADDING * 2}px`,
+                height: ELEMENT_HEIGHT_SIZE,
+                backgroundColor: 'purple',
+                overflow: 'hidden'
+              }}
+            ></input>
+          )}
           <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
             d1
           </button>
