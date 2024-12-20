@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 /* eslint-disable */
-const CONTEXT_MENU_WIDTH = 100;
-const CONTEXT_MENU_HEIGHT = 200;
+const CONTEXT_MENU_WIDTH = 225;
+const CONTEXT_MENU_HEIGHT = 380;
 
 const ELEMENT_HEIGHT_SIZE = '15px';
 
 function ContextMenu(props) {
   const dispatch = useDispatch();
-  const [editTextOpen, setEditTextOpen] = useState(false);
 
+  const [openMenu, setOpenMenu] = useState('none');
+  // const [editTextOpen, setEditTextOpen] = useState(false);
   const [editTextValue, setEditTextValue] = useState('');
+
+  // const [editBackgroundColorOpen, setEditBackgroundColorOpen] = useState(false);
+  const [editBackgroundColorValue, setEditBackgroundColorValue] = useState('');
 
   const appState = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice); // this is literally just passed in on everything else, i have no idea what it does, you can look it up, but other files are literally just taking it and passing it back in.
@@ -23,10 +27,18 @@ function ContextMenu(props) {
   // The below is for all key events
 
   function keyStrokeFunction(key) {
-    if (editTextOpen === true) {
+    if (openMenu === 'editText') {
       switch (key.key) {
         case 'Enter': {
-          setEditTextOpen(false);
+          setOpenMenu('none');
+          break;
+        }
+      }
+    }
+    if (openMenu === 'editBackgroundColor') {
+      switch (key.key) {
+        case 'Enter': {
+          setOpenMenu('none');
           break;
         }
       }
@@ -34,7 +46,7 @@ function ContextMenu(props) {
   }
   useEffect(() => {
     document.addEventListener('keydown', keyStrokeFunction);
-  }, [editTextOpen, editTextValue]);
+  }, [openMenu, editTextValue]);
 
   // remove the keystroke listener on unmount.
   useEffect(
@@ -42,23 +54,35 @@ function ContextMenu(props) {
     () => () => {
       document.removeEventListener('keydown', keyStrokeFunction); // remove old one first if we have
     },
-    [editTextOpen, editTextValue]
+    [openMenu, editTextValue]
   );
   ////////// the above wonly checks for certan key events, for each type of place in the menu we are in.
 
   function editTextChange(event) {
     setEditTextValue(event.target.value);
-    dispatch(
-      dispatch({
-        type: 'appState/updateAttributes',
-        payload: {
-          attributes: {
-            comptext: event.target.value
-          },
-          contextParam: contextParam
-        }
-      })
-    );
+
+    dispatch({
+      type: 'appState/updateAttributes',
+      payload: {
+        attributes: {
+          comptext: event.target.value
+        },
+        contextParam: contextParam
+      }
+    });
+  }
+
+  function editBackgroundColorChange(event) {
+    setEditBackgroundColorValue(event.target.value);
+    dispatch({
+      type: 'appState/updateCss',
+      payload: {
+        style: {
+          backgroundColor: event.target.value
+        },
+        contextParam: contextParam
+      }
+    });
   }
 
   let xOff = props.mouseXState + 2;
@@ -76,18 +100,25 @@ function ContextMenu(props) {
   let thing = props.selectedItem;
 
   function handleEditTextButtonClick() {
-    if (editTextOpen === true) return;
-    setEditTextOpen(true);
-    // console.log('AFSADFSAF');
-    // console.log({ selectedItemId });
-    // console.log(appState);
-    // console.log(appState.components[0].children[selectedItemId.current]);
+    if (openMenu === 'editText') return;
+    setOpenMenu('editText'); // by using this, we ensure that other menus that might be open now close.
 
     let comptext =
       appState.components[0].children[selectedItemId.current].attributes
         .comptext;
     if (comptext === undefined) comptext = '';
     setEditTextValue(comptext);
+  }
+
+  function handleEditBackgroundColorButtonClick() {
+    if (openMenu === 'editBackgroundColor') return;
+    setOpenMenu('editBackgroundColor');
+
+    let comptext =
+      appState.components[0].children[selectedItemId.current].style
+        .backgroundColor;
+    if (comptext === undefined) comptext = '';
+    setEditBackgroundColorValue(comptext);
   }
 
   console.log(appState);
@@ -125,7 +156,7 @@ function ContextMenu(props) {
         backgroundColor: props.targetColor,
         zIndex: '100080',
         margin: '0px',
-        padding: '0px',
+        padding: '3.5px',
         position: 'fixed',
         left: `${xOff}px`,
         top: `${yOff}px`,
@@ -145,7 +176,7 @@ function ContextMenu(props) {
           <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
             d1
           </button>
-          {!editTextOpen && (
+          {openMenu !== 'editText' && (
             <button
               onClick={handleEditTextButtonClick}
               style={{ padding: '0px', margin: '0px', width: '100%' }}
@@ -153,12 +184,38 @@ function ContextMenu(props) {
               edit text
             </button>
           )}
-          {editTextOpen && (
+          {openMenu === 'editText' && (
             <input
               type="text"
               autoFocus
               value={editTextValue}
               onChange={editTextChange}
+              style={{
+                border: 'none',
+                padding: '0px',
+                margin: '0px',
+                marginTop: '1px',
+                width: `${CONTEXT_MENU_WIDTH}px`,
+                height: ELEMENT_HEIGHT_SIZE,
+                backgroundColor: 'purple',
+                overflow: 'hidden'
+              }}
+            ></input>
+          )}
+          {openMenu !== 'editBackgroundColor' && (
+            <button
+              onClick={handleEditBackgroundColorButtonClick}
+              style={{ padding: '0px', margin: '0px', width: '100%' }}
+            >
+              set background color
+            </button>
+          )}
+          {openMenu === 'editBackgroundColor' && (
+            <input
+              type="text"
+              autoFocus
+              value={editBackgroundColorValue}
+              onChange={editBackgroundColorChange}
               style={{
                 border: 'none',
                 padding: '0px',
