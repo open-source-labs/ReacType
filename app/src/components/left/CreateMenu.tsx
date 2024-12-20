@@ -266,7 +266,9 @@ const CreateMenu = (props): JSX.Element => {
       ])}
       <FormGroup>
         <Box display="flex" alignItems="center" justifyContent="center">
-          <p className="smallerText">HTML</p>
+          <p className="smallerText" id="HTML-switch">
+            HTML
+          </p>
           <Switch
             checked={MUIMode}
             onChange={() => setMUIMode(!MUIMode)}

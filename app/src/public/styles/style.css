@@ -266,11 +266,14 @@ span.material-symbols-outlined {
   font-size: 0.8rem;
 }
 
+.smallerText #HTML-switch {
+  color: #a9a9a9;
+}
+
 .orangeText {
   color: #f08c00;
 }
 #MUIItem:hover {
-  background-color: #474545a8;
   color: #f08c00;
 }
 
