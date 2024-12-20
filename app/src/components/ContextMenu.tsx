@@ -4,9 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 const CONTEXT_MENU_WIDTH = 225;
 const CONTEXT_MENU_HEIGHT = 380;
 
+const CONTEXT_MENU_PADDING = 3.5;
+
 const ELEMENT_HEIGHT_SIZE = '15px';
 
-function ContextMenu(props) {
+function ContextMenu({
+  mouseXState,
+  mouseYState,
+  selectedItem,
+  targetColor,
+  PanRef
+}) {
   const dispatch = useDispatch();
 
   const [openMenu, setOpenMenu] = useState('none');
@@ -19,7 +27,7 @@ function ContextMenu(props) {
   const appState = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice); // this is literally just passed in on everything else, i have no idea what it does, you can look it up, but other files are literally just taking it and passing it back in.
 
-  const [menuType, setMenuType] = useState('?');
+  const MenuTypeRef = useRef('?');
 
   let selectedItemId = useRef(-1); // dont trigger rerenders cause this shouldent change.
   // attach key listener
@@ -47,6 +55,19 @@ function ContextMenu(props) {
   useEffect(() => {
     document.addEventListener('keydown', keyStrokeFunction);
   }, [openMenu, editTextValue]);
+
+  // set the focus
+  useEffect(() => {
+    console.log('WHWHWHWHWHWAWAWAWAWAWAWAWAWAWAWAAWWAAWAWWW');
+    console.log(selectedItemId.current);
+    dispatch({
+      type: 'appState/changeFocus',
+      payload: {
+        componentId: 1,
+        childId: selectedItemId.current
+      }
+    });
+  }, [mouseXState, mouseYState]); // re trigger if the position of the context menu changes.
 
   // remove the keystroke listener on unmount.
   useEffect(
@@ -85,27 +106,27 @@ function ContextMenu(props) {
     });
   }
 
-  let xOff = props.mouseXState + 2;
-  if (props.mouseXState > window.innerWidth - CONTEXT_MENU_WIDTH) {
+  let xOff = mouseXState + 2;
+  if (mouseXState > window.innerWidth - CONTEXT_MENU_WIDTH) {
     xOff -= CONTEXT_MENU_WIDTH; // move it "flip" it back
     xOff -= 4;
   }
 
-  let yOff = props.mouseYState + 2;
-  if (props.mouseYState > window.innerHeight - CONTEXT_MENU_HEIGHT) {
+  let yOff = mouseYState + 2;
+  if (mouseYState > window.innerHeight - CONTEXT_MENU_HEIGHT) {
     yOff -= CONTEXT_MENU_HEIGHT; // bump "flip" it up
     yOff -= 4; // move it back 4px cause we moved it forward 2px;
   }
 
-  let thing = props.selectedItem;
+  let thing = selectedItem;
 
   function handleEditTextButtonClick() {
     if (openMenu === 'editText') return;
     setOpenMenu('editText'); // by using this, we ensure that other menus that might be open now close.
 
+    let adjustedSelectItemId = 1 + (selectedItemId.current - 1) * 2;
     let comptext =
-      appState.components[0].children[selectedItemId.current].attributes
-        .comptext;
+      appState.components[0].children[adjustedSelectItemId].attributes.comptext;
     if (comptext === undefined) comptext = '';
     setEditTextValue(comptext);
   }
@@ -114,8 +135,9 @@ function ContextMenu(props) {
     if (openMenu === 'editBackgroundColor') return;
     setOpenMenu('editBackgroundColor');
 
+    let adjustedSelectItemId = 1 + (selectedItemId.current - 1) * 2;
     let comptext =
-      appState.components[0].children[selectedItemId.current].style
+      appState.components[0].children[adjustedSelectItemId].style
         .backgroundColor;
     if (comptext === undefined) comptext = '';
     setEditBackgroundColorValue(comptext);
@@ -123,26 +145,20 @@ function ContextMenu(props) {
 
   console.log(appState);
   for (let i = 0; i < 5; i++) {
-    console.log(thing.id);
-
     // just things that we want to stop on...
     if (!thing.id.match(/canv/)) {
       thing = thing.parentElement;
     } else {
       // once were all said and done...
-      if (thing.id.match(/^canv[0-9]/) && menuType !== 'CanvasElement') {
-        setMenuType('CanvasElement');
+      if (
+        thing.id.match(/^canv[0-9]/) &&
+        MenuTypeRef.current !== 'CanvasElement'
+      ) {
+        MenuTypeRef.current = 'CanvasElement';
 
         console.log(thing.id.split('canv'));
-        selectedItemId.current = thing.id.split('canv')[1];
-        dispatch({
-          type: 'appState/changeFocus',
-          payload: {
-            componentId: 1,
-            childId: Number(selectedItemId.current)
-          }
-        });
       }
+      selectedItemId.current = Number(thing.id.split('canv')[1]);
       break;
     }
   }
@@ -153,19 +169,19 @@ function ContextMenu(props) {
 
     <div
       style={{
-        backgroundColor: props.targetColor,
+        backgroundColor: targetColor,
         zIndex: '100080',
         margin: '0px',
-        padding: '3.5px',
+        padding: `${CONTEXT_MENU_PADDING}px`,
         position: 'fixed',
         left: `${xOff}px`,
         top: `${yOff}px`,
         width: `${CONTEXT_MENU_WIDTH}px`,
         height: `${CONTEXT_MENU_HEIGHT}px`
       }}
-      ref={props.PanRef}
+      ref={PanRef}
     >
-      {menuType === 'CanvasElement' && (
+      {MenuTypeRef.current === 'CanvasElement' && (
         <div>
           <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
             d1
@@ -195,7 +211,7 @@ function ContextMenu(props) {
                 padding: '0px',
                 margin: '0px',
                 marginTop: '1px',
-                width: `${CONTEXT_MENU_WIDTH}px`,
+                width: `${CONTEXT_MENU_WIDTH - CONTEXT_MENU_PADDING * 2}px`,
                 height: ELEMENT_HEIGHT_SIZE,
                 backgroundColor: 'purple',
                 overflow: 'hidden'
@@ -221,7 +237,7 @@ function ContextMenu(props) {
                 padding: '0px',
                 margin: '0px',
                 marginTop: '1px',
-                width: `${CONTEXT_MENU_WIDTH}px`,
+                width: `${CONTEXT_MENU_WIDTH - CONTEXT_MENU_PADDING * 2}px`,
                 height: ELEMENT_HEIGHT_SIZE,
                 backgroundColor: 'purple',
                 overflow: 'hidden'
