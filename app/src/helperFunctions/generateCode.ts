@@ -193,9 +193,9 @@ const generateUnformattedCode = (
     if (childElement.childId && childElement.tag !== 'Route') {
       details.push(`id="${childElement.childId}"`);
     }
-    // Add className attribute if cssClasses exist
-    if (childElement.attributes && childElement.attributes.cssClasses) {
-      details.push(`className="${childElement.attributes.cssClasses}"`);
+    // Add className attribute if cssclasses exist
+    if (childElement.attributes && childElement.attributes.cssclasses) {
+      details.push(`className="${childElement.attributes.cssclasses}"`);
     }
     // Add styles if they exist
     if (childElement.style && Object.keys(childElement.style).length > 0) {
@@ -260,8 +260,8 @@ const generateUnformattedCode = (
           .filter(Boolean)
           .join(' ');
 
-        if (childElement.attributes && childElement.attributes.cssClasses) {
-          classes += ` ${childElement.attributes.cssClasses}`;
+        if (childElement.attributes && childElement.attributes.cssclasses) {
+          classes += ` ${childElement.attributes.cssclasses}`;
         }
 
         details.push(`className="${classes}"`);

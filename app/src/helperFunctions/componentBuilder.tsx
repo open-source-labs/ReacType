@@ -11,7 +11,7 @@ import { ChildElement, MUIComponent } from '../interfaces/Interfaces';
  */
 const componentBuilder = (
   array: Array<ChildElement | MUIComponent>,
-  key = 0,
+  key = 0
 ): React.ReactNode[] => {
   const componentsToRender = [];
   for (const element of array) {
@@ -20,16 +20,17 @@ const componentBuilder = (
     const { childId } = element;
     const elementStyle = element.style;
     const innerText = element.attributes.comptext;
-    const classRender = element.attributes.cssClasses;
+    const classRender = element.attributes.cssclasses;
     const activeLink = element.attributes.compLink;
 
-    let renderedChildren = element.children.length > 0
-      ? componentBuilder(element.children, ++key)
-      : undefined;
+    let renderedChildren =
+      element.children.length > 0
+        ? componentBuilder(element.children, ++key)
+        : undefined;
 
     if (element.type === 'MUI Component') {
       const baseData = MUITypes.find(
-        (m) => m.tag === elementType,
+        (m) => m.tag === elementType
       ).componentData;
       if (!baseData) return null;
       const componentData = {
@@ -37,7 +38,7 @@ const componentBuilder = (
         props: {
           ...baseData.props,
           key: ++key,
-          children: renderedChildren,
+          children: renderedChildren
         }
       };
       componentsToRender.push(JSON.stringify(componentData));
@@ -80,7 +81,7 @@ const componentBuilder = (
           : {}),
         ...(elementType === 'a' || elementType === 'Link'
           ? { href: activeLink }
-          : {}),
+          : {})
       };
 
       componentsToRender.push(
@@ -88,9 +89,9 @@ const componentBuilder = (
           {childrenContent.length > 0
             ? childrenContent.map((child, index) => (
                 <React.Fragment key={index}>{child}</React.Fragment>
-            ))
+              ))
             : null}
-        </Component>,
+        </Component>
       );
     }
     key++;

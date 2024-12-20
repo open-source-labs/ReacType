@@ -338,7 +338,7 @@ describe('elementTagDetails', () => {
   it('generates correct details for an HTML element', () => {
     const childElement = {
       childId: '1',
-      attributes: { cssClasses: 'btn' },
+      attributes: { cssclasses: 'btn' },
       style: {},
       events: {}
     };

@@ -182,7 +182,7 @@ export interface StateUsed {
 export interface Attributes {
   comptext?: string;
   compLink?: string;
-  cssClasses?: string;
+  cssclasses?: string;
 }
 
 // interface PublishResponse {

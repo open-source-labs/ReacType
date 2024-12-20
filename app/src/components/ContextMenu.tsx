@@ -137,7 +137,7 @@ function ContextMenu({
       payload: {
         attributes: {
           ...fullAttributes,
-          cssClasses: event.target.value
+          cssclasses: event.target.value
         },
         contextParam: contextParam
       }
@@ -195,7 +195,7 @@ function ContextMenu({
       selectedItemId.current
     ); // this function is defined below
 
-    let displayText = correctChild.attributes.cssClasses;
+    let displayText = correctChild.attributes.cssclasses;
     if (displayText === undefined) displayText = '';
     setEditTextValue(displayText);
   }

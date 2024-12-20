@@ -77,7 +77,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [BGColor, setBGColor] = useState('');
   const [comptext, setcomptext] = useState('');
   const [compLink, setCompLink] = useState('');
-  const [cssClasses, setCssClasses] = useState('');
+  const [cssclasses, setCssClasses] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
@@ -156,7 +156,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         const { style } = element;
         setcomptext(attributes.comptext ? attributes.comptext : '');
         setCompLink(attributes.compLink ? attributes.compLink : '');
-        setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');
+        setCssClasses(attributes.cssclasses ? attributes.cssclasses : '');
       }
     }
     const style = configTarget.child
@@ -207,7 +207,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       case 'compLink':
         setCompLink(inputVal);
         break;
-      case 'cssClasses':
+      case 'cssclasses':
         setCssClasses(inputVal);
         break;
       case 'event':
@@ -422,7 +422,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const attributesObj: any = {};
     if (comptext !== '') attributesObj.comptext = comptext;
     if (compLink !== '') attributesObj.compLink = compLink;
-    if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
+    if (cssclasses !== '') attributesObj.cssclasses = cssclasses;
     dispatch(
       updateAttributes({
         attributes: attributesObj,
@@ -837,14 +837,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <div className={classes.configValue}>
                   <FormControl className={classes.formControl}>
                     <TextField
-                      name="cssClasses"
+                      name="cssclasses"
                       className={classes.select}
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
                           : `${classes.selectInput} ${classes.darkThemeFontColor}`
                       }}
-                      value={cssClasses}
+                      value={cssclasses}
                       onChange={handleChange}
                       placeholder="class"
                     />
