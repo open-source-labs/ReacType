@@ -21,7 +21,7 @@ const componentBuilder = (
     const elementStyle = element.style;
     const innerText = element.attributes.comptext;
     const classRender = element.attributes.cssclasses;
-    const activeLink = element.attributes.compLink;
+    const activeLink = element.attributes.complink;
 
     let renderedChildren =
       element.children.length > 0

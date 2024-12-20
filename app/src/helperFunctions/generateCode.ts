@@ -318,11 +318,11 @@ const generateUnformattedCode = (
           : childElement.attributes.comptext;
     }
 
-    if (childElement.attributes && childElement.attributes.compLink) {
+    if (childElement.attributes && childElement.attributes.complink) {
       activeLink =
-        childElement.stateUsed && childElement.stateUsed.compLink
-          ? `{${childElement.stateUsed.compLink}}`
-          : `"${childElement.attributes.compLink}"`;
+        childElement.stateUsed && childElement.stateUsed.complink
+          ? `{${childElement.stateUsed.complink}}`
+          : `"${childElement.attributes.complink}"`;
     }
     // NOTE-NOAH. this is hard coded and will interfere with new elements.
     const nestableTags = [

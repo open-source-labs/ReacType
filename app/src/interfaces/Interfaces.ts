@@ -176,12 +176,12 @@ export interface StateUsed {
   comptext: string;
   compLinkProviderId: number;
   compLinkPropsId: number;
-  compLink: string;
+  complink: string;
 }
 
 export interface Attributes {
   comptext?: string;
-  compLink?: string;
+  complink?: string;
   cssclasses?: string;
 }
 

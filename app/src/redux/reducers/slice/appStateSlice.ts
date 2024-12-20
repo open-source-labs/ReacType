@@ -700,7 +700,7 @@ const appStateSlice = createSlice({
       for (let i = 0; i < components.length; i++) {
         //if the component uses context from component being deleted
         if (components[i].useContext && components[i].useContext[id]) {
-          // iterate over children to see where it is being used, then reset that comptext/compLink/useState
+          // iterate over children to see where it is being used, then reset that comptext/complink/useState
           for (let child of components[i].children) {
             if (child.stateUsed) {
               if (child.stateUsed.comptextProviderId === id) {
@@ -710,8 +710,8 @@ const appStateSlice = createSlice({
                 delete child.stateUsed.comptextPropsId;
               }
               if (child.stateUsed.compLinkProviderId === id) {
-                child.attributes.compLink = '';
-                delete child.stateUsed.compLink;
+                child.attributes.complink = '';
+                delete child.stateUsed.complink;
                 delete child.stateUsed.compLinkProviderId;
                 delete child.stateUsed.compLinkPropsId;
               }
@@ -1242,7 +1242,7 @@ const appStateSlice = createSlice({
         // we then iterate through the rest of the components
         // check if a useContext if created and if the useContext contains the providerId
         // we then delete from the set, statesFromProvider, the row id, and regenerate the code
-        // Ex: useContext {1: {statesFromProvider: Set, compLink, comptext}, 2 : ..., 3 : ...}
+        // Ex: useContext {1: {statesFromProvider: Set, complink, comptext}, 2 : ..., 3 : ...}
         if (
           component.useContext &&
           component.useContext[state.canvasFocus.componentId]
@@ -1250,7 +1250,7 @@ const appStateSlice = createSlice({
           component.useContext[
             state.canvasFocus.componentId
           ].statesFromProvider.delete(action.payload.rowId);
-          // iterate over children to see where it is being used, then reset that comptext/compLink/useState
+          // iterate over children to see where it is being used, then reset that comptext/complink/useState
           for (let child of component.children) {
             if (child.stateUsed) {
               if (
@@ -1266,8 +1266,8 @@ const appStateSlice = createSlice({
                 child.stateUsed.compLinkProviderId === currComponent.id &&
                 child.stateUsed.compLinkPropsId === action.payload.rowId
               ) {
-                child.attributes.compLink = '';
-                delete child.stateUsed.compLink;
+                child.attributes.complink = '';
+                delete child.stateUsed.complink;
                 delete child.stateUsed.compLinkProviderId;
                 delete child.stateUsed.compLinkPropsId;
               }

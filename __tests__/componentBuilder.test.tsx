@@ -90,7 +90,7 @@ describe('componentBuilder', () => {
         name: 'img',
         childId: 2,
         style: {},
-        attributes: { compLink: 'http://example.com/image.png' },
+        attributes: { complink: 'http://example.com/image.png' },
         events: {},
         stateProps: [],
         passedInProps: [],

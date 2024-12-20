@@ -76,7 +76,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [flexOptionsVisible, setFlexOptionsVisible] = useState(false);
   const [BGColor, setBGColor] = useState('');
   const [comptext, setcomptext] = useState('');
-  const [compLink, setCompLink] = useState('');
+  const [complink, setCompLink] = useState('');
   const [cssclasses, setCssClasses] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
@@ -94,8 +94,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const currFocus = getFocus().child;
 
   useEffect(() => {
-    currFocus?.attributes?.compLink &&
-      setCompLink(currFocus.attributes.compLink);
+    currFocus?.attributes?.complink &&
+      setCompLink(currFocus.attributes.complink);
     setEventAll(['', '']);
     if (currFocus) {
       const addedEvent: { id: string; funcName: any }[] = [];
@@ -155,7 +155,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         const { attributes } = element;
         const { style } = element;
         setcomptext(attributes.comptext ? attributes.comptext : '');
-        setCompLink(attributes.compLink ? attributes.compLink : '');
+        setCompLink(attributes.complink ? attributes.complink : '');
         setCssClasses(attributes.cssclasses ? attributes.cssclasses : '');
       }
     }
@@ -204,7 +204,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       case 'comptext':
         setcomptext(inputVal);
         break;
-      case 'compLink':
+      case 'complink':
         setCompLink(inputVal);
         break;
       case 'cssclasses':
@@ -334,11 +334,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       setUseContextObj(newContextObj);
     }
 
-    if (attributeName === 'compLink') {
-      newContextObj[componentProviderId].compLink = statePropsId;
+    if (attributeName === 'complink') {
+      newContextObj[componentProviderId].complink = statePropsId;
       setStateUsedObj({
         ...stateUsedObj,
-        compLink: stateKey,
+        complink: stateKey,
         compLinkProviderId: componentProviderId,
         compLinkPropsId: statePropsId
       });
@@ -421,7 +421,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
     const attributesObj: any = {};
     if (comptext !== '') attributesObj.comptext = comptext;
-    if (compLink !== '') attributesObj.compLink = compLink;
+    if (complink !== '') attributesObj.complink = complink;
     if (cssclasses !== '') attributesObj.cssclasses = cssclasses;
     dispatch(
       updateAttributes({
@@ -803,14 +803,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <div className={classes.configValue}>
                   <FormControl className={classes.formControl}>
                     <TextField
-                      name="compLink"
+                      name="complink"
                       className={classes.select}
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
                           : `${classes.selectInput} ${classes.darkThemeFontColor}`
                       }}
-                      value={compLink}
+                      value={complink}
                       onChange={handleChange}
                       placeholder="example.com"
                     />
@@ -819,7 +819,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <div>
                   <UseStateModal
                     updateAttributeWithState={updateAttributeWithState}
-                    attributeToChange="compLink"
+                    attributeToChange="complink"
                     childId={state.canvasFocus.childId}
                   />
                 </div>
