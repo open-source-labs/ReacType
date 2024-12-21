@@ -45,7 +45,7 @@ COPY --from=build /app/config.js ./config.js
 COPY --from=build /app/server ./server
 COPY --from=build /app/build /app/build
 
-COPY .env .env
+# COPY .env .env
 #just make the env file go into the docker image?
 
 
