@@ -198,7 +198,7 @@ function ContextMenu({
                 marginTop: '1px',
                 width: `${CONTEXT_MENU_WIDTH - CONTEXT_MENU_PADDING * 2}px`,
                 height: ELEMENT_HEIGHT_SIZE,
-                backgroundColor: 'purple',
+                backgroundColor: `rgba(0, 0, 0, 0)`,
                 overflow: 'hidden'
               }}
             ></input>
@@ -238,7 +238,7 @@ function ContextMenu({
                 marginTop: '1px',
                 width: `${CONTEXT_MENU_WIDTH - CONTEXT_MENU_PADDING * 2}px`,
                 height: ELEMENT_HEIGHT_SIZE,
-                backgroundColor: 'purple',
+                backgroundColor: `rgba(0, 0, 0, 0)`,
                 overflow: 'hidden'
               }}
             ></input>
@@ -277,7 +277,7 @@ function ContextMenu({
                 marginTop: '1px',
                 width: `${CONTEXT_MENU_WIDTH - CONTEXT_MENU_PADDING * 2}px`,
                 height: ELEMENT_HEIGHT_SIZE,
-                backgroundColor: 'purple',
+                backgroundColor: `rgba(0, 0, 0, 0)`,
                 overflow: 'hidden'
               }}
             ></input>
@@ -317,7 +317,7 @@ function ContextMenu({
                 marginTop: '1px',
                 width: `${CONTEXT_MENU_WIDTH - CONTEXT_MENU_PADDING * 2}px`,
                 height: ELEMENT_HEIGHT_SIZE,
-                backgroundColor: 'purple',
+                backgroundColor: `rgba(0, 0, 0, 0)`,
                 overflow: 'hidden'
               }}
             ></input>

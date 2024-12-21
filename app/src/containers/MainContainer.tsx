@@ -52,7 +52,7 @@ const MainContainer = (props): JSX.Element => {
 
   // refs and states for contextMenu
   let [contextMenuOpen, setContextMenuOpen] = useState(false);
-  let [contextMenuColor, setContextMenuColor] = useState('orange');
+  let [contextMenuColor, setContextMenuColor] = useState('gray');
 
   const ContextMenuRef = useRef(null);
 
@@ -104,11 +104,7 @@ const MainContainer = (props): JSX.Element => {
         return; // if it is not nul and we are clicking in it.
       }
       setContextMenuSelectedElement(e.target); // get it set it
-      if (e.target.id === 'clickmeButton') {
-        setContextMenuColor('purple');
-      } else {
-        setContextMenuColor('orange');
-      }
+
       setMouseXState(MouseXRef.current);
       setMouseYState(MouseYRef.current); // now trigger a re-render
       setContextMenuOpen(true);
