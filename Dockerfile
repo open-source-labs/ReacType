@@ -13,6 +13,9 @@ RUN npm install -g npm@10.9.1
 WORKDIR /app
 
 COPY package*.json ./
+# also make the below copies for the runtime stage to use.
+COPY ./config.js ./config.js
+COPY ./server ./server
 
 
 RUN npm install --production --no-install-recommends --fetch-retry-maxtimeout 500000
@@ -34,10 +37,8 @@ COPY ./src ./src
  # i am hoping the above will make it so that the frontend files will know that it is production.
 RUN npm run prod-build 
 
-# also make the below copies for the runtime stage to use.
-COPY ./config.js ./config.js
-COPY ./server ./server
-COPY ./build ./build
+
+#COPY ./build ./build
 # they will need the above.
 
 # Stage 2: Runtime
