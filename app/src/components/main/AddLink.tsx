@@ -25,8 +25,8 @@ function AddLink({ id, onClickHandler, linkDisplayed }): JSX.Element {
     (store: RootState) => ({
       state: store.appState,
       contextParam: store.contextSlice,
-      isThemeLight: store.styleSlice,
-    }),
+      isThemeLight: store.styleSlice
+    })
   );
   const dispatch = useDispatch();
   //this function allows the link to be functional when it's nested
@@ -44,32 +44,34 @@ function AddLink({ id, onClickHandler, linkDisplayed }): JSX.Element {
 
   const handlePageSelect = (event) => {
     const currComponent = state.components.find(
-      (element) => element.id === state.canvasFocus.componentId,
+      (element) => element.id === state.canvasFocus.componentId
     );
     deepIterate(currComponent.children).some((element) => {
       if (element.childId === id) {
         const state = JSON.parse(JSON.stringify(element));
         state.childId = id;
-        state.attributes.compLink = event.target.value;
+        state.attributes.complink = event.target.value;
         dispatch(
-          updateAttributes({ attributes: state, contextParam: contextParam }),
+          updateAttributes({ attributes: state, contextParam: contextParam })
         );
         return true;
       }
     });
   };
 
-  const pagesItems = state.components.filter((comp) => state.rootComponents.includes(comp.id));
+  const pagesItems = state.components.filter((comp) =>
+    state.rootComponents.includes(comp.id)
+  );
   const dropDown = [
     <MenuItem style={{ color: '#000' }} disabled hidden selected>
       Pages
-    </MenuItem>,
+    </MenuItem>
   ].concat(
     pagesItems.map((comp) => (
       <MenuItem style={{ color: '#000' }} value={comp.name}>
         {comp.name}
       </MenuItem>
-    )),
+    ))
   );
 
   return (
@@ -90,19 +92,19 @@ function AddLink({ id, onClickHandler, linkDisplayed }): JSX.Element {
           style={
             isThemeLight
               ? {
-                backgroundColor: '#eef0f1',
-                color: '#000',
-                border: '1px solid black',
-                height: '28px',
-                width: '200px',
-              }
+                  backgroundColor: '#eef0f1',
+                  color: '#000',
+                  border: '1px solid black',
+                  height: '28px',
+                  width: '200px'
+                }
               : {
-                backgroundColor: 'gray',
-                color: '#fff',
-                border: '1px solid white',
-                height: '28px',
-                width: '200px',
-              }
+                  backgroundColor: 'gray',
+                  color: '#fff',
+                  border: '1px solid white',
+                  height: '28px',
+                  width: '200px'
+                }
           }
         >
           {dropDown}
