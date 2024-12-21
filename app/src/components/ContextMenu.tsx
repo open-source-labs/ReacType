@@ -166,7 +166,7 @@ function ContextMenu({
     >
       {MenuTypeRef.current === 'CanvasElement' && (
         <div>
-          {annoyingPopupOpen === true && (
+          {false && (
             <div
               style={{
                 backgroundColor: 'green',
