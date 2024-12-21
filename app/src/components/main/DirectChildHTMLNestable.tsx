@@ -213,7 +213,7 @@ function DirectChildHTMLNestable({
         id={childId}
         onClickHandler={onClickHandler}
         linkDisplayed={
-          attributes && attributes.compLink ? `${attributes.compLink}` : null
+          attributes && attributes.complink ? `${attributes.complink}` : null
         }
       />
     );

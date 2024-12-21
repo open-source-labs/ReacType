@@ -176,13 +176,13 @@ export interface StateUsed {
   comptext: string;
   compLinkProviderId: number;
   compLinkPropsId: number;
-  compLink: string;
+  complink: string;
 }
 
 export interface Attributes {
   comptext?: string;
-  compLink?: string;
-  cssClasses?: string;
+  complink?: string;
+  cssclasses?: string;
 }
 
 // interface PublishResponse {

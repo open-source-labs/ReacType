@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { toggleLoggedIn } from '../../redux/reducers/slice/appStateSlice';
 import serverConfig from '../../serverConfig.js';
 // const config = require('../../../../config.js');
@@ -34,10 +34,10 @@ export default function LoginButton(): JSX.Element {
     const projects = fetch(`${serverURL}/logout`, {
       method: 'GET',
       headers: {
-        'content-type': 'application/json',
+        'content-type': 'application/json'
       },
       // need credentials for userid pull from cookie
-      credentials: 'include',
+      credentials: 'include'
     })
       .then((res) => res.json())
       .then((data) => data)

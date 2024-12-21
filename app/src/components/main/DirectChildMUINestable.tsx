@@ -212,7 +212,7 @@ function DirectChildMUINestable({
         id={childId}
         onClickHandler={onClickHandler}
         linkDisplayed={
-          attributes && attributes.compLink ? `${attributes.compLink}` : null
+          attributes && attributes.complink ? `${attributes.complink}` : null
         }
       />
     );
@@ -231,7 +231,7 @@ function DirectChildMUINestable({
       <span>
         <strong style={{ color: 'white' }}>{MUIType.placeHolderShort}</strong>
         <strong style={{ color: '#f88e16' }}>
-          {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
+          {attributes && attributes.complink ? ` ${attributes.complink}` : ''}
         </strong>
         {routeButton}
         <DeleteButton

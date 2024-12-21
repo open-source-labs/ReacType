@@ -87,7 +87,9 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
         <ListItem
           key={'clear'}
           button
-          onClick={resetState}
+          onClick={() => {
+            resetState();
+          }}
           style={{
             backgroundColor: '#ef6c00',
             borderRadius: '50px',
