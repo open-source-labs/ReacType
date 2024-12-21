@@ -7,22 +7,16 @@ RUN apk add --no-cache --virtual .gyp \
     make \
     g++
 
-RUN npm install -g npm@10.9.1
+ENV NODE_ENV='production'
 
 
-WORKDIR /app
 
-COPY package*.json ./
-# also make the below copies for the runtime stage to use.
-COPY ./config.js ./config.js
-COPY ./server ./server
+ COPY package*.json ./
+# we do need this.
 
+RUN npm install --omit=dev --no-install-recommends --fetch-retry-maxtimeout 500000
 
-RUN npm install --production --no-install-recommends --fetch-retry-maxtimeout 500000
-
-# install vite virst
-
-
+#yep, we have to copy these.... );
 COPY ./index.html ./index.html
 #COPY ./app/src/public/styles/style.css ./app/src/public/styles/style.css
 COPY ./app/src ./app/src
@@ -30,50 +24,37 @@ COPY ./vite.config.ts ./vite.config.ts
 COPY ./resources ./resources
 COPY ./src ./src 
 
-
-#also copy this one file lol.
-
- ENV NODE_ENV='production'
- # i am hoping the above will make it so that the frontend files will know that it is production.
 RUN npm run prod-build 
 
 
-#COPY ./build ./build
-# they will need the above.
 
-# Stage 2: Runtime
+# # Stage 2: Runtime
 FROM node:21.2.0-alpine AS runtime
 
-WORKDIR /app
-
-COPY --from=build /app/package*.json ./
-
-RUN npm install --production --no-install-recommends --fetch-retry-maxtimeout 500000
-
-# RUN npm run dev-frontend # no, dont just run the app while building
-
-# make a build file?
+ WORKDIR /app
 
 
-# --only=prod
-# COPY --from=build /app/.env .env
-COPY --from=build /app/config.js ./config.js
-COPY --from=build /app/server ./server
-COPY --from=build /app/build /app/build
-
-COPY .env .env
-#just make the env file go into the docker image?
+COPY --from=build /build /app/build
 
 
+# just copy this straight if we can?
+COPY ../server ./server
+
+# these things build dosent have so dont copy them through
+COPY package*.json ./
+COPY  .env .env
+COPY ./config.js ./config.js
+
+
+# and now we need to copy a bunch of stuff.
+COPY --from=build ./node_modules ./node_modules
+
+ENV PORT=5656
 EXPOSE 5656
 
 ENV IS_DOCKER=true
 
-
 ENV VIDEOSDK='vidsdk'
 
- ENV PORT=5656
-
-# no longer put the envs here
 
 CMD [ "npm", "start" ]
