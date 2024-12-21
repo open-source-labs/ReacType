@@ -19,10 +19,10 @@ function ContextMenu({
   const dispatch = useDispatch();
 
   const [openMenu, setOpenMenu] = useState('none');
-  // const [editTextOpen, setEditTextOpen] = useState(false);
+  //
 
   const [singleMenuValue, setSingleMenuValue] = useState('');
-  // const [editBackgroundColorOpen, setEditBackgroundColorOpen] = useState(false);
+  //
 
   //@ts-ignore
   const appState = useSelector((store: RootState) => store.appState);
@@ -164,9 +164,6 @@ function ContextMenu({
     >
       {MenuTypeRef.current === 'CanvasElement' && (
         <div>
-          <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
-            d1
-          </button>
           {openMenu !== 'editClassname' && (
             <button
               onClick={() => {
@@ -206,9 +203,7 @@ function ContextMenu({
               }}
             ></input>
           )}
-          <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
-            d1
-          </button>
+          <hr />
           {openMenu !== 'editText' && (
             <button
               onClick={() => {
@@ -287,6 +282,7 @@ function ContextMenu({
               }}
             ></input>
           )}
+          <hr />
           {openMenu !== 'editBackgroundColor' && (
             <button
               onClick={() => {
@@ -326,9 +322,6 @@ function ContextMenu({
               }}
             ></input>
           )}
-          <button style={{ padding: '0px', margin: '0px', width: '100%' }}>
-            d1
-          </button>
         </div>
       )}
     </div>
