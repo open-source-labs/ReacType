@@ -248,6 +248,45 @@ function ContextMenu({
               }}
             ></input>
           )}
+          {openMenu !== 'editLink' && (
+            <button
+              onClick={() => {
+                handleStandardFieldButtonClick(
+                  'editLink',
+                  'attributes',
+                  'complink'
+                );
+              }}
+              style={{ padding: '0px', margin: '0px', width: '100%' }}
+            >
+              edit link (?)
+            </button>
+          )}
+          {openMenu === 'editLink' && (
+            <input
+              type="text"
+              autoFocus
+              value={singleMenuValue}
+              onChange={(event) => {
+                singleMenuValueChange(
+                  event,
+                  'attributes',
+                  'appState/updateAttributes',
+                  'complink'
+                );
+              }}
+              style={{
+                border: 'none',
+                padding: '0px',
+                margin: '0px',
+                marginTop: '1px',
+                width: `${CONTEXT_MENU_WIDTH - CONTEXT_MENU_PADDING * 2}px`,
+                height: ELEMENT_HEIGHT_SIZE,
+                backgroundColor: 'purple',
+                overflow: 'hidden'
+              }}
+            ></input>
+          )}
           {openMenu !== 'editBackgroundColor' && (
             <button
               onClick={() => {
