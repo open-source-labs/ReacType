@@ -20,14 +20,13 @@ function ContextMenu({
 
   const [openMenu, setOpenMenu] = useState('none');
   // const [editTextOpen, setEditTextOpen] = useState(false);
-  const [editTextValue, setEditTextValue] = useState('');
 
+  const [singleMenuValue, setSingleMenuValue] = useState('');
   // const [editBackgroundColorOpen, setEditBackgroundColorOpen] = useState(false);
-  const [editBackgroundColorValue, setEditBackgroundColorValue] = useState('');
 
-  const [editClassnameValue, setEditClassnameValue] = useState('');
-
+  //@ts-ignore
   const appState = useSelector((store: RootState) => store.appState);
+  //@ts-ignore
   const contextParam = useSelector((store: RootState) => store.contextSlice); // this is literally just passed in on everything else, i have no idea what it does, you can look it up, but other files are literally just taking it and passing it back in.
 
   const MenuTypeRef = useRef('?');
@@ -54,10 +53,18 @@ function ContextMenu({
         }
       }
     }
+    if (openMenu === 'editClassname') {
+      switch (key.key) {
+        case 'Enter': {
+          setOpenMenu('none');
+          break;
+        }
+      }
+    }
   }
   useEffect(() => {
     document.addEventListener('keydown', keyStrokeFunction);
-  }, [openMenu, editTextValue]);
+  }, [openMenu]);
 
   // set the focus on focus change
   useEffect(() => {
@@ -94,12 +101,12 @@ function ContextMenu({
     () => () => {
       document.removeEventListener('keydown', keyStrokeFunction); // remove old one first if we have
     },
-    [openMenu, editTextValue]
+    [openMenu]
   );
   //////////////////// the above ensures we clean up old key listeners to prevent data leak //////////////////////
 
   function editTextChange(event) {
-    setEditTextValue(event.target.value);
+    setSingleMenuValue(event.target.value);
     let correctChild = searchChildren(
       appState.components[0].children,
       selectedItemId.current
@@ -119,7 +126,7 @@ function ContextMenu({
   }
 
   function editBackgroundColorChange(event) {
-    setEditBackgroundColorValue(event.target.value);
+    setSingleMenuValue(event.target.value);
 
     let correctChild = searchChildren(
       appState.components[0].children,
@@ -141,7 +148,7 @@ function ContextMenu({
   }
 
   function editClassnameChange(event) {
-    setEditClassnameValue(event.target.value);
+    setSingleMenuValue(event.target.value);
 
     let correctChild = searchChildren(
       appState.components[0].children,
@@ -174,47 +181,65 @@ function ContextMenu({
     yOff -= 4; // move it back 4px cause we moved it forward 2px;
   }
 
-  function handleEditTextButtonClick() {
-    if (openMenu === 'editText') return;
-    setOpenMenu('editText'); // by using this, we ensure that other menus that might be open now close.
-    // error here was often caused because of the fact that the indexes were getting mixed up, not in order, so instead now i search for one with the correct child id!
+  function handleStandardFieldButtonClick(
+    fieldToOpen: string,
+    stateSlice,
+    innerTarget
+  ) {
+    if (openMenu === fieldToOpen) return;
+    setOpenMenu(fieldToOpen); // this one line closes other fields and opens this one
+
     let correctChild = searchChildren(
-      appState.components[0].children,
+      appState.components[0].children, // this is simply searching for the correct actual component from the dom elemnt ref
       selectedItemId.current
     ); // helper function below
 
-    let displayText = correctChild.attributes.comptext;
+    let displayText = correctChild[stateSlice][innerTarget];
     if (displayText === undefined) displayText = '';
-    setEditTextValue(displayText);
+    setSingleMenuValue(displayText);
   }
 
-  function handleEditBackgroundColorButtonClick() {
-    if (openMenu === 'editBackgroundColor') return;
-    setOpenMenu('editBackgroundColor');
+  // function handleEditTextButtonClick() {
+  //   if (openMenu === 'editText') return;
+  //   setOpenMenu('editText'); // by using this, we ensure that other menus that might be open now close.
+  //   // error here was often caused because of the fact that the indexes were getting mixed up, not in order, so instead now i search for one with the correct child id!
+  //   let correctChild = searchChildren(
+  //     appState.components[0].children,
+  //     selectedItemId.current
+  //   ); // helper function below
 
-    let correctChild = searchChildren(
-      appState.components[0].children,
-      selectedItemId.current
-    ); // helper function below
+  //   let displayText = correctChild.attributes.comptext;
+  //   if (displayText === undefined) displayText = '';
+  //   setEditTextValue(displayText);
+  // }
 
-    let displayText = correctChild.style.backgroundColor;
-    if (displayText === undefined) displayText = '';
-    setEditBackgroundColorValue(displayText);
-  }
+  // function handleEditBackgroundColorButtonClick() {
+  //   if (openMenu === 'editBackgroundColor') return;
+  //   setOpenMenu('editBackgroundColor');
 
-  function handleEditClassnameButtonClick() {
-    if (openMenu === 'editClassname') return;
-    setOpenMenu('editClassname');
+  //   let correctChild = searchChildren(
+  //     appState.components[0].children,
+  //     selectedItemId.current
+  //   ); // helper function below
 
-    let correctChild = searchChildren(
-      appState.components[0].children,
-      selectedItemId.current
-    ); // this function is defined below
+  //   let displayText = correctChild.style.backgroundColor;
+  //   if (displayText === undefined) displayText = '';
+  //   setSingleMenuValue(displayText);
+  // }
 
-    let displayText = correctChild.attributes.cssclasses;
-    if (displayText === undefined) displayText = '';
-    setEditClassnameValue(displayText);
-  }
+  // function handleEditClassnameButtonClick() {
+  //   if (openMenu === 'editClassname') return;
+  //   setOpenMenu('editClassname');
+
+  //   let correctChild = searchChildren(
+  //     appState.components[0].children,
+  //     selectedItemId.current
+  //   ); // this function is defined below
+
+  //   let displayText = correctChild.attributes.cssclasses;
+  //   if (displayText === undefined) displayText = '';
+  //   setSingleMenuValue(displayText);
+  // }
 
   return (
     // mouseX and mouseY are not use state,
@@ -241,7 +266,13 @@ function ContextMenu({
           </button>
           {openMenu !== 'editClassname' && (
             <button
-              onClick={handleEditClassnameButtonClick}
+              onClick={() => {
+                handleStandardFieldButtonClick(
+                  'editClassname',
+                  'attributes',
+                  'cssclasses'
+                );
+              }}
               style={{ padding: '0px', margin: '0px', width: '100%' }}
             >
               edit class list
@@ -251,7 +282,7 @@ function ContextMenu({
             <input
               type="text"
               autoFocus
-              value={editClassnameValue}
+              value={singleMenuValue}
               onChange={editClassnameChange}
               style={{
                 border: 'none',
@@ -270,7 +301,13 @@ function ContextMenu({
           </button>
           {openMenu !== 'editText' && (
             <button
-              onClick={handleEditTextButtonClick}
+              onClick={() => {
+                handleStandardFieldButtonClick(
+                  'editText',
+                  'attributes',
+                  'comptext'
+                );
+              }}
               style={{ padding: '0px', margin: '0px', width: '100%' }}
             >
               edit text
@@ -280,7 +317,7 @@ function ContextMenu({
             <input
               type="text"
               autoFocus
-              value={editTextValue}
+              value={singleMenuValue}
               onChange={editTextChange}
               style={{
                 border: 'none',
@@ -296,7 +333,13 @@ function ContextMenu({
           )}
           {openMenu !== 'editBackgroundColor' && (
             <button
-              onClick={handleEditBackgroundColorButtonClick}
+              onClick={() => {
+                handleStandardFieldButtonClick(
+                  'editBackgroundColor',
+                  'style',
+                  'backgroundColor'
+                );
+              }}
               style={{ padding: '0px', margin: '0px', width: '100%' }}
             >
               set background color
@@ -306,7 +349,7 @@ function ContextMenu({
             <input
               type="text"
               autoFocus
-              value={editBackgroundColorValue}
+              value={singleMenuValue}
               onChange={editBackgroundColorChange}
               style={{
                 border: 'none',
