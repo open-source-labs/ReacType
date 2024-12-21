@@ -48,6 +48,7 @@ const CreateMenu = (props): JSX.Element => {
 
   const [isCreatingModule, setCreateModule] = useState(false);
   const [MUIMode, setMUIMode] = useState(false);
+
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLButtonElement>,
     category: string
@@ -229,13 +230,14 @@ const CreateMenu = (props): JSX.Element => {
     'Speed Dial'
   ]);
 
-  const makeMenuCategory = function (typeArray, name, idx) {
-    return (
+  const makeMenuCategory = (typeArray, name, idx) =>
+    name ? (
       <>
         <Box
           sx={{
             fontSize: '2rem',
-            textAlign: 'center'
+            textAlign: 'center',
+            marginBottom: '6px'
           }}
         >
           <Button component="label" id={name + '-button'} key={name + idx}>
@@ -246,18 +248,23 @@ const CreateMenu = (props): JSX.Element => {
           {typeArray}
         </Grid>
       </>
+    ) : (
+      <>
+        <Grid container spacing={2}>
+          {typeArray}
+        </Grid>
+      </>
     );
-  };
 
   return (
     <div className={'MUIItems'}>
+      <Button component="label">{'Custom Elements'}</Button>
       <HTMLPanel isThemeLight={props.isThemeLight} />
-
       {makeMenuCategory([
         state.HTMLTypes.filter((type) => type.id > 10000).map((option) => (
           <HTMLItem
             name={option.name}
-            key={`html-${option.name}${option.id}`}
+            key={`custom-${option.name}${option.id}`}
             id={option.id}
             icon={option.icon}
             handleDelete={handleDelete}

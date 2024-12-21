@@ -191,9 +191,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form className="customForm">
-            <br></br>
             <TextField
-              // label='New Component Name'
               id="newcomponentid"
               label="Custom Module Name"
               variant="outlined"

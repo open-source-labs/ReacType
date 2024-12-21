@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ComponentDrag from './ComponentDrag';
 import ComponentPanel from '../right/ComponentPanel';
@@ -33,11 +33,22 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
   // Make visibility of custom components conditional ⭕️
 
   return (
-    <div className="modulePanelContainer">
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'top',
+        color: '#f7f4dc',
+        textAlign: 'center',
+        marginLeft: '15px'
+      }}
+    >
       {isEditingModule ? (
-        <CreateMenu />
+        <CreateMenu isThemeLight={true} />
       ) : (
         <div>
+          <Button component="label">{'Create Modules'}</Button>
           {/* {isCreatingModule ? ( */}
           <ComponentPanel
             setIsCreatingModule={setIsCreatingModule}
@@ -68,7 +79,7 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
           )}
         </div>
       )}
-    </div>
+    </Box>
   );
 };
 

@@ -73,7 +73,7 @@ const CreateContainer = (props): JSX.Element => {
         marginLeft: '15px'
       }}
     >
-      <CreateMenu />
+      <CreateMenu isThemeLight={true} />
     </Box>
   );
 };

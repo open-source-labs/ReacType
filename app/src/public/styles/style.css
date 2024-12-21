@@ -72,8 +72,8 @@ h4 {
 }
 
 .HTMLItemCreate {
-  flex-grow: 1;
-  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 :disabled {
@@ -237,17 +237,17 @@ span.material-symbols-outlined {
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
-  padding: 10%;
+  padding: 8%;
   border-radius: 10px;
   box-shadow: #191919;
   width: 120px;
   white-space: nowrap;
+  line-height: 1.3rem;
 }
 
 #HTMLItem:hover {
   background-color: #474545a8;
   color: #a9a9a9;
-  border-radius: 4px;
 }
 
 /* placeholder until button resizing */
@@ -256,7 +256,7 @@ span.material-symbols-outlined {
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
-  padding: 10%;
+  padding: 8%;
   border-radius: 10px;
   box-shadow: #191919;
   width: 110px;
@@ -296,7 +296,6 @@ span.material-symbols-outlined {
 .customForm {
   display: flex;
   flex-direction: column;
-  color: white;
   font-size: 95%;
 }
 
@@ -319,6 +318,10 @@ span.material-symbols-outlined {
   flex-direction: row;
   justify-content: center;
   width: 125px;
+}
+
+span .popover {
+  background-color: blue;
 }
 
 .component-input {

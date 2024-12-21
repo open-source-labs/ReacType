@@ -33,6 +33,13 @@ import {
 } from '../../helperFunctions/auth';
 import { SigninDark } from '../../../../app/src/public/styles/theme';
 
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
 const { API_BASE_URL } = serverConfig;
 
 declare module '@mui/styles/defaultTheme' {

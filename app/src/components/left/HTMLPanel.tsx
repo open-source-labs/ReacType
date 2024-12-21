@@ -75,7 +75,10 @@ const HTMLPanel = (props): JSX.Element => {
     if (type === 'length') setErrorMsg('Input cannot exceed 10 characters.');
   };
 
-  const resetError = () => setErrorStatus(false);
+  const resetError = () => {
+    setErrorStatus(false);
+    setErrorMsg('');
+  };
 
   const createOption = (inputTag: string, inputName: string) => {
     // format name so first letter is capitalized and there are no whitespaces
@@ -160,56 +163,36 @@ const HTMLPanel = (props): JSX.Element => {
   return (
     <>
       <div className="HTMLItemCreate">
-        <div className={classes.addComponentWrapper}>
+        <div className={`${classes.addComponentWrapper}`}>
           <div className={classes.inputWrapper}>
             <form onSubmit={handleSubmit} className="customForm">
-              <br></br>
               <TextField
                 id="outlined-basic"
-                label="Custom Element Name"
+                label="Element Name"
                 variant="outlined"
                 size="small"
                 value={name}
                 autoComplete="off"
-                placeholder="Custom Element Name"
+                placeholder="Element Name"
                 sx={{ width: '80%' }}
                 onChange={handleNameChange}
+                helperText={errorMsg}
               />
-              {(!name.charAt(0).match(/[A-Za-z]/) ||
-                !alphanumeric(name) ||
-                name.trim() === '' ||
-                name.length > 10 ||
-                checkNameDupe(name)) && (
-                <span
-                  className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}
-                >
-                  <em>{errorMsg}</em>
-                </span>
-              )}
               <div
                 style={{ display: 'flex', alignItems: 'center', width: '100%' }}
               >
                 <TextField
                   id="outlined-basic"
-                  label="Custom Tag Name"
+                  label="HTML Tag"
                   variant="outlined"
                   size="small"
                   value={tag}
                   autoComplete="off"
-                  placeholder="Custom Tag Name"
+                  placeholder="HTML Tag"
                   sx={{ width: '80%' }}
                   onChange={handleTagChange}
+                  helperText={errorMsg}
                 />
-                {(!tag.charAt(0).match(/[A-Za-z]/) ||
-                  !alphanumeric(tag) ||
-                  tag.trim() === '' ||
-                  checkNameDupe(tag)) && (
-                  <span
-                    className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}
-                  >
-                    <em>{errorMsg}</em>
-                  </span>
-                )}
                 <Fab
                   id="submitButton"
                   type="submit"

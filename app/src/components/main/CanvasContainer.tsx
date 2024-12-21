@@ -9,7 +9,10 @@ import { DeveloperMode, ZoomIn, ZoomOut } from '@mui/icons-material';
 import Canvas from './Canvas';
 import { RootState } from '../../redux/store';
 import CodePreview from '../bottom/CodePreview';
-import { toggleCodePreview, resetAllState } from '../../redux/reducers/slice/appStateSlice';
+import {
+  toggleCodePreview,
+  resetAllState
+} from '../../redux/reducers/slice/appStateSlice';
 import createModal from '../right/createModal';
 import { emitEvent } from '../../helperFunctions/socket';
 
@@ -48,7 +51,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     backgroundSize: '8px 8px',
     backgroundPosition: '-19px -19px',
     borderBottom: 'none',
-    overflow: 'auto',
+    overflow: 'auto'
   };
 
   // containerRef references the container that will ultimately have the scroll functionality
@@ -86,10 +89,10 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           button
           onClick={resetState}
           style={{
-            backgroundColor: '#E12D39',
+            backgroundColor: '#ef6c00',
             borderRadius: '50px',
             marginBottom: '2%',
-            marginTop: '5%',
+            marginTop: '5%'
           }}
         >
           <ListItemText
@@ -111,8 +114,8 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true,
-      }),
+        open: true
+      })
     );
   };
 
@@ -124,19 +127,19 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
     whiteSpace: 'nowrap',
     textTransform: 'none',
     padding: '10px',
-    borderRadius: '0',
+    borderRadius: '0'
   } as const;
 
   const codePreviewStyle: React.CSSProperties = {
-    borderRadius: '10px',
+    borderRadius: '10px'
   } as const;
 
   const firstButtonStyle: React.CSSProperties = {
-    borderRadius: '10px 0 0 10px',
+    borderRadius: '10px 0 0 10px'
   } as const;
 
   const lastButtonStyle: React.CSSProperties = {
-    borderRadius: '0 10px 10px 0',
+    borderRadius: '0 10px 10px 0'
   } as const;
 
   return (
@@ -148,7 +151,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
           display: 'flex',
           justifyContent: 'space-between',
           zIndex: 999,
-          padding: '20px 20px 5px 20px',
+          padding: '20px 20px 5px 20px'
         }}
       >
         <Button
@@ -159,13 +162,19 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
         </Button>
         {!state.codePreview && (
           <div>
-            <Button style={{ ...buttonStyle, ...firstButtonStyle }} onClick={zoomIn}>
+            <Button
+              style={{ ...buttonStyle, ...firstButtonStyle }}
+              onClick={zoomIn}
+            >
               <ZoomIn />
             </Button>
             <Button style={buttonStyle} onClick={zoomOut}>
               <ZoomOut />
             </Button>
-            <Button style={{ ...buttonStyle, ...lastButtonStyle }} onClick={() => clearWorkspace()}>
+            <Button
+              style={{ ...buttonStyle, ...lastButtonStyle }}
+              onClick={() => clearWorkspace()}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

@@ -1,7 +1,7 @@
 import { createTheme, adaptV4Theme } from '@mui/material/styles';
 // theme creator: https://bareynol.github.io/mui-theme-creator/
 
-export const theme1 = createTheme({
+export const theme1 = createTheme(adaptV4Theme({
   palette: {
     mode: 'dark',
     primary: {
@@ -14,9 +14,9 @@ export const theme1 = createTheme({
       paper: '#181818'
     }
   }
-});
+}));
 
-export const theme2 = createTheme({
+export const theme2 = createTheme(adaptV4Theme({
   palette: {
     mode: 'light',
     primary: {
@@ -29,9 +29,9 @@ export const theme2 = createTheme({
       paper: '#181818'
     }
   }
-});
+}));
 
-export const SigninDark = createTheme({
+export const SigninDark = createTheme(adaptV4Theme({
   palette: {
     mode: 'dark',
     primary: {
@@ -44,9 +44,9 @@ export const SigninDark = createTheme({
       paper: '#2997ff'
     }
   }
-});
+}));
 
-export const SigninLight = createTheme({
+export const SigninLight = createTheme(adaptV4Theme({
   palette: {
     mode: 'light',
     primary: {
@@ -59,4 +59,4 @@ export const SigninLight = createTheme({
       paper: '#f88e16'
     }
   }
-});
+}));

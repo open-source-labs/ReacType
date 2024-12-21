@@ -30,6 +30,13 @@ import {
 import { SigninDark } from '../../../../app/src/public/styles/theme';
 import { LoginInt } from '../../interfaces/Interfaces';
 
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
 }
