@@ -15,15 +15,30 @@ WORKDIR /app
 COPY package*.json ./
 
 
-RUN npm install --no-install-recommends --fetch-retry-maxtimeout 500000
+RUN npm install --production --no-install-recommends --fetch-retry-maxtimeout 500000
 
 # install vite virst
 
 
-COPY . .
+COPY ./index.html ./index.html
+#COPY ./app/src/public/styles/style.css ./app/src/public/styles/style.css
+COPY ./app/src ./app/src
+COPY ./vite.config.ts ./vite.config.ts
+COPY ./resources ./resources
+COPY ./src ./src 
+
+
+#also copy this one file lol.
+
  ENV NODE_ENV='production'
  # i am hoping the above will make it so that the frontend files will know that it is production.
 RUN npm run prod-build 
+
+# also make the below copies for the runtime stage to use.
+COPY ./config.js ./config.js
+COPY ./server ./server
+COPY ./build ./build
+# they will need the above.
 
 # Stage 2: Runtime
 FROM node:21.2.0-alpine AS runtime
@@ -32,7 +47,7 @@ WORKDIR /app
 
 COPY --from=build /app/package*.json ./
 
-RUN npm install --no-install-recommends --fetch-retry-maxtimeout 500000
+RUN npm install --production --no-install-recommends --fetch-retry-maxtimeout 500000
 
 # RUN npm run dev-frontend # no, dont just run the app while building
 
