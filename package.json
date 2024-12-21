@@ -194,9 +194,7 @@
   "devDependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@material-ui/icons": "^4.11.3",
     "@mui/material": "^5.15.7",
-    "@mui/styled-engine-sc": "^5.14.12",
     "@mui/x-data-grid": "^5.17.26",
     "@playwright/test": "^1.40.1",
     "@testing-library/react": "^12.1.5",
@@ -223,7 +221,7 @@
     "eslint-plugin-react": "^7.33.2",
     "jsdoc": "^4.0.2",
     "jsdom": "^24.0.0",
-    "mini-css-extract-plugin": "^2.7.6",
+    "mini-css-extract-plugin": "^2.npm run 7.6",
     "mongodb": "^3.5.9",
     "nodemon": "^3.0.2",
     "react": "^17.0.2",

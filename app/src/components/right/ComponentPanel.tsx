@@ -26,12 +26,9 @@ import { emitEvent } from '../../helperFunctions/socket';
  *
  * @returns {JSX.Element} A panel that allows users to input details for a new component, such as name and root status, and adds it to the project.
  */
+
 const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  // const { state, contextParam } = useSelector((store: RootState) => ({
-  //   state: store.appState,
-  //   contextParam: store.contextSlice
-  // }));
 
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
@@ -187,107 +184,75 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
 
   return (
     <>
-      {/* <div className={`${classes.panelWrapper}`}> */}
-      <div className={classes.addComponentWrapper}>
-        <div className={classes.inputWrapper}>
-          <form className="customForm">
-            <TextField
-              id="newcomponentid"
-              label="Custom Module Name"
-              variant="outlined"
-              size="small"
-              value={compName}
-              autoComplete="off"
-              placeholder="Custom Module Name"
-              sx={{ width: '80%' }}
-              inputProps={{ className: classes.input }}
-              // Doesn't accept boolean value needs to be a string
-              error={errorStatus}
-              // Updated
-              helperText={errorStatus ? errorMsg : ''}
-              onChange={handleNameInput}
-              // style={{}}
-              // InputProps={{ style: { color: isThemeLight ? 'white' : 'white' } }}
-            />
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                width: '100%',
-                justifyContent: 'flex-start'
-              }}
-            >
-              <div style={{ width: '80%' }}>
-                <FormControlLabel
-                  value="top"
-                  control={
-                    <Checkbox
-                      // className={
-                      //   isThemeLight
-                      //     ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
-                      //     : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
-                      // }
-                      color="primary"
-                      checked={isRoot}
-                      onChange={() => setIsRoot(!isRoot)}
-                    />
-                  }
-                  // name varies depending on mode
-                  label={
-                    state.projectType === 'Next.js' ||
-                    state.projectType === 'Gatsby.js'
-                      ? 'Page Module'
-                      : 'Root Module'
-                  }
-                  className={
-                    isThemeLight
-                      ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
-                      : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
-                  }
-                  labelPlacement="end"
-                />
-              </div>
-              <div style={{ width: '20%' }}>
-                <Fab
-                  id="submitButton"
-                  type="submit"
-                  color="primary"
-                  aria-label="add"
-                  size="small"
-                  value="Add Element"
-                  sx={{ width: 36, height: 40, borderRadius: 1 }}
-                  onClick={handleNameSubmit}
-                >
-                  <AddIcon />
-                </Fab>
-              </div>
-            </div>
-          </form>
-          {/* <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <br />
-              <Button
+      <div className={classes.inputWrapper}>
+        <form className="customForm">
+          <TextField
+            id="newcomponentid"
+            label="Custom Module Name"
+            variant="outlined"
+            size="small"
+            value={compName}
+            autoComplete="off"
+            placeholder="Custom Module Name"
+            sx={{ width: '80%' }}
+            inputProps={{ className: classes.input }}
+            // Doesn't accept boolean value needs to be a string
+            error={errorStatus}
+            // Updated
+            helperText={errorStatus ? errorMsg : ''}
+            onChange={handleNameInput}
+          />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+              justifyContent: 'flex-start'
+            }}
+          >
+            <div style={{ width: '80%' }}>
+              <FormControlLabel
+                value="top"
+                control={
+                  <Checkbox
+                    color="primary"
+                    checked={isRoot}
+                    onChange={() => setIsRoot(!isRoot)}
+                  />
+                }
+                // name varies depending on mode
+                label={
+                  state.projectType === 'Next.js' ||
+                  state.projectType === 'Gatsby.js'
+                    ? 'Page Module'
+                    : 'Root Module'
+                }
                 className={
                   isThemeLight
-                    ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
-                    : `${classes.addComponentButton} ${classes.darkThemeFontColor}`
+                    ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
+                    : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
                 }
-                variant="contained"
-                sx={{
-                  textTransform: 'capitalize',
-                  margin: '20px',
-                  backgroundColor: '#f88e16 !important',
-                  color: 'white !important',
-                  border: '2px solid white !important',
-                }}
-                id="addComponentButton"
+                labelPlacement="end"
+              />
+            </div>
+            <div style={{ width: '20%' }}>
+              <Fab
+                id="submitButton"
+                type="submit"
+                color="primary"
+                aria-label="add"
+                size="small"
+                value="Add Element"
+                sx={{ width: 36, height: 40, borderRadius: 1 }}
                 onClick={handleNameSubmit}
               >
-                Create
-              </Button>
-            </div> */}
-        </div>
+                <AddIcon />
+              </Fab>
+            </div>
+          </div>
+        </form>
       </div>
-      {/* </div> */}
+
       <>
         <Snackbar
           open={alertOpen}
@@ -332,22 +297,10 @@ const useStyles = makeStyles({
   },
   inputWrapper: {
     width: '100%',
-    marginBottom: '0px', // was originally 10px, decreased to 0 to decrease overall height
+    marginBottom: '0px',
     alignItems: 'center'
   },
-  // panelWrapper: {
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   flexGrow: 1,
-  //   color: '#000000'
-  // },
-  addComponentWrapper: {
-    width: '100%'
-    // padding: 'auto',
-    // margin: '0 auto',
-    // display: 'inline-block'
-  },
+
   rootCheckBox: {
     borderColor: '#f88e16',
     padding: '7px 0'
@@ -367,18 +320,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column'
   },
-  // addComponentButton: {
-  //   backgroundColor: 'transparent',
-  //   height: '100px',
-  //   width: '100px',
-  //   fontFamily: 'Roboto, Raleway, sans-serif',
-  //   fontSize: '90%',
-  //   textAlign: 'center',
-  //   borderStyle: 'none',
-  //   transition: '0.3s',
-  //   borderRadius: '25px',
-  //   marginRight: '65px'
-  // },
   rootToggle: {
     color: '#696969',
     fontSize: '0.85rem'
