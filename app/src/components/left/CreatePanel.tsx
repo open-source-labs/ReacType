@@ -7,24 +7,17 @@ import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Paper from '@mui/material/Paper';
-import Popover from '@mui/material/Popover';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DeleteIcon from '@mui/icons-material/Delete';
-import InsertPhoto from '@mui/icons-material/InsertPhoto';
 import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
 import HTMLPanel from './HTMLPanel';
 import ComponentDrag from './ComponentDrag';
 
 /**
- * Provides a user interface for managing MUI components in the application. It features accordions for different categories
+ * Provides a user interface for managing HTMLitems & MUIItems in the application. It features accordions for different categories
  * of MUI components like Inputs, Data Display, Feedback, etc. Each category can be expanded to show respective MUI components
  * that can be dragged onto a canvas or deleted. It uses the `MUIItem` component to render each item and supports deleting items through a centralized method.
  *
@@ -34,49 +27,18 @@ import ComponentDrag from './ComponentDrag';
  * @returns {JSX.Element} The MUIDragDropPanel component, which renders an interactive list of MUI components categorized by function.
  */
 
-const CreateMenu = (props): JSX.Element => {
+const CreatePanel = (props): JSX.Element => {
   const dispatch = useDispatch();
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
-
-  const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
   const [activeCategory, setActiveCategory] = React.useState<string | null>(
     null
   );
-  const [menuLocked, setMenuLocked] = useState(false);
 
   const [isCreatingModule, setCreateModule] = useState(false);
   const [MUIMode, setMUIMode] = useState(false);
 
-  const handleMenuOpen = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    category: string
-  ) => {
-    setActiveCategory(category);
-    setMenuAnchor(event.currentTarget);
-    setMenuLocked(false);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMUIMode(event.target.checked);
-  };
-
-  const handleMenuClose = (event: React.onMouseLeave) => {
-    if (!menuLocked) {
-      setMenuAnchor(null);
-      setActiveCategory(null);
-    } else {
-      setMenuAnchor(null);
-    }
-  };
-
-  const handleMenuClick = (category: string) => {
-    if (menuLocked && activeCategory === category) {
-      setMenuLocked(false);
-      handleMenuClose();
-    } else setMenuLocked(true);
-  };
   const handleDelete = (id: number): void => {
     dispatch(deleteElement({ id: id, contextParam: contextParam }));
     if (roomCode) {
@@ -308,4 +270,4 @@ const CreateMenu = (props): JSX.Element => {
   );
 };
 
-export default CreateMenu;
+export default CreatePanel;

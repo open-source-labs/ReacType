@@ -1,13 +1,10 @@
 /* eslint-disable max-len */
-import { Box } from '@mui/material';
-import ComponentsContainer from './ComponentsContainer';
-import ElementsContainer from './ElementsContainer';
+import Box from '@mui/material/Box';
 import ModulePanel from './ModulePanel';
 import React from 'react';
 import RoomsContainer from './RoomsContainer';
 import Settings from './Settings';
 import CreateContainer from './CreateContainer';
-import ProfileContainer from '../../containers/ProfileContainer';
 
 interface ContentAreaProps {
   activeTab: number | null;
@@ -36,14 +33,7 @@ const TabPanel: React.FC<{
   );
 };
 
-const panels = [
-  <ModulePanel />,
-  <CreateContainer />,
-  <RoomsContainer />,
-  <ElementsContainer />,
-  <ProfileContainer/>,
-  <Settings />
-];
+const panels = [<ModulePanel />, <CreateContainer />, <RoomsContainer />];
 
 /**
  * ContentArea component that renders different panels based on the active tab.

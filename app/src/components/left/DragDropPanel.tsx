@@ -65,10 +65,7 @@ const DragDropPanel = (props): JSX.Element => {
   );
 
   return (
-    // <div style={{ color: 'white' }}>
-    //   You made a mistake. This is DragDropPanel.tsx. You might be looking for HTMLPanel.tsx
-    // </div>
-    (<div className={'HTMLItems'}>
+    <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
         {/* HTML Components */}
         <Accordion className={classes.accordion}>
@@ -170,7 +167,7 @@ const DragDropPanel = (props): JSX.Element => {
           }
         })}
       </div>
-    </div>)
+    </div>
   );
 };
 

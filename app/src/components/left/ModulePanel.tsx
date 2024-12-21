@@ -7,7 +7,7 @@ import ComponentPanel from '../right/ComponentPanel';
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 import ComponentsContainer from './ComponentsContainer';
-import CreateMenu from './CreateMenu';
+import CreatePanel from './CreatePanel';
 
 interface ModulePanelProps {
   isThemeLight: boolean;
@@ -45,7 +45,7 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
       }}
     >
       {isEditingModule ? (
-        <CreateMenu isThemeLight={true} />
+        <CreatePanel isThemeLight={true} />
       ) : (
         <div>
           <Button component="label">{'Create Modules'}</Button>

@@ -5,9 +5,8 @@ import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
-import CreateMenu from './CreateMenu';
-import MUIDragDropPanel from './MUIDragDropPanel';
-import { Box } from '@mui/material';
+import CreatePanel from './CreatePanel';
+import Box from '@mui/material/Box';
 import { useCallback, useEffect } from 'react';
 import ComponentDrag from './ComponentDrag';
 
@@ -19,13 +18,27 @@ import { emitEvent } from '../../helperFunctions/socket';
 
 /**
  *
- * A functional component that renders the MUIDragDropPanel within a simple container.
- * The ProfilePage currently acts as a wrapper for the MUIDragDropPanel.
+ * A functional component that renders the CreatePanel within a simple container.
+ * The CreateContainer currently acts as a wrapper for the CreatePanel.
+ * /**
+ * CreateContainer serves as the left-hand side container in the application, primarily responsible
+ * for hosting user interaction elements such as `DragDropPanel` and `MUIDragDropPanel`. This component handles user inputs
+ * related to component selection and arrangement via drag-and-drop interfaces.
+ *
+ * It also includes key bindings to enhance user interaction, such as deleting a child component
+ * with the 'Backspace' key when focus is not on text input fields.
+ *
+ * Props:
+ * @param {Object} props - The properties passed down to this component.
+ * @param {boolean} props.isThemeLight - Indicates if the current theme is light, affecting the visual styling.
+ *
+ * @returns {JSX.Element} The container element that holds UI sections for component interaction.
+ *
  *
  * @returns {JSX.Element}
  * @example
  * return (
- *   <ProfilePage />
+ *   <CreateContainer/>
  * )
  */
 
@@ -73,7 +86,7 @@ const CreateContainer = (props): JSX.Element => {
         marginLeft: '15px'
       }}
     >
-      <CreateMenu isThemeLight={true} />
+      <CreatePanel isThemeLight={true} />
     </Box>
   );
 };
