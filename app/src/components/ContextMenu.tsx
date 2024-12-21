@@ -37,28 +37,10 @@ function ContextMenu({
   // The below is for all key events
 
   function keyStrokeFunction(key) {
-    if (openMenu === 'editText') {
-      switch (key.key) {
-        case 'Enter': {
-          setOpenMenu('none');
-          break;
-        }
-      }
-    }
-    if (openMenu === 'editBackgroundColor') {
-      switch (key.key) {
-        case 'Enter': {
-          setOpenMenu('none');
-          break;
-        }
-      }
-    }
-    if (openMenu === 'editClassname') {
-      switch (key.key) {
-        case 'Enter': {
-          setOpenMenu('none');
-          break;
-        }
+    switch (key.key) {
+      case 'Enter': {
+        setOpenMenu('none');
+        break;
       }
     }
   }
@@ -198,48 +180,6 @@ function ContextMenu({
     if (displayText === undefined) displayText = '';
     setSingleMenuValue(displayText);
   }
-
-  // function handleEditTextButtonClick() {
-  //   if (openMenu === 'editText') return;
-  //   setOpenMenu('editText'); // by using this, we ensure that other menus that might be open now close.
-  //   // error here was often caused because of the fact that the indexes were getting mixed up, not in order, so instead now i search for one with the correct child id!
-  //   let correctChild = searchChildren(
-  //     appState.components[0].children,
-  //     selectedItemId.current
-  //   ); // helper function below
-
-  //   let displayText = correctChild.attributes.comptext;
-  //   if (displayText === undefined) displayText = '';
-  //   setEditTextValue(displayText);
-  // }
-
-  // function handleEditBackgroundColorButtonClick() {
-  //   if (openMenu === 'editBackgroundColor') return;
-  //   setOpenMenu('editBackgroundColor');
-
-  //   let correctChild = searchChildren(
-  //     appState.components[0].children,
-  //     selectedItemId.current
-  //   ); // helper function below
-
-  //   let displayText = correctChild.style.backgroundColor;
-  //   if (displayText === undefined) displayText = '';
-  //   setSingleMenuValue(displayText);
-  // }
-
-  // function handleEditClassnameButtonClick() {
-  //   if (openMenu === 'editClassname') return;
-  //   setOpenMenu('editClassname');
-
-  //   let correctChild = searchChildren(
-  //     appState.components[0].children,
-  //     selectedItemId.current
-  //   ); // this function is defined below
-
-  //   let displayText = correctChild.attributes.cssclasses;
-  //   if (displayText === undefined) displayText = '';
-  //   setSingleMenuValue(displayText);
-  // }
 
   return (
     // mouseX and mouseY are not use state,
