@@ -203,7 +203,7 @@ function ContextMenu({
               }}
             ></input>
           )}
-          <hr />
+          <hr style={{ fontSize: '8px' }} />
           {openMenu !== 'editText' && (
             <button
               onClick={() => {
@@ -282,7 +282,7 @@ function ContextMenu({
               }}
             ></input>
           )}
-          <hr />
+          <hr style={{ fontSize: '8px' }} />
           {openMenu !== 'editBackgroundColor' && (
             <button
               onClick={() => {
