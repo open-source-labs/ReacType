@@ -230,7 +230,7 @@ function DirectChildMUINestable({
     >
       <span>
         <strong style={{ color: 'white' }}>{MUIType.placeHolderShort}</strong>
-        <strong style={{ color: '#0671e3' }}>
+        <strong style={{ color: '#f88e16' }}>
           {attributes && attributes.complink ? ` ${attributes.complink}` : ''}
         </strong>
         {routeButton}

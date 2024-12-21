@@ -26,7 +26,7 @@ function DirectChildComponent({
   childId,
   type,
   typeId,
-  name,
+  name
 }: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -36,7 +36,7 @@ function DirectChildComponent({
   // find the top-level component corresponding to this instance of the component
   // find the current component to render on the canvas
   const referencedComponent: Component = state.components.find(
-    (elem: Component) => elem.id === typeId,
+    (elem: Component) => elem.id === typeId
   );
 
   const [{ isDragging }, drag] = useDrag({
@@ -46,18 +46,18 @@ function DirectChildComponent({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
+      instanceTypeId: typeId
     },
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
+      isDragging: !!monitor.isDragging()
+    })
   });
   const changeFocusFunction = (componentId: number, childId: number | null) => {
     dispatch(changeFocus({ componentId, childId }));
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
-        childId: childId,
+        childId: childId
       });
     }
   };
@@ -72,15 +72,15 @@ function DirectChildComponent({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid #0671e3'
+        ? '3px solid #f88e16'
         : '1px Solid grey',
     boxShadow:
-      state.canvasFocus.childId === childId ? '1px 1px 3px #a7cced' : '',
+      state.canvasFocus.childId === childId ? '1px 1px 3px #a7cced' : ''
   };
 
   const combinedStyle = combineStyles(
     combineStyles(globalDefaultStyle, referencedComponent.style),
-    interactiveStyle,
+    interactiveStyle
   );
   // Renders name and not children of subcomponents to clean up Canvas view when dragging components
   // into the main canvas.  To render html elements on canvas, import and invoke renderChildren

@@ -8,18 +8,30 @@
 ### Potential Changes:
 
 - Export code does not actually build what it says it does - Bug fix: tags which are nested do not display accurate code in code preview
-- Delete all electron-related files and dependencies
-- Delete all webpack-related files and dependencies
 - Fully retire jest tests
 - Complete Vitest testing suite
-- Adding link for creation panel to reusable components tab
 - Make bottom panel only display context-relevant tabs
 - Moving chat link from bottom panel to upper right (would this require making it into a pop up?)
 - Migrate more state pieces into redux store??
 - Decluttering by adding right click and hover functionality
 - Move elements of tutorial into hover functionality
-- Get OAuth fully functional
 - Add built-in component templates to the marketplace
+
+### Changes:
+
+- Deleted all electron-related files and dependencies
+- Deleted all webpack-related files and dependencies
+- Deleted all babel-related files and dependencies (SL)
+- Deleted all jest-related files and dependencies (SL)
+- Migrated create create custom HTML component to left panel and completely removed from bottom panel (SL)
+- Migrated create create custom module component to left panel and completely removed from bottom panel (SL)
+- Migrated clear canvas to canvas container from nav bar and completely removed from nav bar (SL)
+- Removed page up and page down buttons and code from canvas container (SL)
+- OAuth fully functional
+
+### Recommendations for Future Enhancements:
+- Unify styling, we utilized a lot of inline styling to override prior version styling due to time
+- Light/Dark mode, suggest removing current code regarding it and reimplement from the ground up for light/dark themes
 
 ## Version 21.0.0 Changes
 

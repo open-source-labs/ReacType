@@ -5,24 +5,23 @@ import makeStyles from '@mui/styles/makeStyles';
 const useStyles = makeStyles({
   editIconContainer: {
     position: 'absolute',
-    right: '30%',
+    right: '5%',
     top: '50%',
     transform: 'translateY(-50%)',
     cursor: 'pointer',
     color: 'white',
     '&:hover': {
-      color: '#f88e16'
+      color: '#f88e16',
     },
-    fontSize: '6px'
-  }
+  },
 });
 
-const CustomEditIcon = () => {
+const CustomEditIcon = ({ handleClickEditModule }) => {
   const classes = useStyles();
   return (
     <div>
       <div className={classes.editIconContainer}>
-        <EditIcon fontSize="small" />
+        <EditIcon fontSize="small" onClick={handleClickEditModule}/>
       </div>
     </div>
   );

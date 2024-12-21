@@ -1098,7 +1098,7 @@ const useStyles = makeStyles({
     borderRadius: '8px'
   },
   saveButtonLight: {
-    border: '1px solid #0671e3',
+    border: '1px solid #f88e16',
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {

@@ -25,7 +25,13 @@ import { emitEvent } from '../../helperFunctions/socket';
  * @param {React.CSSProperties} props.style - Custom styles applied to the component to override or complement default and type-specific styles.
  * @returns {JSX.Element} A draggable, interactable component displayed within the canvas.
  */
-function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): JSX.Element {
+function DirectChildMUI({
+  childId,
+  name,
+  type,
+  typeId,
+  style
+}: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -35,7 +41,7 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
   // find the MUI element corresponding with this instance of an MUI element
   // find the current component to render on the canvas
   const MUIType: MUIType = state.MUITypes.find(
-    (type: MUIType) => type.id === typeId,
+    (type: MUIType) => type.id === typeId
   );
   // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
@@ -45,11 +51,11 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
+      instanceTypeId: typeId
     },
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
+      isDragging: !!monitor.isDragging()
+    })
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
@@ -57,7 +63,7 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
     if (roomCode) {
       emitEvent('changeFocusAction', roomCode, {
         componentId: componentId,
-        childId: childId,
+        childId: childId
       });
     }
   };
@@ -73,13 +79,13 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '2px solid #0671e3'
-        : '1px solid #31343A',
+        ? '2px solid #f88e16'
+        : '1px solid #31343A'
   };
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, MUIType.style), style),
-    interactiveStyle,
+    interactiveStyle
   );
 
   return (

@@ -30,7 +30,14 @@ const ComponentPanelItem: React.FC<{
   root: boolean;
   isFocus: boolean;
   isThemeLight: boolean;
-}> = ({ name, id, root, isFocus, isThemeLight }): JSX.Element => {
+}> = ({
+  name,
+  id,
+  root,
+  isFocus,
+  isThemeLight,
+  handleClickEditModule
+}): JSX.Element => {
   const classes = useStyles({});
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -69,7 +76,6 @@ const ComponentPanelItem: React.FC<{
     <Grid
       item
       ref={drag}
-      xs={8}
       style={{
         fontSize: 'small',
         backgroundColor: '#2D313A', // Set background color
@@ -78,7 +84,9 @@ const ComponentPanelItem: React.FC<{
         borderColor: '#2D313A',
         margin: '5px 0px',
         width: '100vw',
+        maxWidth: '240px',
         height: '3rem',
+        boxSizing: 'border-box',
         position: 'relative'
       }}
     >
@@ -94,7 +102,7 @@ const ComponentPanelItem: React.FC<{
             {name}
           </h3>
         </div>
-        <CustomEditIcon/>
+        <CustomEditIcon handleClickEditModule={handleClickEditModule} />
       </div>
     </Grid>
   );
@@ -106,20 +114,21 @@ const useStyles = makeStyles({
     alignItems: 'center'
   },
   focusMark: {
-    border: '2px solid #0671e3',
+    border: '2px solid #f88e16',
     borderRadius: '5%',
     position: 'absolute',
     top: '0',
     left: '0',
     right: '0',
-    bottom: '0'
+    bottom: '0',
+    width: '100%'
   },
   lightTheme: {
     color: 'rgba (0, 0, 0, 0.54)'
   },
   darkTheme: {
     color: '#ffffff'
-  },
+  }
 });
 
 export default ComponentPanelItem;

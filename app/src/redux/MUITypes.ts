@@ -2839,7 +2839,7 @@ const MUITypes: MUIType[] = [
             value: '{value}',
             onChange: '{(event, newValue) => setValue(newValue)}',
             showLabels: true,
-            sx: { backgroundColor: '#0671E3' }
+            sx: { backgroundColor: '#f88e16' }
           },
           children: [
             {
@@ -2847,7 +2847,7 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Recents',
                 icon: '<RestoreIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' }
+                sx: { backgroundColor: '#f88e16', color: 'white' }
               }
             },
             {
@@ -2855,7 +2855,7 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Favorites',
                 icon: '<FavoriteIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' }
+                sx: { backgroundColor: '#f88e16', color: 'white' }
               }
             },
             {
@@ -2863,7 +2863,7 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Nearby',
                 icon: '<LocationOnIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' }
+                sx: { backgroundColor: '#f88e16', color: 'white' }
               }
             },
             {
@@ -2871,7 +2871,7 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Folder',
                 icon: '<FolderIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' }
+                sx: { backgroundColor: '#f88e16', color: 'white' }
               }
             }
           ]

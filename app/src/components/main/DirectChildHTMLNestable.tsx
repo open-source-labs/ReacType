@@ -186,7 +186,7 @@ function DirectChildHTMLNestable({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '2px solid #0671e3'
+        ? '2px solid #f88e16'
         : '1px solid #31343A'
   };
 
@@ -231,8 +231,8 @@ function DirectChildHTMLNestable({
     >
       <span>
         <strong style={{ color: 'white' }}>{HTMLType.placeHolderShort}</strong>
-        <strong style={{ color: '#0671e3' }}>
-          {attributes && attributes.complink ? ` ${attributes.complink}` : ''}
+        <strong style={{ color: '#f88e16' }}>
+          {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>
         {routeButton}
         <DeleteButton

@@ -33,14 +33,14 @@ export default function NewExportButton(): JSX.Element {
   const closeModal = () => setModal('');
 
   const buttonStyle = {
-    backgroundColor: '#0671E3',
+    backgroundColor: '#f88e16',
     border: 'none',
     color: 'white',
     fontSize: '12px',
     padding: '8px 15px',
     cursor: 'pointer',
     marginRight: '6px',
-    borderRadius: '10px',
+    borderRadius: '10px'
   };
 
   const showGenerateAppModal = () => {
@@ -54,7 +54,7 @@ export default function NewExportButton(): JSX.Element {
             style={{
               border: '1px solid #3c59ba',
               marginBottom: '2%',
-              marginTop: '5%',
+              marginTop: '5%'
             }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
@@ -77,8 +77,8 @@ export default function NewExportButton(): JSX.Element {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true,
-      }),
+        open: true
+      })
     );
   };
 
