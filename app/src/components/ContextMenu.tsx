@@ -18,6 +18,8 @@ function ContextMenu({
 }) {
   const dispatch = useDispatch();
 
+  const [annoyingPopupOpen, setAnnoyingPopupOpen] = useState(false);
+
   const [openMenu, setOpenMenu] = useState('none');
   //
 
@@ -50,7 +52,7 @@ function ContextMenu({
 
   // set the focus on focus change
   useEffect(() => {
-    let thing = selectedItem;
+    let thing = selectedItem; // look up th dom to see when we get to an element we like (if you right click on the span element you should still count as clicking the ReactTypeComponent element)
     for (let i = 0; i < 5; i++) {
       // just things that we want to stop on...
       if (!thing.id || !thing.id.match(/canv/)) {
@@ -164,6 +166,18 @@ function ContextMenu({
     >
       {MenuTypeRef.current === 'CanvasElement' && (
         <div>
+          {annoyingPopupOpen === true && (
+            <div
+              style={{
+                backgroundColor: 'green',
+                width: '500px',
+                height: '500px',
+                zIndex: '99999999999999999'
+              }}
+            >
+              ANNOYING POPUP!!!!!
+            </div>
+          )}
           {openMenu !== 'editClassname' && (
             <button
               onClick={() => {
@@ -174,6 +188,14 @@ function ContextMenu({
                 );
               }}
               style={{ padding: '0px', margin: '0px', width: '100%' }}
+              onMouseOver={() => {
+                console.log('open');
+                setAnnoyingPopupOpen(true);
+              }}
+              onMouseOut={() => {
+                console.log('close');
+                setAnnoyingPopupOpen(false);
+              }}
             >
               edit class list
             </button>
