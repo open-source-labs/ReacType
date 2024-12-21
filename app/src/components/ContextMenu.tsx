@@ -87,64 +87,27 @@ function ContextMenu({
   );
   //////////////////// the above ensures we clean up old key listeners to prevent data leak //////////////////////
 
-  function editTextChange(event) {
+  function singleMenuValueChange(
+    event,
+    stateTarget: string,
+    stateUpdatePath: string,
+    stateInnerTargetName: string
+  ) {
     setSingleMenuValue(event.target.value);
+
     let correctChild = searchChildren(
       appState.components[0].children,
       selectedItemId.current
     ); // helper function below
-    let fullAttributes = correctChild.attributes;
+
+    let fullAttributes = correctChild[stateTarget];
     if (fullAttributes === undefined) fullAttributes = '';
     dispatch({
-      type: 'appState/updateAttributes',
+      type: `${stateUpdatePath}`,
       payload: {
-        attributes: {
+        [stateTarget]: {
           ...fullAttributes,
-          comptext: event.target.value
-        },
-        contextParam: contextParam
-      }
-    });
-  }
-
-  function editBackgroundColorChange(event) {
-    setSingleMenuValue(event.target.value);
-
-    let correctChild = searchChildren(
-      appState.components[0].children,
-      selectedItemId.current
-    ); // helper function below
-    let fullStyle = correctChild.style;
-    if (fullStyle === undefined) fullStyle = '';
-
-    dispatch({
-      type: 'appState/updateCss',
-      payload: {
-        style: {
-          ...fullStyle,
-          backgroundColor: event.target.value
-        },
-        contextParam: contextParam
-      }
-    });
-  }
-
-  function editClassnameChange(event) {
-    setSingleMenuValue(event.target.value);
-
-    let correctChild = searchChildren(
-      appState.components[0].children,
-      selectedItemId.current
-    ); // helper function below
-    let fullAttributes = correctChild.attributes;
-    if (fullAttributes === undefined) fullAttributes = '';
-
-    dispatch({
-      type: 'appState/updateAttributes',
-      payload: {
-        attributes: {
-          ...fullAttributes,
-          cssclasses: event.target.value
+          [stateInnerTargetName]: event.target.value // this code puts the params into the right places.
         },
         contextParam: contextParam
       }
@@ -223,7 +186,14 @@ function ContextMenu({
               type="text"
               autoFocus
               value={singleMenuValue}
-              onChange={editClassnameChange}
+              onChange={(event) => {
+                singleMenuValueChange(
+                  event,
+                  'attributes',
+                  'appState/updateAttributes',
+                  'cssclasses'
+                );
+              }}
               style={{
                 border: 'none',
                 padding: '0px',
@@ -258,7 +228,14 @@ function ContextMenu({
               type="text"
               autoFocus
               value={singleMenuValue}
-              onChange={editTextChange}
+              onChange={(event) => {
+                singleMenuValueChange(
+                  event,
+                  'attributes',
+                  'appState/updateAttributes',
+                  'comptext'
+                );
+              }}
               style={{
                 border: 'none',
                 padding: '0px',
@@ -290,7 +267,14 @@ function ContextMenu({
               type="text"
               autoFocus
               value={singleMenuValue}
-              onChange={editBackgroundColorChange}
+              onChange={(event) => {
+                singleMenuValueChange(
+                  event,
+                  'style',
+                  'appState/updateCss',
+                  'backgroundColor'
+                );
+              }}
               style={{
                 border: 'none',
                 padding: '0px',
