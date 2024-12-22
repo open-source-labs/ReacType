@@ -10,7 +10,6 @@ import FormGroup from '@mui/material/FormGroup';
 import Grid from '@mui/material/Grid';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
-import DeleteIcon from '@mui/icons-material/Delete';
 import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
 import HTMLPanel from './HTMLPanel';
@@ -206,7 +205,7 @@ const CreatePanel = (props): JSX.Element => {
             {name}
           </Button>
         </Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} key={name + idx}>
           {typeArray}
         </Grid>
       </>
@@ -223,15 +222,17 @@ const CreatePanel = (props): JSX.Element => {
       <Button component="label">{'Custom Elements'}</Button>
       <HTMLPanel isThemeLight={props.isThemeLight} />
       {makeMenuCategory([
-        state.HTMLTypes.filter((type) => type.id > 10000).map((option) => (
-          <HTMLItem
-            name={option.name}
-            key={`custom-${option.name}${option.id}`}
-            id={option.id}
-            icon={option.icon}
-            handleDelete={handleDelete}
-          />
-        ))
+        state.HTMLTypes.filter((type) => type.id > 10000).map(
+          (option, index) => (
+            <HTMLItem
+              name={option.name}
+              key={`custom-${option.name}${option.id}${index}`}
+              id={option.id}
+              icon={option.icon}
+              handleDelete={handleDelete}
+            />
+          )
+        )
       ])}
       <FormGroup>
         <Box display="flex" alignItems="center" justifyContent="center">

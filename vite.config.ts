@@ -20,8 +20,7 @@ export default defineConfig({
         icon: true
         // ...svgr options (https://react-svgr.com/docs/options/)
       }
-    }),
-    visualizer()
+    })
   ],
   optimizeDeps: {
     include: [
