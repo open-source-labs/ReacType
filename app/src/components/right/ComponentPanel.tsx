@@ -2,8 +2,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddIcon from '@mui/icons-material/Add';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CloseIcon from '@mui/icons-material/Close';
-import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Fab from '@mui/material/Fab';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -15,7 +15,10 @@ import makeStyles from '@mui/styles/makeStyles';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-
+import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
 /**
  * `ComponentPanel` is a React component that facilitates the creation and management of component entities
  * within a user interface design tool. It allows users to add new components with specific characteristics,
@@ -184,91 +187,67 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
 
   return (
     <>
-      <div className={classes.inputWrapper}>
-        <form className="customForm">
+      <form className="customForm">
+        <div className={classes.inputWrapper}>
           <TextField
-            id="newcomponentid"
-            label="Custom Module Name"
+            id="AddModule"
+            label="Component or Module Name"
             variant="outlined"
-            size="small"
             value={compName}
             autoComplete="off"
-            placeholder="Custom Module Name"
-            sx={{ width: '80%' }}
             inputProps={{ className: classes.input }}
-            // Doesn't accept boolean value needs to be a string
             error={errorStatus}
-            // Updated
             helperText={errorStatus ? errorMsg : ''}
             onChange={handleNameInput}
+            size="small"
           />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-              justifyContent: 'flex-start'
-            }}
-          >
-            <div style={{ width: '80%' }}>
-              <FormControlLabel
-                value="top"
-                control={
-                  <Checkbox
-                    color="primary"
-                    checked={isRoot}
-                    onChange={() => setIsRoot(!isRoot)}
-                  />
-                }
-                // name varies depending on mode
-                label={
-                  state.projectType === 'Next.js' ||
-                  state.projectType === 'Gatsby.js'
-                    ? 'Page Module'
-                    : 'Root Module'
-                }
-                className={
-                  isThemeLight
-                    ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
-                    : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
-                }
-                labelPlacement="end"
-              />
-            </div>
-            <div style={{ width: '20%' }}>
-              <Fab
-                id="submitButton"
-                type="submit"
-                color="primary"
-                aria-label="add"
-                size="small"
-                value="Add Element"
-                sx={{ width: 36, height: 40, borderRadius: 1 }}
-                onClick={handleNameSubmit}
-              >
-                <AddIcon />
-              </Fab>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <>
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          onClose={handleAlertClose}
+        </div>
+        <FormControlLabel
+          value="top"
+          control={
+            <Checkbox
+              color="primary"
+              checked={isRoot}
+              onChange={() => setIsRoot(!isRoot)}
+            />
+          }
+          // name varies depending on mode
+          label={
+            state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
+              ? 'page'
+              : 'root'
+          }
+          labelPlacement="end"
+        />
+        <Fab
+          id="submitButton"
+          type="submit"
+          color="primary"
+          aria-label="add"
+          label="Add"
+          value="Add"
+          size="small"
+          variant="extended"
+          onClick={handleNameSubmit}
         >
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
-          >
-            Module Created!
-          </Alert>
-        </Snackbar>
-      </>
+          <NoteAddIcon sx={{ marginRight: '10px' }} />
+          Add
+        </Fab>{' '}
+      </form>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleAlertClose}
+      >
+        <Alert
+          onClose={handleAlertClose}
+          severity="success"
+          sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+        >
+          Module Created!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
@@ -292,37 +271,14 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
-    width: '100%',
     height: '30px'
   },
   inputWrapper: {
-    width: '100%',
-    marginBottom: '0px',
-    alignItems: 'center'
-  },
-
-  rootCheckBox: {
-    borderColor: '#f88e16',
-    padding: '7px 0'
-  },
-  rootCheckBoxLabel: {
-    borderColor: '#f88e16'
-  },
-  newComponent: {
-    color: '#C6C6C6',
-    marginBottom: '25px'
-  },
-  inputLabel: {
-    fontSize: '1em',
-    marginLeft: '10px'
+    width: '100%'
   },
   btnGroup: {
     display: 'flex',
     flexDirection: 'column'
-  },
-  rootToggle: {
-    color: '#696969',
-    fontSize: '0.85rem'
   },
   lightThemeFontColor: {
     color: 'white',

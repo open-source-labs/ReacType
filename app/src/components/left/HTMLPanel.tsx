@@ -113,7 +113,7 @@ const HTMLPanel = (props): JSX.Element => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log('did submit');
     if (tag.trim() === '' || name.trim() === '') return triggerError('empty');
     if (!tag.charAt(0).match(/[a-zA-Z]/) || !name.charAt(0).match(/[a-zA-Z]/))
       return triggerError('letters');
@@ -121,6 +121,7 @@ const HTMLPanel = (props): JSX.Element => {
       return triggerError('symbolsDetected');
     if (checkNameDupe(tag) || checkNameDupe(name)) return triggerError('dupe');
     if (name.length > 10) return triggerError('length');
+    setAlertOpen(true);
     createOption(tag, name);
     resetError();
   };
@@ -143,8 +144,6 @@ const HTMLPanel = (props): JSX.Element => {
     };
   }, []);
 
-  const handleAlertOpen = () => setAlertOpen(true);
-
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -162,126 +161,84 @@ const HTMLPanel = (props): JSX.Element => {
 
   return (
     <>
-      <div className="HTMLItemCreate">
-        <div className={`${classes.addComponentWrapper}`}>
-          <div className={classes.inputWrapper}>
-            <form onSubmit={handleSubmit} className="customForm">
-              <TextField
-                id="outlined-basic"
-                label="Element Name"
-                variant="outlined"
-                size="small"
-                value={name}
-                autoComplete="off"
-                placeholder="Element Name"
-                sx={{ width: '80%' }}
-                onChange={handleNameChange}
-                helperText={errorMsg}
-              />
-              <div
-                style={{ display: 'flex', alignItems: 'center', width: '100%' }}
-              >
-                <TextField
-                  id="outlined-basic"
-                  label="HTML Tag"
-                  variant="outlined"
-                  size="small"
-                  value={tag}
-                  autoComplete="off"
-                  placeholder="HTML Tag"
-                  sx={{ width: '80%' }}
-                  onChange={handleTagChange}
-                  helperText={errorMsg}
-                />
-                <Fab
-                  id="submitButton"
-                  type="submit"
-                  color="primary"
-                  aria-label="add"
-                  size="small"
-                  value="Add Element"
-                  sx={{ width: '15%', height: 40, borderRadius: 1 }}
-                  onClick={handleAlertOpen}
-                >
-                  <AddIcon />
-                </Fab>
-              </div>
-            </form>
-          </div>
+      <form onSubmit={handleSubmit} className={classes.customForm}>
+        <div className={classes.inputWrapper}>
+          <TextField
+            id="outlined-basic"
+            label="Element Name"
+            variant="outlined"
+            size="small"
+            value={name}
+            autoComplete="off"
+            sx={{ width: '80%' }}
+            onChange={handleNameChange}
+            helperText={errorMsg}
+          />
         </div>
-      </div>
-      <>
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          onClose={handleAlertClose}
-        >
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+        <div className={classes.inputWrapper}>
+          <TextField
+            id="outlined-basic"
+            label="HTML Tag"
+            variant="outlined"
+            size="small"
+            value={tag}
+            autoComplete="off"
+            sx={{ width: '80%' }}
+            onChange={handleTagChange}
+            helperText={errorMsg}
+          />
+          <Fab
+            id="submitButton"
+            type="submit"
+            color="primary"
+            aria-label="add"
+            size="small"
+            value="Add Element"
+            sx={{ width: '15%', height: 40, borderRadius: 1 }}
+            onClick={handleSubmit}
           >
-            HTML Tag Created!
-          </Alert>
-        </Snackbar>
-      </>
+            <AddIcon />
+          </Fab>
+        </div>
+      </form>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleAlertClose}
+      >
+        <Alert
+          onClose={handleAlertClose}
+          severity="success"
+          sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+        >
+          HTML Tag Created!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
 
 const useStyles = makeStyles({
-  inputField: {
-    marginTop: '10px',
-    borderRadius: '5px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    margin: '0px 0px 0px 10px',
-    width: '100%',
-    height: '30px'
+  customForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start'
   },
   inputWrapper: {
+    display: 'flex',
     width: '100%',
     marginBottom: '10px', // was originally 10px, decreased to 0 to decrease overall menu height
-    alignItems: 'center'
-  },
-  addComponentWrapper: {
-    width: '100%'
-  },
-  input: {
-    width: '500px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    margin: '0px 0px 0px 0px',
-    alignSelf: 'center'
-  },
-  lightThemeFontColor: {
-    color: 'white',
-    '& .MuiInputBase-root': {
-      color: 'rgba (0, 0, 0, 0.54)'
-    }
-  },
-  darkThemeFontColor: {
-    color: '#ffffff',
-    '& .MuiInputBase-root': {
-      color: '#fff'
-    }
+    justifyContent: 'start'
   },
   errorMessage: {
     display: 'flex',
-    alignSelf: 'center',
+    alignSelf: 'start',
     fontSize: '11px',
     marginTop: '10px',
-    width: '150px'
-  },
-  errorMessageLight: {
-    color: '#6B6B6B'
-  },
-  errorMessageDark: {
-    color: 'white'
+    width: '150px',
+    borderRadius: '5px'
   }
 });
 

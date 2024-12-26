@@ -296,11 +296,12 @@ span.material-symbols-outlined {
 .customForm {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   font-size: 95%;
 }
 
-.customForm h4 {
-  align-self: center;
+.inputWrapper {
+  display: flex;
 }
 
 #newElement {
@@ -312,6 +313,11 @@ span.material-symbols-outlined {
   width: 0.5em;
 }
 
+.createComponent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 /* span container in HTMLItem.tsx */
 #customHTMLElement {
   display: flex;

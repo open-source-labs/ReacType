@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
-import { Button, Box } from '@mui/material';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ComponentDrag from './ComponentDrag';
 import ComponentPanel from '../right/ComponentPanel';
@@ -8,12 +8,14 @@ import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 import ComponentsContainer from './ComponentsContainer';
 import CreatePanel from './CreatePanel';
+import HeaderButton from './HeaderButton';
 
 interface ModulePanelProps {
   isThemeLight: boolean;
 }
-
-const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
+const ModulePanel: React.FC<ModulePanelProps> = ({
+  isThemeLight
+}: ModulePanelProps) => {
   const state = useSelector((store: RootState) => store.appState);
   const [isCreatingModule, setIsCreatingModule] = useState(false);
   const [isEditingModule, setIsEditingModule] = useState(false);
@@ -30,26 +32,19 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
     setIsEditingModule(!isEditingModule);
   };
 
-  // Make visibility of custom components conditional ⭕️
-
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'top',
-        color: '#f7f4dc',
-        textAlign: 'center',
-        marginLeft: '15px'
-      }}
-    >
+    <div className="modulePanelContainer">
       {isEditingModule ? (
-        <CreatePanel isThemeLight={true} />
+        <CreatePanel />
       ) : (
-        <div>
-          <Button component="label">{'Create Modules'}</Button>
-          {/* {isCreatingModule ? ( */}
+        <div className="createComponent">
+          <HeaderButton
+            isThemeLight={true}
+            infoText={
+              'Add modules to create a canvas for grouping your components.'
+            }
+            headerName={'headerName'}
+          />
           <ComponentPanel
             setIsCreatingModule={setIsCreatingModule}
             isThemeLight={false}
@@ -59,7 +54,6 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
             isThemeLight={false}
             handleClickEditModule={handleClickEditModule}
           />
-
           {customComponents.length > 0 && (
             <div>
               <div
@@ -79,7 +73,7 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
           )}
         </div>
       )}
-    </Box>
+    </div>
   );
 };
 

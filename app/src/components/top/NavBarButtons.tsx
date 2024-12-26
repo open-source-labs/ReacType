@@ -121,7 +121,7 @@ const navbarDropDown = (props): JSX.Element => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
 
-    props.setDropDownMenu(true);
+    props.setDropMenu(true);
   };
 
   // handlePublish logic
