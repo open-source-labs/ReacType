@@ -38,7 +38,7 @@ COPY ./src ./src
 COPY ./package.json ./
 
 RUN npm run prod-build 
-
+# as a note, this is much easier for CI/CD, but we could deploy with the build folder part of the zip, which would remove the need for this step.s
 
 
 # # Stage 2: Runtime
