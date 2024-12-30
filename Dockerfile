@@ -14,7 +14,7 @@ RUN npm install --omit=dev --no-install-recommends --fetch-retry-maxtimeout 5000
 FROM node:21.2.0-alpine AS build
 
 # python: required dependency for node alpine, shrinks image size from 2.17GB to 1.67GB
-# as of the v22 team, this does nothing to help the package size, and is not needed, prior to v22, the package size grew to > 3 GB,but the v22 team got it down to 1.48Gb by streamliging the dockerfile logic.
+# as of the v22 team, this does nothing to help the package size, and is not needed, prior to v22, the package size grew to > 3 GB,but the v22 team got it down to 1.48Gb by streamlining the dockerfile logic.
 # RUN apk add --no-cache --virtual .gyp \
 #     python3 \
 #     make \
