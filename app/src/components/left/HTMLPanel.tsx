@@ -123,13 +123,14 @@ const HTMLPanel = (props): JSX.Element => {
   };
 
   const handleCreateElement = useCallback((e) => {
-    if (
-      e.key === 'Enter' &&
-      e.target.tagName !== 'TEXTAREA' &&
-      e.target.id !== 'filled-hidden-label-small'
-    ) {
-      e.preventDefault();
-      document.getElementById('submitButton').click();
+    if (e.key === 'Enter' && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+      if (e.target.id === 'outlined-basic') {
+        e.preventDefault();
+        document.getElementById('submitButton').click();
+      } else if (e.target.id === 'outlined-basic') {
+        e.preventDefault();
+        document.getElementById('submitButton').click();
+      }
     }
   }, []);
 

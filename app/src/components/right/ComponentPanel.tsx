@@ -66,7 +66,8 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   const handleCreateElement = useCallback((e) => {
     if (
       e.key === 'Enter' &&
-      e.target.tagName !== 'TEXTAREA' &&
+      e.target.tagName === 'INPUT' &&
+      e.target.type !== 'checkbox' &&
       e.target.id !== 'filled-hidden-label-small'
     ) {
       e.preventDefault();
@@ -155,7 +156,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   };
 
   const keyBindCreateComponent = useCallback((e) => {
-    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'checkbox') {
       e.preventDefault();
       document.getElementById('addComponentButton').click();
     }
