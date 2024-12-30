@@ -28,7 +28,7 @@ const HeaderButton = (props) => {
         id={id}
         onClick={handleClickPopover}
       >
-        {'Create Modules'}
+        {'Module Editor'}
         <Popover
           id={id}
           open={open}
@@ -44,9 +44,9 @@ const HeaderButton = (props) => {
           }}
         >
           <div className={classes.popover}>
-            <div>
+            {/* <div>
               <HelpIcon id={id} size="small" />
-            </div>
+            </div> */}
             <div>
               Add modules to create a canvas for grouping your components.
             </div>
