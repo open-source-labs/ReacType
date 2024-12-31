@@ -220,14 +220,15 @@ const CreatePanel = (props): JSX.Element => {
 
   return (
     <div className={'MUIItems'}>
-      {/* <HeaderButton
-        isThemeLight={props.isThemeLight}
-        infoText={`Add more HTML elements to drag and drop onto your canvas. 
-        Each element requires a tag. For a list of all possible HTML elements,
-        please refer to https://developer.mozilla.org/en-US/docs/Web/HTML/Element.`}
-        headerName={'Custom Elements'}
-        id={'CustomElementsBtn'}
-      /> */}
+      <Button
+        component="label"
+        aria-label="Custom Elements"
+        id="customElements"
+        key="customElements-header"
+        textAlign="center"
+      >
+        Custom Elements
+      </Button>
       <HTMLPanel isThemeLight={props.isThemeLight} />
       {makeMenuCategory([
         state.HTMLTypes.filter((type) => type.id > 10000).map(

@@ -53,7 +53,15 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
   return (
     <div className="modulePanelContainer">
       {isEditingModule ? (
-        <CreatePanel />
+        <div
+          className="createComponent"
+          style={{
+            color: '#f7f4dc',
+            textAlign: 'center'
+          }}
+        >
+          <CreatePanel />
+        </div>
       ) : (
         <div
           className="createComponent"
@@ -94,34 +102,42 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
               <ComponentsContainer
                 handleClickEditModule={handleClickEditModule}
               />
-              <HeaderButton
-                headerName="Add Router"
-                infoText="Turn a module into a single page app with a router."
-              />
-              <Grid container justifyContent="space-around" columnSpacing={2}>
-                {htmlTypesToRender.map((option) => {
-                  if (
-                    (option.name === 'Switch' ||
-                      option.name === 'LinkTo' ||
-                      option.name === 'Route') &&
-                    state.projectType === 'Classic React'
-                  ) {
-                    return (
-                      <HTMLItem
-                        name={option.name}
-                        key={`html-${option.name}`}
-                        id={option.id}
-                        icon={option.icon}
-                        handleDelete={handleDelete}
-                      />
-                    );
-                  }
-                })}
-              </Grid>
             </div>
           )}
         </div>
       )}
+      <div
+        className="createComponent"
+        style={{
+          color: '#f88e16',
+          textAlign: 'center'
+        }}
+      >
+        <HeaderButton
+          headerName="Add Router"
+          infoText="Turn a module into a single page app with a router."
+        />
+      </div>
+      <Grid container justifyContent="space-around" columnSpacing={2}>
+        {htmlTypesToRender.map((option) => {
+          if (
+            (option.name === 'Switch' ||
+              option.name === 'LinkTo' ||
+              option.name === 'Route') &&
+            state.projectType === 'Classic React'
+          ) {
+            return (
+              <HTMLItem
+                name={option.name}
+                key={`html-${option.name}`}
+                id={option.id}
+                icon={option.icon}
+                handleDelete={handleDelete}
+              />
+            );
+          }
+        })}
+      </Grid>
     </div>
   );
 };

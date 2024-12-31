@@ -206,7 +206,18 @@ const HTMLPanel = (props): JSX.Element => {
               vertical: 'bottom',
               horizontal: 'left'
             }}
-          ></Popover>
+          >
+            <div className={classes.popover}>
+              <div className={classes.popoverIcon}>
+                <HelpIcon id={id} size="small" />
+              </div>
+              <div>
+                Add modules to create a canvas for grouping your components.
+                Once created, you can drag modules into other modules to link
+                them. Each module will be exported as its own file.
+              </div>
+            </div>
+          </Popover>
         </div>
         <div className={classes.inputWrapper}>
           <TextField
@@ -272,6 +283,19 @@ const useStyles = makeStyles({
     marginTop: '10px',
     width: '150px',
     borderRadius: '5px'
+  },
+  popover: {
+    backgroundColor: '#ffdbbb',
+    display: 'flex',
+    color: 'black',
+    fontSize: '0.8rem',
+    padding: '8px',
+    width: '300px'
+  },
+  popoverIcon: {
+    paddingRight: '10px',
+    paddingLeft: '8px',
+    paddingTop: '10px'
   }
 });
 
