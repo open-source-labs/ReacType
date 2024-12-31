@@ -13,6 +13,8 @@ function ContextMenu({
   mouseXState,
   mouseYState,
   selectedItem,
+  menuTypeState,
+  selectedItemId,
   targetColor,
   PanRef
 }) {
@@ -31,9 +33,7 @@ function ContextMenu({
   //@ts-ignore
   const contextParam = useSelector((store: RootState) => store.contextSlice); // this is literally just passed in on everything else, i have no idea what it does, you can look it up, but other files are literally just taking it and passing it back in.
 
-  const MenuTypeRef = useRef('?');
-
-  let selectedItemId = useRef(-1); // dont trigger rerenders cause this shouldent change.
+  //let selectedItemId = useRef(-1); // dont trigger rerenders cause this shouldent change.
   // attach key listener
 
   // The below is for all key events
@@ -50,34 +50,34 @@ function ContextMenu({
     document.addEventListener('keydown', keyStrokeFunction);
   }, [openMenu]);
 
-  // set the focus on focus change
-  useEffect(() => {
-    let thing = selectedItem; // look up th dom to see when we get to an element we like (if you right click on the span element you should still count as clicking the ReactTypeComponent element)
-    for (let i = 0; i < 5; i++) {
-      // just things that we want to stop on...
-      if (!thing.id || !thing.id.match(/canv/)) {
-        thing = thing.parentElement;
-      } else {
-        // once were all said and done...
-        if (thing.id.match(/^canv[0-9]/)) {
-          MenuTypeRef.current = 'CanvasElement';
-        } else {
-          MenuTypeRef.current = '?'; // set this back to unknown if you click out.
-        }
+  // // set the focus on focus change
+  // useEffect(() => {
+  //   let thing = selectedItem; // look up th dom to see when we get to an element we like (if you right click on the span element you should still count as clicking the ReactTypeComponent element)
+  //   for (let i = 0; i < 5; i++) {
+  //     // just things that we want to stop on...
+  //     if (!thing.id || !thing.id.match(/canv/)) {
+  //       thing = thing.parentElement;
+  //     } else {
+  //       // once were all said and done...
+  //       if (thing.id.match(/^canv[0-9]/)) {
+  //         MenuTypeRef.current = 'CanvasElement';
+  //       } else {
+  //         MenuTypeRef.current = '?'; // set this back to unknown if you click out.
+  //       }
 
-        selectedItemId.current = Number(thing.id.split('canv')[1]); // this code tells us what hypothetical reaactType item we are selected, not just which DOM element.
-        break;
-      }
-    }
+  //       selectedItemId.current = Number(thing.id.split('canv')[1]); // this code tells us what hypothetical reaactType item we are selected, not just which DOM element.
+  //       break;
+  //     }
+  //   }
 
-    dispatch({
-      type: 'appState/changeFocus',
-      payload: {
-        componentId: appState.canvasFocus.componentId,
-        childId: selectedItemId.current
-      }
-    });
-  }, [selectedItem]); // re trigger if the position of the context menu changes.
+  //   dispatch({
+  //     type: 'appState/changeFocus',
+  //     payload: {
+  //       componentId: appState.canvasFocus.componentId,
+  //       childId: selectedItemId.current // no more current
+  //     }
+  //   });
+  // }, [selectedItem]); // re trigger if the position of the context menu changes.
 
   // remove the keystroke listener on unmount.
   useEffect(
@@ -99,7 +99,7 @@ function ContextMenu({
 
     let correctChild = searchChildren(
       appState.components[0].children,
-      selectedItemId.current
+      selectedItemId
     ); // helper function below
 
     let fullAttributes = correctChild[stateTarget];
@@ -138,7 +138,7 @@ function ContextMenu({
 
     let correctChild = searchChildren(
       appState.components[0].children, // this is simply searching for the correct actual component from the dom elemnt ref
-      selectedItemId.current
+      selectedItemId
     ); // helper function below
 
     let displayText = correctChild[stateSlice][innerTarget];
@@ -164,7 +164,7 @@ function ContextMenu({
       }}
       ref={PanRef}
     >
-      {MenuTypeRef.current === 'CanvasElement' && (
+      {menuTypeState === 'CanvasElement' && (
         <div>
           {false && (
             <div
