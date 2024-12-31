@@ -51,24 +51,22 @@
 **ReacType** is a React prototyping tool that allows users _visualize_ their application architecture dynamically, employing an interactive drop and drag display with real-time component code preview and a collaboration room that features live video and chat functionality. Generated code can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
 
 <p align="center">
-  <img width="1000" src="./resources/v21 MUI Canvas.png">
+  <img width="1000" src="./resources/v22 MUI Canvas.png">
 </p>
 
 Visit [reactype.dev](https://reactype.dev) to learn more about the product.
 
 Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announcements.
 
-## Changes with Version 21.0.0
+## Changes with Version 22.0.0
 
-- **MUI Components**: Material UI can now be used to Create / Style your Applications
-- **UI Updates**: The UI now features a more modern and user friendly experience to reflect the newly added Components.
-- **DX Updates**: Migrated from Jest to Vitest to allow better compatibility, as well as to reduce complexity and streamline the Development Workflow.
-- **JS DOCS**: Added 273 JSDoc comment blocks throughout the codebase.
-- **Cleanup**: Removed unused code, fixed bugs, and made major performance improvements.
+- **UI/UX Updates**: Updated the UI/UX to be more intuitive and user friendly, decreasing learning curve and improving accessibility.
+- **Cleanup**: Removed depreciated dependencies and unused code, migrated code and components to align with UI/UX direction, and cleaned up styling.
+- **OAuth**: Implemented OAuth with Google and Github for streamlined login and secure user accounts.
 - **And more:** See the [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions, as well as plans for upcoming features!
 
 <p align="center">
-  <img width="1000" src="./resources/v21 code preview.png">
+  <img width="1000" src="./resources/v22 code preview.png">
 </p>
 
 ## Preview
@@ -76,12 +74,12 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 Get a glimpse of how ReacType works!
 
 <p align="center">
-  <img width="1000" src="./resources/v21 Preview.gif"> 
+  <img width="1000" src="./resources/v22 Preview.gif"> 
 </p>
 
 <!-- NEED TO REPLACE THE TUTORIAL LINK -->
 
-## File Structure of ReacType Version 21.0.0
+## File Structure of ReacType Version 22.0.0
 
 Here is the main file structure:
 
@@ -100,11 +98,16 @@ Given to us courtesy of our friends over at React Relay
 ```bash
 npm install
 ```
+- Compile for production
+
+```bash
+npm run build
+```
 
 - To run the production build
 
 ```bash
-npm run prod
+npm start
 ```
 
 - To run tests
@@ -119,39 +122,11 @@ npm run test
 npm run dev
 ```
 
-- Note that DEV_PORT, NODE_ENV flag (=production or development) and VIDEOSDK token are needed in the .env file.
+- Open browser and navigate to localhost at specified port
+
+- Note that DEV_PORT and NODE_ENV flag (=production or development) are needed in the .env file.
 - Please note that the development build is not connected to the production server. `npm run dev` should spin up the development server from the server folder of this repo. For additional information, the readme is [here](https://github.com/open-source-labs/ReacType/blob/master/server/README.md). Alternatively, you can select "Continue as guest" on the login page of the app, which will not use any features that rely on the server (authentication and saving project data.)
 - If there are any errors on spin-up related to MONGO_DB, GITHUB_CLIENT, GITHUB_SECRET, GOOGLE_CLIENT, GOOGLE_SECRET, and SESSION_SECRET, those variables will have to be added to the .env file. To get Google and GitHub credentials, addtional information can be found at the following links: Google [here](https://support.google.com/cloud/answer/6158849?hl=en) and GitHub [here](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app).
-
-- To run the development build of electron app
-
-```bash
-npm run dev
-npm run electron-dev
-```
-
-## Run Exported App
-
-- Open exported project directory
-- Install dependencies
-
-```bash
-npm install
-```
-
-- Build the app
-
-```bash
-npm run build
-```
-
-- Start an instance
-
-```bash
-npm run start
-```
-
-- Open browser and navigate to localhost at specified port
 
 ## Stack
 
