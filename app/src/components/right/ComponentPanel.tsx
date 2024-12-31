@@ -187,11 +187,11 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
 
   return (
     <>
-      <form className="customForm">
+      <form className="customForm" className={classes.customForm}>
         <div className={classes.inputWrapper}>
           <TextField
             id="AddModule"
-            label="Component or Module Name"
+            label="Module Name"
             variant="outlined"
             value={compName}
             autoComplete="off"
@@ -200,7 +200,20 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
             helperText={errorStatus ? errorMsg : ''}
             onChange={handleNameInput}
             size="small"
+            sx={{ width: '80%' }}
           />
+          <Fab
+            id="submitButton"
+            type="submit"
+            color="primary"
+            aria-label="add"
+            value="Add Component or Modules"
+            size="small"
+            onClick={handleNameSubmit}
+            sx={{ width: '15%', height: 40, borderRadius: 1 }}
+          >
+            <AddIcon />
+          </Fab>
         </div>
         <FormControlLabel
           value="top"
@@ -218,21 +231,8 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
               : 'root'
           }
           labelPlacement="end"
+          sx={{ color: '#d3d3d3' }}
         />
-        <Fab
-          id="submitButton"
-          type="submit"
-          color="primary"
-          aria-label="add"
-          label="Add"
-          value="Add"
-          size="small"
-          variant="extended"
-          onClick={handleNameSubmit}
-        >
-          <NoteAddIcon sx={{ marginRight: '10px' }} />
-          Add
-        </Fab>{' '}
       </form>
       <Snackbar
         open={alertOpen}
@@ -243,7 +243,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
         <Alert
           onClose={handleAlertClose}
           severity="success"
-          sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+          sx={{ width: '100%', color: '#d3d3d3', backgroundColor: '#f88e16' }}
         >
           Module Created!
         </Alert>
@@ -253,6 +253,11 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
 };
 
 const useStyles = makeStyles({
+  customForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start'
+  },
   closeButton: {
     position: 'absolute',
     top: '10px',
@@ -263,18 +268,10 @@ const useStyles = makeStyles({
       color: 'black'
     }
   },
-  inputField: {
-    marginTop: '10px',
-    borderRadius: '5px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    margin: '0px 0px 0px 10px',
-    height: '30px'
-  },
   inputWrapper: {
-    width: '100%'
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'start'
   },
   btnGroup: {
     display: 'flex',

@@ -42,7 +42,7 @@ const AddContextForm = ({
   setCurrentContext,
   errorMsg,
   errorStatus,
-  setErrorStatus,
+  setErrorStatus
 }) => {
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
@@ -66,7 +66,7 @@ const AddContextForm = ({
   // event handle for confirmation modal
   const handleClose = (
     event: React.SyntheticEvent | Event,
-    reason?: string,
+    reason?: string
   ) => {
     if (reason === 'clickaway') {
       return;
@@ -77,7 +77,7 @@ const AddContextForm = ({
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
-    ref,
+    ref
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -103,11 +103,11 @@ const AddContextForm = ({
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
         <TextField
           InputProps={{
-            style: { color: color },
+            style: { color: color }
           }}
           onChange={handleChange}
           sx={{
-            width: 425,
+            width: 425
           }}
           label="context"
           value={contextInput}
@@ -138,7 +138,7 @@ const AddContextForm = ({
             textTransform: 'capitalize',
             height: '50px',
             width: '100px',
-            fontSize: '15px',
+            fontSize: '15px'
           }}
         >
           Create
@@ -172,7 +172,7 @@ const AddContextForm = ({
             textTransform: 'capitalize',
             height: '50px',
             width: '100px',
-            fontSize: '15px',
+            fontSize: '15px'
           }}
         >
           Delete

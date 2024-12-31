@@ -11,6 +11,8 @@ import Snackbar from '@mui/material/Snackbar';
 import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 import { RootState } from '../../redux/store';
+import HelpIcon from '@mui/icons-material/Help';
+import Popover, { PopoverProps } from '@mui/material/Popover';
 
 /**
  * Provides a user interface for creating custom HTML elements in the application. It includes
@@ -27,6 +29,9 @@ import { RootState } from '../../redux/store';
  */
 const HTMLPanel = (props): JSX.Element => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] =
+    React.useState<PopoverProps['anchorEl']>(null);
+
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -143,7 +148,15 @@ const HTMLPanel = (props): JSX.Element => {
       document.removeEventListener('keydown', handleCreateElement);
     };
   }, []);
+  const handleClickPopover = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? open : undefined;
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -174,6 +187,26 @@ const HTMLPanel = (props): JSX.Element => {
             onChange={handleNameChange}
             helperText={errorMsg}
           />
+          <HelpIcon
+            id={'helpicon'}
+            size="medium"
+            sx={{ alignSelf: 'center', marginLeft: '12px' }}
+            onClick={handleClickPopover}
+          />
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
+          ></Popover>
         </div>
         <div className={classes.inputWrapper}>
           <TextField

@@ -14,6 +14,7 @@ import MUIItem from './MUIItem';
 import HTMLItem from './HTMLItem';
 import HTMLPanel from './HTMLPanel';
 import ComponentDrag from './ComponentDrag';
+import HeaderButton from './HeaderButton';
 
 /**
  * Provides a user interface for managing HTMLitems & MUIItems in the application. It features accordions for different categories
@@ -191,7 +192,7 @@ const CreatePanel = (props): JSX.Element => {
     'Speed Dial'
   ]);
 
-  const makeMenuCategory = (typeArray, name, idx) =>
+  const makeMenuCategory = (typeArray, name, idx, infoText) =>
     name ? (
       <>
         <Box
@@ -219,7 +220,14 @@ const CreatePanel = (props): JSX.Element => {
 
   return (
     <div className={'MUIItems'}>
-      <Button component="label">{'Custom Elements'}</Button>
+      {/* <HeaderButton
+        isThemeLight={props.isThemeLight}
+        infoText={`Add more HTML elements to drag and drop onto your canvas. 
+        Each element requires a tag. For a list of all possible HTML elements,
+        please refer to https://developer.mozilla.org/en-US/docs/Web/HTML/Element.`}
+        headerName={'Custom Elements'}
+        id={'CustomElementsBtn'}
+      /> */}
       <HTMLPanel isThemeLight={props.isThemeLight} />
       {makeMenuCategory([
         state.HTMLTypes.filter((type) => type.id > 10000).map(

@@ -27,8 +27,9 @@ const HeaderButton = (props) => {
         aria-label={id}
         id={id}
         onClick={handleClickPopover}
+        key={props.headerName}
       >
-        {'Module Editor'}
+        {props.headerName}
         <Popover
           id={id}
           open={open}
@@ -36,20 +37,18 @@ const HeaderButton = (props) => {
           onClose={handleClose}
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'center'
+            horizontal: 'right'
           }}
           transformOrigin={{
             vertical: 'bottom',
-            horizontal: 'center'
+            horizontal: 'left'
           }}
         >
           <div className={classes.popover}>
-            {/* <div>
+            <div className={classes.popoverIcon}>
               <HelpIcon id={id} size="small" />
-            </div> */}
-            <div>
-              Add modules to create a canvas for grouping your components.
             </div>
+            <div>{props.infoText}</div>
           </div>
         </Popover>
       </Button>
@@ -58,12 +57,21 @@ const HeaderButton = (props) => {
 };
 
 const useStyles = makeStyles({
+  headerButton: {
+    alignSelf: 'center'
+  },
   popover: {
-    backgroundColor: 'white',
-    width: '200px',
+    backgroundColor: '#ffdbbb',
+    display: 'flex',
     color: 'black',
     fontSize: '0.8rem',
-    padding: '10px'
+    padding: '8px',
+    width: '300px'
+  },
+  popoverIcon: {
+    paddingRight: '10px',
+    paddingLeft: '8px',
+    paddingTop: '10px'
   }
 });
 export default HeaderButton;
