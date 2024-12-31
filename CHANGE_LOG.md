@@ -5,33 +5,31 @@
 
 ## Version 22.0.0 Changes
 
-### Potential Changes:
-
-- Export code does not actually build what it says it does - Bug fix: tags which are nested do not display accurate code in code preview
-- Fully retire jest tests
-- Complete Vitest testing suite
-- Make bottom panel only display context-relevant tabs
-- Moving chat link from bottom panel to upper right (would this require making it into a pop up?)
-- Migrate more state pieces into redux store??
-- Decluttering by adding right click and hover functionality
-- Move elements of tutorial into hover functionality
-- Add built-in component templates to the marketplace
-
 ### Changes:
 
-- Deleted all electron-related files and dependencies
-- Deleted all webpack-related files and dependencies
-- Deleted all babel-related files and dependencies (SL)
-- Deleted all jest-related files and dependencies (SL)
-- Migrated create create custom HTML component to left panel and completely removed from bottom panel (SL)
-- Migrated create create custom module component to left panel and completely removed from bottom panel (SL)
-- Migrated clear canvas to canvas container from nav bar and completely removed from nav bar (SL)
-- Removed page up and page down buttons and code from canvas container (SL)
+- Deleted depreciated electron-related files and dependencies
+- Deleted depreciated webpack-related files and dependencies
+- Deleted depreciated babel-related files and dependencies
+- Deleted depreciated jest-related files and dependencies
+- Migrated create create custom HTML component to left panel and completely removed from bottom panel
+- Migrated create create custom module component to left panel and completely removed from bottom panel
+- Migrated clear canvas to canvas container from nav bar and completely removed from nav bar
+- Removed page up and page down buttons and code from canvas container
+- Added right click functionality to component customization and removed from bottom panel
 - OAuth fully functional
 
 ### Recommendations for Future Enhancements:
 - Unify styling, we utilized a lot of inline styling to override prior version styling due to time
 - Light/Dark mode, suggest removing current code regarding it and reimplement from the ground up for light/dark themes
+- Export code does not actually build what it says it does - Bug fix: tags which are nested do not display accurate code in code preview
+- Fully retire jest tests
+- Complete Vitest testing suite
+- Make bottom panel only display context-relevant tabs
+- Moving chat link from bottom panel to upper right
+- Migrate more state pieces into redux store
+- Move elements of tutorial into hover functionality
+- Add built-in component templates to the marketplace
+- Reimplement VideoSDK (will need VIDEOSDK token in .env), changes made for v22 prevented VideoSDK from working with the collab feature, the code however still exists
 
 ## Version 21.0.0 Changes
 
