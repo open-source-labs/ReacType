@@ -63,24 +63,25 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
     }
   };
 
-  const handleCreateElement = useCallback((e) => {
-    if (
-      e.key === 'Enter' &&
-      e.target.tagName === 'INPUT' &&
-      e.target.type !== 'checkbox' &&
-      e.target.id !== 'filled-hidden-label-small'
-    ) {
-      e.preventDefault();
-      document.getElementById('submitButton').click();
-    }
-  }, []);
+  // const handleCreateElement = useCallback((e) => {
+  //   if (
+  //     e.key === 'Enter' &&
+  //     e.target.tagName === 'INPUT' &&
+  //     e.target.type !== 'checkbox' &&
+  //     e.target.id !== 'filled-hidden-label-small'
+  //   ) {
+  //     e.preventDefault();
+  //     document.getElementById('submitButton').click();
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    document.addEventListener('keydown', handleCreateElement);
-    return () => {
-      document.removeEventListener('keydown', handleCreateElement);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener('keydown', handleCreateElement);
+  //   console.log('what event', event);
+  //   return () => {
+  //     document.removeEventListener('keydown', handleCreateElement);
+  //   };
+  // }, []);
 
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrorStatus(false);
@@ -155,24 +156,6 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
     triggerError(error);
   };
 
-  const keyBindCreateComponent = useCallback((e) => {
-    if (
-      e.key === 'Enter' &&
-      e.target.tagName === 'INPUT' &&
-      e.target.type !== 'checkbox'
-    ) {
-      e.preventDefault();
-      document.getElementById('addComponentButton').click();
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindCreateComponent);
-    return () => {
-      document.removeEventListener('keydown', keyBindCreateComponent);
-    };
-  }, []);
-
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -204,6 +187,12 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
             error={errorStatus}
             helperText={errorStatus ? errorMsg : ''}
             onChange={handleNameInput}
+            // onKeyDown={(e) => {
+            //   if (e.key === 'Enter') {
+            //     e.preventDefault();
+            //     handleNameSubmit;
+            //   }
+            // }}
             size="small"
             sx={{ width: '80%' }}
           />

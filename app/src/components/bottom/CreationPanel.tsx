@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import React from 'react';
-import ComponentPanel from '../right/ComponentPanel';
 import HTMLPanel from '../left/HTMLPanel';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -23,7 +22,7 @@ const CreationPanel = (props): JSX.Element => {
   const style = useSelector((store: RootState) => store.styleSlice);
   return (
     <div className="creation-panel" style={style.style}>
-{/* NOTE: This component has been moved to ModulePanel.tsx
+      {/* NOTE: This component has been moved to ModulePanel.tsx
       <ComponentPanel isThemeLight={props.isThemeLight} /> */}
       <HTMLPanel isThemeLight={props.isThemeLight} />
     </div>

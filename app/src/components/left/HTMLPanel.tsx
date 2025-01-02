@@ -98,7 +98,8 @@ const HTMLPanel = (props): JSX.Element => {
       style: {},
       placeHolderShort: name,
       placeHolderLong: '',
-      icon: null
+      icon: null,
+      nestable: true
     };
 
     dispatch(addElement(newElement));
@@ -118,7 +119,6 @@ const HTMLPanel = (props): JSX.Element => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('did submit');
     if (tag.trim() === '' || name.trim() === '') return triggerError('empty');
     if (!tag.charAt(0).match(/[a-zA-Z]/) || !name.charAt(0).match(/[a-zA-Z]/))
       return triggerError('letters');
@@ -216,11 +216,11 @@ const HTMLPanel = (props): JSX.Element => {
                 <HelpIcon id={id} size="small" />
               </div>
               <div>
-                Each HTML element created will become part of the DOM, the
-                document model for displaying the page in the browser. The tag
-                will begin or end the element in source code. For example, you
-                could create an HTML element named 'paragraph' and it will
-                appear in its tag 'p' in your HTML markup -- as {`<p> </p>`}.
+                Each custom HTML element you create can be added using
+                drag-and-drop to the DOM. Its HTML tag will begin or end the
+                element in source code. For example, you could create an element
+                named 'navigation' and use the tag 'nav' in your HTML markup so
+                that it appears as {`<nav> </nav>`}.
               </div>
             </div>
           </Popover>
@@ -263,7 +263,7 @@ const HTMLPanel = (props): JSX.Element => {
           severity="success"
           sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
         >
-          HTML Tag Created!
+          HTML Element Created!
         </Alert>
       </Snackbar>
     </>

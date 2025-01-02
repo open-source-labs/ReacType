@@ -84,7 +84,7 @@ function ContextMenu({
 
   // remove the keystroke listener on unmount.
   useEffect(
-    // the next line is intentional, im not an idiot, do not remove.
+    // the next line is intentional
     () => () => {
       document.removeEventListener('keydown', keyStrokeFunction); // remove old one first if we have
     },

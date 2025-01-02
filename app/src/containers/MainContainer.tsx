@@ -42,7 +42,6 @@ const MainContainer = (props): JSX.Element => {
   const id: string = useSelector((store: RootState) => store.appState._id);
 
   const appState = useSelector((store: RootState) => store.appState);
-  console.log(appState.canvasFocus);
 
   // const { style } = useSelector((store: RootState) => ({
   //   style: store.styleSlice
@@ -100,7 +99,6 @@ const MainContainer = (props): JSX.Element => {
   // use effect for contextMenu listeners
   useEffect(() => {
     document.addEventListener('contextmenu', (e) => {
-      console.log(e.target);
       if (
         ContextMenuRef.current != null &&
         ContextMenuRef.current.contains(e.target)

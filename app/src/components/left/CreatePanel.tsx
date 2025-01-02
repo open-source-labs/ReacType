@@ -201,6 +201,7 @@ const CreatePanel = (props): JSX.Element => {
             textAlign: 'center',
             marginBottom: '6px'
           }}
+          key={name + idx}
         >
           <Button component="label" id={name + '-button'} key={name + idx}>
             {name}
@@ -225,7 +226,7 @@ const CreatePanel = (props): JSX.Element => {
         aria-label="Custom Elements"
         id="customElements"
         key="customElements-header"
-        textAlign="center"
+        sx={{ textAlign: 'center' }}
       >
         Custom Elements
       </Button>
@@ -254,12 +255,11 @@ const CreatePanel = (props): JSX.Element => {
             inputProps={{ 'aria-label': 'HTML + MUI switch' }}
             sx={{ margin: '0 10px' }} // Adjust spacing between text and switch
           />
-          <p className="smallerText">
-            <HeaderButton
-              headerName="HTML + MUI"
-              infoText="Material UI (or MUI) is a customizable library of React components. Toggle this switch on to see both HTML elements and MUI components that you can drag onto your canvas. For more about MUI, see https://mui.com for more details."
-            />
-          </p>
+
+          <HeaderButton
+            headerName="HTML + MUI"
+            infoText="Material UI (or MUI) is a customizable library of React components. Toggle this switch on to see both HTML elements and MUI components that you can drag onto your canvas. For more about MUI, ee https://mui.com for more details."
+          />
         </Box>
       </FormGroup>
       {MUIMode
