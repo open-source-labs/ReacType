@@ -156,7 +156,11 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   };
 
   const keyBindCreateComponent = useCallback((e) => {
-    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'checkbox') {
+    if (
+      e.key === 'Enter' &&
+      e.target.tagName === 'INPUT' &&
+      e.target.type !== 'checkbox'
+    ) {
       e.preventDefault();
       document.getElementById('addComponentButton').click();
     }
@@ -188,7 +192,7 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
 
   return (
     <>
-      <form className="customForm" className={classes.customForm}>
+      <form className="customForm">
         <div className={classes.inputWrapper}>
           <TextField
             id="AddModule"
