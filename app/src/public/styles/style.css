@@ -35,6 +35,12 @@ body {
   background-color: #191919;
 }
 
+h3 {
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-size: 0.9em;
+}
 h4 {
   color: #155084;
   text-align: center;
@@ -509,6 +515,22 @@ RIGHT COLUMN
 
 .compPanelItem:hover {
   cursor: pointer;
+}
+
+.popUpButtons {
+  padding: 10px;
+  margin: 8px;
+  border: 2px solid #f7f4dc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: #f7f4dc;
+  font-family: Roboto, Raleway, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  -webkit-box-align: center;
+  height: 40px;
+  width: 156px;
+  background-color: rgb(59, 59, 59);
 }
 
 /*

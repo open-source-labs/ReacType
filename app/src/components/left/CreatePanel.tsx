@@ -255,7 +255,10 @@ const CreatePanel = (props): JSX.Element => {
             sx={{ margin: '0 10px' }} // Adjust spacing between text and switch
           />
           <p className="smallerText">
-            <span className="orangeText">HTML {'+'} MUI</span>
+            <HeaderButton
+              headerName="HTML + MUI"
+              infoText="Material UI (or MUI) is a customizable library of React components. Toggle this switch on to see both HTML elements and MUI components that you can drag onto your canvas. For more about MUI, see https://mui.com for more details."
+            />
           </p>
         </Box>
       </FormGroup>

@@ -71,7 +71,6 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
           }}
         >
           <HeaderButton
-            isThemeLight={'true'}
             infoText={`Add modules to create a canvas for grouping your components.
             Once created, you can drag modules into other modules to link them.
               Each module will be exported as its own file.`}
@@ -97,7 +96,11 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
                   //   border: '1px solid #101012'
                 }}
               >
-                <HeaderButton headerName="Other Modules" infoText="" />
+                <HeaderButton
+                  headerName="Other Modules"
+                  infoText="Try to organize each of your modules by its specific function. For example, create a module for a container, a helper function, or a component."
+                  id="otherModulesBtn"
+                />
               </div>
               <ComponentsContainer
                 handleClickEditModule={handleClickEditModule}
@@ -115,7 +118,9 @@ const ModulePanel: React.FC<ModulePanelProps> = ({ isThemeLight }) => {
       >
         <HeaderButton
           headerName="Add Router"
-          infoText="Turn a module into a single page app with a router."
+          infoText={`The React Router allows you to switch between parts of your application depending on the path chosen by the user. 
+          Add the Switch first, then add a route for each path you'd like to specify for your user.`}
+          id={'addRouterBtn'}
         />
       </div>
       <Grid container justifyContent="space-around" columnSpacing={2}>

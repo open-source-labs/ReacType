@@ -132,7 +132,10 @@ const HTMLPanel = (props): JSX.Element => {
   };
 
   const handleCreateElement = useCallback((e) => {
-    if (e.key === 'Enter' && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+    if (
+      e.key === 'Enter' &&
+      (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')
+    ) {
       if (e.target.id === 'outlined-basic') {
         e.preventDefault();
         document.getElementById('submitButton').click();
@@ -213,9 +216,11 @@ const HTMLPanel = (props): JSX.Element => {
                 <HelpIcon id={id} size="small" />
               </div>
               <div>
-                Add modules to create a canvas for grouping your components.
-                Once created, you can drag modules into other modules to link
-                them. Each module will be exported as its own file.
+                Each HTML element created will become part of the DOM, the
+                document model for displaying the page in the browser. The tag
+                will begin or end the element in source code. For example, you
+                could create an HTML element named 'paragraph' and it will
+                appear in its tag 'p' in your HTML markup -- as {`<p> </p>`}.
               </div>
             </div>
           </Popover>
