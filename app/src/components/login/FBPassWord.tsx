@@ -4,7 +4,7 @@ import {
   Link as RouteLink,
   withRouter,
   RouteComponentProps,
-  useHistory,
+  useHistory
 } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -17,7 +17,7 @@ import {
   styled,
   StyledEngineProvider,
   Theme,
-  ThemeProvider,
+  ThemeProvider
 } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -25,10 +25,15 @@ import {
   validateInputs,
   handleChange,
   resetErrorValidation,
-  updatePassword,
+  updatePassword
 } from '../../helperFunctions/auth';
 import { SigninDark } from '../../../../app/src/public/styles/theme';
 import { LoginInt } from '../../interfaces/Interfaces';
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
 
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
@@ -48,27 +53,27 @@ const StyledPaper = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(8),
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'center'
 }));
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   margin: theme.spacing(1),
-  backgroundColor: 'white',
+  backgroundColor: 'white'
 }));
 
 const StyledForm = styled('form')(({ theme }) => ({
   width: '100%', // Fix IE 11 issue.
-  marginTop: theme.spacing(3),
+  marginTop: theme.spacing(3)
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  margin: theme.spacing(3, 0, 2),
+  margin: theme.spacing(3, 0, 2)
 }));
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    borderColor: '#white',
-  },
+    borderColor: '#white'
+  }
 }));
 
 const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
@@ -92,13 +97,13 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
     setInvalidPassword,
     setInvalidPasswordMsg,
     setInvalidVerifyPassword,
-    setInvalidVerifyPasswordMsg,
+    setInvalidVerifyPasswordMsg
   };
   // define handle change setters to pass to handleChange function
   const handleChangeSetters = {
     setUsername,
     setPassword,
-    setPasswordVerify,
+    setPasswordVerify
   };
 
   /**
@@ -127,7 +132,7 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
       username,
       password,
       passwordVerify,
-      errorSetters,
+      errorSetters
     }); // Validate Inputs using Auth helper function
     if (!isValid) {
       console.log('Validation failed, not updating password.');
@@ -141,13 +146,13 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
       } else {
         console.log(
           'Update password failed: Unknown or unhandled error',
-          isUpdated,
+          isUpdated
         );
       }
     } catch (err) {
       console.error(
         'Error during password updating in handleUpdatePassword:',
-        err,
+        err
       );
     }
   };
@@ -221,15 +226,15 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
                 color="primary"
                 variant="contained"
                 sx={{
-                  backgroundColor: '#2997ff',
+                  backgroundColor: '#f08c00;',
                   marginBottom: '5px',
                   marginTop: '20px',
                   textTransform: 'none',
                   fontSize: '1rem',
                   '$:hover': {
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   },
-                  width: '100%',
+                  width: '100%'
                 }}
               >
                 Update Password

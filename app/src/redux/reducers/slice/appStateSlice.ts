@@ -268,6 +268,7 @@ const appStateSlice = createSlice({
         useStateCodes: [],
         passedInProps: []
       };
+
       state.components.push(newComponent);
       // functionality if the new component will become the root component
       if (action.payload.root) state.rootComponents.push(newComponent.id);

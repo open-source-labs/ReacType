@@ -42,7 +42,6 @@ const MainContainer = (props): JSX.Element => {
   const id: string = useSelector((store: RootState) => store.appState._id);
 
   const appState = useSelector((store: RootState) => store.appState);
-  console.log(appState.canvasFocus);
 
   // const { style } = useSelector((store: RootState) => ({
   //   style: store.styleSlice
@@ -61,6 +60,10 @@ const MainContainer = (props): JSX.Element => {
 
   const [mouseXState, setMouseXState] = useState(0);
   const [mouseYState, setMouseYState] = useState(0);
+
+  const [menuTypeState, setMenuTypeState] = useState('?');
+
+  const [selectedItemIdState, setSelectedItemIdState] = useState(-1);
 
   const [contextMenuSelectedElement, setContextMenuSelectedElement] =
     useState(null);
@@ -96,18 +99,50 @@ const MainContainer = (props): JSX.Element => {
   // use effect for contextMenu listeners
   useEffect(() => {
     document.addEventListener('contextmenu', (e) => {
-      e.preventDefault(); // grab that event trigger, or maybe this writes to something, idk
       if (
         ContextMenuRef.current != null &&
         ContextMenuRef.current.contains(e.target)
       ) {
+        e.preventDefault(); // grab that event trigger, or maybe this writes to something, idk
         return; // if it is not nul and we are clicking in it.
       }
-      setContextMenuSelectedElement(e.target); // get it set it
 
-      setMouseXState(MouseXRef.current);
-      setMouseYState(MouseYRef.current); // now trigger a re-render
-      setContextMenuOpen(true);
+      // set the focus on focus change
+      let willGrabDefault = true;
+      let thing = e.target; // look up th dom to see when we get to an element we like (if you right click on the span element you should still count as clicking the ReactTypeComponent element)
+      for (let i = 0; i < 5; i++) {
+        // just things that we want to stop on...
+        if (!thing.id || !thing.id.match(/canv/)) {
+          thing = thing.parentElement;
+        } else {
+          // once were all said and done...
+          if (thing.id.match(/^canv[0-9]/)) {
+            setMenuTypeState('CanvasElement');
+          } else {
+            willGrabDefault = false;
+            setMenuTypeState('?'); // set this back to unknown if you click out.
+          }
+
+          setSelectedItemIdState(Number(thing.id.split('canv')[1])); // this code tells us what hypothetical reaactType item we are selected, not just which DOM element.
+          break;
+        }
+      }
+      if (willGrabDefault) {
+        e.preventDefault(); // gdouble
+        dispatch({
+          type: 'appState/changeFocus',
+          payload: {
+            componentId: appState.canvasFocus.componentId,
+            childId: selectedItemIdState
+          }
+        });
+
+        setContextMenuSelectedElement(e.target); // get it set it
+
+        setMouseXState(MouseXRef.current);
+        setMouseYState(MouseYRef.current); // now trigger a re-render
+        setContextMenuOpen(true);
+      }
     });
     onmousemove = function (e) {
       MouseXRef.current = e.clientX; // this is a use ref, not use state, so we dont trigger a re-render.
@@ -207,6 +242,8 @@ const MainContainer = (props): JSX.Element => {
           targetColor={contextMenuColor}
           PanRef={ContextMenuRef}
           visible={contextMenuOpen}
+          selectedItemId={selectedItemIdState}
+          menuTypeState={menuTypeState}
           setContextMenuOpen={setContextMenuOpen}
           mouseXState={mouseXState}
           mouseYState={mouseYState}

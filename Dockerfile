@@ -55,7 +55,7 @@ COPY ../server ./server
 
 # these things build dosent have so dont copy them through
 COPY package*.json ./
-COPY  .env .env
+#COPY  .env .env
 COPY ./config.js ./config.js
 
 

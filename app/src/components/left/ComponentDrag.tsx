@@ -5,6 +5,7 @@ import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import ComponentPanelItem from '../right/ComponentPanelItem';
+import HeaderButton from '../left/HeaderButton';
 
 const useStyles = makeStyles({
   panelWrapper: {
@@ -41,6 +42,10 @@ const ComponentDrag = ({
 }): JSX.Element | null => {
   const classes = useStyles();
   const state = useSelector((store: RootState) => store.appState);
+  let buttonTitle =
+    state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
+      ? 'Pages'
+      : 'Root';
 
   const isFocus = (targetId: number) =>
     state.canvasFocus.componentId === targetId ? true : false;
@@ -50,18 +55,25 @@ const ComponentDrag = ({
   return (
     <div className={classes.panelWrapper}>
       <div className={classes.panelWrapperList}>
-        <h4 className={classes.darkThemeFontColor} style={{ color: '#f88e16' }}>
+        <HeaderButton
+          headerName={buttonTitle}
+          id={buttonTitle}
+          infoText={
+            'The root serves as the entry point for the rest of the app. Use a root component as the foundation from which all the rest of your hierarchy is nested.'
+          }
+        />
+        {/* <h4 className={classes.darkThemeFontColor} style={{ color: '#f88e16' }}>
           {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
             ? 'Pages'
             : 'Root Module(s)'}
-        </h4>
+        </h4> */}
         <Grid
           container
           direction="column"
           justifyContent="center"
           alignItems="center"
           width="100vw"
-          maxWidth='240px'
+          maxWidth="240px"
         >
           {state.components
             .filter((comp) => state.rootComponents.includes(comp.id))

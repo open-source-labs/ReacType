@@ -185,7 +185,7 @@ function DirectChildMUINestable({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '2px solid #0671e3'
+        ? '2px solid #ef6c00'
         : '1px solid #31343A'
   };
 

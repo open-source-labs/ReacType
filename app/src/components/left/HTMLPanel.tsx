@@ -11,6 +11,8 @@ import Snackbar from '@mui/material/Snackbar';
 import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 import { RootState } from '../../redux/store';
+import HelpIcon from '@mui/icons-material/Help';
+import Popover, { PopoverProps } from '@mui/material/Popover';
 
 /**
  * Provides a user interface for creating custom HTML elements in the application. It includes
@@ -27,6 +29,9 @@ import { RootState } from '../../redux/store';
  */
 const HTMLPanel = (props): JSX.Element => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] =
+    React.useState<PopoverProps['anchorEl']>(null);
+
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -75,7 +80,10 @@ const HTMLPanel = (props): JSX.Element => {
     if (type === 'length') setErrorMsg('Input cannot exceed 10 characters.');
   };
 
-  const resetError = () => setErrorStatus(false);
+  const resetError = () => {
+    setErrorStatus(false);
+    setErrorMsg('');
+  };
 
   const createOption = (inputTag: string, inputName: string) => {
     // format name so first letter is capitalized and there are no whitespaces
@@ -90,7 +98,8 @@ const HTMLPanel = (props): JSX.Element => {
       style: {},
       placeHolderShort: name,
       placeHolderLong: '',
-      icon: null
+      icon: null,
+      nestable: true
     };
 
     dispatch(addElement(newElement));
@@ -110,7 +119,6 @@ const HTMLPanel = (props): JSX.Element => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (tag.trim() === '' || name.trim() === '') return triggerError('empty');
     if (!tag.charAt(0).match(/[a-zA-Z]/) || !name.charAt(0).match(/[a-zA-Z]/))
       return triggerError('letters');
@@ -118,12 +126,16 @@ const HTMLPanel = (props): JSX.Element => {
       return triggerError('symbolsDetected');
     if (checkNameDupe(tag) || checkNameDupe(name)) return triggerError('dupe');
     if (name.length > 10) return triggerError('length');
+    setAlertOpen(true);
     createOption(tag, name);
     resetError();
   };
 
   const handleCreateElement = useCallback((e) => {
-    if (e.key === 'Enter' && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+    if (
+      e.key === 'Enter' &&
+      (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')
+    ) {
       if (e.target.id === 'outlined-basic') {
         e.preventDefault();
         document.getElementById('submitButton').click();
@@ -140,9 +152,15 @@ const HTMLPanel = (props): JSX.Element => {
       document.removeEventListener('keydown', handleCreateElement);
     };
   }, []);
+  const handleClickPopover = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
 
-  const handleAlertOpen = () => setAlertOpen(true);
-
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? open : undefined;
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -160,146 +178,130 @@ const HTMLPanel = (props): JSX.Element => {
 
   return (
     <>
-      <div className="HTMLItemCreate">
-        <div className={classes.addComponentWrapper}>
-          <div className={classes.inputWrapper}>
-            <form onSubmit={handleSubmit} className="customForm">
-              <br></br>
-              <TextField
-                id="outlined-basic"
-                label="Custom Element Name"
-                variant="outlined"
-                size="small"
-                value={name}
-                autoComplete="off"
-                placeholder="Custom Element Name"
-                sx={{ width: '80%' }}
-                onChange={handleNameChange}
-              />
-              {(!name.charAt(0).match(/[A-Za-z]/) ||
-                !alphanumeric(name) ||
-                name.trim() === '' ||
-                name.length > 10 ||
-                checkNameDupe(name)) && (
-                <span
-                  className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}
-                >
-                  <em>{errorMsg}</em>
-                </span>
-              )}
-              <div
-                style={{ display: 'flex', alignItems: 'center', width: '100%' }}
-              >
-                <TextField
-                  id="outlined-basic"
-                  label="Custom Tag Name"
-                  variant="outlined"
-                  size="small"
-                  value={tag}
-                  autoComplete="off"
-                  placeholder="Custom Tag Name"
-                  sx={{ width: '80%' }}
-                  onChange={handleTagChange}
-                />
-                {(!tag.charAt(0).match(/[A-Za-z]/) ||
-                  !alphanumeric(tag) ||
-                  tag.trim() === '' ||
-                  checkNameDupe(tag)) && (
-                  <span
-                    className={`${classes.errorMessage}/* ${classes.errorMessageDark} */`}
-                  >
-                    <em>{errorMsg}</em>
-                  </span>
-                )}
-                <Fab
-                  id="submitButton"
-                  type="submit"
-                  color="primary"
-                  aria-label="add"
-                  size="small"
-                  value="Add Element"
-                  sx={{ width: '15%', height: 40, borderRadius: 1 }}
-                  onClick={handleAlertOpen}
-                >
-                  <AddIcon />
-                </Fab>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <>
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          onClose={handleAlertClose}
-        >
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+      <form onSubmit={handleSubmit} className={classes.customForm}>
+        <div className={classes.inputWrapper}>
+          <TextField
+            id="outlined-basic"
+            label="Element Name"
+            variant="outlined"
+            size="small"
+            value={name}
+            autoComplete="off"
+            sx={{ width: '80%' }}
+            onChange={handleNameChange}
+            helperText={errorMsg}
+          />
+          <HelpIcon
+            id={'helpicon'}
+            size="medium"
+            sx={{ alignSelf: 'center', marginLeft: '12px' }}
+            onClick={handleClickPopover}
+          />
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
           >
-            HTML Tag Created!
-          </Alert>
-        </Snackbar>
-      </>
+            <div className={classes.popover}>
+              <div className={classes.popoverIcon}>
+                <HelpIcon id={id} size="small" />
+              </div>
+              <div>
+                Each custom HTML element you create can be added using
+                drag-and-drop to the DOM. Its HTML tag will begin or end the
+                element in source code. For example, you could create an element
+                named 'navigation' and use the tag 'nav' in your HTML markup so
+                that it appears as {`<nav> </nav>`}.
+              </div>
+            </div>
+          </Popover>
+        </div>
+        <div className={classes.inputWrapper}>
+          <TextField
+            id="outlined-basic"
+            label="HTML Tag"
+            variant="outlined"
+            size="small"
+            value={tag}
+            autoComplete="off"
+            sx={{ width: '80%' }}
+            onChange={handleTagChange}
+            helperText={errorMsg}
+          />
+          <Fab
+            id="submitButton"
+            type="submit"
+            color="primary"
+            aria-label="add"
+            size="small"
+            value="Add Element"
+            sx={{ width: '15%', height: 40, borderRadius: 1 }}
+            onClick={handleSubmit}
+          >
+            <AddIcon />
+          </Fab>
+        </div>
+      </form>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleAlertClose}
+      >
+        <Alert
+          onClose={handleAlertClose}
+          severity="success"
+          sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+        >
+          HTML Element Created!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
 
 const useStyles = makeStyles({
-  inputField: {
-    marginTop: '10px',
-    borderRadius: '5px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    margin: '0px 0px 0px 10px',
-    width: '100%',
-    height: '30px'
+  customForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start'
   },
   inputWrapper: {
+    display: 'flex',
     width: '100%',
     marginBottom: '10px', // was originally 10px, decreased to 0 to decrease overall menu height
-    alignItems: 'center'
-  },
-  addComponentWrapper: {
-    width: '100%'
-  },
-  input: {
-    width: '500px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    margin: '0px 0px 0px 0px',
-    alignSelf: 'center'
-  },
-  lightThemeFontColor: {
-    color: 'white',
-    '& .MuiInputBase-root': {
-      color: 'rgba (0, 0, 0, 0.54)'
-    }
-  },
-  darkThemeFontColor: {
-    color: '#ffffff',
-    '& .MuiInputBase-root': {
-      color: '#fff'
-    }
+    justifyContent: 'start'
   },
   errorMessage: {
     display: 'flex',
-    alignSelf: 'center',
+    alignSelf: 'start',
     fontSize: '11px',
     marginTop: '10px',
-    width: '150px'
+    width: '150px',
+    borderRadius: '5px'
   },
-  errorMessageLight: {
-    color: '#6B6B6B'
+  popover: {
+    backgroundColor: '#ffdbbb',
+    display: 'flex',
+    color: 'black',
+    fontSize: '0.8rem',
+    padding: '8px',
+    width: '300px'
   },
-  errorMessageDark: {
-    color: 'white'
+  popoverIcon: {
+    paddingRight: '10px',
+    paddingLeft: '8px',
+    paddingTop: '10px'
   }
 });
 

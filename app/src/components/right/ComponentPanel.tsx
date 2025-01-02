@@ -2,8 +2,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddIcon from '@mui/icons-material/Add';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CloseIcon from '@mui/icons-material/Close';
-import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Fab from '@mui/material/Fab';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -15,7 +15,10 @@ import makeStyles from '@mui/styles/makeStyles';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-
+import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
 /**
  * `ComponentPanel` is a React component that facilitates the creation and management of component entities
  * within a user interface design tool. It allows users to add new components with specific characteristics,
@@ -26,12 +29,9 @@ import { emitEvent } from '../../helperFunctions/socket';
  *
  * @returns {JSX.Element} A panel that allows users to input details for a new component, such as name and root status, and adds it to the project.
  */
+
 const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  // const { state, contextParam } = useSelector((store: RootState) => ({
-  //   state: store.appState,
-  //   contextParam: store.contextSlice
-  // }));
 
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
@@ -63,24 +63,25 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
     }
   };
 
-  const handleCreateElement = useCallback((e) => {
-    if (
-      e.key === 'Enter' &&
-      e.target.tagName === 'INPUT' &&
-      e.target.type !== 'checkbox' &&
-      e.target.id !== 'filled-hidden-label-small'
-    ) {
-      e.preventDefault();
-      document.getElementById('submitButton').click();
-    }
-  }, []);
+  // const handleCreateElement = useCallback((e) => {
+  //   if (
+  //     e.key === 'Enter' &&
+  //     e.target.tagName === 'INPUT' &&
+  //     e.target.type !== 'checkbox' &&
+  //     e.target.id !== 'filled-hidden-label-small'
+  //   ) {
+  //     e.preventDefault();
+  //     document.getElementById('submitButton').click();
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    document.addEventListener('keydown', handleCreateElement);
-    return () => {
-      document.removeEventListener('keydown', handleCreateElement);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener('keydown', handleCreateElement);
+  //   console.log('what event', event);
+  //   return () => {
+  //     document.removeEventListener('keydown', handleCreateElement);
+  //   };
+  // }, []);
 
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrorStatus(false);
@@ -155,20 +156,6 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
     triggerError(error);
   };
 
-  const keyBindCreateComponent = useCallback((e) => {
-    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'checkbox') {
-      e.preventDefault();
-      document.getElementById('addComponentButton').click();
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindCreateComponent);
-    return () => {
-      document.removeEventListener('keydown', keyBindCreateComponent);
-    };
-  }, []);
-
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -188,130 +175,83 @@ const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
 
   return (
     <>
-      {/* <div className={`${classes.panelWrapper}`}> */}
-      <div className={classes.addComponentWrapper}>
+      <form className="customForm">
         <div className={classes.inputWrapper}>
-          <form className="customForm">
-            <br></br>
-            <TextField
-              // label='New Component Name'
-              id="newcomponentid"
-              label="Custom Module Name"
-              variant="outlined"
-              size="small"
-              value={compName}
-              autoComplete="off"
-              placeholder="Custom Module Name"
-              sx={{ width: '80%' }}
-              inputProps={{ className: classes.input }}
-              // Doesn't accept boolean value needs to be a string
-              error={errorStatus}
-              // Updated
-              helperText={errorStatus ? errorMsg : ''}
-              onChange={handleNameInput}
-              // style={{}}
-              // InputProps={{ style: { color: isThemeLight ? 'white' : 'white' } }}
-            />
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                width: '100%',
-                justifyContent: 'flex-start'
-              }}
-            >
-              <div style={{ width: '80%' }}>
-                <FormControlLabel
-                  value="top"
-                  control={
-                    <Checkbox
-                      // className={
-                      //   isThemeLight
-                      //     ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
-                      //     : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
-                      // }
-                      color="primary"
-                      checked={isRoot}
-                      onChange={() => setIsRoot(!isRoot)}
-                    />
-                  }
-                  // name varies depending on mode
-                  label={
-                    state.projectType === 'Next.js' ||
-                    state.projectType === 'Gatsby.js'
-                      ? 'Page Module'
-                      : 'Root Module'
-                  }
-                  className={
-                    isThemeLight
-                      ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
-                      : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
-                  }
-                  labelPlacement="end"
-                />
-              </div>
-              <div style={{ width: '20%' }}>
-                <Fab
-                  id="submitButton"
-                  type="submit"
-                  color="primary"
-                  aria-label="add"
-                  size="small"
-                  value="Add Element"
-                  sx={{ width: 36, height: 40, borderRadius: 1 }}
-                  onClick={handleNameSubmit}
-                >
-                  <AddIcon />
-                </Fab>
-              </div>
-            </div>
-          </form>
-          {/* <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <br />
-              <Button
-                className={
-                  isThemeLight
-                    ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
-                    : `${classes.addComponentButton} ${classes.darkThemeFontColor}`
-                }
-                variant="contained"
-                sx={{
-                  textTransform: 'capitalize',
-                  margin: '20px',
-                  backgroundColor: '#f88e16 !important',
-                  color: 'white !important',
-                  border: '2px solid white !important',
-                }}
-                id="addComponentButton"
-                onClick={handleNameSubmit}
-              >
-                Create
-              </Button>
-            </div> */}
-        </div>
-      </div>
-      {/* </div> */}
-      <>
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          onClose={handleAlertClose}
-        >
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+          <TextField
+            id="AddModule"
+            label="Module Name"
+            variant="outlined"
+            value={compName}
+            autoComplete="off"
+            inputProps={{ className: classes.input }}
+            error={errorStatus}
+            helperText={errorStatus ? errorMsg : ''}
+            onChange={handleNameInput}
+            // onKeyDown={(e) => {
+            //   if (e.key === 'Enter') {
+            //     e.preventDefault();
+            //     handleNameSubmit;
+            //   }
+            // }}
+            size="small"
+            sx={{ width: '80%' }}
+          />
+          <Fab
+            id="submitButton"
+            type="submit"
+            color="primary"
+            aria-label="add"
+            value="Add Component or Modules"
+            size="small"
+            onClick={handleNameSubmit}
+            sx={{ width: '15%', height: 40, borderRadius: 1 }}
           >
-            Module Created!
-          </Alert>
-        </Snackbar>
-      </>
+            <AddIcon />
+          </Fab>
+        </div>
+        <FormControlLabel
+          value="top"
+          control={
+            <Checkbox
+              color="primary"
+              checked={isRoot}
+              onChange={() => setIsRoot(!isRoot)}
+            />
+          }
+          // name varies depending on mode
+          label={
+            state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
+              ? 'page'
+              : 'root'
+          }
+          labelPlacement="end"
+          sx={{ color: '#d3d3d3' }}
+        />
+      </form>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleAlertClose}
+      >
+        <Alert
+          onClose={handleAlertClose}
+          severity="success"
+          sx={{ width: '100%', color: '#d3d3d3', backgroundColor: '#f88e16' }}
+        >
+          Module Created!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
 
 const useStyles = makeStyles({
+  customForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start'
+  },
   closeButton: {
     position: 'absolute',
     top: '10px',
@@ -322,69 +262,14 @@ const useStyles = makeStyles({
       color: 'black'
     }
   },
-  inputField: {
-    marginTop: '10px',
-    borderRadius: '5px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    margin: '0px 0px 0px 10px',
-    width: '100%',
-    height: '30px'
-  },
   inputWrapper: {
     width: '100%',
-    marginBottom: '0px', // was originally 10px, decreased to 0 to decrease overall height
-    alignItems: 'center'
-  },
-  // panelWrapper: {
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   flexGrow: 1,
-  //   color: '#000000'
-  // },
-  addComponentWrapper: {
-    width: '100%'
-    // padding: 'auto',
-    // margin: '0 auto',
-    // display: 'inline-block'
-  },
-  rootCheckBox: {
-    borderColor: '#f88e16',
-    padding: '7px 0'
-  },
-  rootCheckBoxLabel: {
-    borderColor: '#f88e16'
-  },
-  newComponent: {
-    color: '#C6C6C6',
-    marginBottom: '25px'
-  },
-  inputLabel: {
-    fontSize: '1em',
-    marginLeft: '10px'
+    display: 'flex',
+    justifyContent: 'start'
   },
   btnGroup: {
     display: 'flex',
     flexDirection: 'column'
-  },
-  // addComponentButton: {
-  //   backgroundColor: 'transparent',
-  //   height: '100px',
-  //   width: '100px',
-  //   fontFamily: 'Roboto, Raleway, sans-serif',
-  //   fontSize: '90%',
-  //   textAlign: 'center',
-  //   borderStyle: 'none',
-  //   transition: '0.3s',
-  //   borderRadius: '25px',
-  //   marginRight: '65px'
-  // },
-  rootToggle: {
-    color: '#696969',
-    fontSize: '0.85rem'
   },
   lightThemeFontColor: {
     color: 'white',

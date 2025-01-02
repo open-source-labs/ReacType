@@ -5,7 +5,10 @@ export const theme1 = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#ef6c00' // orange
+      main: '#ef6c00',
+      light: '#f7f4dc',
+      dark: '#83bbff',
+      contrastText: '#f7f4dc' // white
     },
     secondary: {
       main: '#00acc1' // light blue

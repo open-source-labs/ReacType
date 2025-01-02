@@ -147,7 +147,6 @@ const MUIItem: React.FC<{
           ref={drag}
           style={{
             backgroundColor: 'rgb(30, 32, 36)'
-            // backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
           }}
           className={`${classes.MUIPanelItem} ${classes.darkThemeFontColor}`}
           id="MUIItem"

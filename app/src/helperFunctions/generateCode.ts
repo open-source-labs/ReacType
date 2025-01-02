@@ -121,7 +121,6 @@ const generateUnformattedCode = (
 
     currentComponent.children.forEach((child) => {
       const newChild = { ...child };
-      console.log({ newChild });
       switch (child.type) {
         case 'Component':
           const component = components.find((c) => c.id === child.typeId);

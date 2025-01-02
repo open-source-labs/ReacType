@@ -17,6 +17,12 @@ import { RootState } from '../redux/store';
 
 import { setStyle } from '../redux/reducers/slice/styleSlice';
 import { useHistory } from 'react-router-dom';
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
 }

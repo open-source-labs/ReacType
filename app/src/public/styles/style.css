@@ -35,6 +35,12 @@ body {
   background-color: #191919;
 }
 
+h3 {
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-size: 0.9em;
+}
 h4 {
   color: #155084;
   text-align: center;
@@ -72,8 +78,8 @@ h4 {
 }
 
 .HTMLItemCreate {
-  flex-grow: 1;
-  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 :disabled {
@@ -237,17 +243,17 @@ span.material-symbols-outlined {
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
-  padding: 10%;
+  padding: 8%;
   border-radius: 10px;
   box-shadow: #191919;
   width: 120px;
   white-space: nowrap;
+  line-height: 1.3rem;
 }
 
 #HTMLItem:hover {
   background-color: #474545a8;
   color: #a9a9a9;
-  border-radius: 4px;
 }
 
 /* placeholder until button resizing */
@@ -256,7 +262,7 @@ span.material-symbols-outlined {
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
-  padding: 10%;
+  padding: 8%;
   border-radius: 10px;
   box-shadow: #191919;
   width: 110px;
@@ -296,12 +302,12 @@ span.material-symbols-outlined {
 .customForm {
   display: flex;
   flex-direction: column;
-  color: white;
+  justify-content: space-between;
   font-size: 95%;
 }
 
-.customForm h4 {
-  align-self: center;
+.inputWrapper {
+  display: flex;
 }
 
 #newElement {
@@ -313,12 +319,21 @@ span.material-symbols-outlined {
   width: 0.5em;
 }
 
+.createComponent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 /* span container in HTMLItem.tsx */
 #customHTMLElement {
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 125px;
+}
+
+span .popover {
+  background-color: blue;
 }
 
 .component-input {
@@ -399,7 +414,7 @@ h1 {
 }
 
 #export-modal:hover {
-  background-color: #66c4eb;
+  background-color: #1a8a98;
   cursor: pointer;
 }
 /*                                                        ///CHANGED COLOR COLOR */
@@ -466,8 +481,8 @@ RIGHT COLUMN
 }
 
 #addComponentButton:hover {
-  background-color: #c76e00;
-  border: 2px solid #c76e00;
+  background-color: #f08c00;
+  border: 2px solid #f08c00;
   color: white;
   cursor: pointer;
 }
@@ -500,6 +515,22 @@ RIGHT COLUMN
 
 .compPanelItem:hover {
   cursor: pointer;
+}
+
+.popUpButtons {
+  padding: 10px;
+  margin: 8px;
+  border: 2px solid #f7f4dc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: #f7f4dc;
+  font-family: Roboto, Raleway, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  -webkit-box-align: center;
+  height: 40px;
+  width: 156px;
+  background-color: rgb(59, 59, 59);
 }
 
 /*
@@ -946,7 +977,7 @@ li {
 }
 
 .blue-accent-text {
-  color: #2997ff;
+  color: #f08c00;
 }
 
 a.nav_link {

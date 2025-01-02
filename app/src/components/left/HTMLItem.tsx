@@ -13,6 +13,8 @@ import createModal from '../right/createModal';
 import { addChild } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 import { RootState } from '../../redux/store';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -173,23 +175,26 @@ const HTMLItem: React.FC<{
       {id > 10000 && (
         <div
           ref={drag}
-          style={{ borderColor: '#C6C6C6', width: '100%' }}
+          style={{
+            width: '100%',
+            margin: '10px 6px 6px',
+            borderColor: '#a9a9a9',
+            textAlign: 'center'
+            // lineHeight: '1.3rem'
+          }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
           onClick={() => {
             handleClick();
           }}
         >
-          {typeof CodeIcon !== 'undefined' && (
-            <CodeIcon fontSize="small" align-items="center" />
-          )}
           {name}
           <button
             id="newElement"
             style={{ color: '#C6C6C6' }}
             onClick={() => deleteAllInstances(id)}
           >
-            X
+            <RemoveIcon className="deleteBtn" fontSize="small" />
           </button>
         </div>
       )}

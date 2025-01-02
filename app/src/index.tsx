@@ -1,5 +1,4 @@
 import 'babel-polyfill';
-
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import {
   Redirect,

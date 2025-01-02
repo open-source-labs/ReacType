@@ -91,7 +91,7 @@ function CanvasContainer(props: CanvasContainerProps): JSX.Element {
             resetState();
           }}
           style={{
-            backgroundColor: '#E12D39',
+            backgroundColor: '#ef6c00',
             borderRadius: '50px',
             marginBottom: '2%',
             marginTop: '5%'
