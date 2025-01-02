@@ -414,7 +414,7 @@ h1 {
 }
 
 #export-modal:hover {
-  background-color: #66c4eb;
+  background-color: #1a8a98;
   cursor: pointer;
 }
 /*                                                        ///CHANGED COLOR COLOR */
@@ -481,8 +481,8 @@ RIGHT COLUMN
 }
 
 #addComponentButton:hover {
-  background-color: #c76e00;
-  border: 2px solid #c76e00;
+  background-color: #f08c00;
+  border: 2px solid #f08c00;
   color: white;
   cursor: pointer;
 }
@@ -977,7 +977,7 @@ li {
 }
 
 .blue-accent-text {
-  color: #2997ff;
+  color: #f08c00;
 }
 
 a.nav_link {

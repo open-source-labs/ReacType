@@ -36,7 +36,6 @@ const CreatePanel = (props): JSX.Element => {
     null
   );
 
-  const [isCreatingModule, setCreateModule] = useState(false);
   const [MUIMode, setMUIMode] = useState(false);
 
   const handleDelete = (id: number): void => {
@@ -201,7 +200,6 @@ const CreatePanel = (props): JSX.Element => {
             textAlign: 'center',
             marginBottom: '6px'
           }}
-          key={name + idx}
         >
           <Button component="label" id={name + '-button'} key={name + idx}>
             {name}

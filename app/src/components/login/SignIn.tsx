@@ -3,13 +3,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   RouteComponentProps,
   Link as RouteLink,
-  useHistory,
+  useHistory
 } from 'react-router-dom';
 import {
   StyledEngineProvider,
   Theme,
   ThemeProvider,
-  styled,
+  styled
 } from '@mui/material/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import makeStyles from '@mui/styles/makeStyles';
@@ -21,7 +21,7 @@ import {
   Container,
   CssBaseline,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 import { LoginInt } from '../../interfaces/Interfaces';
 import serverConfig from '../../serverConfig.js';
@@ -29,16 +29,14 @@ import {
   sessionIsCreated,
   handleChange,
   resetErrorValidation,
-  validateInputs,
+  validateInputs
 } from '../../helperFunctions/auth';
 import { SigninDark } from '../../../../app/src/public/styles/theme';
-
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 const { API_BASE_URL } = serverConfig;
 
@@ -60,27 +58,27 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   form: {
-    width: '100%',
+    width: '100%'
   },
   submit: {
-    cursor: 'pointer',
+    cursor: 'pointer'
   },
   root: {
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'white',
-    },
-  },
+      borderColor: 'white'
+    }
+  }
 }));
 
 const StyledForm = styled('form')(({ theme }) => ({
   width: '100%', // Fix IE 11 issue.
-  marginTop: theme.spacing(3),
+  marginTop: theme.spacing(3)
 }));
 
 const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
@@ -119,12 +117,12 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
     setInvalidUser,
     setInvalidUserMsg,
     setInvalidPassword,
-    setInvalidPasswordMsg,
+    setInvalidPasswordMsg
   };
   // define handle change setters to pass to handleChange function
   const handleChangeSetters = {
     setUsername,
-    setPassword,
+    setPassword
   };
 
   /**
@@ -150,7 +148,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
     const isValid = validateInputs({
       username,
       password,
-      errorSetters,
+      errorSetters
     }); // Validate Inputs using Auth helper function
     if (!isValid) {
       console.log('Validation failed, login attempt not processed.');
@@ -168,7 +166,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
             'No Username Input',
             'No Password Input',
             'Invalid Username',
-            'Incorrect Password',
+            'Incorrect Password'
           ].includes(loginStatus)
         ) {
           setInvalidUser(true);
@@ -215,7 +213,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
           component="main"
           maxWidth="xs"
           sx={{
-            marginTop: '10vh',
+            marginTop: '10vh'
           }}
         >
           <CssBaseline />
@@ -278,9 +276,9 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
                   textTransform: 'none',
                   fontSize: '1rem',
                   '$:hover': {
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   },
-                  width: '100%',
+                  width: '100%'
                 }}
               >
                 <svg
@@ -317,8 +315,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
                 '$:hover': {
                   cursor: 'pointer',
                   color: 'black',
-                  textDecoration: 'underline',
-                },
+                  textDecoration: 'underline'
+                }
               }}
             >
               <svg
@@ -349,8 +347,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
                 color: 'white',
                 '$:hover': {
                   cursor: 'pointer',
-                  color: 'black',
-                },
+                  color: 'black'
+                }
               }}
             >
               <svg
@@ -381,8 +379,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
                 color: 'white',
                 '$:hover': {
                   cursor: 'pointer',
-                  color: 'black',
-                },
+                  color: 'black'
+                }
               }}
             >
               <svg
