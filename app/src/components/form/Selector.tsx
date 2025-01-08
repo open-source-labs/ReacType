@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -8,17 +9,17 @@ type Props = {
   classes: {
     configRow: any;
     configType: any;
-    lightThemeFontColor: { color: String };
+    lightThemeFontColor: { color: string };
     formControl: any;
     select: any;
     selectInput: any;
-    darkThemeFontColor: { color: String };
+    darkThemeFontColor: { color: string };
   };
-  isThemeLight: Boolean;
-  title: String;
+  isThemeLight: boolean;
+  title: string;
   selectValue: any;
   handleChange: any;
-  name: String;
+  name: string;
 };
 
 /**
@@ -67,7 +68,7 @@ const FormSelector = (props): JSX.Element => {
       <div className={props.classes.configValue}>
         <FormControl variant="filled" className={props.classes.formControl}>
           <Select
-            style={props.isThemeLight ? { border: '1px solid #0671e3' } : null}
+            style={props.isThemeLight ? { border: '1px solid #f88e16' } : null}
             value={props.selectValue}
             name={props.name}
             onChange={props.handleChange}

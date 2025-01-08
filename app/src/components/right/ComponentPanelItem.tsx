@@ -1,14 +1,15 @@
+/* eslint-disable max-len */
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
-import { ItemTypes } from '../../constants/ItemTypes';
 import { useDispatch, useSelector } from 'react-redux';
+import * as Icons from '@mui/icons-material';
+import { ItemTypes } from '../../constants/ItemTypes';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-import * as Icons from '@mui/icons-material';
-
+import CustomEditIcon from '../CustomEditIcon';
 /**
  * `ComponentPanelItem` represents an individual component item within the ComponentPanel. It uses
  * drag-and-drop functionality to allow the user to position components within the canvas. The component can
@@ -29,7 +30,14 @@ const ComponentPanelItem: React.FC<{
   root: boolean;
   isFocus: boolean;
   isThemeLight: boolean;
-}> = ({ name, id, root, isFocus, isThemeLight }): JSX.Element => {
+}> = ({
+  name,
+  id,
+  root,
+  isFocus,
+  isThemeLight,
+  handleClickEditModule
+}): JSX.Element => {
   const classes = useStyles({});
   const state = useSelector((store: RootState) => store.appState);
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -68,16 +76,16 @@ const ComponentPanelItem: React.FC<{
     <Grid
       item
       ref={drag}
-      xs={8}
       style={{
         fontSize: 'small',
         backgroundColor: '#2D313A', // Set background color
         border: '2px solid',
         borderRadius: '10px',
         borderColor: '#2D313A',
-        margin: '5px 0px',
-        width: '10rem',
+        width: '200px',
+        maxWidth: '240px',
         height: '3rem',
+        boxSizing: 'border-box',
         position: 'relative'
       }}
     >
@@ -93,6 +101,7 @@ const ComponentPanelItem: React.FC<{
             {name}
           </h3>
         </div>
+        <CustomEditIcon handleClickEditModule={handleClickEditModule} />
       </div>
     </Grid>
   );
@@ -104,13 +113,14 @@ const useStyles = makeStyles({
     alignItems: 'center'
   },
   focusMark: {
-    border: '2px solid #0671e3',
+    border: '2px solid #f88e16',
     borderRadius: '5%',
     position: 'absolute',
     top: '0',
     left: '0',
     right: '0',
-    bottom: '0'
+    bottom: '0',
+    width: '100%'
   },
   lightTheme: {
     color: 'rgba (0, 0, 0, 0.54)'

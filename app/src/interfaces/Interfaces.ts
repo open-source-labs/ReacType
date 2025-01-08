@@ -56,7 +56,7 @@ export interface Component {
   childId?: number;
   id: number;
   name: string;
-  style: {};
+  style: object;
   icon?: any;
   attributes?: Attributes;
   events: object;
@@ -171,18 +171,18 @@ export interface ManageSeparators {
 }
 
 export interface StateUsed {
-  compTextProviderId: number;
-  compTextPropsId: number;
-  compText: string;
+  comptextProviderId: number;
+  comptextPropsId: number;
+  comptext: string;
   compLinkProviderId: number;
   compLinkPropsId: number;
-  compLink: string;
+  complink: string;
 }
 
 export interface Attributes {
-  compText?: string;
-  compLink?: string;
-  cssClasses?: string;
+  comptext?: string;
+  complink?: string;
+  cssclasses?: string;
 }
 
 // interface PublishResponse {

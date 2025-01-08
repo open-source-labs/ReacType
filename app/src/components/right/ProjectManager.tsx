@@ -1,22 +1,22 @@
-//note for future developers - this may be electron specific - without signin working on the browser it is difficult to test
+/* eslint-disable max-len */
+// note for future developers - this may be electron specific - without signin working on the browser it is difficult to test
 import React, { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { withRouter } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import exportProject from '../../utils/exportProject.util';
 import createModal from '../right/createModal';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { resetState } from '../../redux/reducers/slice/appStateSlice';
 
-
 /**
- * A component that manages project-related actions such as exporting and deleting projects. 
+ * A component that manages project-related actions such as exporting and deleting projects.
  * It allows users to export components alone or with additional application files, and provides
  * an option to clear all project data.
- * 
+ *
  * The component uses a modal to confirm user actions and to present export options. The export
  * functionality is tightly coupled with Electron's main process to handle directory selection and file management.
  *
@@ -33,9 +33,9 @@ const ProjectManager = () => {
   // GenOption = 1 --> export an entire project w/ webpack, server, etc.
   const genOptions: string[] = [
     'Export components',
-    'Export components with application files'
+    'Export components with application files',
   ];
-  let genOption: number = 0;
+  let genOption = 0;
 
   // Closes out the open modal
   const closeModal = () => setModal('');
@@ -58,7 +58,7 @@ const ProjectManager = () => {
           style={{
             border: '1px solid #3c59ba',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText
@@ -80,8 +80,8 @@ const ProjectManager = () => {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 
@@ -98,7 +98,7 @@ const ProjectManager = () => {
             style={{
               border: '1px solid #3c59ba',
               marginBottom: '2%',
-              marginTop: '5%'
+              marginTop: '5%',
             }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
@@ -132,7 +132,7 @@ const ProjectManager = () => {
         genOption,
         state.projectType,
         state.components,
-        state.rootComponents
+        state.rootComponents,
       );
     });
 
@@ -145,8 +145,8 @@ const ProjectManager = () => {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 
@@ -157,7 +157,7 @@ const useStyles = makeStyles({
   logoutButton: {
     position: 'absolute',
     bottom: '50px',
-    right: '150px'
+    right: '150px',
   },
   btnGroup: {
     display: 'flex',
@@ -167,7 +167,7 @@ const useStyles = makeStyles({
     width: '100%',
     position: 'absolute',
     bottom: '40px',
-    left: '0px'
+    left: '0px',
   },
 
   button: {
@@ -175,8 +175,8 @@ const useStyles = makeStyles({
     fontSize: '1em',
     minWidth: '300px',
     marginTop: '10px',
-    marginBotton: '10px'
-  }
+    marginBotton: '10px',
+  },
 });
 
 export default withRouter(ProjectManager);

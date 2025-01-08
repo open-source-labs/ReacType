@@ -4,22 +4,24 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import createModal from '../right/createModal';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
 import CodeIcon from '@mui/icons-material/Code';
 import * as Icons from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
+import createModal from '../right/createModal';
 import { addChild } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
 import { RootState } from '../../redux/store';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
     height: 'auto',
     width: 'auto',
     fontSize: 'small',
-    alignItems: 'center',
+    alignItems: 'left',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -27,7 +29,7 @@ const useStyles = makeStyles({
     cursor: 'grab'
   },
   lightThemeFontColor: {
-    color: '#8F8F8F'
+    color: '#defaf8'
   },
   darkThemeFontColor: {
     color: '#8F8F8F'
@@ -89,7 +91,7 @@ const HTMLItem: React.FC<{
         >
           <ListItemText
             primary={'Yes, delete all instances'}
-            style={{ textAlign: 'center' }}
+            style={{ textAlign: 'center', color: 'white' }}
             onClick={closeModal}
           />
         </ListItem>
@@ -105,7 +107,7 @@ const HTMLItem: React.FC<{
         >
           <ListItemText
             primary={'No, do not delete element'}
-            style={{ textAlign: 'center' }}
+            style={{ textAlign: 'center', color: 'white' }}
             onClick={closeModal}
           />
         </ListItem>
@@ -153,8 +155,9 @@ const HTMLItem: React.FC<{
         <div
           ref={drag}
           style={{
-            backgroundColor: '#2D313A',
-            backgroundImage: 'linear-gradient(160deg, #2D313A 0%, #1E2024 100%)'
+            backgroundColor: 'rgb(30, 32, 36)',
+            borderColor: 'rgb(30, 32, 36)',
+            width: '100%'
           }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
@@ -169,26 +172,29 @@ const HTMLItem: React.FC<{
         </div>
       )}
 
-      {id > 20 && (
+      {id > 10000 && (
         <div
           ref={drag}
-          style={{ borderColor: '#C6C6C6' }}
+          style={{
+            width: '100%',
+            margin: '10px 6px 6px',
+            borderColor: '#a9a9a9',
+            textAlign: 'center'
+            // lineHeight: '1.3rem'
+          }}
           className={`${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`}
           id="HTMLItem"
           onClick={() => {
             handleClick();
           }}
         >
-          {typeof CodeIcon !== 'undefined' && (
-            <CodeIcon fontSize="small" align-items="center" />
-          )}
           {name}
           <button
             id="newElement"
             style={{ color: '#C6C6C6' }}
             onClick={() => deleteAllInstances(id)}
           >
-            X
+            <RemoveIcon className="deleteBtn" fontSize="small" />
           </button>
         </div>
       )}

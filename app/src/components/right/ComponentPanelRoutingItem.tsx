@@ -1,14 +1,15 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 
 import Grid from '@mui/material/Grid';
-import { ItemTypes } from '../../constants/ItemTypes';
 // ------------------------------------------------
 import MenuItem from '@mui/material/MenuItem';
-import { RootState } from '../../redux/store';
 import Select from '@mui/material/Select';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { ItemTypes } from '../../constants/ItemTypes';
 
 /**
  * `ComponentPanelRoutingItem` represents a routing item in a component panel, specifically for Next.js mode.
@@ -74,7 +75,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = (): JSX.Element => {
         backgroundColor: 'transparent',
         height: '75px',
         marginBottom: '15px',
-        border: '2px dotted #0671e3',
+        border: '2px dotted #f88e16',
         borderRadius: '8px'
       }}
     >

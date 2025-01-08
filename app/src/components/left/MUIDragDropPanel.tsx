@@ -1,17 +1,19 @@
+/* eslint-disable max-len */
+//TO DO: delete file once done with new createPanel
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import MUIItem from './MUIItem';
 import React from 'react';
 import { RootState } from '../../redux/store';
-import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
-import { emitEvent } from '../../helperFunctions/socket';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { makeStyles } from '@mui/styles';
-import ComponentDrag from './ComponentDrag';
 import { Icon } from '@mui/material';
+import ComponentDrag from './ComponentDrag';
+import { emitEvent } from '../../helperFunctions/socket';
+import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 
 const useStyles = makeStyles({
   accordion: {
@@ -102,7 +104,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Inputs Components */}
+        {/* Visual Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -110,7 +112,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
             id="panel2a-header"
             className={classes.accordionSummary}
           >
-            <h3>Inputs</h3>
+            <h3>Visual</h3>
           </AccordionSummary>
           <AccordionDetails
             sx={{
@@ -135,7 +137,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Data Display Component*/}
+        {/* Data Display Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -168,7 +170,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Feedback Component*/}
+        {/* Feedback Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -201,7 +203,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Surfaces Component*/}
+        {/* Surfaces Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -234,7 +236,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Navigation Component*/}
+        {/* Navigation Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -267,7 +269,7 @@ const MUIDragDropPanel = (props): JSX.Element => {
           </AccordionDetails>
         </Accordion>
 
-        {/* Layout Component*/}
+        {/* Layout Component */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}

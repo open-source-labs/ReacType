@@ -1,17 +1,19 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+// import Cookies from 'js-cookie';
 import { toggleLoggedIn } from '../../redux/reducers/slice/appStateSlice';
 import serverConfig from '../../serverConfig.js';
-const { DEV_PORT, API_BASE_URL, API_BASE_URL2 } = serverConfig;
 // const config = require('../../../../config.js');
 import { RootState } from '../../redux/store';
-import Cookies from 'js-cookie';
+
+const { DEV_PORT, API_BASE_URL, API_BASE_URL2 } = serverConfig;
 // note that API_BASE_URL is assigned to different pages on dev mode vs prod mode
 // const { DEV_PORT, API_BASE_URL, API_BASE_URL2 } = config;
 const isDev = import.meta.env.NODE_ENV === 'development';
 let serverURL = API_BASE_URL;
 
-//check if we're in dev mode
+// check if we're in dev mode
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
@@ -38,9 +40,7 @@ export default function LoginButton(): JSX.Element {
       credentials: 'include'
     })
       .then((res) => res.json())
-      .then((data) => {
-        return data;
-      })
+      .then((data) => data)
       .catch((err) => console.log(`Error getting project ${err}`));
 
     window.localStorage.clear();

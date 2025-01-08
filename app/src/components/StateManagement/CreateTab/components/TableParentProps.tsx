@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DataGrid, GridEditRowsModel } from '@mui/x-data-grid';
@@ -33,33 +34,33 @@ const TableParentProps = (props): JSX.Element => {
   const currentComponent = state.components[currentId - 1];
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
-  const parentProps = props.parentProps;
-  const parentPassedInProps = props.parentPassedInProps;
-  const parentComponent = props.parentComponent;
+  const { parentProps } = props;
+  const { parentPassedInProps } = props;
+  const { parentComponent } = props;
   const columnTabs = [
     {
       field: 'id',
       headerName: 'ID',
       width: 30,
-      editable: false
+      editable: false,
     },
     {
       field: 'key',
       headerName: 'Key',
       width: 90,
-      editable: true
+      editable: true,
     },
     {
       field: 'value',
       headerName: 'Initial Value',
       width: 100,
-      editable: true
+      editable: true,
     },
     {
       field: 'type',
       headerName: 'Type',
       width: 90,
-      editable: false
+      editable: false,
     },
     {
       field: 'delete',
@@ -77,8 +78,8 @@ const TableParentProps = (props): JSX.Element => {
             <AddIcon style={{ width: `${15}px` }} />
           </Button>
         );
-      }
-    }
+      },
+    },
   ];
   const addProps = (parentComponentProps, rowId) => {
     // get the current focused component
@@ -89,8 +90,8 @@ const TableParentProps = (props): JSX.Element => {
         passedInProps: parentComponentProps,
         rowId: rowId,
         parentComponent: parentComponent,
-        contextParam: contextParam
-      })
+        contextParam: contextParam,
+      }),
     );
 
     if (roomCode) {
@@ -98,7 +99,7 @@ const TableParentProps = (props): JSX.Element => {
         passedInProps: parentComponentProps,
         rowId: rowId,
         parentComponent: parentComponent,
-        contextParam: contextParam
+        contextParam: contextParam,
       });
     }
   };
@@ -149,30 +150,30 @@ const useStyles = makeStyles({
   themeLight: {
     color: 'white',
     '& button:hover': {
-      backgroundColor: 'LightGray'
+      backgroundColor: 'LightGray',
     },
     '& button': {
-      color: 'white'
+      color: 'white',
     },
     '& .MuiTablePagination-root': {
-      color: 'white'
-    }
+      color: 'white',
+    },
   },
   themeDark: {
     color: 'white',
     '& .MuiTablePagination-root': {
-      color: 'white'
+      color: 'white',
     },
     '& .MuiIconButton-root': {
-      color: 'white'
+      color: 'white',
     },
     '& .MuiSvgIcon-root': {
-      color: 'white'
+      color: 'white',
     },
     '& .MuiDataGrid-window': {
-      backgroundColor: 'rgba(0,0,0,0.54)'
-    }
-  }
+      backgroundColor: 'rgba(0,0,0,0.54)',
+    },
+  },
 });
 
 export default TableParentProps;

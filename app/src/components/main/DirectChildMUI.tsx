@@ -1,11 +1,12 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { ChildElement, MUIType } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChildElement, MUIType } from '../../interfaces/Interfaces';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import DeleteButton from './DeleteButton';
-import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -24,7 +25,13 @@ import { emitEvent } from '../../helperFunctions/socket';
  * @param {React.CSSProperties} props.style - Custom styles applied to the component to override or complement default and type-specific styles.
  * @returns {JSX.Element} A draggable, interactable component displayed within the canvas.
  */
-function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): JSX.Element {
+function DirectChildMUI({
+  childId,
+  name,
+  type,
+  typeId,
+  style
+}: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
 
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
@@ -72,7 +79,7 @@ function DirectChildMUI({ childId, name, type, typeId, style }: ChildElement): J
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '2px solid #0671e3'
+        ? '2px solid #f88e16'
         : '1px solid #31343A'
   };
 

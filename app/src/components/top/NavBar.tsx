@@ -1,8 +1,11 @@
+/* eslint-disable max-len */
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import NavBarButtons from './NavBarButtons';
 import NewExportButton from './NewExportButton';
 import { RootState } from '../../redux/store';
@@ -20,8 +23,6 @@ import {
   toggleScreenshotTrigger
 } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 
 /**
  * The `NavBar` component serves as the main navigation bar for the application, providing links,
@@ -80,7 +81,7 @@ const NavBar: React.FC = (): JSX.Element => {
   };
 
   const buttonStyle = {
-    backgroundColor: '#0671E3',
+    backgroundColor: '#2D313A',
     border: 'none',
     color: 'white',
     fontSize: '12px',
@@ -177,11 +178,9 @@ const NavBar: React.FC = (): JSX.Element => {
               Unpublish
             </button>
           ) : (
-            <button style={buttonStyle} onClick={handlePublish}>
-              Publish
-            </button>
+            <NewExportButton />
           )}
-          <NewExportButton />
+
           <Button
             style={moreVertButtonStyle}
             variant="contained"

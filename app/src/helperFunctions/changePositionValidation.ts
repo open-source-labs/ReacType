@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { State, ChildElement } from '../interfaces/Interfaces';
 
 /**
@@ -11,7 +12,7 @@ import { State, ChildElement } from '../interfaces/Interfaces';
 const validateNewParent = (
   state: State,
   currentChildId: number,
-  toTargetParentId: number
+  toTargetParentId: number,
 ): boolean => {
   const focusIndex = state.canvasFocus.componentId - 1;
   const childrenArray = state.components[focusIndex].children;
@@ -19,7 +20,7 @@ const validateNewParent = (
   const selfNestingCheck = (
     array: ChildElement[],
     nestedChild = false,
-    nestedParent = false
+    nestedParent = false,
   ): boolean => {
     for (const element of array) {
       if (
@@ -36,13 +37,13 @@ const validateNewParent = (
         nestedParent = selfNestingCheck(
           element.children,
           (nestedChild = true),
-          nestedParent
+          nestedParent,
         );
       else if (element.children.length > 0 && nestedChild === false)
         nestedParent = selfNestingCheck(
           element.children,
           nestedChild,
-          nestedParent
+          nestedParent,
         );
     }
     return nestedParent;

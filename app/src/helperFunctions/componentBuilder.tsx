@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import MUITypes from '../redux/MUITypes';
 import { ChildElement, MUIComponent } from '../interfaces/Interfaces';
@@ -10,17 +11,17 @@ import { ChildElement, MUIComponent } from '../interfaces/Interfaces';
  */
 const componentBuilder = (
   array: Array<ChildElement | MUIComponent>,
-  key: number = 0
+  key = 0
 ): React.ReactNode[] => {
   const componentsToRender = [];
   for (const element of array) {
     if (element.name === 'separator') continue;
     const elementType = element.name;
-    const childId = element.childId;
+    const { childId } = element;
     const elementStyle = element.style;
-    const innerText = element.attributes.compText;
-    const classRender = element.attributes.cssClasses;
-    const activeLink = element.attributes.compLink;
+    const innerText = element.attributes.comptext;
+    const classRender = element.attributes.cssclasses;
+    const activeLink = element.attributes.complink;
 
     let renderedChildren =
       element.children.length > 0

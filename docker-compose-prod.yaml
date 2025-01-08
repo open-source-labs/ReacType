@@ -1,0 +1,29 @@
+version: "3.8" # define the version of the Docker Compose file
+
+services: # a 'dictionary' that defines the services that will run in containers
+  prod: # a 'dictionary as the first 'key' in services; the 1st service, the dev env
+    image: reactype/rt-prod # a 'key' in dev, specifying the image to use
+    container_name: rt-prod # the container's name
+    ports:
+      - "5656:5656" # an 'array', maps port 8080 from the host to container
+    # environment: # set ENV variables to MongoSQL initialization
+    volumes: # a 'key' containing 'arrays'
+      - .:/app/src # mounts the current directory to /usr/src/app  in the container; allows webpack-dev-server running in the container to watch for code changes in our file system outside the container; we have live reloading and HMR
+      - node_modules:/app/src/node_modules # mounts a named volume, 'node_modules', to preserve our node modules
+    command: npm start # run 'npm run dev:hot' inside the container to start the server
+    # depends_on: # ensures that the dev service/container starts only after postgres-db service/container is up
+    #   - postgres-db
+
+  # postgres-db: # a 'dictionary'; the 2nd service, the PostgreSQL db
+  #   image: spencerayleen:mm-postgres
+  #   container_name: mm-database
+  #   environment: # set ENV variables to PostgreSQL initialization
+      # - POSTGRES_PASSWORD=admin # set user pw
+      # - POSTGRES_USER=mmadmin # set user (name)
+      # - POSTGRES_DB=mmdb # set db name
+  #   volumes:
+  #     - dev-db-volume:/var/lib/postgresql/data # mount a named volume, 'dev-db-volume', to the /var/lib/postgresql/data directory in the container where postgres stores the actual data files that make up your database; this volume will persist the data between container starts and stops
+
+volumes: # a 'dictionary', defines named volumes to persist data
+  node_modules: # empty node_modules key, will be shared between containers
+  # dev-db-volume: # empty dev-db-volume key

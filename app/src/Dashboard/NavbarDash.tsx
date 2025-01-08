@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useContext } from 'react';
 import { Theme } from '@mui/material/styles';
 import withStyles from '@mui/styles/withStyles';
@@ -23,44 +24,42 @@ import { setStyle } from '../redux/reducers/slice/styleSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 // NavBar text and button styling
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      width: '100%'
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-      color: 'white'
-    },
-    title: {
-      flexGrow: 1,
-      color: 'white'
-    },
-    manageProject: {
-      display: 'flex',
-      justifyContent: 'center'
-    }
-  })
-);
+const useStyles = makeStyles((theme: Theme) => createStyles({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    color: 'white',
+  },
+  title: {
+    flexGrow: 1,
+    color: 'white',
+  },
+  manageProject: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+}));
 // sorting options
 const sortMethods = ['RATING', 'DATE', 'USER'];
 // Drop down menu button for SORT PROJECTS
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
-  }
+    border: '1px solid #d3d4d5',
+  },
 })((props) => (
   <Menu
     elevation={0}
     // getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center'
+      horizontal: 'center',
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center'
+      horizontal: 'center',
     }}
     {...props}
   />
@@ -69,10 +68,10 @@ const StyledMenuItem = withStyles((theme) => ({
   root: {
     '&:focus': {
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white
-      }
-    }
-  }
+        color: theme.palette.common.white,
+      },
+    },
+  },
 }))(MenuItem);
 
 /**
@@ -117,7 +116,7 @@ export default function NavBar(props): JSX.Element {
             style={{
               display: 'inline-flex',
               justifyContent: 'center',
-              textDecoration: 'none'
+              textDecoration: 'none',
             }}
           >
             <Avatar src={greenLogo}></Avatar>
@@ -126,7 +125,7 @@ export default function NavBar(props): JSX.Element {
               style={{
                 marginTop: '0.3rem',
                 marginLeft: '0.5rem',
-                color: 'silver'
+                color: 'silver',
               }}
               className={classes.title}
             >

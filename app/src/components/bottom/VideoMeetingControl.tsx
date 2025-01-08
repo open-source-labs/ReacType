@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useCallback } from 'react';
 import { useMeeting } from '@videosdk.live/react-sdk';
 import { useSelector, useDispatch } from 'react-redux';
@@ -55,7 +56,9 @@ enum ButtonType {
  *
  * @returns {JSX.Element | null} Renders the control bar with microphone, webcam, and call end buttons, or null if the user has not joined.
  */
-const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element | null => {
+const VideoMeetingControl: React.FC<
+  VideoMeetingControlProps
+> = (): JSX.Element | null => {
   const { leave, toggleMic, toggleWebcam } = useMeeting();
 
   const [callEndHovered, setCallEndHovered] = useState(false);
@@ -127,11 +130,21 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
           >
             {useMic ? (
               <MicIcon
-                style={{ fontSize: 36, color: micHovered ? 'white' : '#0671E3', transition: 'color 0.3s', margin: '0 15px' }}
+                style={{
+                  fontSize: 36,
+                  color: micHovered ? 'white' : '#f88e16',
+                  transition: 'color 0.3s',
+                  margin: '0 15px'
+                }}
               />
             ) : (
               <MicOffIcon
-                style={{ fontSize: 36, color: micHovered ? 'white' : '#9C9D9F', transition: 'color 0.3s', margin: '0 15px' }}
+                style={{
+                  fontSize: 36,
+                  color: micHovered ? 'white' : '#9C9D9F',
+                  transition: 'color 0.3s',
+                  margin: '0 15px'
+                }}
               />
             )}
           </button>
@@ -163,11 +176,21 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
           >
             {useWebcam ? (
               <VideocamIcon
-                style={{ fontSize: 36, color: webcamHovered ? 'white' : '#0671E3', transition: 'color 0.3s', margin: '0 15px' }}
+                style={{
+                  fontSize: 36,
+                  color: webcamHovered ? 'white' : '#f88e16',
+                  transition: 'color 0.3s',
+                  margin: '0 15px'
+                }}
               />
             ) : (
               <VideocamOffIcon
-                style={{ fontSize: 36, color: webcamHovered ? 'white' : '#9C9D9F', transition: 'color 0.3s', margin: '0 15px' }}
+                style={{
+                  fontSize: 36,
+                  color: webcamHovered ? 'white' : '#9C9D9F',
+                  transition: 'color 0.3s',
+                  margin: '0 15px'
+                }}
               />
             )}
           </button>
@@ -197,7 +220,12 @@ const VideoMeetingControl: React.FC<VideoMeetingControlProps> = (): JSX.Element 
             }}
           >
             <CallEndIcon
-              style={{ fontSize: 36, color: callEndHovered ? 'white' : '#E12D39', transition: 'color 0.3s', margin: '0 15px' }}
+              style={{
+                fontSize: 36,
+                color: callEndHovered ? 'white' : '#E12D39',
+                transition: 'color 0.3s',
+                margin: '0 15px'
+              }}
             />
           </button>
         </div>

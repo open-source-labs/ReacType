@@ -1,15 +1,24 @@
-import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';
+/* eslint-disable max-len */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { RootState } from '../../redux/store';
-import TextField from '@mui/material/TextField';
-import { addComponent } from '../../redux/reducers/slice/appStateSlice';
-import makeStyles from '@mui/styles/makeStyles';
+import AddIcon from '@mui/icons-material/Add';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import CloseIcon from '@mui/icons-material/Close';
+import Checkbox from '@mui/material/Checkbox';
+import Fab from '@mui/material/Fab';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import TextField from '@mui/material/TextField';
+import makeStyles from '@mui/styles/makeStyles';
+import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-
+import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
 /**
  * `ComponentPanel` is a React component that facilitates the creation and management of component entities
  * within a user interface design tool. It allows users to add new components with specific characteristics,
@@ -20,12 +29,9 @@ import { emitEvent } from '../../helperFunctions/socket';
  *
  * @returns {JSX.Element} A panel that allows users to input details for a new component, such as name and root status, and adds it to the project.
  */
-const ComponentPanel = ({ isThemeLight }): JSX.Element => {
+
+const ComponentPanel = ({ setIsCreatingModule, isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  // const { state, contextParam } = useSelector((store: RootState) => ({
-  //   state: store.appState,
-  //   contextParam: store.contextSlice
-  // }));
 
   const state = useSelector((store: RootState) => store.appState);
   const contextParam = useSelector((store: RootState) => store.contextSlice);
@@ -33,7 +39,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   const dispatch = useDispatch();
 
-  //state hooks for inputted component name, component id and array of components
+  // state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);
   // errorMsg refers to the error message on the new component text field
   const [errorMsg, setErrorMsg] = useState('');
@@ -42,7 +48,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
 
   // function to create error message for component name input
-  const triggerError = (type: String) => {
+  const triggerError = (type: string) => {
     setErrorStatus(true);
     if (type === 'empty') {
       setErrorMsg('Component name cannot be blank.');
@@ -57,6 +63,26 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
     }
   };
 
+  // const handleCreateElement = useCallback((e) => {
+  //   if (
+  //     e.key === 'Enter' &&
+  //     e.target.tagName === 'INPUT' &&
+  //     e.target.type !== 'checkbox' &&
+  //     e.target.id !== 'filled-hidden-label-small'
+  //   ) {
+  //     e.preventDefault();
+  //     document.getElementById('submitButton').click();
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   document.addEventListener('keydown', handleCreateElement);
+  //   console.log('what event', event);
+  //   return () => {
+  //     document.removeEventListener('keydown', handleCreateElement);
+  //   };
+  // }, []);
+
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrorStatus(false);
     setCompName(e.target.value);
@@ -69,7 +95,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   };
 
   // Add a new component
-  const createOption = (inputName: String) => {
+  const createOption = (inputName: string) => {
     // format name so first letter is capitalized and there are no white spaces
     let inputNameClean = inputName.replace(/\s+/g, ''); // removes spaces
     const formattedName =
@@ -124,24 +150,11 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
       createOption(compName);
       setErrorStatus(false);
       setAlertOpen(true);
+      setIsCreatingModule(false);
       return;
     }
     triggerError(error);
   };
-
-  const keyBindCreateComponent = useCallback((e) => {
-    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
-      e.preventDefault();
-      document.getElementById('addComponentButton').click();
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindCreateComponent);
-    return () => {
-      document.removeEventListener('keydown', keyBindCreateComponent);
-    };
-  }, []);
 
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
@@ -162,208 +175,101 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
 
   return (
     <>
-      <div className={`${classes.panelWrapper}`}>
-        {/* Add a new component*/}
-        <div className={classes.addComponentWrapper}>
-          <h4
-            className={
-              isThemeLight
-                ? `${classes.newComponent} ${classes.lightThemeFontColor}`
-                : `${classes.newComponent} ${classes.darkThemeFontColor}`
-            }
+      <form className="customForm">
+        <div className={classes.inputWrapper}>
+          <TextField
+            id="AddModule"
+            label="Module Name"
+            variant="outlined"
+            value={compName}
+            autoComplete="off"
+            inputProps={{ className: classes.input }}
+            error={errorStatus}
+            helperText={errorStatus ? errorMsg : ''}
+            onChange={handleNameInput}
+            // onKeyDown={(e) => {
+            //   if (e.key === 'Enter') {
+            //     e.preventDefault();
+            //     handleNameSubmit;
+            //   }
+            // }}
+            size="small"
+            sx={{ width: '80%' }}
+          />
+          <Fab
+            id="submitButton"
+            type="submit"
+            color="primary"
+            aria-label="add"
+            value="Add Component or Modules"
+            size="small"
+            onClick={handleNameSubmit}
+            sx={{ width: '15%', height: 40, borderRadius: 1 }}
           >
-            New Component
-          </h4>
-          {/* input for new component */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '20px',
-                marginBottom: '20px',
-                alignItems: 'baseline'
-              }}
-            >
-              <div style={{ alignSelf: 'center' }}>
-                <InputLabel
-                  htmlFor="newcomponentid"
-                  className={
-                    isThemeLight
-                      ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
-                      : `${classes.inputLabel} ${classes.darkThemeFontColor}`
-                  }
-                >
-                  Name
-                </InputLabel>
-                <div className={classes.inputWrapper}>
-                  <TextField
-                    // label='New Component Name'
-                    id="newcomponentid"
-                    color="primary"
-                    variant="outlined"
-                    className={
-                      isThemeLight
-                        ? `${classes.inputField} ${classes.lightThemeFontColor}`
-                        : `${classes.inputField} ${classes.darkThemeFontColor}`
-                    }
-                    // inputprops and helpertext must be lowercase
-                    // inputProps={{ className: classes.input }}
-                    value={compName}
-                    // Doesn't accept boolean value needs to be a string
-                    error={errorStatus}
-                    // Updated
-                    helperText={errorStatus ? errorMsg : ''}
-                    onChange={handleNameInput}
-                    style={{}}
-                    InputProps={{
-                      style: {
-                        color: isThemeLight ? 'white' : 'white'
-                      }
-                    }}
-                    placeholder="name"
-                  />
-                </div>
-              </div>
-
-              <div
-                className={classes.btnGroup}
-                id="checkboxContainer"
-                style={{ marginBottom: '30px' }}
-              >
-                <FormControlLabel
-                  value="top"
-                  control={
-                    <Checkbox
-                      className={
-                        isThemeLight
-                          ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
-                          : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
-                      }
-                      color="primary"
-                      checked={isRoot}
-                      onChange={() => setIsRoot(!isRoot)}
-                    />
-                  }
-                  label={
-                    state.projectType === 'Next.js' ||
-                    state.projectType === 'Gatsby.js'
-                      ? 'Page'
-                      : 'Root'
-                  } // name varies depending on mode
-                  className={
-                    isThemeLight
-                      ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
-                      : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
-                  }
-                  labelPlacement="top"
-                />
-              </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <br />
-              <Button
-                className={
-                  isThemeLight
-                    ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
-                    : `${classes.addComponentButton} ${classes.darkThemeFontColor}`
-                }
-                color="primary"
-                variant="contained"
-                sx={{ textTransform: 'capitalize' }}
-                id="addComponentButton"
-                onClick={handleNameSubmit}
-              >
-                Create
-              </Button>
-            </div>
-          </div>
+            <AddIcon />
+          </Fab>
         </div>
-      </div>
-      <>
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        <FormControlLabel
+          value="top"
+          control={
+            <Checkbox
+              color="primary"
+              checked={isRoot}
+              onChange={() => setIsRoot(!isRoot)}
+            />
+          }
+          // name varies depending on mode
+          label={
+            state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
+              ? 'page'
+              : 'root'
+          }
+          labelPlacement="end"
+          sx={{ color: '#d3d3d3' }}
+        />
+      </form>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleAlertClose}
+      >
+        <Alert
           onClose={handleAlertClose}
+          severity="success"
+          sx={{ width: '100%', color: '#d3d3d3', backgroundColor: '#f88e16' }}
         >
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: '100%', color: 'white' }}
-          >
-            Component Created!
-          </Alert>
-        </Snackbar>
-      </>
+          Module Created!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
 
 const useStyles = makeStyles({
-  inputField: {
-    width: '500px',
-    marginTop: '10px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    margin: '0px 0px 0px 10px',
-    border: '0px solid grey'
+  customForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start'
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    cursor: 'pointer',
+    color: 'white',
+    '&:hover': {
+      color: 'black'
+    }
   },
   inputWrapper: {
-    textAlign: 'center',
+    width: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '15px'
-  },
-  panelWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flexGrow: 1,
-    color: '#000000'
-  },
-  addComponentWrapper: {
-    padding: 'auto',
-    margin: '0 auto',
-    display: 'inline-block'
-  },
-  rootCheckBox: {
-    borderColor: '#0671E3',
-    padding: '7px 0'
-  },
-  rootCheckBoxLabel: {
-    borderColor: '#0671e3'
-  },
-  newComponent: {
-    color: '#C6C6C6',
-    marginBottom: '25px'
-  },
-  inputLabel: {
-    fontSize: '1em',
-    marginLeft: '10px'
+    justifyContent: 'start'
   },
   btnGroup: {
     display: 'flex',
     flexDirection: 'column'
-  },
-  addComponentButton: {
-    backgroundColor: 'transparent',
-    height: '40px',
-    width: '100px',
-    fontFamily: 'Roboto, Raleway, sans-serif',
-    fontSize: '90%',
-    textAlign: 'center',
-    borderStyle: 'none',
-    transition: '0.3s',
-    borderRadius: '25px',
-    marginRight: '65px'
-  },
-  rootToggle: {
-    color: '#696969',
-    fontSize: '0.85rem'
   },
   lightThemeFontColor: {
     color: 'white',

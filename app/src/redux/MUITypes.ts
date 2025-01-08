@@ -29,15 +29,15 @@ DATA DISPLAY
 43. Typography
 
 FEEDBACK
-44. Alert 
-45. Backdrop 
-46. Dialog 
-47. Progress 
-48. Skeleton 
-49. Snackbar 
+44. Alert
+45. Backdrop
+46. Dialog
+47. Progress
+48. Skeleton
+49. Snackbar
 
 SURFACES
-50. Accordion 
+50. Accordion
 51. App Bar
 52. Card
 53. Paper
@@ -46,12 +46,12 @@ NAVIGATION
 54. Bottom Navigation
 55. Breadcrumbs
 56. Drawer
-57. Link 
+57. Link
 58. Menu
 59. Pagination
 60. Speed Dial
 61. Stepper
-62. Tabs 
+62. Tabs
 
 LAYOUT
 63. Box
@@ -60,17 +60,17 @@ LAYOUT
 66. Grid v2
 68. Stack
 69. Image List
-70. Hidden - deprecated 
+70. Hidden - deprecated
 
 UTILS
-71. Click-Away Listener - not included 
+71. Click-Away Listener - not included
 72. CSS Baseline - not included
-73. Modal 
-74. No SSR - not included 
+73. Modal
+74. No SSR - not included
 75. Popover
-76. Popper 
-77. Portal - not included 
-78. Textarea Autosize - not included 
+76. Popper
+77. Portal - not included
+78. Textarea Autosize - not included
 79. Transitions
 80. useMediaQuery - not included */
 
@@ -229,7 +229,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'variant'
     ],
-    jsx: [`<Button >Click Me</Button>`],
+    jsx: ['<Button >Click Me</Button>'],
     componentData: {
       type: 'Button',
       props: {
@@ -273,11 +273,11 @@ const MUITypes: MUIType[] = [
       'variant'
     ],
     jsx: [
-      `<ButtonGroup aria-label="Basic button group">`,
-      `  <Button>One</Button>`,
-      `  <Button>Two</Button>`,
-      `  <Button>Three</Button>`,
-      `</ButtonGroup>`
+      '<ButtonGroup aria-label="Basic button group">',
+      '  <Button>One</Button>',
+      '  <Button>Two</Button>',
+      '  <Button>Three</Button>',
+      '</ButtonGroup>'
     ],
     componentData: {
       type: 'ButtonGroup',
@@ -328,9 +328,9 @@ const MUITypes: MUIType[] = [
       'value'
     ],
     jsx: [
-      `<div>`,
-      `  <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />`,
-      `</div>`
+      '<div>',
+      "  <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />",
+      '</div>'
     ],
     componentData: {
       type: 'div',
@@ -378,11 +378,11 @@ const MUITypes: MUIType[] = [
       'variant'
     ],
     jsx: [
-      `<Box sx={{ '& > :not(style)': { m: 1 } }}>`,
-      `  <Fab aria-label="add">`,
-      `    <AddIcon />`,
-      `  </Fab>`,
-      `</Box>`
+      "<Box sx={{ '& > :not(style)': { m: 1 } }}>",
+      '  <Fab aria-label="add">',
+      '    <AddIcon />',
+      '  </Fab>',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
@@ -424,14 +424,14 @@ const MUITypes: MUIType[] = [
     defaultProps: ['defaultValue="female" name="radio-buttons-group"'],
     propOptions: ['children', 'defaultValue', 'name', 'onChange', 'value'],
     jsx: [
-      `<FormControl>`,
-      `  <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>`,
-      `  <RadioGroup aria-labelledby="demo-radio-buttons-group-label" >`,
-      `    <FormControlLabel value="female" control={<Radio />} label="Female" />`,
-      `    <FormControlLabel value="male" control={<Radio />} label="Male" />`,
-      `    <FormControlLabel value="other" control={<Radio />} label="Other" />`,
-      `  </RadioGroup>`,
-      `</FormControl>`
+      '<FormControl>',
+      '  <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>',
+      '  <RadioGroup aria-labelledby="demo-radio-buttons-group-label" >',
+      '    <FormControlLabel value="female" control={<Radio />} label="Female" />',
+      '    <FormControlLabel value="male" control={<Radio />} label="Male" />',
+      '    <FormControlLabel value="other" control={<Radio />} label="Other" />',
+      '  </RadioGroup>',
+      '</FormControl>'
     ],
     componentData: {
       type: 'FormControl',
@@ -523,10 +523,10 @@ const MUITypes: MUIType[] = [
       'value'
     ],
     jsx: [
-      `<Box sx={{ '& > legend': { mt: 2 } }}>`,
-      `  <Typography component="legend">Controlled</Typography>`,
-      `  <Rating />`,
-      `</Box>`
+      "<Box sx={{ '& > legend': { mt: 2 } }}>",
+      '  <Typography component="legend">Controlled</Typography>',
+      '  <Rating />',
+      '</Box>'
     ],
     componentData: {
       type: 'Box',
@@ -774,7 +774,7 @@ const MUITypes: MUIType[] = [
       'sx',
       'value'
     ],
-    jsx: [`<div >`, `  <Switch />`, `</div>`],
+    jsx: ['<div >', '  <Switch />', '</div>'],
     componentData: {
       type: 'div',
       props: {},
@@ -841,9 +841,9 @@ const MUITypes: MUIType[] = [
       'variant'
     ],
     jsx: [
-      `<Box component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }}} noValidate autoComplete="off">`,
-      `  <TextField id="outlined-basic" label="Outlined" />`,
-      `</Box>`
+      '<Box component="form" sx={{\'& > :not(style)\': { m: 1, width: \'25ch\' }}} noValidate autoComplete="off">',
+      '  <TextField id="outlined-basic" label="Outlined" />',
+      '</Box>'
     ],
     componentData: {
       type: 'TextField',
@@ -892,11 +892,11 @@ const MUITypes: MUIType[] = [
       'value'
     ],
     jsx: [
-      `<ToggleButtonGroup >`,
-      `  <ToggleButton value="web">Web</ToggleButton>`,
-      `  <ToggleButton value="android">Android</ToggleButton>`,
-      `  <ToggleButton value="ios">iOS</ToggleButton>`,
-      `</ToggleButtonGroup>`
+      '<ToggleButtonGroup >',
+      '  <ToggleButton value="web">Web</ToggleButton>',
+      '  <ToggleButton value="android">Android</ToggleButton>',
+      '  <ToggleButton value="ios">iOS</ToggleButton>',
+      '</ToggleButtonGroup>'
     ],
     componentData: {
       type: 'ToggleButtonGroup',
@@ -1965,7 +1965,7 @@ const MUITypes: MUIType[] = [
       'variant',
       'variantMapping'
     ],
-    jsx: [`<Typography gutterBottom> h3. Heading </Typography>`],
+    jsx: ['<Typography gutterBottom> h3. Heading </Typography>'],
     componentData: {
       type: 'Typography',
       props: {
@@ -2082,7 +2082,7 @@ const MUITypes: MUIType[] = [
       children: [
         {
           type: 'Button',
-          props: { onClick: '{handleOpen}', role: 'modalTrigger' }, //used 'modalTrigger' here because it is requires the same handleOpen function already created
+          props: { onClick: '{handleOpen}', role: 'modalTrigger' }, // used 'modalTrigger' here because it is requires the same handleOpen function already created
           children: 'Show backdrop'
         },
         {
@@ -2188,7 +2188,7 @@ const MUITypes: MUIType[] = [
             sx: { m: 1 },
             variant: 'outlined',
             onClick: '{handleClickOpen}',
-            role: 'modalTrigger' //used 'modalTrigger' here because it is requires the same handleOpen function already created
+            role: 'modalTrigger' // used 'modalTrigger' here because it is requires the same handleOpen function already created
           },
           children: 'Open alert dialog'
         },
@@ -2644,27 +2644,27 @@ const MUITypes: MUIType[] = [
     defaultProps: ['sx={{ minWidth: 275 }}'],
     propOptions: ['children', 'classes', 'raised', 'sx'],
     jsx: [
-      `<Card >`,
-      `  <CardContent>`,
-      `    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>`,
-      `      Word of the Day`,
-      `    </Typography>`,
-      `    <Typography variant="h5" component="div">`,
-      `      benevolent`,
-      `    </Typography>`,
-      `    <Typography sx={{ mb: 1.5 }} color="text.secondary">`,
-      `      adjective`,
-      `    </Typography>`,
-      `    <Typography variant="body2">`,
-      `      well meaning and kindly.`,
-      `      <br />`,
-      `      {'"a benevolent smile"'}`,
-      `    </Typography>`,
-      `  </CardContent>`,
-      `  <CardActions>`,
-      `    <Button size="small">Learn More</Button>`,
-      `  </CardActions>`,
-      `</Card>`
+      '<Card >',
+      '  <CardContent>',
+      '    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>',
+      '      Word of the Day',
+      '    </Typography>',
+      '    <Typography variant="h5" component="div">',
+      '      benevolent',
+      '    </Typography>',
+      '    <Typography sx={{ mb: 1.5 }} color="text.secondary">',
+      '      adjective',
+      '    </Typography>',
+      '    <Typography variant="body2">',
+      '      well meaning and kindly.',
+      '      <br />',
+      '      {\'"a benevolent smile"\'}',
+      '    </Typography>',
+      '  </CardContent>',
+      '  <CardActions>',
+      '    <Button size="small">Learn More</Button>',
+      '  </CardActions>',
+      '</Card>'
     ],
     componentData: {
       type: 'Card',
@@ -2839,7 +2839,7 @@ const MUITypes: MUIType[] = [
             value: '{value}',
             onChange: '{(event, newValue) => setValue(newValue)}',
             showLabels: true,
-            sx: { backgroundColor: '#0671E3' }
+            sx: { backgroundColor: '#f88e16' }
           },
           children: [
             {
@@ -2847,7 +2847,7 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Recents',
                 icon: '<RestoreIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' }
+                sx: { backgroundColor: '#f88e16', color: 'white' }
               }
             },
             {
@@ -2855,7 +2855,7 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Favorites',
                 icon: '<FavoriteIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' }
+                sx: { backgroundColor: '#f88e16', color: 'white' }
               }
             },
             {
@@ -2863,7 +2863,7 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Nearby',
                 icon: '<LocationOnIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' }
+                sx: { backgroundColor: '#f88e16', color: 'white' }
               }
             },
             {
@@ -2871,7 +2871,7 @@ const MUITypes: MUIType[] = [
               props: {
                 label: 'Folder',
                 icon: '<FolderIcon />',
-                sx: { backgroundColor: '#0671E3', color: 'white' }
+                sx: { backgroundColor: '#f88e16', color: 'white' }
               }
             }
           ]
@@ -4001,7 +4001,7 @@ const MUITypes: MUIType[] = [
     name: 'Image List',
     style: {},
     placeHolderShort: 'imageList',
-    placeHolderLong: 'Material UI Image List Component',
+    placeHolderLong: '  Material UI Image List Component',
     icon: 'ArtTrack',
     framework: 'reactClassic',
     nestable: false,
@@ -4362,16 +4362,16 @@ const MUITypes: MUIType[] = [
       'transition'
     ],
     jsx: [
-      `<div>`,
-      `  <button aria-describedby={id} type="button" onClick={handleClick}>`,
-      `    Toggle Popper`,
-      `  </button>`,
-      `  <Popper >`,
-      `    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>`,
-      `      The content of the Popper.`,
-      `    </Box>`,
-      `  </Popper>`,
-      `</div>`
+      '<div>',
+      '  <button aria-describedby={id} type="button" onClick={handleClick}>',
+      '    Toggle Popper',
+      '  </button>',
+      '  <Popper >',
+      "    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>",
+      '      The content of the Popper.',
+      '    </Box>',
+      '  </Popper>',
+      '</div>'
     ],
     componentData: {
       type: 'div',

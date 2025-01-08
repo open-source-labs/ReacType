@@ -1,13 +1,18 @@
-import { Component, DragItem } from '../../interfaces/Interfaces';
+/* eslint-disable max-len */
 import { DropTargetMonitor, useDrop } from 'react-dnd';
 import React, { useEffect, useState, forwardRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { debounce, throttle } from 'lodash';
+import { FaMousePointer } from 'react-icons/fa';
+import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
+import { ZoomIn, ZoomOut } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { Component, DragItem } from '../../interfaces/Interfaces';
 import {
   addChild,
   changeFocus,
   snapShotAction
 } from '../../redux/reducers/slice/appStateSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { debounce, throttle } from 'lodash';
 
 import Arrow from './Arrow';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -15,10 +20,6 @@ import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import { emitEvent, getSocket } from '../../helperFunctions/socket';
-import { FaMousePointer } from 'react-icons/fa';
-import { display } from 'html2canvas/dist/types/css/property-descriptors/display';
-import { ZoomIn, ZoomOut } from '@mui/icons-material';
-import { Button } from '@mui/material';
 
 interface CanvasProps {
   zoom: number;
@@ -48,7 +49,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       (store: RootState) => store.roomSlice.userList
     );
 
-    //remote cursor data
+    // remote cursor data
     const [remoteCursors, setRemoteCursors] = useState([]);
 
     // Toggle switch for live cursor tracking
@@ -62,7 +63,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
 
     // Prevents lagging and provides smoother user experience got live cursor tracking (milliseconds can be adjusted but 500ms is most optimal)
     const debounceSetPosition = debounce((newX, newY) => {
-      //emit socket event every 300ms when cursor moves
+      // emit socket event every 300ms when cursor moves
       if (userList.length > 1)
         emitEvent('cursorData', roomCode, { x: newX, y: newY, userName });
     }, 500);
@@ -73,18 +74,18 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
 
     const handleCursorDataFromServer = (remoteData) => {
       setRemoteCursors((prevState) => {
-        //check if received cursor data is from an existing user in the room
+        // check if received cursor data is from an existing user in the room
         const cursorIdx = prevState.findIndex(
           (cursor) => cursor.remoteUserName === remoteData.userName
         );
-        //existing user
+        // existing user
         if (cursorIdx >= 0) {
-          //check if cursor position has changed
+          // check if cursor position has changed
           if (
             prevState[cursorIdx].x !== remoteData.x ||
             prevState[cursorIdx].y !== remoteData.y
           ) {
-            //update existing user's cursor position
+            // update existing user's cursor position
             const updatedCursors = [...prevState];
             updatedCursors[cursorIdx] = {
               ...prevState[cursorIdx],
@@ -93,11 +94,11 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
             };
             return updatedCursors;
           } else {
-            //return previous state if no change
+            // return previous state if no change
             return prevState;
           }
         } else {
-          //new user: add new user's cursor
+          // new user: add new user's cursor
           return [
             ...prevState,
             {
@@ -124,10 +125,10 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
     // Function that will turn on/off socket depending on toggle Switch.
     const handleToggleSwitch = () => {
       setToggleSwitch(!toggleSwitch);
-      //checks the state before it's updated so need to check the opposite condition
+      // checks the state before it's updated so need to check the opposite condition
       if (toggleSwitch) {
         socket.off('remote cursor data from server');
-        //make remote cursor invisible
+        // make remote cursor invisible
         setRemoteCursors((prevState) => {
           const newState = prevState.map((cursor) => ({
             ...cursor,
@@ -139,7 +140,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
         socket.on('remote cursor data from server', (remoteData) =>
           handleCursorDataFromServer(remoteData)
         );
-        //make remote cursor visible
+        // make remote cursor visible
         setRemoteCursors((prevState) =>
           prevState.map((cursor) => ({
             ...cursor,
@@ -149,14 +150,14 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       }
     };
 
-    //Function to handle the multiple click events of the toggle button.
+    // Function to handle the multiple click events of the toggle button.
     const multipleClicks = () => {
       handleToggleSwitch();
       toggleButton();
     };
 
     const socket = getSocket();
-    //wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
+    // wrap the socket event listener in useEffect with dependency array as [socket], so the the effect will run only when: 1. After the initial rendering of the component 2. Every time the socket instance changes(connect, disconnect)
     useEffect(() => {
       if (socket) {
         socket.on('remote cursor data from server', (remoteData) =>
@@ -187,7 +188,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       childId?: number | null
     ) => {
       dispatch(changeFocus({ componentId, childId }));
-      //if room exists, send focus dispatch to all users
+      // if room exists, send focus dispatch to all users
       if (roomCode) {
         emitEvent('changeFocusAction', roomCode, {
           componentId: componentId,
@@ -229,7 +230,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
         // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
         if (item.newInstance && item.instanceType !== 'Component') {
           dispatch(
-            //update state
+            // update state
             addChild({
               type: item.instanceType,
               typeId: item.instanceTypeId,
@@ -238,7 +239,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
             })
           );
 
-          //emit the socket event
+          // emit the socket event
           if (roomCode) {
             emitEvent('addChildAction', roomCode, {
               type: item.instanceType,
@@ -249,12 +250,12 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
           }
         } else if (item.newInstance && item.instanceType === 'Component') {
           let hasDiffParent = false;
-          const components = state.components;
+          const { components } = state;
           let newChildName = '';
           // loop over components array
           for (let i = 0; i < components.length; i++) {
             const comp = components[i];
-            //loop over each componenets child
+            // loop over each componenets child
             for (let j = 0; j < comp.children.length; j++) {
               const child = comp.children[j];
               if (child.name === 'separator') continue;
@@ -339,7 +340,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
       color: '#ffffff',
       backgroundColor: '#151515',
       zIndex: 0,
-      border: '2px solid #0671e3',
+      border: '2px solid #f88e16',
       margin: '8px 0 0 8px'
     };
 
@@ -363,7 +364,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
                   position: 'absolute',
                   left: cursor.x + 'px',
                   top: cursor.y - 68 + 'px',
-                  //cursor style
+                  // cursor style
                   fontSize: '1em',
                   color: userColors[userList.indexOf(cursor.remoteUserName)]
                 }}
@@ -389,7 +390,7 @@ const Canvas = forwardRef<HTMLDivElement, CanvasProps>(
                 color: '#ffffff',
                 backgroundColor: '#151515',
                 zIndex: 0,
-                border: '2px solid #0671E3',
+                border: '2px solid #f88e16',
                 whiteSpace: 'nowrap',
                 cursor: 'pointer',
                 textTransform: 'none'

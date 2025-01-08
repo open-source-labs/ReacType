@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useState } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,8 +7,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
+import store, { RootState } from '../../redux/store';
 import { BottomPanelObj } from '../../interfaces/Interfaces';
 import {
   allCooperativeState,
@@ -34,7 +35,11 @@ import {
 import {
   addContext,
   deleteContext,
-  addContextValues
+  addContextValues,
+  AddContextPayload,
+  AddContextValuesPayload,
+  DeleteContextPayload,
+  addComponentToContext
 } from '../../redux/reducers/slice/contextReducer';
 import {
   setRoomCode,
@@ -50,14 +55,7 @@ import {
 } from '../../redux/reducers/slice/roomSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
-import store from '../../redux/store';
 import { initializeSocket, getSocket } from '../../helperFunctions/socket';
-import {
-  AddContextPayload,
-  AddContextValuesPayload,
-  DeleteContextPayload,
-  addComponentToContext
-} from '../../../src/redux/reducers/slice/contextReducer';
 
 /**
  * RoomsContainer handles the UI and logic for creating or joining collaboration rooms
@@ -111,7 +109,7 @@ const RoomsContainer = (): JSX.Element => {
     const socket = getSocket();
     // if socket was created correctly and exists
     if (socket) {
-      //run everytime when a client connects to server
+      // run everytime when a client connects to server
       socket.on('connect', () => {
         socket.emit(
           'creating a room',
@@ -142,15 +140,15 @@ const RoomsContainer = (): JSX.Element => {
       socket.on('room does not exist', () => {
         setIsRoomAvailable(false);
       });
-      //If you are the host: send current state to server when a new user joins
+      // If you are the host: send current state to server when a new user joins
       socket.on('requesting state from host', (callback) => {
-        const newState = store.getState(); //pull the current state
-        callback(newState); //send it to backend server
+        const newState = store.getState(); // pull the current state
+        callback(newState); // send it to backend server
       });
 
-      //If you are the new user: receive the state from the host
+      // If you are the new user: receive the state from the host
       socket.on('server emitting state from host', (state, callback) => {
-        //dispatching new state to change user current state
+        // dispatching new state to change user current state
         store.dispatch(allCooperativeState(state.appState));
         store.dispatch(codePreviewCooperative(state.codePreviewCooperative));
         store.dispatch(cooperativeStyle(state.styleSlice));
@@ -358,7 +356,7 @@ const RoomsContainer = (): JSX.Element => {
     dispatch(setRoomCode(''));
     dispatch(setUserName(''));
     dispatch(setUserList([]));
-    dispatch(setUserJoinCollabRoom(false)); //false: join room UI appear
+    dispatch(setUserJoinCollabRoom(false)); // false: join room UI appear
     dispatch(resetState(''));
     dispatch(setPassword(''));
     dispatch(setEmptyMessages([]));
@@ -406,21 +404,18 @@ const RoomsContainer = (): JSX.Element => {
           margin: '0 auto 0 auto'
         }}
       >
-        <Typography variant="h5" color={'#f2fbf8'}>
+        <Typography variant="h5" color={'#ef6c00'}>
           Live Room: {roomCode}
         </Typography>
         {userJoinCollabRoom ? (
           <>
-            <Typography
-              variant="h6"
-              color={userColors[userList.indexOf(userName)]}
-            >
+            <Typography variant="h6" color={'#ef6c00'}>
               Nickname: {userName}
             </Typography>
             <Typography
               variant="body1"
               sx={{
-                color: '#898a8b'
+                color: '#ef6c00'
               }}
             >
               Users: {userList.length}
@@ -469,10 +464,10 @@ const RoomsContainer = (): JSX.Element => {
               variant="contained"
               onClick={() => leaveRoom()}
               sx={{
-                backgroundColor: '#f2fbf8',
-                color: '#092a26',
+                backgroundColor: '#ef6c00',
+                color: '#fff',
                 '&:hover': {
-                  backgroundColor: '#E12D39',
+                  backgroundColor: '#a74b00',
                   color: 'white'
                 },
                 textTransform: 'capitalize'
@@ -507,7 +502,7 @@ const RoomsContainer = (): JSX.Element => {
                 className="enterRoomInput"
                 onKeyDown={handleKeyDown}
                 helperText={
-                  isRoomAvailable === false ? `Room doesn't exist` : ''
+                  isRoomAvailable === false ? "Room doesn't exist" : ''
                 }
               />
             ) : (

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import '../public/styles/style.css';
 
 import React, { useEffect } from 'react';
@@ -5,7 +6,6 @@ import { toggleLoggedIn } from '../redux/reducers/slice/appStateSlice';
 import { useDispatch } from 'react-redux';
 
 import AppContainer from '../containers/AppContainer';
-
 /**
  * The `App` component is the root component of the React application. It performs an initial check
  * to determine if a user is logged in (not a 'guest') by inspecting local storage, and updates the
@@ -15,7 +15,7 @@ import AppContainer from '../containers/AppContainer';
  * The `useEffect` hook is used to perform the login check once on component mount, ensuring that
  * the login state is correctly set based on the presence of a specific item in local storage.
  *
- * @returns {JSX.Element} Renders the `AppContainer` wrapped within a div with a class of 'app', 
+ * @returns {JSX.Element} Renders the `AppContainer` wrapped within a div with a class of 'app',
  *                        serving as the root of the user interface.
  *
  * This component interacts with Redux by dispatching actions to modify the global state, particularly

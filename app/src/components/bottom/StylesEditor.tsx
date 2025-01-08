@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-css';
 import 'ace-builds/src-noconflict/theme-dracula';
@@ -39,16 +40,16 @@ const StylesEditor: React.FC<{
 }> = ({ theme, setTheme }): JSX.Element => {
   const wrapper = useRef();
   const stylesheet = useSelector(
-    (state: RootState) => state.appState.stylesheet
+    (state: RootState) => state.appState.stylesheet,
   );
   const roomCode = useSelector((store: RootState) => store.roomSlice.roomCode);
 
-  //sets state for what text is currently in the csseditor
+  // sets state for what text is currently in the csseditor
   const [css, setCss] = useState(stylesheet);
 
   const dispatch = useDispatch();
 
-  //on save, updates the state based on above hook and rerenders the demo
+  // on save, updates the state based on above hook and rerenders the demo
   const saveCss = (e) => {
     e.preventDefault();
     dispatch(updateStylesheet(css));
@@ -57,7 +58,7 @@ const StylesEditor: React.FC<{
     }
   };
 
-  //handles changes in the ace editor
+  // handles changes in the ace editor
   const handleChange = (text) => {
     setCss(text);
   };
@@ -69,7 +70,7 @@ const StylesEditor: React.FC<{
       style={{
         height: '100%',
         maxWidth: '100%',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}
     >
       <AceEditor
@@ -85,7 +86,7 @@ const StylesEditor: React.FC<{
         setOptions={{
           useWorker: false,
           enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true
+          enableLiveAutocompletion: true,
         }}
       />
       <Fab

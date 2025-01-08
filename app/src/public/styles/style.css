@@ -10,6 +10,14 @@
   box-sizing: inherit;
 }
 
+.display-on-hover {
+  display: none;
+}
+
+.display-on-hover:hover {
+  display: block;
+}
+
 html {
   box-sizing: border-box;
   overflow: auto;
@@ -27,6 +35,12 @@ body {
   background-color: #191919;
 }
 
+h3 {
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-size: 0.9em;
+}
 h4 {
   color: #155084;
   text-align: center;
@@ -64,8 +78,8 @@ h4 {
 }
 
 .HTMLItemCreate {
-  flex-grow: 1;
-  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 :disabled {
@@ -110,6 +124,8 @@ LEFT COLUMN
 .left-container {
   display: flex;
   z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 span.material-symbols-outlined {
@@ -121,8 +137,8 @@ span.material-symbols-outlined {
   padding: 0px;
   display: flex;
   height: 100%;
-  width: 280px;
-  min-width: 225px;
+  width: 282px;
+  min-width: 282px;
   flex-direction: column;
   align-content: center;
   position: relative;
@@ -218,41 +234,53 @@ span.material-symbols-outlined {
   display: flex;
 }
 
+.modulePanelContainer {
+  margin-left: 15px;
+}
+/* THIS IS STYLING THE BUTTONS ON THE CREATE MENU */
 #HTMLItem {
+  /* justify-content: flex-start;  */
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
-  padding: 10%;
+  padding: 8%;
   border-radius: 10px;
   box-shadow: #191919;
   width: 120px;
-  overflow: hidden;
-  text-overflow: clip;
   white-space: nowrap;
+  line-height: 1.3rem;
 }
 
 #HTMLItem:hover {
   background-color: #474545a8;
-  color: #8ca8ff;
+  color: #a9a9a9;
 }
 
 /* placeholder until button resizing */
 #MUIItem {
-  overflow: hidden;
-  text-overflow: clip;
-  white-space: nowrap;
+  white-space: wrap;
   transition: 0.3s;
   border: 1px solid transparent;
   color: #f2fbf8;
-  padding: 10%;
+  padding: 8%;
   border-radius: 10px;
   box-shadow: #191919;
-  width: 120px;
+  width: 110px;
 }
 
+.smallerText {
+  font-size: 0.8rem;
+}
+
+.smallerText #HTML-switch {
+  color: #a9a9a9;
+}
+
+.orangeText {
+  color: #f08c00;
+}
 #MUIItem:hover {
-  background-color: #474545a8;
-  color: #8ca8ff;
+  color: #f08c00;
 }
 
 #submitButton {
@@ -260,7 +288,7 @@ span.material-symbols-outlined {
 }
 
 #submitButton:hover {
-  background-color: #0671e3;
+  background-color: #f88e16;
   color: white;
   border: none;
   cursor: pointer;
@@ -274,13 +302,12 @@ span.material-symbols-outlined {
 .customForm {
   display: flex;
   flex-direction: column;
-  align-items: start;
-  color: white;
+  justify-content: space-between;
   font-size: 95%;
 }
 
-.customForm h4 {
-  align-self: center;
+.inputWrapper {
+  display: flex;
 }
 
 #newElement {
@@ -292,12 +319,21 @@ span.material-symbols-outlined {
   width: 0.5em;
 }
 
+.createComponent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 /* span container in HTMLItem.tsx */
 #customHTMLElement {
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 125px;
+}
+
+span .popover {
+  background-color: blue;
 }
 
 .component-input {
@@ -378,7 +414,7 @@ h1 {
 }
 
 #export-modal:hover {
-  background-color: #66c4eb;
+  background-color: #1a8a98;
   cursor: pointer;
 }
 /*                                                        ///CHANGED COLOR COLOR */
@@ -438,15 +474,15 @@ RIGHT COLUMN
 #addComponentButton {
   height: 49px;
   width: 130px;
-  background-color: #0671e3;
-  border: 2px solid #0671e3;
+  background-color: #f88e16;
+  border: 2px solid #f88e16;
   border-radius: 10px;
   font-size: 16.5px;
 }
 
 #addComponentButton:hover {
-  background-color: #25366d;
-  border: 2px solid #354e9c;
+  background-color: #f08c00;
+  border: 2px solid #f08c00;
   color: white;
   cursor: pointer;
 }
@@ -468,7 +504,7 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-  border-color: #0671e3;
+  border-color: #f88e16;
 }
 
 .compPanelItem h3 {
@@ -479,6 +515,22 @@ RIGHT COLUMN
 
 .compPanelItem:hover {
   cursor: pointer;
+}
+
+.popUpButtons {
+  padding: 10px;
+  margin: 8px;
+  border: 2px solid #f7f4dc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: #f7f4dc;
+  font-family: Roboto, Raleway, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  -webkit-box-align: center;
+  height: 40px;
+  width: 156px;
+  background-color: rgb(59, 59, 59);
 }
 
 /*
@@ -549,7 +601,7 @@ BOTTOM PANEL
 
 .bottom-panel {
   transition: width 250ms ease-in-out;
-  background-color: #0671e3;
+  background-color: #f88e16;
   width: 100%;
   height: 100%;
   display: flex;
@@ -592,7 +644,7 @@ BOTTOM PANEL
   padding-left: 10px;
   border: rgb(68, 68, 68) solid 1px;
   border-radius: 5px;
-  background-color: #0671e3;
+  background-color: #f88e16;
 }
 
 .event-table {
@@ -683,7 +735,7 @@ NAVBAR
   width: 230px;
   border-radius: 8px;
   right: 1vw;
-  z-index: 10;
+  z-index: 1000;
   background-color: #31343a;
   top: 45px;
   padding: 10px 0;
@@ -705,7 +757,7 @@ NAVBAR
 }
 
 .navDropDown span {
-  margin-left: -25px;
+  margin-left: 5px;
 }
 
 .navDropDown p {
@@ -856,7 +908,7 @@ div.rst__rowContents {
   bottom: 30px;
   right: 30px;
   z-index: 999;
-  background-color: #0671e3;
+  background-color: #f88e16;
   box-shadow: none;
   padding: 32px;
 }
@@ -884,12 +936,12 @@ div.rst__rowContents {
 
 .useState-header {
   font-size: 35px;
-  background-color: #0671e3;
+  background-color: #f88e16;
   color: rgb(241, 240, 240);
   width: 600px;
   border: 3px;
   border-style: solid;
-  border-color: #0671e3;
+  border-color: #f88e16;
   font-family: 'Open Sans', sans-serif;
   border-radius: 15px 15px 0px 0px;
 }
@@ -925,7 +977,7 @@ li {
 }
 
 .blue-accent-text {
-  color: #2997ff;
+  color: #f08c00;
 }
 
 a.nav_link {

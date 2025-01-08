@@ -1,13 +1,17 @@
+/* eslint-disable max-len */
 import React, { useRef, useEffect, useState } from 'react';
-import BottomPanel from '../components/bottom/BottomPanel';
-import CanvasContainer from '../components/main/CanvasContainer';
-import DemoRender from '../components/main/DemoRender';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../redux/store';
-import { toggleScreenshotTrigger } from '../redux/reducers/slice/appStateSlice';
 import html2canvas from 'html2canvas';
 import { Buffer } from 'buffer';
 import { Amplify, Storage } from 'aws-amplify';
+import BottomPanel from '../components/bottom/BottomPanel';
+import CanvasContainer from '../components/main/CanvasContainer';
+import DemoRender from '../components/main/DemoRender';
+import ContextMenu from '../components/ContextMenu';
+
+import { RootState } from '../redux/store';
+import { toggleScreenshotTrigger } from '../redux/reducers/slice/appStateSlice';
+
 import awsconfig from '../../../src/custom-aws-exports';
 
 /**
@@ -36,11 +40,34 @@ const MainContainer = (props): JSX.Element => {
     (store: RootState) => store.appState.screenshotTrigger
   );
   const id: string = useSelector((store: RootState) => store.appState._id);
+
+  const appState = useSelector((store: RootState) => store.appState);
+
   // const { style } = useSelector((store: RootState) => ({
   //   style: store.styleSlice
   // }));
   const style = useSelector((store: RootState) => store.styleSlice);
   const containerRef: React.RefObject<HTMLDivElement> = useRef(null);
+
+  // refs and states for contextMenu
+  let [contextMenuOpen, setContextMenuOpen] = useState(false);
+  let [contextMenuColor, setContextMenuColor] = useState('gray');
+
+  const ContextMenuRef = useRef(null);
+
+  const MouseXRef = useRef(0);
+  const MouseYRef = useRef(0);
+
+  const [mouseXState, setMouseXState] = useState(0);
+  const [mouseYState, setMouseYState] = useState(0);
+
+  const [menuTypeState, setMenuTypeState] = useState('?');
+
+  const [selectedItemIdState, setSelectedItemIdState] = useState(-1);
+
+  const [contextMenuSelectedElement, setContextMenuSelectedElement] =
+    useState(null);
+  //
 
   // useEffect hook to detect and execute changes in screenshotTrigger, taking a screenshot of the canvas when a project is published on NavBar
   useEffect(() => {
@@ -69,13 +96,73 @@ const MainContainer = (props): JSX.Element => {
     });
   }, [screenshotTrigger]);
 
+  // use effect for contextMenu listeners
+  useEffect(() => {
+    document.addEventListener('contextmenu', (e) => {
+      if (
+        ContextMenuRef.current != null &&
+        ContextMenuRef.current.contains(e.target)
+      ) {
+        e.preventDefault(); // grab that event trigger, or maybe this writes to something, idk
+        return; // if it is not nul and we are clicking in it.
+      }
+
+      // set the focus on focus change
+      let willGrabDefault = true;
+      let thing = e.target; // look up th dom to see when we get to an element we like (if you right click on the span element you should still count as clicking the ReactTypeComponent element)
+      for (let i = 0; i < 5; i++) {
+        // just things that we want to stop on...
+        if (!thing.id || !thing.id.match(/canv/)) {
+          thing = thing.parentElement;
+        } else {
+          // once were all said and done...
+          if (thing.id.match(/^canv[0-9]/)) {
+            setMenuTypeState('CanvasElement');
+          } else {
+            willGrabDefault = false;
+            setMenuTypeState('?'); // set this back to unknown if you click out.
+          }
+
+          setSelectedItemIdState(Number(thing.id.split('canv')[1])); // this code tells us what hypothetical reaactType item we are selected, not just which DOM element.
+          break;
+        }
+      }
+      if (willGrabDefault) {
+        e.preventDefault(); // gdouble
+        dispatch({
+          type: 'appState/changeFocus',
+          payload: {
+            componentId: appState.canvasFocus.componentId,
+            childId: selectedItemIdState
+          }
+        });
+
+        setContextMenuSelectedElement(e.target); // get it set it
+
+        setMouseXState(MouseXRef.current);
+        setMouseYState(MouseYRef.current); // now trigger a re-render
+        setContextMenuOpen(true);
+      }
+    });
+    onmousemove = function (e) {
+      MouseXRef.current = e.clientX; // this is a use ref, not use state, so we dont trigger a re-render.
+      MouseYRef.current = e.clientY;
+    };
+  }, [contextMenuOpen]);
+
+  // use effect for click events (to check if contextMenu is in need of closing.)
+  // useEffect(() => {
+  //   document.addEventListener('click', (e) => {
+
+  //   });
+  // }, [ContextMenuRef, contextMenuOpen]);
+
   const uploadScreenshotS3 = async (imgBuffer) => {
     Amplify.configure(awsconfig);
 
     async function checkStorageConnection() {
       try {
         // await Storage.list(''); // This is just a test operation
-        // console.log('Connected to AWS S3 successfully.');
       } catch (error) {
         console.error('Error connecting to AWS S3:', error);
       }
@@ -99,6 +186,14 @@ const MainContainer = (props): JSX.Element => {
     useEffect(() => {
       const handleClick = (event) => {
         if (
+          event.type === 'click' &&
+          ContextMenuRef.current != null &&
+          !ContextMenuRef.current.contains(event.srcElement) &&
+          contextMenuOpen === true
+        ) {
+          setContextMenuOpen(false); // close on click-out
+        }
+        if (
           (event.type === 'click' &&
             bottomPanelRef.current &&
             !bottomPanelRef.current.contains(event.target) &&
@@ -117,7 +212,7 @@ const MainContainer = (props): JSX.Element => {
         window.removeEventListener('click', handleClick, true);
         window.addEventListener('message', handleClick); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
       };
-    }, [bottomPanelRef]);
+    }, [bottomPanelRef, contextMenuOpen]);
 
     return bottomPanelRef;
   };
@@ -141,6 +236,19 @@ const MainContainer = (props): JSX.Element => {
 
   return (
     <div className="main-container" style={style} ref={containerRef}>
+      {contextMenuOpen && (
+        <ContextMenu
+          selectedItem={contextMenuSelectedElement}
+          targetColor={contextMenuColor}
+          PanRef={ContextMenuRef}
+          visible={contextMenuOpen}
+          selectedItemId={selectedItemIdState}
+          menuTypeState={menuTypeState}
+          setContextMenuOpen={setContextMenuOpen}
+          mouseXState={mouseXState}
+          mouseYState={mouseYState}
+        />
+      )}
       <div className="main">
         <CanvasContainer isThemeLight={props.isThemeLight} />
         <DemoRender />

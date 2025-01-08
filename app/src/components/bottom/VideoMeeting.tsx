@@ -1,12 +1,6 @@
+/* eslint-disable max-len */
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../redux/store';
-import {
-  setUserJoinMeetingStatus,
-  setMeetingParticipants,
-  setUseMic,
-  setUseWebcam
-} from '../../redux/reducers/slice/roomSlice';
 import {
   MeetingConsumer,
   useMeeting,
@@ -19,6 +13,13 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 import MicIcon from '@mui/icons-material/Mic';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import {
+  setUserJoinMeetingStatus,
+  setMeetingParticipants,
+  setUseMic,
+  setUseWebcam
+} from '../../redux/reducers/slice/roomSlice';
+import { RootState } from '../../redux/store';
 import VideoMeetingControl from './VideoMeetingControl';
 
 /**
@@ -104,7 +105,7 @@ const Videomeeting = (props): JSX.Element => {
   };
 
   const handleUserInfoStyle = (isLocalParticipant: boolean) => {
-    if (isLocalParticipant) return { color: '#0671E3', alignItems: 'center' };
+    if (isLocalParticipant) return { color: '#f88e16', alignItems: 'center' };
     else return { color: 'white', alignItems: 'center' };
   };
 
@@ -275,7 +276,7 @@ const Videomeeting = (props): JSX.Element => {
         {userJoinCollabRoom && userJoinMeetingStatus === null && (
           <Button
             variant="contained"
-            style={{ backgroundColor: '#0671E3' }}
+            style={{ backgroundColor: '#f88e16' }}
             onClick={joinMeeting}
             sx={{ textTransform: 'capitalize' }}
           >

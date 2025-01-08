@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
-import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
@@ -25,14 +26,14 @@ function RouteLink({
   childId,
   type,
   typeId,
-  style
+  style,
 }: ChildElement): JSX.Element {
   const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
 
   // find the name of the Component corresponding with this link
   const routeName: string = state.components.find(
-    (comp: Component) => comp.id === typeId
+    (comp: Component) => comp.id === typeId,
   ).name;
 
   // hook that allows component to be draggable
@@ -43,11 +44,11 @@ function RouteLink({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId
+      instanceTypeId: typeId,
     },
     collect: (monitor: any) => ({
-      isDragging: !!monitor.isDragging()
-    })
+      isDragging: !!monitor.isDragging(),
+    }),
   });
   const changeFocusFunction = (componentId: number, childId: number | null) => {
     dispatch(changeFocus({ componentId, childId }));
@@ -65,7 +66,7 @@ function RouteLink({
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style for the routeLink component, and 3) default styling
   const routeStyle = {
-    color: 'blue'
+    color: 'blue',
   };
   const interactiveStyle = {
     border:
@@ -73,11 +74,11 @@ function RouteLink({
         ? '3px solid #a7cced'
         : '1px Solid grey',
     boxShadow:
-      state.canvasFocus.childId === childId ? '1px 5px 3px rgb(11,212,112)' : ''
+      state.canvasFocus.childId === childId ? '1px 5px 3px rgb(11,212,112)' : '',
   };
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, routeStyle), style),
-    interactiveStyle
+    interactiveStyle,
   );
   return (
     <div onClick={onClickHandlerFocus} style={combinedStyle} ref={drag}>

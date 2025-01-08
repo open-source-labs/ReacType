@@ -1,8 +1,8 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDispatch, useSelector } from 'react-redux';
-import { addState } from '../../../../redux/reducers/slice/appStateSlice';
 import {
   FormControl,
   FormHelperText,
@@ -12,6 +12,7 @@ import {
   TextField,
   Button
 } from '@mui/material';
+import { addState } from '../../../../redux/reducers/slice/appStateSlice';
 import TableStateProps from './TableStateProps';
 import TableParentProps from './TableParentProps';
 import TablePassedInProps from './TablePassedInProps';
@@ -25,7 +26,7 @@ import { emitEvent } from '../../../../helperFunctions/socket';
  * @param {Object} props - Properties passed to the component.
  * @param {boolean} props.isThemeLight - Indicates if the current theme is light, which influences the styling of the UI components.
  * @param {Array} props.data - The data related to components from which the state properties are derived or linked.
- * 
+ *
  * @returns {JSX.Element} A `div` element containing various form controls for inputting new state properties, a button for submission,
  * and tables that display the current state properties, parent props, and props passed in from parent components.
  */
@@ -69,7 +70,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       }
       case 'array':
         try {
-          let retVal = JSON.parse(value);
+          const retVal = JSON.parse(value);
           if (Array.isArray(retVal)) {
             setInputTypeError('');
             return retVal;
@@ -82,7 +83,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
         }
       case 'object': {
         try {
-          let retVal = JSON.parse(value);
+          const retVal = JSON.parse(value);
 
           if (typeof retVal === 'object' && !Array.isArray(retVal)) {
             setInputTypeError('');
@@ -125,8 +126,8 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     }
 
     const statesArray = currentComponent.stateProps;
-    //loop though array, access each obj at key property
-    let keyToInt = parseInt(inputKey[0]);
+    // loop though array, access each obj at key property
+    const keyToInt = parseInt(inputKey[0]);
     if (!isNaN(keyToInt)) {
       setErrorStatus(true);
       setErrorMsg('Key name can not start with int.');
@@ -136,7 +137,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     // check here to see if state has already been created with the submitted key
     for (let i = 0; i < state.components.length; i++) {
       for (let j = 0; j < state.components[i].stateProps.length; j++) {
-        if (inputKey === state.components[i].stateProps[j]['key']) {
+        if (inputKey === state.components[i].stateProps[j].key) {
           setErrorStatus(true);
           setErrorMsg('Key name already in use.');
           return;
@@ -201,7 +202,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       setInputValue(table.row.value ? JSON.stringify(table.row.value) : '');
     } else clearForm();
   };
-  //use effect to populate parent props table on load and every time canvas focus changes
+  // use effect to populate parent props table on load and every time canvas focus changes
   useEffect(() => {
     const parentInfo = findParent(currentId);
 
@@ -212,12 +213,12 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
   }, [currentId]);
 
   const findParent = (childId) => {
-    let arr = [];
+    const arr = [];
 
     for (let i = 0; i < data.length; i++) {
-      let currComponent = data[i];
+      const currComponent = data[i];
       for (let j = 0; j < currComponent.children.length; j++) {
-        let currChild = currComponent.children[j];
+        const currChild = currComponent.children[j];
         if (currChild.typeId === childId) {
           const currComponentCopy = JSON.parse(JSON.stringify(currComponent));
 
@@ -438,7 +439,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
             display: 'flex',
             flexDirection: 'column',
             width: `${40}px`,
-            color: '#0671E3',
+            color: '#f88e16',
             justifyContent: 'center'
           }}
         >
@@ -504,11 +505,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '100%'
   },
   rootCheckBox: {
-    borderColor: '#0671e3',
+    borderColor: '#f88e16',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    borderColor: '#0671e3'
+    borderColor: '#f88e16'
   },
   panelWrapper: {
     width: '100%',
@@ -532,8 +533,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     textAlign: 'center',
     width: '500px',
-    backgroundColor: '#0671e3',
-    border: '5px solid #0671e3'
+    backgroundColor: '#f88e16',
+    border: '5px solid #f88e16'
   },
   panelSubheader: {
     textAlign: 'center',

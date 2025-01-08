@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useCallback, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
@@ -10,15 +11,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import { blue } from '@mui/material/colors';
-import { getProjects } from '../../helperFunctions/projectGetSaveDel';
 import { useDispatch, useSelector } from 'react-redux';
+import { getProjects } from '../../helperFunctions/projectGetSaveDel';
 import { openProject } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 export interface ProjectDialogProps {
   openAlert: () => void;
   open: boolean;
-  projects: Array<Object>;
+  projects: Array<object>;
   onClose: () => void;
 }
 
@@ -45,7 +46,7 @@ function ProjectsDialog(props: ProjectDialogProps): JSX.Element {
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
     const selectedProject = projects.filter(
-      (project: any) => project._id === value
+      (project: any) => project._id === value,
     )[0];
     // dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
     dispatch(openProject(selectedProject));
@@ -69,7 +70,7 @@ function ProjectsDialog(props: ProjectDialogProps): JSX.Element {
         {projects
           .filter(
             (project: any) =>
-              project.forked === undefined || project.forked === false
+              project.forked === undefined || project.forked === false,
           )
           .map((project: any, index: number) => (
             <ListItem
@@ -166,10 +167,10 @@ const useStyles = makeStyles({
     fontSize: '1em',
     minWidth: '300px',
     marginTop: '10px',
-    marginBotton: '10px'
+    marginBotton: '10px',
   },
   avatar: {
     backgroundColor: blue[100],
-    color: blue[600]
-  }
+    color: blue[600],
+  },
 });

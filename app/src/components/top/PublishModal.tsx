@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -35,43 +36,41 @@ const PublishModal = ({
   onChange,
   invalidProjectName,
   invalidProjectNameMessage
-}): JSX.Element => {
-  return (
-    <Dialog
-      style={{ color: '#000' }}
-      open={open}
-      onClose={onClose}
-      aria-labelledby="form-dialog-title"
-    >
-      <DialogTitle style={{ color: '#000' }} id="form-dialog-title">
-        Publish Project
-      </DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          inputProps={{ style: { color: 'black' } }}
-          margin="dense"
-          id="name"
-          label="Project Name"
-          type="text"
-          fullWidth
-          value={projectName}
-          onChange={onChange}
-          helperText={invalidProjectNameMessage}
-          error={invalidProjectName}
-          autoComplete="off"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={onSave} color="primary">
-          Publish
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
+}): JSX.Element => (
+  <Dialog
+    style={{ color: '#000' }}
+    open={open}
+    onClose={onClose}
+    aria-labelledby="form-dialog-title"
+  >
+    <DialogTitle style={{ color: '#000' }} id="form-dialog-title">
+      Publish Project
+    </DialogTitle>
+    <DialogContent>
+      <TextField
+        autoFocus
+        inputProps={{ style: { color: 'black' } }}
+        margin="dense"
+        id="name"
+        label="Project Name"
+        type="text"
+        fullWidth
+        value={projectName}
+        onChange={onChange}
+        helperText={invalidProjectNameMessage}
+        error={invalidProjectName}
+        autoComplete="off"
+      />
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={onClose} color="primary">
+        Cancel
+      </Button>
+      <Button onClick={onSave} color="primary">
+        Import
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
 export default PublishModal;

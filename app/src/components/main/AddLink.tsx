@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
@@ -49,7 +50,7 @@ function AddLink({ id, onClickHandler, linkDisplayed }): JSX.Element {
       if (element.childId === id) {
         const state = JSON.parse(JSON.stringify(element));
         state.childId = id;
-        state.attributes.compLink = event.target.value;
+        state.attributes.complink = event.target.value;
         dispatch(
           updateAttributes({ attributes: state, contextParam: contextParam })
         );

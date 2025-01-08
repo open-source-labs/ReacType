@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Send } from '@mui/icons-material';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 import Videomeeting from './VideoMeeting';
-import { Send } from '@mui/icons-material';
 
 /**
  * Chatroom component for handling and displaying chat messages within a collaboration room.
@@ -80,7 +81,7 @@ const Chatroom = (props): JSX.Element => {
   const buttonStyles = {
     padding: '5px 7px',
     marginLeft: '10px',
-    backgroundColor: '#0671E3',
+    backgroundColor: '#f88e16',
     color: 'white',
     border: 'none',
     borderRadius: '50%',
@@ -99,7 +100,7 @@ const Chatroom = (props): JSX.Element => {
   };
 
   const handleMessageContainerStyle = (message: object) => {
-    if (message['type'] === 'activity') {
+    if (message.type === 'activity') {
       return {
         color: '#E8E9EB',
         fontSize: '12px',
@@ -107,11 +108,11 @@ const Chatroom = (props): JSX.Element => {
         margin: '3px 0'
       };
     } else {
-      if (message['userName'] === userName)
+      if (message.userName === userName)
         return {
           alignSelf: 'end',
           padding: '8px 15px',
-          backgroundColor: '#0671E3',
+          backgroundColor: '#f88e16',
           borderRadius: '15.5px',
           margin: '3px 0',
           maxWidth: '300px'

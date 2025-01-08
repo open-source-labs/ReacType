@@ -1,7 +1,7 @@
 import { TroubleshootSharp } from '@mui/icons-material';
 import { HTMLType } from '../interfaces/Interfaces';
 
-//properties for all HTML components
+// properties for all HTML components
 
 const HTMLTypes: HTMLType[] = [
   {
@@ -13,7 +13,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'Code',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   // do not move this separator element out of index 1 in this array
   // in componentReducer.ts, separator is referenced as 'initialState.HTMLTypes[1]'
@@ -26,7 +26,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: null,
     framework: '',
-    nestable: true
+    nestable: true,
   },
   {
     id: 1,
@@ -37,7 +37,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'Link',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 2,
@@ -48,7 +48,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'TextFormat',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 4,
@@ -59,7 +59,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'TextFormat',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 6,
@@ -70,7 +70,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'ShortTextOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 8,
@@ -81,7 +81,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'NotesOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 9,
@@ -92,7 +92,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'Description',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 10,
@@ -103,7 +103,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'EditOutlined',
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 5,
@@ -114,7 +114,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'EditAttributes',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
 
   {
@@ -126,7 +126,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'Image',
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 13,
@@ -137,7 +137,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'MoreOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 14,
@@ -148,7 +148,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'FeaturedPlayListOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 15,
@@ -159,7 +159,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'FormatListNumberedOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 16,
@@ -170,7 +170,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'FormatListBulletedOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 3,
@@ -181,7 +181,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'ListAltOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 17,
@@ -192,7 +192,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'ToggleOffOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: -1,
@@ -203,7 +203,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'RouteOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 18,
@@ -214,7 +214,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'DatasetLinkedOutlined',
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 19,
@@ -225,7 +225,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'Link',
     framework: 'nextjs',
-    nestable: true
+    nestable: true,
   },
   {
     id: 20,
@@ -236,7 +236,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: 'ImageIcon',
     framework: 'nextjs',
-    nestable: false
-  }
+    nestable: false,
+  },
 ];
 export default HTMLTypes;

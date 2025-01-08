@@ -1,11 +1,12 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import DeleteButton from './DeleteButton';
-import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
@@ -76,7 +77,7 @@ function DirectChildHTML({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '2px solid #0671e3'
+        ? '2px solid #f88e16'
         : '1px solid #31343A'
   };
 

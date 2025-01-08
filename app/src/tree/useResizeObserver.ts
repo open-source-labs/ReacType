@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { RefObject, useEffect, useState } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 
@@ -7,7 +8,7 @@ import ResizeObserver from 'resize-observer-polyfill';
  * @returns {DOMRectReadOnly | null} - The dimensions of the observed element, or null if not available.
  */
 const useResizeObserver = (
-  ref: RefObject<HTMLElement>
+  ref: RefObject<HTMLElement>,
 ): DOMRectReadOnly | null => {
   const [dimensions, setDimensions] = useState(null);
   useEffect(() => {

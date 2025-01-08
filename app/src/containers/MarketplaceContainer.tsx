@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import MarketplaceCardContainer from '../components/marketplace/MarketplaceCardContainer';
 import SearchBar from '../components/marketplace/Searchbar';
 import React, { useEffect, useState } from 'react';
@@ -32,10 +33,10 @@ const MarketplaceContainer = () => {
           `${serverconfig.API_BASE_URL}/getMarketplaceProjects`,
           {
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
-            withCredentials: true
-          }
+            withCredentials: true,
+          },
         );
         setMarketplaceProjects(response.data);
         setDisplayProjects(response.data);
@@ -65,16 +66,16 @@ const MarketplaceContainer = () => {
       </div>
       {displayProjects.length ? (
         <MarketplaceCardContainer displayProjects={displayProjects} />
-      ) : /*while marketplaceProjects is length 0 means it is not done fetching.  Add loading...*/
-      marketplaceProjects.length ? (
+      ) : /* while marketplaceProjects is length 0 means it is not done fetching.  Add loading... */
+        marketplaceProjects.length ? (
         <h2 style={{ textAlign: 'center' }}>No Results Found!</h2>
-      ) : (
+        ) : (
         <h2 style={{ textAlign: 'center' }}>
           {' '}
-          {/*added a circular progress bar*/}
+          {/* added a circular progress bar */}
           Loading... <CircularProgress thickness={5.0} />
         </h2>
-      )}
+        )}
     </div>
   );
 };
@@ -85,24 +86,24 @@ const containerStyles: React.CSSProperties = {
   width: '100vw',
   color: 'white',
   paddingBottom: '15vh',
-  overflow: 'auto'
+  overflow: 'auto',
 };
 
 const contentStyles: React.CSSProperties = {
   textAlign: 'center',
-  padding: '100px 0'
+  padding: '100px 0',
 };
 
 const headingStyles: React.CSSProperties = {
   fontSize: '2.5rem',
   color: '#AAA',
   fontWeight: 'normal',
-  marginBottom: '20px'
+  marginBottom: '20px',
 };
 
 const subheadingStyles: React.CSSProperties = {
   fontSize: '1.25rem',
-  color: '#777'
+  color: '#777',
 };
 
 export default MarketplaceContainer;

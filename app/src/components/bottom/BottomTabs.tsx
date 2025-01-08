@@ -1,16 +1,7 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
-import { RootState } from '../../redux/store';
 import { MeetingProvider } from '@videosdk.live/react-sdk';
-const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
-import Chatroom from './ChatRoom';
-import CreationPanel from './CreationPanel';
-import CustomizationPanel from '../../containers/CustomizationPanel';
-import StylesEditor from './StylesEditor';
-import Tree from '../../tree/TreeChart';
-import ContextManager from '../ContextAPIManager/ContextManager';
-import StateManager from '../StateManagement/StateManagement';
 import makeStyles from '@mui/styles/makeStyles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -19,6 +10,16 @@ import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import arrow from '../main/Arrow';
+import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
+import Chatroom from './ChatRoom';
+import CustomizationPanel from '../../containers/CustomizationPanel';
+import StylesEditor from './StylesEditor';
+import Tree from '../../tree/TreeChart';
+import ContextManager from '../ContextAPIManager/ContextManager';
+import StateManager from '../StateManagement/StateManagement';
+
+const videoSDKToken = `${import.meta.env.VITE_VIDEOSDK_TOKEN}`;
 
 /**
  * A central navigation component that provides tabs for switching between various features and functionalities
@@ -100,12 +101,6 @@ const BottomTabs = (props): JSX.Element => {
             />
             <Tab
               classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="Creation Panel"
-              onClick={showBottomPanel}
-              sx={{ borderTop: '2px solid #191919' }}
-            />
-            <Tab
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
               label="Customization"
               onClick={showBottomPanel}
               sx={{ borderTop: '2px solid #191919' }}
@@ -166,12 +161,11 @@ const BottomTabs = (props): JSX.Element => {
         </Box>
         <div className="tab-content">
           {tab === 0 && <Chatroom />}
-          {tab === 1 && <CreationPanel isThemeLight={isThemeLight} />}
-          {tab === 2 && <CustomizationPanel isThemeLight={isThemeLight} />}
-          {tab === 3 && <StylesEditor theme={theme} setTheme={setTheme} />}
-          {tab === 4 && <Tree data={components} />}
-          {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-          {tab === 6 && (
+          {tab === 1 && <CustomizationPanel isThemeLight={isThemeLight} />}
+          {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
+          {tab === 3 && <Tree data={components} />}
+          {tab === 4 && <ContextManager theme={theme} setTheme={setTheme} />}
+          {tab === 5 && (
             <StateManager
               theme={theme}
               setTheme={setTheme}
@@ -191,7 +185,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#E8E8E8'
   },
   rootLight: {
-    backgroundColor: '#0671e3'
+    backgroundColor: '#f88e16'
   },
   bottomHeader: {
     flex: 1,
@@ -203,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: '#0671E3'
+    backgroundColor: '#f88e16'
   },
   tabRoot: {
     textTransform: 'initial',
@@ -239,7 +233,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '24px'
   },
   padding: {
-    padding: `0 16px`
+    padding: '0 16px'
   },
   switch: {
     marginRight: '10px',

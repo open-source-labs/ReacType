@@ -1,26 +1,18 @@
+/* eslint-disable max-len */
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   RouteComponentProps,
   Link as RouteLink,
   useHistory
 } from 'react-router-dom';
-import { SigninDark } from '../../../../app/src/public/styles/theme';
 import {
   StyledEngineProvider,
   Theme,
-  ThemeProvider
+  ThemeProvider,
+  styled
 } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { LoginInt } from '../../interfaces/Interfaces';
-import serverConfig from '../../serverConfig.js';
 import makeStyles from '@mui/styles/makeStyles';
-import {
-  sessionIsCreated,
-  handleChange,
-  resetErrorValidation,
-  validateInputs
-} from '../../helperFunctions/auth';
 import {
   Divider,
   Box,
@@ -31,6 +23,20 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { LoginInt } from '../../interfaces/Interfaces';
+import serverConfig from '../../serverConfig.js';
+import {
+  sessionIsCreated,
+  handleChange,
+  resetErrorValidation,
+  validateInputs
+} from '../../helperFunctions/auth';
+import { SigninDark } from '../../../../app/src/public/styles/theme';
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
 
 const { API_BASE_URL } = serverConfig;
 
@@ -396,7 +402,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
             </Typography>
             <RouteLink
               style={{ color: '#aaaaaa' }}
-              to={`/password`}
+              to={'/password'}
               className="nav_link"
             >
               Forgot password?
@@ -404,11 +410,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = () => {
 
             <RouteLink
               style={{ color: '#aaaaaa' }}
-              to={`/signup`}
+              to={'/signup'}
               className="nav_link"
             >
               <span>
-                Don't have an account?
+                Don&apos;t have an account?
                 <span className="blue-accent-text"> Sign Up</span>
               </span>
             </RouteLink>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Fragment, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
@@ -49,20 +50,20 @@ const AddContextForm = ({
 
   const color = 'white';
 
-  //handler for submitting new context for creation
+  // handler for submitting new context for creation
   const handleSubmit = () => {
     handleClickSelectContext();
     setOpen(true);
   };
 
-  //form control for new context field
+  // form control for new context field
   const handleChange = (e) => {
     setErrorStatus(false);
     setOpen(false);
     setContextInput(e.target.value);
   };
 
-  //event handle for confirmation modal
+  // event handle for confirmation modal
   const handleClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -81,7 +82,7 @@ const AddContextForm = ({
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  //creating options for context dropdown
+  // creating options for context dropdown
   const contexts = allContext.length ? (
     allContext.map((context, index) => {
       return (

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import ContentArea from '../components/left/ContentArea';
 import Sidebar from '../components/left/Sidebar';
@@ -35,6 +36,7 @@ const App = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         toggleVisibility={toggleVisibility}
+        style={{ display: 'flex' }}
       />
       <ContentArea activeTab={activeTab} isVisible={isVisible} />
     </div>

@@ -1,16 +1,18 @@
+/* eslint-disable max-len */
+// THIS IS THE ADD COMPONENT MENU FROM WHERE COMPONENTS ARE CLICKED AND DRAGGED TO BE PLACED ON THE CANVAS
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
-import HTMLItem from './HTMLItem';
-import MUIItem from './MUIItem';
 import React from 'react';
-import { RootState } from '../../redux/store';
-import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
-import { emitEvent } from '../../helperFunctions/socket';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { makeStyles } from '@mui/styles';
+import { emitEvent } from '../../helperFunctions/socket';
+import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
+import MUIItem from './MUIItem';
+import HTMLItem from './HTMLItem';
 import ComponentDrag from './ComponentDrag';
 
 const useStyles = makeStyles({
@@ -65,21 +67,6 @@ const DragDropPanel = (props): JSX.Element => {
   return (
     <div className={'HTMLItems'}>
       <div id="HTMLItemsTopHalf">
-        {/* Root Components */}
-        <Accordion className={classes.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            className={classes.accordionSummary}
-          >
-            <h3>Root Components</h3>
-          </AccordionSummary>
-          <AccordionDetails>
-            <ComponentDrag isVisible={true} isThemeLight={props.isThemeLight} />
-          </AccordionDetails>
-        </Accordion>
-
         {/* HTML Components */}
         <Accordion className={classes.accordion}>
           <AccordionSummary
@@ -88,16 +75,16 @@ const DragDropPanel = (props): JSX.Element => {
             id="panel1a-header"
             className={classes.accordionSummary}
           >
-            <h3>HTML Elements</h3>
+            <h3>Containers</h3>
           </AccordionSummary>
           <AccordionDetails
             sx={{
               display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'space-around'
+              justifyContent: 'column',
+              alignItems: 'center'
             }}
           >
-            <Grid container justifyContent="space-around" columnSpacing={2}>
+            <Grid container direction="column" spacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
@@ -132,11 +119,11 @@ const DragDropPanel = (props): JSX.Element => {
           <AccordionDetails
             sx={{
               display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'space-around'
+              justifyContent: 'column',
+              alignItems: 'center'
             }}
           >
-            <Grid container justifyContent="space-around" columnSpacing={2}>
+            <Grid container direction="column" spacing={2}>
               {htmlTypesToRender.map((option) => {
                 if (
                   (option.name === 'Switch' ||

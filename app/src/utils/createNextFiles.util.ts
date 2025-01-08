@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // Create all component files for a next.js application
 // "Root" level components are stored in a pages directory
 // all other components will be in a components directory
@@ -10,9 +11,7 @@ import { Component } from '../interfaces/Interfaces';
  * @param {number[]} rootArray An array of IDs that identify root components.
  * @returns {boolean} Returns true if the component is a root component, false otherwise.
  */
-const isRoot = (component: Component, rootArray: number[]): boolean => {
-  return rootArray.includes(component.id) ? true : false;
-};
+const isRoot = (component: Component, rootArray: number[]): boolean => (!!rootArray.includes(component.id));
 
 /**
  * Asynchronously creates TypeScript component files for a Next.js application, organizing them into 'pages' and 'components' directories.
@@ -30,7 +29,7 @@ const createNextFiles = (
   components: Component[],
   path: string,
   appName: string,
-  rootComponents: number[]
+  rootComponents: number[],
 ): Promise<any[]> => {
   let dir = path;
   dir = `${dir}/${appName}`;

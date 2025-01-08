@@ -5,13 +5,16 @@ export const theme1 = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#0671e3' // navy blue
+      main: '#ef6c00',
+      light: '#f7f4dc',
+      dark: '#83bbff',
+      contrastText: '#f7f4dc' // white
     },
     secondary: {
-      main: '#0671e3' // light blue
+      main: '#00acc1' // light blue
     },
     background: {
-      paper: '#0671e3'
+      paper: '#181818'
     }
   }
 });
@@ -20,13 +23,13 @@ export const theme2 = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#0671e3'
+      main: '#ef6c00'
     },
     secondary: {
-      main: '#0671e3'
+      main: '#00acc1'
     },
     background: {
-      paper: '#0671e3'
+      paper: '#181818'
     }
   }
 });
@@ -56,7 +59,7 @@ export const SigninLight = createTheme({
       main: '#17a2b8'
     },
     background: {
-      paper: '#0671e3'
+      paper: '#f88e16'
     }
   }
 });

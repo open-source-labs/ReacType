@@ -1,5 +1,6 @@
 import { DragItemType } from '../interfaces/Interfaces';
+
 const ItemTypes: DragItemType = {
-  INSTANCE: 'instance'
+  INSTANCE: 'instance',
 };
 export { ItemTypes };

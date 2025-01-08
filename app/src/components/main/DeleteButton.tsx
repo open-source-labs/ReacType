@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { DeleteButtons } from '../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
+import { Clear } from '@mui/icons-material';
+import { DeleteButtons } from '../../interfaces/Interfaces';
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
-import { Clear } from '@mui/icons-material';
 
 /**
  * `DeleteButton` is a React component that renders a button for deleting a specific HTML element or component within the application.
@@ -20,7 +21,7 @@ import { Clear } from '@mui/icons-material';
 function DeleteButton({
   id,
   name,
-  onClickHandler
+  onClickHandler,
 }: DeleteButtons): JSX.Element {
   const contextParam = useSelector((store: RootState) => store.contextSlice);
 
@@ -33,7 +34,7 @@ function DeleteButton({
     if (roomCode) {
       emitEvent('deleteChildAction', roomCode, {
         id,
-        contextParam
+        contextParam,
       });
     }
   };

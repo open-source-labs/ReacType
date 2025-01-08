@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Fragment } from 'react';
 import Modal from '@mui/material/Modal';
 import withStyles from '@mui/styles/withStyles';
@@ -19,15 +20,15 @@ const styles = (theme: any): any => ({
     boxShadow: theme.shadows[5],
     padding: '4%',
     minWidth: '500px',
-    minHeight: '300px'
+    minHeight: '300px',
   },
   button: {
     marginTop: '0%',
     height: 'auto',
     marginLeft: '3%',
     borderRadius: '4px',
-    float: 'right'
-  }
+    float: 'right',
+  },
 });
 
 /**
@@ -57,7 +58,7 @@ const SimpleModal = (props): JSX.Element => {
     primBtnAction,
     secBtnAction,
     closeModal,
-    children = null
+    children = null,
   } = props;
 
   return (
@@ -72,7 +73,7 @@ const SimpleModal = (props): JSX.Element => {
           style={{
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%)'
+            transform: 'translate(-50%, -50%)',
           }}
           className={classes.paper}
         >
@@ -84,7 +85,7 @@ const SimpleModal = (props): JSX.Element => {
               top: '2%',
               right: '1%',
               fontSize: '17px',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
             size="large"
           >

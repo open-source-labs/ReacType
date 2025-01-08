@@ -1,26 +1,27 @@
-import { Button, InputLabel } from '@mui/material';
+/* eslint-disable max-len */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { RootState } from '../../redux/store';
+import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
 import TextField from '@mui/material/TextField';
-import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import { emitEvent } from '../../helperFunctions/socket';
+import { RootState } from '../../redux/store';
+import HelpIcon from '@mui/icons-material/Help';
+import Popover, { PopoverProps } from '@mui/material/Popover';
 
 /**
  * Provides a user interface for creating custom HTML elements in the application. It includes
  * input fields for the HTML tag and element name, validations for these inputs, and submission handling
  * to add new elements to the Redux store. It also handles error messages and displays a snackbar for success notifications.
- *
  * @component
  * @param {Object} props - Component props.
  * @param {boolean} props.isThemeLight - Indicates if the theme is light or dark for styling purposes.
- *
  * @returns {JSX.Element} The HTMLPanel component.
- *
  * @example
  * ```jsx
  * <HTMLPanel isThemeLight={true} />
@@ -28,6 +29,9 @@ import { emitEvent } from '../../helperFunctions/socket';
  */
 const HTMLPanel = (props): JSX.Element => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] =
+    React.useState<PopoverProps['anchorEl']>(null);
+
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -51,9 +55,8 @@ const HTMLPanel = (props): JSX.Element => {
     setName(e.target.value);
   };
 
-  const checkNameDupe = (inputName: String): boolean => {
-    let checkList = state.HTMLTypes.slice();
-
+  const checkNameDupe = (inputName: string): boolean => {
+    const checkList = state.HTMLTypes.slice();
     // checks to see if inputted comp name already exists
     let dupe = false;
     checkList.forEach((HTMLTag) => {
@@ -67,28 +70,24 @@ const HTMLPanel = (props): JSX.Element => {
     return dupe;
   };
 
-  const triggerError = (type: String) => {
+  const triggerError = (type: string) => {
     setErrorStatus(true);
-    if (type === 'empty') {
-      setErrorMsg('* Input cannot be blank. *');
-    } else if (type === 'dupe') {
-      setErrorMsg('* Input already exists. *');
-    } else if (type === 'letters') {
-      setErrorMsg('* Input must start with a letter. *');
-    } else if (type === 'symbolsDetected') {
-      setErrorMsg('* Input must not contain symbols. *');
-    } else if (type === 'length') {
-      setErrorMsg('* Input cannot exceed 10 characters. *');
-    }
+    if (type === 'empty') setErrorMsg('Input cannot be blank.');
+    if (type === 'dupe') setErrorMsg('Input already exists.');
+    if (type === 'letters') setErrorMsg('Input must start with a letter.');
+    if (type === 'symbolsDetected')
+      setErrorMsg('Input must not contain symbols.');
+    if (type === 'length') setErrorMsg('Input cannot exceed 10 characters.');
   };
 
   const resetError = () => {
     setErrorStatus(false);
+    setErrorMsg('');
   };
 
-  const createOption = (inputTag: String, inputName: String) => {
+  const createOption = (inputTag: string, inputName: string) => {
     // format name so first letter is capitalized and there are no whitespaces
-    let inputNameClean = inputName.replace(/\s+/g, '');
+    const inputNameClean = inputName.replace(/\s+/g, '');
     const formattedName =
       inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
     // add new component to state
@@ -99,14 +98,13 @@ const HTMLPanel = (props): JSX.Element => {
       style: {},
       placeHolderShort: name,
       placeHolderLong: '',
-      icon: null
+      icon: null,
+      nestable: true
     };
 
     dispatch(addElement(newElement));
 
-    if (roomCode) {
-      emitEvent('addElementAction', roomCode, newElement);
-    }
+    if (roomCode) emitEvent('addElementAction', roomCode, newElement);
 
     // setCurrentID(currentID + 1);
     setTag('');
@@ -121,26 +119,14 @@ const HTMLPanel = (props): JSX.Element => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (tag.trim() === '' || name.trim() === '') {
-      triggerError('empty');
-      return;
-    } else if (
-      !tag.charAt(0).match(/[a-zA-Z]/) ||
-      !name.charAt(0).match(/[a-zA-Z]/)
-    ) {
-      triggerError('letters');
-      return;
-    } else if (!alphanumeric(tag) || !alphanumeric(name)) {
-      triggerError('symbolsDetected');
-      return;
-    } else if (checkNameDupe(tag) || checkNameDupe(name)) {
-      triggerError('dupe');
-      return;
-    } else if (name.length > 10) {
-      triggerError('length');
-      return;
-    }
+    if (tag.trim() === '' || name.trim() === '') return triggerError('empty');
+    if (!tag.charAt(0).match(/[a-zA-Z]/) || !name.charAt(0).match(/[a-zA-Z]/))
+      return triggerError('letters');
+    if (!alphanumeric(tag) || !alphanumeric(name))
+      return triggerError('symbolsDetected');
+    if (checkNameDupe(tag) || checkNameDupe(name)) return triggerError('dupe');
+    if (name.length > 10) return triggerError('length');
+    setAlertOpen(true);
     createOption(tag, name);
     resetError();
   };
@@ -148,11 +134,15 @@ const HTMLPanel = (props): JSX.Element => {
   const handleCreateElement = useCallback((e) => {
     if (
       e.key === 'Enter' &&
-      e.target.tagName !== 'TEXTAREA' &&
-      e.target.id !== 'filled-hidden-label-small'
+      (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')
     ) {
-      e.preventDefault();
-      document.getElementById('submitButton').click();
+      if (e.target.id === 'outlined-basic') {
+        e.preventDefault();
+        document.getElementById('submitButton').click();
+      } else if (e.target.id === 'outlined-basic') {
+        e.preventDefault();
+        document.getElementById('submitButton').click();
+      }
     }
   }, []);
 
@@ -162,18 +152,20 @@ const HTMLPanel = (props): JSX.Element => {
       document.removeEventListener('keydown', handleCreateElement);
     };
   }, []);
-
-  const handleAlertOpen = () => {
-    setAlertOpen(true);
+  const handleClickPopover = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? open : undefined;
   const handleAlertClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
   ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+    if (reason === 'clickaway') return;
     setAlertOpen(false);
   };
 
@@ -186,190 +178,130 @@ const HTMLPanel = (props): JSX.Element => {
 
   return (
     <>
-      <div className="HTMLItemCreate">
-        <div className={classes.addComponentWrapper}>
-          <div className={classes.inputWrapper}>
-            <form onSubmit={handleSubmit} className="customForm">
-              <h4 className={classes.darkThemeFontColor}>New HTML Tag</h4>
-              <InputLabel
-                htmlFor="tag"
-                className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
-              >
-                Tag
-              </InputLabel>
-              <TextField
-                id="tag"
-                color="primary"
-                variant="outlined"
-                type="text"
-                name="Tag"
-                value={tag}
-                autoComplete="off"
-                onChange={handleTagChange}
-                className={`${classes.input} ${classes.darkThemeFontColor}`}
-                style={{ margin: '10px' }}
-                InputProps={{
-                  style: {
-                    color: 'white'
-                  }
-                }}
-                placeholder="tag"
-              />
-
-              {(!tag.charAt(0).match(/[A-Za-z]/) ||
-                !alphanumeric(tag) ||
-                tag.trim() === '' ||
-                checkNameDupe(tag)) && (
-                <span
-                  className={`${classes.errorMessage} ${classes.errorMessageDark}`}
-                >
-                  <em>{errorMsg}</em>
-                </span>
-              )}
-
-              <br></br>
-              <InputLabel
-                htmlFor="elementName"
-                className={`${classes.inputLabel} ${classes.darkThemeFontColor}`}
-              >
-                Element Name
-              </InputLabel>
-              <TextField
-                id="elementName"
-                color="primary"
-                variant="outlined"
-                type="text"
-                name="Tag Name"
-                value={name}
-                onChange={handleNameChange}
-                autoComplete="off"
-                className={`${classes.input} ${classes.darkThemeFontColor}`}
-                style={{ marginTop: '10px' }}
-                InputProps={{
-                  style: {
-                    color: 'white'
-                  }
-                }}
-                placeholder="name"
-              />
-              {(!name.charAt(0).match(/[A-Za-z]/) ||
-                !alphanumeric(name) ||
-                name.trim() === '' ||
-                name.length > 10 ||
-                checkNameDupe(name)) && (
-                <span
-                  className={`${classes.errorMessage} ${classes.errorMessageDark}`}
-                >
-                  <em>{errorMsg}</em>
-                </span>
-              )}
-              <br></br>
-              <Button
-                onClick={handleAlertOpen}
-                className={`${classes.addElementButton} ${classes.darkThemeFontColor}`}
-                id="submitButton"
-                type="submit"
-                color="primary"
-                variant="contained"
-                value="Add Element"
-                sx={{ textTransform: 'capitalize' }}
-              >
-                Add Element
-              </Button>
-            </form>
-          </div>
-        </div>
-      </div>
-      <>
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          onClose={handleAlertClose}
-        >
-          <Alert
-            onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: '100%', color: 'white' }}
+      <form onSubmit={handleSubmit} className={classes.customForm}>
+        <div className={classes.inputWrapper}>
+          <TextField
+            id="outlined-basic"
+            label="Element Name"
+            variant="outlined"
+            size="small"
+            value={name}
+            autoComplete="off"
+            sx={{ width: '80%' }}
+            onChange={handleNameChange}
+            helperText={errorMsg}
+          />
+          <HelpIcon
+            id={'helpicon'}
+            size="medium"
+            sx={{ alignSelf: 'center', marginLeft: '12px' }}
+            onClick={handleClickPopover}
+          />
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
           >
-            HTML Tag Created!
-          </Alert>
-        </Snackbar>
-      </>
+            <div className={classes.popover}>
+              <div className={classes.popoverIcon}>
+                <HelpIcon id={id} size="small" />
+              </div>
+              <div>
+                Each custom HTML element you create can be added using
+                drag-and-drop to the DOM. Its HTML tag will begin or end the
+                element in source code. For example, you could create an element
+                named 'navigation' and use the tag 'nav' in your HTML markup so
+                that it appears as {`<nav> </nav>`}.
+              </div>
+            </div>
+          </Popover>
+        </div>
+        <div className={classes.inputWrapper}>
+          <TextField
+            id="outlined-basic"
+            label="HTML Tag"
+            variant="outlined"
+            size="small"
+            value={tag}
+            autoComplete="off"
+            sx={{ width: '80%' }}
+            onChange={handleTagChange}
+            helperText={errorMsg}
+          />
+          <Fab
+            id="submitButton"
+            type="submit"
+            color="primary"
+            aria-label="add"
+            size="small"
+            value="Add Element"
+            sx={{ width: '15%', height: 40, borderRadius: 1 }}
+            onClick={handleSubmit}
+          >
+            <AddIcon />
+          </Fab>
+        </div>
+      </form>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleAlertClose}
+      >
+        <Alert
+          onClose={handleAlertClose}
+          severity="success"
+          sx={{ width: '100%', color: 'white', backgroundColor: '#f88e16' }}
+        >
+          HTML Element Created!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
 
 const useStyles = makeStyles({
-  inputField: {
-    marginTop: '10px',
-    borderRadius: '5px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    margin: '0px 0px 0px 10px',
-    width: '140px',
-    height: '30px'
+  customForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'start'
   },
   inputWrapper: {
-    textAlign: 'center',
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    marginBottom: '15px',
-    width: '100%'
-  },
-  addComponentWrapper: {
-    width: '100%'
-  },
-  input: {
-    width: '500px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    margin: '0px 0px 0px 0px',
-    alignSelf: 'center'
-  },
-  inputLabel: {
-    fontSize: '1em',
-    marginLeft: '10px'
-  },
-  addElementButton: {
-    height: '50px',
-    width: '150px',
-    fontFamily: 'Roboto, Raleway, sans-serif',
-    fontSize: '15.5px',
-    textAlign: 'center',
-    transition: '0.3s',
-    borderRadius: '10px',
-    alignSelf: 'end',
-    border: '1px solid #0671E3'
-  },
-  lightThemeFontColor: {
-    color: 'white',
-    '& .MuiInputBase-root': {
-      color: 'rgba (0, 0, 0, 0.54)'
-    }
-  },
-  darkThemeFontColor: {
-    color: '#ffffff',
-    '& .MuiInputBase-root': {
-      color: '#fff'
-    }
+    width: '100%',
+    marginBottom: '10px', // was originally 10px, decreased to 0 to decrease overall menu height
+    justifyContent: 'start'
   },
   errorMessage: {
     display: 'flex',
-    alignSelf: 'center',
+    alignSelf: 'start',
     fontSize: '11px',
     marginTop: '10px',
-    width: '150px'
+    width: '150px',
+    borderRadius: '5px'
   },
-  errorMessageLight: {
-    color: '#6B6B6B'
+  popover: {
+    backgroundColor: '#ffdbbb',
+    display: 'flex',
+    color: 'black',
+    fontSize: '0.8rem',
+    padding: '8px',
+    width: '300px'
   },
-  errorMessageDark: {
-    color: 'white'
+  popoverIcon: {
+    paddingRight: '10px',
+    paddingLeft: '8px',
+    paddingTop: '10px'
   }
 });
 

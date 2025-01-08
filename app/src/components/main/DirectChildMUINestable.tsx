@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import React, { useRef } from 'react';
-import { ChildElement, MUIType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChildElement, MUIType } from '../../interfaces/Interfaces';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
@@ -10,7 +12,6 @@ import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { emitEvent } from '../../helperFunctions/socket';
 
@@ -56,10 +57,10 @@ function DirectChildMUINestable({
 
   // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
   const snapShotFunc = () => {
-    //makes a deep clone of state
+    // makes a deep clone of state
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
-    //pushes the last user action on the canvas into the past array of Component
+    // pushes the last user action on the canvas into the past array of Component
     dispatch(
       snapShotAction({
         focusIndex: focusIndex,
@@ -184,15 +185,15 @@ function DirectChildMUINestable({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '2px solid #0671e3'
+        ? '2px solid #ef6c00'
         : '1px solid #31343A'
   };
 
   // interactive style to change color when nested element is hovered over
   if (isOver) defaultNestableStyle['#3c59ba'];
-  defaultNestableStyle['backgroundColor'] = isOver
+  defaultNestableStyle.backgroundColor = isOver
     ? '#3c59ba'
-    : defaultNestableStyle['backgroundColor'];
+    : defaultNestableStyle.backgroundColor;
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, MUIType.style), style),
@@ -211,7 +212,7 @@ function DirectChildMUINestable({
         id={childId}
         onClickHandler={onClickHandler}
         linkDisplayed={
-          attributes && attributes.compLink ? `${attributes.compLink}` : null
+          attributes && attributes.complink ? `${attributes.complink}` : null
         }
       />
     );
@@ -229,8 +230,8 @@ function DirectChildMUINestable({
     >
       <span>
         <strong style={{ color: 'white' }}>{MUIType.placeHolderShort}</strong>
-        <strong style={{ color: '#0671e3' }}>
-          {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
+        <strong style={{ color: '#f88e16' }}>
+          {attributes && attributes.complink ? ` ${attributes.complink}` : ''}
         </strong>
         {routeButton}
         <DeleteButton

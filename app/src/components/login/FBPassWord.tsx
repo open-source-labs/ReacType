@@ -1,18 +1,11 @@
+/* eslint-disable max-len */
 import React, { useState, MouseEvent } from 'react';
-import { LoginInt } from '../../interfaces/Interfaces';
-import { SigninDark } from '../../../../app/src/public/styles/theme';
 import {
   Link as RouteLink,
   withRouter,
   RouteComponentProps,
   useHistory
 } from 'react-router-dom';
-import {
-  validateInputs,
-  handleChange,
-  resetErrorValidation,
-  updatePassword
-} from '../../helperFunctions/auth';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,14 +13,27 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import Container from '@mui/material/Container';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import {
+  styled,
   StyledEngineProvider,
   Theme,
   ThemeProvider
 } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import {
+  validateInputs,
+  handleChange,
+  resetErrorValidation,
+  updatePassword
+} from '../../helperFunctions/auth';
+import { SigninDark } from '../../../../app/src/public/styles/theme';
+import { LoginInt } from '../../interfaces/Interfaces';
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
 
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
@@ -220,7 +226,7 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
                 color="primary"
                 variant="contained"
                 sx={{
-                  backgroundColor: '#2997ff',
+                  backgroundColor: '#f08c00;',
                   marginBottom: '5px',
                   marginTop: '20px',
                   textTransform: 'none',
@@ -237,7 +243,7 @@ const FBPassWord: React.FC<LoginInt & RouteComponentProps> = () => {
                 <Grid item>
                   <RouteLink
                     style={{ color: '#aaaaaa' }}
-                    to={`/login`}
+                    to={'/login'}
                     className="nav_link"
                   >
                     <span>

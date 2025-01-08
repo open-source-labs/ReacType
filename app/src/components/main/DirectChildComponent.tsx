@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
@@ -71,7 +72,7 @@ function DirectChildComponent({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid #0671e3'
+        ? '3px solid #f88e16'
         : '1px Solid grey',
     boxShadow:
       state.canvasFocus.childId === childId ? '1px 1px 3px #a7cced' : ''

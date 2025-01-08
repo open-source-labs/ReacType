@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   Button,
   Dialog,
@@ -74,9 +75,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [flexAlign, setFlexAlign] = useState('');
   const [flexOptionsVisible, setFlexOptionsVisible] = useState(false);
   const [BGColor, setBGColor] = useState('');
-  const [compText, setCompText] = useState('');
-  const [compLink, setCompLink] = useState('');
-  const [cssClasses, setCssClasses] = useState('');
+  const [comptext, setcomptext] = useState('');
+  const [complink, setCompLink] = useState('');
+  const [cssclasses, setCssClasses] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
@@ -93,8 +94,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const currFocus = getFocus().child;
 
   useEffect(() => {
-    currFocus?.attributes?.compLink &&
-      setCompLink(currFocus.attributes.compLink);
+    currFocus?.attributes?.complink &&
+      setCompLink(currFocus.attributes.complink);
     setEventAll(['', '']);
     if (currFocus) {
       const addedEvent: { id: string; funcName: any }[] = [];
@@ -151,11 +152,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const childrenArray = deepIterate(configTarget.children);
     for (const element of childrenArray) {
       if (configTarget.child && element.childId === configTarget.child.id) {
-        const attributes = element.attributes;
-        const style = element.style;
-        setCompText(attributes.compText ? attributes.compText : '');
-        setCompLink(attributes.compLink ? attributes.compLink : '');
-        setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');
+        const { attributes } = element;
+        const { style } = element;
+        setcomptext(attributes.comptext ? attributes.comptext : '');
+        setCompLink(attributes.complink ? attributes.complink : '');
+        setCssClasses(attributes.cssclasses ? attributes.cssclasses : '');
       }
     }
     const style = configTarget.child
@@ -200,13 +201,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       case 'bgcolor':
         setBGColor(inputVal);
         break;
-      case 'compText':
-        setCompText(inputVal);
+      case 'comptext':
+        setcomptext(inputVal);
         break;
-      case 'compLink':
+      case 'complink':
         setCompLink(inputVal);
         break;
-      case 'cssClasses':
+      case 'cssclasses':
         setCssClasses(inputVal);
         break;
       case 'event':
@@ -321,23 +322,23 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       newContextObj[componentProviderId] = { statesFromProvider: new Set() };
     }
     newContextObj[componentProviderId].statesFromProvider.add(statePropsId);
-    if (attributeName === 'compText') {
-      newContextObj[componentProviderId].compText = statePropsId;
+    if (attributeName === 'comptext') {
+      newContextObj[componentProviderId].comptext = statePropsId;
       setStateUsedObj({
         ...stateUsedObj,
-        compText: stateKey,
-        compTextProviderId: componentProviderId,
-        compTextPropsId: statePropsId
+        comptext: stateKey,
+        comptextProviderId: componentProviderId,
+        comptextPropsId: statePropsId
       });
-      setCompText(newInput);
+      setcomptext(newInput);
       setUseContextObj(newContextObj);
     }
 
-    if (attributeName === 'compLink') {
-      newContextObj[componentProviderId].compLink = statePropsId;
+    if (attributeName === 'complink') {
+      newContextObj[componentProviderId].complink = statePropsId;
       setStateUsedObj({
         ...stateUsedObj,
-        compLink: stateKey,
+        complink: stateKey,
         compLinkProviderId: componentProviderId,
         compLinkPropsId: statePropsId
       });
@@ -419,9 +420,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     dispatch(updateCss({ style: styleObj, contextParam: contextParam }));
 
     const attributesObj: any = {};
-    if (compText !== '') attributesObj.compText = compText;
-    if (compLink !== '') attributesObj.compLink = compLink;
-    if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
+    if (comptext !== '') attributesObj.comptext = comptext;
+    if (complink !== '') attributesObj.complink = complink;
+    if (cssclasses !== '') attributesObj.cssclasses = cssclasses;
     dispatch(
       updateAttributes({
         attributes: attributesObj,
@@ -768,14 +769,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <div className={classes.configValue}>
                   <FormControl className={classes.formControl}>
                     <TextField
-                      name="compText"
+                      name="comptext"
                       className={classes.select}
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
                           : `${classes.selectInput} ${classes.darkThemeFontColor}`
                       }}
-                      value={compText}
+                      value={comptext}
                       onChange={handleChange}
                       placeholder="text"
                     />
@@ -784,7 +785,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <div>
                   <UseStateModal
                     updateAttributeWithState={updateAttributeWithState}
-                    attributeToChange="compText"
+                    attributeToChange="comptext"
                     childId={state.canvasFocus.childId}
                   />
                 </div>
@@ -802,14 +803,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <div className={classes.configValue}>
                   <FormControl className={classes.formControl}>
                     <TextField
-                      name="compLink"
+                      name="complink"
                       className={classes.select}
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
                           : `${classes.selectInput} ${classes.darkThemeFontColor}`
                       }}
-                      value={compLink}
+                      value={complink}
                       onChange={handleChange}
                       placeholder="example.com"
                     />
@@ -818,7 +819,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <div>
                   <UseStateModal
                     updateAttributeWithState={updateAttributeWithState}
-                    attributeToChange="compLink"
+                    attributeToChange="complink"
                     childId={state.canvasFocus.childId}
                   />
                 </div>
@@ -836,14 +837,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <div className={classes.configValue}>
                   <FormControl className={classes.formControl}>
                     <TextField
-                      name="cssClasses"
+                      name="cssclasses"
                       className={classes.select}
                       inputProps={{
                         className: isThemeLight
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
                           : `${classes.selectInput} ${classes.darkThemeFontColor}`
                       }}
-                      value={cssClasses}
+                      value={cssclasses}
                       onChange={handleChange}
                       placeholder="class"
                     />
@@ -1097,7 +1098,7 @@ const useStyles = makeStyles({
     borderRadius: '8px'
   },
   saveButtonLight: {
-    border: '1px solid #0671e3',
+    border: '1px solid #f88e16',
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {

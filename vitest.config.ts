@@ -11,7 +11,7 @@ export default mergeConfig(viteConfig, defineConfig({
     environment: 'jsdom',
     globals: true,
     environmentMatchGlobs: [
-      ['__tests__/**' ,'jsdom'],
+      ['__tests__/**', 'jsdom'],
     ],
   },
 }));

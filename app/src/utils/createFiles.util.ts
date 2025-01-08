@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * Creates TypeScript component files for each component provided in the components array. These files
  * are placed in a "components" directory within the specified path. The function can differentiate
@@ -16,7 +17,7 @@ const createFiles = (
   components: any,
   path: string,
   appName: string,
-  exportAppBool: boolean
+  exportAppBool: boolean,
 ): Promise<Array<string>> => {
   let dir = path;
   if (exportAppBool === false) {
@@ -40,13 +41,13 @@ const createFiles = (
       window.api.writeFileSync(
         `${dir}/${component.name}.tsx`,
 
-        //this formatCodefunction has asynchronous issue
+        // this formatCodefunction has asynchronous issue
         // window.api.formatCode(component.code),
         component.code,
         (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);
-        }
+        },
       );
     });
     promises.push(newPromise);
