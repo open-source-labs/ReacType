@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     color: '#ffffff' // Set the text color to white
   },
   accordionSummary: {
-    backgroundColor: '#101012', // Set the background color of the summary to gray
+    backgroundColor: '#1E2024', // Set the background color of the summary to gray
     color: '#ffffff' // Set the text color of the summary to white
   }
 });
