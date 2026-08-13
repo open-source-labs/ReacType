@@ -10,11 +10,10 @@ import { ChildElement } from '../interfaces/Interfaces';
  * @returns {boolean} Returns true if the component is not nested within itself, otherwise returns false.
  */
 const componentNest = (children: ChildElement[], nestId: number) => {
-  let notNested = true;
   for (const element of children) {
     if (element.childId === nestId) return false;
-    if (element.children.length > 0) notNested = componentNest(element.children, nestId);
+    if (element.children.length > 0 && !componentNest(element.children, nestId)) return false;
   }
-  return notNested;
+  return true;
 };
 export default componentNest;
